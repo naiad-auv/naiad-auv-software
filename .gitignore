@@ -1,5 +1,6 @@
 # Ada project specifics
 *.ali
+*.bexch
 *.o
 /build
 
