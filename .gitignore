@@ -1,0 +1,9 @@
+# Ada project specifics
+*.ali
+*.o
+/build
+
+# Hidden system files
+*.DS_Store
+*[Tt]humbs.db
+*.Trashes
