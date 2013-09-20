@@ -1,0 +1,201 @@
+#!/bin/bash 
+
+# Build script for Project Naiad
+# Written by Per-Erik Måhl, Sep 2013
+
+# Usage: ./build_script <folder>
+# Where <folder> is the main folder containing all the folders
+# with all the projects.
+
+function BuildProject
+{
+	gnatmake -d "-P$@" -p
+}
+
+function FindTestHarness
+{
+	if [[ -f "./obj/gnattest/harness/test_driver.gpr" ]]; then
+		echo $(pwd)/obj/gnattest/harness/test_driver.gpr
+		return 0
+	fi
+	return 1
+}
+
+function GatherProjects
+{
+	oldIFS=$IFS
+	IFS=$'\n'
+	content=$(ls -1 --color=never)
+	gpr_file=$(pwd)/$(echo $content | grep -o *.gpr)
+	results=""
+
+
+	if [[ -f "${gpr_file}" ]]; then
+		test_driver=$(FindTestHarness)
+		if [ $? -ne 0 ]; then
+			echo "ERROR: Couldn't find test-driver for $gpr_file" >&2
+			return 1
+		fi
+		results="$gpr_file"
+		#echo $gpr_file
+		#return 0
+	fi
+				
+	for dir in $content
+	do
+		if [[ -d "$(pwd)/$dir" ]] && [ "$dir" != "gnattest" ]; then
+			cd "${dir}"
+			projects_gathered="$(GatherProjects)"
+			if [ "$results" != "" ]; then
+				results="$results"$'\n'
+			fi
+			results="$results$projects_gathered"
+
+			cd ..
+			if [ $? -eq 1 ]; then
+				return 1
+			fi
+		fi
+	done
+
+	IFS=$oldIFS
+	echo "$results"
+	return 0
+}
+
+#entry point for script
+main_path="$@"
+cd $main_path
+cd ..
+
+#logging
+now=$(date +"%m_%d_%Y_%H_%M_%S")
+if [[ ! -d "$(pwd)/build_logs" ]]; then
+	mkdir build_logs
+fi
+echo "Logging to $(pwd)/build_logs/build_$now.log..."
+echo
+exec > >(tee "$(pwd)/build_logs/build_$now.log")
+exec 2>&1
+cd $main_path
+
+#fd for subshells
+exec 5>&1
+
+echo "Gathering projects..."
+success=true
+projects=$(GatherProjects)
+if [ $? -ne 0 ]; then
+	echo $projects
+	echo "ERROR: Couldn't gather projects."
+	echo
+	exit 1
+fi
+echo "$projects"
+echo "...DONE"
+echo
+
+build_project=$(pwd)
+build_project="${build_project##*/}"
+
+cd ..
+
+
+if [[ -d "./tests" ]]; then
+	echo "Removing previous tests..."
+	rm -rfv "$(pwd)/tests/"*
+	echo "...DONE"
+	echo
+fi
+
+if [[ -d "./build" ]]; then
+	echo "Removing previous build..."
+	rm -rfv "$(pwd)/build/"*
+	echo "...DONE"
+	echo
+fi
+
+
+
+for proj in $projects
+do
+	# COPY PROJECT --------------------------------------------
+	echo "Copying source for $proj..."
+	proj_path="${proj%/*}"
+	test_path="$(pwd)/tests/${proj_path##*$build_project/}"
+	proj_name="${proj##*/}"
+	proj_name="${proj_name%.*}"
+
+	mkdir -pv "$test_path/src"
+	mkdir -pv "$test_path/obj/gnattest"
+	cp -rv "$proj_path/src/"* "$test_path/src"
+	cp -v "$proj" "$test_path"
+	cp -rv "$proj_path/obj/gnattest/"* "$test_path/obj/gnattest"
+	echo "...DONE"
+	echo
+	# ---------------------------------------------------------
+
+	# CLEAN HARNESS -------------------------------------------
+	echo "Cleaning harness for $proj..."
+	test_project="$test_path/obj/gnattest/harness/test_driver.gpr"
+	gprclean -r "-P$test_project" -XRUNTIME=full
+	echo "...DONE"
+	echo
+	# ---------------------------------------------------------
+
+	# BUILD HARNESS -------------------------------------------
+	echo "Building harness for $proj..."
+	build_success=true
+	gprbuild -d "-P$test_project" -XRUNTIME=full -p
+	if [ $? -ne 0 ]; then
+		build_success=false
+		success=false
+	fi
+	echo "...DONE"
+	echo
+	# ---------------------------------------------------------
+
+	# RUN TESTS -----------------------------------------------
+	if [ $build_success == true ]; then
+		echo "Running tests for $proj..."
+		test_runner="${test_project%/*}/test_runner"
+		test_result=$("$test_runner" --passed-tests=hide | tee >(cat - >&5)) 
+
+		if [ "$(echo $test_result | grep -o FAILED)" == "FAILED" ]; then
+			success=false
+		elif [ "$(echo $test_result | grep -o CRASHED)" == "CRASHED" ]; then
+			success=false
+		fi
+		echo "...DONE"
+		echo
+	fi
+	# ---------------------------------------------------------
+done
+
+if [ $success == false ]; then
+	echo "ERROR: One or more tests failed/crashed."
+	echo
+	exit 1
+fi
+
+for proj in $projects
+do
+	echo "Building project $proj..."
+	proj_path="${proj%/*}"
+	build_path="$(pwd)/build/${proj_path##*$build_project/}"
+	test_path="$(pwd)/tests/${proj_path##*$build_project/}"
+	proj_name="${proj##*/}"
+
+	mkdir -pv $build_path
+
+	
+	gnatmake -d "-P$test_path/$proj_name"
+	cp -v "$test_path/obj/"* "$build_path" 2>/dev/null
+
+	echo "...DONE"
+	echo
+done
+
+echo "[$(date +%m-%d-%Y) $(date +%H:%M:%S)] Build successful."
+echo
+exit 0
