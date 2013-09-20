@@ -415,7 +415,7 @@ package ada_main is
    pragma Export (C, u00189, "gnat__stringsS");
    u00190 : constant Version_32 := 16#33489ddc#;
    pragma Export (C, u00190, "gnattest_generatedS");
-   u00191 : constant Version_32 := 16#02ba8125#;
+   u00191 : constant Version_32 := 16#c98a3be0#;
    pragma Export (C, u00191, "gnattest_main_suiteB");
    u00192 : constant Version_32 := 16#eea1e993#;
    pragma Export (C, u00192, "gnattest_main_suiteS");
@@ -423,30 +423,26 @@ package ada_main is
    pragma Export (C, u00193, "navigationB");
    u00194 : constant Version_32 := 16#afdfd964#;
    pragma Export (C, u00194, "navigationS");
-   u00195 : constant Version_32 := 16#a6b86303#;
-   pragma Export (C, u00195, "navigation__vectorsB");
-   u00196 : constant Version_32 := 16#0292df6d#;
-   pragma Export (C, u00196, "navigation__vectorsS");
-   u00197 : constant Version_32 := 16#f827498e#;
-   pragma Export (C, u00197, "navigation__vectors__test_dataB");
-   u00198 : constant Version_32 := 16#3fd9fa97#;
-   pragma Export (C, u00198, "navigation__vectors__test_dataS");
-   u00199 : constant Version_32 := 16#269b1972#;
-   pragma Export (C, u00199, "aunit__test_fixturesB");
-   u00200 : constant Version_32 := 16#3b99f1a5#;
-   pragma Export (C, u00200, "aunit__test_fixturesS");
-   u00201 : constant Version_32 := 16#c1d329f4#;
-   pragma Export (C, u00201, "navigation__vectors__test_data__testsB");
-   u00202 : constant Version_32 := 16#05af8fe8#;
-   pragma Export (C, u00202, "navigation__vectors__test_data__testsS");
-   u00203 : constant Version_32 := 16#c2f7ccb6#;
-   pragma Export (C, u00203, "navigation__vectors__test_data__tests__suiteB");
-   u00204 : constant Version_32 := 16#f104d21a#;
-   pragma Export (C, u00204, "navigation__vectors__test_data__tests__suiteS");
-   u00205 : constant Version_32 := 16#8f189ee8#;
-   pragma Export (C, u00205, "aunit__test_callerB");
-   u00206 : constant Version_32 := 16#581d22b8#;
-   pragma Export (C, u00206, "aunit__test_callerS");
+   u00195 : constant Version_32 := 16#66368f84#;
+   pragma Export (C, u00195, "navigation__test_dataB");
+   u00196 : constant Version_32 := 16#c0249693#;
+   pragma Export (C, u00196, "navigation__test_dataS");
+   u00197 : constant Version_32 := 16#269b1972#;
+   pragma Export (C, u00197, "aunit__test_fixturesB");
+   u00198 : constant Version_32 := 16#3b99f1a5#;
+   pragma Export (C, u00198, "aunit__test_fixturesS");
+   u00199 : constant Version_32 := 16#f5d8c070#;
+   pragma Export (C, u00199, "navigation__test_data__testsB");
+   u00200 : constant Version_32 := 16#4f440a55#;
+   pragma Export (C, u00200, "navigation__test_data__testsS");
+   u00201 : constant Version_32 := 16#759e9d9c#;
+   pragma Export (C, u00201, "navigation__test_data__tests__suiteB");
+   u00202 : constant Version_32 := 16#46e6ef9f#;
+   pragma Export (C, u00202, "navigation__test_data__tests__suiteS");
+   u00203 : constant Version_32 := 16#8f189ee8#;
+   pragma Export (C, u00203, "aunit__test_callerB");
+   u00204 : constant Version_32 := 16#581d22b8#;
+   pragma Export (C, u00204, "aunit__test_callerS");
    --  BEGIN ELABORATION ORDER
    --  ada%s
    --  ada.characters%s
@@ -645,14 +641,12 @@ package ada_main is
    --  test_runner%b
    --  navigation%s
    --  navigation%b
-   --  navigation.vectors%s
-   --  navigation.vectors%b
-   --  navigation.vectors.test_data%s
-   --  navigation.vectors.test_data%b
-   --  navigation.vectors.test_data.tests%s
-   --  navigation.vectors.test_data.tests%b
-   --  navigation.vectors.test_data.tests.suite%s
-   --  navigation.vectors.test_data.tests.suite%b
+   --  navigation.test_data%s
+   --  navigation.test_data%b
+   --  navigation.test_data.tests%s
+   --  navigation.test_data.tests%b
+   --  navigation.test_data.tests.suite%s
+   --  navigation.test_data.tests.suite%b
    --  gnattest_main_suite%b
    --  END ELABORATION ORDER
 

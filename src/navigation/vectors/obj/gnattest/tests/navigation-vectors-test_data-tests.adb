@@ -35,10 +35,6 @@ package body Navigation.Vectors.Test_Data.Tests is
                                                                      fZ => 10.0).fZ = 10.0,
                               Message   => "Z-value set to 10.0 on creation failed");
 
-      AUnit.Assertions.Assert(Condition => Navigation.Vectors.Create(fX => 1000000000000000000000000.0**2,
-                                                                     fY => 0.0,
-                                                                     fZ => 0.0).fX = 1000000000000000000000000.0**2,
-                              Message   => "Overflow");
 
 
 --  begin read only
