@@ -2,7 +2,10 @@
 *.ali
 *.bexch
 *.o
+*.cgpr
 /build
+/tests
+/build_logs
 
 # Hidden system files
 *.DS_Store
