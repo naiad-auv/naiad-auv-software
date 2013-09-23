@@ -1,0 +1,119 @@
+        -:    0:Source:/usr/gnat/include/aunit/framework/aunit-test_caller.adb
+        -:    0:Programs:22
+        -:    1:------------------------------------------------------------------------------
+        -:    2:--                                                                          --
+        -:    3:--                         GNAT COMPILER COMPONENTS                         --
+        -:    4:--                                                                          --
+        -:    5:--                    A U N I T . T E S T _ C A L L E R                     --
+        -:    6:--                                                                          --
+        -:    7:--                                 B o d y                                  --
+        -:    8:--                                                                          --
+        -:    9:--                                                                          --
+        -:   10:--                       Copyright (C) 2008-2011, AdaCore                   --
+        -:   11:--                                                                          --
+        -:   12:-- GNAT is free software;  you can  redistribute it  and/or modify it under --
+        -:   13:-- terms of the  GNU General Public License as published  by the Free Soft- --
+        -:   14:-- ware  Foundation;  either version 3,  or (at your option) any later ver- --
+        -:   15:-- sion.  GNAT is distributed in the hope that it will be useful, but WITH- --
+        -:   16:-- OUT ANY WARRANTY;  without even the  implied warranty of MERCHANTABILITY --
+        -:   17:-- or FITNESS FOR A PARTICULAR PURPOSE.                                     --
+        -:   18:--                                                                          --
+        -:   19:--                                                                          --
+        -:   20:--                                                                          --
+        -:   21:--                                                                          --
+        -:   22:--                                                                          --
+        -:   23:-- You should have received a copy of the GNU General Public License and    --
+        -:   24:-- a copy of the GCC Runtime Library Exception along with this program;     --
+        -:   25:-- see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see    --
+        -:   26:-- <http://www.gnu.org/licenses/>.                                          --
+        -:   27:--                                                                          --
+        -:   28:-- GNAT is maintained by AdaCore (http://www.adacore.com)                   --
+        -:   29:--                                                                          --
+        -:   30:------------------------------------------------------------------------------
+        -:   31:
+        -:   32:with Ada.Unchecked_Conversion;
+        -:   33:with AUnit.Assertions;
+        -:   34:with AUnit.Memory.Utils;
+        -:   35:
+        -:   36:package body AUnit.Test_Caller is
+        -:   37:
+        -:   38:   function New_Fixture is new AUnit.Memory.Utils.Gen_Alloc
+        -:   39:     (Test_Fixture, Fixture_Access);
+        -:   40:
+        4:   41:   The_Fixture_Object : constant Fixture_Access := New_Fixture;
+        -:   42:
+        -:   43:   ------------
+        -:   44:   -- Create --
+        -:   45:   ------------
+        -:   46:
+       22:   47:   procedure Create
+        -:   48:     (TC   : out Test_Case'Class;
+        -:   49:      Name : String;
+        -:   50:      Test : Test_Method)
+        -:   51:   is
+        -:   52:   begin
+       22:   53:      TC.Name    := Format (Name);
+       22:   54:      TC.Method  := Test;
+       22:   55:      TC.Fixture := The_Fixture_Object;
+       22:   56:   end Create;
+        -:   57:
+        -:   58:   ------------
+        -:   59:   -- Create --
+        -:   60:   ------------
+        -:   61:
+    #####:   62:   function Create
+        -:   63:     (Name : String;
+        -:   64:      Test : Test_Method) return Test_Case_Access
+        -:   65:   is
+        -:   66:      type Access_Type is access all Test_Case;
+        -:   67:      function Alloc is new AUnit.Memory.Utils.Gen_Alloc
+        -:   68:        (Test_Case, Access_Type);
+        -:   69:      function Convert is new Ada.Unchecked_Conversion
+        -:   70:        (Access_Type, Test_Case_Access);
+    #####:   71:      Ret : constant Test_Case_Access := Convert (Alloc);
+        -:   72:   begin
+    #####:   73:      Create (Ret.all, Name, Test);
+    #####:   74:      return Ret;
+        -:   75:   end Create;
+        -:   76:
+        -:   77:   ----------
+        -:   78:   -- Name --
+        -:   79:   ----------
+        -:   80:
+       22:   81:   function Name (Test : Test_Case) return Message_String is
+        -:   82:   begin
+       22:   83:      return Test.Name;
+        -:   84:   end Name;
+        -:   85:
+        -:   86:   --------------
+        -:   87:   -- Run_Test --
+        -:   88:   --------------
+        -:   89:
+       22:   90:   procedure Run_Test (Test : in out Test_Case) is
+        -:   91:   begin
+        -:   92:      --  Before running the fixture's method, we need to make sure that
+        -:   93:      --  the test Ids correspond so that a failure reported via Fixture is
+        -:   94:      --  correctly understood as being part of Test.
+       22:   95:      AUnit.Assertions.Copy_Id (Test, Test.Fixture.all);
+       22:   96:      Test.Method (Test_Fixture (Test.Fixture.all));
+       22:   97:   end Run_Test;
+        -:   98:
+        -:   99:   ------------
+        -:  100:   -- Set_Up --
+        -:  101:   ------------
+        -:  102:
+       22:  103:   procedure Set_Up (Test : in out Test_Case) is
+        -:  104:   begin
+       22:  105:      Set_Up (Test.Fixture.all);
+       22:  106:   end Set_Up;
+        -:  107:
+        -:  108:   ---------------
+        -:  109:   -- Tear_Down --
+        -:  110:   ---------------
+        -:  111:
+       22:  112:   procedure Tear_Down (Test : in out Test_Case) is
+        -:  113:   begin
+       22:  114:      Tear_Down (Test.Fixture.all);
+       22:  115:   end Tear_Down;
+        -:  116:
+        -:  117:end AUnit.Test_Caller;

@@ -1,0 +1,82 @@
+        -:    0:Source:/home/evr/git/naiad-auv-software/src/navigation/vectors/obj/gnattest/harness/navigation-vectors-test_data-tests-suite.adb
+        -:    0:Programs:22
+        -:    1:--  This package has been generated automatically by GNATtest.
+        -:    2:--  Do not edit any part of it, see GNATtest documentation for more details.
+        -:    3:
+        -:    4:--  begin read only
+        -:    5:with AUnit.Test_Caller;
+        -:    6:with Gnattest_Generated;
+        -:    7:
+        6:    8:package body Navigation.Vectors.Test_Data.Tests.Suite is
+        -:    9:
+        -:   10:   package Runner_1 is new AUnit.Test_Caller
+        -:   11:     (GNATtest_Generated.GNATtest_Standard.Navigation.Vectors.Test_Data.Tests.Test);
+        -:   12:
+        2:   13:   Result : aliased AUnit.Test_Suites.Test_Suite;
+        -:   14:
+        2:   15:   Case_1_1_Test_pxCreate_0ae964 : aliased Runner_1.Test_Case;
+        2:   16:   Case_2_1_Test_Plus_0cf714 : aliased Runner_1.Test_Case;
+        2:   17:   Case_3_1_Test_Minus_d2af0b : aliased Runner_1.Test_Case;
+        2:   18:   Case_4_1_Test_Unary_Minus_838d50 : aliased Runner_1.Test_Case;
+        2:   19:   Case_5_1_Test_Multiply_906224 : aliased Runner_1.Test_Case;
+        2:   20:   Case_6_1_Test_Multiply_0b54f9 : aliased Runner_1.Test_Case;
+        2:   21:   Case_7_1_Test_Multiply_5e8bae : aliased Runner_1.Test_Case;
+        2:   22:   Case_8_1_Test_Devide_b09bc3 : aliased Runner_1.Test_Case;
+        2:   23:   Case_9_1_Test_fDot_Product_2d1e6d : aliased Runner_1.Test_Case;
+        -:   24:
+        2:   25:   function Suite return AUnit.Test_Suites.Access_Test_Suite is
+        -:   26:   begin
+        -:   27:
+        2:   28:      Runner_1.Create
+        -:   29:        (Case_1_1_Test_pxCreate_0ae964,
+        -:   30:         "navigation-vectors.ads:7:4:",
+        -:   31:         Test_pxCreate_0ae964'Access);
+        2:   32:      Runner_1.Create
+        -:   33:        (Case_2_1_Test_Plus_0cf714,
+        -:   34:         "navigation-vectors.ads:11:4:",
+        -:   35:         Test_Plus_0cf714'Access);
+        2:   36:      Runner_1.Create
+        -:   37:        (Case_3_1_Test_Minus_d2af0b,
+        -:   38:         "navigation-vectors.ads:12:4:",
+        -:   39:         Test_Minus_d2af0b'Access);
+        2:   40:      Runner_1.Create
+        -:   41:        (Case_4_1_Test_Unary_Minus_838d50,
+        -:   42:         "navigation-vectors.ads:13:4:",
+        -:   43:         Test_Unary_Minus_838d50'Access);
+        2:   44:      Runner_1.Create
+        -:   45:        (Case_5_1_Test_Multiply_906224,
+        -:   46:         "navigation-vectors.ads:14:4:",
+        -:   47:         Test_Multiply_906224'Access);
+        2:   48:      Runner_1.Create
+        -:   49:        (Case_6_1_Test_Multiply_0b54f9,
+        -:   50:         "navigation-vectors.ads:15:4:",
+        -:   51:         Test_Multiply_0b54f9'Access);
+        2:   52:      Runner_1.Create
+        -:   53:        (Case_7_1_Test_Multiply_5e8bae,
+        -:   54:         "navigation-vectors.ads:16:4:",
+        -:   55:         Test_Multiply_5e8bae'Access);
+        2:   56:      Runner_1.Create
+        -:   57:        (Case_8_1_Test_Devide_b09bc3,
+        -:   58:         "navigation-vectors.ads:17:4:",
+        -:   59:         Test_Devide_b09bc3'Access);
+        2:   60:      Runner_1.Create
+        -:   61:        (Case_9_1_Test_fDot_Product_2d1e6d,
+        -:   62:         "navigation-vectors.ads:20:4:",
+        -:   63:         Test_fDot_Product_2d1e6d'Access);
+        -:   64:
+        2:   65:      Result.Add_Test (Case_1_1_Test_pxCreate_0ae964'Access);
+        2:   66:      Result.Add_Test (Case_2_1_Test_Plus_0cf714'Access);
+        2:   67:      Result.Add_Test (Case_3_1_Test_Minus_d2af0b'Access);
+        2:   68:      Result.Add_Test (Case_4_1_Test_Unary_Minus_838d50'Access);
+        2:   69:      Result.Add_Test (Case_5_1_Test_Multiply_906224'Access);
+        2:   70:      Result.Add_Test (Case_6_1_Test_Multiply_0b54f9'Access);
+        2:   71:      Result.Add_Test (Case_7_1_Test_Multiply_5e8bae'Access);
+        2:   72:      Result.Add_Test (Case_8_1_Test_Devide_b09bc3'Access);
+        2:   73:      Result.Add_Test (Case_9_1_Test_fDot_Product_2d1e6d'Access);
+        -:   74:
+        2:   75:      return Result'Access;
+        -:   76:
+        -:   77:   end Suite;
+        -:   78:
+        2:   79:end Navigation.Vectors.Test_Data.Tests.Suite;
+        -:   80:--  end read only

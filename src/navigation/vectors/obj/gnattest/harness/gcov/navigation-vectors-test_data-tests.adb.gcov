@@ -1,0 +1,400 @@
+        -:    0:Source:/home/evr/git/naiad-auv-software/src/navigation/vectors/obj/gnattest/tests/navigation-vectors-test_data-tests.adb
+        -:    0:Programs:22
+        -:    1:--  This package has been generated automatically by GNATtest.
+        -:    2:--  You are allowed to add your code to the bodies of test routines.
+        -:    3:--  Such changes will be kept during further regeneration of this file.
+        -:    4:--  All code placed outside of test routine bodies will be lost. The
+        -:    5:--  code intended to set up and tear down the test environment should be
+        -:    6:--  placed into Navigation.Vectors.Test_Data.
+        -:    7:
+        -:    8:with AUnit.Assertions; use AUnit.Assertions;
+        -:    9:with Ada.Exceptions;
+        -:   10:
+        -:   11:package body Navigation.Vectors.Test_Data.Tests is
+        -:   12:
+        -:   13:
+        -:   14:--  begin read only
+        -:   15:   procedure Test_pxCreate (Gnattest_T : in out Test);
+        2:   16:   procedure Test_pxCreate_0ae964 (Gnattest_T : in out Test) renames Test_pxCreate;
+        -:   17:--  id:2.1/0ae964291fd49d36/pxCreate/1/0/
+        2:   18:   procedure Test_pxCreate (Gnattest_T : in out Test) is
+        -:   19:   --  navigation-vectors.ads:7:4:pxCreate
+        -:   20:--  end read only
+        -:   21:
+        -:   22:      pragma Unreferenced (Gnattest_T);
+        -:   23:
+        2:   24:      pxTestVector : Navigation.Vectors.pCVector;
+        -:   25:   begin
+        -:   26:
+        2:   27:      pxTestVector := Navigation.Vectors.pxCreate(fX => 10.0,
+        -:   28:                                                fY => -10.0,
+        -:   29:                                                fZ => 0.0);
+        2:   30:      AUnit.Assertions.Assert(Condition => pxTestVector.fX = 10.0,
+        -:   31:                              Message   => "CVector.pxCreate failed, fX got the wrong value");
+        2:   32:      AUnit.Assertions.Assert(Condition => pxTestVector.fY = -10.0,
+        -:   33:                              Message   => "CVector.pxCreate failed, fY got the wrong value");
+        2:   34:      AUnit.Assertions.Assert(Condition => pxTestVector.fZ = 0.0,
+        -:   35:                              Message   => "CVector.pxCreate failed, fZ got the wrong value");
+        -:   36:
+        -:   37:--  begin read only
+        2:   38:   end Test_pxCreate;
+        -:   39:--  end read only
+        -:   40:
+        -:   41:
+        -:   42:--  begin read only
+        -:   43:   procedure Test_Plus (Gnattest_T : in out Test);
+        2:   44:   procedure Test_Plus_0cf714 (Gnattest_T : in out Test) renames Test_Plus;
+        -:   45:--  id:2.1/0cf714da63c07c72/Plus/1/0/
+        2:   46:   procedure Test_Plus (Gnattest_T : in out Test) is
+        -:   47:   --  navigation-vectors.ads:11:4:"+"
+        -:   48:--  end read only
+        -:   49:
+        -:   50:      pragma Unreferenced (Gnattest_T);
+        2:   51:      pxSumVector : Navigation.Vectors.pCVector;
+        2:   52:      pxLeftOperandVector, pxRightOperandVector : Navigation.Vectors.pCVector;
+        -:   53:   begin
+        -:   54:
+        2:   55:      pxLeftOperandVector := Navigation.Vectors.pxCreate(fX => 2.0,
+        -:   56:                                                  fY => 5.0,
+        -:   57:                                                  fZ => 4.0);
+        2:   58:      pxRightOperandVector := Navigation.Vectors.pxCreate(fX => 3.0,
+        -:   59:                                                   fY => 10.0,
+        -:   60:                                                   fZ => 7.0);
+        2:   61:      pxSumVector := pxLeftOperandVector + pxRightOperandVector;
+        -:   62:
+        2:   63:      AUnit.Assertions.Assert(Condition => pxSumVector.fX = 5.0,
+        -:   64:                              Message   => "CVector.+(binary) failed, fX got the wrong value");
+        2:   65:      AUnit.Assertions.Assert(Condition => pxSumVector.fY = 15.0,
+        -:   66:                              Message   => "CVector.+(binary) failed, fY got the wrong value");
+        2:   67:      AUnit.Assertions.Assert(Condition => pxSumVector.fZ = 11.0,
+        -:   68:                              Message   => "CVector.+(binary) failed, fZ got the wrong value");
+        -:   69:
+        -:   70:
+        -:   71:--  begin read only
+        2:   72:   end Test_Plus;
+        -:   73:--  end read only
+        -:   74:
+        -:   75:
+        -:   76:--  begin read only
+        -:   77:   procedure Test_Minus (Gnattest_T : in out Test);
+        2:   78:   procedure Test_Minus_d2af0b (Gnattest_T : in out Test) renames Test_Minus;
+        -:   79:--  id:2.1/d2af0b30e5b3456d/Minus/1/0/
+        2:   80:   procedure Test_Minus (Gnattest_T : in out Test) is
+        -:   81:   --  navigation-vectors.ads:12:4:"-"
+        -:   82:--  end read only
+        -:   83:
+        -:   84:      pragma Unreferenced (Gnattest_T);
+        2:   85:      pxDifferenceVector : Navigation.Vectors.pCVector;
+        2:   86:      pxLeftOperandVector, pxRightOperandVector : Navigation.Vectors.pCVector;
+        -:   87:
+        -:   88:   begin
+        -:   89:
+        2:   90:      pxLeftOperandVector := Navigation.Vectors.pxCreate(fX => 2.0,
+        -:   91:                                                  fY => 5.0,
+        -:   92:                                                  fZ => 4.0);
+        2:   93:      pxRightOperandVector := Navigation.Vectors.pxCreate(fX => 3.0,
+        -:   94:                                                   fY => 10.0,
+        -:   95:                                                   fZ => 7.0);
+        2:   96:      pxDifferenceVector := pxLeftOperandVector - pxRightOperandVector;
+        -:   97:
+        2:   98:      AUnit.Assertions.Assert(Condition => pxDifferenceVector.fX = -1.0,
+        -:   99:                              Message   => "CVector.-(binary) failed, fX got the wrong value");
+        2:  100:      AUnit.Assertions.Assert(Condition => pxDifferenceVector.fY = -5.0,
+        -:  101:                              Message   => "CVector.-(binary) failed, fY got the wrong value");
+        2:  102:      AUnit.Assertions.Assert(Condition => pxDifferenceVector.fZ = -3.0,
+        -:  103:                              Message   => "CVector.-(binary) failed, fZ got the wrong value");
+        -:  104:
+        -:  105:--  begin read only
+        2:  106:   end Test_Minus;
+        -:  107:--  end read only
+        -:  108:
+        -:  109:
+        -:  110:--  begin read only
+        -:  111:   procedure Test_Unary_Minus (Gnattest_T : in out Test);
+        2:  112:   procedure Test_Unary_Minus_838d50 (Gnattest_T : in out Test) renames Test_Unary_Minus;
+        -:  113:--  id:2.1/838d50e91f9a2c3d/Unary_Minus/1/0/
+        2:  114:   procedure Test_Unary_Minus (Gnattest_T : in out Test) is
+        -:  115:   --  navigation-vectors.ads:13:4:"-"
+        -:  116:--  end read only
+        -:  117:
+        -:  118:      pragma Unreferenced (Gnattest_T);
+        2:  119:      pxNegatedVector : Navigation.Vectors.pCVector;
+        2:  120:      pxOperandVector : Navigation.Vectors.pCVector;
+        -:  121:
+        -:  122:   begin
+        -:  123:
+        2:  124:      pxOperandVector := Navigation.Vectors.pxCreate(fX => 2.0,
+        -:  125:                                                     fY => 5.0,
+        -:  126:                                                     fZ => 8.0);
+        2:  127:      pxNegatedVector := -pxOperandVector;
+        -:  128:
+        2:  129:      AUnit.Assertions.Assert(Condition => pxNegatedVector.fX = -2.0,
+        -:  130:                              Message   => "CVector.-(unary) failed, fX got the wrong value");
+        2:  131:      AUnit.Assertions.Assert(Condition => pxNegatedVector.fY = -5.0,
+        -:  132:                              Message   => "CVector.-(unary) failed, fY got the wrong value");
+        2:  133:      AUnit.Assertions.Assert(Condition => pxNegatedVector.fZ = -8.0,
+        -:  134:                              Message   => "CVector.-(unary) failed, fZ got the wrong value");
+        -:  135:
+        -:  136:
+        -:  137:
+        -:  138:
+        -:  139:--  begin read only
+        2:  140:   end Test_Unary_Minus;
+        -:  141:--  end read only
+        -:  142:
+        -:  143:
+        -:  144:--  begin read only
+        -:  145:   procedure Test_1_Multiply (Gnattest_T : in out Test);
+        2:  146:   procedure Test_Multiply_906224 (Gnattest_T : in out Test) renames Test_1_Multiply;
+        -:  147:--  id:2.1/906224a3854ac3c4/Multiply/1/0/
+        2:  148:   procedure Test_1_Multiply (Gnattest_T : in out Test) is
+        -:  149:   --  navigation-vectors.ads:14:4:"*"
+        -:  150:--  end read only
+        -:  151:
+        -:  152:      pragma Unreferenced (Gnattest_T);
+        -:  153:
+        2:  154:      pxProductVector : Navigation.Vectors.pCVector;
+        2:  155:      pxLeftOperandVector, pxRightOperandVector : Navigation.Vectors.pCVector;
+        -:  156:   begin
+        -:  157:
+        2:  158:      pxLeftOperandVector := Navigation.Vectors.pxCreate(fX => 2.0,
+        -:  159:                                                  fY => 5.0,
+        -:  160:                                                  fZ => 4.0);
+        2:  161:      pxRightOperandVector := Navigation.Vectors.pxCreate(fX => 3.0,
+        -:  162:                                                   fY => 10.0,
+        -:  163:                                                   fZ => 7.0);
+        2:  164:      pxProductVector := pxLeftOperandVector * pxRightOperandVector;
+        -:  165:
+        2:  166:      AUnit.Assertions.Assert(Condition => pxProductVector.fX = 6.0,
+        -:  167:                              Message   => "CVector.*(binary CVector * CVector) failed, fX got the wrong value");
+        2:  168:      AUnit.Assertions.Assert(Condition => pxProductVector.fY = 50.0,
+        -:  169:                              Message   => "CVector.*(binary CVector * CVector) failed, fY got the wrong value");
+        2:  170:      AUnit.Assertions.Assert(Condition => pxProductVector.fZ = 28.0,
+        -:  171:                              Message   => "CVector.*(binary CVector * CVector) failed, fZ got the wrong value");
+        -:  172:
+        -:  173:
+        -:  174:--  begin read only
+        2:  175:   end Test_1_Multiply;
+        -:  176:--  end read only
+        -:  177:
+        -:  178:
+        -:  179:--  begin read only
+        -:  180:   procedure Test_2_Multiply (Gnattest_T : in out Test);
+        2:  181:   procedure Test_Multiply_0b54f9 (Gnattest_T : in out Test) renames Test_2_Multiply;
+        -:  182:--  id:2.1/0b54f9f4c4e10bb8/Multiply/0/0/
+        2:  183:   procedure Test_2_Multiply (Gnattest_T : in out Test) is
+        -:  184:   --  navigation-vectors.ads:15:4:"*"
+        -:  185:--  end read only
+        -:  186:
+        -:  187:      pragma Unreferenced (Gnattest_T);
+        -:  188:
+        2:  189:      pxScaledVector : Navigation.Vectors.pCVector;
+        2:  190:      pxLeftOperandVector : Navigation.Vectors.pCVector;
+        -:  191:      fRightOperand : float;
+        -:  192:   begin
+        -:  193:
+        2:  194:      pxLeftOperandVector := Navigation.Vectors.pxCreate(fX => 2.0,
+        -:  195:                                                  fY => 5.0,
+        -:  196:                                                  fZ => 4.0);
+        2:  197:      fRightOperand := 5.0;
+        -:  198:
+        2:  199:      pxScaledVector := pxLeftOperandVector * fRightOperand;
+        -:  200:
+        2:  201:      AUnit.Assertions.Assert(Condition => pxScaledVector.fX = 10.0,
+        -:  202:                              Message   => "CVector.*(binary CVector * float) failed, fX got the wrong value");
+        2:  203:      AUnit.Assertions.Assert(Condition => pxScaledVector.fY = 25.0,
+        -:  204:                              Message   => "CVector.*(binary CVector * float) failed, fY got the wrong value");
+        2:  205:      AUnit.Assertions.Assert(Condition => pxScaledVector.fZ = 20.0,
+        -:  206:                              Message   => "CVector.*(binary CVector * float) failed, fZ got the wrong value");
+        -:  207:
+        -:  208:
+        -:  209:--  begin read only
+        2:  210:   end Test_2_Multiply;
+        -:  211:--  end read only
+        -:  212:
+        -:  213:
+        -:  214:--  begin read only
+        -:  215:   procedure Test_3_Multiply (Gnattest_T : in out Test);
+        2:  216:   procedure Test_Multiply_5e8bae (Gnattest_T : in out Test) renames Test_3_Multiply;
+        -:  217:--  id:2.1/5e8baec6c5958f12/Multiply/0/0/
+        2:  218:   procedure Test_3_Multiply (Gnattest_T : in out Test) is
+        -:  219:   --  navigation-vectors.ads:16:4:"*"
+        -:  220:--  end read only
+        -:  221:
+        -:  222:      pragma Unreferenced (Gnattest_T);
+        -:  223:
+        2:  224:      pxScaledVector : Navigation.Vectors.pCVector;
+        2:  225:      pxRightOperandVector : Navigation.Vectors.pCVector;
+        -:  226:      fLeftOperand : float;
+        -:  227:   begin
+        -:  228:
+        2:  229:      pxRightOperandVector := Navigation.Vectors.pxCreate(fX => 2.0,
+        -:  230:                                                  fY => 5.0,
+        -:  231:                                                  fZ => 4.0);
+        2:  232:      fLeftOperand := 5.0;
+        -:  233:
+        2:  234:      pxScaledVector := fLeftOperand * pxRightOperandVector;
+        -:  235:
+        2:  236:      AUnit.Assertions.Assert(Condition => pxScaledVector.fX = 10.0,
+        -:  237:                              Message   => "CVector.*(binary float * CVector) failed, fX got the wrong value");
+        2:  238:      AUnit.Assertions.Assert(Condition => pxScaledVector.fY = 25.0,
+        -:  239:                              Message   => "CVector.*(binary float * CVector) failed, fY got the wrong value");
+        2:  240:      AUnit.Assertions.Assert(Condition => pxScaledVector.fZ = 20.0,
+        -:  241:                              Message   => "CVector.*(binary float * CVector) failed, fZ got the wrong value");
+        -:  242:
+        -:  243:
+        -:  244:
+        -:  245:--  begin read only
+        2:  246:   end Test_3_Multiply;
+        -:  247:--  end read only
+        -:  248:
+        -:  249:
+        -:  250:--  begin read only
+        -:  251:   procedure Test_Devide (Gnattest_T : in out Test);
+        2:  252:   procedure Test_Devide_b09bc3 (Gnattest_T : in out Test) renames Test_Devide;
+        -:  253:--  id:2.1/b09bc328c4b030a3/Devide/1/0/
+        2:  254:   procedure Test_Devide (Gnattest_T : in out Test) is
+        -:  255:   --  navigation-vectors.ads:17:4:"/"
+        -:  256:--  end read only
+        -:  257:
+        -:  258:      pragma Unreferenced (Gnattest_T);
+        -:  259:
+        2:  260:      pxDividedVector : Navigation.Vectors.pCVector;
+        2:  261:      pxLeftOperandVector : Navigation.Vectors.pCVector;
+        -:  262:      fRightOperand : float;
+        -:  263:
+        -:  264:      procedure Divide_Vector_Exception is
+        -:  265:      begin
+        -:  266:         pxDividedVector := pxLeftOperandVector / fRightOperand;
+        -:  267:      end Divide_Vector_Exception;
+        -:  268:
+        -:  269:
+        -:  270:   begin
+        -:  271:
+        2:  272:      pxLeftOperandVector := Navigation.Vectors.pxCreate(fX => 2.0,
+        -:  273:                                                  fY => 5.0,
+        -:  274:                                                  fZ => 4.0);
+        2:  275:      fRightOperand := 2.0;
+        -:  276:
+        2:  277:      pxDividedVector := pxLeftOperandVector / fRightOperand;
+        -:  278:
+        2:  279:      AUnit.Assertions.Assert(Condition => pxDividedVector.fX = 1.0,
+        -:  280:                              Message   => "CVector./(binary CVector / float) failed, fX got the wrong value");
+        2:  281:      AUnit.Assertions.Assert(Condition => pxDividedVector.fY = 2.5,
+        -:  282:                              Message   => "CVector./(binary CVector / float) failed, fY got the wrong value");
+        2:  283:      AUnit.Assertions.Assert(Condition => pxDividedVector.fZ = 2.0,
+        -:  284:                              Message   => "CVector./(binary CVector / float) failed, fZ got the wrong value");
+        -:  285:
+        -:  286:      -- test exception
+        2:  287:      fRightOperand := 0.0;
+        2:  288:      pxDividedVector := pxLeftOperandVector / fRightOperand;
+    #####:  289:      AUnit.Assertions.Assert(Condition => False,
+        -:  290:                              Message   => "CVector./(binary CVector / float) division by zero failed, should have raised exception");
+        -:  291:   exception
+        2:  292:      when Numeric_Error =>
+        -:  293:         null; -- Test passed
+    #####:  294:      when E : others =>
+    #####:  295:         AUnit.Assertions.Assert(Condition => False,
+    #####:  296:                           Message   =>"CVector./(binary CVector / float) division by zero failed, wrong exception raised: " & Ada.Exceptions.Exception_Name (E));
+        -:  297:
+        -:  298:
+        -:  299:
+        -:  300:--  begin read only
+        2:  301:   end Test_Devide;
+        -:  302:--  end read only
+        -:  303:
+        -:  304:
+        -:  305:--  begin read only
+        -:  306:   procedure Test_1_fDot_Product (Gnattest_T : in out Test);
+        2:  307:   procedure Test_fDot_Product_2d1e6d (Gnattest_T : in out Test) renames Test_1_fDot_Product;
+        -:  308:--  id:2.1/2d1e6dd13597fdab/fDot_Product/1/0/
+        2:  309:   procedure Test_1_fDot_Product (Gnattest_T : in out Test) is
+        -:  310:   --  navigation-vectors.ads:20:4:fDot_Product
+        -:  311:--  end read only
+        -:  312:
+        -:  313:      pragma Unreferenced (Gnattest_T);
+        -:  314:      fDotProduct : float;
+        2:  315:      pxLeftOperandVector : Navigation.Vectors.pCVector;
+        2:  316:      pxRightOperandVector : Navigation.Vectors.pCVector;
+        -:  317:
+        -:  318:   begin
+        -:  319:
+        2:  320:      pxLeftOperandVector := Navigation.Vectors.pxCreate(fX => 5.0,
+        -:  321:                                                  fY => 2.0,
+        -:  322:                                                  fZ => 3.0);
+        2:  323:      pxRightOperandVector := Navigation.Vectors.pxCreate(fX => 2.0,
+        -:  324:                                                   fY => 7.0,
+        -:  325:                                                   fZ => 3.0);
+        2:  326:      fDotProduct := Navigation.Vectors.fDot_Product(pxLeftOperandVector  => pxLeftOperandVector,
+        -:  327:                                                     pxRightOperandVector => pxRightOperandVector);
+        -:  328:
+        -:  329:
+        -:  330:
+        2:  331:      AUnit.Assertions.Assert(Condition => fDotProduct = 33.0,
+        -:  332:                              Message   => "Vectors.fDot_Product failed, wrong result in first test");
+        -:  333:
+        2:  334:      pxLeftOperandVector := Navigation.Vectors.pxCreate(fX => 5.0,
+        -:  335:                                                  fY => 0.0,
+        -:  336:                                                  fZ => 0.0);
+        2:  337:      pxRightOperandVector := Navigation.Vectors.pxCreate(fX => 0.0,
+        -:  338:                                                   fY => 5.0,
+        -:  339:                                                   fZ => 0.0);
+        2:  340:      fDotProduct := Navigation.Vectors.fDot_Product(pxLeftOperandVector  => pxLeftOperandVector,
+        -:  341:                                                     pxRightOperandVector => pxRightOperandVector);
+        -:  342:
+        2:  343:      AUnit.Assertions.Assert(Condition => fDotProduct = 0.0,
+        -:  344:                              Message   => "Vectors.fDot_Product failed, wrong result in second test");
+        -:  345:
+        -:  346:--  begin read only
+        2:  347:   end Test_1_fDot_Product;
+        -:  348:--  end read only
+        -:  349:
+        -:  350:
+        -:  351:--  begin read only
+        -:  352:   --  procedure Test_Dot (Gnattest_T : in out Test);
+        -:  353:   --  procedure Test_Dot_3fe7b4 (Gnattest_T : in out Test) renames Test_Dot;
+        -:  354:--  id:2.1/3fe7b46d7b783662/Dot/1/1/
+        -:  355:   --  procedure Test_Dot (Gnattest_T : in out Test) is
+        -:  356:--  end read only
+        -:  357:--
+        -:  358:--        pragma Unreferenced (Gnattest_T);
+        -:  359:--
+        -:  360:--     begin
+        -:  361:--
+        -:  362:--        AUnit.Assertions.Assert
+        -:  363:--          (Gnattest_Generated.Default_Assert_Value,
+        -:  364:--           "Test not implemented.");
+        -:  365:--
+        -:  366:--  begin read only
+        -:  367:   --  end Test_Dot;
+        -:  368:--  end read only
+        -:  369:
+        -:  370:
+        -:  371:--  begin read only
+        -:  372:   --  procedure Test_Create (Gnattest_T : in out Test);
+        -:  373:   --  procedure Test_Create_af4d33 (Gnattest_T : in out Test) renames Test_Create;
+        -:  374:--  id:2.1/af4d339d88f94d4a/Create/1/1/
+        -:  375:   --  procedure Test_Create (Gnattest_T : in out Test) is
+        -:  376:--  end read only
+        -:  377:--
+        -:  378:--        pragma Unreferenced (Gnattest_T);
+        -:  379:--        pxTestVector : Navigation.Vectors.pCVector;
+        -:  380:--     begin
+        -:  381:--
+        -:  382:--        pxTestVector := Navigation.Vectors.Create(fX => 10.0,
+        -:  383:--                                                  fY => -10.0,
+        -:  384:--                                                  fZ => 0.0);
+        -:  385:--        AUnit.Assertions.Assert(Condition => pxTestVector.fX = 10.0,
+        -:  386:--                                Message   => "X-value set to 10.0 on creation failed");
+        -:  387:--        AUnit.Assertions.Assert(Condition => pxTestVector.fY = -10.0,
+        -:  388:--                                Message   => "Y-value set to -10.0 on creation failed");
+        -:  389:--        AUnit.Assertions.Assert(Condition => pxTestVector.fZ = 0.0,
+        -:  390:--                                Message   => "Z-value set to 0.0 on creation failed");
+        -:  391:--
+        -:  392:--
+        -:  393:--
+        -:  394:--  begin read only
+        -:  395:   --  end Test_Create;
+        -:  396:--  end read only
+        -:  397:
+        -:  398:end Navigation.Vectors.Test_Data.Tests;

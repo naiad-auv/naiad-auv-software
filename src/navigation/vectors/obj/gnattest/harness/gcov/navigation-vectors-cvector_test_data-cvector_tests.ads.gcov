@@ -1,0 +1,21 @@
+        -:    0:Source:/home/evr/git/naiad-auv-software/src/navigation/vectors/obj/gnattest/tests/navigation-vectors-cvector_test_data-cvector_tests.ads
+        -:    0:Programs:22
+        -:    1:--  This package has been generated automatically by GNATtest.
+        -:    2:--  Do not edit any part of it, see GNATtest documentation for more details.
+        -:    3:
+        -:    4:--  begin read only
+        -:    5:with GNATtest_Generated;
+        -:    6:
+        4:    7:package Navigation.Vectors.CVector_Test_Data.CVector_Tests is
+        -:    8:
+        2:    9:   type Test_CVector is new
+        -:   10:     GNATtest_Generated.GNATtest_Standard.Navigation.Vectors.CVector_Test_Data.Test_CVector with null record;
+        -:   11:
+        -:   12:   procedure Test_fLength_Squared_3272b8 (Gnattest_T : in out Test_CVector);
+        -:   13:   --  navigation-vectors.ads:9:4:fLength_Squared
+        -:   14:
+        -:   15:   procedure Test_fDot_Product_e9a44e (Gnattest_T : in out Test_CVector);
+        -:   16:   --  navigation-vectors.ads:19:4:fDot_Product
+        -:   17:
+        2:   18:end Navigation.Vectors.CVector_Test_Data.CVector_Tests;
+        -:   19:--  end read only

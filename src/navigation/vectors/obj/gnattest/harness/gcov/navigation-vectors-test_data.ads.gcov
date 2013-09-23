@@ -1,0 +1,20 @@
+        -:    0:Source:/home/evr/git/naiad-auv-software/src/navigation/vectors/obj/gnattest/tests/navigation-vectors-test_data.ads
+        -:    0:Programs:22
+        -:    1:--  This package is intended to set up and tear down  the test environment.
+        -:    2:--  Once created by GNATtest, this package will never be overwritten
+        -:    3:--  automatically. Contents of this package can be modified in any way
+        -:    4:--  except for sections surrounded by a 'read only' marker.
+        -:    5:
+        -:    6:with AUnit.Test_Fixtures;
+        -:    7:
+        4:    8:package Navigation.Vectors.Test_Data is
+        -:    9:
+        -:   10:--  begin read only
+        2:   11:   type Test is new AUnit.Test_Fixtures.Test_Fixture
+        -:   12:--  end read only
+        -:   13:   with null record;
+        -:   14:
+        -:   15:   procedure Set_Up (Gnattest_T : in out Test);
+        -:   16:   procedure Tear_Down (Gnattest_T : in out Test);
+        -:   17:
+        2:   18:end Navigation.Vectors.Test_Data;
