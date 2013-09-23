@@ -4,7 +4,7 @@
          <setup file="navigation-test_data.adb" line="3"  column="4"/>
          <teardown file="navigation-test_data.adb" line="9"  column="4"/>
          <tested name="DummyTest" line="2" column="4">
-            <test file="navigation-test_data-tests.adb" line="13" column="1" timestamp="2013-09-20 13:04:19"/>
+            <test file="navigation-test_data-tests.adb" line="13" column="1" timestamp="modified"/>
          </tested>
          <dangling>
          </dangling>
