@@ -62,13 +62,6 @@ package body Navigation.PID_Controller is
       this.fProportionalScale := 0.0;
    end Reset_Controller;
 
-
-   function xGet_New_Control_Value(this : in out CPID_Controller) return TThrusterPowerPercentage is
-   begin
-      return 1;
-   end xGet_New_Control_Value;
-
-
    function xGet_New_Control_Value(this : in out CPID_Controller; fDeltaTime : float) return TThrusterPowerPercentage is
       fLastError : float := this.fCurrentProportionalPart;
       output : float;

@@ -18,15 +18,14 @@ package Navigation.PID_Controller.CPID_Controller_Test_Data.CPID_Controller_Test
    procedure Test_Reset_Controller_033697 (Gnattest_T : in out Test_CPID_Controller);
    --  navigation-pid_controller.ads:16:4:Reset_Controller
 
-   procedure Test_xGet_New_Control_Value_20a1e7 (Gnattest_T : in out Test_CPID_Controller);
-   --  navigation-pid_controller.ads:18:4:xGet_New_Control_Value
-
    procedure Test_xGet_New_Control_Value_5adb99 (Gnattest_T : in out Test_CPID_Controller);
    --  navigation-pid_controller.ads:20:4:xGet_New_Control_Value
 
    procedure Test_xGet_New_Control_Value_Increasing_Since_No_Decrease_In_Error(Gnattest_T : in out Test_CPID_Controller);
 
    procedure Test_xGet_New_Control_Value_Decreasing_Since_Overshoot(Gnattest_T : in out Test_CPID_Controller);
+
+   procedure Test_Update_Current_Value_From_External_Source(Gnattest_T : in out Test_CPID_Controller);
 
 end Navigation.PID_Controller.CPID_Controller_Test_Data.CPID_Controller_Tests;
 --  end read only
