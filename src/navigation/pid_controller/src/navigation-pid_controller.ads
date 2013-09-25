@@ -5,13 +5,15 @@ package Navigation.PID_Controller is
    type CPID_Controller is tagged private;
    type pCPID_Controller is access CPID_Controller;
 
-   type TThrusterPowerPercentage is range 0 .. 80;
+   type TThrusterPowerPercentage is range -100 .. 100;
 
    function pxCreate return pCPID_Controller;
 
    procedure Set_New_Set_Point(this : in out CPID_Controller; fNewSetPoint : in float);
 
    procedure Set_New_PID_Component_Scalings(this : in out CPID_Controller; fDerivativeScale, fIntegralScale, fProportionalScale : float);
+
+   procedure Update_Current_Value_From_External_Source(this : in out CPID_Controller; fValue : float);
 
    procedure Reset_Controller(this : in out CPID_Controller);
 

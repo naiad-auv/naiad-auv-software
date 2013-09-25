@@ -6,6 +6,7 @@
 --  placed into Navigation.PID_Controller.CPID_Controller_Test_Data.
 
 with AUnit.Assertions; use AUnit.Assertions;
+with Ada.Text_IO;
 
 package body Navigation.PID_Controller.CPID_Controller_Test_Data.CPID_Controller_Tests is
 
@@ -122,11 +123,85 @@ package body Navigation.PID_Controller.CPID_Controller_Test_Data.CPID_Controller
       pragma Unreferenced (Gnattest_T);
 
    begin
-	null;
+      null;
+
 
 --  begin read only
    end Test_1_xGet_New_Control_Value;
 --  end read only
+
+   procedure Test_xGet_New_Control_Value_Increasing_Since_No_Decrease_In_Error(Gnattest_T : in out Test_CPID_Controller) is
+
+      pragma Unreferenced (Gnattest_T);
+
+      pCurrentController : pCPID_Controller;
+      iIterations : integer := 50;
+        value : TThrusterPowerPercentage := 0;
+      lastValue : TThrusterPowerPercentage := 0;
+      trace : boolean := false;
+   begin
+      pCurrentController := new CPID_Controller;
+
+      pCurrentController.Set_New_Pid_Component_Scalings(0.0001,0.0001,0.0001);
+
+      pCurrentController.Set_New_Set_Point(100.0);
+
+      for i in 1 .. iIterations loop
+         value := pCurrentController.xGet_New_Control_Value(1.0);
+         if trace then
+            Ada.Text_IO.Put_Line("Current value: " & Integer'Image(Integer(value)));
+         end if;
+
+      AUnit.Assertions.Assert(Condition => value >= lastValue,
+                              Message => "last value is bigger than the current value, this shouldnt happend");
+      lastValue := value;
+      end loop;
+
+   end;
+
+    procedure Test_xGet_New_Control_Value_Decreasing_Since_Overshoot(Gnattest_T : in out Test_CPID_Controller) is
+
+      pragma Unreferenced (Gnattest_T);
+
+      pCurrentController : pCPID_Controller;
+      iIterations : integer := 50;
+        value : TThrusterPowerPercentage := 0;
+      lastValue : TThrusterPowerPercentage := 0;
+      trace : boolean := false;
+   begin
+      pCurrentController := new CPID_Controller;
+
+      pCurrentController.Set_New_Pid_Component_Scalings(0.0001,0.0001,0.0001);
+
+      pCurrentController.Set_New_Set_Point(100.0);
+
+      for i in 1 .. iIterations loop
+         value := pCurrentController.xGet_New_Control_Value(1.0);
+      	pCurrentController.Update_Current_Value_From_External_Source(2.0 * float(i));
+         if trace then
+            Ada.Text_IO.Put_Line("Current value: " & Integer'Image(Integer(value)));
+         end if;
+      end loop;
+
+      if trace then
+         Ada.Text_IO.Put_Line("new setpoint");
+      end if;
+
+      lastValue := 80;
+
+      for i in 1 .. iIterations loop
+         value := pCurrentController.xGet_New_Control_Value(1.0);
+      	pCurrentController.Update_Current_Value_From_External_Source(100.0 + 2.0 * float(i));
+         if trace then
+            Ada.Text_IO.Put_Line("Current value: " & Integer'Image(Integer(value)));
+         end if;
+
+      AUnit.Assertions.Assert(Condition => value <= lastValue,
+                              Message => "last value is bigger than the current value, this shouldnt happend");
+      lastValue := value;
+      end loop;
+
+   end;
 
 
 --  begin read only

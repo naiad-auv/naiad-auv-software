@@ -17,6 +17,8 @@ package body Navigation.PID_Controller.CPID_Controller_Test_Data.CPID_Controller
    Case_3_1_Test_Reset_Controller_033697 : aliased Runner_1.Test_Case;
    Case_4_1_Test_xGet_New_Control_Value_20a1e7 : aliased Runner_1.Test_Case;
    Case_5_1_Test_xGet_New_Control_Value_5adb99 : aliased Runner_1.Test_Case;
+   Case_6_1_Test_xGet_New_Control_Value_Increasing_Since_No_Decrease_In_Error : aliased Runner_1.Test_Case;
+   Case_7_1_Test_xGet_New_Control_Value_Decreasing_Since_Overshoot : aliased Runner_1.Test_Case;
 
    function Suite return AUnit.Test_Suites.Access_Test_Suite is
    begin
@@ -41,12 +43,22 @@ package body Navigation.PID_Controller.CPID_Controller_Test_Data.CPID_Controller
         (Case_5_1_Test_xGet_New_Control_Value_5adb99,
          "navigation-pid_controller.ads:20:4:",
          Test_xGet_New_Control_Value_5adb99'Access);
+      Runner_1.Create
+        (Case_6_1_Test_xGet_New_Control_Value_Increasing_Since_No_Decrease_In_Error,
+         "navigation-pid_controller.ads:20:4: error not decreasing test",
+         Test_xGet_New_Control_Value_Increasing_Since_No_Decrease_In_Error'Access);
+      Runner_1.Create
+        (Case_7_1_Test_xGet_New_Control_Value_Decreasing_Since_Overshoot,
+         "navigation-pid_controller.ads:20:4: overshoot test",
+         Test_xGet_New_Control_Value_Decreasing_Since_Overshoot'Access);
 
       Result.Add_Test (Case_1_1_Test_Set_New_Set_Point_f8f7bc'Access);
       Result.Add_Test (Case_2_1_Test_Set_New_PID_Component_Scalings_640958'Access);
       Result.Add_Test (Case_3_1_Test_Reset_Controller_033697'Access);
       Result.Add_Test (Case_4_1_Test_xGet_New_Control_Value_20a1e7'Access);
       Result.Add_Test (Case_5_1_Test_xGet_New_Control_Value_5adb99'Access);
+      Result.Add_Test (Case_6_1_Test_xGet_New_Control_Value_Increasing_Since_No_Decrease_In_Error'Access);
+      Result.Add_Test (Case_7_1_Test_xGet_New_Control_Value_Decreasing_Since_Overshoot'Access);
 
       return Result'Access;
 

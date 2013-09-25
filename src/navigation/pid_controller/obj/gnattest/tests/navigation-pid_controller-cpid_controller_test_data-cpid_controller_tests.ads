@@ -24,5 +24,9 @@ package Navigation.PID_Controller.CPID_Controller_Test_Data.CPID_Controller_Test
    procedure Test_xGet_New_Control_Value_5adb99 (Gnattest_T : in out Test_CPID_Controller);
    --  navigation-pid_controller.ads:20:4:xGet_New_Control_Value
 
+   procedure Test_xGet_New_Control_Value_Increasing_Since_No_Decrease_In_Error(Gnattest_T : in out Test_CPID_Controller);
+
+   procedure Test_xGet_New_Control_Value_Decreasing_Since_Overshoot(Gnattest_T : in out Test_CPID_Controller);
+
 end Navigation.PID_Controller.CPID_Controller_Test_Data.CPID_Controller_Tests;
 --  end read only
