@@ -162,6 +162,9 @@ do
 	# ---------------------------------------------------------
 
 	# RUN TESTS -----------------------------------------------
+    # Remove previous results
+    rm $main_path../xml_results/*.xml
+
 	if [ $build_success == true ]; then
 		echo "Running tests for $proj..."
 		test_runner="${test_project%/*}/test_runner"
