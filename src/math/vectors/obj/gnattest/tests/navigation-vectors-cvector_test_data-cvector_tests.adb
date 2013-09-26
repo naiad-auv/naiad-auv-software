@@ -6,6 +6,7 @@
 --  placed into Navigation.Vectors.CVector_Test_Data.
 
 with AUnit.Assertions; use AUnit.Assertions;
+with System; use System;
 
 package body Navigation.Vectors.CVector_Test_Data.CVector_Tests is
 
@@ -22,6 +23,9 @@ package body Navigation.Vectors.CVector_Test_Data.CVector_Tests is
 
       pxTestVector : pCVector;
       pxCopiedVector : pCVector;
+
+      testAddress : Address;
+      copyAddress : Address;
    begin
 
       pxTestVector := Navigation.Vectors.pxCreate(fX => 5.2,
@@ -36,6 +40,11 @@ package body Navigation.Vectors.CVector_Test_Data.CVector_Tests is
       AUnit.Assertions.Assert(Condition => pxCopiedVector.fZ = 8.2,
                               Message   => "CVector.pxGetCopy failed, fZ got the wrong value");
 
+      testAddress := pxTestVector'Address;
+      copyAddress := pxCopiedVector'Address;
+
+      AUnit.Assertions.Assert(Condition => testAddress /= copyAddress,
+                              Message => "CVector.pxGetCopy failed, pointers has the same address, not a deep copy");
 --  begin read only
    end Test_pxGet_Copy;
 --  end read only
@@ -54,6 +63,9 @@ package body Navigation.Vectors.CVector_Test_Data.CVector_Tests is
 
       pxTestVector : pCVector;
       pxNormalizedVector : pCVector;
+
+      testAddress : Address;
+      normalizedAddress : Address;
    begin
 
 
@@ -63,6 +75,12 @@ package body Navigation.Vectors.CVector_Test_Data.CVector_Tests is
       pxNormalizedVector := pxTestVector.pxGet_Normalized;
       AUnit.Assertions.Assert(Condition => abs(pxNormalizedVector.fLength - 1.0) < 0.0001,
                               Message   => "CVector.pxGet_Normalized failed");
+
+      testAddress := pxTestVector'Address;
+      normalizedAddress := pxNormalizedVector'Address;
+
+      AUnit.Assertions.Assert(Condition => testAddress /= normalizedAddress,
+                              Message => "CVector.pxGet_Normalized failed, testVector and normalizedVector has the same address");
 
       -- test exceptions
       pxTestVector := Navigation.Vectors.pxCreate(fX => 0.0,
@@ -100,7 +118,7 @@ package body Navigation.Vectors.CVector_Test_Data.CVector_Tests is
                                                   fY => 5.0,
                                                   fZ => 2.0);
       AUnit.Assertions.Assert(Condition => pxTestVector.fLength_Squared = 129.0,
-                              Message   => "CVector.fLength_Squared failed");
+                              Message   => "CVector.fLength_Squared failed, expected 129.0, actual: " & float'Image(pxTestVector.fLength_Squared));
 --  begin read only
    end Test_fLength_Squared;
 --  end read only
@@ -124,7 +142,7 @@ package body Navigation.Vectors.CVector_Test_Data.CVector_Tests is
                                                   fZ => -6.0);
 
       AUnit.Assertions.Assert(Condition => abs(pxTestVector.fLength - 8.06226) < 0.0001,
-                              Message   => "CVector.fLength failed");
+                              Message   => "CVector.fLength failed, expected 8.06226, actual: " & float'Image(pxTestVector.fLength));
 
 --  begin read only
    end Test_fLength;
@@ -149,7 +167,7 @@ package body Navigation.Vectors.CVector_Test_Data.CVector_Tests is
                                                   fZ => 0.0);
 
       AUnit.Assertions.Assert(Condition => pxTestVector.fX = 23.5,
-                              Message   => "CVector.fGet_X failed");
+                              Message   => "CVector.fGet_X failed, expected 23.5 actual: " & float'Image(pxTestVector.fX));
 
 --  begin read only
    end Test_fGet_X;
@@ -175,7 +193,7 @@ package body Navigation.Vectors.CVector_Test_Data.CVector_Tests is
                                                   fZ => 0.0);
 
       AUnit.Assertions.Assert(Condition => pxTestVector.fY = 23.5,
-                              Message   => "CVector.fGet_Y failed");
+                              Message   => "CVector.fGet_Y failed, expected 23.5, actual: " & float'Image(pxTestVector.fY));
 
 --  begin read only
    end Test_fGet_Y;
@@ -201,7 +219,7 @@ package body Navigation.Vectors.CVector_Test_Data.CVector_Tests is
                                                   fZ => 23.5);
 
       AUnit.Assertions.Assert(Condition => pxTestVector.fZ = 23.5,
-                              Message   => "CVector.fGet_Z failed");
+                              Message   => "CVector.fGet_Z failed, expected 23.5, actual: " & float'Image(pxTestVector.fZ));
 
 --  begin read only
    end Test_fGet_Z;
@@ -222,6 +240,8 @@ package body Navigation.Vectors.CVector_Test_Data.CVector_Tests is
       xLeftOperandVector : Navigation.Vectors.CVector;
       fRightOperand : float;
 
+      dividedAddress, leftAddress : Address;
+
    begin
 
       xLeftOperandVector := (fX => 2.0, fY => 5.0,fZ => 4.0);
@@ -230,11 +250,18 @@ package body Navigation.Vectors.CVector_Test_Data.CVector_Tests is
       pxDividedVector := xLeftOperandVector / fRightOperand;
 
       AUnit.Assertions.Assert(Condition => pxDividedVector.fX = 1.0,
-                              Message   => "CVector./(binary CVector / float) failed, fX got the wrong value");
+                              Message   => "CVector./(binary CVector / float) failed, fX got the wrong value, expected 1.0, actual: " & float'Image(pxDividedVector.fX));
       AUnit.Assertions.Assert(Condition => pxDividedVector.fY = 2.5,
-                              Message   => "CVector./(binary CVector / float) failed, fY got the wrong value");
+                              Message   => "CVector./(binary CVector / float) failed, fY got the wrong value, expected 2.5, actual: " & float'Image(pxDividedVector.fY));
       AUnit.Assertions.Assert(Condition => pxDividedVector.fZ = 2.0,
-                              Message   => "CVector./(binary CVector / float) failed, fZ got the wrong value");
+                              Message   => "CVector./(binary CVector / float) failed, fZ got the wrong value, expected 2.0, actual: " & float'Image(pxDividedVector.fZ));
+
+      dividedAddress := pxDividedVector'Address;
+      leftAddress := xLeftOperandVector'Address;
+
+      Aunit.Assertions.Assert(Condition => dividedAddress /= leftAddress,
+                              Message => ("CVector./(binary CVector / float) failed, dividedVector is a shallow copy of one operand"));
+
 
       -- test exceptions
       fRightOperand := 0.0;

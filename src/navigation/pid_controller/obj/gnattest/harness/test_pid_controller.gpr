@@ -1,0 +1,15 @@
+with "aunit";
+with "../../../pid_controller.gpr";
+project test_pid_controller is
+
+   for Source_Dirs use
+     ("../../../../obj/gnattest/tests",
+      "../tests",
+      "common");
+
+   package Compiler is
+      for Default_Switches ("ada") use
+        ("-g", "-O1", "-gnatyM0", "-gnata");
+   end Compiler;
+
+end test_pid_controller;

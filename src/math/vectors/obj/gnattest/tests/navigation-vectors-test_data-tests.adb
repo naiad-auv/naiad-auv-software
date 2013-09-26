@@ -6,6 +6,7 @@
 --  placed into Navigation.Vectors.Test_Data.
 
 with AUnit.Assertions; use AUnit.Assertions;
+with System; use System;
 
 package body Navigation.Vectors.Test_Data.Tests is
 
@@ -27,11 +28,11 @@ package body Navigation.Vectors.Test_Data.Tests is
                                                 fY => -10.0,
                                                 fZ => 0.0);
       AUnit.Assertions.Assert(Condition => pxTestVector.fX = 10.0,
-                              Message   => "CVector.pxCreate failed, fX got the wrong value");
+                              Message   => "CVector.pxCreate failed, fX got the wrong value, expected 10.0, actual: "  & float'Image(pxTestVector.fX));
       AUnit.Assertions.Assert(Condition => pxTestVector.fY = -10.0,
-                              Message   => "CVector.pxCreate failed, fY got the wrong value");
+                              Message   => "CVector.pxCreate failed, fY got the wrong value, expected -10.0, actual: " & float'Image(pxTestVector.fY));
       AUnit.Assertions.Assert(Condition => pxTestVector.fZ = 0.0,
-                              Message   => "CVector.pxCreate failed, fZ got the wrong value");
+                              Message   => "CVector.pxCreate failed, fZ got the wrong value, expected 0.0, actual: " & float'Image(pxTestVector.fZ));
 
 --  begin read only
    end Test_pxCreate;
@@ -49,6 +50,8 @@ package body Navigation.Vectors.Test_Data.Tests is
       pragma Unreferenced (Gnattest_T);
       pxSumVector : Navigation.Vectors.pCVector;
       pxLeftOperandVector, pxRightOperandVector : Navigation.Vectors.pCVector;
+
+      sumAddress, leftAddress, rightAddress : Address;
    begin
 
       pxLeftOperandVector := Navigation.Vectors.pxCreate(fX => 2.0,
@@ -60,12 +63,18 @@ package body Navigation.Vectors.Test_Data.Tests is
       pxSumVector := pxLeftOperandVector + pxRightOperandVector;
 
       AUnit.Assertions.Assert(Condition => pxSumVector.fX = 5.0,
-                              Message   => "CVector.+(binary) failed, fX got the wrong value");
+                              Message   => "CVector.+(binary) failed, fX got the wrong value, expected 10.0, actual: " & float'Image(pxSumVector.fX));
       AUnit.Assertions.Assert(Condition => pxSumVector.fY = 15.0,
-                              Message   => "CVector.+(binary) failed, fY got the wrong value");
+                              Message   => "CVector.+(binary) failed, fY got the wrong value, expected 15.0, actual: " & float'Image(pxSumVector.fY));
       AUnit.Assertions.Assert(Condition => pxSumVector.fZ = 11.0,
-                              Message   => "CVector.+(binary) failed, fZ got the wrong value");
+                              Message   => "CVector.+(binary) failed, fZ got the wrong value, expected 11.0, actual: " & float'Image(pxSumVector.fZ));
 
+      sumAddress := pxSumVector'Address;
+      leftAddress := pxLeftOperandVector'Address;
+      rightAddress := pxRightOperandVector'Address;
+
+      AUnit.Assertions.Assert(Condition => (sumAddress /= leftAddress) and then (sumAddress /= rightAddress),
+                              Message => "CVector.+(binary) failed, sumvector is shallow copy of one operand");
 
 --  begin read only
    end Test_Plus;
@@ -84,6 +93,7 @@ package body Navigation.Vectors.Test_Data.Tests is
       pxDifferenceVector : Navigation.Vectors.pCVector;
       pxLeftOperandVector, pxRightOperandVector : Navigation.Vectors.pCVector;
 
+      diffAddress, leftAddress, rightAddress : Address;
    begin
 
       pxLeftOperandVector := Navigation.Vectors.pxCreate(fX => 2.0,
@@ -95,11 +105,18 @@ package body Navigation.Vectors.Test_Data.Tests is
       pxDifferenceVector := pxLeftOperandVector - pxRightOperandVector;
 
       AUnit.Assertions.Assert(Condition => pxDifferenceVector.fX = -1.0,
-                              Message   => "CVector.-(binary) failed, fX got the wrong value");
+                              Message   => "CVector.-(binary) failed, fX got the wrong value, expected -1.0, actual: " & float'Image(pxDifferenceVector.fX));
       AUnit.Assertions.Assert(Condition => pxDifferenceVector.fY = -5.0,
-                              Message   => "CVector.-(binary) failed, fY got the wrong value");
+                              Message   => "CVector.-(binary) failed, fY got the wrong value, expected -5.0, actual: " & float'Image(pxDifferenceVector.fY));
       AUnit.Assertions.Assert(Condition => pxDifferenceVector.fZ = -3.0,
-                              Message   => "CVector.-(binary) failed, fZ got the wrong value");
+                              Message   => "CVector.-(binary) failed, fZ got the wrong value, expected -3.0, actual: " & float'Image(pxDifferenceVector.fZ));
+
+      diffAddress := pxDifferenceVector'Address;
+      leftAddress := pxLeftOperandVector'Address;
+      rightAddress := pxRightOperandVector'Address;
+
+      AUnit.Assertions.Assert(Condition => (diffAddress /= leftAddress) and then (diffAddress /= rightAddress),
+                              Message => "CVector.-(binary) failed, diffVector is shallow copy of one operand");
 
 --  begin read only
    end Test_Minus;
@@ -118,6 +135,7 @@ package body Navigation.Vectors.Test_Data.Tests is
       pxNegatedVector : Navigation.Vectors.pCVector;
       pxOperandVector : Navigation.Vectors.pCVector;
 
+      negatedAddress, operandAddress : Address;
    begin
 
       pxOperandVector := Navigation.Vectors.pxCreate(fX => 2.0,
@@ -126,13 +144,18 @@ package body Navigation.Vectors.Test_Data.Tests is
       pxNegatedVector := -pxOperandVector;
 
       AUnit.Assertions.Assert(Condition => pxNegatedVector.fX = -2.0,
-                              Message   => "CVector.-(unary) failed, fX got the wrong value");
+                              Message   => "CVector.-(unary) failed, fX got the wrong value, expected -2.0, actual: " & float'Image(pxNegatedVector.fX));
       AUnit.Assertions.Assert(Condition => pxNegatedVector.fY = -5.0,
-                              Message   => "CVector.-(unary) failed, fY got the wrong value");
+                              Message   => "CVector.-(unary) failed, fY got the wrong value, expected -5.0, actual: " & float'Image(pxNegatedVector.fY));
       AUnit.Assertions.Assert(Condition => pxNegatedVector.fZ = -8.0,
-                              Message   => "CVector.-(unary) failed, fZ got the wrong value");
+                              Message   => "CVector.-(unary) failed, fZ got the wrong value, expected -8.0, actual: " & float'Image(pxNegatedVector.fZ));
 
 
+      negatedAddress := pxNegatedVector'Address;
+      operandAddress := pxOperandVector'Address;
+
+      AUnit.Assertions.Assert(Condition => (negatedAddress /= operandAddress),
+                              Message => "CVector.-(unary) failed, negatedVector is shallow copy of the operand");
 
 
 --  begin read only
@@ -152,6 +175,8 @@ package body Navigation.Vectors.Test_Data.Tests is
 
       pxProductVector : Navigation.Vectors.pCVector;
       pxLeftOperandVector, pxRightOperandVector : Navigation.Vectors.pCVector;
+
+      prodAddress, leftAddress, rightAddress : Address;
    begin
 
       pxLeftOperandVector := Navigation.Vectors.pxCreate(fX => 2.0,
@@ -163,11 +188,18 @@ package body Navigation.Vectors.Test_Data.Tests is
       pxProductVector := pxLeftOperandVector * pxRightOperandVector;
 
       AUnit.Assertions.Assert(Condition => pxProductVector.fX = 6.0,
-                              Message   => "CVector.*(binary CVector * CVector) failed, fX got the wrong value");
+                              Message   => "CVector.*(binary CVector * CVector) failed, fX got the wrong value, expected 6.0, actual: " & float'Image(pxProductVector.fX));
       AUnit.Assertions.Assert(Condition => pxProductVector.fY = 50.0,
-                              Message   => "CVector.*(binary CVector * CVector) failed, fY got the wrong value");
+                              Message   => "CVector.*(binary CVector * CVector) failed, fY got the wrong value, expected 50.0, actual: " & float'Image(pxProductVector.fY));
       AUnit.Assertions.Assert(Condition => pxProductVector.fZ = 28.0,
-                              Message   => "CVector.*(binary CVector * CVector) failed, fZ got the wrong value");
+                              Message   => "CVector.*(binary CVector * CVector) failed, fZ got the wrong value, expected 28.0, actual: " & float'Image(pxProductVector.fZ));
+
+      prodAddress := pxProductVector'Address;
+      leftAddress := pxLeftOperandVector'Address;
+      rightAddress := pxRightOperandVector'Address;
+
+      AUnit.Assertions.Assert(Condition => (prodAddress /= leftAddress) and then (prodAddress /= rightAddress),
+                              Message => "CVector.*(binary CVector * CVector) failed, prodVector is shallow copy of one operand");
 
 
 --  begin read only
@@ -188,6 +220,8 @@ package body Navigation.Vectors.Test_Data.Tests is
       pxScaledVector : Navigation.Vectors.pCVector;
       pxLeftOperandVector : Navigation.Vectors.pCVector;
       fRightOperand : float;
+
+      prodAddress, leftAddress : Address;
    begin
 
       pxLeftOperandVector := Navigation.Vectors.pxCreate(fX => 2.0,
@@ -198,11 +232,17 @@ package body Navigation.Vectors.Test_Data.Tests is
       pxScaledVector := pxLeftOperandVector * fRightOperand;
 
       AUnit.Assertions.Assert(Condition => pxScaledVector.fX = 10.0,
-                              Message   => "CVector.*(binary CVector * float) failed, fX got the wrong value");
+                              Message   => "CVector.*(binary CVector * float) failed, fX got the wrong value, expected 10.0, actual: " & float'Image(pxScaledVector.fX));
       AUnit.Assertions.Assert(Condition => pxScaledVector.fY = 25.0,
-                              Message   => "CVector.*(binary CVector * float) failed, fY got the wrong value");
+                              Message   => "CVector.*(binary CVector * float) failed, fY got the wrong value, expected 25.0, actual: " & float'Image(pxScaledVector.fY));
       AUnit.Assertions.Assert(Condition => pxScaledVector.fZ = 20.0,
-                              Message   => "CVector.*(binary CVector * float) failed, fZ got the wrong value");
+                              Message   => "CVector.*(binary CVector * float) failed, fZ got the wrong value, expected 20.0, actual: " & float'Image(pxScaledVector.fZ));
+
+      prodAddress := pxScaledVector'Address;
+      leftAddress := pxLeftOperandVector'Address;
+
+      AUnit.Assertions.Assert(Condition => (prodAddress /= leftAddress),
+                              Message => "CVector.*(binary CVector * float) failed, prodVector is shallow copy of the operand");
 
 
 --  begin read only
@@ -223,6 +263,8 @@ package body Navigation.Vectors.Test_Data.Tests is
       pxScaledVector : Navigation.Vectors.pCVector;
       pxRightOperandVector : Navigation.Vectors.pCVector;
       fLeftOperand : float;
+
+      prodAddress, rightAddress : Address;
    begin
 
       pxRightOperandVector := Navigation.Vectors.pxCreate(fX => 2.0,
@@ -233,13 +275,18 @@ package body Navigation.Vectors.Test_Data.Tests is
       pxScaledVector := fLeftOperand * pxRightOperandVector;
 
       AUnit.Assertions.Assert(Condition => pxScaledVector.fX = 10.0,
-                              Message   => "CVector.*(binary float * CVector) failed, fX got the wrong value");
+                              Message   => "CVector.*(binary float * CVector) failed, fX got the wrong value, expected 10.0, actual: " & float'Image(pxScaledVector.fX));
       AUnit.Assertions.Assert(Condition => pxScaledVector.fY = 25.0,
-                              Message   => "CVector.*(binary float * CVector) failed, fY got the wrong value");
+                              Message   => "CVector.*(binary float * CVector) failed, fY got the wrong value, expected 25.0, actual: " & float'Image(pxScaledVector.fY));
       AUnit.Assertions.Assert(Condition => pxScaledVector.fZ = 20.0,
-                              Message   => "CVector.*(binary float * CVector) failed, fZ got the wrong value");
+                              Message   => "CVector.*(binary float * CVector) failed, fZ got the wrong value, expected 20.0, actual: " & float'Image(pxScaledVector.fZ));
 
 
+      prodAddress := pxScaledVector'Address;
+      rightAddress := pxRightOperandVector'Address;
+
+      AUnit.Assertions.Assert(Condition => (prodAddress /= rightAddress),
+                              Message => "CVector.*(binary float * CVector) failed, prodVector is shallow copy of the operand");
 
 --  begin read only
    end Test_3_Multiply;
@@ -260,6 +307,7 @@ package body Navigation.Vectors.Test_Data.Tests is
       pxLeftOperandVector : Navigation.Vectors.pCVector;
       fRightOperand : float;
 
+      dividedAddress, leftAddress : Address;
    begin
 
       pxLeftOperandVector := Navigation.Vectors.pxCreate(fX => 2.0,
@@ -270,11 +318,18 @@ package body Navigation.Vectors.Test_Data.Tests is
       pxDividedVector := pxLeftOperandVector / fRightOperand;
 
       AUnit.Assertions.Assert(Condition => pxDividedVector.fX = 1.0,
-                              Message   => "CVector./(binary CVector / float) failed, fX got the wrong value");
+                              Message   => "CVector./(binary CVector / float) failed, fX got the wrong value, expected 1.0, actual: " & float'Image(pxDividedVector.fX));
       AUnit.Assertions.Assert(Condition => pxDividedVector.fY = 2.5,
-                              Message   => "CVector./(binary CVector / float) failed, fY got the wrong value");
+                              Message   => "CVector./(binary CVector / float) failed, fY got the wrong value, expected 2.5, actual: " & float'Image(pxDividedVector.fY));
       AUnit.Assertions.Assert(Condition => pxDividedVector.fZ = 2.0,
-                              Message   => "CVector./(binary CVector / float) failed, fZ got the wrong value");
+                              Message   => "CVector./(binary CVector / float) failed, fZ got the wrong value, expected 2.0, actual: " & float'Image(pxDividedVector.fZ));
+
+      dividedAddress := pxDividedVector'Address;
+      leftAddress := pxLeftOperandVector'Address;
+
+      AUnit.Assertions.Assert(Condition => (dividedAddress /= leftAddress),
+                              Message => "CVector./(binary CVector / float) failed, dividedVector is shallow copy of the operand");
+
 
       -- test exceptions
       fRightOperand := 0.0;
@@ -315,7 +370,7 @@ package body Navigation.Vectors.Test_Data.Tests is
       pxRightOperandVector := pxLeftOperandVector.pxGet_Copy;
 
       AUnit.Assertions.Assert(Condition => pxLeftOperandVector = pxRightOperandVector,
-                           Message   =>"CVector.=(binary CVector = CVector) failed.");
+                           Message   =>"CVector.=(binary CVector = CVector) failed. expected equal, actual not equal");
 
 
 --  begin read only
@@ -350,7 +405,7 @@ package body Navigation.Vectors.Test_Data.Tests is
 
 
       AUnit.Assertions.Assert(Condition => fDotProduct = 33.0,
-                              Message   => "Vectors.fDot_Product failed, wrong result in first test");
+                              Message   => "Vectors.fDot_Product failed, wrong result in first test, expected 33.0 actual: " & float'Image(fDotProduct));
 
       pxLeftOperandVector := Navigation.Vectors.pxCreate(fX => 5.0,
                                                   fY => 0.0,
@@ -362,7 +417,7 @@ package body Navigation.Vectors.Test_Data.Tests is
                                                      pxRightOperandVector => pxRightOperandVector);
 
       AUnit.Assertions.Assert(Condition => fDotProduct = 0.0,
-                              Message   => "Vectors.fDot_Product failed, wrong result in second test");
+                              Message   => "Vectors.fDot_Product failed, wrong result in second test, expected 0.0, actual: " & float'Image(fDotProduct));
 
 --  begin read only
    end Test_fDot_Product;
@@ -384,6 +439,8 @@ package body Navigation.Vectors.Test_Data.Tests is
       pxLeftOperandVector : pCVector;
       pxRightOperandVector : pCVector;
 
+      crossAddress, leftAddress, rightAddress : Address;
+
    begin
 
       pxLeftOperandVector := Navigation.Vectors.pxCreate(fX => 1.0,
@@ -399,11 +456,22 @@ package body Navigation.Vectors.Test_Data.Tests is
       --(1.0,5.0,2.0) cross (4.0,5.2,-10.0)
       -- (-60.4, 18., -14.8)
       AUnit.Assertions.Assert(Condition => abs(pxCrossProductVector.fX - (-60.4)) < 0.001,
-                              Message   => "Vectors.pxCross_Product failed, fX got the wrong value");
+                              Message   => "Vectors.pxCross_Product failed, fX got the wrong value, expected -60.4, actual: " & float'Image(pxCrossProductVector.fX));
       AUnit.Assertions.Assert(Condition => abs(pxCrossProductVector.fY - 18.0) < 0.001,
-                              Message   => "Vectors.pxCross_Product failed, fY got the wrong value");
+                              Message   => "Vectors.pxCross_Product failed, fY got the wrong value, expected -18.0, actual: " & float'Image(pxCrossProductVector.fY));
       AUnit.Assertions.Assert(Condition => abs(pxCrossProductVector.fZ - (-14.8)) < 0.001,
-                              Message   => "Vectors.pxCross_Product failed, fZ got the wrong value");
+                              Message   => "Vectors.pxCross_Product failed, fZ got the wrong value, expected -14.8, actual: " & float'Image(pxCrossProductVector.fZ));
+
+
+      crossAddress := pxCrossProductVector'Address;
+      leftAddress := pxLeftOperandVector'Address;
+      rightAddress := pxRightOperandVector'Address;
+
+
+      AUnit.Assertions.Assert(Condition => (crossAddress /= leftAddress) and then (crossAddress /= rightAddress),
+                              Message => "Vectors.pxCross_Product failed, crossAddress is shallow copy of one operand");
+
+
 --  begin read only
    end Test_pxCross_Product;
 --  end read only
@@ -434,7 +502,7 @@ package body Navigation.Vectors.Test_Data.Tests is
                                                                 pxRightOperandVector => pxRightOperandVector);
 
       AUnit.Assertions.Assert(Condition => abs(fAngleBetweenVectors - (Ada.Numerics.Pi / 2.0)) < 0.001,
-                              Message => "Vectors.fAngle_Between failed");
+                              Message => "Vectors.fAngle_Between failed expected PI/2, actual :" & float'Image(fAngleBetweenVectors));
 
 --  begin read only
    end Test_fAngle_Between;
