@@ -175,6 +175,8 @@ do
         mkdir -pv $main_path../xml_results
         $("$test_runner" > $main_path../xml_results/$project_name.xml)
 
+        echo "$main_path../xml_results/$project_name.xml"
+
 		if [ "$(echo $test_result | grep -o FAILED)" == "FAILED" ]; then
 			success=false
 		elif [ "$(echo $test_result | grep -o CRASHED)" == "CRASHED" ]; then
