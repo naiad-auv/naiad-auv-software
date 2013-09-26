@@ -143,6 +143,12 @@ do
 	echo
 	# ---------------------------------------------------------
 
+	# Change to XML Test Reporter -----------------------------
+    echo "Changing to XML Test Reporter"
+    /bin/bash $(pwd)/change_to_XML_reporter.sh
+    echo "Done. Changed to XML Test Reporter"
+    # ---------------------------------------------------------
+
 	# BUILD HARNESS -------------------------------------------
 	echo "Building harness for $proj..."
 	build_success=true
@@ -160,6 +166,16 @@ do
 		echo "Running tests for $proj..."
 		test_runner="${test_project%/*}/test_runner"
 		test_result=$("$test_runner" --passed-tests=hide | tee >(cat - >&5)) 
+
+        # Get project name
+        temp_path=${proj%/*}
+        project_name=${temp_path##*/}
+
+        # Run test and output results as XML in project_root/xml_results
+        mkdir -pv $main_path../xml_results
+        $("$test_runner" > $main_path../xml_results/$project_name.xml)
+
+        echo "$main_path../xml_results/$project_name.xml"
 
 		if [ "$(echo $test_result | grep -o FAILED)" == "FAILED" ]; then
 			success=false
