@@ -1,11 +1,11 @@
 -- Vector package for Project Naiad
 -- Written by Per-Erik Måhl, 2013
 
-with Navigation;
+with Math;
 with Ada.Numerics;
 with Ada.Exceptions;
 
-package Navigation.Vectors is
+package Math.Vectors is
    type CVector is tagged private;
    type pCVector is access CVector;
 
@@ -45,4 +45,4 @@ private
    -- used in pxGet_Normalized to allow division by a vector's length without pointer
    function "/" (xLeftOperandVector : in CVector; fRightOperand : in float) return pCVector;
 
-end Navigation.Vectors;
+end Math.Vectors;

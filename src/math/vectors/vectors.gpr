@@ -1,4 +1,4 @@
-with "../navigation.gpr";
+with "../math.gpr";
 
 project Vectors is
 

@@ -1,10 +1,10 @@
 -- Vector package for Project Naiad
 -- Written by Per-Erik Måhl, 2013
 
-with Navigation;
+with Math;
 with Ada.Numerics.Elementary_Functions;
 
-package body Navigation.Vectors is
+package body Math.Vectors is
 
    function pxCreate (fX, fY, fZ : float) return pCVector is
       pxNew_Vector : pCVector := new CVector;
@@ -128,7 +128,7 @@ package body Navigation.Vectors is
    function fAngle_Between (pxLeftOperandVector, pxRightOperandVector : in pCVector) return float is
       fDotProduct : float;
    begin
-      fDotProduct := Navigation.Vectors.fDot_Product(pxLeftOperandVector  => pxLeftOperandVector,
+      fDotProduct := Math.Vectors.fDot_Product(pxLeftOperandVector  => pxLeftOperandVector,
                                                      pxRightOperandVector => pxRightOperandVector);
       return Ada.Numerics.Elementary_Functions.Arccos(fDotProduct / (pxLeftOperandVector.fLength * pxRightOperandVector.fLength));
    end fAngle_Between;
@@ -148,7 +148,7 @@ package body Navigation.Vectors is
    function pxCross_Product (pxLeftOperandVector : in pCVector; pxRightOperandVector : in pCVector) return pCVector is
       pxCrossProductVector : pCVector;
    begin
-      pxCrossProductVector := Navigation.Vectors.pxCreate(fX => (pxLeftOperandVector.fY * pxRightOperandVector.fZ) - (pxLeftOperandVector.fZ * pxRightOperandVector.fY),
+      pxCrossProductVector := Math.Vectors.pxCreate(fX => (pxLeftOperandVector.fY * pxRightOperandVector.fZ) - (pxLeftOperandVector.fZ * pxRightOperandVector.fY),
                                                           fY => (pxLeftOperandVector.fZ * pxRightOperandVector.fX) - (pxLeftOperandVector.fX * pxRightOperandVector.fZ),
                                                           fZ => (pxLeftOperandVector.fX * pxRightOperandVector.fY) - (pxLeftOperandVector.fY * pxRightOperandVector.fX));
       return pxCrossProductVector;
@@ -161,7 +161,7 @@ package body Navigation.Vectors is
          raise Numeric_Error;
       end if;
 
-      return Navigation.Vectors.pxCreate(fX => xLeftOperandVector.fX / fRightOperand,
+      return Math.Vectors.pxCreate(fX => xLeftOperandVector.fX / fRightOperand,
                                          fY => xLeftOperandVector.fY / fRightOperand,
                                          fZ => xLeftOperandVector.fZ / fRightOperand);
    end "/";
@@ -169,11 +169,11 @@ package body Navigation.Vectors is
    function pxGet_Copy (this : in CVector) return pCVector is
       pxCopy : pCVector;
    begin
-      pxCopy := Navigation.Vectors.pxCreate(fX => this.fX,
+      pxCopy := Math.Vectors.pxCreate(fX => this.fX,
                                             fY => this.fY,
                                             fZ => this.fZ);
       return pxCopy;
    end pxGet_Copy;
 
 
-end Navigation.Vectors;
+end Math.Vectors;

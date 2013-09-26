@@ -1,0 +1,70 @@
+<tests_mapping mode="monolith">
+   <unit source_file="math-quaternions.ads">
+      <test_unit target_file="math-quaternions-cquaternion_test_data-cquaternion_tests.ads">
+         <setup file="math-quaternions-cquaternion_test_data.adb" line="4"  column="4"/>
+         <teardown file="math-quaternions-cquaternion_test_data.adb" line="8"  column="4"/>
+         <tested name="pxGet_Copy" line="11" column="4">
+            <test file="math-quaternions-cquaternion_test_data-cquaternion_tests.adb" line="13" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="pxGet_Normalized" line="20" column="4">
+            <test file="math-quaternions-cquaternion_test_data-cquaternion_tests.adb" line="53" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="fGet_Length" line="22" column="4">
+            <test file="math-quaternions-cquaternion_test_data-cquaternion_tests.adb" line="90" column="1" timestamp="2013-09-25 09:26:04"/>
+         </tested>
+         <tested name="fGet_Length_Squared" line="23" column="4">
+            <test file="math-quaternions-cquaternion_test_data-cquaternion_tests.adb" line="111" column="1" timestamp="2013-09-25 09:26:04"/>
+         </tested>
+         <tested name="fGet_X" line="24" column="4">
+            <test file="math-quaternions-cquaternion_test_data-cquaternion_tests.adb" line="132" column="1" timestamp="2013-09-25 09:26:04"/>
+         </tested>
+         <tested name="fGet_Y" line="25" column="4">
+            <test file="math-quaternions-cquaternion_test_data-cquaternion_tests.adb" line="153" column="1" timestamp="2013-09-25 09:26:04"/>
+         </tested>
+         <tested name="fGet_Z" line="26" column="4">
+            <test file="math-quaternions-cquaternion_test_data-cquaternion_tests.adb" line="174" column="1" timestamp="2013-09-25 09:26:04"/>
+         </tested>
+         <tested name="fGet_W" line="27" column="4">
+            <test file="math-quaternions-cquaternion_test_data-cquaternion_tests.adb" line="195" column="1" timestamp="2013-09-25 09:26:04"/>
+         </tested>
+         <tested name="fGet_Axis_Vector" line="28" column="4">
+            <test file="math-quaternions-cquaternion_test_data-cquaternion_tests.adb" line="216" column="1" timestamp="2013-09-25 09:26:04"/>
+         </tested>
+         <tested name="fGet_Angle" line="29" column="4">
+            <test file="math-quaternions-cquaternion_test_data-cquaternion_tests.adb" line="237" column="1" timestamp="2013-09-25 09:26:04"/>
+         </tested>
+         <dangling>
+         </dangling>
+      </test_unit>
+      <test_unit target_file="math-quaternions-test_data-tests.ads">
+         <setup file="math-quaternions-test_data.adb" line="3"  column="4"/>
+         <teardown file="math-quaternions-test_data.adb" line="9"  column="4"/>
+         <tested name="pxCreate" line="9" column="4">
+            <test file="math-quaternions-test_data-tests.adb" line="13" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="pxCreate" line="10" column="4">
+            <test file="math-quaternions-test_data-tests.adb" line="50" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="Plus" line="13" column="4">
+            <test file="math-quaternions-test_data-tests.adb" line="95" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="Minus" line="14" column="4">
+            <test file="math-quaternions-test_data-tests.adb" line="139" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="Multiply" line="15" column="4">
+            <test file="math-quaternions-test_data-tests.adb" line="183" column="1" timestamp="2013-09-25 09:26:04"/>
+         </tested>
+         <tested name="Equal" line="16" column="4">
+            <test file="math-quaternions-test_data-tests.adb" line="204" column="1" timestamp="2013-09-25 09:26:04"/>
+         </tested>
+         <tested name="fGet_Dot_Product" line="17" column="4">
+            <test file="math-quaternions-test_data-tests.adb" line="225" column="1" timestamp="2013-09-25 09:26:04"/>
+         </tested>
+         <tested name="pxGet_Spherical_Linear_Interpolation_Quaternion" line="19" column="4">
+            <test file="math-quaternions-test_data-tests.adb" line="246" column="1" timestamp="2013-09-25 09:26:04"/>
+         </tested>
+         <dangling>
+         </dangling>
+      </test_unit>
+   </unit>
+</tests_mapping>

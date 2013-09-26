@@ -1,6 +1,6 @@
-with Navigation;
+with Math;
 
-package Navigation.Matrices is
+package Math.Matrices is
    type CMatrix is tagged private;
    type pCMatrix is access CMatrix;
 
@@ -10,4 +10,4 @@ private
 
       end record;
 
-end Navigation.Matrices;
+end Math.Matrices;
