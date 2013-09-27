@@ -40,7 +40,7 @@ function GatherProjects
 		#echo $gpr_file
 		#return 0
 	fi
-				
+
 	for dir in $content
 	do
 		if [[ -d "$(pwd)/$dir" ]] && [ "$dir" != "gnattest" ]; then
@@ -62,18 +62,64 @@ function GatherProjects
 	echo "$results"
 	return 0
 }
+usage()
+{
+cat << EOF
+usage: $0 -s SOURCE_FOLDER -o XML|GNATTest -d ON|OFF
 
-die () {
-    echo >&2 "$@"
-    exit 1
+SOURCE_FOLDER _must_ end with a trailing slash (/)
+
+This script runs the build script.
+Outputs either GNATTest report or XML reports.
+
+OPTIONS:
+    -h      Shows this message
+    -o      Output format
+    -s      Source folder
+    -d      Debug mode (default: off)
+EOF
 }
+
 ##########################################
 # Entry point for script
 ##########################################
+FORMAT=
+SRC=
+DEBUG=
 
-[ "$#" -eq 1 ] || die "1 argument required, $# provided (link to src folder required)"
+# Some basics at the follwing page
+# http://rsalveti.wordpress.com/2007/04/03/bash-parsing-arguments-with-getopts/
+while getopts “hd:o:s:” OPTION
+do
+     case $OPTION in
+         h)
+             usage
+             exit 1
+             ;;
+         o)
+             FORMAT=$OPTARG
+             ;;
+         s)
+             SRC=$OPTARG
+             ;;
+         d)
+             DEBUG=$OPTARG
+             ;;
+         ?)
+             usage
+             exit
+             ;;
+     esac
+done
 
-main_path="$@"
+if [[ -z $FORMAT ]] || [[ -z $SRC ]] || [[ -z $DEBUG ]]
+then
+     usage
+     exit 1
+fi
+
+main_path="$SRC"
+# main_path="$@"
 cd $main_path
 cd ..
 
@@ -93,6 +139,8 @@ exec 5>&1
 
 echo "Gathering projects..."
 success=true
+echo "INFO: SUCCESS variable set to $success (should be \"true\")"
+
 projects=$(GatherProjects)
 if [ $? -ne 0 ]; then
 	echo $projects
@@ -130,6 +178,11 @@ rm -f $main_path../xml_results/*.xml
 
 for proj in $projects
 do
+    # Get project name
+    # TODO: This seems to be redundant moved from "run tests" part.
+    temp_path=${proj%/*}
+    project_name=${temp_path##*/}
+
 	# COPY PROJECT --------------------------------------------
 	echo "Copying source for $proj..."
 	proj_path="${proj%/*}"
@@ -154,10 +207,18 @@ do
 	echo
 	# ---------------------------------------------------------
 
-	# Change to XML Test Reporter -----------------------------
-    # echo "Changing to XML Test Reporter"
-    # /bin/bash $(pwd)/change_to_XML_reporter.sh
-    # echo "Done. Changed to XML Test Reporter"
+	# Set Test Reporter -----------------------------
+    # TODO: These scripts should take a path as input and run only for that
+    # input. Both scripts now parses all files in all projects on each run.
+    if [ $FORMAT == XML ]; then
+        echo "INFO: Setting Test Reporter to XML output."
+        /bin/bash $(pwd)/change_to_XML_reporter.sh
+        echo "INFO: Test Reporter set to XML output."
+    elif [ $FORMAT == GNATTest ]; then
+        echo "INFO: Setting Test Reporter to GNATTest output."
+        /bin/bash $(pwd)/change_to_GNATTest_reporter.sh
+        echo "INFO: Test Reporter set to GNATTest output."
+    fi
     # ---------------------------------------------------------
 
 	# BUILD HARNESS -------------------------------------------
@@ -167,6 +228,7 @@ do
 	if [ $? -ne 0 ]; then
 		build_success=false
 		success=false
+        echo "INFO: SUCCESS variable set to \"$success\" (build harness failed)"
 	fi
 	echo "...DONE"
 	echo
@@ -175,30 +237,37 @@ do
 	# RUN TESTS -----------------------------------------------
 
 	if [ $build_success == true ]; then
-		echo "Running tests for $proj..."
-		test_runner="${test_project%/*}/test_runner"
-		test_result=$("$test_runner" --passed-tests=hide | tee >(cat - >&5))
+        test_runner="${test_project%/*}/test_runner"
 
-        echo "JOHO\n"
-        echo $test_result
+		echo "INFO: Running tests for project \"$project_name\""
+        if [[ $DEBUG == "ON" ]]; then
+            echo "DEBUG: Running tests for project \"$proj\""
+        fi
 
-        # test_result=""
-        # Get project name
-        temp_path=${proj%/*}
-        project_name=${temp_path##*/}
+        if [ $FORMAT == XML ]; then
 
-        # Run test and output results as XML in project_root/xml_results
-        mkdir -pv $main_path../xml_results
-        #$("$test_runner" > $main_path../xml_results/$project_name.xml)
+            # Run test and output results as XML in project_root/xml_results
+            mkdir -pv $main_path../xml_results
+            $("$test_runner" > $main_path../xml_results/$project_name.xml)
 
-        echo "Exported results to $main_path../xml_results/$project_name.xml"
+            echo "INFO: Exported results to $main_path../xml_results/$project_name.xml"
 
-		if [ "$(echo $test_result | grep -o FAILED)" == "FAILED" ]; then
-			success=false
-		elif [ "$(echo $test_result | grep -o CRASHED)" == "CRASHED" ]; then
-			success=false
-		fi
-		echo "...DONE"
+        elif [ $FORMAT == GNATTest ]; then
+            test_result=$("$test_runner" --passed-tests=hide | tee >(cat - >&5))
+
+            if [ "$(echo $test_result | grep -o FAILED)" == "FAILED" ]; then
+                success=false
+                if [[ $DEBUG == "ON" ]]; then
+                    echo "DEBUG: Project \"$proj_name\" had a test that failed."
+                fi
+            elif [ "$(echo $test_result | grep -o CRASHED)" == "CRASHED" ]; then
+                if [[ $DEBUG == "ON" ]]; then
+                    echo "DEBUG: Project \"$proj_name\" had a test that crashed."
+                fi
+                success=false
+            fi
+        fi
+		echo "INFO: Test run for project \"$project_name\" finished."
 		echo
 	fi
 	# ---------------------------------------------------------
