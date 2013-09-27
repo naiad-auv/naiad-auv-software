@@ -163,20 +163,21 @@ do
 
 	# RUN TESTS -----------------------------------------------
     # Remove previous results
-    rm $main_path../xml_results/*.xml
+    rm -f $main_path../xml_results/*.xml
 
 	if [ $build_success == true ]; then
 		echo "Running tests for $proj..."
 		test_runner="${test_project%/*}/test_runner"
-		test_result=$("$test_runner" --passed-tests=hide | tee >(cat - >&5)) 
+		test_result=$("$test_runner" --passed-tests=hide | tee >(cat - >&5))
 
+        # test_result=""
         # Get project name
         temp_path=${proj%/*}
         project_name=${temp_path##*/}
 
         # Run test and output results as XML in project_root/xml_results
         mkdir -pv $main_path../xml_results
-        $("$test_runner" > $main_path../xml_results/$project_name.xml)
+        #$("$test_runner" > $main_path../xml_results/$project_name.xml)
 
         echo "$main_path../xml_results/$project_name.xml"
 
