@@ -63,7 +63,16 @@ function GatherProjects
 	return 0
 }
 
-#entry point for script
+die () {
+    echo >&2 "$@"
+    exit 1
+}
+##########################################
+# Entry point for script
+##########################################
+
+[ "$#" -eq 1 ] || die "1 argument required, $# provided (link to src folder required)"
+
 main_path="$@"
 cd $main_path
 cd ..
@@ -115,6 +124,8 @@ if [[ -d "./build" ]]; then
 	echo
 fi
 
+# Remove previous results
+rm -f $main_path../xml_results/*.xml
 
 
 for proj in $projects
@@ -144,9 +155,9 @@ do
 	# ---------------------------------------------------------
 
 	# Change to XML Test Reporter -----------------------------
-    echo "Changing to XML Test Reporter"
-    /bin/bash $(pwd)/change_to_XML_reporter.sh
-    echo "Done. Changed to XML Test Reporter"
+    # echo "Changing to XML Test Reporter"
+    # /bin/bash $(pwd)/change_to_XML_reporter.sh
+    # echo "Done. Changed to XML Test Reporter"
     # ---------------------------------------------------------
 
 	# BUILD HARNESS -------------------------------------------
@@ -162,13 +173,14 @@ do
 	# ---------------------------------------------------------
 
 	# RUN TESTS -----------------------------------------------
-    # Remove previous results
-    rm -f $main_path../xml_results/*.xml
 
 	if [ $build_success == true ]; then
 		echo "Running tests for $proj..."
 		test_runner="${test_project%/*}/test_runner"
 		test_result=$("$test_runner" --passed-tests=hide | tee >(cat - >&5))
+
+        echo "JOHO\n"
+        echo $test_result
 
         # test_result=""
         # Get project name
@@ -179,7 +191,7 @@ do
         mkdir -pv $main_path../xml_results
         #$("$test_runner" > $main_path../xml_results/$project_name.xml)
 
-        echo "$main_path../xml_results/$project_name.xml"
+        echo "Exported results to $main_path../xml_results/$project_name.xml"
 
 		if [ "$(echo $test_result | grep -o FAILED)" == "FAILED" ]; then
 			success=false
