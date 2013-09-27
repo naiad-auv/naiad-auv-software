@@ -11,6 +11,10 @@ test_runner
 /tests
 /build_logs
 /xml_results/*.xml
+b__test_runner.adb
+b__test_runner.ads
+test_runner
+
 
 # Hidden system files
 *.DS_Store
