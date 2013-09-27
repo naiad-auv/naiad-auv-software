@@ -2,7 +2,6 @@ with Math;
 with Math.Vectors;
 with Ada.Numerics.Elementary_Functions;
 with Ada.Numerics;
-with Ada.Text_IO;
 
 
 package body Math.Quaternions is
@@ -16,15 +15,10 @@ package body Math.Quaternions is
       pxNewQuaternion.fY := fY;
       pxNewQuaternion.fZ := fZ;
       pxNewQuaternion.fW := fW;
-      --if pxNewQuaternion.fGet_Length_Squared = 0.0 then
-      --   pxNewQuaternion.fX := 1.0;
-      --end if;
-
       return pxNewQuaternion;
    end pxCreate;
 
    function pxCreate (pxAxisVector : in Math.Vectors.pCVector; fAngleInDegrees : in float) return pCQuaternion is
-      --pxNewQuaternion : pCQuaternion;
       fAngleInRadians : float;
       fNorm : float;
       fScale : float;
@@ -37,18 +31,6 @@ package body Math.Quaternions is
       end if;
 
         fAngleInRadians := fAngleInDegrees * (Ada.Numerics.Pi / 180.0);
---        pxNewQuaternion := new CQuaternion;
---        pxNewQuaternion.fX := pxNormalizedAxisVector.fGet_X * Ada.Numerics.Elementary_Functions.Sin(fAngleInRadians/2.0);
---        pxNewQuaternion.fY := pxNormalizedAxisVector.fGet_Y * Ada.Numerics.Elementary_Functions.Sin(fAngleInRadians/2.0);
---        pxNewQuaternion.fZ := pxNormalizedAxisVector.fGet_Z * Ada.Numerics.Elementary_Functions.Sin(fAngleInRadians/2.0);
---        pxNewQuaternion.fW := Ada.Numerics.Elementary_Functions.Cos(fAngleInRadians/2.0);
---
---        fNorm := pxNewQuaternion.fGet_Length;
---        pxNewQuaternion.fX := pxNewQuaternion.fX / fNorm;
---        pxNewQuaternion.fY := pxNewQuaternion.fY / fNorm;
---        pxNewQuaternion.fZ := pxNewQuaternion.fZ / fNorm;
---        pxNewQuaternion.fW := pxNewQuaternion.fW / fNorm;
-
       fNorm :=fAngleInRadians / 2.0;
       fScale := Ada.Numerics.Elementary_Functions.Sin(fNorm);
 
@@ -57,8 +39,6 @@ package body Math.Quaternions is
                                        fZ => fScale * pxNormalizedAxisVector.fGet_Z,
                                        fW => Ada.Numerics.Elementary_Functions.Cos(fNorm));
 
-
-      --return pxNewQuaternion;
    end pxCreate;
 
    function pxGet_Copy (this : in CQuaternion) return pCQuaternion is
@@ -71,6 +51,8 @@ package body Math.Quaternions is
       pxNewQuaternion.fW := this.fW;
       return pxNewQuaternion;
    end pxGet_Copy;
+
+
 
 
    function "+" (pxLeftOperandQuaternion, pxRightOperandQuaternion : in pCQuaternion) return pCQuaternion is
@@ -112,6 +94,9 @@ package body Math.Quaternions is
         (pxLeftOperandQuaternion.fW = pxRightOperandQuaternion.fW);
    end "=";
 
+
+
+
    function fGet_Dot_Product (pxLeftOperandQuaternion, pxRightOperandQuaternion : in pCQuaternion) return float is
    begin
       return (pxLeftOperandQuaternion.fX * pxRightOperandQuaternion.fX) +
@@ -133,11 +118,8 @@ package body Math.Quaternions is
    begin
 
 
-      Ada.Text_IO.Put_Line("FROM: (" & float'Image(pxFromQuaternion.fX) & float'Image(pxFromQuaternion.fY) & float'Image(pxFromQuaternion.fZ) & float'Image(pxFromQuaternion.fW));
-      Ada.Text_IO.Put_Line("TO: (" & float'Image(pxToQuaternion.fX) & float'Image(pxToQuaternion.fY) & float'Image(pxToQuaternion.fZ) & float'Image(pxToQuaternion.fW));
       cosHalfTheta := Math.Quaternions.fGet_Dot_Product(pxLeftOperandQuaternion  => pxFromQuaternion,
                                                         pxRightOperandQuaternion => pxToQuaternion);
-      Ada.Text_IO.Put_Line("cosHalfTheta: " & float'Image(cosHalfTheta));
 
       if abs(cosHalfTheta) >= 1.0 then
          return pxFromQuaternion.pxGet_Copy;
@@ -156,9 +138,6 @@ package body Math.Quaternions is
       ratioA := Ada.Numerics.Elementary_Functions.Sin((1.0 - fInterpolationCoefficient) * halfTheta) / sinHalfTheta;
       ratioB := Ada.Numerics.Elementary_Functions.Sin(fInterpolationCoefficient * halfTheta) / sinHalfTheta;
 
-      Ada.Text_IO.Put_Line("ratA: " & float'Image(ratioA));
-      Ada.Text_IO.Put_Line("ratB: " & float'Image(ratioB));
-
       return Math.Quaternions.pxCreate(fX => (pxFromQuaternion.fX * ratioA) + (pxToQuaternion.fX * ratioB),
                                           fY => (pxFromQuaternion.fY * ratioA) + (pxToQuaternion.fY * ratioB),
                                           fZ => (pxFromQuaternion.fZ * ratioA) + (pxToQuaternion.fZ * ratioB),
@@ -166,6 +145,8 @@ package body Math.Quaternions is
 
 
    end pxGet_Spherical_Linear_Interpolation_Quaternion;
+
+
 
    function pxGet_Normalized (this : in CQuaternion) return pCQuaternion is
       fLength : float;
@@ -190,6 +171,8 @@ package body Math.Quaternions is
    begin
       return (this.fX*this.fX) + (this.fY*this.fY) + (this.fZ*this.fZ) + (this.fW*this.fW);
    end fGet_Length_Squared;
+
+
 
 
    function fGet_X ( this : in CQuaternion) return float is

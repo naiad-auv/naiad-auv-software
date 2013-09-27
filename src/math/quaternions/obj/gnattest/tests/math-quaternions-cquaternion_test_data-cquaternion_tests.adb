@@ -70,6 +70,10 @@ package body Math.Quaternions.CQuaternion_Test_Data.CQuaternion_Tests is
                                                     fW => 93.0);
       pxNormalizedQuaternion := pxTestQuaternion.pxGet_Normalized;
 
+      AUnit.Assertions.Assert(Condition => pxTestQuaternion'Address /= pxNormalizedQuaternion'Address,
+                              Message   => "CQuaternion.pxGet_Normalized failed, pointer to normalized quaternion is the same as pointer to original quaternion.");
+
+
       AUnit.Assertions.Assert(Condition => abs(pxNormalizedQuaternion.fGet_Length_Squared - 1.0) < 0.001,
                               Message   => "CQuaternion.pxGet_Normalized failed, length is wrong. Value: " & float'Image(pxNormalizedQuaternion.fGet_Length) & ". Expected: " & float'Image(1.0) & ".");
       AUnit.Assertions.Assert(Condition => abs(pxNormalizedQuaternion.fX - (pxTestQuaternion.fX / pxTestQuaternion.fGet_Length)) < 0.001,

@@ -77,7 +77,6 @@ package body Math.Quaternions.Test_Data.Tests is
       fExpectedZValue := pxTestVector.fGet_Z;
 
       pxTestVector := pxNewQuaternion.fGet_Axis_Vector;
-      Ada.Text_IO.Put_Line("NEW: " & float'Image(pxNewQuaternion.fX) & float'Image(pxNewQuaternion.fY) & float'Image(pxNewQuaternion.fZ) & float'Image(pxNewQuaternion.fW));
 
       AUnit.Assertions.Assert(Condition => abs(pxTestVector.fGet_X - fExpectedXValue) < 0.001,
                               Message   => "CQuaternion.pxCreate failed, fX got the wrong value.");
@@ -87,23 +86,6 @@ package body Math.Quaternions.Test_Data.Tests is
                               Message   => "CQuaternion.pxCreate failed, fZ got the wrong value.");
       AUnit.Assertions.Assert(Condition => abs(pxNewQuaternion.fGet_Angle - fAngle) < 0.001,
                               Message   => "CQuaternion.pxCreate failed, fW got the wrong value. Angle: " & float'Image(pxNewQuaternion.fGet_Angle));
-
-     -- test exceptions
-      pxTestVector := Math.Vectors.pxCreate(fX => 0.0,
-                                            fY => 0.0,
-                                            fZ => 0.0);
-      fAngle := 0.0;
-
-      pxNewQuaternion := Math.Quaternions.pxCreate(pxAxisVector    => pxTestVector,
-                                                   fAngleInDegrees => fAngle);
-      AUnit.Assertions.Assert(Condition => False,
-                              Message   => "CQuaternion.pxCreate division by zero failed, should have raised exception");
-   exception
-      when Numeric_Error =>
-         null; -- Test passed
-      when E : others =>
-         AUnit.Assertions.Assert(Condition => False,
-                           Message   =>"CQuaternion.pxCreate division by zero failed, wrong exception raised: " & Ada.Exceptions.Exception_Name (E) & ". Expected: NUMERIC_ERROR.");
 
 
 --  begin read only

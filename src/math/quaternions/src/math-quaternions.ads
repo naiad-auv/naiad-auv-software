@@ -2,7 +2,6 @@ with Math;
 with Math.Vectors; use Math.Vectors;
 with System; use System;
 with Ada.Exceptions;
-with Ada.Text_IO;
 
 package Math.Quaternions is
    type CQuaternion is tagged private;
