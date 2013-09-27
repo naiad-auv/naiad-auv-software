@@ -175,13 +175,8 @@ fi
 # Remove previous results
 rm -f $main_path../xml_results/*.xml
 
-
 for proj in $projects
 do
-    # Get project name
-    # TODO: This seems to be redundant moved from "run tests" part.
-    temp_path=${proj%/*}
-    project_name=${temp_path##*/}
 
 	# COPY PROJECT --------------------------------------------
 	echo "Copying source for $proj..."
@@ -197,6 +192,30 @@ do
 	cp -rv "$proj_path/obj/gnattest/"* "$test_path/obj/gnattest"
 	echo "...DONE"
 	echo
+	# ---------------------------------------------------------
+done
+
+for proj in $projects
+do
+    # Get project name
+    # TODO: This seems to be redundant moved from "run tests" part.
+    temp_path=${proj%/*}
+    project_name=${temp_path##*/}
+
+	# COPY PROJECT --------------------------------------------
+	echo "Copying source for $proj..."
+	proj_path="${proj%/*}"
+	test_path="$(pwd)/tests/${proj_path##*$build_project/}"
+	proj_name="${proj##*/}"
+	proj_name="${proj_name%.*}"
+
+# 	mkdir -pv "$test_path/src"
+# 	mkdir -pv "$test_path/obj/gnattest"
+# 	cp -rv "$proj_path/src/"* "$test_path/src"
+# 	cp -v "$proj" "$test_path"
+# 	cp -rv "$proj_path/obj/gnattest/"* "$test_path/obj/gnattest"
+# 	echo "...DONE"
+# 	echo
 	# ---------------------------------------------------------
 
 	# CLEAN HARNESS -------------------------------------------
