@@ -28,43 +28,43 @@ package body Math.Quaternions.CQuaternion_Test_Data.CQuaternion_Tests.Suite is
 
       Runner_1.Create
         (Case_1_1_Test_pxGet_Copy_d4ad30,
-         "math-quaternions.ads:11:4:",
+         "math-quaternions.ads:12:4:",
          Test_pxGet_Copy_d4ad30'Access);
       Runner_1.Create
         (Case_2_1_Test_pxGet_Normalized_be75a2,
-         "math-quaternions.ads:20:4:",
+         "math-quaternions.ads:21:4:",
          Test_pxGet_Normalized_be75a2'Access);
       Runner_1.Create
         (Case_3_1_Test_fGet_Length_a40d15,
-         "math-quaternions.ads:22:4:",
+         "math-quaternions.ads:23:4:",
          Test_fGet_Length_a40d15'Access);
       Runner_1.Create
         (Case_4_1_Test_fGet_Length_Squared_4d190d,
-         "math-quaternions.ads:23:4:",
+         "math-quaternions.ads:24:4:",
          Test_fGet_Length_Squared_4d190d'Access);
       Runner_1.Create
         (Case_5_1_Test_fGet_X_42438b,
-         "math-quaternions.ads:24:4:",
+         "math-quaternions.ads:25:4:",
          Test_fGet_X_42438b'Access);
       Runner_1.Create
         (Case_6_1_Test_fGet_Y_c7b5f1,
-         "math-quaternions.ads:25:4:",
+         "math-quaternions.ads:26:4:",
          Test_fGet_Y_c7b5f1'Access);
       Runner_1.Create
         (Case_7_1_Test_fGet_Z_dfd5d9,
-         "math-quaternions.ads:26:4:",
+         "math-quaternions.ads:27:4:",
          Test_fGet_Z_dfd5d9'Access);
       Runner_1.Create
         (Case_8_1_Test_fGet_W_90387e,
-         "math-quaternions.ads:27:4:",
+         "math-quaternions.ads:28:4:",
          Test_fGet_W_90387e'Access);
       Runner_1.Create
         (Case_9_1_Test_fGet_Axis_Vector_cd62fd,
-         "math-quaternions.ads:28:4:",
+         "math-quaternions.ads:29:4:",
          Test_fGet_Axis_Vector_cd62fd'Access);
       Runner_1.Create
         (Case_10_1_Test_fGet_Angle_1301b6,
-         "math-quaternions.ads:29:4:",
+         "math-quaternions.ads:30:4:",
          Test_fGet_Angle_1301b6'Access);
 
       Result.Add_Test (Case_1_1_Test_pxGet_Copy_d4ad30'Access);
