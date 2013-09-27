@@ -4,6 +4,7 @@
 with Math;
 with Ada.Numerics;
 with Ada.Exceptions;
+with System; use System;
 
 package Math.Vectors is
    type CVector is tagged private;
