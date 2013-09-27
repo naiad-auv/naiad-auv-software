@@ -3,10 +3,14 @@
 *.bexch
 *.o
 *.cgpr
+b__test_runner.adb
+b__test_runner.ads
+test_runner
+
 /build
 /tests
 /build_logs
-/xml_reports/*.xml
+/xml_results/*.xml
 
 # Hidden system files
 *.DS_Store
