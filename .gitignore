@@ -6,7 +6,7 @@
 /build
 /tests
 /build_logs
-/xml_reports/*.xml
+/xml_results/*.xml
 
 # Hidden system files
 *.DS_Store
