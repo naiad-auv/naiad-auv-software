@@ -196,6 +196,8 @@ package body Salinity_Sensor is
       for i in 1..Uart_Buffer_Size loop
          Get_Char(cChar, bKeepGoing);
 
+         exit when bKeepGoing = False;
+
          if cChar = ',' then
             iCommas := iCommas + 1;
          end if;
@@ -204,7 +206,7 @@ package body Salinity_Sensor is
             sMessage(i) := cChar;
          end if;
 
-         exit when bKeepGoing = False;
+
       end loop;
 
       if sMessage = "--" then --the value is out of range, or the wrong probe (with regard to salinity in the water) was used

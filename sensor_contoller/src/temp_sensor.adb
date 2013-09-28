@@ -2,27 +2,27 @@
 
 
 -- Written by: Nils Brynedal Ignell for the Naiad AUV project
--- Last changed (yyyy-mm-dd): 2013-09-26
+-- Last changed (yyyy-mm-dd): 2013-09-28
 
 package body Temp_Sensor is
 
-   -- THIS FUNCTION ASSUMES LITTLE ENDIANNESS (LOWEST VALUE BITS/BYTES FIRST/TO THE LEFT)!!!
    function i16GetTempInt(u8Pin : Interfaces.Unsigned_8) return Interfaces.Integer_16 is
       u8Data : array(0..7) of Interfaces.Unsigned_8;
 
-      i16Ret : Interfaces.Integer_16;
+      u16Ret : Interfaces.Unsigned_16;
+      bTemporary : Boolean;
 
-      bTemp : Boolean;
+      function  i16Fromu16 is new Ada.Unchecked_Conversion (Interfaces.Unsigned_16, Interfaces.Integer_16);
    begin
 
-      bTemp := bReset_Pulse(u8Pin); --temp not used
+      bTemporary := bReset_Pulse(u8Pin); --temp not used
 
       write_byte(204, u8Pin); -- Skip ROM command
       write_byte(68, u8Pin);  -- Convert T command (measures the temperature
 
       AVR.AT90CAN128.Calendar.Delay_ms(750);   --waits during temp measurement
 
-      bTemp := bReset_Pulse(u8Pin); --temp not used
+      bTemporary := bReset_Pulse(u8Pin); --temp not used
       Write_Byte(204, u8Pin); -- Skip ROM command
       Write_Byte(190, u8Pin); -- Read scratchpad command (tells the sensor to send its data)
 
@@ -35,14 +35,14 @@ package body Temp_Sensor is
 
       -- byte 0 is lowbyte of the temperature reading
       -- byte 1 is highbyte of the temperature reading
-      i16Ret := Interfaces.Integer_16(
-                                       Interfaces.Shift_Right(Interfaces.Unsigned_16(u8Data(1)), 8) --shifts the highbyte 8 steps to the right
-                                      );
-      i16Ret := i16Ret + Interfaces.Integer_16(u8Data(0));
+      u16 := Interfaces.Shift_Left(Interfaces.Unsigned_16(u8Data(1)), 8); --takes the highbyte and shifts it 8 steps left
 
-      return i16Ret;
+      u16 := u16 + Interfaces.Unsigned_16(u8_low); --adds the lowbyte
+
+      return i16Fromu16(u16);
    end i16GetTempInt;
 
+   -----------------------------------------------------------------------------------------------
 
    procedure sGetTempStr(u8Pin : Interfaces.Unsigned_8; i16Temperature : out Interfaces.Integer_16; sTemperature : out String) is
       SRet1 : String := "S";
