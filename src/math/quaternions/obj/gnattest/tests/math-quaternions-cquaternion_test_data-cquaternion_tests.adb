@@ -173,6 +173,7 @@ package body Math.Quaternions.CQuaternion_Test_Data.CQuaternion_Tests is
       pxTestQuaternion : pCQuaternion;
    begin
 
+
       pxTestQuaternion := Math.Quaternions.pxCreate(fX => 4.3,
                                                     fY => 7.3,
                                                     fZ => -12.3,
