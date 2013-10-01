@@ -17,6 +17,7 @@ Most likely different wires but in the same cord/connecter.
 ### CAN bus rationale
 1. All nodes can read all messages.
 2. Multiple nodes are not allowed to send messages with the same message id.
+3. Message IDs are used as priority.
 
 ### Requirements
 1. All nodes must have a unqique message id per payload content and target node.
@@ -36,13 +37,7 @@ new set of message ids.
 ### Combined solution
 1. All nodes register with a "network master/bus host/component manager/node manager".
 2. The "network master" asks the new node about its services and requirements in XML.
-
-```
-The
-```
-
 3. The "network master" assign message ids to each node that they are allowed to send.
-
 4. The "network master" tells all nodes which message ids they should listen on.
 
 ### Limitations
@@ -64,6 +59,9 @@ If one message ID is registered as the "Hello network master" message then sever
 new nodes could send the same message id at the same time. Perhaps a drawback
 one can live with?
 ```
+
+2. Message ID assignment only on message type can result in a low utilization of
+the CAN bus.
 
 ### Requirements not met
 1. Power supplied through CAN bus.
