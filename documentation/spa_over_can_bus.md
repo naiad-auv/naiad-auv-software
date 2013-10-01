@@ -52,7 +52,8 @@ types of SPA networks might be hard.
 ```
 
 ### Problems
-1. Which message ID should a new node use when first contacting the "network master"?
+1. Bootstraping. Which message ID should a new node use when first
+contacting the "network master"?
 
 ```
 If one message ID is registered as the "Hello network master" message then several
