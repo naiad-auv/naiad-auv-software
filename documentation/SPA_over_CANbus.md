@@ -3,8 +3,8 @@ Space Plug-and-Play Avionics over CAN bus
 This document includes some first thoughts on how Space Plug-and-Play Avionics
 (SPA) architecture can be used over CAN bus.
 
-### Space Plug-and-Play Avionics
-1. Design and construction can take weeks and years but assemble of components
+### Space Plug-and-Play Avionics rationale
+1. Design and construction of a component can take months or years but assemble
 should be counted in hours or days.
 2. Power supplied through the "same" hardware connector as data transmission.
 
@@ -14,7 +14,7 @@ Most likely different wires but in the same cord/connecter.
 
 3. Use Peer-to-Peer messaging after registration of services.
 
-### CAN bus
+### CAN bus rationale
 1. All nodes can read all messages.
 2. Multiple nodes are not allowed to send messages with the same message id.
 
