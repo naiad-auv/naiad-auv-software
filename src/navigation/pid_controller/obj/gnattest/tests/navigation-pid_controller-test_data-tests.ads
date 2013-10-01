@@ -12,5 +12,7 @@ package Navigation.PID_Controller.Test_Data.Tests is
    procedure Test_pxCreate_582cf8 (Gnattest_T : in out Test);
    --  navigation-pid_controller.ads:10:4:pxCreate
 
+   procedure Test_pxCreate_With_Scalings (Gnattest_T : in out Test);
+
 end Navigation.PID_Controller.Test_Data.Tests;
 --  end read only

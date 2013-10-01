@@ -415,7 +415,7 @@ package ada_main is
    pragma Export (C, u00189, "gnat__stringsS");
    u00190 : constant Version_32 := 16#33489ddc#;
    pragma Export (C, u00190, "gnattest_generatedS");
-   u00191 : constant Version_32 := 16#5e6c44d6#;
+   u00191 : constant Version_32 := 16#06188dc0#;
    pragma Export (C, u00191, "gnattest_main_suiteB");
    u00192 : constant Version_32 := 16#eea1e993#;
    pragma Export (C, u00192, "gnattest_main_suiteS");
@@ -423,70 +423,46 @@ package ada_main is
    pragma Export (C, u00193, "navigationB");
    u00194 : constant Version_32 := 16#afdfd964#;
    pragma Export (C, u00194, "navigationS");
-   u00195 : constant Version_32 := 16#2dadfa84#;
-   pragma Export (C, u00195, "navigation__pid_controllerB");
-   u00196 : constant Version_32 := 16#0eca6f7d#;
-   pragma Export (C, u00196, "navigation__pid_controllerS");
-   u00197 : constant Version_32 := 16#abae7093#;
-   pragma Export (C, u00197, "navigation__pid_controller__cpid_controller_test_dataB");
-   u00198 : constant Version_32 := 16#f7ab43d2#;
-   pragma Export (C, u00198, "navigation__pid_controller__cpid_controller_test_dataS");
-   u00199 : constant Version_32 := 16#269b1972#;
-   pragma Export (C, u00199, "aunit__test_fixturesB");
-   u00200 : constant Version_32 := 16#3b99f1a5#;
-   pragma Export (C, u00200, "aunit__test_fixturesS");
-   u00201 : constant Version_32 := 16#b7a2d158#;
-   pragma Export (C, u00201, "navigation__pid_controller__cpid_controller_test_data__cpid_controller_testsB");
-   u00202 : constant Version_32 := 16#4645fc87#;
-   pragma Export (C, u00202, "navigation__pid_controller__cpid_controller_test_data__cpid_controller_testsS");
-   u00203 : constant Version_32 := 16#6d0081c3#;
-   pragma Export (C, u00203, "system__img_realB");
-   u00204 : constant Version_32 := 16#578cc0f3#;
-   pragma Export (C, u00204, "system__img_realS");
-   u00205 : constant Version_32 := 16#4f1f4f21#;
-   pragma Export (C, u00205, "system__fat_llfS");
-   u00206 : constant Version_32 := 16#1b28662b#;
-   pragma Export (C, u00206, "system__float_controlB");
-   u00207 : constant Version_32 := 16#70d8d22d#;
-   pragma Export (C, u00207, "system__float_controlS");
-   u00208 : constant Version_32 := 16#06417083#;
-   pragma Export (C, u00208, "system__img_lluB");
-   u00209 : constant Version_32 := 16#b30ccda4#;
-   pragma Export (C, u00209, "system__img_lluS");
-   u00210 : constant Version_32 := 16#c054f766#;
-   pragma Export (C, u00210, "system__powten_tableS");
-   u00211 : constant Version_32 := 16#bf920d6e#;
-   pragma Export (C, u00211, "navigation__pid_controller__cpid_controller_test_data__cpid_controller_tests__suiteB");
-   u00212 : constant Version_32 := 16#a16f5809#;
-   pragma Export (C, u00212, "navigation__pid_controller__cpid_controller_test_data__cpid_controller_tests__suiteS");
-   u00213 : constant Version_32 := 16#8f189ee8#;
-   pragma Export (C, u00213, "aunit__test_callerB");
-   u00214 : constant Version_32 := 16#581d22b8#;
-   pragma Export (C, u00214, "aunit__test_callerS");
-   u00215 : constant Version_32 := 16#0980f09e#;
-   pragma Export (C, u00215, "navigation__pid_controller__test_dataB");
-   u00216 : constant Version_32 := 16#fca1f3cd#;
-   pragma Export (C, u00216, "navigation__pid_controller__test_dataS");
-   u00217 : constant Version_32 := 16#7173476a#;
-   pragma Export (C, u00217, "navigation__pid_controller__test_data__testsB");
-   u00218 : constant Version_32 := 16#4b37d0d5#;
-   pragma Export (C, u00218, "navigation__pid_controller__test_data__testsS");
-   u00219 : constant Version_32 := 16#d98b45d8#;
-   pragma Export (C, u00219, "navigation__pid_controller__test_data__tests__suiteB");
-   u00220 : constant Version_32 := 16#cf603b47#;
-   pragma Export (C, u00220, "navigation__pid_controller__test_data__tests__suiteS");
-   u00221 : constant Version_32 := 16#66368f84#;
-   pragma Export (C, u00221, "navigation__test_dataB");
-   u00222 : constant Version_32 := 16#c0249693#;
-   pragma Export (C, u00222, "navigation__test_dataS");
-   u00223 : constant Version_32 := 16#b4746097#;
-   pragma Export (C, u00223, "navigation__test_data__testsB");
-   u00224 : constant Version_32 := 16#4f440a55#;
-   pragma Export (C, u00224, "navigation__test_data__testsS");
-   u00225 : constant Version_32 := 16#759e9d9c#;
-   pragma Export (C, u00225, "navigation__test_data__tests__suiteB");
-   u00226 : constant Version_32 := 16#46e6ef9f#;
-   pragma Export (C, u00226, "navigation__test_data__tests__suiteS");
+   u00195 : constant Version_32 := 16#17f9e1e7#;
+   pragma Export (C, u00195, "navigation__motion_axisB");
+   u00196 : constant Version_32 := 16#8a08f0e9#;
+   pragma Export (C, u00196, "navigation__motion_axisS");
+   u00197 : constant Version_32 := 16#2dadfa84#;
+   pragma Export (C, u00197, "navigation__pid_controllerB");
+   u00198 : constant Version_32 := 16#0eca6f7d#;
+   pragma Export (C, u00198, "navigation__pid_controllerS");
+   u00199 : constant Version_32 := 16#d6d9bf0c#;
+   pragma Export (C, u00199, "navigation__motion_axis__cmotion_axis_test_dataB");
+   u00200 : constant Version_32 := 16#bb8298b7#;
+   pragma Export (C, u00200, "navigation__motion_axis__cmotion_axis_test_dataS");
+   u00201 : constant Version_32 := 16#269b1972#;
+   pragma Export (C, u00201, "aunit__test_fixturesB");
+   u00202 : constant Version_32 := 16#3b99f1a5#;
+   pragma Export (C, u00202, "aunit__test_fixturesS");
+   u00203 : constant Version_32 := 16#09fa2137#;
+   pragma Export (C, u00203, "navigation__motion_axis__cmotion_axis_test_data__cmotion_axis_testsB");
+   u00204 : constant Version_32 := 16#087d64f5#;
+   pragma Export (C, u00204, "navigation__motion_axis__cmotion_axis_test_data__cmotion_axis_testsS");
+   u00205 : constant Version_32 := 16#c6489cc8#;
+   pragma Export (C, u00205, "navigation__motion_axis__cmotion_axis_test_data__cmotion_axis_tests__suiteB");
+   u00206 : constant Version_32 := 16#c15ab7a2#;
+   pragma Export (C, u00206, "navigation__motion_axis__cmotion_axis_test_data__cmotion_axis_tests__suiteS");
+   u00207 : constant Version_32 := 16#8f189ee8#;
+   pragma Export (C, u00207, "aunit__test_callerB");
+   u00208 : constant Version_32 := 16#581d22b8#;
+   pragma Export (C, u00208, "aunit__test_callerS");
+   u00209 : constant Version_32 := 16#fc8f7b7c#;
+   pragma Export (C, u00209, "navigation__motion_axis__test_dataB");
+   u00210 : constant Version_32 := 16#d82de033#;
+   pragma Export (C, u00210, "navigation__motion_axis__test_dataS");
+   u00211 : constant Version_32 := 16#328afdf6#;
+   pragma Export (C, u00211, "navigation__motion_axis__test_data__testsB");
+   u00212 : constant Version_32 := 16#a460db43#;
+   pragma Export (C, u00212, "navigation__motion_axis__test_data__testsS");
+   u00213 : constant Version_32 := 16#884bba2c#;
+   pragma Export (C, u00213, "navigation__motion_axis__test_data__tests__suiteB");
+   u00214 : constant Version_32 := 16#51605e01#;
+   pragma Export (C, u00214, "navigation__motion_axis__test_data__tests__suiteS");
    --  BEGIN ELABORATION ORDER
    --  ada%s
    --  ada.characters%s
@@ -505,8 +481,6 @@ package ada_main is
    --  system.atomic_counters%b
    --  system.case_util%s
    --  system.case_util%b
-   --  system.float_control%s
-   --  system.float_control%b
    --  system.htable%s
    --  system.img_bool%s
    --  system.img_bool%b
@@ -514,7 +488,6 @@ package ada_main is
    --  system.img_enum_new%b
    --  system.img_int%s
    --  system.img_int%b
-   --  system.img_real%s
    --  system.io%s
    --  system.io%b
    --  system.os_primitives%s
@@ -524,7 +497,6 @@ package ada_main is
    --  system.crtl%s
    --  interfaces.c_streams%s
    --  interfaces.c_streams%b
-   --  system.powten_table%s
    --  system.standard_library%s
    --  system.exceptions_debug%s
    --  system.exceptions_debug%b
@@ -545,12 +517,8 @@ package ada_main is
    --  ada.exceptions%s
    --  system.soft_links%s
    --  system.unsigned_types%s
-   --  system.fat_llf%s
-   --  system.img_llu%s
-   --  system.img_llu%b
    --  system.img_uns%s
    --  system.img_uns%b
-   --  system.img_real%b
    --  system.val_int%s
    --  system.val_lli%s
    --  system.val_llu%s
@@ -695,24 +663,20 @@ package ada_main is
    --  navigation%b
    --  navigation.pid_controller%s
    --  navigation.pid_controller%b
-   --  navigation.pid_controller.cpid_controller_test_data%s
-   --  navigation.pid_controller.cpid_controller_test_data%b
-   --  navigation.pid_controller.cpid_controller_test_data.cpid_controller_tests%s
-   --  navigation.pid_controller.cpid_controller_test_data.cpid_controller_tests%b
-   --  navigation.pid_controller.cpid_controller_test_data.cpid_controller_tests.suite%s
-   --  navigation.pid_controller.cpid_controller_test_data.cpid_controller_tests.suite%b
-   --  navigation.pid_controller.test_data%s
-   --  navigation.pid_controller.test_data%b
-   --  navigation.pid_controller.test_data.tests%s
-   --  navigation.pid_controller.test_data.tests%b
-   --  navigation.pid_controller.test_data.tests.suite%s
-   --  navigation.pid_controller.test_data.tests.suite%b
-   --  navigation.test_data%s
-   --  navigation.test_data%b
-   --  navigation.test_data.tests%s
-   --  navigation.test_data.tests%b
-   --  navigation.test_data.tests.suite%s
-   --  navigation.test_data.tests.suite%b
+   --  navigation.motion_axis%s
+   --  navigation.motion_axis%b
+   --  navigation.motion_axis.cmotion_axis_test_data%s
+   --  navigation.motion_axis.cmotion_axis_test_data%b
+   --  navigation.motion_axis.cmotion_axis_test_data.cmotion_axis_tests%s
+   --  navigation.motion_axis.cmotion_axis_test_data.cmotion_axis_tests%b
+   --  navigation.motion_axis.cmotion_axis_test_data.cmotion_axis_tests.suite%s
+   --  navigation.motion_axis.cmotion_axis_test_data.cmotion_axis_tests.suite%b
+   --  navigation.motion_axis.test_data%s
+   --  navigation.motion_axis.test_data%b
+   --  navigation.motion_axis.test_data.tests%s
+   --  navigation.motion_axis.test_data.tests%b
+   --  navigation.motion_axis.test_data.tests.suite%s
+   --  navigation.motion_axis.test_data.tests.suite%b
    --  gnattest_main_suite%b
    --  END ELABORATION ORDER
 

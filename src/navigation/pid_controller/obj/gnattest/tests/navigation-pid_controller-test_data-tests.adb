@@ -36,4 +36,21 @@ package body Navigation.PID_Controller.Test_Data.Tests is
    end Test_pxCreate;
 --  end read only
 
+
+   procedure Test_pxCreate_With_Scalings (Gnattest_T : in out Test) is
+      pragma Unreferenced(Gnattest_T);
+      pxObject : pCPID_Controller := null;
+   begin
+      pxObject := PID_Controller.pxCreate(PID_Controller.TPIDComponentScalings'(1.0,2.0,3.0));
+
+      AUnit.Assertions.Assert(Condition => abs(pxObject.fDerivativeScale - 1.0) < 0.0001,
+                              Message => "Derivative scale set incorrectly in constructor");
+      AUnit.Assertions.Assert(Condition => abs(pxObject.fIntegralScale - 2.0) < 0.0001,
+                              Message => "Integral scale set incorrectly in constructor");
+      AUnit.Assertions.Assert(Condition => abs(pxObject.fProportionalScale - 3.0) < 0.0001,
+                              Message => "Proportional scale set incorrectly in constructor");
+
+   end Test_pxCreate_With_Scalings;
+
+
 end Navigation.PID_Controller.Test_Data.Tests;

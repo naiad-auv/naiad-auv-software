@@ -13,6 +13,7 @@ package body Navigation.PID_Controller.Test_Data.Tests.Suite is
    Result : aliased AUnit.Test_Suites.Test_Suite;
 
    Case_1_1_Test_pxCreate_582cf8 : aliased Runner_1.Test_Case;
+   Case_1_2_Test_pxCreate_With_Scalings : aliased Runner_1.Test_Case;
 
    function Suite return AUnit.Test_Suites.Access_Test_Suite is
    begin
@@ -21,8 +22,13 @@ package body Navigation.PID_Controller.Test_Data.Tests.Suite is
         (Case_1_1_Test_pxCreate_582cf8,
          "navigation-pid_controller.ads:10:4:",
          Test_pxCreate_582cf8'Access);
+      Runner_1.Create
+        (Case_1_2_Test_pxCreate_With_Scalings,
+         "navigation-pid_controller.ads:10:4: Constructor with scalings test",
+         Test_pxCreate_With_Scalings'Access);
 
       Result.Add_Test (Case_1_1_Test_pxCreate_582cf8'Access);
+      Result.Add_Test (Case_1_2_Test_pxCreate_With_Scalings'Access);
 
       return Result'Access;
 

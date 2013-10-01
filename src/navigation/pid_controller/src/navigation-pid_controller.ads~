@@ -7,17 +7,16 @@ package Navigation.PID_Controller is
 
    type TThrusterPowerPercentage is range -100 .. 100;
    
-   type TPIDComponentScalings is
+   type TPID_Component_Scalings is
 	record
 	 fDerivativeScale : float;
          fIntegralScale : float;
          fProportionalScale : float;
 	end record;
 
+
    function pxCreate return pCPID_Controller;
 
-   function pxCreate(xPIDComponentScalings : TPIDComponentScalings) return pCPID_Controller;
-   
    procedure Set_New_Set_Point(this : in out CPID_Controller; fNewSetPoint : in float);
 
    procedure Set_New_PID_Component_Scalings(this : in out CPID_Controller; fDerivativeScale, fIntegralScale, fProportionalScale : float);
