@@ -8,6 +8,9 @@ with Interfaces;
 
 package Pneumatics_Controller is
 
+   CAN_ID_KILL_SWITCH	: Constant CAN_Handler.CAN_ID := 111;
+   CAN_ID_SIM_MODE	: Constant CAN_Handler.CAN_ID := 222;
+
    PIN_TORPEDO_LEFT	: Constant Interfaces.Unsigned_8 := 0;
    PIN_TORPEDO_RIGHT	: Constant Interfaces.Unsigned_8 := 0;
    PIN_MARKER_LEFT	: Constant Interfaces.Unsigned_8 := 0;

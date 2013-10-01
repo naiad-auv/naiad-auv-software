@@ -47,13 +47,27 @@ package body Pneumatics_Controller is
    procedure ISR (canMsg : in CAN_Handler.CAN_Message) is
       bKillSwitchFlag	: Boolean := False;
       bSimModeFlag	: Boolean := False;
+
+      use type CAN_Handler.CAN_ID;
+      use type CAN_Handler.Byte8;
    begin
 
-      -- TODO: Read bKillSwitch
-      -- TODO: Read bSimSwitch
+      if canMsg.ID = CAN_ID_KILL_SWITCH then
+         if true then--canMsg.Data(1) = 0 then
+            bKillSwitchFlag := True;
+         else
+            bKillSwitchFlag := False;
+         end if;
+      elsif canMsg.ID = CAN_ID_SIM_MODE then
+         if true then---canMsg.Data(1) = 0 then
+            bSimModeFlag := True;
+         else
+            bSimModeFlag := False;
+         end if;
+      end if;
 
       if bKillSwitchFlag = False then
-         case 0 is -- TODO: Msg.Data(0) is
+         case 0 is--canMsg.Data(1) is
             when 1 =>
                Actuate(PIN_TORPEDO_LEFT, T_TORPEDO_ACTUATION, bSimModeFlag);
             when 2 =>
@@ -72,12 +86,13 @@ package body Pneumatics_Controller is
                Actuate(PIN_GRIPPER_ROTATE, False, bSimModeFlag);
             when others =>
                null;
-            end case;
+         end case;
 
-         -- TODO: SEND MSG 'COMPLETED'
+         -- TODO: Send MSG 'COMPLETED'
       else
-         null; -- TODO: SEND MSG 'KILLED'
+         null;
       end if;
+
    end ISR;
 
 end Pneumatics_Controller;
