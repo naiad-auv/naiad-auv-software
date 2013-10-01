@@ -16,7 +16,7 @@
             <test file="math-planes-cplane_test_data-cplane_tests.adb" line="103" column="1" timestamp="modified"/>
          </tested>
          <tested name="pxGet_Normal_Vector" line="18" column="4">
-            <test file="math-planes-cplane_test_data-cplane_tests.adb" line="132" column="1" timestamp="2013-09-30 14:48:55"/>
+            <test file="math-planes-cplane_test_data-cplane_tests.adb" line="132" column="1" timestamp="modified"/>
          </tested>
          <dangling>
          </dangling>
@@ -28,7 +28,10 @@
             <test file="math-planes-test_data-tests.adb" line="13" column="1" timestamp="modified"/>
          </tested>
          <tested name="fAngle_Between" line="16" column="4">
-            <test file="math-planes-test_data-tests.adb" line="52" column="1" timestamp="2013-09-30 14:48:55"/>
+            <test file="math-planes-test_data-tests.adb" line="52" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="pxGet_Intersection_Vector_Between" line="19" column="4">
+            <test file="math-planes-test_data-tests.adb" line="83" column="1" timestamp="2013-10-01 08:31:41"/>
          </tested>
          <dangling>
          </dangling>

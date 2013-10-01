@@ -16,6 +16,8 @@ package Math.Planes is
    function fAngle_Between (pxLeftOperandPlane : in pCPlane; pxRightOperandPlane : in pCPlane) return float;
 
    function pxGet_Normal_Vector (this : in CPlane) return Math.Vectors.pCVector;
+   function pxGet_Intersection_Vector_Between (pxLeftOperandPlane : in pCPlane; pxRightOperandPlane : in pCPlane) return Math.Vectors.pCVector;
+
 
 
 private
