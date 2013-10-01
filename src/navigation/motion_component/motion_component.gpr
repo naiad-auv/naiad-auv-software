@@ -1,11 +1,11 @@
 with "../pid_controller/pid_controller.gpr";
 with "../navigation.gpr";
 
-project Motion_Axis is
+project Motion_Component is
 
    for Source_Dirs use ("src");
    for Object_Dir use "obj";
    for Main use ();
 
-end Motion_Axis;
+end Motion_Component;
 
