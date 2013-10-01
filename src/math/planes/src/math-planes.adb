@@ -55,6 +55,16 @@ package body Math.Planes is
                                    fZ => this.fCZ);
    end pxGet_Normal_Vector;
 
+   function pxGet_Intersection_Vector_Between (pxLeftOperandPlane : in pCPlane; pxRightOperandPlane : in pCPlane) return Math.Vectors.pCVector is
+      pxIntersectionVector : Math.Vectors.pCVector;
+   begin
+
+      pxIntersectionVector := Math.Vectors.pxCross_Product(pxLeftOperandVector  => pxLeftOperandPlane.pxGet_Normal_Vector,
+                                                           pxRightOperandVector => pxRightOperandPlane.pxGet_Normal_Vector);
+      return pxIntersectionVector.pxGet_Normalized;
+   end pxGet_Intersection_Vector_Between;
+
+
 
 
 end Math.Planes;

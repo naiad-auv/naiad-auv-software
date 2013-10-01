@@ -79,4 +79,43 @@ package body Math.Planes.Test_Data.Tests is
    end Test_fAngle_Between;
 --  end read only
 
+
+--  begin read only
+   procedure Test_pxGet_Intersection_Vector_Between (Gnattest_T : in out Test);
+   procedure Test_pxGet_Intersection_Vector_Between_ae083a (Gnattest_T : in out Test) renames Test_pxGet_Intersection_Vector_Between;
+--  id:2.1/ae083a1283dac6b1/pxGet_Intersection_Vector_Between/1/0/
+   procedure Test_pxGet_Intersection_Vector_Between (Gnattest_T : in out Test) is
+   --  math-planes.ads:19:4:pxGet_Intersection_Vector_Between
+--  end read only
+
+      pragma Unreferenced (Gnattest_T);
+
+      pxLeftPlane, pxRightPlane : pCPlane;
+      pxLeftNormal, pxRightNormal : Math.Vectors.pCVector;
+      pxExpectedIntersection : Math.Vectors.pCVector;
+      pxIntersection : Math.Vectors.pCVector;
+   begin
+
+      pxLeftNormal := Math.Vectors.pxCreate(fX => 1.0,
+                                            fY => 0.0,
+                                            fZ => 0.0);
+      pxRightNormal := Math.Vectors.pxCreate(fX => 0.0,
+                                             fY => 1.0,
+                                             fZ => 0.0);
+      pxLeftPlane := Math.Planes.pxCreate(pxNormalVector      => pxLeftNormal,
+                                          fDistanceFromOrigin => 0.0);
+      pxRightPlane := Math.Planes.pxCreate(pxNormalVector      => pxRightNormal,
+                                           fDistanceFromOrigin => 0.0);
+      pxExpectedIntersection := Math.Vectors.pxCreate(fX => 0.0,
+                                                      fY => 0.0,
+                                                      fZ => 1.0);
+      pxIntersection := Math.Planes.pxGet_Intersection_Vector_Between(pxLeftOperandPlane  => pxLeftPlane,
+                                                                      pxRightOperandPlane => pxRightPlane);
+      AUnit.Assertions.Assert(Condition => pxIntersection = pxExpectedIntersection,
+                              Message   => "CPlane.pxGet_Intersection_Vector_Between failed.");
+
+--  begin read only
+   end Test_pxGet_Intersection_Vector_Between;
+--  end read only
+
 end Math.Planes.Test_Data.Tests;
