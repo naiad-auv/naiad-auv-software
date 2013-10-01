@@ -1,5 +1,13 @@
+with "../pid_controller/pid_controller.gpr";
+with "../../math/rotators/rotators.gpr";
+with "../navigation.gpr";
+with "../planal_controller/planal_controller.gpr";
+with "../directional_controller/directional_controller.gpr";
+
 project Orientational_Controller is
-    for Source_Dirs use ("src");
-    for Object_Dir use "obj";
-    for Main use ("main.adb");
+
+   for Source_Dirs use ("src");
+   for Object_Dir use "obj";
+
 end Orientational_Controller;
+

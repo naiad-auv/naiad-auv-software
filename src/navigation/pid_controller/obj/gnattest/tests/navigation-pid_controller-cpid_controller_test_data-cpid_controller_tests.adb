@@ -77,7 +77,7 @@ package body Navigation.PID_Controller.CPID_Controller_Test_Data.CPID_Controller
       pragma Unreferenced (Gnattest_T);
 
       pxObject : pCPID_Controller;
-      value : TThrusterPowerPercentage;
+      value : float;
 
    begin
       pxObject := PID_Controller.pxCreate;
@@ -117,8 +117,8 @@ package body Navigation.PID_Controller.CPID_Controller_Test_Data.CPID_Controller
 
       pCurrentController : pCPID_Controller;
       iIterations : integer := 50;
-      value : TThrusterPowerPercentage := 0;
-      lastValue : TThrusterPowerPercentage := 0;
+      value : float := 0.0;
+      lastValue : float := 0.0;
       trace : boolean := false;
    begin
       pCurrentController := new CPID_Controller;
@@ -146,8 +146,8 @@ package body Navigation.PID_Controller.CPID_Controller_Test_Data.CPID_Controller
 
       pCurrentController : pCPID_Controller;
       iIterations : integer := 50;
-      value : TThrusterPowerPercentage := 0;
-      lastValue : TThrusterPowerPercentage := 0;
+      value : float := 0.0;
+      lastValue : float := 0.0;
       trace : boolean := false;
    begin
       pCurrentController := new CPID_Controller;
@@ -156,7 +156,7 @@ package body Navigation.PID_Controller.CPID_Controller_Test_Data.CPID_Controller
 
       pCurrentController.Set_New_Set_Point(100.0);
 
-      lastValue := 80;
+      lastValue := 80.0;
 
       for i in 1 .. iIterations loop
          value := pCurrentController.xGet_New_Control_Value(1.0);

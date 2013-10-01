@@ -17,11 +17,6 @@ package body Navigation.PID_Controller is
       return float'Min(float'Max(fvalue, -1.0), 1.0);
    end fNormalize_Float_Value;
 
-   function xConvert_Float_To_TThrusterPowerPercentage(fValue : float) return TThrusterPowerPercentage is
-   begin
-      return TThrusterPowerPercentage(fNormalize_Float_Value(fValue) * 80.0);
-   end xConvert_Float_To_TThrusterPowerPercentage;
-
    function pxCreate return pCPID_Controller is
    begin
       return new CPID_Controller;
@@ -71,7 +66,7 @@ package body Navigation.PID_Controller is
          this.fProportionalScale := 0.0;
       end Reset_Controller;
 
-      function xGet_New_Control_Value(this : in out CPID_Controller; fDeltaTime : float) return TThrusterPowerPercentage is
+      function xGet_New_Control_Value(this : in out CPID_Controller; fDeltaTime : float) return float is
          fLastError : float := this.fCurrentProportionalPart;
          output : float;
       begin
@@ -83,7 +78,7 @@ package body Navigation.PID_Controller is
 
          output := this.fCurrentIntegralPart * this.fIntegralScale + this.fCurrentDerivativePart * this.fDerivativeScale + this.fCurrentProportionalPart * this.fProportionalScale;
 
-         return xConvert_Float_To_TThrusterPowerPercentage(output);
+         return output;
       end xGet_New_Control_Value;
 
 
