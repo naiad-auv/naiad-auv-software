@@ -1,0 +1,76 @@
+<tests_mapping mode="monolith">
+   <unit source_file="math-vectors.ads">
+      <test_unit target_file="math-vectors-cvector_test_data-cvector_tests.ads">
+         <setup file="math-vectors-cvector_test_data.adb" line="4"  column="4"/>
+         <teardown file="math-vectors-cvector_test_data.adb" line="8"  column="4"/>
+         <tested name="pxGet_Copy" line="13" column="4">
+            <test file="math-vectors-cvector_test_data-cvector_tests.adb" line="13" column="1" timestamp="2013-09-27 08:05:50"/>
+         </tested>
+         <tested name="pxGet_Normalized" line="14" column="4">
+            <test file="math-vectors-cvector_test_data-cvector_tests.adb" line="34" column="1" timestamp="2013-09-27 08:05:50"/>
+         </tested>
+         <tested name="fLength_Squared" line="16" column="4">
+            <test file="math-vectors-cvector_test_data-cvector_tests.adb" line="55" column="1" timestamp="2013-09-27 08:05:50"/>
+         </tested>
+         <tested name="fLength" line="17" column="4">
+            <test file="math-vectors-cvector_test_data-cvector_tests.adb" line="76" column="1" timestamp="2013-09-27 08:05:50"/>
+         </tested>
+         <tested name="fGet_X" line="33" column="4">
+            <test file="math-vectors-cvector_test_data-cvector_tests.adb" line="97" column="1" timestamp="2013-09-27 08:05:50"/>
+         </tested>
+         <tested name="fGet_Y" line="34" column="4">
+            <test file="math-vectors-cvector_test_data-cvector_tests.adb" line="118" column="1" timestamp="2013-09-27 08:05:50"/>
+         </tested>
+         <tested name="fGet_Z" line="35" column="4">
+            <test file="math-vectors-cvector_test_data-cvector_tests.adb" line="139" column="1" timestamp="2013-09-27 08:05:50"/>
+         </tested>
+         <tested name="Devide" line="46" column="4">
+            <test file="math-vectors-cvector_test_data-cvector_tests.adb" line="160" column="1" timestamp="2013-09-27 08:05:50"/>
+         </tested>
+         <dangling>
+         </dangling>
+      </test_unit>
+      <test_unit target_file="math-vectors-test_data-tests.ads">
+         <setup file="math-vectors-test_data.adb" line="3"  column="4"/>
+         <teardown file="math-vectors-test_data.adb" line="9"  column="4"/>
+         <tested name="pxCreate" line="12" column="4">
+            <test file="math-vectors-test_data-tests.adb" line="13" column="1" timestamp="2013-09-27 08:05:50"/>
+         </tested>
+         <tested name="Plus" line="19" column="4">
+            <test file="math-vectors-test_data-tests.adb" line="34" column="1" timestamp="2013-09-27 08:05:50"/>
+         </tested>
+         <tested name="Minus" line="20" column="4">
+            <test file="math-vectors-test_data-tests.adb" line="55" column="1" timestamp="2013-09-27 08:05:50"/>
+         </tested>
+         <tested name="Unary_Minus" line="21" column="4">
+            <test file="math-vectors-test_data-tests.adb" line="76" column="1" timestamp="2013-09-27 08:05:50"/>
+         </tested>
+         <tested name="Multiply" line="22" column="4">
+            <test file="math-vectors-test_data-tests.adb" line="97" column="1" timestamp="2013-09-27 08:05:50"/>
+         </tested>
+         <tested name="Multiply" line="23" column="4">
+            <test file="math-vectors-test_data-tests.adb" line="118" column="1" timestamp="2013-09-27 08:05:50"/>
+         </tested>
+         <tested name="Multiply" line="24" column="4">
+            <test file="math-vectors-test_data-tests.adb" line="139" column="1" timestamp="2013-09-27 08:05:50"/>
+         </tested>
+         <tested name="Devide" line="25" column="4">
+            <test file="math-vectors-test_data-tests.adb" line="160" column="1" timestamp="2013-09-27 08:05:50"/>
+         </tested>
+         <tested name="Equal" line="26" column="4">
+            <test file="math-vectors-test_data-tests.adb" line="181" column="1" timestamp="2013-09-27 08:05:50"/>
+         </tested>
+         <tested name="fDot_Product" line="29" column="4">
+            <test file="math-vectors-test_data-tests.adb" line="202" column="1" timestamp="2013-09-27 08:05:50"/>
+         </tested>
+         <tested name="pxCross_Product" line="30" column="4">
+            <test file="math-vectors-test_data-tests.adb" line="223" column="1" timestamp="2013-09-27 08:05:50"/>
+         </tested>
+         <tested name="fAngle_Between" line="31" column="4">
+            <test file="math-vectors-test_data-tests.adb" line="244" column="1" timestamp="2013-09-27 08:05:50"/>
+         </tested>
+         <dangling>
+         </dangling>
+      </test_unit>
+   </unit>
+</tests_mapping>

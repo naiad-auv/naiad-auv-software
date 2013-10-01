@@ -1,0 +1,70 @@
+<tests_mapping mode="monolith">
+   <unit source_file="math-quaternions.ads">
+      <test_unit target_file="math-quaternions-cquaternion_test_data-cquaternion_tests.ads">
+         <setup file="math-quaternions-cquaternion_test_data.adb" line="4"  column="4"/>
+         <teardown file="math-quaternions-cquaternion_test_data.adb" line="8"  column="4"/>
+         <tested name="pxGet_Copy" line="12" column="4">
+            <test file="math-quaternions-cquaternion_test_data-cquaternion_tests.adb" line="13" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="pxGet_Normalized" line="21" column="4">
+            <test file="math-quaternions-cquaternion_test_data-cquaternion_tests.adb" line="53" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="fGet_Length" line="23" column="4">
+            <test file="math-quaternions-cquaternion_test_data-cquaternion_tests.adb" line="111" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="fGet_Length_Squared" line="24" column="4">
+            <test file="math-quaternions-cquaternion_test_data-cquaternion_tests.adb" line="137" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="fGet_X" line="25" column="4">
+            <test file="math-quaternions-cquaternion_test_data-cquaternion_tests.adb" line="163" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="fGet_Y" line="26" column="4">
+            <test file="math-quaternions-cquaternion_test_data-cquaternion_tests.adb" line="189" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="fGet_Z" line="27" column="4">
+            <test file="math-quaternions-cquaternion_test_data-cquaternion_tests.adb" line="215" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="fGet_W" line="28" column="4">
+            <test file="math-quaternions-cquaternion_test_data-cquaternion_tests.adb" line="241" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="fGet_Axis_Vector" line="29" column="4">
+            <test file="math-quaternions-cquaternion_test_data-cquaternion_tests.adb" line="267" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="fGet_Angle" line="30" column="4">
+            <test file="math-quaternions-cquaternion_test_data-cquaternion_tests.adb" line="304" column="1" timestamp="modified"/>
+         </tested>
+         <dangling>
+         </dangling>
+      </test_unit>
+      <test_unit target_file="math-quaternions-test_data-tests.ads">
+         <setup file="math-quaternions-test_data.adb" line="3"  column="4"/>
+         <teardown file="math-quaternions-test_data.adb" line="9"  column="4"/>
+         <tested name="pxCreate" line="10" column="4">
+            <test file="math-quaternions-test_data-tests.adb" line="13" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="pxCreate" line="11" column="4">
+            <test file="math-quaternions-test_data-tests.adb" line="50" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="Plus" line="14" column="4">
+            <test file="math-quaternions-test_data-tests.adb" line="96" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="Minus" line="15" column="4">
+            <test file="math-quaternions-test_data-tests.adb" line="140" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="Multiply" line="16" column="4">
+            <test file="math-quaternions-test_data-tests.adb" line="184" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="Equal" line="17" column="4">
+            <test file="math-quaternions-test_data-tests.adb" line="238" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="fGet_Dot_Product" line="18" column="4">
+            <test file="math-quaternions-test_data-tests.adb" line="269" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="pxGet_Spherical_Linear_Interpolation_Quaternion" line="20" column="4">
+            <test file="math-quaternions-test_data-tests.adb" line="307" column="1" timestamp="modified"/>
+         </tested>
+         <dangling>
+         </dangling>
+      </test_unit>
+   </unit>
+</tests_mapping>
