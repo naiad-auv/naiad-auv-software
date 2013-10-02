@@ -5,8 +5,7 @@ package Navigation.PID_Controller is
    type CPID_Controller is tagged private;
    type pCPID_Controller is access CPID_Controller;
 
-   type TThrusterPowerPercentage is range -100 .. 100;
-   
+
    type TPIDComponentScalings is
 	record
 	 fDerivativeScale : float;
@@ -17,7 +16,7 @@ package Navigation.PID_Controller is
    function pxCreate return pCPID_Controller;
 
    function pxCreate(xPIDComponentScalings : TPIDComponentScalings) return pCPID_Controller;
-   
+
    procedure Set_New_Set_Point(this : in out CPID_Controller; fNewSetPoint : in float);
 
    procedure Set_New_PID_Component_Scalings(this : in out CPID_Controller; fDerivativeScale, fIntegralScale, fProportionalScale : float);
@@ -26,7 +25,7 @@ package Navigation.PID_Controller is
 
    procedure Reset_Controller(this : in out CPID_Controller);
 
-   function xGet_New_Control_Value(this : in out CPID_Controller; fDeltaTime : float) return TThrusterPowerPercentage;
+   function xGet_New_Control_Value(this : in out CPID_Controller; fDeltaTime : float) return float;
 
 
 private

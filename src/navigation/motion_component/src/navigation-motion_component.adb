@@ -2,17 +2,17 @@ with Navigation.PID_Controller;
 
 package body Navigation.Motion_Component is
 
-   function pxCreate(eAxisIndex : EMotionComponent; xPID_Scalings : Navigation.PID_Controller.TPIDComponentScalings) return pCMotion_Component is -- här ska referensen till stället man hämtar thruster force distri värdena läggas till
+   function pxCreate(eAxisIndex : EMotionComponent; xPID_Scalings : Navigation.PID_Controller.TPIDComponentScalings; pxThrusterConfigurator : Navigation.Thruster_Configurator.pCThruster_Configurator) return pCMotion_Component is -- här ska referensen till stället man hämtar thruster force distri värdena läggas till
    begin
       return null;
    end pxCreate;
 
 
-   function xGet_New_Control_Values(this : in out CMotion_Component) return TThruster_Control_Values is
-      controlValues : TThrusteR_Control_Values;
+   function xGet_New_Thruster_Control_Values(this : in out CMotion_Component) return TUnflitered_Thruster_Control_Values is
+      controlValues : TUnflitered_Thruster_Control_Values;
    begin
       return controlValues;
-   end xGet_New_Control_Values;
+   end xGet_New_Thruster_Control_Values;
 
 
 

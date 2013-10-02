@@ -41,7 +41,7 @@ package body Navigation.PID_Controller.CPID_Controller_Test_Data.CPID_Controller
          Test_xGet_New_Control_Value_5adb99'Access);
       Runner_1.Create
         (Case_6_1_Test_xGet_New_Control_Value_Increasing_Since_No_Decrease_In_Error,
-         "navigation-pid_controller.ads:20:4: error not decreasing test",
+         "navigation-pid_controller.ads:20:4: the proportional error not decreasing test",
          Test_xGet_New_Control_Value_Increasing_Since_No_Decrease_In_Error'Access);
       Runner_1.Create
         (Case_7_1_Test_xGet_New_Control_Value_Decreasing_Since_Overshoot,
