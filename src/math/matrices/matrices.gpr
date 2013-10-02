@@ -1,3 +1,6 @@
+with "../vectors/vectors.gpr";
+with "../quaternions/quaternions.gpr";
+with "../planes/planes.gpr";
 with "../math.gpr";
 
 project Matrices is
