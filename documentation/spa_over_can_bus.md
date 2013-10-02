@@ -4,7 +4,7 @@ This document includes some first thoughts on how Space Plug-and-Play Avionics
 (SPA) architecture can be used over CAN bus.
 
 # Terms and Definitions
-### Space Plug-and-Play Avionics (SPA)
+## Space Plug-and-Play Avionics (SPA)
 * Central Addressing Service: The Central Addressing Service (CAS) is
 responsible for providing logical address blocks to be assigned to each
 hardware or soft ware c omponent. The CAS stores the logical address block
