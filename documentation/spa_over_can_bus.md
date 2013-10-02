@@ -41,7 +41,8 @@ facilitate PnP functionality.
 * **CAN FD**: CAN with flexible data-rate. Supported from Linux kernel 3.6, can
 be tested through virtual CAN interfaces. [Source](http://can-newsletter.org/engineering/standardization/nr_stand_can-fd_linux3.6_120703/).
 
-### Space Plug-and-Play Avionics rationale
+## Rationale
+### Space Plug-and-Play Avionics
 * Design and construction of a component can take months or years but assemble
 should be counted in hours or days.
 * Power supplied through the "same" hardware connector as data transmission.
@@ -52,7 +53,7 @@ Most likely different wires but in the same cord/connecter.
 
 * Use Peer-to-Peer messaging after registration of services.
 
-### CAN bus rationale
+### CAN Bus
 * All nodes can read all messages.
 * Multiple nodes are not allowed to send messages with the same message id.
 * Message IDs are used as priority.
@@ -159,5 +160,12 @@ Do we have I2C on all Generic CAN controllers?
 2. SPA-C - SPA over CAN Bus - Basic problem statements and solutions
   1. Bootstraping. (random Message ID basically...with 11 or 29 bits it should
      be doable). What about multiple "SM-c"?
-  2. What about 8 byte maximum payload size?
-  3. Congestions control.
+  2. If two nodes then later tries to contact the SM-c, the SM-c must listen two
+     different message IDs otherwise the sending nodes will send the same
+     message ID. For each node the SM-c must listen to one extra Message ID.
+     2 Message IDs must be assigned per each peer-to-peer communication link one
+     for transmission and one for recieving.
+  2. Say that Bootstaping is solved and all nodes are assigned a unique message
+     id. How do the SM-c rearrange this list/assigment to give priority to the
+     intended nodes?
+  3. What about 8 byte maximum payload size?
