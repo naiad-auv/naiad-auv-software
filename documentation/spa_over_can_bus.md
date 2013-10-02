@@ -5,18 +5,18 @@ This document includes some first thoughts on how Space Plug-and-Play Avionics
 
 ## Terms and Definitions
 ### Space Plug-and-Play Avionics (SPA)
-* Central Addressing Service: The Central Addressing Service (CAS) is
+* **Central Addressing Service**: The Central Addressing Service (CAS) is
 responsible for providing logical address blocks to be assigned to each
 hardware or soft ware c omponent. The CAS stores the logical address block
 and logical address for each SPA Manager in the SPA Net work.
-* Plug-and-Play (PnP): Ability to connect a device to the larger system and
+* **Plug-and-Play (PnP)**: Ability to connect a device to the larger system and
 have the two work together with little or no set-up required (e.g., automated
 system recognition and data exchange)
-* SPA Lookup Service: The SPA Lookup Service is responsible for accepting
+* **SPA Lookup Service**: The SPA Lookup Service is responsible for accepting
 component registration and providing data source route information for
 components requesting a particular type of service (or returning a nack if
 the service is not available).
-* SPA Manager: The SPA manager is responsible for performing discovery for a
+* **SPA Manager**: The SPA manager is responsible for performing discovery for a
 particular subnet. It maps incoming packets to the correct SPA endpoint on the
 subnet, encapsulating the SPA packet with the correct protocol header. In the
 reverse direction it removes the protocol header and possibly adds a new header
