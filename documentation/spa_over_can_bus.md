@@ -66,3 +66,13 @@ the CAN bus.
 
 ### Requirements not met
 * Power supplied through CAN bus.
+
+# Notes from Christoffer
+These notes are here to remember som details that may show some value in the
+future but does not fit in above.
+
+### BasicCAN vs FullCAN
+FullCAN uses some kind of "mailboxes" which are assigned some kind of value
+during initialization. These values can maybe be used as addresses during
+bootstraping. Though the cost and complexity of FullCAN instead of BasicCAN
+may make it to expensive. At the moment BasicCAN seems to be the winner.
