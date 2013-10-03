@@ -1,2 +1,32 @@
 \section{SPA CAN Bus Adaptation}
-Suggested solution...
+Each problem from chapter \ref{ch:problem_statement} is addressed in this
+chapter with corresponding subsection headlines.
+
+\subsection{Bootstraping}
+According to SPA each subnet should have its own subnet manager, for the CAN Bus
+subnet that component is called SM-c (SPA Manager CAN Bus). When the SM-c has
+been assigned an address block from the CAS component the SM-c must assign a
+logical address to each component on its subnet. Each logical address must also
+be mapped to a local address specific for the CAN Bus subnet.
+
+A straightforward solution is to assign one CAN Bus Message ID for each
+component that it should listen on. The problem with this is that if more than
+one component tries to contact another component, at the same time, both will
+start their respective message with the same CAN Message ID. This will cause
+a bit error on one of the components that in may cause it switch to "bus off" state. To
+reactivate the components that have gone into "bus off" state, special messages
+must be sent over the CAN Bus. To make sure that this doesn't happen each pair
+of components should be assigned a unique pair of CAN Bus Message IDs that they
+can communicate over.
+
+% Number of Message IDs required for this?
+
+With the mapping of SPA logical addresses to local CAN Bus subnet addresses out
+of the way, it's time to look at the actual assignment. During "Network Topology
+Discovery" within a SPA-Local interconnect all components can contact the SM-l
+component through a Well-known port of 3500 \cite{standard:spa_local_adaptation}.
+Applying a similiar approach on a CAN Bus where all connected components contact
+the SM-c with a well-known CAN Bus Message ID would cause similiar problems as
+described earlier.
+
+% Continue with a suitable example from SpaceWire Adaptation Standard

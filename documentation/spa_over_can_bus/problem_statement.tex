@@ -1,6 +1,16 @@
-\section{Problem Statement}
-
+\section{Problem Statement}\label{ch:problem_statement}
 \subsection{Bootstraping}
+When starting a new system the first thing that occurs is the "Network Topology
+Discovery" \cite{standard:spa_networking}. This process assigns a logical
+address to each component in the network. This contradicts the CAN Bus
+specification where no component is identified by a specific address.
+
+The assumption is made that it's more important to implement SPA over CAN Bus
+than it is to follow the intentions of the CAN Bus specification. The first
+thing that needs to be defined is how should different components be addressed
+in a local CAN Bus subnet?
+
+
 \subsubsection{Random Message ID}
 Temp text
 \subsection{Number of Message IDs used}
