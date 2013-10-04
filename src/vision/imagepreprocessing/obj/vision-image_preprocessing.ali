@@ -1,0 +1,23 @@
+V "GNAT Lib v2013"
+A -gnatA
+P ZX
+
+RN
+RV NO_IMPLEMENTATION_PRAGMAS
+
+U vision.image_preprocessing%b  vision-image_preprocessing.adb  774c93c3 NE OO PK
+W vision%s		vision.adb		vision.ali
+
+U vision.image_preprocessing%s  vision-image_preprocessing.ads  c005bb5c EE NE OO PK
+W vision%s		vision.adb		vision.ali
+
+D system.ads		20130417131036 90249111
+D vision.ads		20131004095627 3af61aa6
+D vision-image_preprocessing.ads  20131004102446 faf3a1fa
+D vision-image_preprocessing.adb  20131004102704 8dbf3239
+X 2 vision.ads
+1K9*Vision 4e11 3|1r9 4r5 4|1r14 7r5
+X 3 vision-image_preprocessing.ads
+1K16*Image_Preprocessing 2|1k9 3|4l12 4e31 4|1b21 7l12 7t31
+3V13*DummyTest{boolean} 4|3b13 6l8 6t17
+

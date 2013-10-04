@@ -1,0 +1,15 @@
+V "GNAT Lib v2013"
+M P W=b
+A -gnatA
+P ZX
+
+RN
+RV NO_IMPLEMENTATION_PRAGMAS
+
+U main%b		main.adb		c8bac64d NE OO SU
+
+D main.adb		20131003142043 c8bac64d
+D system.ads		20130417131036 90249111
+X 1 main.adb
+1U11*Main 1b11 6l5 6t9
+
