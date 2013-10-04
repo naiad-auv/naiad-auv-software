@@ -1,1 +1,10 @@
 \section{Conclusions}
+\subsection{Future work}
+Bootstraping. Instead of assuming that you have to step away from the CAN Bus
+specification to make SPA work...that is each component must have its own
+address...maybe it's possible for a SM-c to handle many-to-many relations
+between SPA components.
+
+All components have a unique SPA logical address but within each CAN Bus subnet
+messages can be read by multiple components (that is listening to the same can
+bus msg id).

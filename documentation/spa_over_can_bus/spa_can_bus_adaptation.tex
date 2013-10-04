@@ -1,32 +1,82 @@
-\section{SPA CAN Bus Adaptation}
+\section{SPA CAN Bus Adaptation}\label{ch:spa_can_bus_adaptation}
 Each problem from chapter \ref{ch:problem_statement} is addressed in this
 chapter with corresponding subsection headlines.
 
 \subsection{Bootstraping}
+%\subsubsection{Solution 1}
 According to SPA each subnet should have its own subnet manager, for the CAN Bus
 subnet that component is called SM-c (SPA Manager CAN Bus). When the SM-c has
-been assigned an address block from the CAS component the SM-c must assign a
-logical address to each component on its subnet. Each logical address must also
-be mapped to a local address specific for the CAN Bus subnet.
+been assigned a logical address block from the Central Addressing Service (CAS)
+component the SM-c must assign a logical address to each component on its
+subnet. It's the SM-c responsibility to keep a routing table between SPA
+logical addresses and CAN Bus subnet message IDs.
 
 A straightforward solution is to assign one CAN Bus Message ID for each
 component that it should listen on. The problem with this is that if more than
 one component tries to contact another component, at the same time, both will
 start their respective message with the same CAN Message ID. This will cause
-a bit error on one of the components that in may cause it switch to "bus off" state. To
+a bit error on one of the components that may cause it switch to "bus off" state. To
 reactivate the components that have gone into "bus off" state, special messages
-must be sent over the CAN Bus. To make sure that this doesn't happen each pair
+must be sent over the CAN Bus. To prevent the message id collision, each pair
 of components should be assigned a unique pair of CAN Bus Message IDs that they
 can communicate over.
 
 % Number of Message IDs required for this?
+% digraph n^2 - n
+% CAN Bus 2.0A gives 11 bits and ~2000 Message IDs
+% CAN Bus 2.0B with 29 bits arbitration gives ~500 Millions Message IDs?
 
 With the mapping of SPA logical addresses to local CAN Bus subnet addresses out
 of the way, it's time to look at the actual assignment. During "Network Topology
-Discovery" within a SPA-Local interconnect all components can contact the SM-l
-component through a Well-known port of 3500 \cite{standard:spa_local_adaptation}.
+Discovery" within a SPA-Local interconnect (within one processing unit)
+all components can contact the SM-l component through a Well-known port of
+3500 \cite{standard:spa_local_adaptation}.
 Applying a similiar approach on a CAN Bus where all connected components contact
 the SM-c with a well-known CAN Bus Message ID would cause similiar problems as
-described earlier.
+described earlier, message ID collisions.
+
+For a SpaceWire subnet the process is turned around, it's the "SPA Manager
+SpaceWire" (SM-s) that is responsible to initiate contact. It first try to identify
+all others SM-s components on its subnet and then other SPA Components. An example
+on how this is done is given in the SPA SpaceWire Adaptation Standard Annex A
+\cite{standard:spa_spacewire_adaptation}. The difference with CAN Bus is
+the already available addresses. The SM-s sends a specific message to all
+possible addresses in the network, which is not possible on a CAN Bus. A SM-c
+could instead send a specific message with a well-known message id that all
+other SM-c:s on the network could listen to. The new problem that arise concerns
+the response, which message ID should the response have?
+
+If a well-known message ID is defined for the response, message ID collision
+could occur if multiple SM-c:s exist on the network. This is not a viable solution.
+To make SPA work over CAN Bus minor configuration must be made before adding
+new components and during initial assembly of a CAN Bus subnet.
+
+Earlier in chapter \ref{ch:spa_can_bus_adaptation} it says that each pair of
+components must be assigned a unique pair of CAN Bus Message IDs. With only
+10 components in a CAN Subnet that would mean 90 message IDs have to be defined
+manually. This clearly shows that defining all Message IDs during the configuration
+phase is not a desired solution. To simplify this process the SM-c is given the
+responsiblitiy to map all message IDs between different SPA components. The
+assignment that is done manually is the message IDs used between the SM-c and
+each component on the network. With 10 components on the network only 18 message
+IDs would have to be assigned instead of earlier mentioned 90 (with increase
+amount of components the difference will be even higher).
+
+To recap one possible solution for Network Topology Discovery within a CAN Bus
+is as follows:
+\begin{enumerate}
+    \item Configure each component with its CUUID
+    \item Configure each component with its xTEDS file and XUUID
+    \item Assign a pair of CAN Bus Message IDs for each component. One to listen
+        on and one to transmit on.
+    \item Configure the responsible SPA Manager CAN Bus to listen and send on the
+        earlier defined CAN Bus Message IDs for each component.
+    %\item \textbf{:}
+\end{enumerate}
 
 % Continue with a suitable example from SpaceWire Adaptation Standard
+
+% \subsubsection{Solution 2}
+% The assumption made in the problem statement is wrong and a advanced
+% CAN Bus Subnet Manager can handle the logic to map many SPA IDs to many
+% CAN Bus Message IDs.
