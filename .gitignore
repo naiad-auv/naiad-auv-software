@@ -3,6 +3,8 @@
 *.bexch
 *.o
 *.cgpr
+*.metrix
+metrix.xml
 b__test_runner.adb
 b__test_runner.ads
 test_runner
