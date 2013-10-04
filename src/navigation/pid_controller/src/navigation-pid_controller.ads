@@ -8,9 +8,9 @@ package Navigation.PID_Controller is
 
    type TPIDComponentScalings is
 	record
-	 fDerivativeScale : float;
-         fIntegralScale : float;
          fProportionalScale : float;
+         fIntegralScale : float;
+	 fDerivativeScale : float;
 	end record;
 
    function pxCreate return pCPID_Controller;
@@ -19,7 +19,7 @@ package Navigation.PID_Controller is
 
    procedure Set_New_Set_Point(this : in out CPID_Controller; fNewSetPoint : in float);
 
-   procedure Set_New_PID_Component_Scalings(this : in out CPID_Controller; fDerivativeScale, fIntegralScale, fProportionalScale : float);
+   procedure Set_New_PID_Component_Scalings(this : in out CPID_Controller; xNewScalings : TPIDComponentScalings);
 
    procedure Update_Current_Value_From_External_Source(this : in out CPID_Controller; fValue : float);
 
@@ -27,6 +27,11 @@ package Navigation.PID_Controller is
 
    function xGet_New_Control_Value(this : in out CPID_Controller; fDeltaTime : float) return float;
 
+   function fGetIntergralScale(this : in out CPID_Controller) return float;
+
+   function fGetDerivativeScale(this : in out CPID_Controller) return float;
+
+   function fGetProportionalScale(this : in out CPID_Controller) return float;
 
 private
    type CPID_Controller is tagged

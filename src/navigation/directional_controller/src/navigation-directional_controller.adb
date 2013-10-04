@@ -1,6 +1,6 @@
 package body Navigation.Directional_Controller is
 
-   function pxCreate(pxThrusterConfigurator : Navigation.Thruster_Configurator.pCThruster_Configurator) return pCDirectional_Controller is
+   function pxCreate return pCDirectional_Controller is
    begin
       return null;
    end pxCreate;
