@@ -5,6 +5,7 @@ package body Vision.Image_Processing.Canny is
    function Canny return Boolean is
    begin
       --take in an image
+      coreada_hpp
       --do something canny
       --exit true
       return True;

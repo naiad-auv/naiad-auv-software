@@ -5,22 +5,35 @@ P ZX
 RN
 RV NO_IMPLEMENTATION_PRAGMAS
 
-U vision.image_processing.canny%b  vision-image_processing-canny.adb  5b981e8e NE OO PK
-W vision.image_processing%s  vision-image_processing.ads  vision-image_processing.ali
+U vision.image_processing.canny%b  vision-image_processing-canny.adb  1ec88b6d NE OO PK
+W coreada_hpp%s		coreada_hpp.ads		coreada_hpp.ali
+W vision.image_processing%s  vision-image_processing.adb  vision-image_processing.ali
 
-U vision.image_processing.canny%s  vision-image_processing-canny.ads  a27a0bf7 EE NE OO PK
-W vision.image_processing%s  vision-image_processing.ads  vision-image_processing.ali
+U vision.image_processing.canny%s  vision-image_processing-canny.ads  78db305a EE NE OO PK
+W vision.image_processing%s  vision-image_processing.adb  vision-image_processing.ali
 
+D ada.ads		20130417131023 3ffc8e18
+D a-unccon.ads		20130417131022 f9eb8f06
+D coreada_hpp.ads	20131004113451 a6bfeb3e
+D interfac.ads		20130417131027 cb4a8015
+D i-c.ads		20130417131026 5421119b
+D i-cstrin.ads		20130417131027 341d0ddf
 D system.ads		20130417131036 90249111
-D vision.ads		20131004095627 3af61aa6
-D vision-image_processing.ads  20131004103111 6aa860d6
-D vision-image_processing-canny.ads  20131004100843 c8d26b21
-D vision-image_processing-canny.adb  20131004100905 934a75af
-X 2 vision.ads
-1K9*Vision 4e11 4|1r9 4r5 5|1r14 7r5
-X 3 vision-image_processing.ads
-1K16*Image_Processing 2|1k9 3|8e28 4|1r16 4r12 5|1r21 7r12
-X 4 vision-image_processing-canny.ads
-1K33*Canny 3|1k16 4|4l29 4e34 5|1b38 7l29 7t34
-3V13*DummyTest{boolean} 5|3b13 6l8 6t17
+D s-exctab.ads		20130417131029 66e51330
+D s-parame.ads		20130417131032 b6e20cc0
+D s-stalib.ads		20130417131032 f78bcf95
+D vision.ads		20131004104333 3af61aa6
+D vision-image_processing.ads  20131004104333 6aa860d6
+D vision-image_processing-canny.ads  20131004115233 1273508c
+D vision-image_processing-canny.adb  20131004120935 aa0430df
+X 3 coreada_hpp.ads
+7K9*coreAda_hpp 41e16 14|1w6
+X 11 vision.ads
+1K9*Vision 4e11 13|1r9 5r5 14|3r14 17r5
+X 12 vision-image_processing.ads
+1K16*Image_Processing 11|1k9 12|8e28 13|1r16 5r12 14|3r21 17r12
+X 13 vision-image_processing-canny.ads
+1K33*Canny 12|1k16 13|5l29 5e34 14|3b38 17l29 17t34
+3V13*DummyTest{boolean} 14|13b13 16l8 16t17
+4V13*Canny{boolean} 14|5b13 11l8 11t13
 

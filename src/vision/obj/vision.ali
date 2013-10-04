@@ -1,5 +1,7 @@
 V "GNAT Lib v2013"
 A -gnatA
+A -mtune=generic
+A -march=x86-64
 P ZX
 
 RN
@@ -10,8 +12,8 @@ U vision%b		vision.adb		b0d39a14 NE OO PK
 U vision%s		vision.ads		3af61aa6 EE NE OO PK
 
 D system.ads		20130417131036 90249111
-D vision.ads		20131004095627 3af61aa6
-D vision.adb		20131004095658 8a2580b2
+D vision.ads		20131004104333 3af61aa6
+D vision.adb		20131004104333 8a2580b2
 X 2 vision.ads
 1K9*Vision 4l5 4e11 3|1b14 7l5 7t11
 3V13*DummyTest{boolean} 3|3b13 6l8 6t17
