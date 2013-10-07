@@ -2,7 +2,7 @@ with "../vision.gpr";
 
 project Image_Preprocessing is
 
-   for Source_Dirs use ("src");
+   for Source_Dirs use ("src", "../opencvBindings", "../testImages");
    for Object_Dir use "obj";
    for Main use ();
 
