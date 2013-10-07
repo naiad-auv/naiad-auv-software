@@ -17,10 +17,6 @@ EOF
 ##########################################
 # Entry point for script
 ##########################################
-# Before using this script you need to set up
-# ssh keys for the user on the local machine
-# and push public key to remote server that
-# you're going to use.
 TARGET=
 SOURCE=
 HOST=
@@ -71,7 +67,7 @@ echo "Creating directory on remote server."
 /usr/bin/ssh $HOST mkdir -p $TARGET
 echo "Directory created on remote server."
 echo "Starting rsync."
-/usr/bin/rsync -avz -e ssh $SOURCE $HOST:$TARGET
+/usr/bin/rsync -avz -e ssh --delete $SOURCE $HOST:$TARGET
 echo "Rsync finished."
 
 exit 0

@@ -1,4 +1,3 @@
-with "../thruster_configurator/thruster_configurator.gpr";
 with "../pid_controller/pid_controller.gpr";
 with "../navigation.gpr";
 

@@ -1,6 +1,6 @@
 package body Navigation.Planal_Controller is
 
-   function pxCreate(pxThrusterConfigurator : Navigation.Thruster_Configurator.pCThruster_Configurator) return pCPlanal_Controller is
+   function pxCreate return pCPlanal_Controller is
    begin
       return null;
    end pxCreate;

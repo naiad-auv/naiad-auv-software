@@ -13,7 +13,7 @@ package Navigation.Dispatcher is
 
    function pxCreate return pCDispatcher;
 
-   function pxGet_New_Thruster_Control_Values(this : in out CDispatcher) return Navigation.Motion_Component.TThruster_Control_Values;
+   function pxGet_New_Thruster_Control_Values(this : in out CDispatcher) return Navigation.Thruster_Configurator.TMovementVector;
 
    procedure Set_New_Component_PID_Scalings(this : in out CDispatcher; eComponetToChange : Navigation.Motion_Component.EMotionComponent;xNewPIDSCalings : in Navigation.PID_Controller.TPIDComponentScalings);
 
@@ -22,6 +22,8 @@ package Navigation.Dispatcher is
 
    procedure Update_Current_Orientation(this : in out CDispatcher; xNewCurrentOrientation : Math.Rotators.CRotator);
    procedure Update_Wanted_Orientation(this : in out CDispatcher; xNewWantedOrientation : Math.Rotators.CRotator);
+
+   --borde hålla motorkonfigurationen
 
 private
 

@@ -5,8 +5,8 @@ package body Navigation.Orientational_Controller is
       return null;
    end pxCreate;
 
-   function xGet_Orientational_Thruster_Control_Values(this : in out COrientational_Controller) return Navigation.Motion_Component.TUnflitered_Thruster_Control_Values is
-      abo : Navigation.Motion_Component.TUnflitered_Thruster_Control_Values;
+   function xGet_Orientational_Thruster_Control_Values (this : in out COrientational_Controller) return Navigation.Motion_Component.TOrientational_Control_Values is
+      abo : Navigation.Motion_Component.TOrientational_Control_Values;
    begin
       return abo;
    end xGet_Orientational_Thruster_Control_Values;
