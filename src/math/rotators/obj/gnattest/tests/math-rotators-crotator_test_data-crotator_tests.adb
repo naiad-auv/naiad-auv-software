@@ -31,8 +31,8 @@ package body Math.Rotators.CRotator_Test_Data.CRotator_Tests is
                                              fPitch => fPitch,
                                              fRoll  => fRoll);
 
-      AUnit.Assertions.Assert(Condition => float(pxNewRotator.tfYaw) = fYaw,
-                              Message   => "CRotator.tfGet_Yaw failed, yaw got wrong value. Value: " & float'Image(float(pxNewRotator.tfYaw)) & ". Expected: " & float'Image(fYaw) & ".");
+      AUnit.Assertions.Assert(Condition => float(pxNewRotator.tAngles(Yaw)) = fYaw,
+                              Message   => "CRotator.tfGet_Yaw failed, yaw got wrong value. Value: " & float'Image(float(pxNewRotator.tAngles(Yaw))) & ". Expected: " & float'Image(fYaw) & ".");
 
 --  begin read only
    end Test_tfGet_Yaw;
@@ -62,8 +62,8 @@ package body Math.Rotators.CRotator_Test_Data.CRotator_Tests is
 
       fPitch := fPitch + 360.0;
 
-      AUnit.Assertions.Assert(Condition => float(pxNewRotator.tfPitch) = fPitch,
-                              Message   => "CRotator.tfGet_Pitch failed, pitch got wrong value. Value: " & float'Image(float(pxNewRotator.tfPitch)) & ". Expected: " & float'Image(fPitch) & ".");
+      AUnit.Assertions.Assert(Condition => float(pxNewRotator.tAngles(Pitch)) = fPitch,
+                              Message   => "CRotator.tfGet_Pitch failed, pitch got wrong value. Value: " & float'Image(float(pxNewRotator.tAngles(Pitch))) & ". Expected: " & float'Image(fPitch) & ".");
 
 --  begin read only
    end Test_tfGet_Pitch;
@@ -93,8 +93,8 @@ package body Math.Rotators.CRotator_Test_Data.CRotator_Tests is
 
 
 
-      AUnit.Assertions.Assert(Condition => float(pxNewRotator.tfRoll) = fRoll,
-                              Message   => "CRotator.tfGet_Roll failed, roll got wrong value. Value: " & float'Image(float(pxNewRotator.tfRoll)) & ". Expected: " & float'Image(fRoll) & ".");
+      AUnit.Assertions.Assert(Condition => float(pxNewRotator.tAngles(Roll)) = fRoll,
+                              Message   => "CRotator.tfGet_Roll failed, roll got wrong value. Value: " & float'Image(float(pxNewRotator.tAngles(Roll))) & ". Expected: " & float'Image(fRoll) & ".");
 
 --  begin read only
    end Test_tfGet_Roll;

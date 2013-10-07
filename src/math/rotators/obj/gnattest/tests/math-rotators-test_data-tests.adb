@@ -6,7 +6,7 @@
 --  placed into Math.Rotators.Test_Data.
 
 with AUnit.Assertions; use AUnit.Assertions;
-
+with Ada.Text_IO;
 package body Math.Rotators.Test_Data.Tests is
 
 
@@ -21,24 +21,24 @@ package body Math.Rotators.Test_Data.Tests is
       pragma Unreferenced (Gnattest_T);
 
       pxNewRotator : pCRotator;
-      fYaw : float := 50.0;
-      fPitch : float := -320.0;
-      fRoll : float := -5.0;
+      fYaw : float := 90.0;
+      fPitch : float := 90.0;
+      fRoll : float := 0.0;
 
    begin
-
+      Ada.Text_IO.Put_Line("----------- Here we go: " & float'Image(fPitch));
       pxNewRotator := Math.Rotators.pxCreate(fYaw   => fYaw,
                                              fPitch => fPitch,
                                              fRoll  => fRoll);
 
-      fPitch := fPitch + 360.0;
+      --fPitch := fPitch + 360.0;
 
-      AUnit.Assertions.Assert(Condition => float(pxNewRotator.tfYaw) = fYaw,
-                              Message   => "CRotator.pxCreate failed, yaw got wrong value. Value: " & float'Image(float(pxNewRotator.tfYaw)) & ". Expected: " & float'Image(fYaw) & ".");
-      AUnit.Assertions.Assert(Condition => float(pxNewRotator.tfPitch) = fPitch,
-                              Message   => "CRotator.pxCreate failed, pitch got wrong value. Value: " & float'Image(float(pxNewRotator.tfPitch)) & ". Expected: " & float'Image(fPitch) & ".");
-      AUnit.Assertions.Assert(Condition => float(pxNewRotator.tfRoll) = fRoll,
-                              Message   => "CRotator.pxCreate failed, roll got wrong value. Value: " & float'Image(float(pxNewRotator.tfRoll)) & ". Expected: " & float'Image(fRoll) & ".");
+      AUnit.Assertions.Assert(Condition => float(pxNewRotator.tAngles(Yaw)) = fYaw,
+                              Message   => "CRotator.pxCreate failed, yaw got wrong value. Value: " & float'Image(float(pxNewRotator.tAngles(Yaw))) & ". Expected: " & float'Image(fYaw) & ".");
+      AUnit.Assertions.Assert(Condition => float(pxNewRotator.tAngles(Pitch)) = fPitch,
+                              Message   => "CRotator.pxCreate failed, pitch got wrong value. Value: " & float'Image(float(pxNewRotator.tAngles(Pitch))) & ". Expected: " & float'Image(fPitch) & ".");
+      AUnit.Assertions.Assert(Condition => float(pxNewRotator.tAngles(Roll)) = fRoll,
+                              Message   => "CRotator.pxCreate failed, roll got wrong value. Value: " & float'Image(float(pxNewRotator.tAngles(Roll))) & ". Expected: " & float'Image(fRoll) & ".");
 
 --  begin read only
    end Test_pxCreate;

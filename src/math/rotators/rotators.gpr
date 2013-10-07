@@ -1,3 +1,6 @@
+with "../matrices/matrices.gpr";
+with "../angles/angles.gpr";
+with "../vectors/vectors.gpr";
 with "../math.gpr";
 
 project Rotators is

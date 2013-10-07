@@ -67,9 +67,9 @@ package body Math.Vectors is
 
    function "=" (pxLeftOperandVector : in pCVector; pxRightOperandVector : in pCVector) return boolean is
    begin
-      return pxLeftOperandVector.fX = pxRightOperandVector.fX and
-        pxLeftOperandVector.fY = pxRightOperandVector.fY and
-        pxLeftOperandVector.fZ = pxRightOperandVector.fZ;
+      return abs(pxLeftOperandVector.fX - pxRightOperandVector.fX) < 0.00001 and
+        abs(pxLeftOperandVector.fY - pxRightOperandVector.fY) < 0.00001 and
+        abs(pxLeftOperandVector.fZ - pxRightOperandVector.fZ) < 0.00001;
    end "=";
 
    function fGet_X (this : in CVector) return float is
