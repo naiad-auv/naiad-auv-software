@@ -7,9 +7,6 @@
 with Interfaces;
 use Interfaces;
 
-with AVR.AT90CAN128;
-use AVR.AT90CAN128;
-
 package Digital_IO is
 
    procedure Make_Output_Pin(u8Pin : Unsigned_8);

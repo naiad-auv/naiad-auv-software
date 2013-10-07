@@ -8,6 +8,7 @@ procedure Pneumatics_Controller is
    use type CAN_Handler.CAN_ID;
    use type Interfaces.Unsigned_8;
 
+   -- this should be replaced by an import to a can id spec file.
    CAN_ID_KILL_SWITCH	: Constant CAN_Handler.CAN_ID := 111;
    CAN_ID_SIM_MODE	: Constant CAN_Handler.CAN_ID := 222;
 

@@ -2,6 +2,9 @@
 -- Written by: Nils Brynedal Ignell for the Naiad AUV project
 -- Last changed (yyyy-mm-dd): 2013-09-25
 
+with AVR.AT90CAN128;
+use AVR.AT90CAN128;
+
 package body Digital_IO is
 
    procedure Make_Input_Pin(u8Pin : Unsigned_8) is
