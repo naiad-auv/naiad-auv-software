@@ -1,0 +1,194 @@
+V "GNAT Lib v4.6"
+A -fstack-check=specific
+A -m64
+A -gnatA
+A -gnatWb
+A -gnatiw
+A -gnatws
+A -mtune=generic
+A -march=x86-64
+P ZX
+R nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnvvnnvnnnnnnnnnnnnnnn
+
+U ada_main%b		b~main.adb		fd14b97d NE OO PK IL
+W system%s		system.ads		system.ali
+W system.restrictions%s	s-restri.adb		s-restri.ali
+
+U ada_main%s		b~main.ads		7c2fe009 EE NE OO PK IL
+W system%s		system.ads		system.ali
+
+D b~main.ads		20131007091316 5fce1702
+D b~main.adb		20131007091316 18ba6148
+D system.ads		20120503154647 23e1f70b
+D s-restri.ads		20091130110856 ba60cf37
+D s-rident.ads		20101018103456 4282a67a
+X 1 b~main.ads
+3K9*ada_main 300l5 300e13 2|7b14 206l5 206t13
+6i4*gnat_argc{integer} 10m22 2|184m7
+7m4*gnat_argv{3|64M9} 11m22 2|185m7
+8m4*gnat_envp{3|64M9} 12m22 2|186m7
+14i4*gnat_exit_status{integer} 15m22 2|194r15
+17a4*GNAT_Version{string} 19r22
+21a4*Ada_Main_Program_Name{string} 22r22 2|180r52
+24U14*adafinal 25r22 2|158b14 161l8 161t16
+27U14*adainit 28r22 2|16b14 156l8 156t15 189s7
+30U14*Break_Start 31b<c,__gnat_break_start>22 2|190s7
+33V13*main{integer} 34>7 35>7 36>7 38r22 2|163b13 195t7
+34i7 argc{integer} 2|164b7 184r20
+35m7 argv{3|64M9} 2|165b7 185r20
+36m7 envp{3|64M9} 2|166b7 186r20
+40M9*Version_32 41r22 43r22 45r22 47r22 49r22 51r22 53r22 55r22 57r22 59r22
+. 61r22 63r22 65r22 67r22 69r22 71r22 73r22 75r22 77r22 79r22 81r22 83r22
+. 85r22 87r22 89r22 91r22 93r22 95r22 97r22 99r22 101r22 103r22 105r22 107r22
+. 109r22 111r22 113r22 115r22 117r22 119r22 121r22 123r22 125r22 127r22 129r22
+. 131r22 133r22 135r22 137r22 139r22 141r22 143r22 145r22 147r22 149r22 151r22
+. 153r22 155r22 157r22 159r22 161r22 163r22 165r22 167r22 169r22 171r22 173r22
+. 175r22 177r22 179r22 181r22 183r22 185r22 187r22 189r22 191r22 193r22 195r22
+. 197r22 199r22 201r22 203r22 205r22 207r22 209r22
+41m4*u00001{40M9} 42r22
+43m4*u00002{40M9} 44r22
+45m4*u00003{40M9} 46r22
+47m4*u00004{40M9} 48r22
+49m4*u00005{40M9} 50r22
+51m4*u00006{40M9} 52r22
+53m4*u00007{40M9} 54r22
+55m4*u00008{40M9} 56r22
+57m4*u00009{40M9} 58r22
+59m4*u00010{40M9} 60r22
+61m4*u00011{40M9} 62r22
+63m4*u00012{40M9} 64r22
+65m4*u00013{40M9} 66r22
+67m4*u00014{40M9} 68r22
+69m4*u00015{40M9} 70r22
+71m4*u00016{40M9} 72r22
+73m4*u00017{40M9} 74r22
+75m4*u00018{40M9} 76r22
+77m4*u00019{40M9} 78r22
+79m4*u00020{40M9} 80r22
+81m4*u00021{40M9} 82r22
+83m4*u00022{40M9} 84r22
+85m4*u00023{40M9} 86r22
+87m4*u00024{40M9} 88r22
+89m4*u00025{40M9} 90r22
+91m4*u00026{40M9} 92r22
+93m4*u00027{40M9} 94r22
+95m4*u00028{40M9} 96r22
+97m4*u00029{40M9} 98r22
+99m4*u00030{40M9} 100r22
+101m4*u00031{40M9} 102r22
+103m4*u00032{40M9} 104r22
+105m4*u00033{40M9} 106r22
+107m4*u00034{40M9} 108r22
+109m4*u00035{40M9} 110r22
+111m4*u00036{40M9} 112r22
+113m4*u00037{40M9} 114r22
+115m4*u00038{40M9} 116r22
+117m4*u00039{40M9} 118r22
+119m4*u00040{40M9} 120r22
+121m4*u00041{40M9} 122r22
+123m4*u00042{40M9} 124r22
+125m4*u00043{40M9} 126r22
+127m4*u00044{40M9} 128r22
+129m4*u00045{40M9} 130r22
+131m4*u00046{40M9} 132r22
+133m4*u00047{40M9} 134r22
+135m4*u00048{40M9} 136r22
+137m4*u00049{40M9} 138r22
+139m4*u00050{40M9} 140r22
+141m4*u00051{40M9} 142r22
+143m4*u00052{40M9} 144r22
+145m4*u00053{40M9} 146r22
+147m4*u00054{40M9} 148r22
+149m4*u00055{40M9} 150r22
+151m4*u00056{40M9} 152r22
+153m4*u00057{40M9} 154r22
+155m4*u00058{40M9} 156r22
+157m4*u00059{40M9} 158r22
+159m4*u00060{40M9} 160r22
+161m4*u00061{40M9} 162r22
+163m4*u00062{40M9} 164r22
+165m4*u00063{40M9} 166r22
+167m4*u00064{40M9} 168r22
+169m4*u00065{40M9} 170r22
+171m4*u00066{40M9} 172r22
+173m4*u00067{40M9} 174r22
+175m4*u00068{40M9} 176r22
+177m4*u00069{40M9} 178r22
+179m4*u00070{40M9} 180r22
+181m4*u00071{40M9} 182r22
+183m4*u00072{40M9} 184r22
+185m4*u00073{40M9} 186r22
+187m4*u00074{40M9} 188r22
+189m4*u00075{40M9} 190r22
+191m4*u00076{40M9} 192r22
+193m4*u00077{40M9} 194r22
+195m4*u00078{40M9} 196r22
+197m4*u00079{40M9} 198r22
+199m4*u00080{40M9} 200r22
+201m4*u00081{40M9} 202r22
+203m4*u00082{40M9} 204r22
+205m4*u00083{40M9} 206r22
+207m4*u00084{40M9} 208r22
+209m4*u00085{40M9} 210r22
+X 2 b~main.adb
+10U14 Do_Finalize 11b<c,system__standard_library__adafinal>22 160s7 192s7
+13a4 Local_Priority_Specific_Dispatching{string} 106r9
+14a4 Local_Interrupt_States{string} 109r27
+17b7*E13{boolean} 17m42 135m7
+18b7*E23{boolean} 18m42 122m7
+19b7*E70{boolean} 19m42 124m7
+20b7*E48{boolean} 20m42 133m7
+21b7*E46{boolean} 21m42 127m7
+22b7*E72{boolean} 22m42 131m7
+23b7*E74{boolean} 23m42 130m7
+24b7*E17{boolean} 24m42 137m7
+25b7*E63{boolean} 25m42 139m7
+26b7*E65{boolean} 26m42 142m7
+27b7*E61{boolean} 27m42 144m7
+28b7*E82{boolean} 28m42 146m7
+29b7*E80{boolean} 29m42 148m7
+30b7*E59{boolean} 30m42 152m7
+31b7*E77{boolean} 31m42 150m7
+32b7*E06{boolean} 32m42 155m7
+34i7*Main_Priority{integer} 35m25 73m7
+36i7*Time_Slice_Value{integer} 37m25 74m7
+38e7*WC_Encoding{character} 39m25 75m7
+40e7*Locking_Policy{character} 41m25 76m7
+42e7*Queuing_Policy{character} 43m25 77m7
+44e7*Task_Dispatching_Policy{character} 45m25 78m7
+46m7*Priority_Specific_Dispatching{3|64M9} 47m25 105m7
+48i7*Num_Specific_Dispatching{integer} 49m25 107m7
+50i7*Main_CPU{integer} 51m25 108m7
+52m7*Interrupt_States{3|64M9} 53m25 109m7
+54i7*Num_Interrupt_States{integer} 55m25 110m7
+56i7*Unreserve_All_Interrupts{integer} 57m25 111m7
+58i7*Zero_Cost_Exceptions{integer} 59m25 112m7
+60i7*Detect_Blocking{integer} 61m25 113m7
+62i7*Default_Stack_Size{integer} 63m25 114m7
+64i7*Leap_Seconds_Support{integer} 65m25 115m7
+67U17*Install_Handler 68b<c,__gnat_install_handler>25 118s10
+70i7*Handler_Installed{integer} 71m25 117r10
+169U17*initialize 169>29 170b<c,__gnat_initialize>25 188s7
+169m29 Addr{3|64M9}
+172U17*finalize 173b<c,__gnat_finalize>25 193s7
+175U17*Ada_Main_Program 176b<ada,_ada_main>27 191s7
+178a7 SEH(integer) 188m19
+180m7 Ensure_Reference{3|64M9} 181r24
+X 3 system.ads
+37K9*System 1|2w6 7r16 8r16 35r14 36r14 2|5r6 46r39 52r26 79r7 165r14 166r14
+. 169r36 180r34 3|153e11
+64M9*Address 1|7r23 8r23 35r21 36r21 2|46r46 52r33 165r21 166r21 169r43 180r41
+X 4 s-restri.ads
+45K16*Restrictions 2|5w13 79r14 4|73e24
+51r4*Run_Time_Restrictions{5|258R9[49]} 2|79m27
+X 5 s-rident.ads
+254A9*Restriction_Flags(boolean)<55E9[4|49]>
+255A9*Restriction_Values(natural)<55E9[4|49]>
+256A9*Parameter_Flags(boolean)<55E9[4|49]>
+258R9*Restrictions_Info
+259a7*Set{254A9[4|49]} 2|80m10[4|49]
+265a7*Value{255A9[4|49]} 2|91m10[4|49]
+272a7*Violated{254A9[4|49]} 2|92m10[4|49]
+277a7*Count{255A9[4|49]} 2|103m10[4|49]
+285a7*Unknown{256A9[4|49]} 2|104m10[4|49]
+
