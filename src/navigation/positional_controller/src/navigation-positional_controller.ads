@@ -9,7 +9,7 @@ package Navigation.Positional_Controller is
 
    function pxCreate return pCPositional_Controller;
 
-   function xGet_Positional_Thruster_Control_Values(this : in out CPositional_Controller) return Navigation.Motion_Component.TPositional_Control_Values;
+   function xGet_Positional_Thruster_Control_Values(this : in out CPositional_Controller; fDeltaTime : float) return Navigation.Motion_Component.TPositional_Control_Values;
 
    procedure Update_Current_Position(this : in out CPositional_Controller; pxNewCurrentPosition : Math.Vectors.pCVector);
    procedure Update_Wanted_Position(this : in out CPositional_Controller; pxNewWantedPosition : Math.Vectors.pCVector);

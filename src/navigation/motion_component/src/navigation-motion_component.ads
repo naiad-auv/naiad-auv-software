@@ -6,7 +6,7 @@ package Navigation.Motion_Component is
    type CMotion_Component is tagged private;
    type pCMotion_Component is access CMotion_Component;
 
-   type EMotionComponent is (Unkown, X, Y, Z, Yaw, Pitch, Roll);
+   type EMotionComponent is (Unkown, X, Y, Z, Yaw, Pitch, Roll, AllComponents);
 
    type TComponentControlValue is
       record

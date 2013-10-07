@@ -7,6 +7,7 @@
 
 with AUnit.Assertions; use AUnit.Assertions;
 with Math.Vectors; use Math.Vectors;
+with Navigation.Motion_Component; use Navigation.Motion_Component;
 
 package body Navigation.Positional_Controller.CPositional_Controller_Test_Data.CPositional_Controller_Tests is
 
@@ -21,11 +22,42 @@ package body Navigation.Positional_Controller.CPositional_Controller_Test_Data.C
 
       pragma Unreferenced (Gnattest_T);
 
+      pxPositionalController : Navigation.Positional_Controller.pCPositional_Controller;
+
+      pxNewWanted : Math.Vectors.pCVector := Math.Vectors.pxCreate(5.0,5.0,5.0);
+      pxPositionalScalings : Navigation.PID_Controller.TPIDComponentScalings := (1.0,1.0,1.0);
+
+      xPositionalControlValues : Navigation.Motion_Component.TPositional_Control_Values;
    begin
 
-      AUnit.Assertions.Assert
-        (Gnattest_Generated.Default_Assert_Value,
-         "Test not implemented.");
+      pxPositionalController := Navigation.Positional_Controller.pxCreate;
+
+      pxPositionalController.Update_Wanted_Position(pxNewWanted);
+
+      pxPositionalController.Set_New_PID_Component_Scalings(Navigation.Motion_Component.AllComponents, pxPositionalScalings);
+
+      xPositionalControlValues := pxPositionalController.xGet_Positional_Thruster_Control_Values(1.0);
+
+      AUnit.Assertions.Assert(Condition => xPositionalControlValues(1).xMotionComponent = Navigation.Motion_Component.X,
+                              Message => "PositionalControlvalue component 1 is not X");
+
+      AUnit.Assertions.Assert(Condition => xPositionalControlValues(2).xMotionComponent = Navigation.Motion_Component.Y,
+                              Message => "PositionalControlvalue component 2 is not Y");
+
+      AUnit.Assertions.Assert(Condition => xPositionalControlValues(3).xMotionComponent = Navigation.Motion_Component.Z,
+                              Message => "PositionalControlvalue component 3 is not Z");
+
+      AUnit.Assertions.Assert(Condition => abs(xPositionalControlValues(1).fValue) > 0.00001,
+                              Message => "PositionalControlvalue component 1 is 0");
+
+      AUnit.Assertions.Assert(Condition => abs(xPositionalControlValues(2).fValue) > 0.00001,
+                              Message => "PositionalControlvalue component 1 is 0");
+
+      AUnit.Assertions.Assert(Condition => abs(xPositionalControlValues(3).fValue) > 0.00001,
+                              Message => "PositionalControlvalue component 1 is 0");
+
+
+
 
 --  begin read only
    end Test_xGet_Positional_Thruster_Control_Values;
@@ -105,7 +137,7 @@ package body Navigation.Positional_Controller.CPositional_Controller_Test_Data.C
 
       AUnit.Assertions.Assert
         (Gnattest_Generated.Default_Assert_Value,
-         "Test not implemented.");
+         "TODO, i dont know how to really test it atm");
 
 --  begin read only
    end Test_Set_New_PID_Component_Scalings;

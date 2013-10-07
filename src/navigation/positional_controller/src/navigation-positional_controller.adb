@@ -25,10 +25,20 @@ package body Navigation.Positional_Controller is
 
    end pxCreate;
 
-   function xGet_Positional_Thruster_Control_Values (this : in out CPositional_Controller) return Navigation.Motion_Component.TPositional_Control_Values is
-      val : Navigation.Motion_Component.TPositional_Control_Values;
+   function xGet_Positional_Thruster_Control_Values (this : in out CPositional_Controller; fDeltaTime : float) return Navigation.Motion_Component.TPositional_Control_Values is
+
+      xPositionalControlValues : Navigation.Motion_Component.TPositional_Control_Values;
+      xXComponentControlValue, xYComponentControlValue, xZComponentControlValue : Navigation.Motion_Component.TComponentControlValue;
    begin
-      return val;
+
+      xXComponentControlValue := this.pxXMotionComponent.xGet_New_Component_Control_Value(fDeltaTime);
+      xYComponentControlValue := this.pxYMotionComponent.xGet_New_Component_Control_Value(fDeltatime);
+      xZComponentControlValue := this.pxZMotionComponent.xGet_New_Component_Control_Value(fDeltaTime);
+
+      xPositionalControlValues := (xXComponentControlValue, xYComponentControlValue, xZComponentControlValue);
+
+      return xPositionalControlValues;
+
    end xGet_Positional_Thruster_Control_Values;
 
 
@@ -62,6 +72,12 @@ package body Navigation.Positional_Controller is
             this.pxYMotionComponent.Set_New_PID_Component_Scalings(xNewPIDScaling);
          when Navigation.Motion_Component.Z =>
             this.pxZMotionComponent.Set_New_PID_Component_Scalings(xNewPIDScaling);
+         when Navigation.Motion_Component.AllComponents =>
+            this.pxXMotionComponent.Set_New_PID_Component_Scalings(xNewPIDScaling);
+            this.pxYMotionComponent.Set_New_PID_Component_Scalings(xNewPIDScaling);
+            this.pxZMotionComponent.Set_New_PID_Component_Scalings(xNewPIDScaling);
+         when others =>
+            null;
       end case;
 
    end Set_New_PID_Component_Scalings;
