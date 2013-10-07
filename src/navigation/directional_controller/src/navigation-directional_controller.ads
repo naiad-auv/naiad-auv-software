@@ -10,19 +10,19 @@ package Navigation.Directional_Controller is
 
    function pxCreate return pCDirectional_Controller;
 
-   function xGet_New_Directional_Control_Value(this : in out pCDirectional_Controller) return Navigation.Motion_Component.TComponentControlValue;
+   function xGet_New_Directional_Control_Value(this : in out CDirectional_Controller; fDeltaTime : float) return Navigation.Motion_Component.TComponentControlValue;
 
    procedure Update_Current_Direction(this : in out CDirectional_Controller; xNewCurrentDirection : Math.Rotators.TAngle);
    procedure Update_Wanted_Direction(this : in out CDirectional_Controller; xNewWantedDirection : Math.Rotators.TAngle);
 
-   procedure Set_New_PID_Component_Scalings(this : in out CDirectional_Controller; eComponentToUpdate : Navigation.Motion_Component.EMotionComponent; xNewPIDScaling : Navigation.PID_Controller.TPIDComponentScalings);
+   procedure Set_New_PID_Component_Scalings(this : in out CDirectional_Controller; xNewPIDScaling : Navigation.PID_Controller.TPIDComponentScalings);
 
 private
    type CDirectional_Controller is tagged
       record
 
-         fCurrentDirection : Math.Rotators.TAngle;
-         fWantedAngle : Math.Rotators.TAngle;
+         xCurrentDirection : Math.Rotators.TAngle;
+         xWantedDirection : Math.Rotators.TAngle;
 
          xYawMotionComponent : Navigation.Motion_Component.pCMotion_Component;
 
