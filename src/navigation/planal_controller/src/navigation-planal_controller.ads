@@ -3,6 +3,7 @@ with Navigation.Motion_Component;
 with Navigation.Thruster_Configurator;
 with Math.Planes;
 with Math.Rotators;
+with Math.Vectors;
 
 package Navigation.Planal_Controller is
 
