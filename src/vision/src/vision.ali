@@ -1,5 +1,10 @@
 V "GNAT Lib v2013"
+A -fstack-check=specific
 A -fPIC
+A -m64
+A -gnat05
+A -gnato
+A -gnatwa
 P ZX
 
 RN

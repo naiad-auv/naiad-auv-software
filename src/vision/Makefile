@@ -1,5 +1,15 @@
 ##Shared-Part linked Makefile
-##Version 0.01
+##Version 0.02&½
+
+#Root Directory
+ROOT_DIRECTORY = ./
+
+#Auto-generate directories
+DIRS := ${sort ${dir ${wildcard ${ROOT_DIRECTORY}/*/${ROOT_DIRECTORY}/*/*/}}}
+
+
+#OpenCV object
+OCVOB = opencvBindings/coreAda
 
 #Package List
 CSC_LIST = image imagepreprocessing imageprocessing mission 
@@ -23,10 +33,10 @@ ${MAIN} : objects ${LIB_DIR}
 
 objects : 
 	#recompile the sources
-	gnatmake -c -i ${MAIN}.adb ${NEED_FPIC} ${CSC_LIST :%= -I%}
+	gnatmake -c -d -i -m64 -gnat05 -gnato -gnatwa -fstack-check -o ${MAIN} ${MAIN}.adb ${NEED_FPIC} ${CSC_LIST :%= -I%} -largs ${OCVOB}.o -lstdc++ `pkg-config opencv --cflags --libs`
 
 #checkout 'gnatmlib' ??
-# THIS SECTION NEEDS MASSIVE EDITS TO SUIT OUR REQUIREMENTS - consult Gerard
+# THIS SECTION STILL NEEDS MASSIVE EDITS TO SUIT OUR REQUIREMENTS - consult Gerard
 #
 ${LIB_DIR} : 
 	mkdir -p ${dir $@}
