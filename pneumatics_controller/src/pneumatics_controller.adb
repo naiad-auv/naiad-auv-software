@@ -6,7 +6,7 @@ with Digital_IO;
 with Valve_Generic;
 with AVR.AT90CAN128.CALENDAR;
 
-procedure Pneumatics_Controller(canMsg : IN CAN_Handler.CAN_Message) is
+procedure Pneumatics_Controller is--()canMsg : IN CAN_Handler.CAN_Message) is
 
    use type CAN_Handler.CAN_ID;
    use type Interfaces.Unsigned_8;
@@ -27,7 +27,7 @@ procedure Pneumatics_Controller(canMsg : IN CAN_Handler.CAN_Message) is
 
    bKillSwitchFlag	: Boolean := False;
    bSimModeFlag		: Boolean := False;
-   --canMsg		: CAN_Handler.CAN_Message;
+   canMsg		: CAN_Handler.CAN_Message;
 
    procedure Init_Pins is
    begin
