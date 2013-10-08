@@ -18,7 +18,7 @@ package ada_main is
                     "GNAT Version: GPL 2013 (20130314)" & ASCII.NUL;
    pragma Export (C, GNAT_Version, "__gnat_version");
 
-   Ada_Main_Program_Name : constant String := "_ada_main" & ASCII.NUL;
+   Ada_Main_Program_Name : constant String := "_ada_test" & ASCII.NUL;
    pragma Export (C, Ada_Main_Program_Name, "__gnat_ada_main_program_name");
 
    procedure adainit;
@@ -35,8 +35,8 @@ package ada_main is
    pragma Export (C, main, "main");
 
    type Version_32 is mod 2 ** 32;
-   u00001 : constant Version_32 := 16#63558824#;
-   pragma Export (C, u00001, "mainB");
+   u00001 : constant Version_32 := 16#25e6d399#;
+   pragma Export (C, u00001, "testB");
    u00002 : constant Version_32 := 16#3935bd10#;
    pragma Export (C, u00002, "system__standard_libraryB");
    u00003 : constant Version_32 := 16#9e44d182#;
@@ -326,7 +326,7 @@ package ada_main is
    --  ada.text_io%s
    --  ada.text_io%b
    --  coreada_hpp%s
-   --  main%b
+   --  test%b
    --  END ELABORATION ORDER
 
 

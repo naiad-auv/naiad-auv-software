@@ -1,6 +1,6 @@
 pragma Ada_95;
-pragma Source_File_Name (ada_main, Spec_File_Name => "b~main.ads");
-pragma Source_File_Name (ada_main, Body_File_Name => "b~main.adb");
+pragma Source_File_Name (ada_main, Spec_File_Name => "b~test.ads");
+pragma Source_File_Name (ada_main, Body_File_Name => "b~test.adb");
 with Ada.Exceptions;
 
 package body ada_main is
@@ -209,7 +209,7 @@ package body ada_main is
    end adainit;
 
    procedure Ada_Main_Program;
-   pragma Import (Ada, Ada_Main_Program, "_ada_main");
+   pragma Import (Ada, Ada_Main_Program, "_ada_test");
 
    function main
      (argc : Integer;
@@ -242,9 +242,11 @@ package body ada_main is
 
 --  BEGIN Object file/option list
    --   /home/bork/Data/naiad-auv-software/src/vision/opencvBindings/coreada_hpp.o
-   --   /home/bork/Data/naiad-auv-software/src/vision/opencvBindings/main.o
+   --   /home/bork/Data/naiad-auv-software/src/vision/imagepreprocessing/obj/test.o
+   --   -L/home/bork/Data/naiad-auv-software/src/vision/imagepreprocessing/obj/
+   --   -L/home/bork/Data/naiad-auv-software/src/vision/imagepreprocessing/obj/
    --   -L/home/bork/Data/naiad-auv-software/src/vision/opencvBindings/
-   --   -L/home/bork/Data/naiad-auv-software/src/vision/opencvBindings/
+   --   -L/home/bork/Data/naiad-auv-software/src/vision/obj/
    --   -L/usr/gnat/lib/gcc/x86_64-pc-linux-gnu/4.7.4/adalib/
    --   -static
    --   -lgnat

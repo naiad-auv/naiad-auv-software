@@ -1,14 +1,14 @@
-V "GNAT Lib v4.6"
+V "GNAT Lib v2013"
 M P W=b
-A -fstack-check=specific
-A -m64
-A -gnat05
-A -gnato
-A -gnatwa
-P SS ZX
-R nnnnnnnnnnnnnnnnnnnnnnnnnvnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn
+A -gnatA
+P ZX
 
-U main%b		main.adb		70f79260 NE OO SU IL
+RN
+RV NO_IO
+RV NO_IMPLEMENTATION_PRAGMAS
+RV SPARK
+
+U main%b		main.adb		63558824 NE OO SU IL
 W ada%s			ada.ads			ada.ali
 W ada.text_io%s		a-textio.adb		a-textio.ali
 W coreada_hpp%s		coreada_hpp.ads		coreada_hpp.ali
@@ -16,62 +16,61 @@ W interfaces%s		interfac.ads		interfac.ali
 W interfaces.c%s	i-c.adb			i-c.ali
 W interfaces.c.strings%s  i-cstrin.adb		i-cstrin.ali
 
-D ada.ads		20070406091342 3ffc8e18
-D a-except.ads		20090727140100 0c711ac9
-D a-finali.ads		20090409150019 e5e85fa4
-D a-filico.ads		20090409150019 872dc219
-D a-ioexce.ads		20091130110856 8b9de6cd
-D a-stream.ads		20090409150019 2ca4ee37
-D a-tags.ads		20101021101406 c7695348
-D a-textio.ads		20091028140912 386df5d4
-D a-unccon.ads		20070406091342 f9eb8f06
-D coreada_hpp.ads	20131002085952 a6bfeb3e
-D interfac.ads		20090409150019 f77d8799
-D i-c.ads		20101007125900 809c38c4
-D i-cstrin.ads		20090417131547 f3023ec4
-D i-cstrea.ads		20100622165701 1bd72c32
-D main.adb		20131007085628 9dbb8a8a
-D system.ads		20120503154647 23e1f70b
-D s-crtl.ads		20100617122610 ac77b159
-D s-exctab.ads		20090417131547 66e51330
-D s-ficobl.ads		20100909103250 443b9d66
-D s-finimp.ads		20090409150019 46853fe8
-D s-finroo.ads		20090409150019 dbb860c9
-D s-parame.ads		20091130110856 9c5d83fa
-D s-secsta.ads		20090707124243 eea35a36
-D s-soflin.ads		20090729085153 9414c974
-D s-stache.ads		20090417130712 596fc1b4
-D s-stalib.ads		20101021102512 c4241c00
-D s-stoele.ads		20090417130712 facd7d98
-D s-stoele.adb		20100617152355 afc5dc80
-D s-stratt.ads		20100909123135 aedef97e
-D s-traent.ads		20090417130712 5221ee41
-D s-unstyp.ads		20090409150019 6ae15c76
-D s-wchcon.ads		20090417130712 bfeb2e3d
+D ada.ads		20130417131023 3ffc8e18
+D a-except.ads		20130417131019 10fcae55
+D a-finali.ads		20130417131020 52ecdc1b
+D a-ioexce.ads		20130417131020 8b9de6cd
+D a-stream.ads		20130417131021 2ca4ee37
+D a-tags.ads		20130417131022 6c0509d0
+D a-textio.ads		20130417131022 386df5d4
+D a-unccon.ads		20130417131022 f9eb8f06
+D coreada_hpp.ads	20131004133406 a6bfeb3e
+D interfac.ads		20130417131027 cb4a8015
+D i-c.ads		20130417131026 5421119b
+D i-cstrin.ads		20130417131027 341d0ddf
+D i-cstrea.ads		20130417131026 8128536b
+D main.adb		20131007100858 9dbb8a8a
+D system.ads		20130417131036 90249111
+D s-crtl.ads		20130417131029 dfcfca61
+D s-exctab.ads		20130417131029 66e51330
+D s-ficobl.ads		20130417131029 55a71d43
+D s-finmas.ads		20130417131029 b95bb341
+D s-finroo.ads		20130417131029 4ff27390
+D s-parame.ads		20130417131032 b6e20cc0
+D s-pooglo.ads		20130417131032 542f33d0
+D s-soflin.ads		20130417131032 24c8153c
+D s-stache.ads		20130417131032 596fc1b4
+D s-stalib.ads		20130417131032 f78bcf95
+D s-stoele.ads		20130417131032 facd7d98
+D s-stoele.adb		20130417131032 afc5dc80
+D s-stopoo.ads		20130417131032 7b8fbeee
+D s-traent.ads		20130417131033 5221ee41
+D s-unstyp.ads		20130417131034 6ae15c76
+D s-wchcon.ads		20130417131034 bfeb2e3d
 X 1 ada.ads
-16K9*Ada 19e8 15|4r6 4r23
-X 8 a-textio.ads
-49K13*Text_IO 472e16 15|4w10 4r27
-264U14*Put_Line 15|29s5 37s4 38s4 39s4
-X 10 coreada_hpp.ads
-7K9*coreAda_hpp 41e16 15|1w6 1r23
-9U14*appendImg_Wrap 15|8s3 9s3 10s3 11s3 32s4
-12U14*cvtColor_Wrap 15|16s3 20s3
-18U14*Canny_Wrap 15|24s3
-26U14*imshow_Wrap 15|13s3 17s3 21s3 25s3 33s4
-29U14*waitKey_Wrap 15|14s3 18s3 22s3 26s3 34s4
-35V13*imwrite_Wrap{12|35I9} 15|28s7
-38V13*size_Wrap{12|35I9} 15|33s38
-X 11 interfac.ads
-36K9*Interfaces 171e15 15|2r6 2r32 3r6 3r24
-X 12 i-c.ads
-18K20*C 230e17 15|2r17 2r43 3w17 3r35
+16K9*Ada 19e8 14|4r6 4r23
+X 7 a-textio.ads
+49K13*Text_IO 471e16 14|4w10 4r27
+263U14*Put_Line 14|29s5 37s4 38s4 39s4
+X 9 coreada_hpp.ads
+7K9*coreAda_hpp 41e16 14|1w6 1r23
+9U14*appendImg_Wrap 14|8s3 9s3 10s3 11s3 32s4
+12U14*cvtColor_Wrap 14|16s3 20s3
+18U14*Canny_Wrap 14|24s3
+26U14*imshow_Wrap 14|13s3 17s3 21s3 25s3 33s4
+29U14*waitKey_Wrap 14|14s3 18s3 22s3 26s3 34s4
+35V13*imwrite_Wrap{11|35I9} 14|28s7
+38V13*size_Wrap{11|35I9} 14|33s38
+X 10 interfac.ads
+36K9*Interfaces 177e15 14|2r6 2r32 3r6 3r24
+X 11 i-c.ads
+18K20*C 230e17 14|2r17 2r43 3w17 3r35
 35I9*int<integer>
-X 13 i-cstrin.ads
-36K22*Strings 102e25 15|2w19 2r45
-46P9*chars_ptr(character)
-58V13*New_String{46P9} 15|8s18 9s18 10s18 11s18 13s15 17s15 21s15 25s15 28s20
+X 12 i-cstrin.ads
+36K22*Strings 104e25 14|2w19 2r45
+47P9*chars_ptr(character)
+60V13*New_String{47P9} 14|8s18 9s18 10s18 11s18 13s15 17s15 21s15 25s15 28s20
 . 32s19 33s16
-X 15 main.adb
+X 14 main.adb
 6U11*main 6b11 41l5 41t9
 
