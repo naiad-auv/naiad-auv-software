@@ -28,3 +28,4 @@ test_runner
 *.bbl
 *.blg
 *.log
+*.pdf
