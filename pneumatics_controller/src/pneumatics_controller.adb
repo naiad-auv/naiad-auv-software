@@ -2,18 +2,42 @@ pragma Profile (Ravenscar);
 
 with CAN_Handler;
 with Interfaces;
+with Digital_IO;
+with Valve_Generic;
+with AVR.AT90CAN128.CALENDAR;
 
-procedure Pneumatics_Controller is
+procedure Pneumatics_Controller(canMsg : IN CAN_Handler.CAN_Message) is
 
    use type CAN_Handler.CAN_ID;
    use type Interfaces.Unsigned_8;
 
+   -- TODO: Should be moved to a CAN ID def file.
    CAN_ID_KILL_SWITCH	: Constant CAN_Handler.CAN_ID := 111;
    CAN_ID_SIM_MODE	: Constant CAN_Handler.CAN_ID := 222;
 
+   PIN_TORPEDO_LEFT	: Constant Interfaces.Unsigned_8 := 0;
+   PIN_TORPEDO_RIGHT	: Constant Interfaces.Unsigned_8 := 0;
+   PIN_MARKER_LEFT	: Constant Interfaces.Unsigned_8 := 0;
+   PIN_MARKER_RIGHT	: Constant Interfaces.Unsigned_8 := 0;
+   PIN_GRIPPER_GRAB	: Constant Interfaces.Unsigned_8 := 0;
+   PIN_GRIPPER_ROTATE	: Constant Interfaces.Unsigned_8 := 0;
+
+   DURATION_ACTUATE_TORPEDO : Constant AVR.AT90CAN128.CALENDAR.Duration := 1000;
+   DURATION_ACTUATE_MARKER : Constant AVR.AT90CAN128.CALENDAR.Duration := 1000;
+
    bKillSwitchFlag	: Boolean := False;
    bSimModeFlag		: Boolean := False;
-   canMsg		: CAN_Handler.CAN_Message;
+   --canMsg		: CAN_Handler.CAN_Message;
+
+   procedure Init_Pins is
+   begin
+      Digital_IO.Make_Output_Pin(PIN_TORPEDO_LEFT);
+      Digital_IO.Make_Output_Pin(PIN_TORPEDO_RIGHT);
+      Digital_IO.Make_Output_Pin(PIN_MARKER_LEFT);
+      Digital_IO.Make_Output_Pin(PIN_MARKER_RIGHT);
+      Digital_IO.Make_Output_Pin(PIN_GRIPPER_GRAB);
+      Digital_IO.Make_Output_Pin(PIN_GRIPPER_ROTATE);
+   end Init_Pins;
 
    procedure Dispatch_Kill_Msg(canMsg : CAN_Handler.CAN_Message) is
    begin
@@ -37,35 +61,33 @@ procedure Pneumatics_Controller is
       end if;
    end Dispatch_Sim_Msg;
 
-   procedure Dispatch_Actuation(canMsg : CAN_Handler.CAN_Message) is
+   procedure Dispatch_Actuation_Msg(canMsg : CAN_Handler.CAN_Message) is
    begin
       case canMsg.Data(1) is
          when 1 =>
-            Actuate(PIN_TORPEDO_LEFT, T_TORPEDO_ACTUATION, bSimModeFlag);
+            Valve_Generic.Actuate_For_Duration(PIN_TORPEDO_LEFT, DURATION_ACTUATE_TORPEDO, bSimModeFlag);
          when 2 =>
-            Actuate(PIN_TORPEDO_RIGHT, T_TORPEDO_ACTUATION, bSimModeFlag);
+            Valve_Generic.Actuate_For_Duration(PIN_TORPEDO_RIGHT, DURATION_ACTUATE_TORPEDO, bSimModeFlag);
          when 3 =>
-            Actuate(PIN_MARKER_LEFT, T_MARKER_ACTUATION, bSimModeFlag);
+            Valve_Generic.Actuate_For_Duration(PIN_MARKER_LEFT, DURATION_ACTUATE_MARKER, bSimModeFlag);
          when 4 =>
-            Actuate(PIN_MARKER_RIGHT, T_MARKER_ACTUATION, bSimModeFlag);
+            Valve_Generic.Actuate_For_Duration(PIN_MARKER_RIGHT, DURATION_ACTUATE_MARKER, bSimModeFlag);
          when 5 =>
-            Actuate(PIN_GRIPPER_GRAB, True, bSimModeFlag);
+            Valve_Generic.Actuate(PIN_GRIPPER_GRAB, True, bSimModeFlag);
          when 6 =>
-            Actuate(PIN_GRIPPER_GRAB, False, bSimModeFlag);
+            Valve_Generic.Actuate(PIN_GRIPPER_GRAB, False, bSimModeFlag);
          when 7 =>
-            Actuate(PIN_GRIPPER_ROTATE, True, bSimModeFlag);
+            Valve_Generic.Actuate(PIN_GRIPPER_ROTATE, True, bSimModeFlag);
          when 8 =>
-            Actuate(PIN_GRIPPER_ROTATE, False, bSimModeFlag);
+            Valve_Generic.Actuate(PIN_GRIPPER_ROTATE, False, bSimModeFlag);
          when others =>
             null;
       end case;
-   end Dispatch_Actuation;
+   end Dispatch_Actuation_Msg;
 
 begin
 
-   -- init
-   -- TODO: Read msg from can buffer
-   -- canMsg = read message
+   Init_Pins;
 
    if canMsg.ID = CAN_ID_KILL_SWITCH then
       Dispatch_Kill_Msg(canMsg);
@@ -73,7 +95,7 @@ begin
       Dispatch_Sim_Msg(canMsg);
    else
       if bKillSwitchFlag = False then
-         Dispatch_Actuation(canMsg);
+         Dispatch_Actuation_msg(canMsg);
       end if;
    end if;
 

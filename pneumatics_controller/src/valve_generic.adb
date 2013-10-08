@@ -1,16 +1,8 @@
-package body Valve_Generic is
-begin
-procedure Init is
-   begin
-      Digital_IO.Make_Output_Pin(PIN_TORPEDO_LEFT);
-      Digital_IO.Make_Output_Pin(PIN_TORPEDO_RIGHT);
-      Digital_IO.Make_Output_Pin(PIN_MARKER_LEFT);
-      Digital_IO.Make_Output_Pin(PIN_MARKER_RIGHT);
-      Digital_IO.Make_Output_Pin(PIN_GRIPPER_GRAB);
-      Digital_IO.Make_Output_Pin(PIN_GRIPPER_ROTATE);
-   end Init;
+with Digital_IO;
 
-   procedure Actuate (u8Pin : in Interfaces.Unsigned_8; dT : in AVR.AT90CAN128.CALENDAR.Duration; bSimModeFlag : in Boolean) is
+package body Valve_Generic is
+
+   procedure Actuate_For_Duration (u8Pin : in Interfaces.Unsigned_8; dT : in AVR.AT90CAN128.CALENDAR.Duration; bSimModeFlag : in Boolean) is
    begin
       if not bSimModeFlag then
          Digital_IO.Set_Pin(u8Pin);
@@ -34,5 +26,4 @@ procedure Init is
       end if;
    end;
 
-
-end Valve_Generic;
+end;

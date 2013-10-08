@@ -3,23 +3,22 @@ project Pneumatics_Controller is
    for Object_Dir use "build";
    for Exec_Dir use "target";
    for Main use ("pneumatics_controller.adb");
+   for Source_Dirs use (".\**");
 
    package Ide is
-      for Gnatlist use "avr-gnatls";
       for Gnat use "avr-gnat";
+      for Gnatlist use "avr-gnatls";
       for Debugger_Command use "avr-gdb";
    end Ide;
 
    package Linker is
-      for Default_Switches ("ada") use ("-nostdlib", "-Wl,-Tdata=0x800100", "-C:\Users\KKND\Desktop\naiad-auv-electronics\src\pneumatics_controller\lib\avr5.x",
+      for Default_Switches ("ada") use ("-nostdlib", "-Wl,-Tdata=0x800100", "-C:\Users\KKND\Desktop\naiad-auv-electronics\src\pneumatics_controller\lib\avr5.x", 
          "C:\Users\KKND\Desktop\naiad-auv-electronics\src\pneumatics_controller\lib\crt1-at90can128.o.org", "-lgcc", "-mavr5");
    end Linker;
 
    package Compiler is
-      for Default_Switches ("ada") use ("-O3", "-gnatwa", "-mmcu=avr5", "-gnat05");
+      for Default_Switches ("ada") use ("-O3", "-gnatwa", "-mmcu=avr5", "-gnat12");
    end Compiler;
-
-   for Source_Dirs use (".\**");
 
 end Pneumatics_Controller;
 
