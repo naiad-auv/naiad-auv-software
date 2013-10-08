@@ -1,5 +1,5 @@
 ##Shared-Part linked Makefile
-##Version 0.02&½
+##Version 0.03&½
 
 #Root Directory
 ROOT_DIRECTORY = ./
@@ -9,16 +9,28 @@ DIRS := ${sort ${dir ${wildcard ${ROOT_DIRECTORY}/*/${ROOT_DIRECTORY}/*/*/}}}
 
 
 #OpenCV object
-OCVOB = opencvBindings/coreAda
+OCVOB = visionBindings/visionBindings
 
 #Package List
-CSC_LIST = image imagepreprocessing imageprocessing mission 
+CSC_LIST = image imagepreprocessing imageprocessing mission
 
 #Main program
-MAIN = src/vision
+MAIN = src/main
+
+#additional directory
+ADDDIRPLEASE = visionBindings/
+
+#additional ob
+ADDOBJ1 = visionBindings/visionBindings.o
+
+#additional ob
+#ADDOBJ2 = visionBindings/visionbindings_hpp.o
 
 #-fPIC, not needed
 NEED_FPIC = -fPIC
+
+#g++ directory
+GPLUS = /usr/bin/g++-4.6
 
 #path for gnatlib.so , through 'gnatls -v'
 GLIB = /usr/gnat/lib/gcc/x86_64-pc-linux-gnu/4.7.4/adalib/
@@ -28,12 +40,17 @@ GLIB = /usr/gnat/lib/gcc/x86_64-pc-linux-gnu/4.7.4/adalib/
 LIB_DIR = ${foreach dir,${CSC_LIST},${dir}/lib/lib${dir}.so}
 
 ${MAIN} : objects ${LIB_DIR}
-	gnatbind ${MAIN} ${CSC_LIST :%=-a0%/lib } -shared
-	gnatlink ${MAIN} ${CSC_LIST :%= -l%}
+	echo "Objects done"
+	
+	gnatbind -aO${ADDDIRPLEASE} ${MAIN} ${CSC_LIST :%=-a0%/lib } -shared #--LINK=${GPLUS}
+	echo "binding done"
+
+	gnatlink -f ${MAIN} ${CSC_LIST :%= -l%} ${ADDOBJ1} --LINK=g++ -lstdc++ `pkg-config opencv --cflags --libs`  #${GPLUS}
+	echo "linking done"
 
 objects : 
 	#recompile the sources
-	gnatmake -c -d -i -m64 -gnat05 -gnato -gnatwa -fstack-check -o ${MAIN} ${MAIN}.adb ${NEED_FPIC} ${CSC_LIST :%= -I%} -largs ${OCVOB}.o -lstdc++ `pkg-config opencv --cflags --libs`
+	gnatmake -aI${ADDDIRPLEASE} -aO${ADDDIRPLEASE} -c -d -i -m64 -gnat05 -gnato -gnatwa -fstack-check -o ${MAIN} ${MAIN}.adb ${NEED_FPIC} ${CSC_LIST :%= -I%} -largs ${OCVOB}.o -lstdc++ `pkg-config opencv --cflags --libs`
 
 #checkout 'gnatmlib' ??
 # THIS SECTION STILL NEEDS MASSIVE EDITS TO SUIT OUR REQUIREMENTS - consult Gerard
