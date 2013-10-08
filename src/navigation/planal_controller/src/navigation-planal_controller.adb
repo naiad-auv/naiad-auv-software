@@ -1,8 +1,21 @@
 package body Navigation.Planal_Controller is
 
    function pxCreate return pCPlanal_Controller is
+
+      pxPlanalController : pCPlanal_Controller;
+
    begin
-      return null;
+
+      pxPlanalController := new CPlanal_Controller;
+
+      pxPlanalController.pxCurrentPlane := Math.Planes.pxCreate(Math.Vectors.pxCreate(0.0,0.0,0.0),0.0);
+      pxPlanalController.pxWantedPlane := Math.Planes.pxCreate(Math.Vectors.pxCreate(0.0,0.0,0.0),0.0);
+
+      pxPlanalController.pxPitchMotionComponent := Navigation.Motion_Component.pxCreate(Navigation.Motion_Component.Pitch, Navigation.PID_Controller.TPIDComponentScalings'(0.0,0.0,0.0));
+      pxPlanalController.pxRollMotionComponent := Navigation.Motion_Component.pxCreate(Navigation.Motion_Component.Roll, Navigation.PID_Controller.TPIDComponentScalings'(0.0,0.0,0.0));
+
+      return pxPlanalController;
+
    end pxCreate;
 
    function xGet_Planal_Thruster_Control_Values(this : in out CPlanal_Controller) return TPlanalControlValues is
