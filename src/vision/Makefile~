@@ -1,5 +1,5 @@
 ##Shared-Part linked Makefile
-##Version 0.03&½
+##Version 0.07&½
 
 #Root Directory
 ROOT_DIRECTORY = ./
@@ -12,7 +12,7 @@ DIRS := ${sort ${dir ${wildcard ${ROOT_DIRECTORY}/*/${ROOT_DIRECTORY}/*/*/}}}
 OCVOB = visionBindings/visionBindings
 
 #Package List
-CSC_LIST = image imagepreprocessing imageprocessing mission
+CSC_LIST = image imagepreprocessing imageprocessing mission 
 
 #Main program
 MAIN = src/main
@@ -26,7 +26,7 @@ ADDOBJ1 = visionBindings/visionBindings.o
 #additional ob
 #ADDOBJ2 = visionBindings/visionbindings_hpp.o
 
-#-fPIC, not needed
+#-fPIC
 NEED_FPIC = -fPIC
 
 #g++ directory
@@ -45,15 +45,15 @@ ${MAIN} : objects ${LIB_DIR}
 	gnatbind -aO${ADDDIRPLEASE} ${MAIN} ${CSC_LIST :%=-a0%/lib } -shared #--LINK=${GPLUS}
 	echo "binding done"
 
-	gnatlink -f ${MAIN} ${CSC_LIST :%= -l%} ${ADDOBJ1} --LINK=g++ #${GPLUS}
+	gnatlink -f ${MAIN} ${CSC_LIST :%= -l%} ${ADDOBJ1} --LINK=g++ -lstdc++ `pkg-config opencv --cflags --libs`  #${GPLUS}
 	echo "linking done"
 
 objects : 
 	#recompile the sources
 	gnatmake -aI${ADDDIRPLEASE} -aO${ADDDIRPLEASE} -c -d -i -m64 -gnat05 -gnato -gnatwa -fstack-check -o ${MAIN} ${MAIN}.adb ${NEED_FPIC} ${CSC_LIST :%= -I%} -largs ${OCVOB}.o -lstdc++ `pkg-config opencv --cflags --libs`
 
-#checkout 'gnatmlib' ??
-# THIS SECTION STILL NEEDS MASSIVE EDITS TO SUIT OUR REQUIREMENTS - consult Gerard
+
+# Change here to accommodate for different components
 #
 ${LIB_DIR} : 
 	mkdir -p ${dir $@}
@@ -62,11 +62,12 @@ ${LIB_DIR} :
 
 #Dependencies for the modules
 image/lib/libimageimage.so : image/obj/*.o
-image/lib/libmission.so : mission/obj/*.o
+mission/lib/libmission.so : mission/obj/*.o
 imagepreprocessing/lib/libimagepreprocessing.so : imagepreprocessing/obj/*.o
+imageprocessing/lib/libimageprocessing.so : imageprocessing/obj/*.o
 
 run ::
-	LD_LIBRARY_PATH = `pwd`/image/lib:`pwd`/imagepreprocessing/lib:`pwd`/mission/lib ./${MAIN} 
+	LD_LIBRARY_PATH = `pwd`/image/lib:`pwd`/imagepreprocessing/lib:`pwd`/mission/lib:`pwd`/imageprocessing/lib ./${MAIN} 
 
 clean :: 
 	${RM} -rf ${CSC_LIST :%=%/lib}
