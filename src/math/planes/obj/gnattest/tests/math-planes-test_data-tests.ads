@@ -12,11 +12,11 @@ package Math.Planes.Test_Data.Tests is
    procedure Test_pxCreate_ef4fa7 (Gnattest_T : in out Test);
    --  math-planes.ads:9:4:pxCreate
 
-   procedure Test_fAngle_Between_077501 (Gnattest_T : in out Test);
-   --  math-planes.ads:16:4:fAngle_Between
+   procedure Test_fAngle_Between_In_Degrees_4fe9d1 (Gnattest_T : in out Test);
+   --  math-planes.ads:14:4:fAngle_Between_In_Degrees
 
    procedure Test_pxGet_Intersection_Vector_Between_ae083a (Gnattest_T : in out Test);
-   --  math-planes.ads:19:4:pxGet_Intersection_Vector_Between
+   --  math-planes.ads:16:4:pxGet_Intersection_Vector_Between
 
 end Math.Planes.Test_Data.Tests;
 --  end read only

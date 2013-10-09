@@ -283,9 +283,11 @@ package body Math.Matrices is
    is
       pxNewNormal : Math.Vectors.pCVector;
    begin
+      Ada.Text_IO.Put_Line("Normal: " & float'Image(pxRightOperandPlane.pxGet_Normal_Vector.fGet_X) & ", " & float'Image(pxRightOperandPlane.pxGet_Normal_Vector.fGet_Y) & ", " & float'Image(pxRightOperandPlane.pxGet_Normal_Vector.fGet_Z) & ".");
       pxNewNormal := pxLeftOperandMatrix * pxRightOperandPlane.pxGet_Normal_Vector;
+      Ada.Text_IO.Put_Line("New normal: " & float'Image(pxNewNormal.fGet_X) & ", " & float'Image(pxNewNormal.fGet_Y) & ", " & float'Image(pxNewNormal.fGet_Z) & ".");
       return Math.Planes.pxCreate(pxNormalVector      => pxNewNormal,
-                                  fDistanceFromOrigin => pxRightOperandPlane.fGet_D);
+                                  fDistanceFromOrigin => pxRightOperandPlane.fGet_Distance_From_Origin);
    end "*";
 
    -------------------

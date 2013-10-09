@@ -30,15 +30,15 @@ package body Math.Matrices.CMatrix_Test_Data.CMatrix_Tests is
    begin
 
       pxIdentityMatrix := pxCreate_Identity;
-      for iXRot in 1 .. 90
+      for iXRot in 1 .. 10
       loop
-         tfXRotAngle := Math.Angles.TAngle(float(4 * iXRot - 180) );
-         for iYRot in 1 .. 90
+         tfXRotAngle := Math.Angles.TAngle(float(36 * iXRot - 180) );
+         for iYRot in 1 .. 10
          loop
-            tfYRotAngle := Math.Angles.TAngle(float(4 * iYRot - 180));
-            for iZRot in 1 .. 90
+            tfYRotAngle := Math.Angles.TAngle(float(36 * iYRot - 180));
+            for iZRot in 1 .. 10
             loop
-               tfZRotAngle := Math.Angles.TAngle(float(4 * iZRot - 180));
+               tfZRotAngle := Math.Angles.TAngle(float(36 * iZRot - 180));
                pxOriginalMatrix := pxCreate_Rotation_Around_Z_Axis(tfZRotAngle) *
                  pxCreate_Rotation_Around_Y_Axis(tfYRotAngle) *
                  pxCreate_Rotation_Around_X_Axis(tfXRotAngle);
@@ -95,15 +95,15 @@ package body Math.Matrices.CMatrix_Test_Data.CMatrix_Tests is
       tfZRotAngle : Math.Angles.TAngle;
    begin
 
-      for iXRot in 1 .. 90
+      for iXRot in 1 .. 10
       loop
-         tfXRotAngle := Math.Angles.TAngle(float(4 * iXRot - 180));
-         for iYRot in 1 .. 90
+         tfXRotAngle := Math.Angles.TAngle(float(36 * iXRot - 180));
+         for iYRot in 1 .. 10
          loop
-            tfYRotAngle := Math.Angles.TAngle(float(4 * iYRot - 180));
-            for iZRot in 1 .. 90
+            tfYRotAngle := Math.Angles.TAngle(float(36 * iYRot - 180));
+            for iZRot in 1 .. 10
             loop
-               tfZRotAngle := Math.Angles.TAngle(float(4 * iZRot - 180));
+               tfZRotAngle := Math.Angles.TAngle(float(36 * iZRot - 180));
                pxOriginalMatrix := pxCreate_Rotation_Around_Z_Axis(tfZRotAngle) *
                  pxCreate_Rotation_Around_Y_Axis(tfYRotAngle) *
                  pxCreate_Rotation_Around_X_Axis(tfXRotAngle);
@@ -139,15 +139,15 @@ package body Math.Matrices.CMatrix_Test_Data.CMatrix_Tests is
       tfZRotAngle : Math.Angles.TAngle;
    begin
 
-      for iXRot in 1 .. 90
+      for iXRot in 1 .. 10
       loop
-         tfXRotAngle := Math.Angles.TAngle(float(4 * iXRot - 180));
-         for iYRot in 1 .. 90
+         tfXRotAngle := Math.Angles.TAngle(float(36 * iXRot - 180));
+         for iYRot in 1 .. 10
          loop
-            tfYRotAngle := Math.Angles.TAngle(float(4 * iYRot - 180));
-            for iZRot in 1 .. 90
+            tfYRotAngle := Math.Angles.TAngle(float(36 * iYRot - 180));
+            for iZRot in 1 .. 10
             loop
-               tfZRotAngle := Math.Angles.TAngle(float(4 * iZRot - 180));
+               tfZRotAngle := Math.Angles.TAngle(float(36 * iZRot - 180));
                  pxOriginalMatrix := pxCreate_Rotation_Around_Z_Axis(tfZRotAngle) *
                    pxCreate_Rotation_Around_Y_Axis(tfYRotAngle) *
                    pxCreate_Rotation_Around_X_Axis(tfXRotAngle);
@@ -183,11 +183,42 @@ package body Math.Matrices.CMatrix_Test_Data.CMatrix_Tests is
 
       pragma Unreferenced (Gnattest_T);
 
+      pxMatrix : pCMatrix;
+      tfMatrix : TMatrix;
+
+      tfXRotAngle : Math.Angles.TAngle;
+      tfYRotAngle : Math.Angles.TAngle;
+      tfZRotAngle : Math.Angles.TAngle;
    begin
 
-      AUnit.Assertions.Assert
-        (Gnattest_Generated.Default_Assert_Value,
-         "Test not implemented.");
+      for iXRot in 1 .. 10
+      loop
+         tfXRotAngle := Math.Angles.TAngle(float(36 * iXRot - 180));
+         for iYRot in 1 .. 10
+         loop
+            tfYRotAngle := Math.Angles.TAngle(float(36 * iYRot - 180));
+            for iZRot in 1 .. 10
+            loop
+               tfZRotAngle := Math.Angles.TAngle(float(36 * iZRot - 180));
+                 pxMatrix := pxCreate_Rotation_Around_Z_Axis(tfZRotAngle) *
+                   pxCreate_Rotation_Around_Y_Axis(tfYRotAngle) *
+                   pxCreate_Rotation_Around_X_Axis(tfXRotAngle);
+
+               tfMatrix := pxMatrix.tfGet_Raw_Matrix;
+
+               for i in 1 ..3
+               loop
+                  for j in 1 .. 3
+                  loop
+                     AUnit.Assertions.Assert(Condition => pxMatrix.tfMatrix(i,j) = tfMatrix(i,j),
+                                             Message => "CMatrix.tfGet_Raw_Matrix failed, wrong value in (" & integer'Image(i) & "," & integer'Image(j) & "). Value: " & float'Image(float(tfMatrix(i,j))) & ". Expected: " & float'Image(float(pxMatrix.tfMatrix(i,j))) & ".");
+                  end loop;
+               end loop;
+
+            end loop;
+
+         end loop;
+      end loop;
 
 --  begin read only
    end Test_tfGet_Raw_Matrix;
@@ -210,15 +241,15 @@ package body Math.Matrices.CMatrix_Test_Data.CMatrix_Tests is
       tfZRotAngle : Math.Angles.TAngle;
    begin
 
-      for iXRot in 1 .. 4
+      for iXRot in 1 .. 10
       loop
-         tfXRotAngle := Math.Angles.TAngle(float(90 * iXRot - 180));
-         for iYRot in 1 .. 4
+         tfXRotAngle := Math.Angles.TAngle(float(36 * iXRot - 180));
+         for iYRot in 1 .. 10
          loop
-            tfYRotAngle := Math.Angles.TAngle(float(90 * iYRot - 180));
-            for iZRot in 1 .. 4
+            tfYRotAngle := Math.Angles.TAngle(float(36 * iYRot - 180));
+            for iZRot in 1 .. 10
             loop
-               tfZRotAngle := Math.Angles.TAngle(float(90 * iZRot - 180));
+               tfZRotAngle := Math.Angles.TAngle(float(36 * iZRot - 180));
                  pxMatrix := pxCreate_Rotation_Around_Z_Axis(tfZRotAngle) *
                    pxCreate_Rotation_Around_Y_Axis(tfYRotAngle) *
                    pxCreate_Rotation_Around_X_Axis(tfXRotAngle);
