@@ -1,0 +1,84 @@
+V "GNAT Lib v2013"
+M P W=b
+A -fstack-check=specific
+A -fPIC
+A -m64
+A -gnat05
+A -gnato
+A -gnatwa
+P ZX
+
+RN
+RV NO_IO
+RV NO_DEFAULT_INITIALIZATION
+RV SPARK
+
+U main%b		main.adb		1db4e43b NE OO SU IL
+W ada%s			ada.ads			ada.ali
+W ada.text_io%s		a-textio.adb		a-textio.ali
+W interfaces%s		interfac.ads		interfac.ali
+W interfaces.c%s	i-c.adb			i-c.ali
+W interfaces.c.strings%s  i-cstrin.adb		i-cstrin.ali
+W visionbindings_hpp%s	visionbindings_hpp.ads	visionbindings_hpp.ali
+
+D ada.ads		20130417131023 3ffc8e18
+D a-except.ads		20130417131019 10fcae55
+D a-finali.ads		20130417131020 52ecdc1b
+D a-ioexce.ads		20130417131020 8b9de6cd
+D a-stream.ads		20130417131021 2ca4ee37
+D a-tags.ads		20130417131022 6c0509d0
+D a-textio.ads		20130417131022 386df5d4
+D a-unccon.ads		20130417131022 f9eb8f06
+D interfac.ads		20130417131027 cb4a8015
+D i-c.ads		20130417131026 5421119b
+D i-cstrin.ads		20130417131027 341d0ddf
+D i-cstrea.ads		20130417131026 8128536b
+D main.adb		20131009080519 ddd30b33
+D system.ads		20130417131036 90249111
+D s-crtl.ads		20130417131029 dfcfca61
+D s-exctab.ads		20130417131029 66e51330
+D s-ficobl.ads		20130417131029 55a71d43
+D s-finmas.ads		20130417131029 b95bb341
+D s-finroo.ads		20130417131029 4ff27390
+D s-parame.ads		20130417131032 b6e20cc0
+D s-pooglo.ads		20130417131032 542f33d0
+D s-soflin.ads		20130417131032 24c8153c
+D s-stache.ads		20130417131032 596fc1b4
+D s-stalib.ads		20130417131032 f78bcf95
+D s-stoele.ads		20130417131032 facd7d98
+D s-stoele.adb		20130417131032 afc5dc80
+D s-stopoo.ads		20130417131032 7b8fbeee
+D s-traent.ads		20130417131033 5221ee41
+D s-unstyp.ads		20130417131034 6ae15c76
+D s-wchcon.ads		20130417131034 bfeb2e3d
+D visionbindings_hpp.ads  20131008171651 98360698
+X 1 ada.ads
+16K9*Ada 19e8 13|4r6 4r23
+X 7 a-textio.ads
+49K13*Text_IO 471e16 13|4w10 4r27
+X 9 interfac.ads
+36K9*Interfaces 177e15 13|2r6 2r32 3r6 3r24
+X 10 i-c.ads
+18K20*C 230e17 13|2r17 2r43 3w17 3r35
+X 11 i-cstrin.ads
+36K22*Strings 104e25 13|2w19 2r45
+47P9*chars_ptr(character)
+60V13*New_String{47P9} 13|15s23 16s23 18s20 24s20
+X 13 main.adb
+6U11*main 6b11 27l5 27t9
+7r4 CoreWrap{31|10R12} 15r4 16r4 17r4 18r4 19r4 24r4 25r4
+8r4 processingWrap{31|46R12} 23r4
+9r4 preprocessingWrap{31|74R12}
+X 31 visionbindings_hpp.ads
+7K9*visionBindings_hpp 13|1w6 1r30 31|97e23
+9K12*Class_Core_Wrap 13|7r23 31|43e7
+10R12*Core_Wrap 13|7r39 31|12e17
+15U17*push_back 13|15s13 16s13
+27U17*imshow 13|18s13 24s13
+33U17*waitKey 13|17s13 19s13 25s13
+45K12*Class_Processing_Wrap 13|8r29 31|71e7
+46R12*Processing_Wrap 13|8r51 31|48e17
+51U17*cvtColor 13|23s19
+73K12*Class_Preprocessing_Wrap 13|9r32 31|95e7
+74R12*Preprocessing_Wrap 13|9r57 31|76e17
+
