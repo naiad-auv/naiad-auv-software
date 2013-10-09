@@ -3,6 +3,7 @@ with Navigation.Motion_Component;
 with Navigation.Thruster_Configurator;
 with Math.Planes;
 with Math.Rotators;
+with Math.Vectors;
 
 package Navigation.Planal_Controller is
 
@@ -11,9 +12,9 @@ package Navigation.Planal_Controller is
 
    type TPlanalComponents is array (1..2) of Math.Rotators.TAngle;
 
-   type TPlanalControlValues is array (1..2) of Navigation.Motion_Component.TUnflitered_Thruster_Control_Values;
+   type TPlanalControlValues is array (1..2) of Navigation.Motion_Component.TComponentControlValue;
 
-   function pxCreate(pxThrusterConfigurator : Navigation.Thruster_Configurator.pCThruster_Configurator) return pCPlanal_Controller;
+   function pxCreate return pCPlanal_Controller;
 
    function xGet_Planal_Thruster_Control_Values(this : in out CPlanal_Controller) return TPlanalControlValues;
 

@@ -1,5 +1,7 @@
+with "../../math/rotators/rotators.gpr";
+with "../../math/planes/planes.gpr";
+with "../../math/matrices/matrices.gpr";
 with "../pid_controller/pid_controller.gpr";
-with "../thruster_configurator/thruster_configurator.gpr";
 with "../../math/vectors/vectors.gpr";
 with "../navigation.gpr";
 with "../motion_component/motion_component.gpr";

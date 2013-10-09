@@ -3,6 +3,9 @@
 
 with Math;
 with Ada.Numerics.Elementary_Functions;
+
+with System;
+
 with Ada.Text_IO;
 
 package body Math.Vectors is
@@ -67,10 +70,18 @@ package body Math.Vectors is
    end "/";
 
    function "=" (pxLeftOperandVector : in pCVector; pxRightOperandVector : in pCVector) return boolean is
+      use System;
    begin
-      return abs(pxLeftOperandVector.fX - pxRightOperandVector.fX) < 0.00001 and
-        abs(pxLeftOperandVector.fY - pxRightOperandVector.fY) < 0.00001 and
-        abs(pxLeftOperandVector.fZ - pxRightOperandVector.fZ) < 0.00001;
+      if(pxLeftOperandVector'Address = pxRightOperandVector'Address) then
+         return true;
+      end if;
+
+      return pxLeftOperandVector.fX = pxRightOperandVector.fX and
+        pxLeftOperandVector.fY = pxRightOperandVector.fY and
+        pxLeftOperandVector.fZ = pxRightOperandVector.fZ;
+
+   exception
+         when CONSTRAINT_ERROR => return false;
    end "=";
 
    function fGet_X (this : in CVector) return float is

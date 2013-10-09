@@ -12,7 +12,7 @@ package Navigation.Orientational_Controller is
 
    function pxCreate(pxCurrentOrientation, pxWantedOrientation : in Math.Rotators.pCRotator) return pCOrientational_Controller;
 
-   function xGet_Orientational_Thruster_Control_Values(this : in out COrientational_Controller) return Navigation.Motion_Component.TUnflitered_Thruster_Control_Values;
+   function xGet_Orientational_Thruster_Control_Values(this : in out COrientational_Controller) return Navigation.Motion_Component.TOrientational_Control_Values;
 
    procedure Update_Current_Orientation(this : in out COrientational_Controller);
    procedure Update_Wanted_Orientation(this : in out COrientational_Controller);

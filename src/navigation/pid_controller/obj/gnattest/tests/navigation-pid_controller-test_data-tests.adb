@@ -6,17 +6,16 @@
 --  placed into Navigation.PID_Controller.Test_Data.
 
 with AUnit.Assertions; use AUnit.Assertions;
-with System; use System;
 
 package body Navigation.PID_Controller.Test_Data.Tests is
 
 
 --  begin read only
-   procedure Test_pxCreate (Gnattest_T : in out Test);
-   procedure Test_pxCreate_582cf8 (Gnattest_T : in out Test) renames Test_pxCreate;
+   procedure Test_1_pxCreate (Gnattest_T : in out Test);
+   procedure Test_pxCreate_582cf8 (Gnattest_T : in out Test) renames Test_1_pxCreate;
 --  id:2.1/582cf80046f02586/pxCreate/1/0/
-   procedure Test_pxCreate (Gnattest_T : in out Test) is
-   --  navigation-pid_controller.ads:10:4:pxCreate
+   procedure Test_1_pxCreate (Gnattest_T : in out Test) is
+   --  navigation-pid_controller.ads:16:4:pxCreate
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -33,24 +32,28 @@ package body Navigation.PID_Controller.Test_Data.Tests is
       null;
 
 --  begin read only
-   end Test_pxCreate;
+   end Test_1_pxCreate;
 --  end read only
 
 
-   procedure Test_pxCreate_With_Scalings (Gnattest_T : in out Test) is
-      pragma Unreferenced(Gnattest_T);
-      pxObject : pCPID_Controller := null;
+--  begin read only
+   procedure Test_2_pxCreate (Gnattest_T : in out Test);
+   procedure Test_pxCreate_b51f41 (Gnattest_T : in out Test) renames Test_2_pxCreate;
+--  id:2.1/b51f41e7835014fc/pxCreate/0/0/
+   procedure Test_2_pxCreate (Gnattest_T : in out Test) is
+   --  navigation-pid_controller.ads:18:4:pxCreate
+--  end read only
+
+      pragma Unreferenced (Gnattest_T);
+
    begin
-      pxObject := PID_Controller.pxCreate(PID_Controller.TPIDComponentScalings'(1.0,2.0,3.0));
 
-      AUnit.Assertions.Assert(Condition => abs(pxObject.fDerivativeScale - 1.0) < 0.0001,
-                              Message => "Derivative scale set incorrectly in constructor");
-      AUnit.Assertions.Assert(Condition => abs(pxObject.fIntegralScale - 2.0) < 0.0001,
-                              Message => "Integral scale set incorrectly in constructor");
-      AUnit.Assertions.Assert(Condition => abs(pxObject.fProportionalScale - 3.0) < 0.0001,
-                              Message => "Proportional scale set incorrectly in constructor");
+      AUnit.Assertions.Assert
+        (Gnattest_Generated.Default_Assert_Value,
+         "Test not implemented.");
 
-   end Test_pxCreate_With_Scalings;
-
+--  begin read only
+   end Test_2_pxCreate;
+--  end read only
 
 end Navigation.PID_Controller.Test_Data.Tests;
