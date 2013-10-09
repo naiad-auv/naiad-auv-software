@@ -1,1 +1,0 @@
-	.file	"coreAda.hpp"

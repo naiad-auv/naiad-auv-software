@@ -1,6 +1,0 @@
-project ProcessingBindings is
-
-   for Source_Dirs use (".", ".");
-
-end ProcessingBindings;
-

@@ -29,7 +29,7 @@ D interfac.ads		20130417131027 cb4a8015
 D i-c.ads		20130417131026 5421119b
 D i-cstrin.ads		20130417131027 341d0ddf
 D i-cstrea.ads		20130417131026 8128536b
-D main.adb		20131008171326 1de46052
+D main.adb		20131009071551 1de46052
 D system.ads		20130417131036 90249111
 D s-crtl.ads		20130417131029 dfcfca61
 D s-exctab.ads		20130417131029 66e51330
@@ -59,22 +59,22 @@ X 10 i-c.ads
 X 11 i-cstrin.ads
 36K22*Strings 104e25 13|2w19 2r45
 47P9*chars_ptr(character)
-60V13*New_String{47P9} 13|15s23 16s23 18s20 24s20
+60V13*New_String{47P9} 13|16s23 17s23 19s20 25s20
 X 13 main.adb
-6U11*main 6b11 27l5 27t9
-7r4 CoreWrap{31|10R12} 15r4 16r4 17r4 18r4 19r4 24r4 25r4
-8r4 processingWrap{31|46R12} 23r4
-9r4 preprocessingWrap{31|74R12}
+7U11*main 7b11 28l5 28t9
+8r4 CoreWrap{31|10R12} 16r4 17r4 18r4 19r4 20r4 25r4 26r4
+9r4 processingWrap{31|46R12} 24r4
+10r4 preprocessingWrap{31|74R12}
 X 31 visionbindings_hpp.ads
 7K9*visionBindings_hpp 13|1w6 1r30 31|97e23
-9K12*Class_Core_Wrap 13|7r23 31|43e7
-10R12*Core_Wrap 13|7r39 31|12e17
-15U17*push_back 13|15s13 16s13
-27U17*imshow 13|18s13 24s13
-33U17*waitKey 13|17s13 19s13 25s13
-45K12*Class_Processing_Wrap 13|8r29 31|71e7
-46R12*Processing_Wrap 13|8r51 31|48e17
-51U17*cvtColor 13|23s19
-73K12*Class_Preprocessing_Wrap 13|9r32 31|95e7
-74R12*Preprocessing_Wrap 13|9r57 31|76e17
+9K12*Class_Core_Wrap 13|8r23 31|43e7
+10R12*Core_Wrap 13|8r39 31|12e17
+15U17*push_back 13|16s13 17s13
+27U17*imshow 13|19s13 25s13
+33U17*waitKey 13|18s13 20s13 26s13
+45K12*Class_Processing_Wrap 13|9r29 31|71e7
+46R12*Processing_Wrap 13|9r51 31|48e17
+51U17*cvtColor 13|24s19
+73K12*Class_Preprocessing_Wrap 13|10r32 31|95e7
+74R12*Preprocessing_Wrap 13|10r57 31|76e17
 

@@ -12,10 +12,10 @@ DIRS := ${sort ${dir ${wildcard ${ROOT_DIRECTORY}/*/${ROOT_DIRECTORY}/*/*/}}}
 OCVOB = visionBindings/visionBindings
 
 #Package List
-CSC_LIST = image imagepreprocessing imageprocessing mission 
+CSC_LIST = image imagepreprocessing imageprocessing mission
 
 #Main program
-MAIN = src/main
+MAIN = visionHandler/src/main
 
 #additional directory
 ADDDIRPLEASE = visionBindings/
