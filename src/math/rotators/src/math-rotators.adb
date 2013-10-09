@@ -1,4 +1,5 @@
 with Ada.Numerics.Elementary_Functions;
+with Ada.Numerics;
 with Ada.Text_IO;
 
 package body Math.Rotators is
@@ -7,82 +8,37 @@ package body Math.Rotators is
 
    function pxCreate(fYaw : in float; fPitch : in float; fRoll : in float) return pCRotator is
 
-      use Ada.Numerics.Elementary_Functions;
-      use Math.Matrices;
-      use Math.Vectors;
       pxNewRotator : pCRotator;
 
-      pxAxisMatrices : TMatrixArray;
-      pxAxisVectors : TVectorArray;
-      fAngles : TFloatArray;
-
+      fAngles : array (Yaw .. Roll) of float;
    begin
 
       pxNewRotator := new CRotator;
 
-      pxAxisMatrices(1) := Math.Matrices.pxCreate_Rotation_Around_X_Axis(Math.Angles.TAngle(Math.Angles.fGet_Angle_Degrees_In_Range(fAngle              => fRoll,
-                                                                                                                                    fRangeFromExclusive => -180.0)));
-      pxAxisMatrices(2) := Math.Matrices.pxCreate_Rotation_Around_Y_Axis(Math.Angles.TAngle(Math.Angles.fGet_Angle_Degrees_In_Range(fAngle              => fPitch,
-                                                                                                                                    fRangeFromExclusive => -180.0)));
-      pxAxisMatrices(3) := Math.Matrices.pxCreate_Rotation_Around_Z_Axis(Math.Angles.TAngle(Math.Angles.fGet_Angle_Degrees_In_Range(fAngle              => fYaw,
-                                                                                                                                    fRangeFromExclusive => -180.0)));
-
-      pxAxisVectors(1) := Math.Vectors.pxCreate(1.0, 0.0, 0.0);
-      pxAxisVectors(2) := Math.Vectors.pxCreate(0.0, 1.0, 0.0);
-      pxAxisVectors(3) := Math.Vectors.pxCreate(0.0, 0.0, 1.0);
-
-      Make_Rotator_Angles(pxAxisMatrices => pxAxisMatrices,
-                          pxAxisVectors => pxAxisVectors,
-                          fAngles       => fAngles);
---        for i in 1 .. 3
---        loop
---           pxAxisVector := pxRotMatrix * pxAxisVectors(i);
---           pxComparisonVector := pxRotMatrices(i) * pxAxisVectors(i);
---           pxCrossVector := pxRotMatrix * pxAxisVectors(((i+1) mod 3) + 1);
---           for j in 2 .. 3
---           loop
---              if pxAxisVector /= pxComparisonVector then
---                 exit;
---              end if;
---
---              pxAxisVector := pxRotMatrix * pxAxisVectors(j);
---              pxComparisonVector := pxRotMatrices(i) * pxAxisVectors(j);
---              pxCrossVector := pxRotMatrix * pxAxisVectors(((i+1) mod 3) + 1);
---           end loop;
---
---           Ada.Text_IO.Put_Line("Axis X: " & float'Image(pxAxisVector.fGet_X));
---           Ada.Text_IO.Put_Line("Axis Y: " & float'Image(pxAxisVector.fGet_Y));
---           Ada.Text_IO.Put_Line("Axis Z: " & float'Image(pxAxisVector.fGet_Z));
---           Ada.Text_IO.Put_Line("Comp X: " & float'Image(pxComparisonVector.fGet_X));
---           Ada.Text_IO.Put_Line("Comp Y: " & float'Image(pxComparisonVector.fGet_Y));
---           Ada.Text_IO.Put_Line("Comp Z: " & float'Image(pxComparisonVector.fGet_Z));
---           Ada.Text_IO.Put_Line("Angle between: " & float'Image(Math.Vectors.fAngle_Between(pxAxisVector, pxComparisonVector)));
---
---           fAngles(i) := Math.Vectors.fAngle_Between(pxAxisVector, pxComparisonVector);
---           fAngles(i) := Math.Angles.fRadians_To_Degrees(fAngles(i));
---
---           fAngles(i) := fGet_Signed_Angle(fAngle             => fAngles(i),
---                                           pxCrossVector      => pxCrossVector,
---                                           pxComparisonVector => pxComparisonVector,
---                                           pxAxisVector       => pxAxisVector);
---        end loop;
-
-      --Set_Rotator_Angle(eAngle : ERotatorAngleName, fAngle : float)
-      fAngles(1) := Math.Angles.fGet_Angle_Degrees_In_Range(fAngles(1),-180.0);
+      fAngles(Yaw) := Math.Angles.fGet_Angle_Degrees_In_Range(fYaw,-180.0);
       pxNewRotator.Set_Rotator_Angle(eAngle => Yaw,
-                                     fAngle => fAngles(1));
+                                     fAngle => fAngles(Yaw));
 
-      fAngles(2) := Math.Angles.fGet_Angle_Degrees_In_Range(fAngles(2),-180.0);
+      fAngles(Pitch) := Math.Angles.fGet_Angle_Degrees_In_Range(fPitch,-180.0);
       pxNewRotator.Set_Rotator_Angle(eAngle => Pitch,
-                                     fAngle => fAngles(2));
+                                     fAngle => fAngles(Pitch));
 
-      fAngles(3) := Math.Angles.fGet_Angle_Degrees_In_Range(fAngles(3),-180.0);
+      fAngles(Roll) := Math.Angles.fGet_Angle_Degrees_In_Range(fRoll,-180.0);
       pxNewRotator.Set_Rotator_Angle(eAngle => Roll,
-                                     fAngle => fAngles(3));
+                                     fAngle => fAngles(Roll));
 
 
       return pxNewRotator;
    end pxCreate;
+
+   function pxCreate_From_Matrix(pxMatrix : in Math.Matrices.pCMatrix) return pCRotator is
+      pxNewRotator : pCRotator;
+   begin
+      pxNewRotator := new CRotator;
+      pxNewRotator.Set_Rotator_Angles_From_Matrix(pxMatrix => pxMatrix);
+      return pxNewRotator;
+   end pxCreate_From_Matrix;
+
 
 
    function "+" (pxLeftOperandRotator : in pCRotator; pxRightOperandRotator : in pCRotator) return pCRotator is
@@ -104,6 +60,23 @@ package body Math.Rotators is
    end "-";
 
 
+   function "*" (pxLeftOperandMatrix : in Math.Matrices.pCMatrix; pxRightOperandRotator : in pCRotator) return pCRotator is
+      use Math.Matrices;
+      pxRotMatrix : Math.Matrices.pCMatrix;
+      pxProductRotator : pCRotator;
+   begin
+
+      pxRotMatrix := Math.Matrices.pxCreate_Rotation_Around_Z_Axis(pxRightOperandRotator.tfGet_Yaw) *
+        Math.Matrices.pxCreate_Rotation_Around_Y_Axis(pxRightOperandRotator.tfGet_Pitch) *
+        Math.Matrices.pxCreate_Rotation_Around_X_Axis(pxRightOperandRotator.tfGet_Roll);
+      pxRotMatrix := pxLeftOperandMatrix * pxRotMatrix;
+      pxProductRotator := new CRotator;
+      pxProductRotator.Set_Rotator_Angles_From_Matrix(pxRotMatrix);
+      return pxProductRotator;
+   end "*";
+
+
+
    function tfGet_Yaw (this : in CRotator) return Math.Angles.TAngle is
    begin
       return this.tAngles(Yaw);
@@ -120,182 +93,167 @@ package body Math.Rotators is
    end tfGet_Roll;
 
 
-
-   function fGet_Angle_In_Range(fAngle : in float; fRangeFrom : in float) return float is
-      fNewAngle : float;
-   begin
-      fNewAngle := fAngle;
-      while fNewAngle <= fRangeFrom loop
-         fNewAngle := fNewAngle + 360.0;
-      end loop;
-      while fNewAngle > (fRangeFrom + 360.0) loop
-         fNewAngle := fNewAngle - 360.0;
-      end loop;
-      return fNewAngle;
-   end fGet_Angle_In_Range;
-
    procedure Set_Rotator_Angle(this : in out CRotator; eAngle : ERotatorAngleName; fAngle : float) is
    begin
-      this.tAngles(eAngle) := Math.Angles.TAngle(fAngle);
+      this.tAngles(eAngle) := Math.Angles.TAngle(Math.Angles.fGet_Angle_Degrees_In_Range(fAngle              => fAngle,
+                                                                                         fRangeFromExclusive => -180.0));
    end Set_Rotator_Angle;
 
-   function fGet_Signed_Angle(fAngle : in float; pxCrossVector : in Math.Vectors.pCVector; pxComparisonVector : in Math.Vectors.pCVector; pxAxisVector : in Math.Vectors.pCVector) return float is
-   begin
-      if Math.Vectors.fDot_Product(Math.Vectors.pxCross_Product(pxCrossVector, pxComparisonVector),pxAxisVector) > 0.0 then
-         return (-fAngle);
-      end if;
-      return fAngle;
-   end fGet_Signed_Angle;
 
-   procedure Make_Rotator_Angles(pxAxisMatrices : TMatrixArray; pxAxisVectors : TVectorArray; fAngles : out TFloatArray) is
+
+
+
+
+   procedure Set_Rotator_Angles_From_Matrix(this : in out CRotator; pxMatrix : Math.Matrices.pCMatrix) is
+
+
 
       use Math.Matrices;
-      use Math.Vectors;
+      use Ada.Numerics.Elementary_Functions;
+      use Ada.Numerics;
 
-      pxAxisVector : Math.Vectors.pCVector;
-      pxComparisonVector : Math.Vectors.pCVector;
-      pxCrossVector : Math.Vectors.pCVector;
-      pxRotMatrix : Math.Matrices.pCMatrix;
-      pxRotMatrices : TMatrixArray;
+      pxXColumnVector : Math.Vectors.pCVector;
+      pxYColumnVector : Math.Vectors.pCVector;
+      pxZColumnVector : Math.Vectors.pCVector;
+
+      fA11 : float;
+      fA12 : float;
+      fA21 : float;
+      fA22 : float;
+      fA31 : float;
+      fA32 : float;
+      fA33 : float;
+
+      fY1 : float;
+      fY2 : float;
+
+      fZ11 : float;
+      fZ12 : float;
+      fZ21 : float;
+      fZ22 : float;
+
+      fX11 : float;
+      fX12 : float;
+      fX21 : float;
+      fX22 : float;
+
+      fZ1 : float;
+      fZ2 : float;
+
+      fX1 : float;
+      fX2 : float;
+
+      fYaw : float;
+      fPitch : float;
+      fRoll : float;
+
+      fV : float;
+      fV1 : float;
+      fV2 : float;
+      fV3 : float;
+      fV4 : float;
+
    begin
+      pxXColumnVector := pxMatrix * Math.Vectors.pxCreate(1.0, 0.0, 0.0);
+      pxYColumnVector := pxMatrix * Math.Vectors.pxCreate(0.0, 1.0, 0.0);
+      pxZColumnVector := pxMatrix * Math.Vectors.pxCreate(0.0, 0.0, 1.0);
 
-      pxRotMatrices(1) := pxAxisMatrices(2) * pxAxisMatrices(1);
-      pxRotMatrices(2) := pxAxisMatrices(3) * pxAxisMatrices(1);
-      pxRotMatrices(3) := pxAxisMatrices(3) * pxAxisMatrices(2);
+      fA11 := pxXColumnVector.fGet_X;
+      fA12 := pxYColumnVector.fGet_X;
+      fA21 := pxXColumnVector.fGet_Y;
+      fA22 := pxYColumnVector.fGet_Y;
+      fA31 := pxXColumnVector.fGet_Z;
+      fA32 := pxYColumnVector.fGet_Z;
+      fA33 := pxZColumnVector.fGet_Z;
 
-      pxRotMatrix := pxAxisMatrices(3) * pxAxisMatrices(2) * pxAxisMatrices(1);
 
-      for i in 1 .. 3
-      loop
-         pxAxisVector := pxRotMatrix * pxAxisVectors(i);
-         pxComparisonVector := pxRotMatrices(i) * pxAxisVectors(i);
-         pxCrossVector := pxRotMatrix * pxAxisVectors(((i+1) mod 3) + 1);
-         for j in 2 .. 3
-         loop
-            if pxAxisVector /= pxComparisonVector then
-               exit;
+      if abs(fA31) = 1.0 then
+         fPitch := fSafeArcsin(-fA31);
+         if fPitch > 0.0 then
+            fV1 := fSafeArcsin(fA12);
+            fV2 := Pi - fV1;
+            if abs(Cos(fV1) - fA22) < 0.0001 then
+               fV := fV1;
+            else
+               fV := fV2;
             end if;
+            fRoll := 0.0;
+            fYaw := fRoll - fV;
+         else
+            fV3 := fSafeArcsin(-fA12);
+            fV4 := Pi - fV3;
+            if abs(Cos(fV3) - fA22) < 0.0001 then
+               fV := fV3;
+            else
+               fV := fV4;
+            end if;
+            fRoll := 0.0;
+            fYaw := fV - fRoll;
+         end if;
+      else
 
-            pxAxisVector := pxRotMatrix * pxAxisVectors(j);
-            pxComparisonVector := pxRotMatrices(i) * pxAxisVectors(j);
-            pxCrossVector := pxRotMatrix * pxAxisVectors(((i+1) mod 3) + 1);
-         end loop;
+         fY1 := fSafeArcsin(-fA31);
+         fY2 := Pi - fY1;
 
-         Ada.Text_IO.Put_Line("Axis X: " & float'Image(pxAxisVector.fGet_X));
-         Ada.Text_IO.Put_Line("Axis Y: " & float'Image(pxAxisVector.fGet_Y));
-         Ada.Text_IO.Put_Line("Axis Z: " & float'Image(pxAxisVector.fGet_Z));
-         Ada.Text_IO.Put_Line("Comp X: " & float'Image(pxComparisonVector.fGet_X));
-         Ada.Text_IO.Put_Line("Comp Y: " & float'Image(pxComparisonVector.fGet_Y));
-         Ada.Text_IO.Put_Line("Comp Z: " & float'Image(pxComparisonVector.fGet_Z));
-         Ada.Text_IO.Put_Line("Cross X: " & float'Image(pxCrossVector.fGet_X));
-         Ada.Text_IO.Put_Line("Cross Y: " & float'Image(pxCrossVector.fGet_Y));
-         Ada.Text_IO.Put_Line("Cross Z: " & float'Image(pxCrossVector.fGet_Z));
+         fZ11 := fSafeArcsin(fA21 / Cos(fY1));
+         fZ12 := Pi - fZ11;
+         fZ21 := fSafeArcsin(fA21 / Cos(fY2));
+         fZ22 := Pi - fZ21;
 
-         Ada.Text_IO.Put_Line("Angle between: " & float'Image(Math.Vectors.fAngle_Between(pxAxisVector, pxComparisonVector)));
+         if abs((Cos(fZ11) * Cos(fY1)) - fA11) < 0.0001 then
+            fZ1 := fZ11;
+            fZ2 := fZ22;
+         else
+            fZ1 := fZ12;
+            fZ2 := fZ21;
+         end if;
 
-         fAngles(i) := Math.Vectors.fAngle_Between(pxAxisVector, pxComparisonVector);
-         fAngles(i) := Math.Angles.fRadians_To_Degrees(fAngles(i));
+         fX11 := fSafeArcsin(fA32 / Cos(fY1));
+         fX12 := Pi - fX11;
+         fX21 := fSafeArcsin(fA32 / Cos(fY2));
+         fX22 := Pi - fX21;
 
-         fAngles(i) := fGet_Signed_Angle(fAngle             => fAngles(i),
-                                         pxCrossVector      => pxCrossVector,
-                                         pxComparisonVector => pxComparisonVector,
-                                         pxAxisVector       => pxAxisVector);
-      end loop;
-   end Make_Rotator_Angles;
+         if abs((Cos(fX11) * Cos(fY1)) - fA33) < 0.0001 then
+            fX1 := fX11;
+            fX2 := fX22;
+         else
+            fX1 := fX12;
+            fX2 := fX21;
+         end if;
+
+         if abs(((Cos(fZ2) * Sin(fY2) * Sin(fX2)) - (Cos(fX2) * Sin(fZ2))) - fA12) < 0.0001 then
+            fRoll := fX2;
+            fPitch := fY2;
+            fYaw := fZ2;
+         else
+            fRoll := fX1;
+            fPitch := fY1;
+            fYaw := fZ1;
+         end if;
 
 
+
+      end if;
+
+      this.tAngles(Yaw) := Math.Angles.TAngle(Math.Angles.fGet_Angle_Degrees_In_Range(fAngle              => Math.Angles.fRadians_To_Degrees(fYaw),
+                                                                                      fRangeFromExclusive => -180.0));
+      this.tAngles(Pitch) := Math.Angles.TAngle(Math.Angles.fGet_Angle_Degrees_In_Range(fAngle              => Math.Angles.fRadians_To_Degrees(fPitch),
+                                                                                        fRangeFromExclusive => -180.0));
+      this.tAngles(Roll) := Math.Angles.TAngle(Math.Angles.fGet_Angle_Degrees_In_Range(fAngle              => Math.Angles.fRadians_To_Degrees(fRoll),
+                                                                                       fRangeFromExclusive => -180.0));
+   end Set_Rotator_Angles_From_Matrix;
+
+   function fSafeArcsin(X : float) return float is
+   begin
+      if X > 1.0 then
+         return Ada.Numerics.Elementary_Functions.Arcsin(1.0);
+      end if;
+      if X < -1.0 then
+         return Ada.Numerics.Elementary_Functions.Arcsin(-1.0);
+      end if;
+
+      return Ada.Numerics.Elementary_Functions.Arcsin(X);
+   end fSafeArcsin;
 
 
 end Math.Rotators;
-
-
-
-
---        fNewYaw := (fYaw * Ada.Numerics.Pi) / 180.0;
---        fNewPitch := (fPitch * Ada.Numerics.Pi) / 180.0;
---        fNewRoll := (fRoll * Ada.Numerics.Pi) / 180.0;
---
---        tfYaw := TAngle(fGet_Angle_In_Range(fAngle     => fYaw,
---                                            fRangeFrom => -180.0));
---        tfPitch := TAngle(fGet_Angle_In_Range(fAngle     => fPitch,
---                                              fRangeFrom => -180.0));
---        tfRoll := TAngle(fGet_Angle_In_Range(fAngle     => fRoll,
---                                             fRangeFrom => -180.0));
---        pxNewRotator := new CRotator;
---        pxNewRotator.pxForwardVector := Math.Vectors.pxCreate(fX => 1.0,
---                                                              fY => 0.0,
---                                                              fZ => 0.0);
---        pxNewRotator.pxYawVector := Math.Vectors.pxCreate(fX => Cos(fNewPitch) * Cos(fNewYaw),
---                                                          fY => (Cos(fNewRoll) * Sin(fNewYaw))+(Cos(fNewYaw) * Sin(fNewRoll) * Sin(fNewPitch)),
---                                                          fZ => 0.0);--(Sin(fNewRoll) * Sin(fNewYaw))-(Cos(fNewRoll) * Cos(fNewYaw) * Sin(fNewPitch)) );
---        pxNewRotator.pxPitchVector := Math.Vectors.pxCreate(fX => pxNewRotator.pxYawVector.fGet_X,
---                                                            fY => pxNewRotator.pxYawVector.fGet_Y,
---                                                            fZ => (Cos(fNewYaw) * Sin(fNewRoll))+(Cos(fNewRoll) * Sin(fNewPitch) * Sin(fNewYaw)));
---        pxNewRotator.pxUpVector := Math.Vectors.pxCreate(fX => Sin(fNewPitch),
---                                                         fY => -Cos()*Sin(0.0),
---                                                         fZ => (Cos(0.0) * Sin(fNewYaw))+(Cos(fNewYaw) * Sin(fNewPitch) * Sin(0.0)));
---
---        pxNewRotator.pxRollVector := Math.Vectors.pxCreate(fX => -Cos(fNewPitch) * Sin(fNewRoll),
---                                                         fY => (Cos(fNewYaw) * Cos(fNewRoll))-(Sin(fNewYaw) * Sin(fNewPitch) * Sin(fNewRoll)),
---                                                           fZ => (Cos(fNewRoll) * Sin(fNewYaw))+(Cos(fNewYaw) * Sin(fNewPitch) * Sin(fNewRoll)));
---
---        fNewYaw := Math.Vectors.fAngle_Between(pxLeftOperandVector  => pxNewRotator.pxYawVector,
---                                                          pxRightOperandVector => pxNewRotator.pxForwardVector);
---        if pxNewRotator.pxYawVector.fGet_Y < pxNewRotator.pxForwardVector.fGet_Y then
---           fNewYaw := -fNewYaw;
---        end if;
---
---        fNewPitch := Math.Vectors.fAngle_Between(pxLeftOperandVector  => pxNewRotator.pxPitchVector,
---                                                            pxRightOperandVector => pxNewRotator.pxYawVector);
---        if pxNewRotator.pxPitchVector.fGet_Z < pxNewRotator.pxYawVector.fGet_Z then
---           fNewPitch := -fNewPitch;
---        end if;
---
---        fNewRoll := Math.Vectors.fAngle_Between(pxLeftOperandVector  => pxNewRotator.pxRollVector,
---                                                           pxRightOperandVector => pxNewRotator.pxUpVector);
---        if Math.Vectors.fDot_Product(Math.Vectors.pxCross_Product(pxNewRotator.pxUpVector, pxNewRotator.pxRollVector), pxNewRotator.pxYawVector) < 0.0 then
---           fNewRoll := -fNewRoll;
---        end if;
---
---        pxNewRotator.tfYaw := TAngle(fGet_Angle_In_Range(fAngle     => (fNewYaw * 180.0) / Ada.Numerics.Pi,
---                                                         fRangeFrom => -180.0));
---        pxNewRotator.tfPitch := TAngle(fGet_Angle_In_Range(fAngle     => (fNewPitch * 180.0) / Ada.Numerics.Pi,
---                                                         fRangeFrom => -180.0));
---        pxNewRotator.tfRoll := TAngle(fGet_Angle_In_Range(fAngle     => (fNewRoll * 180.0) / Ada.Numerics.Pi,
---                                                         fRangeFrom => -180.0));
-
-
-
-
-
---        fCosYaw := Cos((fYaw * Ada.Numerics.Pi) / 180.0);
---        fCosPitch := Cos((fPitch * Ada.Numerics.Pi) / 180.0);
---        fCosRoll := Cos((fRoll * Ada.Numerics.Pi) / 180.0);
---        fSinYaw := Sin((fYaw * Ada.Numerics.Pi) / 180.0);
---        fSinPitch := Sin((fPitch * Ada.Numerics.Pi) / 180.0);
---        fSinRoll := Sin((fRoll * Ada.Numerics.Pi) / 180.0);
---
---
---
---        pxNewRotator := new CRotator;
---        pxNewRotator.pxResultXVector := Math.Vectors.pxCreate(fX => (fCosYaw*fCosPitch),
---                                                             fY => (fCosPitch*fSinYaw),
---                                                             fZ => (-fSinPitch));
---        pxNewRotator.pxResultYVector := Math.Vectors.pxCreate(fX => ((fCosYaw*fSinPitch*fSinRoll)-(fCosRoll*fSinYaw)),
---                                                             fY => ((fCosYaw*fCosRoll)+(fSinYaw*fSinPitch*fSinRoll)),
---                                                             fZ => (fCosPitch*fSinRoll));
---        pxNewRotator.pxResultZVector := Math.Vectors.pxCreate(fX => ((fSinYaw*fSinRoll)+(fCosYaw*fCosRoll*fSinPitch)),
---                                                             fY => ((fCosRoll*fSinYaw*fSinPitch)-(fCosYaw*fSinRoll)),
---                                                             fZ => (fCosPitch*fCosRoll));
---
---        pxNewRotator.pxXVector := Math.Vectors.pxCreate(fX => (fCosPitch),
---                                                        fY => (0.0),
---                                                        fZ => (-fSinPitch));
---
---        pxNewRotator.pxYVector := Math.Vectors.pxCreate(fX => -(fCosRoll*fSinYaw),
---                                                        fY => (fCosYaw*fCosRoll),
---                                                        fZ => (fSinRoll));
---
---        pxNewRotator.pxZVector := Math.Vectors.pxCreate(fX => (fCosYaw*fSinPitch),
---                                                        fY => (fSinYaw*fSinPitch),
---                                                        fZ => (fCosPitch));

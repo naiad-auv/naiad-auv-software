@@ -1,56 +1,78 @@
 with Ada.Numerics;
 with Ada.Numerics.Elementary_Functions;
 with Math.Angles;
+with Ada.Text_IO;
 
 
 package body Math.Matrices is
 
+
+   function fGet_Determinant (this : in CMatrix) return float is
+      pxXVector : Math.Vectors.pCVector;
+      pxYVector : Math.Vectors.pCVector;
+      pxZVector : Math.Vectors.pCVector;
+      pxMatrix : pCMatrix;
+   begin
+      pxXVector := Math.Vectors.pxCreate(1.0,0.0,0.0);
+      pxYVector := Math.Vectors.pxCreate(0.0,1.0,0.0);
+      pxZVector := Math.Vectors.pxCreate(0.0,0.0,1.0);
+      pxMatrix := Math.Matrices.pxCreate(this.tfMatrix);
+
+      pxXVector := pxMatrix * pxXVector;
+      pxYVector := pxMatrix * pxYVector;
+      pxZVector := pxMatrix * pxZVector;
+
+      return Math.Vectors.fDot_Product(pxXVector, Math.Vectors.pxCross_Product(pxYVector, pxZVector));
+   end fGet_Determinant;
+
+
    ------------------------------
    -- pxCreate_From_Quaternion --
    ------------------------------
-
+   function tfGet_Raw_Matrix (this : in CMatrix) return TMatrix is
+   begin
+      return this.tfMatrix;
+   end tfGet_Raw_Matrix;
 
    function pxCreate_From_Quaternion
      (pxFromQuaternion : in Math.Quaternions.pCQuaternion)
       return pCMatrix
    is
-      pxNewMatrix : pCMatrix;
+      tfMatrix : TMatrix;
+      fA : float;
+      fB : float;
+      fC : float;
+      fD : float;
    begin
-      pxNewMatrix := new CMatrix;
-
-      -- first row
-      -- 1-2y2-2z2
-      pxNewMatrix.tfMatrix(1,1) := 1.0 - (2.0 * pxFromQuaternion.fGet_Y * pxFromQuaternion.fGet_Y) - (2.0 * pxFromQuaternion.fGet_Z * pxFromQuaternion.fGet_Z);
-
-      -- 2xy-2wz
-      pxNewMatrix.tfMatrix(1,2) := (2.0 * pxFromQuaternion.fGet_X * pxFromQuaternion.fGet_Y) - (2.0 * pxFromQuaternion.fGet_W * pxFromQuaternion.fGet_Z);
-
-      -- 2xz+2wy
-      pxNewMatrix.tfMatrix(1,3) := (2.0 * pxFromQuaternion.fGet_X * pxFromQuaternion.fGet_Z) + (2.0 * pxFromQuaternion.fGet_W * pxFromQuaternion.fGet_Y);
 
 
-      -- second row
-      -- 2xy+2wz
-      pxNewMatrix.tfMatrix(2,1) := (2.0 * pxFromQuaternion.fGet_X + pxFromQuaternion.fGet_Y) + (2.0 * pxFromQuaternion.fGet_W * pxFromQuaternion.fGet_Z);
+      if 1.0 - pxFromQuaternion.fGet_Length_Squared > 0.0001 then
+         Ada.Text_IO.Put_Line("Length: " & float'Image(pxFromQuaternion.fGet_Length_Squared));
+         raise Numeric_Error;
+      end if;
 
-      -- 1-2x2-2z2
-      pxNewMatrix.tfMatrix(2,2) := 1.0 - (2.0 * pxFromQuaternion.fGet_X * pxFromQuaternion.fGet_X) - (2.0 * pxFromQuaternion.fGet_Z * pxFromQuaternion.fGet_Z);
+      fA := pxFromQuaternion.fGet_W;
+      fB := pxFromQuaternion.fGet_X;
+      fC := pxFromQuaternion.fGet_Y;
+      fD := pxFromQuaternion.fGet_Z;
 
-      -- 2yz+2wx
-      pxNewMatrix.tfMatrix(2,3) := (2.0 * pxFromQuaternion.fGet_Y * pxFromQuaternion.fGet_Z) + (2.0 * pxFromQuaternion.fGet_W * pxFromQuaternion.fGet_X);
+--      1-2*(fC*fC+fD*fD), 2*(fB*fC-fA*fD),   2*(fB*fD+fA*fC),
+--  	2*(fB*fC+fA*fD),   1-2*(fB*fB+fD*fD), 2*(fC*fD-fA*fB),
+--  	2*(fB*fD-fA*fC),   2*(fC*fD+fA*fB),   1-2*(fB*fB+fC*fC));
 
+      tfMatrix(1,1) := 1.0-2.0*(fC*fC+fD*fD);
+      tfMatrix(1,2) := 2.0*(fB*fC-fA*fD);
+      tfMatrix(1,3) := 2.0*(fB*fD+fA*fC);
 
-      -- third row
-      -- 2xz-2wy
-      pxNewMatrix.tfMatrix(3,1) := (2.0 * pxFromQuaternion.fGet_X * pxFromQuaternion.fGet_Z) - (2.0 * pxFromQuaternion.fGet_W * pxFromQuaternion.fGet_Y);
+      tfMatrix(2,1) := 2.0*(fB*fC+fA*fD);
+      tfMatrix(2,2) := 1.0-2.0*(fB*fB+fD*fD);
+      tfMatrix(2,3) := 2.0*(fC*fD-fA*fB);
 
-      -- 2yz-2wx
-      pxNewMatrix.tfMatrix(3,2) := (2.0 * pxFromQuaternion.fGet_Y * pxFromQuaternion.fGet_Z) - (2.0 * pxFromQuaternion.fGet_W * pxFromQuaternion.fGet_X);
+      tfMatrix(3,1) := 2.0*(fB*fD-fA*fC);
+      tfMatrix(3,2) := 2.0*(fC*fD+fA*fB);
+      tfMatrix(3,3) := 1.0-2.0*(fB*fB+fC*fC);
 
-      -- 1-2x2-2y2
-      pxNewMatrix.tfMatrix(3,3) := 1.0 - (2.0 * pxFromQuaternion.fGet_X * pxFromQuaternion.fGet_X) - (2.0 * pxFromQuaternion.fGet_Y * pxFromQuaternion.fGet_Y);
-
-      return pxNewMatrix;
+      return Math.Matrices.pxCreate(tfMatrix);
    end pxCreate_From_Quaternion;
 
    -------------------------------------
@@ -106,9 +128,9 @@ package body Math.Matrices is
 
       pxNewMatrix := new CMatrix;
 
-      pxNewMatrix.tfMatrix := ( (fCosAngle, 0.0, -fSinAngle),
+      pxNewMatrix.tfMatrix := ( (fCosAngle, 0.0, fSinAngle),
                                 (0.0, 1.0, 0.0),
-                                (fSinAngle, 0.0, fCosAngle));
+                                (-fSinAngle, 0.0, fCosAngle));
       return pxNewMatrix;
    end pxCreate_Rotation_Around_Y_Axis;
 
@@ -149,6 +171,25 @@ package body Math.Matrices is
       pxNewMatrix.tfMatrix := ((1.0,0.0,0.0),(0.0,1.0,0.0),(0.0,0.0,1.0));
       return pxNewMatrix;
    end pxCreate_Identity;
+
+
+
+
+   function "=" (pxLeftOperandMatrix : in pCMatrix; pxRightOperandMatrix : in pCMatrix) return boolean is
+   begin
+      for iY in 1 .. 3
+      loop
+         for iX in 1 .. 3
+         loop
+            if abs(pxLeftOperandMatrix.tfMatrix(iY, iX) - pxRightOperandMatrix.tfMatrix(iY, iX)) > 0.000001 then
+               return false;
+            end if;
+         end loop;
+      end loop;
+      return true;
+   end "=";
+
+
 
    ---------
    -- "*" --
@@ -240,23 +281,164 @@ package body Math.Matrices is
       pxRightOperandPlane : in Math.Planes.pCPlane)
       return Math.Planes.pCPlane
    is
+      pxNewNormal : Math.Vectors.pCVector;
    begin
-      --  Generated stub: replace with real body!
-      pragma Compile_Time_Warning (Standard.True, """*"" unimplemented");
-      raise Program_Error;
-      return "*" (pxLeftOperandMatrix, pxRightOperandPlane);
+      pxNewNormal := pxLeftOperandMatrix * pxRightOperandPlane.pxGet_Normal_Vector;
+      return Math.Planes.pxCreate(pxNormalVector      => pxNewNormal,
+                                  fDistanceFromOrigin => pxRightOperandPlane.fGet_D);
    end "*";
 
    -------------------
    -- pxGet_Inverse --
    -------------------
 
-   function pxGet_Inverse (this : in CMatrix) return pCMatrix is
+   procedure Swap_Values_In_Extended_Matrix(fValue1 : in out float; fValue2 : in out float) is
+      fTemp : float;
    begin
-      --  Generated stub: replace with real body!
-      pragma Compile_Time_Warning (Standard.True, "pxGet_Inverse unimplemented");
-      raise Program_Error;
-      return pxGet_Inverse (this);
+      fTemp := fValue1;
+      fValue1 := fValue2;
+      fValue2 := fTemp;
+   end Swap_Values_In_Extended_Matrix;
+
+   procedure Swap_Rows_In_Extended_Matrix(tfExtendedMatrix : in out TExtendedMatrix; iRow1 : in integer; iRow2 : in integer) is
+   begin
+      for col in 1 .. 6
+      loop
+         Swap_Values_In_Extended_Matrix(fValue1 => tfExtendedMatrix(iRow1,col),
+                                        fValue2 => tfExtendedMatrix(iRow2,col));
+      end loop;
+   end Swap_Rows_In_Extended_Matrix;
+
+   procedure Scale_Row_In_Extended_Matrix(tfExtendedMatrix : in out TExtendedMatrix; iStartingColumn : in integer) is
+      iY : integer := iStartingColumn;
+   begin
+      for iX in reverse iStartingColumn .. 6
+      loop
+         tfExtendedMatrix(iY, iX) := tfExtendedMatrix(iY, iX) / tfExtendedMatrix(iY, iStartingColumn);
+      end loop;
+      if tfExtendedMatrix(iY, iY) /= 1.0 then
+         raise Numeric_Error;
+      end if;
+   end Scale_Row_In_Extended_Matrix;
+
+   procedure Remove_Component_In_Following_Rows(tfExtendedMatrix : in out TExtendedMatrix; iRow : in integer) is
+   begin
+      for iY in iRow+1 .. 3
+      loop
+         for iX in reverse iRow .. 6
+         loop
+            tfExtendedMatrix(iY, iX) := tfExtendedMatrix(iY, iX) - (tfExtendedMatrix(iRow, iX) * tfExtendedMatrix(iY, iRow));
+         end loop;
+      end loop;
+   end Remove_Component_In_Following_Rows;
+
+
+   procedure Remove_Component_In_Leading_Rows(tfExtendedMatrix : in out TExtendedMatrix; iRow : in integer) is
+   begin
+      for iY in reverse 1 .. (iRow-1)
+      loop
+         for iX in reverse iRow .. 6
+         loop
+            tfExtendedMatrix(iY, iX) := tfExtendedMatrix(iY, iX) - (tfExtendedMatrix(iRow, iX) * tfExtendedMatrix(iY, iRow));
+         end loop;
+      end loop;
+   end Remove_Component_In_Leading_Rows;
+
+   function Find_Row_With_Highest_Component(tfExtendedMatrix : in TExtendedMatrix; iColumn : in integer) return integer is
+      iMaxValueComponent : integer := iColumn;
+   begin
+      for iRow in iColumn+1 .. 3
+      loop
+         if abs(tfExtendedMatrix(iRow, iColumn)) > abs(tfExtendedMatrix(iMaxValueComponent, iColumn)) then
+            iMaxValueComponent := iRow;
+         end if;
+      end loop;
+      return iMaxValueComponent;
+   end Find_Row_With_Highest_Component;
+
+   function bMatrix_Has_No_Inverse(fValue : in float) return boolean is
+   begin
+      if abs(fValue) > 0.0 then
+         return false;
+      end if;
+      return true;
+   end bMatrix_Has_No_Inverse;
+
+
+   procedure Perform_Gauss_Jordan_Elimination_On(tfExtendedMatrix : in out TExtendedMatrix) is
+      iRowWithMaxComponent : integer;
+   begin
+
+      for iRowAndColumn in 1 .. 3
+      loop
+         iRowWithMaxComponent := Find_Row_With_Highest_Component(tfExtendedMatrix => tfExtendedMatrix,
+                                                                 iColumn          => iRowAndColumn);
+
+         if bMatrix_Has_No_Inverse(tfExtendedMatrix(iRowWithMaxComponent, iRowAndColumn)) then
+            raise Numeric_Error;
+         end if;
+
+         if iRowWithMaxComponent /= iRowAndColumn then
+            Swap_Rows_In_Extended_Matrix(tfExtendedMatrix => tfExtendedMatrix,
+                                         iRow1            => iRowAndColumn,
+                                         iRow2            => iRowWithMaxComponent);
+         end if;
+
+
+         Scale_Row_In_Extended_Matrix(tfExtendedMatrix => tfExtendedMatrix,
+                                      iStartingColumn  => iRowAndColumn);
+
+
+
+         Remove_Component_In_Following_Rows(tfExtendedMatrix => tfExtendedMatrix,
+                                            iRow             => iRowAndColumn);
+
+         Remove_Component_In_Leading_Rows(tfExtendedMatrix => tfExtendedMatrix,
+                                          iRow             => iRowAndColumn);
+
+      end loop;
+
+   end Perform_Gauss_Jordan_Elimination_On;
+
+   function tfGet_Inverse_Part_From(tfExtendedMatrix : in TExtendedMatrix) return TMatrix is
+      tfInverse : TMatrix;
+   begin
+      for iY in 1 .. 3
+      loop
+         for iX in 1 .. 3
+         loop
+            tfInverse(iY, iX) := tfExtendedMatrix(iY, iX+3);
+         end loop;
+      end loop;
+
+      return tfInverse;
+   end tfGet_Inverse_Part_From;
+
+
+   function tfCreate_Extended_Matrix_From(tfMatrix : in TMatrix) return TExtendedMatrix is
+      tfExtendedMatrix : TExtendedMatrix;
+   begin
+      for iY in 1 .. 3
+      loop
+         for iX in 1 .. 3
+         loop
+            tfExtendedMatrix(iY, iX) := tfMatrix(iY, iX);
+            tfExtendedMatrix(iY, iX+3) := 0.0;
+         end loop;
+         tfExtendedMatrix(iY,iY+3) := 1.0;
+      end loop;
+      return tfExtendedMatrix;
+   end tfCreate_Extended_Matrix_From;
+
+
+   function pxGet_Inverse (this : in CMatrix) return pCMatrix is
+      tfExtendedMatrix : TExtendedMatrix;
+   begin
+      tfExtendedMatrix := tfCreate_Extended_Matrix_From(tfMatrix => this.tfMatrix);
+
+      Perform_Gauss_Jordan_Elimination_On(tfExtendedMatrix => tfExtendedMatrix);
+
+      return Math.Matrices.pxCreate(tfMatrix => tfGet_Inverse_Part_From(tfExtendedMatrix => tfExtendedMatrix));
    end pxGet_Inverse;
 
    ----------------
@@ -265,10 +447,7 @@ package body Math.Matrices is
 
    function pxGet_Copy (this : in CMatrix) return pCMatrix is
    begin
-      --  Generated stub: replace with real body!
-      pragma Compile_Time_Warning (Standard.True, "pxGet_Copy unimplemented");
-      raise Program_Error;
-      return pxGet_Copy (this);
+      return Math.Matrices.pxCreate(tfMatrix => this.tfMatrix);
    end pxGet_Copy;
 
    ---------------------
@@ -276,11 +455,19 @@ package body Math.Matrices is
    ---------------------
 
    function pxGet_Transpose (this : in CMatrix) return pCMatrix is
+      tfTranspose : TMatrix;
    begin
-      --  Generated stub: replace with real body!
-      pragma Compile_Time_Warning (Standard.True, "pxGet_Transpose unimplemented");
-      raise Program_Error;
-      return pxGet_Transpose (this);
+
+
+      for i in 1 .. 3
+      loop
+         for j in 1 .. 3
+         loop
+            tfTranspose(i,j) := this.tfMatrix(j,i);
+         end loop;
+      end loop;
+
+      return Math.Matrices.pxCreate(tfTranspose);
    end pxGet_Transpose;
 
 end Math.Matrices;

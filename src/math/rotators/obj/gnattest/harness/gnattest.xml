@@ -3,14 +3,20 @@
       <test_unit target_file="math-rotators-crotator_test_data-crotator_tests.ads">
          <setup file="math-rotators-crotator_test_data.adb" line="4"  column="4"/>
          <teardown file="math-rotators-crotator_test_data.adb" line="8"  column="4"/>
-         <tested name="tfGet_Yaw" line="14" column="4">
-            <test file="math-rotators-crotator_test_data-crotator_tests.adb" line="13" column="1" timestamp="2013-10-02 06:32:09"/>
+         <tested name="tfGet_Yaw" line="20" column="4">
+            <test file="math-rotators-crotator_test_data-crotator_tests.adb" line="13" column="1" timestamp="modified"/>
          </tested>
-         <tested name="tfGet_Pitch" line="15" column="4">
-            <test file="math-rotators-crotator_test_data-crotator_tests.adb" line="34" column="1" timestamp="2013-10-02 06:32:09"/>
+         <tested name="tfGet_Pitch" line="21" column="4">
+            <test file="math-rotators-crotator_test_data-crotator_tests.adb" line="42" column="1" timestamp="modified"/>
          </tested>
-         <tested name="tfGet_Roll" line="16" column="4">
-            <test file="math-rotators-crotator_test_data-crotator_tests.adb" line="55" column="1" timestamp="2013-10-02 06:32:09"/>
+         <tested name="tfGet_Roll" line="22" column="4">
+            <test file="math-rotators-crotator_test_data-crotator_tests.adb" line="73" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="Set_Rotator_Angle" line="28" column="4">
+            <test file="math-rotators-crotator_test_data-crotator_tests.adb" line="104" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="Set_Rotator_Angles_From_Matrix" line="29" column="4">
+            <test file="math-rotators-crotator_test_data-crotator_tests.adb" line="159" column="1" timestamp="2013-10-07 12:49:06"/>
          </tested>
          <dangling>
          </dangling>
@@ -18,19 +24,23 @@
       <test_unit target_file="math-rotators-test_data-tests.ads">
          <setup file="math-rotators-test_data.adb" line="3"  column="4"/>
          <teardown file="math-rotators-test_data.adb" line="9"  column="4"/>
-         <tested name="pxCreate" line="9" column="4">
-            <test file="math-rotators-test_data-tests.adb" line="13" column="1" timestamp="2013-10-02 06:32:09"/>
+         <tested name="pxCreate" line="11" column="4">
+            <test file="math-rotators-test_data-tests.adb" line="13" column="1" timestamp="modified"/>
          </tested>
-         <tested name="Plus" line="11" column="4">
-            <test file="math-rotators-test_data-tests.adb" line="43" column="1" timestamp="2013-10-02 06:32:09"/>
+         <tested name="pxCreate_From_Matrix" line="12" column="4">
+            <test file="math-rotators-test_data-tests.adb" line="47" column="1" timestamp="2013-10-07 12:49:06"/>
          </tested>
-         <tested name="Minus" line="12" column="4">
-            <test file="math-rotators-test_data-tests.adb" line="64" column="1" timestamp="2013-10-02 06:32:09"/>
+         <tested name="Plus" line="15" column="4">
+            <test file="math-rotators-test_data-tests.adb" line="68" column="1" timestamp="modified"/>
          </tested>
-         <tested name="fGet_Angle_In_Range" line="19" column="4">
-            <test file="math-rotators-test_data-tests.adb" line="85" column="1" timestamp="2013-10-02 06:32:09"/>
+         <tested name="Minus" line="16" column="4">
+            <test file="math-rotators-test_data-tests.adb" line="128" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="Multiply" line="17" column="4">
+            <test file="math-rotators-test_data-tests.adb" line="188" column="1" timestamp="2013-10-07 12:49:06"/>
          </tested>
          <dangling>
+            <test file="math-rotators-test_data-tests.adb" line="208" column="1"/>
          </dangling>
       </test_unit>
    </unit>

@@ -3,6 +3,7 @@
 
 with Math;
 with Ada.Numerics.Elementary_Functions;
+with Ada.Text_IO;
 
 package body Math.Vectors is
 
@@ -129,8 +130,13 @@ package body Math.Vectors is
       fDotProduct : float;
    begin
       fDotProduct := Math.Vectors.fDot_Product(pxLeftOperandVector  => pxLeftOperandVector,
-                                                     pxRightOperandVector => pxRightOperandVector);
-      return Ada.Numerics.Elementary_Functions.Arccos(fDotProduct / (pxLeftOperandVector.fLength * pxRightOperandVector.fLength));
+                                               pxRightOperandVector => pxRightOperandVector);
+      fDotProduct := fDotProduct / (pxLeftOperandVector.fLength * pxRightOperandVector.fLength);
+      if fDotProduct > 1.0 then
+         fDotProduct := 1.0;
+      end if;
+
+      return Ada.Numerics.Elementary_Functions.Arccos(fDotProduct);
    end fAngle_Between;
 
 
