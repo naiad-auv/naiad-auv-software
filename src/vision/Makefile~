@@ -1,5 +1,5 @@
 ##Shared-Part linked Makefile
-##Version 0.07&½
+##Version 1.01
 
 #Root Directory
 ROOT_DIRECTORY = ./
@@ -18,7 +18,9 @@ CSC_LIST = image imagepreprocessing imageprocessing mission
 MAIN = visionHandler/src/main
 
 #additional directory
-ADDDIRPLEASE = visionBindings/
+VISIONBINDINGDIR = visionBindings/ 
+MAINVISIONDIR = src/
+IMAGEPROCESSINGDIR = imageprocessing/src
 
 #additional ob
 ADDOBJ1 = visionBindings/visionBindings.o
@@ -42,7 +44,7 @@ LIB_DIR = ${foreach dir,${CSC_LIST},${dir}/lib/lib${dir}.so}
 ${MAIN} : objects ${LIB_DIR}
 	echo "Objects done"
 	
-	gnatbind -aO${ADDDIRPLEASE} ${MAIN} ${CSC_LIST :%=-a0%/lib } -shared #--LINK=${GPLUS}
+	gnatbind -aO${VISIONBINDINGDIR} ${MAIN} ${CSC_LIST :%=-a0%/lib } -shared #--LINK=${GPLUS}
 	echo "binding done"
 
 	gnatlink -f ${MAIN} ${CSC_LIST :%= -l%} ${ADDOBJ1} --LINK=g++ -lstdc++ `pkg-config opencv --cflags --libs`  #${GPLUS}
@@ -50,7 +52,7 @@ ${MAIN} : objects ${LIB_DIR}
 
 objects : 
 	#recompile the sources
-	gnatmake -aI${ADDDIRPLEASE} -aO${ADDDIRPLEASE} -c -d -i -m64 -gnat05 -gnato -gnatwa -fstack-check -o ${MAIN} ${MAIN}.adb ${NEED_FPIC} ${CSC_LIST :%= -I%} -largs ${OCVOB}.o -lstdc++ `pkg-config opencv --cflags --libs`
+	gnatmake -aI${VISIONBINDINGDIR} -aO${VISIONBINDINGDIR} -aI${MAINVISIONDIR} -aO${MAINVISIONDIR} -aI${IMAGEPROCESSINGDIR} -aO${IMAGEPROCESSINGDIR} -c -d -i -m64 -gnat05 -gnato -gnatwa -fstack-check -o ${MAIN} ${MAIN}.adb ${NEED_FPIC} ${CSC_LIST :%= -I%} -largs ${OCVOB}.o -lstdc++ `pkg-config opencv --cflags --libs`
 
 
 # Change here to accommodate for different components
@@ -65,9 +67,10 @@ image/lib/libimageimage.so : image/obj/*.o
 mission/lib/libmission.so : mission/obj/*.o
 imagepreprocessing/lib/libimagepreprocessing.so : imagepreprocessing/obj/*.o
 imageprocessing/lib/libimageprocessing.so : imageprocessing/obj/*.o
+visionHandler/lib/libvisionHandler.so : visionHandler/obj/*.o
 
 run ::
-	LD_LIBRARY_PATH = `pwd`/image/lib:`pwd`/imagepreprocessing/lib:`pwd`/mission/lib:`pwd`/imageprocessing/lib ./${MAIN} 
+	LD_LIBRARY_PATH = `pwd`/image/lib:`pwd`/imagepreprocessing/lib:`pwd`/mission/lib:`pwd`/imageprocessing/lib:`pwd`/visionHandler/lib ./${MAIN} 
 
 clean :: 
 	${RM} -rf ${CSC_LIST :%=%/lib}

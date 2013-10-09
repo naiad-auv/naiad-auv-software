@@ -2,8 +2,10 @@ with visionBindings_hpp; use visionBindings_hpp;
 with interfaces.C.strings; use interfaces.C.strings;
 with interfaces.C; use interfaces.C;
 with Ada.Text_IO; use Ada.Text_IO;
+with Vision.Image_Processing;
 
 procedure main is
+   testVar : boolean;
    CoreWrap : aliased Class_Core_Wrap.Core_Wrap;
    processingWrap : aliased Class_Processing_Wrap.Processing_Wrap;
    preprocessingWrap : aliased Class_Preprocessing_Wrap.Preprocessing_Wrap;
@@ -17,6 +19,7 @@ begin
    CoreWrap.waitKey(0);
    CoreWrap.imshow(New_String("Lady Ada"), 0);--show image for debug purposes
    CoreWrap.waitKey(0);
+   testVar:=Vision.Image_Processing.DummyTest;
 
    --CLEAN IMAGE--to be implemented
    --CONVERT IMAGE TO GREYSCALE FOR CANNY

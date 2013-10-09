@@ -13,12 +13,14 @@ RV NO_IO
 RV NO_DEFAULT_INITIALIZATION
 RV SPARK
 
-U main%b		main.adb		dd838f5a NE OO SU IL
+U main%b		main.adb		9a31c3dc NE OO SU IL
 W ada%s			ada.ads			ada.ali
 W ada.text_io%s		a-textio.adb		a-textio.ali
 W interfaces%s		interfac.ads		interfac.ali
 W interfaces.c%s	i-c.adb			i-c.ali
 W interfaces.c.strings%s  i-cstrin.adb		i-cstrin.ali
+W vision%s		vision.adb		vision.ali
+W vision.image_processing%s  vision-image_processing.adb  vision-image_processing.ali
 W visionbindings_hpp%s	visionbindings_hpp.ads	visionbindings_hpp.ali
 
 D ada.ads		20130417131023 3ffc8e18
@@ -33,7 +35,7 @@ D interfac.ads		20130417131027 cb4a8015
 D i-c.ads		20130417131026 5421119b
 D i-cstrin.ads		20130417131027 341d0ddf
 D i-cstrea.ads		20130417131026 8128536b
-D main.adb		20131009071551 1de46052
+D main.adb		20131009085358 30fe4c02
 D system.ads		20130417131036 90249111
 D s-crtl.ads		20130417131029 dfcfca61
 D s-exctab.ads		20130417131029 66e51330
@@ -51,6 +53,8 @@ D s-stopoo.ads		20130417131032 7b8fbeee
 D s-traent.ads		20130417131033 5221ee41
 D s-unstyp.ads		20130417131034 6ae15c76
 D s-wchcon.ads		20130417131034 bfeb2e3d
+D vision.ads		20131008171326 3af61aa6
+D vision-image_processing.ads  20131008171326 6aa860d6
 D visionbindings_hpp.ads  20131008171651 98360698
 X 1 ada.ads
 16K9*Ada 19e8 13|4r6 4r23
@@ -63,22 +67,28 @@ X 10 i-c.ads
 X 11 i-cstrin.ads
 36K22*Strings 104e25 13|2w19 2r45
 47P9*chars_ptr(character)
-60V13*New_String{47P9} 13|16s23 17s23 19s20 25s20
+60V13*New_String{47P9} 13|17s23 18s23 20s20 27s20
 X 13 main.adb
-7U11*main 7b11 28l5 28t9
-8r4 CoreWrap{31|10R12} 16r4 17r4 18r4 19r4 20r4 25r4 26r4
-9r4 processingWrap{31|46R12} 24r4
-10r4 preprocessingWrap{31|74R12}
-X 31 visionbindings_hpp.ads
-7K9*visionBindings_hpp 13|1w6 1r30 31|97e23
-9K12*Class_Core_Wrap 13|8r23 31|43e7
-10R12*Core_Wrap 13|8r39 31|12e17
-15U17*push_back 13|16s13 17s13
-27U17*imshow 13|19s13 25s13
-33U17*waitKey 13|18s13 20s13 26s13
-45K12*Class_Processing_Wrap 13|9r29 31|71e7
-46R12*Processing_Wrap 13|9r51 31|48e17
-51U17*cvtColor 13|24s19
-73K12*Class_Preprocessing_Wrap 13|10r32 31|95e7
-74R12*Preprocessing_Wrap 13|10r57 31|76e17
+7U11*main 7b11 30l5 30t9
+8b4 testVar{boolean} 22m4
+9r4 CoreWrap{33|10R12} 17r4 18r4 19r4 20r4 21r4 27r4 28r4
+10r4 processingWrap{33|46R12} 26r4
+11r4 preprocessingWrap{33|74R12}
+X 31 vision.ads
+1K9*Vision 13|5r6 22r13 31|3e11
+X 32 vision-image_processing.ads
+1K16*Image_Processing 13|5w13 22r20 32|8e28
+2V13*DummyTest{boolean} 13|22s37
+X 33 visionbindings_hpp.ads
+7K9*visionBindings_hpp 13|1w6 1r30 33|97e23
+9K12*Class_Core_Wrap 13|9r23 33|43e7
+10R12*Core_Wrap 13|9r39 33|12e17
+15U17*push_back 13|17s13 18s13
+27U17*imshow 13|20s13 27s13
+33U17*waitKey 13|19s13 21s13 28s13
+45K12*Class_Processing_Wrap 13|10r29 33|71e7
+46R12*Processing_Wrap 13|10r51 33|48e17
+51U17*cvtColor 13|26s19
+73K12*Class_Preprocessing_Wrap 13|11r32 33|95e7
+74R12*Preprocessing_Wrap 13|11r57 33|76e17
 
