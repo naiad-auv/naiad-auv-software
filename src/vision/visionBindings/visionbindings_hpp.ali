@@ -31,11 +31,7 @@ D s-parame.ads		20130417131032 b6e20cc0
 D s-stalib.ads		20130417131032 f78bcf95
 D s-stoele.ads		20130417131032 facd7d98
 D s-stoele.adb		20130417131032 afc5dc80
-<<<<<<< HEAD
 D visionbindings_hpp.ads  20131010124620 98360698
-=======
-D visionbindings_hpp.ads  20131010130251 98360698
->>>>>>> bdc5bd4a34e1952ac8060ee95476f2bbe1888449
 X 4 interfac.ads
 36K9*Interfaces 177e15 13|4r6 4r24 5r6 15r59 18r57 23r17 29r17 84r17
 X 5 i-c.ads
