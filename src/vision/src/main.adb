@@ -5,7 +5,7 @@ with Ada.Text_IO; use Ada.Text_IO;
 with Vision.Image; use Vision.Image;
 with Vision.Image_Preprocessing; use Vision.Image_Preprocessing;
 with Vision.Image_Processing; use Vision.Image_Processing;
---with Vision.Mission_Handler; use Vision.Mission_Handler;
+--with Vision.Mission; use Vision.Mission;
 
 procedure main is
    CoreWrap : aliased Class_Core_Wrap.Core_Wrap;
@@ -28,6 +28,9 @@ begin
    CoreWrap.imshow(New_String("why so grey rosie?"), 1);--show image for debug purposes
    CoreWrap.waitKey(0);
    Put_Line("test changes to main vision");
+   if(Vision.mission1) then
+      Put_Line("Ok");
+   end if;
    if(Vision.Image.DummyTest) then
       Put_Line("Works!");
    else
@@ -63,11 +66,7 @@ begin
    Put_Line("pro Doesn't Work!");
    end if;
    --test mission
-   --if(Vision.Mission_Handler.DummyTest) then
-      --Put_Line("mission Works!");
-   --else
-   --Put_Line("mission Doesn't Work!");
-   --end if;
+
 end main;
 
 

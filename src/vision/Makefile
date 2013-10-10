@@ -15,7 +15,7 @@ DIRS := ${sort ${dir ${wildcard ${ROOT_DIRECTORY}/*/${ROOT_DIRECTORY}/*/*/}}}
 OCVOB = visionBindings/visionBindings
 
 #Package List
-CSC_LIST = image imagepreprocessing imageprocessing
+CSC_LIST = image imagepreprocessing imageprocessing #mission
 
 #Main program
 MAIN = src/main
@@ -24,7 +24,7 @@ MAIN = src/main
 IMAGEMAIN = image/src/vision-image
 PREPROMAIN = imagepreprocessing/src/vision-image_preprocessing
 PROMAIN = imageprocessing/src/vision-image_processing
-#MISSIONMAIN = mission/src/vision-mission_handler
+#MISSIONMAIN = mission/src/vision-mission
 
 #additional source directories - use only with gnatmake
 VISIONSRCDIR = src/
@@ -74,6 +74,9 @@ preproobject :
 proobject :
 	gnatmake -aI${VISIONBINDINGSDIR} -aI${IMAGEPROCESSINGSRCDIR} -aI${VISIONSRCDIR} -aO${VISIONBINDINGSDIR} -aO${IMAGEPROCESSINGOBJDIR} -aO${VISIONOBJDIR} -c -d -i -m64 -gnat05 -gnato -gnatwa -fstack-check -o ${PROMAIN} ${PROMAIN}.adb ${NEED_FPIC} ${CSC_LIST :%= -I%} -largs ${OCVOB}.o -lstdc++ `pkg-config opencv --cflags --libs`
 
+missionobject :
+	gnatmake -aI${VISIONBINDINGSDIR} -aI${MISSIONSRCDIR} -aI${VISIONSRCDIR} -aO${VISIONBINDINGSDIR} -aO${MISSIONOBJDIR} -aO${VISIONOBJDIR} -c -d -i -m64 -gnat05 -gnato -gnatwa -fstack-check -o ${MISSIONMAIN} ${MISSIONMAIN}.adb ${NEED_FPIC} ${CSC_LIST :%= -I%} -largs ${OCVOB}.o -lstdc++ `pkg-config opencv --cflags --libs`
+
 #makes lib directories
 ${LIB_DIR} : 
 	mkdir -p ${dir $@}
@@ -84,6 +87,7 @@ ${LIB_DIR} :
 image/lib/libimageimage.so : image/obj/*.o
 imagepreprocessing/lib/libimagepreprocessing.so : imagepreprocessing/obj/*.o
 imageprocession/lib/libimageprocessing.so : imageprocessing/obj/*.o
+#mission/lib/libmission.so : mission/obj/*.o
 
 run ::
 	LD_LIBRARY_PATH = `pwd`/image/lib:`pwd`/imagepreprocessing/lib:`pwd`/imageprocessing/lib ./${MAIN} 

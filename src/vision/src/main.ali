@@ -13,7 +13,7 @@ RV NO_IO
 RV NO_DEFAULT_INITIALIZATION
 RV SPARK
 
-U main%b		main.adb		fa31d442 NE OO SU IL
+U main%b		main.adb		9ef59298 NE OO SU IL
 W ada%s			ada.ads			ada.ali
 W ada.text_io%s		a-textio.adb		a-textio.ali
 W interfaces%s		interfac.ads		interfac.ali
@@ -37,7 +37,7 @@ D interfac.ads		20130417131027 cb4a8015
 D i-c.ads		20130417131026 5421119b
 D i-cstrin.ads		20130417131027 341d0ddf
 D i-cstrea.ads		20130417131026 8128536b
-D main.adb		20131010105936 d0f0c6d3
+D main.adb		20131010123138 b4348009
 D system.ads		20130417131036 90249111
 D s-crtl.ads		20130417131029 dfcfca61
 D s-exctab.ads		20130417131029 66e51330
@@ -55,7 +55,7 @@ D s-stopoo.ads		20130417131032 7b8fbeee
 D s-traent.ads		20130417131033 5221ee41
 D s-unstyp.ads		20130417131034 6ae15c76
 D s-wchcon.ads		20130417131034 bfeb2e3d
-D vision.ads		20131007125120 3af61aa6
+D vision.ads		20131010123129 81b35c95
 D vision-image.ads	20131010085359 d2f05871
 D vision-image_preprocessing.ads  20131010085813 3e2dd9a2
 D vision-image_processing.ads  20131010090535 067b7c4a
@@ -64,8 +64,8 @@ X 1 ada.ads
 16K9*Ada 19e8 13|4r6 4r23
 X 7 a-textio.ads
 49K13*Text_IO 471e16 13|4w10 4r27
-263U14*Put_Line 13|30s4 32s7 34s4 37s7 39s4 43s7 45s4 49s7 51s4 55s7 57s4
-. 61s7 63s4
+263U14*Put_Line 13|30s4 32s7 35s7 37s4 40s7 42s4 46s7 48s4 52s7 54s4 58s7
+. 60s4 64s7 66s4
 X 9 interfac.ads
 36K9*Interfaces 177e15 13|2r6 2r32 3r6 3r24
 X 10 i-c.ads
@@ -75,24 +75,26 @@ X 11 i-cstrin.ads
 47P9*chars_ptr(character)
 60V13*New_String{47P9} 13|19s23 20s23 22s20 28s20
 X 13 main.adb
-10U11*main 10b11 71l5 71t9
+10U11*main 10b11 70l5 70t9
 11r4 CoreWrap{35|10R12} 19r4 20r4 21r4 22r4 23r4 28r4 29r4
 12r4 processingWrap{35|46R12} 27r4
 13r4 preprocessingWrap{35|74R12}
 X 31 vision.ads
-1K9*Vision 13|5r6 5r24 6r6 6r38 7r6 7r35 31r7 36r7 42r7 48r7 54r7 60r7 31|3e11
+1K9*Vision 13|5r6 5r24 6r6 6r38 7r6 7r35 31r7 34r7 39r7 45r7 51r7 57r7 63r7
+. 31|4e11
+3V13*mission1{boolean} 13|31s14
 X 32 vision-image.ads
-1K16*Image 13|5w13 5r31 31r14 36r14 48r14 32|5e17
-2V13*DummyTest{boolean} 13|31s20
-3V13*DummyShow{boolean} 13|36s20
-4V13*DummyShow2{boolean} 13|48s20
+1K16*Image 13|5w13 5r31 34r14 39r14 51r14 32|5e17
+2V13*DummyTest{boolean} 13|34s20
+3V13*DummyShow{boolean} 13|39s20
+4V13*DummyShow2{boolean} 13|51s20
 X 33 vision-image_preprocessing.ads
-1K16*Image_Preprocessing 13|6w13 6r45 42r14 54r14 33|4e31
-2V13*DummyTest{boolean} 13|42s34
-3V13*DummyTest2{boolean} 13|54s34
+1K16*Image_Preprocessing 13|6w13 6r45 45r14 57r14 33|4e31
+2V13*DummyTest{boolean} 13|45s34
+3V13*DummyTest2{boolean} 13|57s34
 X 34 vision-image_processing.ads
-1K16*Image_Processing 13|7w13 7r42 60r14 34|9e28
-3V13*DummyTest2{boolean} 13|60s31
+1K16*Image_Processing 13|7w13 7r42 63r14 34|9e28
+3V13*DummyTest2{boolean} 13|63s31
 X 35 visionbindings_hpp.ads
 7K9*visionBindings_hpp 13|1w6 1r30 35|97e23
 9K12*Class_Core_Wrap 13|11r23 35|43e7
