@@ -8,8 +8,8 @@ package body Navigation.Planal_Controller is
 
       pxPlanalController := new CPlanal_Controller;
 
-      pxPlanalController.pxCurrentPlane := Math.Planes.pxCreate(Math.Vectors.pxCreate(0.0,0.0,0.0),0.0);
-      pxPlanalController.pxWantedPlane := Math.Planes.pxCreate(Math.Vectors.pxCreate(0.0,0.0,0.0),0.0);
+      pxPlanalController.pxCurrentPlane := Math.Planes.pxCreate(Math.Vectors.pxCreate(0.0,0.0,1.0),0.0);
+      pxPlanalController.pxWantedPlane := Math.Planes.pxCreate(Math.Vectors.pxCreate(0.0,0.0,1.0),0.0);
 
       pxPlanalController.pxPitchMotionComponent := Navigation.Motion_Component.pxCreate(Navigation.Motion_Component.Pitch, Navigation.PID_Controller.TPIDComponentScalings'(0.0,0.0,0.0));
       pxPlanalController.pxRollMotionComponent := Navigation.Motion_Component.pxCreate(Navigation.Motion_Component.Roll, Navigation.PID_Controller.TPIDComponentScalings'(0.0,0.0,0.0));
@@ -26,8 +26,18 @@ package body Navigation.Planal_Controller is
 
 
    procedure Update_Wanted_Plane(this : in out CPlanal_Controller; xWantedPlaneComponents : TPlanalComponents) is
+
+   --   pxNewWantedPlane : Math.Planes.pCPlane;
+
+    --  pxXVector, pxYVector : Math.Vectors.pCVector;
+
    begin
+
+   --   pxXVector := Math.Vectors.pxCreate(Ada.Numerics.Elementary_Functions.Cos(float(xWantedPlaneComponents(1))),0.0,Ada.Numerics.Elementary_Functions.Sin(xWantedPlaneComponents(1)));
+    --  pxYVector := Math.Vectors.pxCreate(Ada.Numerics.Elementary_Functions.Cos(float(0.0,xWantedPlaneComponents(2))),Ada.Numerics.Elementary_Functions.Sin(xWantedPlaneComponents(2)));
       null;
+
+
    end Update_Wanted_Plane;
 
    procedure Update_Current_Plane(this : in out CPlanal_Controller; xCurrentPlaneComponents : TPlanalComponents) is

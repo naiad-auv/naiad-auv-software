@@ -46,11 +46,22 @@ package body Navigation.PID_Controller.Test_Data.Tests is
 
       pragma Unreferenced (Gnattest_T);
 
+      pxObject : pCPID_Controller := null;
+
    begin
 
-      AUnit.Assertions.Assert
-        (Gnattest_Generated.Default_Assert_Value,
-         "Test not implemented.");
+      pxObject := PID_Controller.pxCreate(xPIDComponentScalings => Navigation.PID_Controller.TPIDComponentScalings'(1.0,2.0,3.0));
+
+      AUnit.Assertions.Assert(Condition => (pxObject /= null),
+                              Message => "PID_Controller.pxCreate does not return an instance to an object");
+
+
+      AUnit.Assertions.Assert(Condition => pxObject.fGetProportionalScale = 1.0,
+                              Message   => "proportional scale is incorrect after construction");
+      AUnit.Assertions.Assert(Condition => pxObject.fGetIntergralScale = 2.0,
+                              Message   => "integral scale is incorrect after construction");
+      AUnit.Assertions.Assert(Condition => pxObject.fGetDerivativeScale = 3.0,
+                              Message   => "derivative scale is incorrect after construction");
 
 --  begin read only
    end Test_2_pxCreate;

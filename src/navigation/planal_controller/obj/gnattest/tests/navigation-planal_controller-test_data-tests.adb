@@ -6,6 +6,8 @@
 --  placed into Navigation.Planal_Controller.Test_Data.
 
 with AUnit.Assertions; use AUnit.Assertions;
+with Math.Planes; use Math.Planes;
+with Navigation.Motion_Component; use Navigation.Motion_Component;
 
 package body Navigation.Planal_Controller.Test_Data.Tests is
 
@@ -20,11 +22,27 @@ package body Navigation.Planal_Controller.Test_Data.Tests is
 
       pragma Unreferenced (Gnattest_T);
 
+      pxPlanalController : Navigation.Planal_Controller.pCPlanal_Controller;
+
    begin
 
-      AUnit.Assertions.Assert
-        (Gnattest_Generated.Default_Assert_Value,
-         "Test not implemented.");
+      pxPlanalController := Navigation.Planal_Controller.pxCreate;
+
+      AUnit.Assertions.Assert(Condition => pxPlanalController /= null,
+                              Message   => "PlanalController is null after construction");
+
+      AUnit.Assertions.Assert(Condition => pxPlanalController.pxCurrentPlane /= null,
+                              Message   => "CurrentPlane is null after construction");
+
+      AUnit.Assertions.Assert(Condition => pxPlanalController.pxWantedPlane /= null,
+                              Message   => "WantedPlane is null after construction");
+
+      AUnit.Assertions.Assert(Condition => pxPlanalController.pxPitchMotionComponent /= null,
+                              Message   => "PitchMotionComponent is null after construction");
+
+      AUnit.Assertions.Assert(Condition => pxPlanalController.pxRollMotionComponent /= null,
+                              Message   => "RollMotionComponent is null after construction");
+
 
 --  begin read only
    end Test_pxCreate;

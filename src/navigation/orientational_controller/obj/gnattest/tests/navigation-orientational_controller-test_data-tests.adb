@@ -6,6 +6,9 @@
 --  placed into Navigation.Orientational_Controller.Test_Data.
 
 with AUnit.Assertions; use AUnit.Assertions;
+with Math.Rotators; use Math.Rotators;
+with Navigation.Planal_Controller; use Navigation.Planal_Controller;
+with Navigation.Directional_Controller; use Navigation.Directional_Controller;
 
 package body Navigation.Orientational_Controller.Test_Data.Tests is
 
@@ -20,11 +23,26 @@ package body Navigation.Orientational_Controller.Test_Data.Tests is
 
       pragma Unreferenced (Gnattest_T);
 
+      pxOrientationalController : Navigation.Orientational_Controller.pCOrientational_Controller;
+
    begin
 
-      AUnit.Assertions.Assert
-        (Gnattest_Generated.Default_Assert_Value,
-         "Test not implemented.");
+      pxOrientationalController := Navigation.Orientational_Controller.pxCreate;
+
+      AUnit.Assertions.Assert(Condition => pxOrientationalController /= null,
+                              Message   => "OrientationalController is null after construction");
+
+      AUnit.Assertions.Assert(Condition => pxOrientationalController.pxCurrentOrientation /= null,
+                              Message   => "Current orientation is null after construction");
+
+      AUnit.Assertions.Assert(Condition => pxOrientationalController.pxWantedOrientation /= null,
+                              Message   => "Wanted orientation is null after construction");
+
+      AUnit.Assertions.Assert(Condition => pxOrientationalController.pxPlanalController /= null,
+                              Message   => "PlanalController is null after construction");
+
+      AUnit.Assertions.Assert(Condition => pxOrientationalController.pxDirectionalController /= null,
+                              Message   => "DirectionalController is null after construction");
 
 --  begin read only
    end Test_pxCreate;
