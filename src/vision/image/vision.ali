@@ -1,0 +1,21 @@
+V "GNAT Lib v2013"
+A -fstack-check=specific
+A -m64
+A -gnat05
+A -gnato
+A -gnatwa
+P ZX
+
+RN
+
+U vision%b		vision.adb		b0d39a14 NE OO PK
+
+U vision%s		vision.ads		3af61aa6 EE NE OO PK
+
+D system.ads		20130417131036 90249111
+D vision.ads		20131007125120 3af61aa6
+D vision.adb		20131007125120 8a2580b2
+X 2 vision.ads
+1K9*Vision 3l5 3e11 3|1b14 6l5 6t11
+2V13*DummyTest{boolean} 3|2b13 5l8 5t17
+

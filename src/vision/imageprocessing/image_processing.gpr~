@@ -1,0 +1,7 @@
+project Image_Processing is
+
+   for Source_Dirs use ("src");
+   for Object_Dir use "obj";
+
+end Image_Processing;
+
