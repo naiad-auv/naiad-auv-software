@@ -35,14 +35,16 @@ package body Math.Planes.Test_Data.Tests is
       pxTestPlane := Math.Planes.pxCreate(pxNormalVector      => pxTestNormal,
                                           fDistanceFromOrigin => 0.0);
 
-      AUnit.Assertions.Assert(Condition => abs(pxTestPlane.fAX - fExpectedAX) < 0.001,
-                              Message   => "CPlane.pxCreate failed, wrong AX value. Value: " & float'Image(pxTestPlane.fAX) & ". Expected: " & float'Image(fExpectedAX) & ".");
-      AUnit.Assertions.Assert(Condition => abs(pxTestPlane.fBY - fExpectedBY) < 0.001,
-                              Message   => "CPlane.pxCreate failed, wrong BY value. Value: " & float'Image(pxTestPlane.fBY) & ". Expected: " & float'Image(fExpectedBY) & ".");
-      AUnit.Assertions.Assert(Condition => abs(pxTestPlane.fCZ - fExpectedCZ) < 0.001,
-                              Message   => "CPlane.pxCreate failed, wrong CZ value. Value: " & float'Image(pxTestPlane.fCZ) & ". Expected: " & float'Image(fExpectedCZ) & ".");
-      AUnit.Assertions.Assert(Condition => abs(pxTestPlane.fD - fExpectedD) < 0.001,
-                              Message   => "CPlane.pxCreate failed, wrong D value. Value: " & float'Image(pxTestPlane.fD) & ". Expected: " & float'Image(fExpectedD) & ".");
+
+
+      AUnit.Assertions.Assert(Condition => pxTestNormal.pxGet_Normalized = pxTestPlane.pxGet_Normal_Vector,
+                              Message   => "CPlane.pxCreate failed, normal vector is wrong.");
+      AUnit.Assertions.Assert(Condition => pxTestPlane.fDistanceFromOrigin = fExpectedD,
+                              Message   => "CPlane.pxCreate failed, wrong distance from origin.");
+--        AUnit.Assertions.Assert(Condition => abs(pxTestPlane.fCZ - fExpectedCZ) < 0.001,
+--                                Message   => "CPlane.pxCreate failed, wrong CZ value. Value: " & float'Image(pxTestPlane.fCZ) & ". Expected: " & float'Image(fExpectedCZ) & ".");
+--        AUnit.Assertions.Assert(Condition => abs(pxTestPlane.fD - fExpectedD) < 0.001,
+--                                Message   => "CPlane.pxCreate failed, wrong D value. Value: " & float'Image(pxTestPlane.fD) & ". Expected: " & float'Image(fExpectedD) & ".");
 
 --  begin read only
    end Test_pxCreate;
@@ -50,11 +52,11 @@ package body Math.Planes.Test_Data.Tests is
 
 
 --  begin read only
-   procedure Test_fAngle_Between (Gnattest_T : in out Test);
-   procedure Test_fAngle_Between_077501 (Gnattest_T : in out Test) renames Test_fAngle_Between;
---  id:2.1/077501e906ad36dd/fAngle_Between/1/0/
-   procedure Test_fAngle_Between (Gnattest_T : in out Test) is
-   --  math-planes.ads:16:4:fAngle_Between
+   procedure Test_fAngle_Between_In_Degrees (Gnattest_T : in out Test);
+   procedure Test_fAngle_Between_In_Degrees_4fe9d1 (Gnattest_T : in out Test) renames Test_fAngle_Between_In_Degrees;
+--  id:2.1/4fe9d1bd22e7e480/fAngle_Between_In_Degrees/1/0/
+   procedure Test_fAngle_Between_In_Degrees (Gnattest_T : in out Test) is
+   --  math-planes.ads:14:4:fAngle_Between_In_Degrees
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -71,12 +73,12 @@ package body Math.Planes.Test_Data.Tests is
                                                                                        fY => 1.0,
                                                                                        fZ => 0.0),
                                           fDistanceFromOrigin => 0.0);
-      AUnit.Assertions.Assert(Condition => Math.Planes.fAngle_Between(pxLeftOperandPlane  => pxLeftPlane,
+      AUnit.Assertions.Assert(Condition => Math.Planes.fAngle_Between_In_Degrees(pxLeftOperandPlane  => pxLeftPlane,
                                                                       pxRightOperandPlane => pxRightPlane) = 90.0,
-                              Message   => "CPlane.fAngle_Between failed.");
+                              Message   => "CPlane.fAngle_Between_In_Degrees failed.");
 
 --  begin read only
-   end Test_fAngle_Between;
+   end Test_fAngle_Between_In_Degrees;
 --  end read only
 
 
@@ -85,7 +87,7 @@ package body Math.Planes.Test_Data.Tests is
    procedure Test_pxGet_Intersection_Vector_Between_ae083a (Gnattest_T : in out Test) renames Test_pxGet_Intersection_Vector_Between;
 --  id:2.1/ae083a1283dac6b1/pxGet_Intersection_Vector_Between/1/0/
    procedure Test_pxGet_Intersection_Vector_Between (Gnattest_T : in out Test) is
-   --  math-planes.ads:19:4:pxGet_Intersection_Vector_Between
+   --  math-planes.ads:16:4:pxGet_Intersection_Vector_Between
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -117,5 +119,7 @@ package body Math.Planes.Test_Data.Tests is
 --  begin read only
    end Test_pxGet_Intersection_Vector_Between;
 --  end read only
+
+
 
 end Math.Planes.Test_Data.Tests;

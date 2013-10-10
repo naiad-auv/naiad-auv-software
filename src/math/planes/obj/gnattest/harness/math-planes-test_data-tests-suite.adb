@@ -13,7 +13,7 @@ package body Math.Planes.Test_Data.Tests.Suite is
    Result : aliased AUnit.Test_Suites.Test_Suite;
 
    Case_1_1_Test_pxCreate_ef4fa7 : aliased Runner_1.Test_Case;
-   Case_2_1_Test_fAngle_Between_077501 : aliased Runner_1.Test_Case;
+   Case_2_1_Test_fAngle_Between_In_Degrees_4fe9d1 : aliased Runner_1.Test_Case;
    Case_3_1_Test_pxGet_Intersection_Vector_Between_ae083a : aliased Runner_1.Test_Case;
 
    function Suite return AUnit.Test_Suites.Access_Test_Suite is
@@ -24,16 +24,16 @@ package body Math.Planes.Test_Data.Tests.Suite is
          "math-planes.ads:9:4:",
          Test_pxCreate_ef4fa7'Access);
       Runner_1.Create
-        (Case_2_1_Test_fAngle_Between_077501,
-         "math-planes.ads:16:4:",
-         Test_fAngle_Between_077501'Access);
+        (Case_2_1_Test_fAngle_Between_In_Degrees_4fe9d1,
+         "math-planes.ads:14:4:",
+         Test_fAngle_Between_In_Degrees_4fe9d1'Access);
       Runner_1.Create
         (Case_3_1_Test_pxGet_Intersection_Vector_Between_ae083a,
-         "math-planes.ads:19:4:",
+         "math-planes.ads:16:4:",
          Test_pxGet_Intersection_Vector_Between_ae083a'Access);
 
       Result.Add_Test (Case_1_1_Test_pxCreate_ef4fa7'Access);
-      Result.Add_Test (Case_2_1_Test_fAngle_Between_077501'Access);
+      Result.Add_Test (Case_2_1_Test_fAngle_Between_In_Degrees_4fe9d1'Access);
       Result.Add_Test (Case_3_1_Test_pxGet_Intersection_Vector_Between_ae083a'Access);
 
       return Result'Access;

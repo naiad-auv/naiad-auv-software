@@ -76,9 +76,9 @@ package body Math.Vectors is
          return true;
       end if;
 
-      return pxLeftOperandVector.fX = pxRightOperandVector.fX and
-        pxLeftOperandVector.fY = pxRightOperandVector.fY and
-        pxLeftOperandVector.fZ = pxRightOperandVector.fZ;
+      return abs(pxLeftOperandVector.fX - pxRightOperandVector.fX) < 0.0001 and
+        abs(pxLeftOperandVector.fY - pxRightOperandVector.fY) < 0.0001 and
+        abs(pxLeftOperandVector.fZ - pxRightOperandVector.fZ) < 0.0001;
 
    exception
          when CONSTRAINT_ERROR => return false;

@@ -8,14 +8,11 @@ package Math.Planes is
 
    function pxCreate (pxNormalVector : in Math.Vectors.pCVector; fDistanceFromOrigin : in float) return pCPlane;
 
-   function fGet_AX (this : in CPlane) return float;
-   function fGet_BY (this : in CPlane) return float;
-   function fGet_CZ (this : in CPlane) return float;
-   function fGet_D (this : in CPlane) return float;
-
-   function fAngle_Between (pxLeftOperandPlane : in pCPlane; pxRightOperandPlane : in pCPlane) return float;
-
    function pxGet_Normal_Vector (this : in CPlane) return Math.Vectors.pCVector;
+   function fGet_Distance_From_Origin (this : in CPlane) return float;
+
+   function fAngle_Between_In_Degrees (pxLeftOperandPlane : in pCPlane; pxRightOperandPlane : in pCPlane) return float;
+
    function pxGet_Intersection_Vector_Between (pxLeftOperandPlane : in pCPlane; pxRightOperandPlane : in pCPlane) return Math.Vectors.pCVector;
 
 
@@ -23,10 +20,8 @@ package Math.Planes is
 private
    type CPlane is tagged
       record
-         fAX : float;
-         fBY : float;
-         fCZ : float;
-         fD : float;
+         pxNormalVector : Math.Vectors.pCVector;
+         fDistanceFromOrigin : float;
       end record;
 
 end Math.Planes;
