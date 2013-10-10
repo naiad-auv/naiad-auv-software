@@ -76,11 +76,15 @@ package body Navigation.PID_Controller.CPID_Controller_Test_Data.CPID_Controller
 
       pragma Unreferenced (Gnattest_T);
 
-   begin
+      pxObject : pCPID_Controller;
 
-      AUnit.Assertions.Assert
-        (Gnattest_Generated.Default_Assert_Value,
-         "Test not implemented.");
+   begin
+      pxObject := PID_Controller.pxCreate;
+
+      pxObject.Update_Current_Value_From_External_Source(100.0);
+
+      AUnit.Assertions.Assert(Condition => pxObject.fCurrentValue = 100.0,
+                              Message   => "fCurrentValue is not updated as it should");
 
 --  begin read only
    end Test_Update_Current_Value_From_External_Source;
@@ -144,15 +148,81 @@ package body Navigation.PID_Controller.CPID_Controller_Test_Data.CPID_Controller
 
       pragma Unreferenced (Gnattest_T);
 
-   begin
+      pxObject : pCPID_Controller;
+      value : float;
+      xScalings : Navigation.PID_Controller.TPIDComponentScalings := (0.001, 0.001, 0.001);
 
-      AUnit.Assertions.Assert
-        (Gnattest_Generated.Default_Assert_Value,
-         "Test not implemented.");
+   begin
+      pxObject := PID_Controller.pxCreate;
+
+      pxObject.Set_New_Set_Point(100.0);
+      pxObject.Update_Current_Value_From_External_Source(0.0);
+      pxObject.Set_New_PID_Component_Scalings(xScalings);
+
+      for i in 1 .. 100 loop
+         value := pxObject.xGet_New_Control_Value(1.0);
+         AUnit.Assertions.Assert(Condition => Value /= 0.0,
+                                 Message   => "Zero returned as a control value");
+      end loop;
 
 --  begin read only
    end Test_xGet_New_Control_Value;
 --  end read only
+
+
+   procedure Test_xGet_New_Control_Value_Increasing_Since_No_Decrease_In_Error(Gnattest_T : in out Test_CPID_Controller) is
+
+      pxObject : pCPID_Controller;
+      value, lastValue : float := 0.0;
+      xScalings : Navigation.PID_Controller.TPIDComponentScalings := (0.001, 0.001, 0.001);
+
+   begin
+      pxObject := PID_Controller.pxCreate;
+
+      pxObject.Set_New_Set_Point(100.0);
+      pxObject.Update_Current_Value_From_External_Source(0.0);
+      pxObject.Set_New_PID_Component_Scalings(xScalings);
+
+      for i in 1 .. 100 loop
+         value := pxObject.xGet_New_Control_Value(1.0);
+         AUnit.Assertions.Assert(Condition => Value > lastValue,
+                                 Message   => "Zero returned as a control value");
+         lastValue := value;
+      end loop;
+
+   end Test_xGet_New_Control_Value_Increasing_Since_No_Decrease_In_Error;
+
+
+   procedure Test_xGet_New_Control_Value_Decreasing_Since_Overshoot(Gnattest_T : in out Test_CPID_Controller) is
+      pxObject : pCPID_Controller;
+      value, lastValue : float := 0.0;
+      xScalings : Navigation.PID_Controller.TPIDComponentScalings := (0.001, 0.001, 0.001);
+
+   begin
+      pxObject := PID_Controller.pxCreate;
+
+      pxObject.Set_New_Set_Point(100.0);
+      pxObject.Update_Current_Value_From_External_Source(0.0);
+      pxObject.Set_New_PID_Component_Scalings(xScalings);
+
+      for i in 1 .. 100 loop
+         value := pxObject.xGet_New_Control_Value(1.0);
+         AUnit.Assertions.Assert(Condition => Value > lastValue,
+                                 Message   => "Control value not increasing when error is not changing");
+         lastValue := value;
+      end loop;
+
+      pxObject.Update_Current_Value_From_External_Source(100.0);
+
+      for i in 1 .. 100 loop
+         value := pxObject.xGet_New_Control_Value(1.0);
+         AUnit.Assertions.Assert(Condition => value <= lastValue,
+                                 Message   => "Control value not decreasing when at setpoint");
+         lastValue := value;
+      end loop;
+
+   end Test_xGet_New_Control_Value_Decreasing_Since_Overshoot;
+
 
 
 --  begin read only
@@ -165,12 +235,14 @@ package body Navigation.PID_Controller.CPID_Controller_Test_Data.CPID_Controller
 
       pragma Unreferenced (Gnattest_T);
 
+      pxObject : pCPID_Controller := null;
+
    begin
 
-      AUnit.Assertions.Assert
-        (Gnattest_Generated.Default_Assert_Value,
-         "Test not implemented.");
+      pxObject := PID_Controller.pxCreate(xPIDComponentScalings => Navigation.PID_Controller.TPIDComponentScalings'(1.0,2.0,3.0));
 
+      AUnit.Assertions.Assert(Condition => pxObject.fGetIntergralScale = 2.0,
+                              Message   => "fGetIntegralScale does not return 2.0");
 --  begin read only
    end Test_fGetIntergralScale;
 --  end read only
@@ -186,11 +258,14 @@ package body Navigation.PID_Controller.CPID_Controller_Test_Data.CPID_Controller
 
       pragma Unreferenced (Gnattest_T);
 
+      pxObject : pCPID_Controller := null;
+
    begin
 
-      AUnit.Assertions.Assert
-        (Gnattest_Generated.Default_Assert_Value,
-         "Test not implemented.");
+      pxObject := PID_Controller.pxCreate(xPIDComponentScalings => Navigation.PID_Controller.TPIDComponentScalings'(1.0,2.0,3.0));
+
+      AUnit.Assertions.Assert(Condition => pxObject.fGetDerivativeScale = 3.0,
+                              Message   => "fGetDerivativeScale does not return 3.0");
 
 --  begin read only
    end Test_fGetDerivativeScale;
@@ -206,32 +281,16 @@ package body Navigation.PID_Controller.CPID_Controller_Test_Data.CPID_Controller
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
+      pxObject : pCPID_Controller := null;
 
    begin
 
-      AUnit.Assertions.Assert
-        (Gnattest_Generated.Default_Assert_Value,
-         "Test not implemented.");
+      pxObject := PID_Controller.pxCreate(xPIDComponentScalings => Navigation.PID_Controller.TPIDComponentScalings'(1.0,2.0,3.0));
 
+      Aunit.Assertions.Assert(Condition => pxObject.fGetProportionalScale = 1.0,
+                              Message   => "fGetProportionalScale did not return 1.0");
 --  begin read only
    end Test_fGetProportionalScale;
---  end read only
-
-
---  begin read only
-   --  procedure Test_xGet_New_Control_Value (Gnattest_T : in out Test);
-   --  procedure Test_xGet_New_Control_Value_5adb99 (Gnattest_T : in out Test) renames Test_xGet_New_Control_Value;
---  id:2.1/5adb99280d98182d/xGet_New_Control_Value/0/1/
-   --  procedure Test_xGet_New_Control_Value (Gnattest_T : in out Test) is
---  end read only
---  
---        pragma Unreferenced (Gnattest_T);
---  
---     begin
---        null;
---  
---  begin read only
-   --  end Test_xGet_New_Control_Value;
 --  end read only
 
 end Navigation.PID_Controller.CPID_Controller_Test_Data.CPID_Controller_Tests;

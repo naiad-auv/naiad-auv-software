@@ -1,5 +1,4 @@
 with "../thruster_configurator/thruster_configurator.gpr";
-with "../../math/rotators/rotators.gpr";
 with "../navigation.gpr";
 with "../motion_component/motion_component.gpr";
 

@@ -33,5 +33,9 @@ package Navigation.PID_Controller.CPID_Controller_Test_Data.CPID_Controller_Test
    procedure Test_fGetProportionalScale_b0d874 (Gnattest_T : in out Test_CPID_Controller);
    --  navigation-pid_controller.ads:34:4:fGetProportionalScale
 
+   procedure Test_xGet_New_Control_Value_Increasing_Since_No_Decrease_In_Error(Gnattest_T : in out Test_CPID_Controller);
+
+   procedure Test_xGet_New_Control_Value_Decreasing_Since_Overshoot(Gnattest_T : in out Test_CPID_Controller);
+
 end Navigation.PID_Controller.CPID_Controller_Test_Data.CPID_Controller_Tests;
 --  end read only

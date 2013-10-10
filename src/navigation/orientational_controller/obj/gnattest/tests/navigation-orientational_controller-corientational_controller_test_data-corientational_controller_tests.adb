@@ -6,6 +6,7 @@
 --  placed into Navigation.Orientational_Controller.COrientational_Controller_Test_Data.
 
 with AUnit.Assertions; use AUnit.Assertions;
+with Math.Rotators; use Math.Rotators;
 
 package body Navigation.Orientational_Controller.COrientational_Controller_Test_Data.COrientational_Controller_Tests is
 
@@ -41,11 +42,23 @@ package body Navigation.Orientational_Controller.COrientational_Controller_Test_
 
       pragma Unreferenced (Gnattest_T);
 
+
+      pxOrientationalController : Navigation.Orientational_Controller.pCOrientational_Controller;
+
    begin
 
-      AUnit.Assertions.Assert
-        (Gnattest_Generated.Default_Assert_Value,
-         "Test not implemented.");
+      pxOrientationalController := Navigation.Orientational_Controller.pxCreate;
+
+      pxOrientationalController.Update_Current_Orientation(Math.Rotators.pxCreate(100.0,100.0,100.0));
+
+      AUnit.Assertions.Assert(Condition => abs(pxOrientationalController.pxCurrentOrientation.tfGet_Yaw - 100.0) < 0.00001,
+                              Message => "Yaw component set incorrectly");
+
+      AUnit.Assertions.Assert(Condition => abs(pxOrientationalController.pxCurrentOrientation.tfGet_Pitch - 100.0) < 0.00001,
+                              Message => "Pitch component set incorrectly");
+
+      AUnit.Assertions.Assert(Condition => abs(pxOrientationalController.pxCurrentOrientation.tfGet_Roll - 100.0) < 0.00001,
+                              Message => "Roll component set incorrectly");
 
 --  begin read only
    end Test_Update_Current_Orientation;
@@ -62,12 +75,22 @@ package body Navigation.Orientational_Controller.COrientational_Controller_Test_
 
       pragma Unreferenced (Gnattest_T);
 
+      pxOrientationalController : Navigation.Orientational_Controller.pCOrientational_Controller;
+
    begin
 
-      AUnit.Assertions.Assert
-        (Gnattest_Generated.Default_Assert_Value,
-         "Test not implemented.");
+      pxOrientationalController := Navigation.Orientational_Controller.pxCreate;
 
+      pxOrientationalController.Update_Wanted_Orientation(Math.Rotators.pxCreate(100.0,110.0,120.0));
+
+      AUnit.Assertions.Assert(Condition => abs(pxOrientationalController.pxWantedOrientation.tfGet_Yaw - 100.0) < 0.00001,
+                              Message => "Yaw component set incorrectly");
+
+      AUnit.Assertions.Assert(Condition => abs(pxOrientationalController.pxWantedOrientation.tfGet_Pitch - 110.0) < 0.00001,
+                              Message => "Pitch component set incorrectly");
+
+      AUnit.Assertions.Assert(Condition => abs(pxOrientationalController.pxWantedOrientation.tfGet_Roll - 120.0) < 0.00001,
+                              Message => "Roll component set incorrectly");
 --  begin read only
    end Test_Update_Wanted_Orientation;
 --  end read only
@@ -104,11 +127,16 @@ package body Navigation.Orientational_Controller.COrientational_Controller_Test_
 
       pragma Unreferenced (Gnattest_T);
 
+      pxOrientationalController : Navigation.Orientational_Controller.pCOrientational_Controller;
+
    begin
 
-      AUnit.Assertions.Assert
-        (Gnattest_Generated.Default_Assert_Value,
-         "Test not implemented.");
+      pxOrientationalController := Navigation.Orientational_Controller.pxCreate;
+
+      pxOrientationalController.Update_Current_Orientation(Math.Rotators.pxCreate(100.0,110.0,120.0));
+
+      AUnit.Assertions.Assert(Condition => pxOrientationalController.xGet_Current_Directional_Component = 100.0,
+                              Message   => "Get_Wanted_Directional_Component does not return a correct value");
 
 --  begin read only
    end Test_fGet_Current_Directional_Component;
@@ -125,11 +153,16 @@ package body Navigation.Orientational_Controller.COrientational_Controller_Test_
 
       pragma Unreferenced (Gnattest_T);
 
+      pxOrientationalController : Navigation.Orientational_Controller.pCOrientational_Controller;
+
    begin
 
-      AUnit.Assertions.Assert
-        (Gnattest_Generated.Default_Assert_Value,
-         "Test not implemented.");
+      pxOrientationalController := Navigation.Orientational_Controller.pxCreate;
+
+      pxOrientationalController.Update_Wanted_Orientation(Math.Rotators.pxCreate(100.0,110.0,120.0));
+
+      AUnit.Assertions.Assert(Condition => pxOrientationalController.xGet_Wanted_Directional_Component = 100.0,
+                              Message   => "Get_Wanted_Directional_Component does not return a correct value");
 
 --  begin read only
    end Test_fGet_Wanted_Directional_Component;
@@ -146,11 +179,24 @@ package body Navigation.Orientational_Controller.COrientational_Controller_Test_
 
       pragma Unreferenced (Gnattest_T);
 
+      pxOrientationalController : Navigation.Orientational_Controller.pCOrientational_Controller;
+
+      xPlanalComponents : Navigation.Planal_Controller.TPlanalComponents;
+
    begin
 
-      AUnit.Assertions.Assert
-        (Gnattest_Generated.Default_Assert_Value,
-         "Test not implemented.");
+      pxOrientationalController := Navigation.Orientational_Controller.pxCreate;
+
+      pxOrientationalController.Update_Current_Orientation(Math.Rotators.pxCreate(100.0,110.0,120.0));
+
+      xPlanalComponents := pxOrientationalController.xGet_Current_Planal_Components;
+
+      AUnit.Assertions.Assert(Condition => xPlanalComponents(1) = 110.0,
+                              Message   => "pitch component of planal component is set incorrectly");
+
+      AUnit.Assertions.Assert(Condition => xPlanalComponents(2) = 120.0,
+                              Message   => "roll component of planal component is set incorrectly");
+
 
 --  begin read only
    end Test_xGet_Current_Planal_Components;
@@ -167,11 +213,25 @@ package body Navigation.Orientational_Controller.COrientational_Controller_Test_
 
       pragma Unreferenced (Gnattest_T);
 
+      pxOrientationalController : Navigation.Orientational_Controller.pCOrientational_Controller;
+
+      xPlanalComponents : Navigation.Planal_Controller.TPlanalComponents;
+
    begin
 
-      AUnit.Assertions.Assert
-        (Gnattest_Generated.Default_Assert_Value,
-         "Test not implemented.");
+      pxOrientationalController := Navigation.Orientational_Controller.pxCreate;
+
+      pxOrientationalController.Update_Wanted_Orientation(Math.Rotators.pxCreate(100.0,110.0,120.0));
+
+      xPlanalComponents := pxOrientationalController.xGet_Wanted_Planal_Components;
+
+      AUnit.Assertions.Assert(Condition => xPlanalComponents(1) = 110.0,
+                              Message   => "pitch component of planal component is set incorrectly");
+
+      AUnit.Assertions.Assert(Condition => xPlanalComponents(2) = 120.0,
+                              Message   => "roll component of planal component is set incorrectly");
+
+
 
 --  begin read only
    end Test_xGet_Wanted_Planal_Components;

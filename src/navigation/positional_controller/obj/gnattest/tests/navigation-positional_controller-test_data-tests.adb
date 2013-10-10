@@ -6,8 +6,6 @@
 --  placed into Navigation.Positional_Controller.Test_Data.
 
 with AUnit.Assertions; use AUnit.Assertions;
-with Math.Vectors; use Math.Vectors;
-with Navigation.Motion_Component; use Navigation.Motion_Component;
 
 package body Navigation.Positional_Controller.Test_Data.Tests is
 
@@ -22,6 +20,9 @@ package body Navigation.Positional_Controller.Test_Data.Tests is
 
       pragma Unreferenced (Gnattest_T);
 
+      use Math.Vectors;
+      use Navigation.Motion_Component;
+
       pxPositionalController : Navigation.Positional_Controller.pCPositional_Controller;
 
    begin
@@ -31,8 +32,6 @@ package body Navigation.Positional_Controller.Test_Data.Tests is
       AUnit.Assertions.Assert(Condition => pxPositionalController /= null,
                               Message => "pxPositionalController is not pointing towards on object");
 
-      AUnit.Assertions.Assert(Condition => pxPositionalController.pxCurrentPosition /= null,
-                              Message => "pxCurrent position is null after construction");
 
       AUnit.Assertions.Assert(Condition => pxPositionalController.pxWantedPosition /= null,
                               Message => "pxWantedPosition is null after construction");

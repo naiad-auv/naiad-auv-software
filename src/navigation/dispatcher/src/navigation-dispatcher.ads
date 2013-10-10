@@ -3,7 +3,6 @@ with Navigation.Positional_Controller;
 with Navigation.Thruster_Configurator;
 with Navigation.Motion_Component;
 with Math.Vectors;
-with Math.Rotators;
 with Navigation.PID_Controller;
 
 package Navigation.Dispatcher is
