@@ -1,4 +1,3 @@
-with Math;
 with Math.Vectors;
 with Ada.Numerics.Elementary_Functions;
 with Ada.Numerics;

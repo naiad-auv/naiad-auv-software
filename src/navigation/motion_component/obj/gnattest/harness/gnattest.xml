@@ -3,29 +3,29 @@
       <test_unit target_file="navigation-motion_component-cmotion_component_test_data-cmotion_component_tests.ads">
          <setup file="navigation-motion_component-cmotion_component_test_data.adb" line="4"  column="4"/>
          <teardown file="navigation-motion_component-cmotion_component_test_data.adb" line="8"  column="4"/>
-         <tested name="xGet_New_Control_Values" line="17" column="4">
-            <test file="navigation-motion_component-cmotion_component_test_data-cmotion_component_tests.adb" line="13" column="1" timestamp="2013-10-01 06:55:35"/>
+         <tested name="xGet_New_Component_Control_Value" line="23" column="4">
+            <test file="navigation-motion_component-cmotion_component_test_data-cmotion_component_tests.adb" line="13" column="1" timestamp="modified"/>
          </tested>
-         <tested name="Set_New_PID_Component_Scalings" line="19" column="4">
-            <test file="navigation-motion_component-cmotion_component_test_data-cmotion_component_tests.adb" line="34" column="1" timestamp="2013-10-01 06:55:35"/>
+         <tested name="Set_New_PID_Component_Scalings" line="25" column="4">
+            <test file="navigation-motion_component-cmotion_component_test_data-cmotion_component_tests.adb" line="47" column="1" timestamp="modified"/>
          </tested>
-         <tested name="Set_New_Wanted_Value" line="21" column="4">
-            <test file="navigation-motion_component-cmotion_component_test_data-cmotion_component_tests.adb" line="55" column="1" timestamp="2013-10-01 06:55:35"/>
+         <tested name="Update_Current_Error" line="27" column="4">
+            <test file="navigation-motion_component-cmotion_component_test_data-cmotion_component_tests.adb" line="83" column="1" timestamp="2013-10-10 10:22:19"/>
          </tested>
-         <tested name="Set_New_Current_Value" line="23" column="4">
-            <test file="navigation-motion_component-cmotion_component_test_data-cmotion_component_tests.adb" line="76" column="1" timestamp="2013-10-01 06:55:35"/>
-         </tested>
-         <tested name="Reset_Component" line="25" column="4">
-            <test file="navigation-motion_component-cmotion_component_test_data-cmotion_component_tests.adb" line="97" column="1" timestamp="2013-10-01 06:55:35"/>
+         <tested name="Reset_Component" line="29" column="4">
+            <test file="navigation-motion_component-cmotion_component_test_data-cmotion_component_tests.adb" line="104" column="1" timestamp="modified"/>
          </tested>
          <dangling>
+            <test file="navigation-motion_component-cmotion_component_test_data-cmotion_component_tests.adb" line="137" column="1"/>
+            <test file="navigation-motion_component-cmotion_component_test_data-cmotion_component_tests.adb" line="163" column="1"/>
+            <test file="navigation-motion_component-cmotion_component_test_data-cmotion_component_tests.adb" line="190" column="1"/>
          </dangling>
       </test_unit>
       <test_unit target_file="navigation-motion_component-test_data-tests.ads">
          <setup file="navigation-motion_component-test_data.adb" line="3"  column="4"/>
          <teardown file="navigation-motion_component-test_data.adb" line="9"  column="4"/>
-         <tested name="pxCreate" line="15" column="4">
-            <test file="navigation-motion_component-test_data-tests.adb" line="13" column="1" timestamp="2013-10-01 06:55:35"/>
+         <tested name="pxCreate" line="21" column="4">
+            <test file="navigation-motion_component-test_data-tests.adb" line="13" column="1" timestamp="modified"/>
          </tested>
          <dangling>
          </dangling>

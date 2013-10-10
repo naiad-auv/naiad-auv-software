@@ -19,6 +19,10 @@ package body Navigation.PID_Controller.CPID_Controller_Test_Data.CPID_Controller
    Case_6_1_Test_xGet_New_Control_Value_Increasing_Since_No_Decrease_In_Error : aliased Runner_1.Test_Case;
    Case_7_1_Test_xGet_New_Control_Value_Decreasing_Since_Overshoot : aliased Runner_1.Test_Case;
    Case_8_1_Test_Update_Current_Value_From_External_Source : aliased Runner_1.Test_Case;
+   Case_9_1_Test_fGetProportionalScale : aliased Runner_1.Test_Case;
+   Case_10_1_Test_fGetIntegralScale : aliased Runner_1.Test_Case;
+   Case_11_1_Test_fGetDerivativeScale : aliased Runner_1.Test_Case;
+
 
    function Suite return AUnit.Test_Suites.Access_Test_Suite is
    begin
@@ -30,7 +34,7 @@ package body Navigation.PID_Controller.CPID_Controller_Test_Data.CPID_Controller
       Runner_1.Create
         (Case_2_1_Test_Set_New_PID_Component_Scalings_640958,
          "navigation-pid_controller.ads:14:4:",
-         Test_Set_New_PID_Component_Scalings_640958'Access);
+         Test_Set_New_PID_Component_Scalings_c67cc5'Access);
       Runner_1.Create
         (Case_3_1_Test_Reset_Controller_033697,
          "navigation-pid_controller.ads:16:4:",
@@ -38,7 +42,7 @@ package body Navigation.PID_Controller.CPID_Controller_Test_Data.CPID_Controller
       Runner_1.Create
         (Case_5_1_Test_xGet_New_Control_Value_5adb99,
          "navigation-pid_controller.ads:20:4:",
-         Test_xGet_New_Control_Value_5adb99'Access);
+         Test_xGet_New_Control_Value_4592b3'Access);
       Runner_1.Create
         (Case_6_1_Test_xGet_New_Control_Value_Increasing_Since_No_Decrease_In_Error,
          "navigation-pid_controller.ads:20:4: the proportional error not decreasing test",
@@ -50,7 +54,17 @@ package body Navigation.PID_Controller.CPID_Controller_Test_Data.CPID_Controller
       Runner_1.Create
         (Case_8_1_Test_Update_Current_Value_From_External_Source,
          "Update current value test",
-         Test_Update_Current_Value_From_External_Source'Access);
+         Test_Update_Current_Value_From_External_Source_32a416'Access);
+      Runner_1.Create(Case_9_1_Test_fGetProportionalScale,
+                      "fGetProportionalScaleTest",
+                      Test_fGetProportionalScale_b0d874'Access);
+      Runner_1.Create(Case_10_1_Test_fGetIntegralScale,
+                      "fGetDerivative",
+                      Test_fGetIntergralScale_953a97'Access);
+      Runner_1.Create(Case_11_1_Test_fGetDerivativeScale,
+                      "fGetIntegral",
+                      Test_fGetDerivativeScale_53214f'Access);
+
 
 
       Result.Add_Test (Case_1_1_Test_Set_New_Set_Point_f8f7bc'Access);
@@ -60,6 +74,9 @@ package body Navigation.PID_Controller.CPID_Controller_Test_Data.CPID_Controller
       Result.Add_Test (Case_6_1_Test_xGet_New_Control_Value_Increasing_Since_No_Decrease_In_Error'Access);
       Result.Add_Test (Case_7_1_Test_xGet_New_Control_Value_Decreasing_Since_Overshoot'Access);
       Result.Add_Test (Case_8_1_Test_Update_Current_Value_From_External_Source'Access);
+      Result.Add_Test (Case_9_1_Test_fGetProportionalScale'Access);
+      Result.Add_Test (Case_10_1_Test_fGetIntegralScale'Access);
+      Result.Add_Test (Case_11_1_Test_fGetDerivativeScale'Access);
 
       return Result'Access;
 

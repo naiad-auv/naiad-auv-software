@@ -1,5 +1,5 @@
-with "../vectors/vectors.gpr";
 with "../math.gpr";
+with "../vectors/vectors.gpr";
 
 project Planes is
 
@@ -7,3 +7,4 @@ project Planes is
    for Object_Dir use "obj";
 
 end Planes;
+

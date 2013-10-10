@@ -1,0 +1,64 @@
+\section{Introduction}
+\subsection{Rationale}
+\subsubsection{Space Plug-and-Play Avionics (SPA)}
+The main goal with Space Plug-and-Play Avionics (SPA) is to make the
+assembly process of a spacecraft go as fast as possible. Development of
+separate components can take years but when it's time to connect the component
+to a system, it should be done in a matter of hours or days.
+
+For this SPA is being defined in a set of standard documents ranging from how
+the communication protocol should work to how different types of subnets comply
+with the general logical interface standard \cite{standard:spa_logical_interface,
+    standard:spa_networking,standard:spa_spacewire_adaptation,standard:spa_physical_interface,
+standard:spa_local_adaptation}.
+
+Some key concepts with the Space Plug-and-Play technology
+\begin{itemize}
+    \item Assembly of components to a complete system should be done in hours or days.
+    \item SPA defines a set of technologies that can be used for communication;
+        this includes, but is not limited to SPA-u for "USB subnets" and SPA-s
+        for SpaceWire subnets.
+\end{itemize}
+
+% As Lyke et. al. says
+% \textit{"One must not confuse the idea of building systems fast with the idea of
+% creating systems that can be built fast"} \cite{lyke2010}.
+% that makes it possible
+
+
+\subsubsection{CAN Bus}
+The CAN Bus was created by Bosch for the automotive industry \cite{standard:can_bus}, it's designed to
+reduce wiring and have a high-level of safety built-in. There is no routing
+system in a CAN Bus so all connected nodes can read all messages and send as
+soon as the bus is free. Instead all types of messages have a Message ID linked
+to it and all nodes that want to read that kind of message filter them out.
+
+The Message IDs also defines the priority in a CAN Bus. If two nodes starts to
+send a message at the same time, arbitration will be done by comparing all bits
+in the message id. As soon as a node detects that another message is being sent
+at the same time with a lower Message ID it will stop transmitting.
+
+Some key concepts with the CAN Bus
+\begin{itemize}
+    \item All nodes can read all messages.
+    \item Multiple nodes are not allowed to send messages with the same message
+        ID.
+    \item Message IDs are used for priority.
+\end{itemize}
+
+
+
+
+\subsection{SPA over CAN Bus}
+This report will go through the problems with adapting SPA for the CAN Bus as
+well as possible solutions. This work is done as a part of a project at
+M\"{a}lardalens University where an Autonomous Underwater Vehicle is built.
+The main motiviation for "SPA over CAN Bus" are the requirements from the
+customer for this project. Throughout the report basic knowledge about the CAN
+Bus as well as the general concepts of SPA is assumed.
+
+The report is structured as follows. It starts with terms and definitions,
+followed by problem statement, solutions are then given in the "SPA CAN Bus Adaptation"
+chapter. The conclusions from this research is given in the end as well as
+if suggested solutions are worth going forward with in the Autonomous
+Underwater Vehicle project.

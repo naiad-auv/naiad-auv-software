@@ -1,0 +1,32 @@
+\section{Introduction}
+\textit{The following introduction is the same as the one for SPA Local Subnet Standard
+\cite{standard:spa_local_adaptation} with a slight modification in the last
+paragraph. SPA Local has been changed to SPA CAN Bus.}
+% Perhaps even better to copy information from chapter 1 "Scope" and 4
+% "Overview" which gives a better introduction and the introduction.
+
+SPA embraces and implements a collection of standards designed to facilitate
+rapid constitution of spacecraft systems using modular components.
+
+The data portion of the standard is based on a data-centric model in which
+components self-describe their interfaces when they register with the system.
+This self-description is facilitated by an XML byte string called an
+extensible Transducer Electronic Data Sheet (xTEDS). The xTEDS defines the
+identity of the component, and the organization of its data interfaces.
+
+SPA is a networked data exchange model. One of the premises of SPA is that
+there is no distinction between a hardware device that supports a data
+interface and a software application that does the same - thus all endpoints
+in a SPA network, physical or virtual, are referred to as "components".
+
+Other components may use queries to express their data consumption needs.
+These queries are based on the specification of data "kind" with "qualifiers"
+that provide additional context to focus the search. When matches are found,
+the consumer may subscribe to messages of providers that meet their search
+criteria. As such, SPA systems dynamically bind their data at runtime.
+
+The SPA CAN Bus Subnet Adaptation specifies the means by which SPA components
+interoperate on a CAN Bus Subnet. It specifies the inter SPA-C component
+communication method used in order to establish a SPA CAN Bus Subnet and the
+messages, protocols, and interactions required in order to facilitate PnP
+functionality.

@@ -1,8 +1,11 @@
 -- Vector package for Project Naiad
 -- Written by Per-Erik Måhl, 2013
 
-with Math;
 with Ada.Numerics.Elementary_Functions;
+
+with System;
+
+with Ada.Text_IO;
 
 package body Math.Vectors is
 
@@ -66,10 +69,18 @@ package body Math.Vectors is
    end "/";
 
    function "=" (pxLeftOperandVector : in pCVector; pxRightOperandVector : in pCVector) return boolean is
+      use System;
    begin
-      return pxLeftOperandVector.fX = pxRightOperandVector.fX and
-        pxLeftOperandVector.fY = pxRightOperandVector.fY and
-        pxLeftOperandVector.fZ = pxRightOperandVector.fZ;
+      if(pxLeftOperandVector'Address = pxRightOperandVector'Address) then
+         return true;
+      end if;
+
+      return abs(pxLeftOperandVector.fX - pxRightOperandVector.fX) < 0.0001 and
+        abs(pxLeftOperandVector.fY - pxRightOperandVector.fY) < 0.0001 and
+        abs(pxLeftOperandVector.fZ - pxRightOperandVector.fZ) < 0.0001;
+
+   exception
+         when CONSTRAINT_ERROR => return false;
    end "=";
 
    function fGet_X (this : in CVector) return float is
@@ -129,8 +140,13 @@ package body Math.Vectors is
       fDotProduct : float;
    begin
       fDotProduct := Math.Vectors.fDot_Product(pxLeftOperandVector  => pxLeftOperandVector,
-                                                     pxRightOperandVector => pxRightOperandVector);
-      return Ada.Numerics.Elementary_Functions.Arccos(fDotProduct / (pxLeftOperandVector.fLength * pxRightOperandVector.fLength));
+                                               pxRightOperandVector => pxRightOperandVector);
+      fDotProduct := fDotProduct / (pxLeftOperandVector.fLength * pxRightOperandVector.fLength);
+      if fDotProduct > 1.0 then
+         fDotProduct := 1.0;
+      end if;
+
+      return Ada.Numerics.Elementary_Functions.Arccos(fDotProduct);
    end fAngle_Between;
 
 

@@ -1,8 +1,10 @@
+with "../../math/planes/planes.gpr";
+with "../../math/vectors/vectors.gpr";
+with "../../math/angles/angles.gpr";
+with "../../math/matrices/matrices.gpr";
+with "../motion_component/motion_component.gpr";
 with "../pid_controller/pid_controller.gpr";
-with "../../math/rotators/rotators.gpr";
 with "../navigation.gpr";
-with "../planal_controller/planal_controller.gpr";
-with "../directional_controller/directional_controller.gpr";
 
 project Orientational_Controller is
 

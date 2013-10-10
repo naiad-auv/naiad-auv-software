@@ -1,4 +1,3 @@
-with Math;
 with Math.Vectors;
 with Ada.Numerics;
 
@@ -6,38 +5,25 @@ package body Math.Planes is
 
    function pxCreate (pxNormalVector : in Math.Vectors.pCVector; fDistanceFromOrigin : in float) return pCPlane is
       pxNewPlane : pCPlane;
-      pxNormalizedNormal : Math.Vectors.pCVector;
    begin
       pxNewPlane := new CPlane;
-      pxNormalizedNormal := pxNormalVector.pxGet_Normalized;
-      pxNewPlane.fAX := pxNormalizedNormal.fGet_X;
-      pxNewPlane.fBY := pxNormalizedNormal.fGet_Y;
-      pxNewPlane.fCZ := pxNormalizedNormal.fGet_Z;
-      pxNewPlane.fD := fDistanceFromOrigin;
+      pxNewPlane.pxNormalVector := pxNormalVector.pxGet_Normalized;
+      pxNewPlane.fDistanceFromOrigin := fDistanceFromOrigin;
       return pxNewPlane;
    end pxCreate;
 
-   function fGet_AX (this : in CPlane) return float is
+   function pxGet_Normal_Vector (this : in CPlane) return Math.Vectors.pCVector is
    begin
-      return this.fAX;
-   end fGet_AX;
+      return this.pxNormalVector.pxGet_Copy;
+   end pxGet_Normal_Vector;
 
-   function fGet_BY (this : in CPlane) return float is
+
+   function fGet_Distance_From_Origin (this : in CPlane) return float is
    begin
-      return this.fBY;
-   end fGet_BY;
+      return this.fDistanceFromOrigin;
+   end fGet_Distance_From_Origin;
 
-   function fGet_CZ (this : in CPlane) return float is
-   begin
-      return this.fCZ;
-   end fGet_CZ;
-
-   function fGet_D (this : in CPlane) return float is
-   begin
-      return this.fD;
-   end fGet_D;
-
-   function fAngle_Between (pxLeftOperandPlane : in pCPlane; pxRightOperandPlane : in pCPlane) return float is
+   function fAngle_Between_In_Degrees (pxLeftOperandPlane : in pCPlane; pxRightOperandPlane : in pCPlane) return float is
       fAngleInRadians : float;
       fAngleInDegrees : float;
    begin
@@ -45,15 +31,8 @@ package body Math.Planes is
                                                      pxRightOperandVector => pxRightOperandPlane.pxGet_Normal_Vector);
       fAngleInDegrees :=  fAngleInRadians * (180.0 / Ada.Numerics.Pi);
       return fAngleInDegrees;
-   end fAngle_Between;
+   end fAngle_Between_In_Degrees;
 
-
-   function pxGet_Normal_Vector (this : in CPlane) return Math.Vectors.pCVector is
-   begin
-      return Math.Vectors.pxCreate(fX => this.fAX,
-                                   fY => this.fBY,
-                                   fZ => this.fCZ);
-   end pxGet_Normal_Vector;
 
    function pxGet_Intersection_Vector_Between (pxLeftOperandPlane : in pCPlane; pxRightOperandPlane : in pCPlane) return Math.Vectors.pCVector is
       pxIntersectionVector : Math.Vectors.pCVector;

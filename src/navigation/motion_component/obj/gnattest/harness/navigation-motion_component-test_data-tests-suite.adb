@@ -19,7 +19,7 @@ package body Navigation.Motion_Component.Test_Data.Tests.Suite is
 
       Runner_1.Create
         (Case_1_1_Test_pxCreate_d9cc2b,
-         "navigation-motion_component.ads:15:4:",
+         "navigation-motion_component.ads:21:4:",
          Test_pxCreate_d9cc2b'Access);
 
       Result.Add_Test (Case_1_1_Test_pxCreate_d9cc2b'Access);
