@@ -200,6 +200,8 @@ package body Salinity_Sensor is
 
          exit when bKeepGoing = False;
 
+         exit when bKeepGoing = False;
+
          if cChar = ',' then
             iCommas := iCommas + 1;
          end if;
