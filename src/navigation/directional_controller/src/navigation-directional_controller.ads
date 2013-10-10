@@ -1,7 +1,7 @@
 with Navigation.Motion_Component;
 with Navigation.Thruster_Configurator;
 with Navigation.PID_Controller;
-with Math.Rotators;
+with Math.Angles;
 
 package Navigation.Directional_Controller is
 
@@ -12,8 +12,8 @@ package Navigation.Directional_Controller is
 
    function xGet_New_Directional_Control_Value(this : in out CDirectional_Controller; fDeltaTime : float) return Navigation.Motion_Component.TComponentControlValue;
 
-   procedure Update_Current_Direction(this : in out CDirectional_Controller; xNewCurrentDirection : Math.Rotators.TAngle);
-   procedure Update_Wanted_Direction(this : in out CDirectional_Controller; xNewWantedDirection : Math.Rotators.TAngle);
+   procedure Update_Current_Direction(this : in out CDirectional_Controller; xNewCurrentDirection : Math.Angles.TAngle);
+   procedure Update_Wanted_Direction(this : in out CDirectional_Controller; xNewWantedDirection : Math.Angles.TAngle);
 
    procedure Set_New_PID_Component_Scalings(this : in out CDirectional_Controller; xNewPIDScaling : Navigation.PID_Controller.TPIDComponentScalings);
 
@@ -21,10 +21,10 @@ private
    type CDirectional_Controller is tagged
       record
 
-         xCurrentDirection : Math.Rotators.TAngle;
-         xWantedDirection : Math.Rotators.TAngle;
+         xCurrentDirection : Math.Angles.TAngle;
+         xWantedDirection : Math.Angles.TAngle;
 
-         xYawMotionComponent : Navigation.Motion_Component.pCMotion_Component;
+         xDirectionalMotionComponent : Navigation.Motion_Component.pCMotion_Component;
 
       end record;
 

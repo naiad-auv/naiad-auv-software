@@ -11,8 +11,8 @@ package body Navigation.Planal_Controller is
       pxPlanalController.pxCurrentPlane := Math.Planes.pxCreate(Math.Vectors.pxCreate(0.0,0.0,1.0),0.0);
       pxPlanalController.pxWantedPlane := Math.Planes.pxCreate(Math.Vectors.pxCreate(0.0,0.0,1.0),0.0);
 
-      pxPlanalController.pxPitchMotionComponent := Navigation.Motion_Component.pxCreate(Navigation.Motion_Component.Pitch, Navigation.PID_Controller.TPIDComponentScalings'(0.0,0.0,0.0));
-      pxPlanalController.pxRollMotionComponent := Navigation.Motion_Component.pxCreate(Navigation.Motion_Component.Roll, Navigation.PID_Controller.TPIDComponentScalings'(0.0,0.0,0.0));
+      pxPlanalController.pxPlanalMotionComponent := Navigation.Motion_Component.pxCreate(Navigation.Motion_Component.Plane,
+                                                                                         Navigation.PID_Controller.TPIDComponentScalings'(0.0,0.0,0.0));
 
       return pxPlanalController;
 

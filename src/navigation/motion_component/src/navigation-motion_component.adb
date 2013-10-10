@@ -29,26 +29,18 @@ package body Navigation.Motion_Component is
    end Set_New_PID_Component_Scalings;
 
 
-   procedure Set_New_Wanted_Value(this : in out CMotion_Component; fNewValue : float)is
+   procedure Update_Current_Error(this : in out CMotion_Component; fNewErrorValue : float)is
    begin
-      this.fWantedValue := fNewValue;
-      this.xComponentPIDController.Set_New_Set_Point(fNewValue);
-   end Set_New_Wanted_Value;
-
-
-
-   procedure Set_New_Current_Value(this : in out CMotion_Component; fNewValue : float) is
-   begin
-      this.fCurrentValue := fNewValue;
-      this.xComponentPIDController.Update_Current_Value_From_External_Source(fNewValue);
-   end Set_New_Current_Value;
+      this.fCurrentError := fNewErrorValue;
+      this.xComponentPIDController.Set_New_Set_Point(0.0);
+      this.xComponentPIDController.Update_Current_Value_From_External_Source(this.fCurrentError);
+   end Update_Current_Error;
 
 
 
    procedure Reset_Component(this : in out CMotion_Component) is
    begin
-      this.fCurrentValue := 0.0;
-      this.fWantedValue := 0.0;
+      this.fCurrentError := 0.0;
       
       this.xComponentPIDController.Reset_Controller;
    end Reset_Component;

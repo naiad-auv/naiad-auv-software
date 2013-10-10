@@ -1,7 +1,6 @@
 with Navigation.Motion_Component;
 with Math.Matrices;
 with Math.Vectors;
-with Math.Rotators;
 
 package Navigation.Thruster_Configurator is
 

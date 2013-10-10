@@ -9,7 +9,6 @@ package body Navigation.Positional_Controller is
 
       xPositionalController := new CPositional_Controller;
 
-      xPositionalController.pxCurrentPosition := Math.Vectors.pxCreate(0.0, 0.0, 0.0);
       xPositionalController.pxWantedPosition := Math.Vectors.pxCreate(0.0, 0.0, 0.0);
 
       xPositionalController.pxXMotionComponent := Navigation.Motion_Component.pxCreate(eAxisIndex    => Navigation.Motion_Component.X,
@@ -25,9 +24,9 @@ package body Navigation.Positional_Controller is
 
    end pxCreate;
 
-   function xGet_Positional_Thruster_Control_Values (this : in out CPositional_Controller; fDeltaTime : float) return Navigation.Motion_Component.TPositional_Control_Values is
+   function xGet_Positional_Thruster_Control_Values (this : in out CPositional_Controller; fDeltaTime : float) return Navigation.Motion_Component.TPositionalControlValues is
 
-      xPositionalControlValues : Navigation.Motion_Component.TPositional_Control_Values;
+      xPositionalControlValues : Navigation.Motion_Component.TPositionalControlValues;
       xXComponentControlValue, xYComponentControlValue, xZComponentControlValue : Navigation.Motion_Component.TComponentControlValue;
    begin
 
@@ -42,25 +41,12 @@ package body Navigation.Positional_Controller is
    end xGet_Positional_Thruster_Control_Values;
 
 
-   procedure Update_Current_Position (this : in out CPositional_Controller; pxNewCurrentPosition : Math.Vectors.pCVector) is
-   begin
-      this.pxCurrentPosition := pxNewCurrentPosition;
-
-      this.pxXMotionComponent.Set_New_Current_Value(this.pxCurrentPosition.fGet_X);
-      this.pxYMotionComponent.Set_New_Current_Value(this.pxCurrentPosition.fGet_Y);
-      this.pxZMotionComponent.Set_New_Current_Value(this.pxCurrentPosition.fGet_Z);
-
-   end Update_Current_Position;
-
-
    procedure Update_Wanted_Position (this : in out CPositional_Controller; pxNewWantedPosition : Math.Vectors.pCVector) is
    begin
-      this.pxWantedPosition := pxNewWantedPosition;
-
-      this.pxXMotionComponent.Set_New_Wanted_Value(this.pxWantedPosition.fGet_X);
-      this.pxYMotionComponent.Set_New_Wanted_Value(this.pxWantedPosition.fGet_Y);
-      this.pxZMotionComponent.Set_New_Wanted_Value(this.pxWantedPosition.fGet_Z);
-
+      this.pxWantedPosition := pxNewWantedPosition.pxGet_Copy;
+      this.pxXMotionComponent.Update_Current_Error(this.pxWantedPosition.fGet_X);
+      this.pxYMotionComponent.Update_Current_Error(this.pxWantedPosition.fGet_Y);
+      this.pxZMotionComponent.Update_Current_Error(this.pxWantedPosition.fGet_Z);
    end Update_Wanted_Position;
 
    procedure Set_New_PID_Component_Scalings(this : in out CPositional_Controller; eComponentToUpdate : Navigation.Motion_Component.EMotionComponent; xNewPIDScaling : Navigation.PID_Controller.TPIDComponentScalings) is

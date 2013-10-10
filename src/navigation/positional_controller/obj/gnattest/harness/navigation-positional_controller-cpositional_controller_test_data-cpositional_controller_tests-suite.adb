@@ -12,35 +12,29 @@ package body Navigation.Positional_Controller.CPositional_Controller_Test_Data.C
 
    Result : aliased AUnit.Test_Suites.Test_Suite;
 
-   Case_1_1_Test_xGet_Positional_Thruster_Control_Values_c13bf2 : aliased Runner_1.Test_Case;
-   Case_2_1_Test_Update_Current_Position_c1f77b : aliased Runner_1.Test_Case;
-   Case_3_1_Test_Update_Wanted_Position_1139f7 : aliased Runner_1.Test_Case;
-   Case_4_1_Test_Set_New_PID_Component_Scalings_fb8920 : aliased Runner_1.Test_Case;
+   Case_1_1_Test_xGet_Positional_Thruster_Control_Values_b5ee7d : aliased Runner_1.Test_Case;
+   Case_2_1_Test_Update_Wanted_Position_1139f7 : aliased Runner_1.Test_Case;
+   Case_3_1_Test_Set_New_PID_Component_Scalings_fb8920 : aliased Runner_1.Test_Case;
 
    function Suite return AUnit.Test_Suites.Access_Test_Suite is
    begin
 
       Runner_1.Create
-        (Case_1_1_Test_xGet_Positional_Thruster_Control_Values_c13bf2,
+        (Case_1_1_Test_xGet_Positional_Thruster_Control_Values_b5ee7d,
          "navigation-positional_controller.ads:12:4:",
-         Test_xGet_Positional_Thruster_Control_Values_c13bf2'Access);
+         Test_xGet_Positional_Thruster_Control_Values_b5ee7d'Access);
       Runner_1.Create
-        (Case_2_1_Test_Update_Current_Position_c1f77b,
+        (Case_2_1_Test_Update_Wanted_Position_1139f7,
          "navigation-positional_controller.ads:14:4:",
-         Test_Update_Current_Position_c1f77b'Access);
-      Runner_1.Create
-        (Case_3_1_Test_Update_Wanted_Position_1139f7,
-         "navigation-positional_controller.ads:15:4:",
          Test_Update_Wanted_Position_1139f7'Access);
       Runner_1.Create
-        (Case_4_1_Test_Set_New_PID_Component_Scalings_fb8920,
-         "navigation-positional_controller.ads:17:4:",
+        (Case_3_1_Test_Set_New_PID_Component_Scalings_fb8920,
+         "navigation-positional_controller.ads:16:4:",
          Test_Set_New_PID_Component_Scalings_fb8920'Access);
 
-      Result.Add_Test (Case_1_1_Test_xGet_Positional_Thruster_Control_Values_c13bf2'Access);
-      Result.Add_Test (Case_2_1_Test_Update_Current_Position_c1f77b'Access);
-      Result.Add_Test (Case_3_1_Test_Update_Wanted_Position_1139f7'Access);
-      Result.Add_Test (Case_4_1_Test_Set_New_PID_Component_Scalings_fb8920'Access);
+      Result.Add_Test (Case_1_1_Test_xGet_Positional_Thruster_Control_Values_b5ee7d'Access);
+      Result.Add_Test (Case_2_1_Test_Update_Wanted_Position_1139f7'Access);
+      Result.Add_Test (Case_3_1_Test_Set_New_PID_Component_Scalings_fb8920'Access);
 
       return Result'Access;
 

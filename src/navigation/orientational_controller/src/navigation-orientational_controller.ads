@@ -2,7 +2,6 @@ with Navigation.Planal_Controller;
 with Navigation.Directional_Controller;
 with Navigation.Motion_Component;
 with Navigation.PID_Controller;
-with Math.Rotators;
 
 
 package Navigation.Orientational_Controller is

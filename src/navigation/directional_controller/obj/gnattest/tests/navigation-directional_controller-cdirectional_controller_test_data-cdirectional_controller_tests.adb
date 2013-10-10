@@ -6,7 +6,7 @@
 --  placed into Navigation.Directional_Controller.CDirectional_Controller_Test_Data.
 
 with AUnit.Assertions; use AUnit.Assertions;
-with Math.Rotators; use Math.Rotators;
+with Math.Angles; use Math.Angles;
 
 package body Navigation.Directional_Controller.CDirectional_Controller_Test_Data.CDirectional_Controller_Tests is
 

@@ -1,6 +1,5 @@
 with "../motion_component/motion_component.gpr";
 with "../../math/vectors/vectors.gpr";
-with "../../math/rotators/rotators.gpr";
 with "../../math/matrices/matrices.gpr";
 with "../navigation.gpr";
 

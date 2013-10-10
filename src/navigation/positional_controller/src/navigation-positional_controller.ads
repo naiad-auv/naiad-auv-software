@@ -9,9 +9,8 @@ package Navigation.Positional_Controller is
 
    function pxCreate return pCPositional_Controller;
 
-   function xGet_Positional_Thruster_Control_Values(this : in out CPositional_Controller; fDeltaTime : float) return Navigation.Motion_Component.TPositional_Control_Values;
+   function xGet_Positional_Thruster_Control_Values(this : in out CPositional_Controller; fDeltaTime : float) return Navigation.Motion_Component.TPositionalControlValues;
 
-   procedure Update_Current_Position(this : in out CPositional_Controller; pxNewCurrentPosition : Math.Vectors.pCVector);
    procedure Update_Wanted_Position(this : in out CPositional_Controller; pxNewWantedPosition : Math.Vectors.pCVector);
 
    procedure Set_New_PID_Component_Scalings(this : in out CPositional_Controller; eComponentToUpdate : Navigation.Motion_Component.EMotionComponent; xNewPIDScaling : Navigation.PID_Controller.TPIDComponentScalings);
@@ -20,7 +19,6 @@ private
    type CPositional_Controller is tagged
       record
 
-         pxCurrentPosition : Math.Vectors.pCVector;
          pxWantedPosition : Math.Vectors.pCVector;
 
          pxXMotionComponent : Navigation.Motion_Component.pCMotion_Component;
