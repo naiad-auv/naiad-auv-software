@@ -4,6 +4,8 @@ with interfaces.C; use interfaces.C;
 with Ada.Text_IO; use Ada.Text_IO;
 with Vision.Image; use Vision.Image;
 with Vision.Image_Preprocessing; use Vision.Image_Preprocessing;
+with Vision.Image_Processing; use Vision.Image_Processing;
+--with Vision.Mission_Handler; use Vision.Mission_Handler;
 
 procedure main is
    CoreWrap : aliased Class_Core_Wrap.Core_Wrap;
@@ -24,8 +26,8 @@ begin
    --CONVERT IMAGE TO GREYSCALE FOR CANNY
    processingWrap.cvtColor(1, 1, 6);
    CoreWrap.imshow(New_String("why so grey rosie?"), 1);--show image for debug purposes
-   Put_Line("Bye Borky!");
-   Put_Line("Hello Gerry!");
+   CoreWrap.waitKey(0);
+   Put_Line("test changes to main vision");
    if(Vision.Image.DummyTest) then
       Put_Line("Works!");
    else
@@ -42,6 +44,30 @@ begin
    else
    Put_Line("Prepro Doesn't Work!");
    end if;
+   --test image
+   if(Vision.Image.DummyShow2) then
+      Put_Line("image Works!");
+   else
+   Put_Line("image Doesn't Work!");
+   end if;
+   --test prepro
+   if(Vision.Image_Preprocessing.DummyTest2) then
+      Put_Line("prepro Works!");
+   else
+   Put_Line("prepro Doesn't Work!");
+   end if;
+   --test pro
+   if(Vision.Image_Processing.DummyTest2) then
+      Put_Line("pro Works!");
+   else
+   Put_Line("pro Doesn't Work!");
+   end if;
+   --test mission
+   --if(Vision.Mission_Handler.DummyTest) then
+      --Put_Line("mission Works!");
+   --else
+   --Put_Line("mission Doesn't Work!");
+   --end if;
 end main;
 
 

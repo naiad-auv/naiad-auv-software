@@ -3,6 +3,10 @@ package body Vision.Image_Processing is
    begin
       return True;
    end DummyTest;
+   function DummyTest2 return Boolean is
+   begin
+      return True;
+   end DummyTest2;
     --function cleanup
    --function histogram analysis
    --function edge detection

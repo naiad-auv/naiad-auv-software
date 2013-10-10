@@ -13,4 +13,10 @@ package body Vision.Image is
       return True;
    end DummyShow;
 
+   function DummyShow2 return Boolean is
+   begin
+      Put_Line("In vision-image module dummyshow2");
+      return True;
+   end DummyShow2;
+
 end Vision.Image;

@@ -1,5 +1,6 @@
 package Vision.Image_Processing is
    function DummyTest return Boolean;
+   function DummyTest2 return Boolean;
    --function cleanup
    --function histogram analysis
    --function edge detection

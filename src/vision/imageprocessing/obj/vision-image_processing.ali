@@ -1,23 +1,28 @@
 V "GNAT Lib v2013"
-A -gnatA
+A -fstack-check=specific
+A -fPIC
+A -m64
+A -gnat05
+A -gnato
+A -gnatwa
 P ZX
 
 RN
-RV NO_IMPLEMENTATION_PRAGMAS
 
-U vision.image_processing%b  vision-image_processing.adb  e03d2241 NE OO PK
+U vision.image_processing%b  vision-image_processing.adb  8898cb6a NE OO PK
 W vision%s		vision.adb		vision.ali
 
-U vision.image_processing%s  vision-image_processing.ads  505e7a70 EE NE OO PK
+U vision.image_processing%s  vision-image_processing.ads  3c8d66ec EE NE OO PK
 W vision%s		vision.adb		vision.ali
 
 D system.ads		20130417131036 90249111
 D vision.ads		20131007125120 3af61aa6
-D vision-image_processing.ads  20131007125120 6aa860d6
-D vision-image_processing.adb  20131007125120 8a954297
+D vision-image_processing.ads  20131010090535 067b7c4a
+D vision-image_processing.adb  20131010090521 8ee3b720
 X 2 vision.ads
-1K9*Vision 3e11 3|1r9 8r5 4|1r14 11r5
+1K9*Vision 3e11 3|1r9 9r5 4|1r14 15r5
 X 3 vision-image_processing.ads
-1K16*Image_Processing 2|1k9 3|8l12 8e28 4|1b21 11l12 11t28
+1K16*Image_Processing 2|1k9 3|9l12 9e28 4|1b21 15l12 15t28
 2V13*DummyTest{boolean} 4|2b13 5l8 5t17
+3V13*DummyTest2{boolean} 4|6b13 9l8 9t18
 

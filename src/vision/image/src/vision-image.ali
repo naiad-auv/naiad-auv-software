@@ -11,12 +11,12 @@ RN
 RV NO_IO
 RV SPARK
 
-U vision.image%b	vision-image.adb	621bc88a NE OO PK
+U vision.image%b	vision-image.adb	fe5aa982 NE OO PK
 W ada%s			ada.ads			ada.ali
 W ada.text_io%s		a-textio.adb		a-textio.ali
 W vision%s		vision.adb		vision.ali
 
-U vision.image%s	vision-image.ads	1c21794b EE NE OO PK
+U vision.image%s	vision-image.ads	e80642d7 EE NE OO PK
 W vision%s		vision.adb		vision.ali
 
 D ada.ads		20130417131023 3ffc8e18
@@ -47,17 +47,18 @@ D s-traent.ads		20130417131033 5221ee41
 D s-unstyp.ads		20130417131034 6ae15c76
 D s-wchcon.ads		20130417131034 bfeb2e3d
 D vision.ads		20131007125120 3af61aa6
-D vision-image.ads	20131009150414 26d763ed
-D vision-image.adb	20131010073410 7ca15eb3
+D vision-image.ads	20131010085359 d2f05871
+D vision-image.adb	20131010085345 14c70427
 X 1 ada.ads
 16K9*Ada 19e8 30|1r6 1r23
 X 7 a-textio.ads
 49K13*Text_IO 471e16 30|1w10 1r27
-263U14*Put_Line 30|6s7 12s7
+263U14*Put_Line 30|6s7 12s7 18s7
 X 28 vision.ads
-1K9*Vision 3e11 29|1r9 4r5 30|3r14 16r5
+1K9*Vision 3e11 29|1r9 5r5 30|3r14 22r5
 X 29 vision-image.ads
-1K16*Image 28|1k9 29|4l12 4e17 30|3b21 16l12 16t17
+1K16*Image 28|1k9 29|5l12 5e17 30|3b21 22l12 22t17
 2V13*DummyTest{boolean} 30|4b13 8l8 8t17
 3V13*DummyShow{boolean} 30|10b13 14l8 14t17
+4V13*DummyShow2{boolean} 30|16b13 20l8 20t18
 
