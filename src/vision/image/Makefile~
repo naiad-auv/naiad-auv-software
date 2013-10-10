@@ -1,0 +1,12 @@
+MAIN = src/vision-image
+
+OCVOB = visionBindings
+
+VISIONSRC = ../src/
+
+mainmake:
+	gnatmake -m64 -gnat05 -gnato -gnatwa -fstack-check -aI${VISIONSRC} -o ${MAIN} ${MAIN}.adb -largs ${OCVOB}.o -lstdc++ `pkg-config opencv --cflags --libs`
+
+run ::
+	LD_LIBRARY_PATH = ./${MAIN} 
+

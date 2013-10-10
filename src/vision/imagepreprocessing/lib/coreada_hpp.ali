@@ -1,0 +1,57 @@
+V "GNAT Lib v2013"
+A -gnatA
+P ZX
+
+RN
+RV NO_IMPLEMENTATION_PRAGMAS
+RV SPARK
+
+U coreada_hpp%s		coreada_hpp.ads		c683f77a NE OO PK
+W interfaces%s		interfac.ads		interfac.ali
+W interfaces.c%s	i-c.adb			i-c.ali
+W interfaces.c.strings%s  i-cstrin.adb		i-cstrin.ali
+
+D ada.ads		20130417131023 3ffc8e18
+D a-unccon.ads		20130417131022 f9eb8f06
+D coreada_hpp.ads	20131004133406 a6bfeb3e
+D interfac.ads		20130417131027 cb4a8015
+D i-c.ads		20130417131026 5421119b
+D i-cstrin.ads		20130417131027 341d0ddf
+D system.ads		20130417131036 90249111
+D s-exctab.ads		20130417131029 66e51330
+D s-parame.ads		20130417131032 b6e20cc0
+D s-stalib.ads		20130417131032 f78bcf95
+X 3 coreada_hpp.ads
+7K9*coreAda_hpp 41l5 41e16
+9U14*appendImg_Wrap 9>30 10b<cpp,_Z14appendImg_WrapPc>24
+9p30 src{6|47P9}
+12U14*cvtColor_Wrap 13>7 14>7 15>7 16b<cpp,_Z13cvtColor_Wrapiii>24
+13i7 src{5|35I9}
+14i7 dst{5|35I9}
+15i7 filter{5|35I9}
+18U14*Canny_Wrap 19>7 20>7 21>7 22>7 23>7 24b<cpp,_Z10Canny_Wrapiiiii>24
+19i7 src{5|35I9}
+20i7 dst{5|35I9}
+21i7 lThresh{5|35I9}
+22i7 hThresh{5|35I9}
+23i7 kernelSize{5|35I9}
+26U14*imshow_Wrap 26>27 26>66 27b<cpp,_Z11imshow_WrapPci>24
+26p27 name{6|47P9}
+26i66 src{5|35I9}
+29U14*waitKey_Wrap 30b<cpp,_Z12waitKey_Wrapv>24
+32U14*imread_Wrap 32>27 33b<cpp,_Z11imread_WrapPc>24
+32p27 name{6|47P9}
+35V13*imwrite_Wrap{5|35I9} 35>27 35>66 36b<cpp,_Z12imwrite_WrapPci>24
+35p27 name{6|47P9}
+35i66 src{5|35I9}
+38V13*size_Wrap{5|35I9} 39b<cpp,_Z9size_Wrapv>24
+X 4 interfac.ads
+36K9*Interfaces 3|4r6 4r24 5r6 9r36 26r34 32r34 35r34 4|177e15
+X 5 i-c.ads
+18K20*C 3|4w17 4r35 5r17 9r47 26r45 32r45 35r45 5|230e17
+35I9*int<integer> 3|13r13 14r13 15r16 19r13 20r13 21r17 22r17 23r20 26r72
+. 35r72 35r84 38r30
+X 6 i-cstrin.ads
+36K22*Strings 3|5w19 9r49 26r47 32r47 35r47 6|104e25
+47P9*chars_ptr(character) 3|9r57 26r55 32r55 35r55
+
