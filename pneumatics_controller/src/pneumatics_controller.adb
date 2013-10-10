@@ -1,12 +1,13 @@
 pragma Profile (Ravenscar);
 
-with CAN_Handler;
 with Interfaces;
 with Digital_IO;
 with Valve_Generic;
 with AVR.AT90CAN128.CALENDAR;
 
-procedure Pneumatics_Controller is--()canMsg : IN CAN_Handler.CAN_Message) is
+package body Pneumatics_Controller is
+
+procedure Main(canMsg : IN CAN_Handler.CAN_Message) is
 
    use type CAN_Handler.CAN_ID;
    use type Interfaces.Unsigned_8;
@@ -27,7 +28,7 @@ procedure Pneumatics_Controller is--()canMsg : IN CAN_Handler.CAN_Message) is
 
    bKillSwitchFlag	: Boolean := False;
    bSimModeFlag		: Boolean := False;
-   canMsg		: CAN_Handler.CAN_Message;
+   --canMsg		: CAN_Handler.CAN_Message;
 
    procedure Init_Pins is
    begin
@@ -101,4 +102,6 @@ begin
 
    -- TODO: Send MSG 'COMPLETED'
 
-end Pneumatics_Controller;
+end Main;
+
+   end Pneumatics_Controller;

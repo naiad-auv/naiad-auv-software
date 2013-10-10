@@ -1,14 +1,11 @@
-project Pneumatics_Controller is
+project Pneumatics_Controller_Win is
 
    for Object_Dir use "build";
    for Exec_Dir use "target";
    for Source_Dirs use ("./**");
-   for Main use ("pneumatics_controller.adb", "pneumatics_controller.ads");
+   for Main use ("pneumatics_controller.adb");
 
    package Ide is
-      for Gnat use "avr-gnat";
-      for Gnatlist use "avr-gnatls";
-      for Debugger_Command use "avr-gdb";
    end Ide;
 
    package Linker is
@@ -16,8 +13,8 @@ project Pneumatics_Controller is
    end Linker;
 
    package Compiler is
-      for Default_Switches ("ada") use ("-O3", "-gnatwa", "-mmcu=avr5", "-gnat12");
+      for Default_Switches ("ada") use ("-O3", "-gnatwa", "-gnat12");
    end Compiler;
 
-end Pneumatics_Controller;
+end Pneumatics_Controller_Win;
 
