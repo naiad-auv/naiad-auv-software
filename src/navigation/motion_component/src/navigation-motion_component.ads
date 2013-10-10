@@ -6,7 +6,7 @@ package Navigation.Motion_Component is
    type CMotion_Component is tagged private;
    type pCMotion_Component is access CMotion_Component;
 
-   type EMotionComponent is (Unkown, X, Y, Z, Yaw, Pitch, Roll, Plane, AllComponents);
+   type EMotionComponent is (Unkown, X, Y, Z, Yaw, Pitch, Roll, Direction, Plane, AllComponents);
 
    type TComponentControlValue is
       record
@@ -14,8 +14,8 @@ package Navigation.Motion_Component is
          xMotionComponent : EMotionComponent;
       end record;
 
-   type TOrientationalControlValues is array (1 .. 2) of Navigation.Motion_Component.TComponentControlValue;
-   type TPositionalControlValues is array (1 .. 3) of Navigation.Motion_Component.TComponentControlValue;
+   type TOrientationalControlValues is array (Direction .. Plane) of Navigation.Motion_Component.TComponentControlValue;
+   type TPositionalControlValues is array (X .. Z) of Navigation.Motion_Component.TComponentControlValue;
 
 
    function pxCreate(eAxisIndex : EMotionComponent; xPID_Scalings : Navigation.PID_Controller.TPIDComponentScalings) return pCMotion_Component;
