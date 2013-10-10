@@ -13,9 +13,9 @@ package Math.Matrices is
    type TMatrix is array(1 .. 3, 1 .. 3) of float;
 
    function pxCreate_From_Quaternion (pxFromQuaternion : in Math.Quaternions.pCQuaternion) return pCMatrix;
-   function pxCreate_Rotation_Around_X_Axis (tfAngle : in Math.Angles.TAngle) return pCMatrix;
-   function pxCreate_Rotation_Around_Y_Axis (tfAngle : in Math.Angles.TAngle) return pCMatrix;
-   function pxCreate_Rotation_Around_Z_Axis (tfAngle : in Math.Angles.TAngle) return pCMatrix;
+   function pxCreate_Rotation_Around_X_Axis (tfAngleInDegrees : in Math.Angles.TAngle) return pCMatrix;
+   function pxCreate_Rotation_Around_Y_Axis (tfAngleInDegrees : in Math.Angles.TAngle) return pCMatrix;
+   function pxCreate_Rotation_Around_Z_Axis (tfAngleInDegrees : in Math.Angles.TAngle) return pCMatrix;
    function pxCreate_Identity return pCMatrix;
    function pxCreate (tfMatrix : in TMatrix) return pCMatrix;
 

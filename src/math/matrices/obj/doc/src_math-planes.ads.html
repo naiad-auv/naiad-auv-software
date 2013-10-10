@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html><head>
+  <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript"/>
+
+  <title>
+    File: math-planes.ads
+  </title>
+  <link rel='stylesheet' href='support/docgen.css' type='text/css'/>
+  <link rel='stylesheet' href='support/tags.css' type='text/css'/>
+  <script src='support/docgen.js' type='text/javascript' charset='utf-8'></script>
+</head>
+<body onload="onloadDoc();">
+
+<div id='leftSide'>
+  <div id='leftSideInside'>
+  <div id='header'>
+    <h2 class="button">Documentation</h2>
+    <a href='toc.html'><div class="button2">Table of Contents</div></a>
+
+    <a href='tree.html'><div class="button2">Class Inheritance Tree</div></a>
+
+  </div>
+  </div>
+</div> <!-- leftSide -->
+
+<div class='subprograms'>
+  <div class='details'><ol><li id="l1"><pre><span class="keyword">with</span> <span class="droplink">Math<ul><li><a href="math.ads.html#math.ads:2:9" title="To API doc">To API doc</a></li><li><a href="src_math.ads.html#l2" title="To spec">To spec</a></li><li><a href="src_math.adb.html#l1" title="To body">To body</a></li></ul></span>; </pre></li>
+<li id="l2"><pre><span class="keyword">with</span> <span class="droplink">Math.Vectors<ul><li><a href="math-vectors.ads.html#math-vectors.ads:8:14" title="To API doc">To API doc</a></li><li><a href="src_math-vectors.ads.html#l8" title="To spec">To spec</a></li><li><a href="src_math-vectors.adb.html#l10" title="To body">To body</a></li></ul></span>; <span class="keyword">use</span> <span class="droplink">Math.Vectors<ul><li><a href="math-vectors.ads.html#math-vectors.ads:8:14" title="To API doc">To API doc</a></li><li><a href="src_math-vectors.ads.html#l8" title="To spec">To spec</a></li><li><a href="src_math-vectors.adb.html#l10" title="To body">To body</a></li></ul></span>; </pre></li>
+<li id="l3"><pre> </pre></li>
+<li id="l4"><pre><span class="keyword">package</span> <span class="droplink">Math.Planes<ul><li><a href="math-planes.ads.html#math-planes.ads:4:14" title="To API doc">To API doc</a></li><li><a href="src_math-planes.ads.html#l4" title="To spec">To spec</a></li><li><a href="src_math-planes.adb.html#l4" title="To body">To body</a></li></ul></span> <span class="keyword">is</span> </pre></li>
+<li id="l5"><pre> </pre></li>
+<li id="l6"><pre>   <span class="keyword">type</span> <span class="droplink">CPlane<ul><li><a href="math-planes.ads.html#math-planes.ads:6:9" title="To API doc">To API doc</a></li><li><a href="src_math-planes.ads.html#l21" title="To body">To body</a></li></ul></span> <span class="keyword">is</span> <span class="keyword">tagged</span> <span class="keyword">private</span>; </pre></li>
+<li id="l7"><pre>   <span class="keyword">type</span> <a href="math-planes.ads.html#math-planes.ads:7:9" title="defined at math-planes.ads:7:9">pCPlane</a> <span class="keyword">is</span> <span class="keyword">access</span> <span class="droplink">CPlane<ul><li><a href="math-planes.ads.html#math-planes.ads:6:9" title="To API doc">To API doc</a></li><li><a href="src_math-planes.ads.html#l6" title="To spec">To spec</a></li><li><a href="src_math-planes.ads.html#l21" title="To body">To body</a></li></ul></span>; </pre></li>
+<li id="l8"><pre> </pre></li>
+<li id="l9"><pre>   <span class="keyword">function</span> <span class="droplink">pxCreate<ul><li><a href="math-planes.ads.html#math-planes.ads:9:13" title="To API doc">To API doc</a></li><li><a href="src_math-planes.adb.html#l6" title="To body">To body</a></li></ul></span> (<a href="math-planes.ads.html#math-planes.ads:9:23" title="defined at math-planes.ads:9:23">pxNormalVector</a> : <span class="keyword">in</span> <span class="droplink">Math.Vectors.pCVector<ul><li><a href="math-vectors.ads.html#math-vectors.ads:10:9" title="To API doc">To API doc</a></li><li><a href="src_math-vectors.ads.html#l10" title="To spec">To spec</a></li></ul></span>; <a href="math-planes.ads.html#math-planes.ads:9:66" title="defined at math-planes.ads:9:66">fDistanceFromOrigin</a> : <span class="keyword">in</span> float) <span class="keyword">return</span> <span class="droplink">pCPlane<ul><li><a href="math-planes.ads.html#math-planes.ads:7:9" title="To API doc">To API doc</a></li><li><a href="src_math-planes.ads.html#l7" title="To spec">To spec</a></li></ul></span>; </pre></li>
+<li id="l10"><pre> </pre></li>
+<li id="l11"><pre>   <span class="keyword">function</span> <span class="droplink">pxGet_Normal_Vector<ul><li><a href="math-planes.ads.html#math-planes.ads:11:13" title="To API doc">To API doc</a></li><li><a href="src_math-planes.adb.html#l15" title="To body">To body</a></li></ul></span> (<span class="droplink">this<ul><li><a href="math-planes.ads.html#math-planes.ads:11:34" title="To API doc">To API doc</a></li><li><a href="src_math-planes.adb.html#l15" title="To body">To body</a></li></ul></span> : <span class="keyword">in</span> <span class="droplink">CPlane<ul><li><a href="math-planes.ads.html#math-planes.ads:6:9" title="To API doc">To API doc</a></li><li><a href="src_math-planes.ads.html#l6" title="To spec">To spec</a></li><li><a href="src_math-planes.ads.html#l21" title="To body">To body</a></li></ul></span>) <span class="keyword">return</span> <span class="droplink">Math.Vectors.pCVector<ul><li><a href="math-vectors.ads.html#math-vectors.ads:10:9" title="To API doc">To API doc</a></li><li><a href="src_math-vectors.ads.html#l10" title="To spec">To spec</a></li></ul></span>; </pre></li>
+<li id="l12"><pre>   <span class="keyword">function</span> <span class="droplink">fGet_Distance_From_Origin<ul><li><a href="math-planes.ads.html#math-planes.ads:12:13" title="To API doc">To API doc</a></li><li><a href="src_math-planes.adb.html#l21" title="To body">To body</a></li></ul></span> (<span class="droplink">this<ul><li><a href="math-planes.ads.html#math-planes.ads:12:40" title="To API doc">To API doc</a></li><li><a href="src_math-planes.adb.html#l21" title="To body">To body</a></li></ul></span> : <span class="keyword">in</span> <span class="droplink">CPlane<ul><li><a href="math-planes.ads.html#math-planes.ads:6:9" title="To API doc">To API doc</a></li><li><a href="src_math-planes.ads.html#l6" title="To spec">To spec</a></li><li><a href="src_math-planes.ads.html#l21" title="To body">To body</a></li></ul></span>) <span class="keyword">return</span> float; </pre></li>
+<li id="l13"><pre> </pre></li>
+<li id="l14"><pre>   <span class="keyword">function</span> <span class="droplink">fAngle_Between_In_Degrees<ul><li><a href="math-planes.ads.html#math-planes.ads:14:13" title="To API doc">To API doc</a></li><li><a href="src_math-planes.adb.html#l26" title="To body">To body</a></li></ul></span> (<a href="math-planes.ads.html#math-planes.ads:14:40" title="defined at math-planes.ads:14:40">pxLeftOperandPlane</a> : <span class="keyword">in</span> <span class="droplink">pCPlane<ul><li><a href="math-planes.ads.html#math-planes.ads:7:9" title="To API doc">To API doc</a></li><li><a href="src_math-planes.ads.html#l7" title="To spec">To spec</a></li></ul></span>; <a href="math-planes.ads.html#math-planes.ads:14:73" title="defined at math-planes.ads:14:73">pxRightOperandPlane</a> : <span class="keyword">in</span> <span class="droplink">pCPlane<ul><li><a href="math-planes.ads.html#math-planes.ads:7:9" title="To API doc">To API doc</a></li><li><a href="src_math-planes.ads.html#l7" title="To spec">To spec</a></li></ul></span>) <span class="keyword">return</span> float; </pre></li>
+<li id="l15"><pre> </pre></li>
+<li id="l16"><pre>   <span class="keyword">function</span> <span class="droplink">pxGet_Intersection_Vector_Between<ul><li><a href="math-planes.ads.html#math-planes.ads:16:13" title="To API doc">To API doc</a></li><li><a href="src_math-planes.adb.html#l37" title="To body">To body</a></li></ul></span> (<a href="math-planes.ads.html#math-planes.ads:16:48" title="defined at math-planes.ads:16:48">pxLeftOperandPlane</a> : <span class="keyword">in</span> <span class="droplink">pCPlane<ul><li><a href="math-planes.ads.html#math-planes.ads:7:9" title="To API doc">To API doc</a></li><li><a href="src_math-planes.ads.html#l7" title="To spec">To spec</a></li></ul></span>; <a href="math-planes.ads.html#math-planes.ads:16:81" title="defined at math-planes.ads:16:81">pxRightOperandPlane</a> : <span class="keyword">in</span> <span class="droplink">pCPlane<ul><li><a href="math-planes.ads.html#math-planes.ads:7:9" title="To API doc">To API doc</a></li><li><a href="src_math-planes.ads.html#l7" title="To spec">To spec</a></li></ul></span>) <span class="keyword">return</span> <span class="droplink">Math.Vectors.pCVector<ul><li><a href="math-vectors.ads.html#math-vectors.ads:10:9" title="To API doc">To API doc</a></li><li><a href="src_math-vectors.ads.html#l10" title="To spec">To spec</a></li></ul></span>; </pre></li>
+<li id="l17"><pre> </pre></li>
+<li id="l18"><pre> </pre></li>
+<li id="l19"><pre> </pre></li>
+<li id="l20"><pre><span class="keyword">private</span> </pre></li>
+<li id="l21"><pre>   <span class="keyword">type</span> <span class="droplink">CPlane<ul><li><a href="math-planes.ads.html#math-planes.ads:6:9" title="To API doc">To API doc</a></li><li><a href="src_math-planes.ads.html#l6" title="To spec">To spec</a></li></ul></span> <span class="keyword">is</span> <span class="keyword">tagged</span> </pre></li>
+<li id="l22"><pre>      <span class="keyword">record</span> </pre></li>
+<li id="l23"><pre>         pxNormalVector : <span class="droplink">Math.Vectors.pCVector<ul><li><a href="math-vectors.ads.html#math-vectors.ads:10:9" title="To API doc">To API doc</a></li><li><a href="src_math-vectors.ads.html#l10" title="To spec">To spec</a></li></ul></span>; </pre></li>
+<li id="l24"><pre>         fDistanceFromOrigin : float; </pre></li>
+<li id="l25"><pre>      <span class="keyword">end</span> <span class="keyword">record</span>; </pre></li>
+<li id="l26"><pre> </pre></li>
+<li id="l27"><pre><span class="keyword">end</span> <span class="droplink">Math.Planes<ul><li><a href="math-planes.ads.html#math-planes.ads:4:14" title="To API doc">To API doc</a></li><li><a href="src_math-planes.ads.html#l4" title="To spec">To spec</a></li><li><a href="src_math-planes.adb.html#l4" title="To body">To body</a></li></ul></span>; </pre></li>
+</ol></div>
+</div>
+
+</body>
+</html>

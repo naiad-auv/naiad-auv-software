@@ -107,7 +107,7 @@ package body Math.Matrices.Test_Data.Tests is
       for i in 1 .. 360
       loop
          fAngle := float(i - 180);
-         pxRotMatrix := Math.Matrices.pxCreate_Rotation_Around_X_Axis(tfAngle => Math.Angles.TAngle(fAngle));
+         pxRotMatrix := Math.Matrices.pxCreate_Rotation_Around_X_Axis(tfAngleInDegrees => Math.Angles.TAngle(fAngle));
          pxRotatedVector := pxRotMatrix * pxOriginalVector;
          fNewAngle := Math.Vectors.fAngle_Between(pxOriginalVector, pxRotatedVector);
          fNewAngle := Math.Angles.fRadians_To_Degrees(fNewAngle);
@@ -154,7 +154,7 @@ package body Math.Matrices.Test_Data.Tests is
       for i in 1 .. 360
       loop
          fAngle := float(i - 180);
-         pxRotMatrix := Math.Matrices.pxCreate_Rotation_Around_Y_Axis(tfAngle => Math.Angles.TAngle(fAngle));
+         pxRotMatrix := Math.Matrices.pxCreate_Rotation_Around_Y_Axis(tfAngleInDegrees => Math.Angles.TAngle(fAngle));
          pxRotatedVector := pxRotMatrix * pxOriginalVector;
          fNewAngle := Math.Vectors.fAngle_Between(pxOriginalVector, pxRotatedVector);
          fNewAngle := Math.Angles.fRadians_To_Degrees(fNewAngle);
@@ -201,7 +201,7 @@ package body Math.Matrices.Test_Data.Tests is
       for i in 1 .. 360
       loop
          fAngle := float(i - 180);
-         pxRotMatrix := Math.Matrices.pxCreate_Rotation_Around_Z_Axis(tfAngle => Math.Angles.TAngle(fAngle));
+         pxRotMatrix := Math.Matrices.pxCreate_Rotation_Around_Z_Axis(tfAngleInDegrees => Math.Angles.TAngle(fAngle));
          pxRotatedVector := pxRotMatrix * pxOriginalVector;
          fNewAngle := Math.Vectors.fAngle_Between(pxOriginalVector, pxRotatedVector);
          fNewAngle := Math.Angles.fRadians_To_Degrees(fNewAngle);

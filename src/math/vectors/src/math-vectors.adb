@@ -1,7 +1,6 @@
 -- Vector package for Project Naiad
 -- Written by Per-Erik Måhl, 2013
 
-with Math;
 with Ada.Numerics.Elementary_Functions;
 
 with System;

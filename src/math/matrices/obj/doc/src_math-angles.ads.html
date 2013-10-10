@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html><head>
+  <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript"/>
+
+  <title>
+    File: math-angles.ads
+  </title>
+  <link rel='stylesheet' href='support/docgen.css' type='text/css'/>
+  <link rel='stylesheet' href='support/tags.css' type='text/css'/>
+  <script src='support/docgen.js' type='text/javascript' charset='utf-8'></script>
+</head>
+<body onload="onloadDoc();">
+
+<div id='leftSide'>
+  <div id='leftSideInside'>
+  <div id='header'>
+    <h2 class="button">Documentation</h2>
+    <a href='toc.html'><div class="button2">Table of Contents</div></a>
+
+    <a href='tree.html'><div class="button2">Class Inheritance Tree</div></a>
+
+  </div>
+  </div>
+</div> <!-- leftSide -->
+
+<div class='subprograms'>
+  <div class='details'><ol><li id="l1"><pre><span class="keyword">with</span> Ada.Numerics; </pre></li>
+<li id="l2"><pre><span class="keyword">with</span> Ada.Numerics.Elementary_Functions; </pre></li>
+<li id="l3"><pre> </pre></li>
+<li id="l4"><pre><span class="keyword">package</span> <span class="droplink">Math.Angles<ul><li><a href="math-angles.ads.html#math-angles.ads:4:14" title="To API doc">To API doc</a></li><li><a href="src_math-angles.ads.html#l4" title="To spec">To spec</a></li><li><a href="src_math-angles.adb.html#l3" title="To body">To body</a></li></ul></span> <span class="keyword">is</span> </pre></li>
+<li id="l5"><pre> </pre></li>
+<li id="l6"><pre>   <span class="keyword">type</span> <a href="math-angles.ads.html#math-angles.ads:6:9" title="defined at math-angles.ads:6:9">TAngle</a> <span class="keyword">is</span> <span class="keyword">new</span> float <span class="keyword">range</span> -180.0 .. 180.0; </pre></li>
+<li id="l7"><pre> </pre></li>
+<li id="l8"><pre>   <span class="keyword">function</span> <span class="droplink">fGet_Angle_Degrees_In_Range<ul><li><a href="math-angles.ads.html#math-angles.ads:8:13" title="To API doc">To API doc</a></li><li><a href="src_math-angles.adb.html#l5" title="To body">To body</a></li></ul></span>(<a href="math-angles.ads.html#math-angles.ads:8:41" title="defined at math-angles.ads:8:41">fAngle</a> : <span class="keyword">in</span> float; <a href="math-angles.ads.html#math-angles.ads:8:60" title="defined at math-angles.ads:8:60">fRangeFromExclusive</a> : <span class="keyword">in</span> float) <span class="keyword">return</span> float; </pre></li>
+<li id="l9"><pre>   <span class="keyword">function</span> <span class="droplink">fGet_Angle_Radians_In_Range<ul><li><a href="math-angles.ads.html#math-angles.ads:9:13" title="To API doc">To API doc</a></li><li><a href="src_math-angles.adb.html#l22" title="To body">To body</a></li></ul></span>(<a href="math-angles.ads.html#math-angles.ads:9:41" title="defined at math-angles.ads:9:41">fAngle</a> : <span class="keyword">in</span> float; <a href="math-angles.ads.html#math-angles.ads:9:60" title="defined at math-angles.ads:9:60">fRangeFromExclusive</a> : <span class="keyword">in</span> float) <span class="keyword">return</span> float; </pre></li>
+<li id="l10"><pre>   <span class="keyword">function</span> <span class="droplink">fRadians_To_Degrees<ul><li><a href="math-angles.ads.html#math-angles.ads:10:13" title="To API doc">To API doc</a></li><li><a href="src_math-angles.adb.html#l40" title="To body">To body</a></li></ul></span> (<a href="math-angles.ads.html#math-angles.ads:10:34" title="defined at math-angles.ads:10:34">fAngle</a> : <span class="keyword">in</span> float) <span class="keyword">return</span> float; </pre></li>
+<li id="l11"><pre>   <span class="keyword">function</span> <span class="droplink">fDegrees_To_Radians<ul><li><a href="math-angles.ads.html#math-angles.ads:11:13" title="To API doc">To API doc</a></li><li><a href="src_math-angles.adb.html#l46" title="To body">To body</a></li></ul></span> (<a href="math-angles.ads.html#math-angles.ads:11:34" title="defined at math-angles.ads:11:34">fAngle</a> : <span class="keyword">in</span> float) <span class="keyword">return</span> float; </pre></li>
+<li id="l12"><pre>   <span class="keyword">function</span> <span class="droplink">fTAngle_To_FAngle<ul><li><a href="math-angles.ads.html#math-angles.ads:12:13" title="To API doc">To API doc</a></li><li><a href="src_math-angles.adb.html#l51" title="To body">To body</a></li></ul></span> (<a href="math-angles.ads.html#math-angles.ads:12:32" title="defined at math-angles.ads:12:32">tfAngle</a> : <span class="keyword">in</span> <span class="droplink">TAngle<ul><li><a href="math-angles.ads.html#math-angles.ads:6:9" title="To API doc">To API doc</a></li><li><a href="src_math-angles.ads.html#l6" title="To spec">To spec</a></li></ul></span>) <span class="keyword">return</span> float; </pre></li>
+<li id="l13"><pre>   <span class="keyword">function</span> <span class="droplink">tfFAngle_To_TAngle<ul><li><a href="math-angles.ads.html#math-angles.ads:13:13" title="To API doc">To API doc</a></li><li><a href="src_math-angles.adb.html#l56" title="To body">To body</a></li></ul></span> (<a href="math-angles.ads.html#math-angles.ads:13:33" title="defined at math-angles.ads:13:33">fAngle</a> : <span class="keyword">in</span> float) <span class="keyword">return</span> <span class="droplink">TAngle<ul><li><a href="math-angles.ads.html#math-angles.ads:6:9" title="To API doc">To API doc</a></li><li><a href="src_math-angles.ads.html#l6" title="To spec">To spec</a></li></ul></span>; </pre></li>
+<li id="l14"><pre> </pre></li>
+<li id="l15"><pre><span class="keyword">end</span> <span class="droplink">Math.Angles<ul><li><a href="math-angles.ads.html#math-angles.ads:4:14" title="To API doc">To API doc</a></li><li><a href="src_math-angles.ads.html#l4" title="To spec">To spec</a></li><li><a href="src_math-angles.adb.html#l3" title="To body">To body</a></li></ul></span>; </pre></li>
+</ol></div>
+</div>
+
+</body>
+</html>

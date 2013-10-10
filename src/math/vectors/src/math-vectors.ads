@@ -1,10 +1,9 @@
 -- Vector package for Project Naiad
 -- Written by Per-Erik Måhl, 2013
-
 with Math;
 with Ada.Numerics;
 with Ada.Exceptions;
-with System; use System;
+with System;
 
 package Math.Vectors is
    type CVector is tagged private;
@@ -31,6 +30,7 @@ package Math.Vectors is
    function pxCross_Product (pxLeftOperandVector : in pCVector; pxRightOperandVector : in pCVector) return pCVector;
    function fAngle_Between (pxLeftOperandVector, pxRightOperandVector : in pCVector) return float;
 
+   -- lol function
    function fGet_X (this : in CVector) return float;
    function fGet_Y (this : in CVector) return float;
    function fGet_Z (this : in CVector) return float;

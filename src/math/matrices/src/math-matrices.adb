@@ -80,15 +80,17 @@ package body Math.Matrices is
    -------------------------------------
 
    function pxCreate_Rotation_Around_X_Axis
-     (tfAngle : in Math.Angles.TAngle)
+     (tfAngleInDegrees : in Math.Angles.TAngle)
       return pCMatrix
    is
       pxNewMatrix : pCMatrix;
       fCosAngle : float;
       fSinAngle : float;
+      fAngleInRadians : float;
    begin
-      fCosAngle := Ada.Numerics.Elementary_Functions.Cos((float(tfAngle) * Ada.Numerics.Pi) / 180.0);
-      fSinAngle := Ada.Numerics.Elementary_Functions.Sin((float(tfAngle) * Ada.Numerics.Pi) / 180.0);
+      fAngleInRadians := Math.Angles.fDegrees_To_Radians(Math.Angles.fTAngle_To_FAngle(tfAngleInDegrees));
+      fCosAngle := Ada.Numerics.Elementary_Functions.Cos(fAngleInRadians);
+      fSinAngle := Ada.Numerics.Elementary_Functions.Sin(fAngleInRadians);
 
       pxNewMatrix := new CMatrix;
 
@@ -116,15 +118,17 @@ package body Math.Matrices is
    -------------------------------------
 
    function pxCreate_Rotation_Around_Y_Axis
-     (tfAngle : in Math.Angles.TAngle)
+     (tfAngleInDegrees : in Math.Angles.TAngle)
       return pCMatrix
    is
       pxNewMatrix : pCMatrix;
       fCosAngle : float;
       fSinAngle : float;
+      fAngleInRadians : float;
    begin
-      fCosAngle := Ada.Numerics.Elementary_Functions.Cos((float(tfAngle) * Ada.Numerics.Pi) / 180.0);
-      fSinAngle := Ada.Numerics.Elementary_Functions.Sin((float(tfAngle) * Ada.Numerics.Pi) / 180.0);
+      fAngleInRadians := Math.Angles.fDegrees_To_Radians(Math.Angles.fTAngle_To_FAngle(tfAngleInDegrees));
+      fCosAngle := Ada.Numerics.Elementary_Functions.Cos(fAngleInRadians);
+      fSinAngle := Ada.Numerics.Elementary_Functions.Sin(fAngleInRadians);
 
       pxNewMatrix := new CMatrix;
 
@@ -140,15 +144,17 @@ package body Math.Matrices is
    -------------------------------------
 
    function pxCreate_Rotation_Around_Z_Axis
-     (tfAngle : in Math.Angles.TAngle)
+     (tfAngleInDegrees : in Math.Angles.TAngle)
       return pCMatrix
    is
       pxNewMatrix : pCMatrix;
       fCosAngle : float;
       fSinAngle : float;
+      fAngleInRadians : float;
    begin
-      fCosAngle := Ada.Numerics.Elementary_Functions.Cos((float(tfAngle) * Ada.Numerics.Pi) / 180.0);
-      fSinAngle := Ada.Numerics.Elementary_Functions.Sin((float(tfAngle) * Ada.Numerics.Pi) / 180.0);
+      fAngleInRadians := Math.Angles.fDegrees_To_Radians(Math.Angles.fTAngle_To_FAngle(tfAngleInDegrees));
+      fCosAngle := Ada.Numerics.Elementary_Functions.Cos(fAngleInRadians);
+      fSinAngle := Ada.Numerics.Elementary_Functions.Sin(fAngleInRadians);
 
       pxNewMatrix := new CMatrix;
 
@@ -283,9 +289,7 @@ package body Math.Matrices is
    is
       pxNewNormal : Math.Vectors.pCVector;
    begin
-      Ada.Text_IO.Put_Line("Normal: " & float'Image(pxRightOperandPlane.pxGet_Normal_Vector.fGet_X) & ", " & float'Image(pxRightOperandPlane.pxGet_Normal_Vector.fGet_Y) & ", " & float'Image(pxRightOperandPlane.pxGet_Normal_Vector.fGet_Z) & ".");
       pxNewNormal := pxLeftOperandMatrix * pxRightOperandPlane.pxGet_Normal_Vector;
-      Ada.Text_IO.Put_Line("New normal: " & float'Image(pxNewNormal.fGet_X) & ", " & float'Image(pxNewNormal.fGet_Y) & ", " & float'Image(pxNewNormal.fGet_Z) & ".");
       return Math.Planes.pxCreate(pxNormalVector      => pxNewNormal,
                                   fDistanceFromOrigin => pxRightOperandPlane.fGet_Distance_From_Origin);
    end "*";
