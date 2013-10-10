@@ -37,7 +37,7 @@ D interfac.ads		20130417131027 cb4a8015
 D i-c.ads		20130417131026 5421119b
 D i-cstrin.ads		20130417131027 341d0ddf
 D i-cstrea.ads		20130417131026 8128536b
-D main.adb		20131010123138 b4348009
+D main.adb		20131010130251 b4348009
 D system.ads		20130417131036 90249111
 D s-crtl.ads		20130417131029 dfcfca61
 D s-exctab.ads		20130417131029 66e51330
@@ -55,11 +55,11 @@ D s-stopoo.ads		20130417131032 7b8fbeee
 D s-traent.ads		20130417131033 5221ee41
 D s-unstyp.ads		20130417131034 6ae15c76
 D s-wchcon.ads		20130417131034 bfeb2e3d
-D vision.ads		20131010123129 81b35c95
-D vision-image.ads	20131010085359 d2f05871
-D vision-image_preprocessing.ads  20131010085813 3e2dd9a2
-D vision-image_processing.ads  20131010090535 067b7c4a
-D visionbindings_hpp.ads  20131008133447 98360698
+D vision.ads		20131010130251 81b35c95
+D vision-image.ads	20131010130251 d2f05871
+D vision-image_preprocessing.ads  20131010130251 3e2dd9a2
+D vision-image_processing.ads  20131010130251 067b7c4a
+D visionbindings_hpp.ads  20131010130251 98360698
 X 1 ada.ads
 16K9*Ada 19e8 13|4r6 4r23
 X 7 a-textio.ads
