@@ -1,0 +1,97 @@
+V "GNAT Lib v2013"
+A -fstack-check=specific
+A -fPIC
+A -m64
+A -gnat05
+A -gnato
+A -gnatwa
+P ZX
+
+RN
+RV NO_STANDARD_STORAGE_POOLS
+RV NO_IMPLEMENTATION_PRAGMAS
+RV SPARK
+
+U visionbindings_hpp%s	visionbindings_hpp.ads	f80a1adc NE OO PK
+W ada.tags%s		a-tags.adb		a-tags.ali
+W interfaces%s		interfac.ads		interfac.ali
+W interfaces.c%s	i-c.adb			i-c.ali
+W interfaces.c.strings%s  i-cstrin.adb		i-cstrin.ali
+W system%s		system.ads		system.ali
+
+D ada.ads		20130417131023 3ffc8e18
+D a-tags.ads		20130417131022 6c0509d0
+D a-unccon.ads		20130417131022 f9eb8f06
+D interfac.ads		20130417131027 cb4a8015
+D i-c.ads		20130417131026 5421119b
+D i-cstrin.ads		20130417131027 341d0ddf
+D system.ads		20130417131036 90249111
+D s-exctab.ads		20130417131029 66e51330
+D s-parame.ads		20130417131032 b6e20cc0
+D s-stalib.ads		20130417131032 f78bcf95
+D s-stoele.ads		20130417131032 facd7d98
+D s-stoele.adb		20130417131032 afc5dc80
+D visionbindings_hpp.ads  20131010124620 98360698
+X 4 interfac.ads
+36K9*Interfaces 177e15 13|4r6 4r24 5r6 15r59 18r57 23r17 29r17 84r17
+X 5 i-c.ads
+18K20*C 230e17 13|4w17 4r35 5r17 15r70 18r68 23r28 29r28 84r28
+35I9*int<integer> 13|24r16 24r28 30r16 33r58 36r54 53r16 54r16 55r19 60r16
+. 61r16 62r20 63r20 64r23 85r16 88r68
+X 6 i-cstrin.ads
+36K22*Strings 104e25 13|5w19 15r72 18r70 23r30 29r30 84r30
+47P9*chars_ptr(character) 13|15r80 18r78 23r38 29r38 84r38
+X 13 visionbindings_hpp.ads
+7K9*visionBindings_hpp 97l5 97e23
+9K12*Class_Core_Wrap 43e7 44r8
+10R12*Core_Wrap 12e17 13r27 15p17 15r42 18p17 18r39 21p16 22r24 27p17 28r24
+. 33p17 33r40 36p16 36r36 39r37
+15U17*push_back 15^28 15>53 16b<cpp,_ZN9Core_Wrap9push_backEPc>27
+15p28 this(10R12)
+15p53 src{6|47P9}
+18U17*imread 18^25 18>50 19b<cpp,_ZN9Core_Wrap6imreadEPc>27
+18p25 this(10R12)
+18p50 name{6|47P9}
+21V16*imwrite{5|35I9} 22^10 23>10 24>10 25b<cpp,_ZN9Core_Wrap7imwriteEPci>27
+22p10 this(10R12)
+23p10 name{6|47P9}
+24i10 src{5|35I9}
+27U17*imshow 28^10 29>10 30>10 31b<cpp,_ZN9Core_Wrap6imshowEPci>27
+28p10 this(10R12)
+29p10 name{6|47P9}
+30i10 src{5|35I9}
+33U17*waitKey 33^26 33>51 34b<cpp,_ZN9Core_Wrap7waitKeyEi>27
+33p26 this(10R12)
+33i51 time{5|35I9}
+36V16*size{5|35I9} 36^22 37b<cpp,_ZN9Core_Wrap4sizeEv>27
+36p22 this(10R12)
+39V16*New_Core_Wrap{10R12} 40r31
+45K12*Class_Processing_Wrap 71e7 72r8
+46R12*Processing_Wrap 48e17 49r27 51p17 52r24 58p17 59r24 67r43
+51U17*cvtColor 52^10 53>10 54>10 55>10 56b<cpp,_ZN15Processing_Wrap8cvtColorEiii>27
+52p10 this(46R12)
+53i10 src{5|35I9}
+54i10 dst{5|35I9}
+55i10 filter{5|35I9}
+58U17*Canny 59^10 60>10 61>10 62>10 63>10 64>10 65b<cpp,_ZN15Processing_Wrap5CannyEiiiii>27
+59p10 this(46R12)
+60i10 src{5|35I9}
+61i10 dst{5|35I9}
+62i10 lThresh{5|35I9}
+63i10 hThresh{5|35I9}
+64i10 kernelSize{5|35I9}
+67V16*New_Processing_Wrap{46R12} 68r31
+73K12*Class_Preprocessing_Wrap 95e7 96r8
+74R12*Preprocessing_Wrap 76e17 77r27 79p17 79r49 82p17 83r24 88p17 88r42
+. 91r46
+79U17*VideoCaptureOpen 79^35 80b<cpp,_ZN18Preprocessing_Wrap16VideoCaptureOpenEv>27
+79p35 this(74R12)
+82U17*namedWindow 83^10 84>10 85>10 86b<cpp,_ZN18Preprocessing_Wrap11namedWindowEPci>27
+83p10 this(74R12)
+84p10 name{6|47P9}
+85i10 num{5|35I9}
+88U17*nextFrame 88^28 88>62 89b<cpp,_ZN18Preprocessing_Wrap9nextFrameEi>27
+88p28 this(74R12)
+88i62 dst{5|35I9}
+91V16*New_Preprocessing_Wrap{74R12} 92r31
+
