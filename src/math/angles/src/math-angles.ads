@@ -7,6 +7,12 @@ package Math.Angles is
    --  <summary>Angle in degrees ranging from -180.0 to 180.0.</summary>
 
    function fGet_Angle_Degrees_In_Range(fAngle : in float; fRangeFromExclusive : in float) return float;
+   --  <summary>Gets an angle in ra</summary>
+   --  <parameter name="Param">An Integer</parameter>
+   --  <exception>No exception</exception>
+   --  <seealso>Test2</seealso>
+
+
    function fGet_Angle_Radians_In_Range(fAngle : in float; fRangeFromExclusive : in float) return float;
    function fRadians_To_Degrees (fAngle : in float) return float;
    function fDegrees_To_Radians (fAngle : in float) return float;

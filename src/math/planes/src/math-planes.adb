@@ -18,6 +18,7 @@ package body Math.Planes is
    end pxGet_Normal_Vector;
 
 
+
    function fGet_Distance_From_Origin (this : in CPlane) return float is
    begin
       return this.fDistanceFromOrigin;
