@@ -27,7 +27,7 @@ package Math.Quaternions is
    function fGet_Z ( this : in CQuaternion) return float;
    function fGet_W ( this : in CQuaternion) return float;
    function fGet_Axis_Vector ( this : in CQuaternion) return Math.Vectors.pCVector;
-   function fGet_Angle (this : in CQuaternion) return float;
+   function fGet_Angle_In_Degrees (this : in CQuaternion) return float;
 
 
 private

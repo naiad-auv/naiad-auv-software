@@ -30,6 +30,10 @@ package Math.Matrices is
    function tfGet_Raw_Matrix (this : in CMatrix) return TMatrix;
    function fGet_Determinant (this : in CMatrix) return float;
 
+   function pxGet_X_Vector (this : in CMatrix) return Math.Vectors.pCVector;
+   function pxGet_Y_Vector (this : in CMatrix) return Math.Vectors.pCVector;
+   function pxGet_Z_Vector (this : in CMatrix) return Math.Vectors.pCVector;
+
 
 private
    type TExtendedMatrix is array(1 .. 3, 1 .. 6) of float;

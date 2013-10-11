@@ -1,3 +1,4 @@
+with "../../math/quaternions/quaternions.gpr";
 with "../../math/planes/planes.gpr";
 with "../../math/vectors/vectors.gpr";
 with "../../math/angles/angles.gpr";

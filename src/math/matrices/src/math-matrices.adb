@@ -476,4 +476,31 @@ package body Math.Matrices is
       return Math.Matrices.pxCreate(tfTranspose);
    end pxGet_Transpose;
 
+
+   function pxGet_X_Vector (this : in CMatrix) return Math.Vectors.pCVector is
+      pxXVector : Math.Vectors.pCVector;
+   begin
+      pxXVector := Math.Vectors.pxCreate(fX => this.tfMatrix(1,1),
+                                         fY => this.tfMatrix(1,2),
+                                         fZ => this.tfMatrix(1,3));
+      return pxXVector;
+   end pxGet_X_Vector;
+
+   function pxGet_Y_Vector (this : in CMatrix) return Math.Vectors.pCVector is
+      pxYVector : Math.Vectors.pCVector;
+   begin
+      pxYVector := Math.Vectors.pxCreate(fX => this.tfMatrix(2,1),
+                                         fY => this.tfMatrix(2,2),
+                                         fZ => this.tfMatrix(2,3));
+      return pxYVector;
+   end pxGet_Y_Vector;
+
+   function pxGet_Z_Vector (this : in CMatrix) return Math.Vectors.pCVector is
+      pxZVector : Math.Vectors.pCVector;
+   begin
+      pxZVector := Math.Vectors.pxCreate(fX => this.tfMatrix(3,1),
+                                         fY => this.tfMatrix(3,2),
+                                         fZ => this.tfMatrix(3,3));
+      return pxZVector;
+   end pxGet_Z_Vector;
 end Math.Matrices;

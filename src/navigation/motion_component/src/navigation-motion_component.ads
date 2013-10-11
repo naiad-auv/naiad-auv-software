@@ -16,6 +16,7 @@ package Navigation.Motion_Component is
 
    type TOrientationalControlValues is array (Direction .. Plane) of Navigation.Motion_Component.TComponentControlValue;
    type TPositionalControlValues is array (X .. Z) of Navigation.Motion_Component.TComponentControlValue;
+   type TControlValues is array (X .. Plane) of Navigation.Motion_Component.TComponentControlValue;
 
 
    function pxCreate(eAxisIndex : EMotionComponent; xPID_Scalings : Navigation.PID_Controller.TPIDComponentScalings) return pCMotion_Component;

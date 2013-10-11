@@ -1,7 +1,6 @@
 with Navigation.Motion_Component;
 with Navigation.Dispatcher;
 with Math.Vectors;
-with Math.Rotators;
 
 package Navigation.Motion_Controller is
 
@@ -17,7 +16,7 @@ private
 
    procedure Handle_Incomming_CAN_Message(this : in out CMotion_Controller);
 
-   procedure Transmit_Control_Values(this : in CMotion_Controller; xNewThrusterControlValues : Navigation.Motion_Component.TThruster_Control_Values);
+   procedure Transmit_Control_Values(this : in CMotion_Controller; xNewThrusterControlValues : Navigation.Motion_Component.TControlValues);
 
    type CMotion_Controller is tagged
       record

@@ -136,7 +136,7 @@ package body Math.Vectors is
    end fDot_Product;
 
 
-   function fAngle_Between (pxLeftOperandVector, pxRightOperandVector : in pCVector) return float is
+   function fAngle_Between_In_Radians (pxLeftOperandVector, pxRightOperandVector : in pCVector) return float is
       fDotProduct : float;
    begin
       fDotProduct := Math.Vectors.fDot_Product(pxLeftOperandVector  => pxLeftOperandVector,
@@ -147,7 +147,7 @@ package body Math.Vectors is
       end if;
 
       return Ada.Numerics.Elementary_Functions.Arccos(fDotProduct);
-   end fAngle_Between;
+   end fAngle_Between_In_Radians;
 
 
    function pxGet_Normalized (this : in CVector) return pCVector is

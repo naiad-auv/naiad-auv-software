@@ -1,3 +1,4 @@
+with "../../math/matrices/matrices.gpr";
 with "../motion_component/motion_component.gpr";
 with "../../math/vectors/vectors.gpr";
 with "../thruster_configurator/thruster_configurator.gpr";

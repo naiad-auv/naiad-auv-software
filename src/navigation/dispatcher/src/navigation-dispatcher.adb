@@ -27,12 +27,12 @@ package body Navigation.Dispatcher is
       null;
    end Update_Wanted_Position;
 
-   procedure Update_Current_Orientation(this : in out CDispatcher; xNewCurrentOrientation : Math.Rotators.CRotator) is
+   procedure Update_Current_Orientation(this : in out CDispatcher; xNewCurrentOrientation : Math.Matrices.pCMatrix) is
    begin
       null;
    end Update_Current_Orientation;
 
-   procedure Update_Wanted_Orientation(this : in out CDispatcher; xNewWantedOrientation : Math.Rotators.CRotator) is
+   procedure Update_Wanted_Orientation(this : in out CDispatcher; xNewWantedOrientation : Math.Matrices.pCMatrix) is
    begin
       null;
    end Update_Wanted_Orientation;

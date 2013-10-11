@@ -27,7 +27,7 @@ package body Navigation.Motion_Controller is
    end Handle_Incomming_CAN_Message;
 
 
-   procedure Transmit_Control_Values(this : in CMotion_Controller; xNewThrusterControlValues : Navigation.Motion_Component.TThruster_Control_Values) is
+   procedure Transmit_Control_Values(this : in CMotion_Controller; xNewThrusterControlValues : Navigation.Motion_Component.TControlValues) is
    begin
       null;
    end Transmit_Control_Values;

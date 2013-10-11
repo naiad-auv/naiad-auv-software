@@ -4,6 +4,7 @@ with Navigation.Thruster_Configurator;
 with Navigation.Motion_Component;
 with Math.Vectors;
 with Navigation.PID_Controller;
+with Math.Matrices;
 
 package Navigation.Dispatcher is
 
@@ -19,8 +20,8 @@ package Navigation.Dispatcher is
    procedure Update_Current_Position(this : in out CDispatcher; xNewCurrentPosition : Math.Vectors.CVector);
    procedure Update_Wanted_Position(this : in out CDispatcher; xNewWantedPosition : Math.Vectors.CVector);
 
-   procedure Update_Current_Orientation(this : in out CDispatcher; xNewCurrentOrientation : Math.Rotators.CRotator);
-   procedure Update_Wanted_Orientation(this : in out CDispatcher; xNewWantedOrientation : Math.Rotators.CRotator);
+   procedure Update_Current_Orientation(this : in out CDispatcher; xNewCurrentOrientation : Math.Matrices.pCMatrix);
+   procedure Update_Wanted_Orientation(this : in out CDispatcher; xNewWantedOrientation : Math.Matrices.pCMatrix);
 
    --borde hålla motorkonfigurationen
 
@@ -31,15 +32,15 @@ private
 
          pxThrusterConfigurator : Navigation.Thruster_Configurator.pCThruster_Configurator;
 
-         pxOrientationalController : Navigation.Orientational_Controller.pCOrientational_Controller;
+         pxOrientationalController : Navigation.Orientational_Controller.pCOrientationalController;
 
          pxPositionalController : Navigation.Positional_Controller.pCPositional_Controller;
 
          pxCurrentPosition : Math.Vectors.pCVector;
          pxWantedPosition : Math.Vectors.pCVector;
 
-         pxCurrentOrientation : Math.Rotators.pCRotator;
-         pxWantedOrientation : Math.Rotators.pCRotator;
+         pxCurrentOrientation : Math.Matrices.pCMatrix;
+         pxWantedOrientation : Math.Matrices.pCMatrix;
       end record;
 
 end Navigation.Dispatcher;

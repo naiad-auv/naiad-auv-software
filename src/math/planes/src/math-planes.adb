@@ -28,8 +28,8 @@ package body Math.Planes is
       fAngleInRadians : float;
       fAngleInDegrees : float;
    begin
-      fAngleInRadians := Math.Vectors.fAngle_Between(pxLeftOperandVector  => pxLeftOperandPlane.pxGet_Normal_Vector,
-                                                     pxRightOperandVector => pxRightOperandPlane.pxGet_Normal_Vector);
+      fAngleInRadians := Math.Vectors.fAngle_Between_In_Radians(pxLeftOperandVector  => pxLeftOperandPlane.pxGet_Normal_Vector,
+                                                                pxRightOperandVector => pxRightOperandPlane.pxGet_Normal_Vector);
       fAngleInDegrees :=  fAngleInRadians * (180.0 / Ada.Numerics.Pi);
       return fAngleInDegrees;
    end fAngle_Between_In_Degrees;

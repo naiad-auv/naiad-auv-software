@@ -28,7 +28,7 @@ package Math.Vectors is
 
    function fDot_Product (pxLeftOperandVector : in pCVector; pxRightOperandVector : in pCVector) return float;
    function pxCross_Product (pxLeftOperandVector : in pCVector; pxRightOperandVector : in pCVector) return pCVector;
-   function fAngle_Between (pxLeftOperandVector, pxRightOperandVector : in pCVector) return float;
+   function fAngle_Between_In_Radians (pxLeftOperandVector, pxRightOperandVector : in pCVector) return float;
 
    -- lol function
    function fGet_X (this : in CVector) return float;

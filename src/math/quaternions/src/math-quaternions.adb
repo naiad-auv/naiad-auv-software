@@ -209,10 +209,10 @@ package body Math.Quaternions is
                                    fZ => this.fZ / fScale);
    end fGet_Axis_Vector;
 
-   function fGet_Angle (this : in CQuaternion) return float is
+   function fGet_Angle_In_Degrees (this : in CQuaternion) return float is
    begin
       return ((2.0*180.0)/Ada.Numerics.Pi) * Ada.Numerics.Elementary_Functions.Arccos(this.fW);
-   end fGet_Angle;
+   end fGet_Angle_In_Degrees;
 
 
 end Math.Quaternions;
