@@ -10,6 +10,10 @@ procedure main is
    iImageSource : integer;
    iImageDestination : integer;
    iGreyFilter : integer;
+   iCannyKernelSize :integer;
+   iCannyLowThres : integer;
+   iCannyHighThres : integer;
+
    CoreWrap : aliased Class_Core_Wrap.Core_Wrap;
    processingWrap : aliased Class_Processing_Wrap.Processing_Wrap;
    preprocessingWrap : aliased Class_Preprocessing_Wrap.Preprocessing_Wrap;
@@ -18,14 +22,18 @@ begin
    iImageSource := 1;
    iImageDestination := 1;
    iGreyFilter := 6;
+   iCannyLowThres := 10;
+   iCannyHighThres := 460;
+   iCannyKernelSize := 3;
    --CHECK FOR INSTRUCTION--to be implemented, for now just working on default mode
 
    --GET IMAGE-- read from buffer, but for now just read in png
    CoreWrap.push_back(New_String("lena.png"));
-   CoreWrap.push_back(New_String("rosie.jpeg"));
+   CoreWrap.push_back(New_String("rosie.png"));
    CoreWrap.waitKey(0);
-   CoreWrap.imshow(New_String("Lady Rosie"), 1);--show image for debug purposes
+   CoreWrap.imshow(New_String("Sir star fish the third"), 1);--show image for debug purposes
    CoreWrap.waitKey(0);
+
 
    --CLEAN IMAGE--to be implemented
    --CONVERT IMAGE TO GREYSCALE FOR CANNY
@@ -37,7 +45,11 @@ begin
    --processing.canny(imageSource,imageDestination)
    --processingWrap.cvtColor(1, 1, 6);
    --Class_Processing_Wrap.cvtColor(imageSource, imageDestination, greyFilter);
-   CoreWrap.imshow(New_String("why so grey rosie?"), 1);--show image for debug purposes
+   CoreWrap.imshow(New_String("why so canny Sir star fish?"), 1);--show image for debug purposes
+   CoreWrap.waitKey(0);
+   Vision.Image_Processing.Canny(iImageSource,iImageDestination, iCannyLowThres, iCannyHighThres, iCannyKernelSize);
+   --processingWrap.Canny(1,1,50,150,3);
+   CoreWrap.imshow(New_String("why so canny Sir star fish?"), 1);--show image for debug purposes
    CoreWrap.waitKey(0);
 
 end main;
