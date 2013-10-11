@@ -40,11 +40,11 @@
     var names = new Array (
 new Array ('TAngle', 'math-angles.ads:6:9', 'type-spec'),
 new Array ('fGet_<wbr/>Angle_<wbr/>Degrees_<wbr/>In_<wbr/>Range', 'math-angles.ads:9:13', 'subp-spec'),
-new Array ('fGet_<wbr/>Angle_<wbr/>Radians_<wbr/>In_<wbr/>Range', 'math-angles.ads:10:13', 'subp-spec'),
-new Array ('fRadians_<wbr/>To_<wbr/>Degrees', 'math-angles.ads:11:13', 'subp-spec'),
-new Array ('fDegrees_<wbr/>To_<wbr/>Radians', 'math-angles.ads:12:13', 'subp-spec'),
-new Array ('fTAngle_<wbr/>To_<wbr/>FAngle', 'math-angles.ads:13:13', 'subp-spec'),
-new Array ('tfFAngle_<wbr/>To_<wbr/>TAngle', 'math-angles.ads:14:13', 'subp-spec'),
+new Array ('fGet_<wbr/>Angle_<wbr/>Radians_<wbr/>In_<wbr/>Range', 'math-angles.ads:16:13', 'subp-spec'),
+new Array ('fRadians_<wbr/>To_<wbr/>Degrees', 'math-angles.ads:22:13', 'subp-spec'),
+new Array ('fDegrees_<wbr/>To_<wbr/>Radians', 'math-angles.ads:27:13', 'subp-spec'),
+new Array ('fTAngle_<wbr/>To_<wbr/>FAngle', 'math-angles.ads:32:13', 'subp-spec'),
+new Array ('tfFAngle_<wbr/>To_<wbr/>TAngle', 'math-angles.ads:37:13', 'subp-spec'),
       new Array ('dummy', '', ''));
     printIndexList (names);
   </script>
@@ -52,11 +52,11 @@ new Array ('tfFAngle_<wbr/>To_<wbr/>TAngle', 'math-angles.ads:14:13', 'subp-spec
     <ul>
       <li class='type-spec'><a href="#math-angles.ads:6:9">TAngle</a></li>
       <li class='subp-spec'><a href="#math-angles.ads:9:13">fGet_<wbr/>Angle_<wbr/>Degrees_<wbr/>In_<wbr/>Range</a></li>
-      <li class='subp-spec'><a href="#math-angles.ads:10:13">fGet_<wbr/>Angle_<wbr/>Radians_<wbr/>In_<wbr/>Range</a></li>
-      <li class='subp-spec'><a href="#math-angles.ads:11:13">fRadians_<wbr/>To_<wbr/>Degrees</a></li>
-      <li class='subp-spec'><a href="#math-angles.ads:12:13">fDegrees_<wbr/>To_<wbr/>Radians</a></li>
-      <li class='subp-spec'><a href="#math-angles.ads:13:13">fTAngle_<wbr/>To_<wbr/>FAngle</a></li>
-      <li class='subp-spec'><a href="#math-angles.ads:14:13">tfFAngle_<wbr/>To_<wbr/>TAngle</a></li>
+      <li class='subp-spec'><a href="#math-angles.ads:16:13">fGet_<wbr/>Angle_<wbr/>Radians_<wbr/>In_<wbr/>Range</a></li>
+      <li class='subp-spec'><a href="#math-angles.ads:22:13">fRadians_<wbr/>To_<wbr/>Degrees</a></li>
+      <li class='subp-spec'><a href="#math-angles.ads:27:13">fDegrees_<wbr/>To_<wbr/>Radians</a></li>
+      <li class='subp-spec'><a href="#math-angles.ads:32:13">fTAngle_<wbr/>To_<wbr/>FAngle</a></li>
+      <li class='subp-spec'><a href="#math-angles.ads:37:13">tfFAngle_<wbr/>To_<wbr/>TAngle</a></li>
     </ul>
   </noscript>
  </div>
@@ -106,51 +106,77 @@ new Array ('tfFAngle_<wbr/>To_<wbr/>TAngle', 'math-angles.ads:14:13', 'subp-spec
 </ul></span>
         </h3>
         <div class='details'><pre><span class="keyword">function</span> <span class="name_emphasis">fGet_Angle_Degrees_In_Range</span><table><tr><td>(</td><td><span class="name"><a name="math-angles.ads:9:41"></a>fAngle</span></td><td>: <span class="keyword">in</span> float;</td></tr><tr><td></td><td><span class="name"><a name="math-angles.ads:9:60"></a>fRangeFromExclusive</span></td><td>: <span class="keyword">in</span> float) <span class="keyword">return</span> float;</td></tr></table></pre></div>
+        <div class='comment'><div class="summary" >Returns an angle in degrees in range (fRangeFromExclusive, fRangeFromExcluse+360].</div>
+<div class="parameter"><span class="name">fAngle:</span> The angle in degrees to convert.</div>
+<div class="parameter"><span class="name">fRangeFromExcluse:</span> The start of the range, the returned value will always be higher than this parameter.</div>
+<div class="seealso" ><a href="math-angles.ads.html#math-angles.ads:16:13" title="fGet_Angle_Radians_In_Range">fGet_Angle_Radians_In_Range</a></div>
+</div>
       </div>
       <div class="class">
         <h3>
-          <a name='math-angles.ads:10:13' id='math-angles.ads:10:13'></a>
+          <a name='math-angles.ads:16:13' id='math-angles.ads:16:13'></a>
 <span class="droplink">fGet_Angle_Radians_In_Range<ul>
-  <li><a href="src_math-angles.ads.html#l10">Goto spec in source</a></li>
+  <li><a href="src_math-angles.ads.html#l16">Goto spec in source</a></li>
 </ul></span>
         </h3>
-        <div class='details'><pre><span class="keyword">function</span> <span class="name_emphasis">fGet_Angle_Radians_In_Range</span><table><tr><td>(</td><td><span class="name"><a name="math-angles.ads:10:41"></a>fAngle</span></td><td>: <span class="keyword">in</span> float;</td></tr><tr><td></td><td><span class="name"><a name="math-angles.ads:10:60"></a>fRangeFromExclusive</span></td><td>: <span class="keyword">in</span> float) <span class="keyword">return</span> float;</td></tr></table></pre></div>
+        <div class='details'><pre><span class="keyword">function</span> <span class="name_emphasis">fGet_Angle_Radians_In_Range</span><table><tr><td>(</td><td><span class="name"><a name="math-angles.ads:16:41"></a>fAngle</span></td><td>: <span class="keyword">in</span> float;</td></tr><tr><td></td><td><span class="name"><a name="math-angles.ads:16:60"></a>fRangeFromExclusive</span></td><td>: <span class="keyword">in</span> float) <span class="keyword">return</span> float;</td></tr></table></pre></div>
+        <div class='comment'><div class="summary" >Returns an angle in radians in range (fRangeFromExclusive, fRangeFromExcluse+2Pi].</div>
+<div class="parameter"><span class="name">fAngle:</span> The angle in radians to convert.</div>
+<div class="parameter"><span class="name">fRangeFromExcluse:</span> The start of the range, the returned value will always be higher than this parameter.</div>
+<div class="seealso" ><a href="math-angles.ads.html#math-angles.ads:9:13" title="fGet_Angle_Degrees_In_Range">fGet_Angle_Degrees_In_Range</a></div>
+</div>
       </div>
       <div class="class">
         <h3>
-          <a name='math-angles.ads:11:13' id='math-angles.ads:11:13'></a>
+          <a name='math-angles.ads:22:13' id='math-angles.ads:22:13'></a>
 <span class="droplink">fRadians_To_Degrees<ul>
-  <li><a href="src_math-angles.ads.html#l11">Goto spec in source</a></li>
+  <li><a href="src_math-angles.ads.html#l22">Goto spec in source</a></li>
 </ul></span>
         </h3>
-        <div class='details'><pre><span class="keyword">function</span> <span class="name_emphasis">fRadians_To_Degrees</span> <table><tr><td>(</td><td><span class="name"><a name="math-angles.ads:11:34"></a>fAngle</span></td><td>: <span class="keyword">in</span> float) <span class="keyword">return</span> float;</td></tr></table></pre></div>
+        <div class='details'><pre><span class="keyword">function</span> <span class="name_emphasis">fRadians_To_Degrees</span> <table><tr><td>(</td><td><span class="name"><a name="math-angles.ads:22:34"></a>fAngle</span></td><td>: <span class="keyword">in</span> float) <span class="keyword">return</span> float;</td></tr></table></pre></div>
+        <div class='comment'><div class="summary" >Returns fAngle converted from radians to degrees.</div>
+<div class="parameter"><span class="name">fAngle:</span> The angle in radians to convert.</div>
+<div class="seealso" ><a href="math-angles.ads.html#math-angles.ads:27:13" title="fDegrees_To_Radians">fDegrees_To_Radians</a></div>
+</div>
       </div>
       <div class="class">
         <h3>
-          <a name='math-angles.ads:12:13' id='math-angles.ads:12:13'></a>
+          <a name='math-angles.ads:27:13' id='math-angles.ads:27:13'></a>
 <span class="droplink">fDegrees_To_Radians<ul>
-  <li><a href="src_math-angles.ads.html#l12">Goto spec in source</a></li>
+  <li><a href="src_math-angles.ads.html#l27">Goto spec in source</a></li>
 </ul></span>
         </h3>
-        <div class='details'><pre><span class="keyword">function</span> <span class="name_emphasis">fDegrees_To_Radians</span> <table><tr><td>(</td><td><span class="name"><a name="math-angles.ads:12:34"></a>fAngle</span></td><td>: <span class="keyword">in</span> float) <span class="keyword">return</span> float;</td></tr></table></pre></div>
+        <div class='details'><pre><span class="keyword">function</span> <span class="name_emphasis">fDegrees_To_Radians</span> <table><tr><td>(</td><td><span class="name"><a name="math-angles.ads:27:34"></a>fAngle</span></td><td>: <span class="keyword">in</span> float) <span class="keyword">return</span> float;</td></tr></table></pre></div>
+        <div class='comment'><div class="summary" >Returns fAngle converted from degrees to radians.</div>
+<div class="parameter"><span class="name">fAngle:</span> The angle in degrees to convert.</div>
+<div class="seealso" ><a href="math-angles.ads.html#math-angles.ads:22:13" title="fRadians_To_Degrees">fRadians_To_Degrees</a></div>
+</div>
       </div>
       <div class="class">
         <h3>
-          <a name='math-angles.ads:13:13' id='math-angles.ads:13:13'></a>
+          <a name='math-angles.ads:32:13' id='math-angles.ads:32:13'></a>
 <span class="droplink">fTAngle_To_FAngle<ul>
-  <li><a href="src_math-angles.ads.html#l13">Goto spec in source</a></li>
+  <li><a href="src_math-angles.ads.html#l32">Goto spec in source</a></li>
 </ul></span>
         </h3>
-        <div class='details'><pre><span class="keyword">function</span> <span class="name_emphasis">fTAngle_To_FAngle</span> <table><tr><td>(</td><td><span class="name"><a name="math-angles.ads:13:32"></a>tfAngle</span></td><td>: <span class="keyword">in</span> <a href="math-angles.ads.html#math-angles.ads:6:9" title="defined at math-angles.ads:6:9">TAngle</a>) <span class="keyword">return</span> float;</td></tr></table></pre></div>
+        <div class='details'><pre><span class="keyword">function</span> <span class="name_emphasis">fTAngle_To_FAngle</span> <table><tr><td>(</td><td><span class="name"><a name="math-angles.ads:32:32"></a>tfAngle</span></td><td>: <span class="keyword">in</span> <a href="math-angles.ads.html#math-angles.ads:6:9" title="defined at math-angles.ads:6:9">TAngle</a>) <span class="keyword">return</span> float;</td></tr></table></pre></div>
+        <div class='comment'><div class="summary" >Returns tfAngle converted from <a href="math-angles.ads.html#math-angles.ads:6:9" title="TAngle">TAngle</a> to float. The returned angle will be in range [-180.0, 180.0].</div>
+<div class="parameter"><span class="name">tfAngle:</span> The <a href="math-angles.ads.html#math-angles.ads:6:9" title="TAngle">TAngle</a> to convert to float.</div>
+<div class="seealso" ><a href="math-angles.ads.html#math-angles.ads:37:13" title="tfFAngle_To_TAngle">tfFAngle_To_TAngle</a></div>
+</div>
       </div>
       <div class="class">
         <h3>
-          <a name='math-angles.ads:14:13' id='math-angles.ads:14:13'></a>
+          <a name='math-angles.ads:37:13' id='math-angles.ads:37:13'></a>
 <span class="droplink">tfFAngle_To_TAngle<ul>
-  <li><a href="src_math-angles.ads.html#l14">Goto spec in source</a></li>
+  <li><a href="src_math-angles.ads.html#l37">Goto spec in source</a></li>
 </ul></span>
         </h3>
-        <div class='details'><pre><span class="keyword">function</span> <span class="name_emphasis">tfFAngle_To_TAngle</span> <table><tr><td>(</td><td><span class="name"><a name="math-angles.ads:14:33"></a>fAngle</span></td><td>: <span class="keyword">in</span> float) <span class="keyword">return</span> <a href="math-angles.ads.html#math-angles.ads:6:9" title="defined at math-angles.ads:6:9">TAngle</a>;</td></tr></table></pre></div>
+        <div class='details'><pre><span class="keyword">function</span> <span class="name_emphasis">tfFAngle_To_TAngle</span> <table><tr><td>(</td><td><span class="name"><a name="math-angles.ads:37:33"></a>fAngle</span></td><td>: <span class="keyword">in</span> float) <span class="keyword">return</span> <a href="math-angles.ads.html#math-angles.ads:6:9" title="defined at math-angles.ads:6:9">TAngle</a>;</td></tr></table></pre></div>
+        <div class='comment'><div class="summary" >Returns fAngle converted from float to <a href="math-angles.ads.html#math-angles.ads:6:9" title="TAngle">TAngle</a>. The returned angle will be in range (-180.0, 180.0].</div>
+<div class="parameter"><span class="name">fAngle:</span> The angle to convert to <a href="math-angles.ads.html#math-angles.ads:6:9" title="TAngle">TAngle</a>.</div>
+<div class="seealso" ><a href="math-angles.ads.html#math-angles.ads:32:13" title="fTAngle_To_FAngle">fTAngle_To_FAngle</a></div>
+</div>
       </div>
     </div>
 </div> <!-- documentation -->

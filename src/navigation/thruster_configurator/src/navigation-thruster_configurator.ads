@@ -1,35 +1,23 @@
 with Navigation.Motion_Component;
 with Math.Matrices;
 with Math.Vectors;
+with Navigation.Thrusters;
 
 package Navigation.Thruster_Configurator is
 
-   type CThruster_Configurator is tagged private;
-   type pCThruster_Configurator is access CThruster_Configurator;
+   type CThrusterConfigurator is tagged private;
+   type pCThrusterConfigurator is access CThrusterConfigurator;
 
+   function pxCreate return pCThrusterConfigurator;
 
-   type TiThrusterIndex is new integer range 1 .. 6;
-
-   type TThrusterEffects is array (Navigation.Motion_Component.EMotionComponent'First .. Navigation.Motion_Component.EMotionComponent'Last) of float;
-   type TThrusterConfiguration is array (TiThrusterIndex'First .. TiThrusterIndex'Last) of TThrusterEffects;
-
-   type TMovementVector is array (Navigation.Motion_Component.EMotionComponent'First .. Navigation.Motion_Component.EMotionComponent'Last) of float;
-
-   function pxCreate return pCThruster_Configurator;
-
-
-   procedure Configure_Thruster_Effects(this : in out CThruster_Configurator; xThrusterToConfigure : TiThrusterIndex; xThrusterConfiguration : TThrusterConfiguration);
-
-   function xGet_Final_Thruster_Power_Configuration(this : in CThruster_Configurator) return float;
+   function xGet_Final_Thruster_Power_Configuration(this : in CThrusterConfigurator) return float;
 
 private
 
-   type CThruster_Configurator is tagged
+
+   type CThrusterConfigurator is tagged
       record
-
-
-
-         xThrusterConfiguration : TThrusterConfiguration;
+         pxThrusterList : Navigation.Thrusters.pCThruster;
 
       end record;
 
