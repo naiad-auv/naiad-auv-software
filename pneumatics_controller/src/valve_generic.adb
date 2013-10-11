@@ -1,3 +1,6 @@
+-- Written by: Konstantinos Konstantopoulos for the Naiad AUV project
+-- Last changed (yyyy-mm-dd): 2013-10-11
+
 with Digital_IO;
 
 package body Valve_Generic is
@@ -9,7 +12,8 @@ package body Valve_Generic is
          AVR.AT90CAN128.CALENDAR.Delay_ms(dT);
          Digital_IO.Clear_Pin(u8Pin);
       else -- Simulate actuation duration.
-         AVR.AT90CAN128.CALENDAR.Delay_ms(dT);
+           AVR.AT90CAN128.CALENDAR.Delay_ms(dT);
+           null;
       end if;
    end;
 

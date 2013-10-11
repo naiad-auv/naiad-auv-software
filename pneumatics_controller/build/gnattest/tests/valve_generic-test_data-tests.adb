@@ -12,10 +12,10 @@ package body Valve_Generic.Test_Data.Tests is
 
 --  begin read only
    procedure Test_Actuate_For_Duration (Gnattest_T : in out Test);
-   procedure Test_Actuate_For_Duration_7ab317 (Gnattest_T : in out Test) renames Test_Actuate_For_Duration;
---  id:2.1/7ab317dd386ffd36/Actuate_For_Duration/1/0/
+   procedure Test_Actuate_For_Duration_cc96e0 (Gnattest_T : in out Test) renames Test_Actuate_For_Duration;
+--  id:2.1/cc96e0cc040611bd/Actuate_For_Duration/1/0/
    procedure Test_Actuate_For_Duration (Gnattest_T : in out Test) is
-   --  valve_generic.ads:9:4:Actuate_For_Duration
+   --  valve_generic.ads:11:4:Actuate_For_Duration
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -36,7 +36,7 @@ package body Valve_Generic.Test_Data.Tests is
    procedure Test_Actuate_0892f0 (Gnattest_T : in out Test) renames Test_Actuate;
 --  id:2.1/0892f0a232fa9855/Actuate/1/0/
    procedure Test_Actuate (Gnattest_T : in out Test) is
-   --  valve_generic.ads:10:4:Actuate
+   --  valve_generic.ads:12:4:Actuate
 --  end read only
 
       pragma Unreferenced (Gnattest_T);

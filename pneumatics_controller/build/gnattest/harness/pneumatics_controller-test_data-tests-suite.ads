@@ -4,9 +4,9 @@
 --  begin read only
 with AUnit.Test_Suites;
 
-package AVR.AT90CAN128.CALENDAR.Test_Data.Tests.Suite is
+package pneumatics_controller.Test_Data.Tests.Suite is
 
    function Suite return AUnit.Test_Suites.Access_Test_Suite;
 
-end AVR.AT90CAN128.CALENDAR.Test_Data.Tests.Suite;
+end pneumatics_controller.Test_Data.Tests.Suite;
 --  end read only

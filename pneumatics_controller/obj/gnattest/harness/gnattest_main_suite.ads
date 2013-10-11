@@ -2,11 +2,11 @@
 --  Do not edit any part of it, see GNATtest documentation for more details.
 
 --  begin read only
-with AUnit.Test_Suites;
+with AUnit.Test_Suites; use AUnit.Test_Suites;
 
-package ADC.Test_Data.Tests.Suite is
+package Gnattest_Main_Suite is
 
-   function Suite return AUnit.Test_Suites.Access_Test_Suite;
+   function Suite return Access_Test_Suite;
 
-end ADC.Test_Data.Tests.Suite;
+end Gnattest_Main_Suite;
 --  end read only

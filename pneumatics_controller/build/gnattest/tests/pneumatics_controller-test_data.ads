@@ -5,7 +5,7 @@
 
 with AUnit.Test_Fixtures;
 
-package AVR.AT90CAN128.CALENDAR.Test_Data is
+package pneumatics_controller.Test_Data is
 
 --  begin read only
    type Test is new AUnit.Test_Fixtures.Test_Fixture
@@ -15,4 +15,4 @@ package AVR.AT90CAN128.CALENDAR.Test_Data is
    procedure Set_Up (Gnattest_T : in out Test);
    procedure Tear_Down (Gnattest_T : in out Test);
 
-end AVR.AT90CAN128.CALENDAR.Test_Data;
+end pneumatics_controller.Test_Data;
