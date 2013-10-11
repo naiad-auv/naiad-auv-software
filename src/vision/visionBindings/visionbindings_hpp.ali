@@ -12,7 +12,7 @@ RV NO_STANDARD_STORAGE_POOLS
 RV NO_IMPLEMENTATION_PRAGMAS
 RV SPARK
 
-U visionbindings_hpp%s	visionbindings_hpp.ads	f80a1adc NE OO PK
+U visionbindings_hpp%s	visionbindings_hpp.ads	32eca4be NE OO PK
 W ada.tags%s		a-tags.adb		a-tags.ali
 W interfaces%s		interfac.ads		interfac.ali
 W interfaces.c%s	i-c.adb			i-c.ali
@@ -31,18 +31,19 @@ D s-parame.ads		20130417131032 b6e20cc0
 D s-stalib.ads		20130417131032 f78bcf95
 D s-stoele.ads		20130417131032 facd7d98
 D s-stoele.adb		20130417131032 afc5dc80
-D visionbindings_hpp.ads  20131010130251 98360698
+D visionbindings_hpp.ads  20131011142308 52d0b8fa
 X 4 interfac.ads
-36K9*Interfaces 177e15 13|4r6 4r24 5r6 15r59 18r57 23r17 29r17 84r17
+36K9*Interfaces 177e15 13|4r6 4r24 5r6 15r59 18r57 23r17 29r17 98r17
 X 5 i-c.ads
-18K20*C 230e17 13|4w17 4r35 5r17 15r70 18r68 23r28 29r28 84r28
+18K20*C 230e17 13|4w17 4r35 5r17 15r70 18r68 23r28 29r28 98r28
 35I9*int<integer> 13|24r16 24r28 30r16 33r58 36r54 53r16 54r16 55r19 60r16
-. 61r16 62r20 63r20 64r23 85r16 88r68
+. 61r16 62r20 63r20 64r23 69r16 70r37 71r34 72r25 73r37 74r22 75r22 78r72
+. 99r16 102r68
 X 6 i-cstrin.ads
-36K22*Strings 104e25 13|5w19 15r72 18r70 23r30 29r30 84r30
-47P9*chars_ptr(character) 13|15r80 18r78 23r38 29r38 84r38
+36K22*Strings 104e25 13|5w19 15r72 18r70 23r30 29r30 98r30
+47P9*chars_ptr(character) 13|15r80 18r78 23r38 29r38 98r38
 X 13 visionbindings_hpp.ads
-7K9*visionBindings_hpp 97l5 97e23
+7K9*visionBindings_hpp 111l5 111e23
 9K12*Class_Core_Wrap 43e7 44r8
 10R12*Core_Wrap 12e17 13r27 15p17 15r42 18p17 18r39 21p16 22r24 27p17 28r24
 . 33p17 33r40 36p16 36r36 39r37
@@ -66,8 +67,9 @@ X 13 visionbindings_hpp.ads
 36V16*size{5|35I9} 36^22 37b<cpp,_ZN9Core_Wrap4sizeEv>27
 36p22 this(10R12)
 39V16*New_Core_Wrap{10R12} 40r31
-45K12*Class_Processing_Wrap 71e7 72r8
-46R12*Processing_Wrap 48e17 49r27 51p17 52r24 58p17 59r24 67r43
+45K12*Class_Processing_Wrap 85e7 86r8
+46R12*Processing_Wrap 48e17 49r27 51p17 52r24 58p17 59r24 67p17 68r24 78p17
+. 78r49 81r43
 51U17*cvtColor 52^10 53>10 54>10 55>10 56b<cpp,_ZN15Processing_Wrap8cvtColorEiii>27
 52p10 this(46R12)
 53i10 src{5|35I9}
@@ -80,18 +82,30 @@ X 13 visionbindings_hpp.ads
 62i10 lThresh{5|35I9}
 63i10 hThresh{5|35I9}
 64i10 kernelSize{5|35I9}
-67V16*New_Processing_Wrap{46R12} 68r31
-73K12*Class_Preprocessing_Wrap 95e7 96r8
-74R12*Preprocessing_Wrap 76e17 77r27 79p17 79r49 82p17 83r24 88p17 88r42
-. 91r46
-79U17*VideoCaptureOpen 79^35 80b<cpp,_ZN18Preprocessing_Wrap16VideoCaptureOpenEv>27
-79p35 this(74R12)
-82U17*namedWindow 83^10 84>10 85>10 86b<cpp,_ZN18Preprocessing_Wrap11namedWindowEPci>27
-83p10 this(74R12)
-84p10 name{6|47P9}
-85i10 num{5|35I9}
-88U17*nextFrame 88^28 88>62 89b<cpp,_ZN18Preprocessing_Wrap9nextFrameEi>27
-88p28 this(74R12)
-88i62 dst{5|35I9}
-91V16*New_Preprocessing_Wrap{74R12} 92r31
+67U17*HoughCircles 68^10 69>10 70>10 71>10 72>10 73>10 74>10 75>10 76b<cpp,_ZN15Processing_Wrap12HoughCirclesEiiiiiii>27
+68p10 this(46R12)
+69i10 src{5|35I9}
+70i10 inverseRatioOfResolution{5|35I9}
+71i10 minDistBetweenCenters{5|35I9}
+72i10 cannyUpThres{5|35I9}
+73i10 centerDetectionThreshold{5|35I9}
+74i10 minRadius{5|35I9}
+75i10 maxRadius{5|35I9}
+78U17*DrawHoughCircles 78^35 78>66 79b<cpp,_ZN15Processing_Wrap16DrawHoughCirclesEi>27
+78p35 this(46R12)
+78i66 src{5|35I9}
+81V16*New_Processing_Wrap{46R12} 82r31
+87K12*Class_Preprocessing_Wrap 109e7 110r8
+88R12*Preprocessing_Wrap 90e17 91r27 93p17 93r49 96p17 97r24 102p17 102r42
+. 105r46
+93U17*VideoCaptureOpen 93^35 94b<cpp,_ZN18Preprocessing_Wrap16VideoCaptureOpenEv>27
+93p35 this(88R12)
+96U17*namedWindow 97^10 98>10 99>10 100b<cpp,_ZN18Preprocessing_Wrap11namedWindowEPci>27
+97p10 this(88R12)
+98p10 name{6|47P9}
+99i10 num{5|35I9}
+102U17*nextFrame 102^28 102>62 103b<cpp,_ZN18Preprocessing_Wrap9nextFrameEi>27
+102p28 this(88R12)
+102i62 dst{5|35I9}
+105V16*New_Preprocessing_Wrap{88R12} 106r31
 

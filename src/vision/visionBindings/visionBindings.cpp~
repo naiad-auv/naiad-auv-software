@@ -4,7 +4,9 @@
 #include "opencv2/opencv.hpp"
 #include <vector>
 
+
 std::vector<cv::Mat> img;
+std::vector<cv::Vec3f> circles;
 cv::VideoCapture cap;
 
 void Core_Wrap::push_back(char * src)
@@ -42,35 +44,57 @@ int Core_Wrap::size(void)
 
 Core_Wrap::Core_Wrap(){}
 
-
-void Imgproc_Wrap::cvtColor(int src, int dst, int filter)
+//processing functions in openCV!!
+void Processing_Wrap::cvtColor(int src, int dst, int filter)
 {
   cv::cvtColor(img.at(src), img.at(dst), filter);
 }
 
-void Imgproc_Wrap::Canny(int src, int dst, int lThresh, int hThresh, int kernelSize)
+void Processing_Wrap::Canny(int src, int dst, int lThresh, int hThresh, int kernelSize)
 {
   cv::Canny(img.at(src), img.at(dst), lThresh, hThresh, kernelSize);
 }
 
-Imgproc_Wrap::Imgproc_Wrap(){}
+//void tester(std::vector<Item*>&);std::vector<cv::Vec3f*>&circles
+void Processing_Wrap::HoughCircles(int src,int inverseRatioOfResolution,int minDistBetweenCenters,int cannyUpThres, int centerDetectionThreshold, int minRadius,int maxRadius )
+{
+  cv::HoughCircles( img.at(src), circles, CV_HOUGH_GRADIENT, inverseRatioOfResolution, minDistBetweenCenters, cannyUpThres, centerDetectionThreshold, minRadius, maxRadius );
+}
 
+///////////////////////////////IN PROGRESS ///////////////////////////////////////////////
+/// Draw the hough circles detected
+void Processing_Wrap::DrawHoughCircles(int src)
+{
+  int i;
+  for( size_t i = 0; i < circles.size(); i++ )
+  {
+      cv::Point center(cv::cvRound(circles[i][0]), cv::cvRound(circles[i][1]));
+      int radius = cv::cvRound(circles[i][2]);
+      // circle center im source, center of circle, radius, color, thickness, linetype, shift
+      cv::circle( img.at(src), center, 3, cv::Scalar(0,255,0), -1, 8, 0 );
+      // circle outline
+      cv::circle( img.at(src), center, radius, cv::Scalar(0,0,255), 3, 8, 0 );
+   }
+}
+///////////////////////////////////////////////////////////////////////////////////////////
+
+Processing_Wrap::Processing_Wrap(){}
 // VideoCapture test - Stream
 
-void Highgui_Wrap::VideoCaptureOpen(void)
+void Preprocessing_Wrap::VideoCaptureOpen(void)
 {
   cap.open(0);
 }
 
-void Highgui_Wrap::namedWindow(char * name, int num)
+void Preprocessing_Wrap::namedWindow(char * name, int num)
 {
   cv::namedWindow(name, num);
 }
 
-void Highgui_Wrap::nextFrame(int dst)
+void Preprocessing_Wrap::nextFrame(int dst)
 {
   cap >> img.at(dst);
 }
 
-Highgui_Wrap::Highgui_Wrap(){}
+Preprocessing_Wrap::Preprocessing_Wrap(){}
 

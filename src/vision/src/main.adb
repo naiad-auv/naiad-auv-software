@@ -14,25 +14,44 @@ procedure main is
    iCannyLowThres : integer;
    iCannyHighThres : integer;
 
+   --hough cirlces variables
+   --src use destination of canny as source for hough circles
+   inverseRatioOfResolution : integer;
+   minDistBetweenCenters : integer;
+   --cannyUpThres : integer; use canny high thres declared above
+   centerDetectionThreshold : integer;
+   minRadius : integer;
+   maxRadius : integer;
+
    CoreWrap : aliased Class_Core_Wrap.Core_Wrap;
    processingWrap : aliased Class_Processing_Wrap.Processing_Wrap;
    preprocessingWrap : aliased Class_Preprocessing_Wrap.Preprocessing_Wrap;
 begin
-
+   --canny declarations
    iImageSource := 1;
    iImageDestination := 1;
    iGreyFilter := 6;
    iCannyLowThres := 10;
    iCannyHighThres := 460;
    iCannyKernelSize := 3;
+
+   --hough circle declarations
+   --src use destination of canny as source for hough circles
+   inverseRatioOfResolution := 1;
+   minDistBetweenCenters := 10;
+   --cannyUpThres : integer; use canny high thres declared above
+   centerDetectionThreshold := 100;
+   minRadius := 0;--zero used if unknown
+   maxRadius :=	 0;--zero used if unknown
    --CHECK FOR INSTRUCTION--to be implemented, for now just working on default mode
 
    --GET IMAGE-- read from buffer, but for now just read in png
    CoreWrap.push_back(New_String("lena.png"));
-   CoreWrap.push_back(New_String("rosie.png"));
+   CoreWrap.push_back(New_String("circle.jpg"));
    CoreWrap.waitKey(0);
    CoreWrap.imshow(New_String("Sir star fish the third"), 1);--show image for debug purposes
    CoreWrap.waitKey(0);
+
 
 
    --CLEAN IMAGE--to be implemented
@@ -51,7 +70,11 @@ begin
    --processingWrap.Canny(1,1,50,150,3);
    CoreWrap.imshow(New_String("why so canny Sir star fish?"), 1);--show image for debug purposes
    CoreWrap.waitKey(0);
-
+   --int src,int inverseRatioOfResolution,int minDistBetweenCenters,int cannyUpThres, int centerDetectionThreshold, int minRadius,int maxRadius
+   processingWrap.HoughCircles(interfaces.C.int(iImageDestination), interfaces.C.int(inverseRatioOfResolution),interfaces.C.int(minDistBetweenCenters),interfaces.C.int(iCannyHighThres),interfaces.C.int(centerDetectionThreshold),interfaces.C.int(minRadius),interfaces.C.int(maxRadius));
+   CoreWrap.waitKey(0);
+   processingWrap.DrawHoughCircles(interfaces.C.int(iImageDestination));
+   CoreWrap.waitKey(0);
 end main;
 
 
