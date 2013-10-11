@@ -1,6 +1,6 @@
 package Vision.Image_Processing is
    function DummyTest return Boolean;
-   function DummyTest2 return Boolean;
+   procedure Convert_To_Greyscale(iImageSource, iImageDestination, iImageFilter: in integer);
    --function cleanup
    --function histogram analysis
    --function edge detection

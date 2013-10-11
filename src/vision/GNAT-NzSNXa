@@ -1,7 +1,0 @@
-src/vision.o
-image/obj/vision-image.o
-imagepreprocessing/obj/vision-image_preprocessing.o
-imageprocessing/obj/vision-image_processing.o
-mission/obj/vision-mission.o
-visionBindings/visionbindings_hpp.o
-src/main.o

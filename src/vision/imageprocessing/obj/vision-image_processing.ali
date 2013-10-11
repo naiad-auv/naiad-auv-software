@@ -8,21 +8,53 @@ A -gnatwa
 P ZX
 
 RN
+RV NO_DEFAULT_INITIALIZATION
+RV SPARK
 
-U vision.image_processing%b  vision-image_processing.adb  8898cb6a NE OO PK
+U vision.image_processing%b  vision-image_processing.adb  e84db581 NE OO PK
+W interfaces%s		interfac.ads		interfac.ali
+W interfaces.c%s	i-c.adb			i-c.ali
+W vision%s		vision.adb		vision.ali
+W visionbindings_hpp%s	visionbindings_hpp.ads	visionbindings_hpp.ali
+
+U vision.image_processing%s  vision-image_processing.ads  c91000a7 EE NE OO PK
 W vision%s		vision.adb		vision.ali
 
-U vision.image_processing%s  vision-image_processing.ads  87c820df EE NE OO PK
-W vision%s		vision.adb		vision.ali
-
+D ada.ads		20130417131023 3ffc8e18
+D a-tags.ads		20130417131022 6c0509d0
+D a-unccon.ads		20130417131022 f9eb8f06
+D interfac.ads		20130417131027 cb4a8015
+D i-c.ads		20130417131026 5421119b
+D i-cstrin.ads		20130417131027 341d0ddf
 D system.ads		20130417131036 90249111
-D vision.ads		20131010124620 81b35c95
-D vision-image_processing.ads  20131010124620 067b7c4a
-D vision-image_processing.adb  20131010124620 8ee3b720
-X 2 vision.ads
-1K9*Vision 4e11 3|1r9 9r5 4|1r14 15r5
-X 3 vision-image_processing.ads
-1K16*Image_Processing 2|1k9 3|9l12 9e28 4|1b21 15l12 15t28
-2V13*DummyTest{boolean} 4|2b13 5l8 5t17
-3V13*DummyTest2{boolean} 4|6b13 9l8 9t18
+D s-exctab.ads		20130417131029 66e51330
+D s-parame.ads		20130417131032 b6e20cc0
+D s-stalib.ads		20130417131032 f78bcf95
+D s-stoele.ads		20130417131032 facd7d98
+D s-stoele.adb		20130417131032 afc5dc80
+D vision.ads		20131010130251 81b35c95
+D vision-image_processing.ads  20131011085022 48a35c32
+D vision-image_processing.adb  20131011084909 6cf9feb0
+D visionbindings_hpp.ads  20131010130251 98360698
+X 4 interfac.ads
+36K9*Interfaces 177e15 15|2r6 2r24 13r31 13r63 13r100
+X 5 i-c.ads
+18K20*C 230e17 15|2w17 2r35 13r42 13r74 13r111
+35I9*int<integer> 15|13r44 13r76 13r113
+X 13 vision.ads
+1K9*Vision 4e11 14|1r9 9r5 15|4r14 20r5
+X 14 vision-image_processing.ads
+1K16*Image_Processing 13|1k9 14|9l12 9e28 15|4b21 20l12 20t28
+2V13*DummyTest{boolean} 15|5b13 8l8 8t17
+3U14*Convert_To_Greyscale 3>35 3>49 3>68 15|10b14 14l8 14t28
+3i35 iImageSource{integer} 15|10b35 13r48
+3i49 iImageDestination{integer} 15|10b49 13r80
+3i68 iImageFilter{integer} 15|10b68 13r117
+X 15 vision-image_processing.adb
+11r7 processingWrap{16|46R12} 13r7
+X 16 visionbindings_hpp.ads
+7K9*visionBindings_hpp 15|1w6 11r32 16|97e23
+45K12*Class_Processing_Wrap 15|11r51 16|71e7
+46R12*Processing_Wrap 15|11r73 16|48e17
+51U17*cvtColor 15|13s22
 
