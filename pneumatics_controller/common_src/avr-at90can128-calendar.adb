@@ -15,9 +15,9 @@ package body AVR.AT90CAN128.CALENDAR is
       use  System.Machine_Code;
       Result : Time;
    begin
-      Asm ("cli", Volatile => True); --this line causes errors
+      --Asm ("cli", Volatile => True); --this line causes errors
       Result := Time_Of_Day;
-      Asm ("sei", Volatile => True); --this line causes errors
+      --Asm ("sei", Volatile => True); --this line causes errors
       return Result;
    end Clock;
 
@@ -35,7 +35,7 @@ package body AVR.AT90CAN128.CALENDAR is
    end Init;
 
    procedure Timer;
-   pragma Machine_Attribute (Timer, "signal");
+   -- Machine_Attribute (Timer, "signal");
    pragma Export (C, Timer, Vector_Timer0_OVF);
 
    procedure Timer is
@@ -121,8 +121,8 @@ package body AVR.AT90CAN128.CALENDAR is
    end Delay_Until;
 
    begin
-   Calendar.Init;
-   --null;
+   --Calendar.Init;
+   null;
 end AVR.AT90CAN128.CALENDAR;
 
 

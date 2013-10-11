@@ -2,7 +2,7 @@ project Pneumatics_Controller is
 
    for Source_Dirs use ("src", "common_src");
    for Object_Dir use "obj";
-   for Main use ("pneumatics_controller.adb");
+   for Main use ("main.adb");
 
 end Pneumatics_Controller;
 

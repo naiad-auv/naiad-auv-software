@@ -1,9 +1,7 @@
-with Interfaces; use Interfaces;
+with Interfaces;use Interfaces;
 with System;
 
-package AT90CAN is
-   --   pragma Linker_Options ("crt1-atmega128.o");
-
+package AVR.AT90CAN128 is
    type General_Register is record
       Bit_7 : Boolean;
       Bit_6 : Boolean;
@@ -316,10 +314,35 @@ package AT90CAN is
    end record;
    for USARTB'Size use 8;
 
+
+   type USARTA is record
+      RXC  : Boolean;
+      TXC  : Boolean;
+      UDRE : Boolean;
+      FE   : Boolean;
+      DOR  : Boolean;
+      UPE  : Boolean;
+      U2X  : Boolean;
+      MCPM : Boolean;
+   end record;
+
+   for USARTA use record
+      MCPM  at 0 range 0 .. 0;
+      U2X   at 0 range 1 .. 1;
+      UPE   at 0 range 2 .. 2;
+      DOR   at 0 range 3 .. 3;
+      FE    at 0 range 4 .. 4;
+      UDRE  at 0 range 5 .. 5;
+      TXC   at 0 range 6 .. 6;
+      RXC   at 0 range 7 .. 7;
+   end record;
+   for USARTA'Size use 8;
+
+
    UCSR0B : USARTB;
    for UCSR0B'Address use System'To_Address (16#C1#);
 
-   UCSR0A : Unsigned_8;
+   UCSR0A : USARTA;
    for UCSR0A'Address use System'To_Address (16#C0#);
 
    UDR0 : Unsigned_8;
@@ -331,7 +354,7 @@ package AT90CAN is
    UCSR1B : USARTB;
    for UCSR1B'Address use System'To_Address (16#C9#);
 
-   UCSR1A : Unsigned_8;
+   UCSR1A : USARTA;
    for UCSR1A'Address use System'To_Address (16#C8#);
 
    UDR1 : Unsigned_8;
@@ -339,9 +362,6 @@ package AT90CAN is
 
    UBRR1L : Unsigned_8;
    for UBRR1L'Address use System'To_Address (16#CC#);
-
-   SPCR : Unsigned_8;
-   for SPCR'Address use System'To_Address (16#2D#);
 
    --- ADC
    type Channel_Type is range 0 .. 31;
@@ -406,6 +426,263 @@ package AT90CAN is
    ADCL : Unsigned_8;
    for ADCL'Address use System'To_Address (16#78#);
 
+
+   --CAN Definition
+   type Full_MOB_ID is range 0..15;
+   for Full_MOB_ID'size use 4;
+
+   subtype MOB_ID is Full_MOB_ID range 0..14;
+   subtype READ_MOB_ID is Full_MOB_ID range 0..7;
+
+   type MOB_Array is array (MOB_ID) of Boolean;
+   pragma Pack (MOB_Array);
+
+   type CANGCONREG is record
+      ABRQ    : Boolean;
+      OVRQ    : Boolean;
+      TTC     : Boolean;
+      SYNTTC  : Boolean;
+      LISTEN  : Boolean;
+      TEST    : Boolean;
+      ENASTB  : Boolean;
+      SWRES   : Boolean;
+   end record;
+
+   for CANGCONREG  use record
+      SWRES    at 0 range 0 .. 0;
+      ENASTB   at 0 range 1 .. 1;
+      TEST     at 0 range 2 .. 2;
+      LISTEN   at 0 range 3 .. 3;
+      SYNTTC   at 0 range 4 .. 4;
+      TTC      at 0 range 5 .. 5;
+      OVRQ     at 0 range 6 .. 6;
+      ABRQ     at 0 range 7 .. 7;
+   end record;
+   for CANGCONREG'Size use 8;
+
+
+   CANGCON  : CANGCONREG;
+   for CANGCON'Address use System'To_Address (16#D8#);
+
+
+   type CANSTAREG is record
+      RESERVED7    : Boolean;
+      OVFG         : Boolean;
+      RESERVED5    : Boolean;
+      TXBSY        : Boolean;
+      RXBSY        : Boolean;
+      ENFG         : Boolean;
+      BOFF         : Boolean;
+      ERRP         : Boolean;
+   end record;
+
+   for CANSTAREG  use record
+      ERRP        at 0 range 0 .. 0;
+      BOFF        at 0 range 1 .. 1;
+      ENFG        at 0 range 2 .. 2;
+      RXBSY       at 0 range 3 .. 3;
+      TXBSY       at 0 range 4 .. 4;
+      RESERVED5   at 0 range 5 .. 5;
+      OVFG        at 0 range 6 .. 6;
+      RESERVED7   at 0 range 7 .. 7;
+   end record;
+   for CANSTAREG'Size use 8;
+
+   CANSTA  : CANSTAREG;
+   for CANSTA'Address use System'To_Address (16#D9#);
+
+   type CANGITREG is record
+      CANIT    : Boolean;
+      BOFFIT   : Boolean;
+      OVRTIM   : Boolean;
+      BXOK     : Boolean;
+      SERG     : Boolean;
+      CERG     : Boolean;
+      FERG     : Boolean;
+      AERG     : Boolean;
+   end record;
+
+   for CANGITREG  use record
+      AERG        at 0 range 0 .. 0;
+      FERG        at 0 range 1 .. 1;
+      CERG        at 0 range 2 .. 2;
+      SERG        at 0 range 3 .. 3;
+      BXOK        at 0 range 4 .. 4;
+      OVRTIM      at 0 range 5 .. 5;
+      BOFFIT      at 0 range 6 .. 6;
+      CANIT       at 0 range 7 .. 7;
+   end record;
+   for CANGITREG'Size use 8;
+
+   CANGIT  : CANGITREG;
+   for CANGIT'Address use System'To_Address (16#DA#);
+
+   type CANGIEREG is record
+      ENIT   : Boolean;
+      ENBOFF : Boolean;
+      ENRX   : Boolean;
+      ENTX   : Boolean;
+      ENERR  : Boolean;
+      ENBX   : Boolean;
+      ENERG  : Boolean;
+      ENOVRT : Boolean;
+   end record;
+
+   for CANGIEREG  use record
+      ENOVRT  at 0 range 0 .. 0;
+      ENERG   at 0 range 1 .. 1;
+      ENBX    at 0 range 2 .. 2;
+      ENERR   at 0 range 3 .. 3;
+      ENTX    at 0 range 4 .. 4;
+      ENRX    at 0 range 5 .. 5;
+      ENBOFF  at 0 range 6 .. 6;
+      ENIT    at 0 range 7 .. 7;
+   end record;
+   for CANGIEREG'Size use 8;
+
+   CANGIE  : CANGIEREG;
+   for CANGIE'Address use System'To_Address (16#DB#);
+
+   CANEN  : MOB_Array;
+   for CANEN'Address use System'To_Address (16#DC#);
+
+   CANIE  : MOB_Array;
+   for CANIE'Address use System'To_Address (16#DE#);
+
+   CANSIT  : MOB_Array;
+   for CANSIT'Address use System'To_Address (16#E0#);
+
+   CANBT1  : Unsigned_8;
+   for CANBT1'Address use System'To_Address (16#E2#);
+
+   CANBT2  : Unsigned_8;
+   for CANBT2'Address use System'To_Address (16#E3#);
+
+   CANBT3  : Unsigned_8;
+   for CANBT3'Address use System'To_Address (16#E4#);
+
+   CANTCON  : Unsigned_8;
+   for CANTCON'Address use System'To_Address (16#E5#);
+
+   CANTIM  : Unsigned_16;
+   for CANTIM'Address use System'To_Address (16#E6#);
+
+   CANTTC  : Unsigned_16;
+   for CANTTC'Address use System'To_Address (16#E8#);
+
+   CANTEC  : Unsigned_8;
+   for CANTEC'Address use System'To_Address (16#EA#);
+
+   CANREC  : Unsigned_8;
+   for CANREC'Address use System'To_Address (16#EB#);
+
+   type CAN_Message_Index is range 0..7;
+   for CAN_Message_Index'size use 3;
+
+   type CAN_Page_Type is record
+      MOB : Full_MOB_ID;
+      Auto_Increment : Boolean;
+      Index          : CAN_Message_Index;
+   end record;
+
+   for CAN_Page_Type use record
+      MOB at 0 range 4..7;
+      Auto_Increment at 0 range 3..3;
+      Index at 0 range 0..2;
+   end record;
+
+   for CAN_Page_Type'size use 8;
+
+
+   type MOB_State is (Disable,
+                      Enable_Transmission,
+                      Enable_Reception,
+                      Enable_Frame_Buffer_Reception);
+
+   for MOB_State'size use 2;
+
+   type DLC_Type is range 0..8;
+   for DLC_Type'size use 4;
+
+   type CAN_MOB_Control is record
+      State : MOB_State;
+      Reply_Valid : Boolean;
+      Extended_ID : Boolean;
+      DLC         : DLC_Type;
+   end record;
+
+   for CAN_MOB_Control use record
+      State       at 0 range 6..7;
+      Reply_Valid at 0 range 5..5;
+      Extended_ID at 0 range 4..4;
+      DLC         at 0 range 0..3;
+   end record;
+
+   for CAN_MOB_Control'size use 8;
+
+   CANHPMOB  : CAN_Page_Type;
+   for CANHPMOB'Address use System'To_Address (16#EC#);
+
+   CANPAGE  : CAN_Page_Type;
+   for CANPAGE'Address use System'To_Address (16#ED#);
+
+
+   type CANSTMOBREG is record
+      DLCW    : Boolean;
+      TXOK    : Boolean;
+      RXOK    : Boolean;
+      BERR    : Boolean;
+      SERR    : Boolean;
+      CERR    : Boolean;
+      FERR    : Boolean;
+      AERR    : Boolean;
+   end record;
+
+   for CANSTMOBREG  use record
+      AERR     at 0 range 0 .. 0;
+      FERR     at 0 range 1 .. 1;
+      CERR     at 0 range 2 .. 2;
+      SERR     at 0 range 3 .. 3;
+      BERR     at 0 range 4 .. 4;
+      RXOK     at 0 range 5 .. 5;
+      TXOK     at 0 range 6 .. 6;
+      DLCW     at 0 range 7 .. 7;
+   end record;
+   for CANSTMOBREG'Size use 8;
+
+
+   CANSTMOB  : CANSTMOBREG;
+   for CANSTMOB'Address use System'To_Address (16#EE#);
+
+   CANCDMOB  : CAN_MOB_Control;
+   for CANCDMOB'Address use System'To_Address (16#EF#);
+
+   CANIDTX  : Unsigned_16;
+   for CANIDTX'Address use System'To_Address (16#F0#);
+
+   CANIDT  : Unsigned_16;
+   for CANIDT'Address use System'To_Address (16#F2#);
+
+
+   CANIDMX  : Unsigned_16;
+   for CANIDMX'Address use System'To_Address (16#F4#);
+
+   CANIDM  : Unsigned_16;
+   for CANIDM'Address use System'To_Address (16#F6#);
+
+
+   CANSTM  : Unsigned_16;
+   for CANSTM'Address use System'To_Address (16#F8#);
+
+   CANMSG  : Unsigned_8;
+   for CANMSG'Address use System'To_Address (16#FA#);
+
+
+   WDTCR : General_Register;
+   for WDTCR'Address use System'To_Address (16#60#);
+   pragma Volatile (WDTCR);
+
+
    Vector_Int0         : constant String := "__vector_int0";
    Vector_Int1         : constant String := "__vector_int1";
    Vector_Int2         : constant String := "__vector_int2";
@@ -443,4 +720,6 @@ package AT90CAN is
    Vector_TWI          : constant String := "__vector_twi";
    Vector_SPM_Ready    : constant String := "__vector_spm_ready";
 
-end AT90CAN;
+end  AVR.AT90CAN128;
+
+
