@@ -59,15 +59,15 @@ package body ada_main is
    E217 : Short_Integer; pragma Import (Ada, E217, "avr__at90can128__usart_E");
    E219 : Short_Integer; pragma Import (Ada, E219, "avr__at90can128__usart__test_data_E");
    E225 : Short_Integer; pragma Import (Ada, E225, "can_link_pack_E");
-   E228 : Short_Integer; pragma Import (Ada, E228, "can_link_pack__test_data_E");
+   E227 : Short_Integer; pragma Import (Ada, E227, "can_link_pack__test_data_E");
    E203 : Short_Integer; pragma Import (Ada, E203, "avr__at90can128__calendar__test_data__tests_E");
    E205 : Short_Integer; pragma Import (Ada, E205, "avr__at90can128__calendar__test_data__tests__suite_E");
    E213 : Short_Integer; pragma Import (Ada, E213, "avr__at90can128__can__test_data__tests_E");
    E215 : Short_Integer; pragma Import (Ada, E215, "avr__at90can128__can__test_data__tests__suite_E");
    E221 : Short_Integer; pragma Import (Ada, E221, "avr__at90can128__usart__test_data__tests_E");
    E223 : Short_Integer; pragma Import (Ada, E223, "avr__at90can128__usart__test_data__tests__suite_E");
-   E230 : Short_Integer; pragma Import (Ada, E230, "can_link_pack__test_data__tests_E");
-   E232 : Short_Integer; pragma Import (Ada, E232, "can_link_pack__test_data__tests__suite_E");
+   E229 : Short_Integer; pragma Import (Ada, E229, "can_link_pack__test_data__tests_E");
+   E231 : Short_Integer; pragma Import (Ada, E231, "can_link_pack__test_data__tests__suite_E");
    E192 : Short_Integer; pragma Import (Ada, E192, "gnattest_main_suite_E");
 
    Local_Priority_Specific_Dispatching : constant String := "";
@@ -81,10 +81,10 @@ package body ada_main is
          procedure F1;
          pragma Import (Ada, F1, "can_link_pack__test_data__tests__suite__finalize_body");
       begin
-         E232 := E232 - 1;
+         E231 := E231 - 1;
          F1;
       end;
-      E230 := E230 - 1;
+      E229 := E229 - 1;
       declare
          procedure F2;
          pragma Import (Ada, F2, "can_link_pack__test_data__tests__finalize_spec");
@@ -133,7 +133,7 @@ package body ada_main is
       begin
          F8;
       end;
-      E228 := E228 - 1;
+      E227 := E227 - 1;
       declare
          procedure F9;
          pragma Import (Ada, F9, "can_link_pack__test_data__finalize_spec");
@@ -487,7 +487,7 @@ package body ada_main is
       E219 := E219 + 1;
       E225 := E225 + 1;
       Can_Link_Pack.Test_Data'Elab_Spec;
-      E228 := E228 + 1;
+      E227 := E227 + 1;
       AVR.AT90CAN128.CALENDAR.TEST_DATA.TESTS'ELAB_SPEC;
       E203 := E203 + 1;
       AVR.AT90CAN128.CALENDAR.TEST_DATA.TESTS.SUITE'ELAB_BODY;
@@ -501,9 +501,9 @@ package body ada_main is
       AVR.AT90CAN128.USART.TEST_DATA.TESTS.SUITE'ELAB_BODY;
       E223 := E223 + 1;
       Can_Link_Pack.Test_Data.Tests'Elab_Spec;
-      E230 := E230 + 1;
+      E229 := E229 + 1;
       Can_Link_Pack.Test_Data.Tests.Suite'Elab_Body;
-      E232 := E232 + 1;
+      E231 := E231 + 1;
       Gnattest_Main_Suite'Elab_Body;
       E192 := E192 + 1;
    end adainit;
@@ -541,31 +541,31 @@ package body ada_main is
    end;
 
 --  BEGIN Object file/option list
-   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/Template2/can_link/build/avr.o
-   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/Template2/can_link/build/avr-at90can128.o
-   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/Template2/can_link/build/avr-at90can128-calendar.o
-   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/Template2/can_link/build/gnattest/harness/avr-at90can128-calendar-test_data.o
-   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/Template2/can_link/build/avr-at90can128-can.o
-   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/Template2/can_link/build/gnattest/harness/avr-at90can128-can-test_data.o
-   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/Template2/can_link/build/avr-at90can128-usart.o
-   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/Template2/can_link/build/gnattest/harness/avr-at90can128-usart-test_data.o
-   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/Template2/can_link/build/can_link_pack.o
-   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/Template2/can_link/build/gnattest/harness/can_link_pack-test_data.o
-   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/Template2/can_link/build/gnattest/harness/gnattest_generated.o
-   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/Template2/can_link/build/gnattest/harness/avr-at90can128-calendar-test_data-tests.o
-   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/Template2/can_link/build/gnattest/harness/avr-at90can128-calendar-test_data-tests-suite.o
-   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/Template2/can_link/build/gnattest/harness/avr-at90can128-can-test_data-tests.o
-   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/Template2/can_link/build/gnattest/harness/avr-at90can128-can-test_data-tests-suite.o
-   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/Template2/can_link/build/gnattest/harness/avr-at90can128-usart-test_data-tests.o
-   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/Template2/can_link/build/gnattest/harness/avr-at90can128-usart-test_data-tests-suite.o
-   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/Template2/can_link/build/gnattest/harness/can_link_pack-test_data-tests.o
-   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/Template2/can_link/build/gnattest/harness/can_link_pack-test_data-tests-suite.o
-   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/Template2/can_link/build/gnattest/harness/gnattest_main_suite.o
-   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/Template2/can_link/build/gnattest/harness/test_runner.o
-   --   -L/home/nils/robotic_project/git/naiad-auv-electronics/src/Template2/can_link/build/gnattest/harness/
-   --   -L/home/nils/robotic_project/git/naiad-auv-electronics/src/Template2/can_link/build/gnattest/harness/
+   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/firmware/can_link/build/avr.o
+   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/firmware/can_link/build/avr-at90can128.o
+   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/firmware/can_link/build/avr-at90can128-calendar.o
+   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/firmware/can_link/build/gnattest/harness/avr-at90can128-calendar-test_data.o
+   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/firmware/can_link/build/avr-at90can128-can.o
+   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/firmware/can_link/build/gnattest/harness/avr-at90can128-can-test_data.o
+   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/firmware/can_link/build/avr-at90can128-usart.o
+   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/firmware/can_link/build/gnattest/harness/avr-at90can128-usart-test_data.o
+   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/firmware/can_link/build/can_link_pack.o
+   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/firmware/can_link/build/gnattest/harness/can_link_pack-test_data.o
+   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/firmware/can_link/build/gnattest/harness/gnattest_generated.o
+   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/firmware/can_link/build/gnattest/harness/avr-at90can128-calendar-test_data-tests.o
+   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/firmware/can_link/build/gnattest/harness/avr-at90can128-calendar-test_data-tests-suite.o
+   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/firmware/can_link/build/gnattest/harness/avr-at90can128-can-test_data-tests.o
+   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/firmware/can_link/build/gnattest/harness/avr-at90can128-can-test_data-tests-suite.o
+   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/firmware/can_link/build/gnattest/harness/avr-at90can128-usart-test_data-tests.o
+   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/firmware/can_link/build/gnattest/harness/avr-at90can128-usart-test_data-tests-suite.o
+   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/firmware/can_link/build/gnattest/harness/can_link_pack-test_data-tests.o
+   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/firmware/can_link/build/gnattest/harness/can_link_pack-test_data-tests-suite.o
+   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/firmware/can_link/build/gnattest/harness/gnattest_main_suite.o
+   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/firmware/can_link/build/gnattest/harness/test_runner.o
+   --   -L/home/nils/robotic_project/git/naiad-auv-electronics/src/firmware/can_link/build/gnattest/harness/
+   --   -L/home/nils/robotic_project/git/naiad-auv-electronics/src/firmware/can_link/build/gnattest/harness/
    --   -L/usr/gnat/lib/aunit/native-full/
-   --   -L/home/nils/robotic_project/git/naiad-auv-electronics/src/Template2/can_link/build/
+   --   -L/home/nils/robotic_project/git/naiad-auv-electronics/src/firmware/can_link/build/
    --   -L/usr/gnat/lib/gcc/x86_64-pc-linux-gnu/4.7.4/adalib/
    --   -static
    --   -lgnat

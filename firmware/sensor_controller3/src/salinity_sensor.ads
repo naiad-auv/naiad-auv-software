@@ -13,8 +13,6 @@
 
 
 with Interfaces;
-use Interfaces;
-
 
 package Salinity_Sensor is
 
@@ -29,7 +27,7 @@ package Salinity_Sensor is
    -- If the value is out of range, or if the wrong probe (with regard to salinity in the water) is used,
    -- the value 255 will be returned.
    -- If the value 254 is returned, no conversion has not yet been done (this indicates an error)
-   function Get_Salinity return Unsigned_8;
+   function Get_Salinity return Interfaces.Unsigned_8;
 
    --Tells the salinity sensor of a new updated water temperature
    --temperature should be on the format "TT.T", for example "23.5"

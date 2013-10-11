@@ -423,7 +423,7 @@ package ada_main is
    pragma Export (C, u00193, "avrS");
    u00194 : constant Version_32 := 16#67e21c7d#;
    pragma Export (C, u00194, "avr__at90can128S");
-   u00195 : constant Version_32 := 16#0b40621a#;
+   u00195 : constant Version_32 := 16#6fc82885#;
    pragma Export (C, u00195, "avr__at90can128__calendarB");
    u00196 : constant Version_32 := 16#10309d59#;
    pragma Export (C, u00196, "avr__at90can128__calendarS");
@@ -481,24 +481,22 @@ package ada_main is
    pragma Export (C, u00222, "avr__at90can128__usart__test_data__tests__suiteB");
    u00223 : constant Version_32 := 16#f9e7a2b1#;
    pragma Export (C, u00223, "avr__at90can128__usart__test_data__tests__suiteS");
-   u00224 : constant Version_32 := 16#d532ae57#;
+   u00224 : constant Version_32 := 16#3b7791b5#;
    pragma Export (C, u00224, "can_link_packB");
    u00225 : constant Version_32 := 16#7da7142f#;
    pragma Export (C, u00225, "can_link_packS");
-   u00226 : constant Version_32 := 16#7dbbd31d#;
-   pragma Export (C, u00226, "text_ioS");
-   u00227 : constant Version_32 := 16#179229a7#;
-   pragma Export (C, u00227, "can_link_pack__test_dataB");
-   u00228 : constant Version_32 := 16#ef07dd3b#;
-   pragma Export (C, u00228, "can_link_pack__test_dataS");
-   u00229 : constant Version_32 := 16#60352812#;
-   pragma Export (C, u00229, "can_link_pack__test_data__testsB");
-   u00230 : constant Version_32 := 16#1a1c5021#;
-   pragma Export (C, u00230, "can_link_pack__test_data__testsS");
-   u00231 : constant Version_32 := 16#8cb96571#;
-   pragma Export (C, u00231, "can_link_pack__test_data__tests__suiteB");
-   u00232 : constant Version_32 := 16#32ba22c7#;
-   pragma Export (C, u00232, "can_link_pack__test_data__tests__suiteS");
+   u00226 : constant Version_32 := 16#179229a7#;
+   pragma Export (C, u00226, "can_link_pack__test_dataB");
+   u00227 : constant Version_32 := 16#ef07dd3b#;
+   pragma Export (C, u00227, "can_link_pack__test_dataS");
+   u00228 : constant Version_32 := 16#60352812#;
+   pragma Export (C, u00228, "can_link_pack__test_data__testsB");
+   u00229 : constant Version_32 := 16#1a1c5021#;
+   pragma Export (C, u00229, "can_link_pack__test_data__testsS");
+   u00230 : constant Version_32 := 16#8cb96571#;
+   pragma Export (C, u00230, "can_link_pack__test_data__tests__suiteB");
+   u00231 : constant Version_32 := 16#32ba22c7#;
+   pragma Export (C, u00231, "can_link_pack__test_data__tests__suiteS");
    --  BEGIN ELABORATION ORDER
    --  ada%s
    --  ada.characters%s
@@ -661,7 +659,6 @@ package ada_main is
    --  gnat.traceback%b
    --  gnat.traceback.symbolic%s
    --  gnat.traceback.symbolic%b
-   --  text_io%s
    --  ada_containers%s
    --  ada_containers.aunit_lists%s
    --  aunit%s

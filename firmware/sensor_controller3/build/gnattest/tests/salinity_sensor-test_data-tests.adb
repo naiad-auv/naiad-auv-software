@@ -15,7 +15,7 @@ package body Salinity_Sensor.Test_Data.Tests is
    procedure Test_Initate_Salinity_Sensor_e03f6d (Gnattest_T : in out Test) renames Test_Initate_Salinity_Sensor;
 --  id:2.1/e03f6da09dcbe566/Initate_Salinity_Sensor/1/0/
    procedure Test_Initate_Salinity_Sensor (Gnattest_T : in out Test) is
-   --  salinity_sensor.ads:26:4:Initate_Salinity_Sensor
+   --  salinity_sensor.ads:24:4:Initate_Salinity_Sensor
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -36,11 +36,11 @@ package body Salinity_Sensor.Test_Data.Tests is
    procedure Test_Get_Salinity_58ad41 (Gnattest_T : in out Test) renames Test_Get_Salinity;
 --  id:2.1/58ad41648ec64de3/Get_Salinity/1/0/
    procedure Test_Get_Salinity (Gnattest_T : in out Test) is
-   --  salinity_sensor.ads:32:4:Get_Salinity
+   --  salinity_sensor.ads:30:4:Get_Salinity
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
-
+      use Interfaces;
    begin
 
       AUnit.Assertions.Assert
@@ -57,7 +57,7 @@ package body Salinity_Sensor.Test_Data.Tests is
    procedure Test_Set_Temperature_3aacef (Gnattest_T : in out Test) renames Test_Set_Temperature;
 --  id:2.1/3aacef9e0f828b05/Set_Temperature/1/0/
    procedure Test_Set_Temperature (Gnattest_T : in out Test) is
-   --  salinity_sensor.ads:36:4:Set_Temperature
+   --  salinity_sensor.ads:34:4:Set_Temperature
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -70,6 +70,27 @@ package body Salinity_Sensor.Test_Data.Tests is
 
 --  begin read only
    end Test_Set_Temperature;
+--  end read only
+
+
+--  begin read only
+   procedure Test_Message_Received (Gnattest_T : in out Test);
+   procedure Test_Message_Received_39abee (Gnattest_T : in out Test) renames Test_Message_Received;
+--  id:2.1/39abeefca2cc9fbb/Message_Received/1/0/
+   procedure Test_Message_Received (Gnattest_T : in out Test) is
+   --  salinity_sensor.ads:39:4:Message_Received
+--  end read only
+
+      pragma Unreferenced (Gnattest_T);
+
+   begin
+
+      AUnit.Assertions.Assert
+        (Gnattest_Generated.Default_Assert_Value,
+         "Test not implemented.");
+
+--  begin read only
+   end Test_Message_Received;
 --  end read only
 
 
@@ -133,27 +154,6 @@ package body Salinity_Sensor.Test_Data.Tests is
 
 --  begin read only
    end Test_Get_Char;
---  end read only
-
-
---  begin read only
-   procedure Test_Message_Received (Gnattest_T : in out Test);
-   procedure Test_Message_Received_39abee (Gnattest_T : in out Test) renames Test_Message_Received;
---  id:2.1/39abeefca2cc9fbb/Message_Received/1/0/
-   procedure Test_Message_Received (Gnattest_T : in out Test) is
-   --  salinity_sensor.ads:65:4:Message_Received
---  end read only
-
-      pragma Unreferenced (Gnattest_T);
-
-   begin
-
-      AUnit.Assertions.Assert
-        (Gnattest_Generated.Default_Assert_Value,
-         "Test not implemented.");
-
---  begin read only
-   end Test_Message_Received;
 --  end read only
 
 end Salinity_Sensor.Test_Data.Tests;

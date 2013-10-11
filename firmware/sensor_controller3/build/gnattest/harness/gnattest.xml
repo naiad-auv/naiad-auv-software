@@ -3,58 +3,20 @@
       <test_unit target_file="adc-test_data-tests.ads">
          <setup file="adc-test_data.adb" line="3"  column="4"/>
          <teardown file="adc-test_data.adb" line="9"  column="4"/>
-         <tested name="ADC_Interrupt" line="12" column="4">
-            <test file="adc-test_data-tests.adb" line="13" column="1" timestamp="2013-10-05 13:07:38"/>
+         <tested name="ADC_Init" line="21" column="4">
+            <test file="adc-test_data-tests.adb" line="13" column="1" timestamp="2013-10-11 10:54:05"/>
          </tested>
-         <tested name="ADC_Init" line="16" column="4">
-            <test file="adc-test_data-tests.adb" line="34" column="1" timestamp="2013-10-05 13:07:38"/>
+         <tested name="ADC_Init" line="22" column="4">
+            <test file="adc-test_data-tests.adb" line="34" column="1" timestamp="2013-10-11 10:54:05"/>
          </tested>
-         <tested name="Get" line="17" column="4">
-            <test file="adc-test_data-tests.adb" line="55" column="1" timestamp="2013-10-05 13:07:38"/>
+         <tested name="Get" line="24" column="4">
+            <test file="adc-test_data-tests.adb" line="55" column="1" timestamp="2013-10-11 10:54:05"/>
          </tested>
-         <dangling>
-         </dangling>
-      </test_unit>
-   </unit>
-   <unit source_file="avr-at90can128-calendar.ads">
-      <test_unit target_file="avr-at90can128-calendar-test_data-tests.ads">
-         <setup file="avr-at90can128-calendar-test_data.adb" line="3"  column="4"/>
-         <teardown file="avr-at90can128-calendar-test_data.adb" line="9"  column="4"/>
-         <tested name="Clock" line="8" column="4">
-            <test file="avr-at90can128-calendar-test_data-tests.adb" line="13" column="1" timestamp="2013-10-05 13:07:38"/>
+         <tested name="ADC_Interrupt" line="29" column="4">
+            <test file="adc-test_data-tests.adb" line="76" column="1" timestamp="2013-10-11 10:54:05"/>
          </tested>
-         <tested name="Plus" line="10" column="4">
-            <test file="avr-at90can128-calendar-test_data-tests.adb" line="34" column="1" timestamp="2013-10-05 13:07:38"/>
-         </tested>
-         <tested name="Plus" line="15" column="4">
-            <test file="avr-at90can128-calendar-test_data-tests.adb" line="55" column="1" timestamp="2013-10-05 13:07:38"/>
-         </tested>
-         <tested name="Minus" line="20" column="4">
-            <test file="avr-at90can128-calendar-test_data-tests.adb" line="76" column="1" timestamp="2013-10-05 13:07:38"/>
-         </tested>
-         <tested name="Minus" line="25" column="4">
-            <test file="avr-at90can128-calendar-test_data-tests.adb" line="97" column="1" timestamp="2013-10-05 13:07:38"/>
-         </tested>
-         <tested name="Less_Than" line="30" column="4">
-            <test file="avr-at90can128-calendar-test_data-tests.adb" line="118" column="1" timestamp="2013-10-05 13:07:38"/>
-         </tested>
-         <tested name="Less_Than_Or_Equal" line="34" column="4">
-            <test file="avr-at90can128-calendar-test_data-tests.adb" line="139" column="1" timestamp="2013-10-05 13:07:38"/>
-         </tested>
-         <tested name="Greater_Than" line="38" column="4">
-            <test file="avr-at90can128-calendar-test_data-tests.adb" line="160" column="1" timestamp="2013-10-05 13:07:38"/>
-         </tested>
-         <tested name="Greater_Than_Or_Equal" line="42" column="4">
-            <test file="avr-at90can128-calendar-test_data-tests.adb" line="181" column="1" timestamp="2013-10-05 13:07:38"/>
-         </tested>
-         <tested name="Delay_ms" line="46" column="4">
-            <test file="avr-at90can128-calendar-test_data-tests.adb" line="202" column="1" timestamp="2013-10-05 13:07:38"/>
-         </tested>
-         <tested name="Delay_Until" line="49" column="4">
-            <test file="avr-at90can128-calendar-test_data-tests.adb" line="223" column="1" timestamp="2013-10-05 13:07:38"/>
-         </tested>
-         <tested name="Init" line="52" column="4">
-            <test file="avr-at90can128-calendar-test_data-tests.adb" line="244" column="1" timestamp="2013-10-05 13:07:38"/>
+         <tested name="Change_Channel" line="34" column="4">
+            <test file="adc-test_data-tests.adb" line="97" column="1" timestamp="2013-10-11 10:54:05"/>
          </tested>
          <dangling>
          </dangling>
@@ -64,29 +26,76 @@
       <test_unit target_file="avr-at90can128-can-test_data-tests.ads">
          <setup file="avr-at90can128-can-test_data.adb" line="3"  column="4"/>
          <teardown file="avr-at90can128-can-test_data.adb" line="9"  column="4"/>
-         <tested name="Can_Init" line="21" column="4">
-            <test file="avr-at90can128-can-test_data-tests.adb" line="13" column="1" timestamp="2013-10-05 13:07:38"/>
+         <tested name="Can_Init" line="19" column="4">
+            <test file="avr-at90can128-can-test_data-tests.adb" line="13" column="1" timestamp="2013-10-11 10:54:05"/>
          </tested>
-         <tested name="Can_SetBaudRate" line="22" column="4">
-            <test file="avr-at90can128-can-test_data-tests.adb" line="34" column="1" timestamp="2013-10-05 13:07:38"/>
+         <tested name="Can_SetBaudRate" line="20" column="4">
+            <test file="avr-at90can128-can-test_data-tests.adb" line="34" column="1" timestamp="2013-10-11 10:54:05"/>
          </tested>
-         <tested name="Can_Enable" line="23" column="4">
-            <test file="avr-at90can128-can-test_data-tests.adb" line="55" column="1" timestamp="2013-10-05 13:07:38"/>
+         <tested name="Can_Enable" line="21" column="4">
+            <test file="avr-at90can128-can-test_data-tests.adb" line="55" column="1" timestamp="2013-10-11 10:54:05"/>
          </tested>
-         <tested name="Can_Disable" line="24" column="4">
-            <test file="avr-at90can128-can-test_data-tests.adb" line="76" column="1" timestamp="2013-10-05 13:07:38"/>
+         <tested name="Can_Disable" line="22" column="4">
+            <test file="avr-at90can128-can-test_data-tests.adb" line="76" column="1" timestamp="2013-10-11 10:54:05"/>
          </tested>
-         <tested name="Can_Enable_Reception" line="26" column="4">
-            <test file="avr-at90can128-can-test_data-tests.adb" line="97" column="1" timestamp="2013-10-05 13:07:38"/>
+         <tested name="Can_Set_MOB_ID_MASK" line="24" column="4">
+            <test file="avr-at90can128-can-test_data-tests.adb" line="97" column="1" timestamp="2013-10-11 10:54:05"/>
          </tested>
-         <tested name="Can_Send" line="28" column="4">
-            <test file="avr-at90can128-can-test_data-tests.adb" line="118" column="1" timestamp="2013-10-05 13:07:38"/>
+         <tested name="Can_Set_All_MOB_ID_MASK" line="25" column="4">
+            <test file="avr-at90can128-can-test_data-tests.adb" line="118" column="1" timestamp="2013-10-11 10:54:05"/>
          </tested>
-         <tested name="Can_Get" line="29" column="4">
-            <test file="avr-at90can128-can-test_data-tests.adb" line="139" column="1" timestamp="2013-10-05 13:07:38"/>
+         <tested name="Can_Send" line="27" column="4">
+            <test file="avr-at90can128-can-test_data-tests.adb" line="139" column="1" timestamp="2013-10-11 10:54:05"/>
          </tested>
-         <tested name="Can_Valid_Message" line="30" column="4">
-            <test file="avr-at90can128-can-test_data-tests.adb" line="160" column="1" timestamp="2013-10-05 13:07:38"/>
+         <tested name="Can_Get" line="28" column="4">
+            <test file="avr-at90can128-can-test_data-tests.adb" line="160" column="1" timestamp="2013-10-11 10:54:05"/>
+         </tested>
+         <tested name="Can_Valid_Message" line="29" column="4">
+            <test file="avr-at90can128-can-test_data-tests.adb" line="181" column="1" timestamp="2013-10-11 10:54:05"/>
+         </tested>
+         <dangling>
+         </dangling>
+      </test_unit>
+   </unit>
+   <unit source_file="avr-at90can128-clock.ads">
+      <test_unit target_file="avr-at90can128-clock-test_data-tests.ads">
+         <setup file="avr-at90can128-clock-test_data.adb" line="3"  column="4"/>
+         <teardown file="avr-at90can128-clock-test_data.adb" line="9"  column="4"/>
+         <tested name="getClockTime" line="8" column="4">
+            <test file="avr-at90can128-clock-test_data-tests.adb" line="13" column="1" timestamp="2013-10-11 10:54:05"/>
+         </tested>
+         <tested name="Plus" line="10" column="4">
+            <test file="avr-at90can128-clock-test_data-tests.adb" line="34" column="1" timestamp="2013-10-11 10:54:05"/>
+         </tested>
+         <tested name="Plus" line="15" column="4">
+            <test file="avr-at90can128-clock-test_data-tests.adb" line="55" column="1" timestamp="2013-10-11 10:54:05"/>
+         </tested>
+         <tested name="Minus" line="20" column="4">
+            <test file="avr-at90can128-clock-test_data-tests.adb" line="76" column="1" timestamp="2013-10-11 10:54:05"/>
+         </tested>
+         <tested name="Minus" line="25" column="4">
+            <test file="avr-at90can128-clock-test_data-tests.adb" line="97" column="1" timestamp="2013-10-11 10:54:05"/>
+         </tested>
+         <tested name="Less_Than" line="30" column="4">
+            <test file="avr-at90can128-clock-test_data-tests.adb" line="118" column="1" timestamp="2013-10-11 10:54:05"/>
+         </tested>
+         <tested name="Less_Than_Or_Equal" line="34" column="4">
+            <test file="avr-at90can128-clock-test_data-tests.adb" line="139" column="1" timestamp="2013-10-11 10:54:05"/>
+         </tested>
+         <tested name="Greater_Than" line="38" column="4">
+            <test file="avr-at90can128-clock-test_data-tests.adb" line="160" column="1" timestamp="2013-10-11 10:54:05"/>
+         </tested>
+         <tested name="Greater_Than_Or_Equal" line="42" column="4">
+            <test file="avr-at90can128-clock-test_data-tests.adb" line="181" column="1" timestamp="2013-10-11 10:54:05"/>
+         </tested>
+         <tested name="Delay_ms" line="46" column="4">
+            <test file="avr-at90can128-clock-test_data-tests.adb" line="202" column="1" timestamp="2013-10-11 10:54:05"/>
+         </tested>
+         <tested name="Delay_Until" line="49" column="4">
+            <test file="avr-at90can128-clock-test_data-tests.adb" line="223" column="1" timestamp="2013-10-11 10:54:05"/>
+         </tested>
+         <tested name="Init" line="52" column="4">
+            <test file="avr-at90can128-clock-test_data-tests.adb" line="244" column="1" timestamp="2013-10-11 10:54:05"/>
          </tested>
          <dangling>
          </dangling>
@@ -97,19 +106,19 @@
          <setup file="digital_io-test_data.adb" line="3"  column="4"/>
          <teardown file="digital_io-test_data.adb" line="9"  column="4"/>
          <tested name="Make_Output_Pin" line="14" column="4">
-            <test file="digital_io-test_data-tests.adb" line="13" column="1" timestamp="2013-10-05 13:07:38"/>
+            <test file="digital_io-test_data-tests.adb" line="13" column="1" timestamp="2013-10-11 10:54:05"/>
          </tested>
          <tested name="Make_Input_Pin" line="15" column="4">
-            <test file="digital_io-test_data-tests.adb" line="34" column="1" timestamp="2013-10-05 13:07:38"/>
+            <test file="digital_io-test_data-tests.adb" line="34" column="1" timestamp="2013-10-11 10:54:05"/>
          </tested>
          <tested name="Clear_Pin" line="16" column="4">
-            <test file="digital_io-test_data-tests.adb" line="55" column="1" timestamp="2013-10-05 13:07:38"/>
+            <test file="digital_io-test_data-tests.adb" line="55" column="1" timestamp="2013-10-11 10:54:05"/>
          </tested>
          <tested name="Set_Pin" line="17" column="4">
-            <test file="digital_io-test_data-tests.adb" line="76" column="1" timestamp="2013-10-05 13:07:38"/>
+            <test file="digital_io-test_data-tests.adb" line="76" column="1" timestamp="2013-10-11 10:54:05"/>
          </tested>
          <tested name="bRead_Pin" line="18" column="4">
-            <test file="digital_io-test_data-tests.adb" line="97" column="1" timestamp="2013-10-05 13:07:38"/>
+            <test file="digital_io-test_data-tests.adb" line="97" column="1" timestamp="2013-10-11 10:54:05"/>
          </tested>
          <dangling>
          </dangling>
@@ -119,8 +128,11 @@
       <test_unit target_file="pressure_sensor-test_data-tests.ads">
          <setup file="pressure_sensor-test_data.adb" line="3"  column="4"/>
          <teardown file="pressure_sensor-test_data.adb" line="9"  column="4"/>
-         <tested name="u16GetPressure" line="21" column="4">
-            <test file="pressure_sensor-test_data-tests.adb" line="13" column="1" timestamp="2013-10-05 13:07:38"/>
+         <tested name="Init" line="21" column="4">
+            <test file="pressure_sensor-test_data-tests.adb" line="13" column="1" timestamp="2013-10-11 10:54:05"/>
+         </tested>
+         <tested name="u16GetPressure" line="23" column="4">
+            <test file="pressure_sensor-test_data-tests.adb" line="34" column="1" timestamp="2013-10-11 10:54:05"/>
          </tested>
          <dangling>
          </dangling>
@@ -130,26 +142,26 @@
       <test_unit target_file="salinity_sensor-test_data-tests.ads">
          <setup file="salinity_sensor-test_data.adb" line="3"  column="4"/>
          <teardown file="salinity_sensor-test_data.adb" line="9"  column="4"/>
-         <tested name="Initate_Salinity_Sensor" line="26" column="4">
-            <test file="salinity_sensor-test_data-tests.adb" line="13" column="1" timestamp="2013-10-05 13:07:38"/>
+         <tested name="Initate_Salinity_Sensor" line="24" column="4">
+            <test file="salinity_sensor-test_data-tests.adb" line="13" column="1" timestamp="2013-10-11 10:54:05"/>
          </tested>
-         <tested name="Get_Salinity" line="32" column="4">
-            <test file="salinity_sensor-test_data-tests.adb" line="34" column="1" timestamp="2013-10-05 13:07:38"/>
+         <tested name="Get_Salinity" line="30" column="4">
+            <test file="salinity_sensor-test_data-tests.adb" line="34" column="1" timestamp="2013-10-11 10:54:05"/>
          </tested>
-         <tested name="Set_Temperature" line="36" column="4">
-            <test file="salinity_sensor-test_data-tests.adb" line="55" column="1" timestamp="2013-10-05 13:07:38"/>
+         <tested name="Set_Temperature" line="34" column="4">
+            <test file="salinity_sensor-test_data-tests.adb" line="55" column="1" timestamp="2013-10-11 10:54:05"/>
+         </tested>
+         <tested name="Message_Received" line="39" column="4">
+            <test file="salinity_sensor-test_data-tests.adb" line="76" column="1" timestamp="2013-10-11 10:54:05"/>
          </tested>
          <tested name="Put" line="44" column="4">
-            <test file="salinity_sensor-test_data-tests.adb" line="76" column="1" timestamp="2013-10-05 13:07:38"/>
+            <test file="salinity_sensor-test_data-tests.adb" line="97" column="1" timestamp="2013-10-11 10:54:05"/>
          </tested>
          <tested name="Write" line="53" column="4">
-            <test file="salinity_sensor-test_data-tests.adb" line="97" column="1" timestamp="2013-10-05 13:07:38"/>
+            <test file="salinity_sensor-test_data-tests.adb" line="118" column="1" timestamp="2013-10-11 10:54:05"/>
          </tested>
          <tested name="Get_Char" line="62" column="4">
-            <test file="salinity_sensor-test_data-tests.adb" line="118" column="1" timestamp="2013-10-05 13:07:38"/>
-         </tested>
-         <tested name="Message_Received" line="65" column="4">
-            <test file="salinity_sensor-test_data-tests.adb" line="139" column="1" timestamp="2013-10-05 13:07:38"/>
+            <test file="salinity_sensor-test_data-tests.adb" line="139" column="1" timestamp="2013-10-11 10:54:05"/>
          </tested>
          <dangling>
          </dangling>
@@ -159,17 +171,17 @@
       <test_unit target_file="sensor_controller_pack-test_data-tests.ads">
          <setup file="sensor_controller_pack-test_data.adb" line="3"  column="4"/>
          <teardown file="sensor_controller_pack-test_data.adb" line="9"  column="4"/>
-         <tested name="u8Readings_To_Bytes" line="31" column="4">
-            <test file="sensor_controller_pack-test_data-tests.adb" line="13" column="1" timestamp="2013-10-05 13:07:38"/>
+         <tested name="u8Readings_To_Bytes" line="30" column="4">
+            <test file="sensor_controller_pack-test_data-tests.adb" line="13" column="1" timestamp="2013-10-11 10:54:06"/>
          </tested>
-         <tested name="Handle_Can" line="37" column="4">
-            <test file="sensor_controller_pack-test_data-tests.adb" line="34" column="1" timestamp="2013-10-05 13:07:38"/>
+         <tested name="Handle_Can" line="36" column="4">
+            <test file="sensor_controller_pack-test_data-tests.adb" line="34" column="1" timestamp="2013-10-11 10:54:06"/>
          </tested>
-         <tested name="Handle_Sensors" line="40" column="4">
-            <test file="sensor_controller_pack-test_data-tests.adb" line="55" column="1" timestamp="2013-10-05 13:07:38"/>
+         <tested name="Handle_Sensors" line="39" column="4">
+            <test file="sensor_controller_pack-test_data-tests.adb" line="55" column="1" timestamp="2013-10-11 10:54:06"/>
          </tested>
-         <tested name="Init" line="42" column="4">
-            <test file="sensor_controller_pack-test_data-tests.adb" line="76" column="1" timestamp="2013-10-05 13:07:38"/>
+         <tested name="Init" line="41" column="4">
+            <test file="sensor_controller_pack-test_data-tests.adb" line="76" column="1" timestamp="2013-10-11 10:54:06"/>
          </tested>
          <dangling>
          </dangling>
@@ -179,26 +191,29 @@
       <test_unit target_file="temp_sensor-test_data-tests.ads">
          <setup file="temp_sensor-test_data.adb" line="3"  column="4"/>
          <teardown file="temp_sensor-test_data.adb" line="9"  column="4"/>
-         <tested name="i16Get_Temp_Int" line="27" column="4">
-            <test file="temp_sensor-test_data-tests.adb" line="13" column="1" timestamp="2013-10-05 13:07:38"/>
+         <tested name="Init" line="25" column="4">
+            <test file="temp_sensor-test_data-tests.adb" line="13" column="1" timestamp="2013-10-11 10:54:06"/>
          </tested>
-         <tested name="i16ToStr" line="29" column="4">
-            <test file="temp_sensor-test_data-tests.adb" line="34" column="1" timestamp="2013-10-05 13:07:38"/>
+         <tested name="i16Get_Temp_Int" line="28" column="4">
+            <test file="temp_sensor-test_data-tests.adb" line="34" column="1" timestamp="2013-10-11 10:54:06"/>
          </tested>
-         <tested name="i16From_Bytes" line="39" column="4">
-            <test file="temp_sensor-test_data-tests.adb" line="55" column="1" timestamp="2013-10-05 13:07:38"/>
+         <tested name="i16ToStr" line="30" column="4">
+            <test file="temp_sensor-test_data-tests.adb" line="55" column="1" timestamp="2013-10-11 10:54:06"/>
          </tested>
-         <tested name="bReset_Pulse" line="44" column="4">
-            <test file="temp_sensor-test_data-tests.adb" line="76" column="1" timestamp="2013-10-05 13:07:38"/>
+         <tested name="i16From_Bytes" line="34" column="4">
+            <test file="temp_sensor-test_data-tests.adb" line="76" column="1" timestamp="2013-10-11 10:54:06"/>
          </tested>
-         <tested name="Write_Byte" line="46" column="4">
-            <test file="temp_sensor-test_data-tests.adb" line="97" column="1" timestamp="2013-10-05 13:07:38"/>
+         <tested name="bReset_Pulse" line="39" column="4">
+            <test file="temp_sensor-test_data-tests.adb" line="97" column="1" timestamp="2013-10-11 10:54:06"/>
          </tested>
-         <tested name="u8Read_Byte" line="48" column="4">
-            <test file="temp_sensor-test_data-tests.adb" line="118" column="1" timestamp="2013-10-05 13:07:38"/>
+         <tested name="Write_Byte" line="41" column="4">
+            <test file="temp_sensor-test_data-tests.adb" line="118" column="1" timestamp="2013-10-11 10:54:06"/>
          </tested>
-         <tested name="Wait_Us" line="50" column="4">
-            <test file="temp_sensor-test_data-tests.adb" line="139" column="1" timestamp="2013-10-05 13:07:38"/>
+         <tested name="u8Read_Byte" line="43" column="4">
+            <test file="temp_sensor-test_data-tests.adb" line="139" column="1" timestamp="2013-10-11 10:54:06"/>
+         </tested>
+         <tested name="Wait_Us" line="45" column="4">
+            <test file="temp_sensor-test_data-tests.adb" line="160" column="1" timestamp="2013-10-11 10:54:06"/>
          </tested>
          <dangling>
          </dangling>

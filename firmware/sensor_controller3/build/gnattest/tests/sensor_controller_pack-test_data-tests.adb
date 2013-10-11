@@ -6,8 +6,6 @@
 --  placed into Sensor_Controller_pack.Test_Data.
 
 with AUnit.Assertions; use AUnit.Assertions;
-with AVR.AT90CAN128.CAN;
-with Interfaces;
 
 package body Sensor_Controller_pack.Test_Data.Tests is
 
@@ -17,16 +15,15 @@ package body Sensor_Controller_pack.Test_Data.Tests is
    procedure Test_u8Readings_To_Bytes_cdd481 (Gnattest_T : in out Test) renames Test_u8Readings_To_Bytes;
 --  id:2.1/cdd4810a027ff56b/u8Readings_To_Bytes/1/0/
    procedure Test_u8Readings_To_Bytes (Gnattest_T : in out Test) is
-   --  sensor_controller_pack.ads:31:4:u8Readings_To_Bytes
+   --  sensor_controller_pack.ads:30:4:u8Readings_To_Bytes
 --  end read only
-      use Interfaces;
-      use AVR.AT90CAN128.CAN;
 
+      use Interfaces;
       pragma Unreferenced (Gnattest_T);
       i16Temp 		: Interfaces.Integer_16;
       u16Pressure 	: Interfaces.Unsigned_16;
       u8Salinity	: Interfaces.Unsigned_8;
-      u8Bytes 		: Byte8;
+      u8Bytes 		: AVR.AT90CAN128.CAN.Byte8;
    begin
 
       i16Temp := 16#07D0#;
@@ -74,6 +71,7 @@ package body Sensor_Controller_pack.Test_Data.Tests is
         (u8Bytes(5) = Unsigned_8(11),
          "u8Readings_To_Bytes failed, salinity, case 3");
 
+
 --  begin read only
    end Test_u8Readings_To_Bytes;
 --  end read only
@@ -84,7 +82,7 @@ package body Sensor_Controller_pack.Test_Data.Tests is
    procedure Test_Handle_Can_c26b7f (Gnattest_T : in out Test) renames Test_Handle_Can;
 --  id:2.1/c26b7f8f2bd1a7ef/Handle_Can/1/0/
    procedure Test_Handle_Can (Gnattest_T : in out Test) is
-   --  sensor_controller_pack.ads:37:4:Handle_Can
+   --  sensor_controller_pack.ads:36:4:Handle_Can
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -105,7 +103,7 @@ package body Sensor_Controller_pack.Test_Data.Tests is
    procedure Test_Handle_Sensors_4cc811 (Gnattest_T : in out Test) renames Test_Handle_Sensors;
 --  id:2.1/4cc811b03aa17fdb/Handle_Sensors/1/0/
    procedure Test_Handle_Sensors (Gnattest_T : in out Test) is
-   --  sensor_controller_pack.ads:40:4:Handle_Sensors
+   --  sensor_controller_pack.ads:39:4:Handle_Sensors
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -126,7 +124,7 @@ package body Sensor_Controller_pack.Test_Data.Tests is
    procedure Test_Init_bf9922 (Gnattest_T : in out Test) renames Test_Init;
 --  id:2.1/bf992215ed679bf0/Init/1/0/
    procedure Test_Init (Gnattest_T : in out Test) is
-   --  sensor_controller_pack.ads:42:4:Init
+   --  sensor_controller_pack.ads:41:4:Init
 --  end read only
 
       pragma Unreferenced (Gnattest_T);

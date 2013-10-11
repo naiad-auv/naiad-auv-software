@@ -22,19 +22,19 @@ package body Sensor_Controller_pack.Test_Data.Tests.Suite is
 
       Runner_1.Create
         (Case_1_1_Test_u8Readings_To_Bytes_cdd481,
-         "sensor_controller_pack.ads:31:4:",
+         "sensor_controller_pack.ads:30:4:",
          Test_u8Readings_To_Bytes_cdd481'Access);
       Runner_1.Create
         (Case_2_1_Test_Handle_Can_c26b7f,
-         "sensor_controller_pack.ads:37:4:",
+         "sensor_controller_pack.ads:36:4:",
          Test_Handle_Can_c26b7f'Access);
       Runner_1.Create
         (Case_3_1_Test_Handle_Sensors_4cc811,
-         "sensor_controller_pack.ads:40:4:",
+         "sensor_controller_pack.ads:39:4:",
          Test_Handle_Sensors_4cc811'Access);
       Runner_1.Create
         (Case_4_1_Test_Init_bf9922,
-         "sensor_controller_pack.ads:42:4:",
+         "sensor_controller_pack.ads:41:4:",
          Test_Init_bf9922'Access);
 
       Result.Add_Test (Case_1_1_Test_u8Readings_To_Bytes_cdd481'Access);

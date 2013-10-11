@@ -3,7 +3,7 @@ project Sensor_Controller_Testing is
    for Object_Dir use "build";
    for Exec_Dir use "target";
    for Source_Dirs use ("src", "../at90can128lib_testing", "../lib");
-   for Source_Files use ("adc.adb", "adc.ads", "avr.ads", "avr-at90can128.ads", "avr-at90can128-calendar.adb", "avr-at90can128-calendar.ads", "avr-at90can128-can.adb", "avr-at90can128-can.adb", "avr-at90can128-can.ads", "digital_io.adb", 
+   for Source_Files use ("adc.adb", "adc.ads", "avr.ads", "avr-at90can128.ads", "avr-at90can128-can.adb", "avr-at90can128-can.adb", "avr-at90can128-can.ads", "avr-at90can128-clock.adb", "avr-at90can128-clock.ads", "digital_io.adb", 
       "digital_io.ads", "pressure_sensor.adb", "pressure_sensor.ads", "salinity_sensor.adb", "salinity_sensor.ads", "sensor_controller.adb", "sensor_controller_pack.adb", "sensor_controller_pack.ads", "temp_sensor.adb", "temp_sensor.ads");
    for Main use ("sensor_controller.adb");
 

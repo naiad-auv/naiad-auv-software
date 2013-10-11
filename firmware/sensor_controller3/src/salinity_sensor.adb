@@ -1,10 +1,11 @@
 
 --  Written by: Nils Brynedal Ignell for the Naiad AUV project
---  Last changed (yyyy-mm-dd): 2013-10-05
+--  Last changed (yyyy-mm-dd): 2013-10-10
 
 with AVR.AT90CAN128;
-with System;
-with System.Machine_Code;
+--with System;
+--with System.Machine_Code;
+--with System.
 
 package body Salinity_Sensor is
 
@@ -33,11 +34,11 @@ package body Salinity_Sensor is
    -- ---- <end of copy paste from avr-at90can-usart> ------------------------
 
    UsedPort : USARTID;
-   u8LastSalinityReading : Unsigned_8 := 254;
+   u8LastSalinityReading : Interfaces.Unsigned_8 := 254;
 
    --------------------------------------------------------------------------------------------
    procedure Initate_Salinity_Sensor (Port : USARTID; sTemperature : String) is
-      sStr : String := "0000000";
+
    begin
       UsedPort := Port;
 
@@ -79,7 +80,7 @@ package body Salinity_Sensor is
 
    --------------------------------------------------------------------------------------------
 
-   function Get_Salinity return Unsigned_8 is
+   function Get_Salinity return Interfaces.Unsigned_8 is
    begin
       return u8LastSalinityReading;
    end Get_Salinity;
@@ -187,6 +188,8 @@ package body Salinity_Sensor is
    -- ---- <end of copy paste from avr-at90can-usart> -----------------
 
    procedure Message_Received is
+      use Interfaces;
+
       sMessage : String(1..7);
       cChar : Character;
       bKeepGoing : Boolean;
@@ -215,7 +218,13 @@ package body Salinity_Sensor is
       if sMessage = "--" then -- the value is out of range, or the wrong probe (with regard to salinity in the water) was used
          u8LastSalinityReading := 255;
       else
-          u8LastSalinityReading := Unsigned_8(Integer'Value(sMessage(1..iDigits)));
+         -- u8LastSalinityReading := Interfaces.Unsigned_8(Integer'Value(sMessage(1..iDigits)));
+         if iDigits = 1 then
+            u8LastSalinityReading := Interfaces.Unsigned_8(Character'Pos(sMessage(1)) - Character'Pos('0'));
+         else  --  iDigits = 2
+            u8LastSalinityReading := Interfaces.Unsigned_8(Character'Pos(sMessage(1)) - Character'Pos('0')) * 10 +
+              Interfaces.Unsigned_8(Character'Pos(sMessage(2)) - Character'Pos('0'));
+         end if;
       end if;
    end Message_Received;
 

@@ -12,17 +12,23 @@ package body Pressure_Sensor.Test_Data.Tests.Suite is
 
    Result : aliased AUnit.Test_Suites.Test_Suite;
 
-   Case_1_1_Test_u16GetPressure_d83831 : aliased Runner_1.Test_Case;
+   Case_1_1_Test_Init_40ca0e : aliased Runner_1.Test_Case;
+   Case_2_1_Test_u16GetPressure_a48520 : aliased Runner_1.Test_Case;
 
    function Suite return AUnit.Test_Suites.Access_Test_Suite is
    begin
 
       Runner_1.Create
-        (Case_1_1_Test_u16GetPressure_d83831,
+        (Case_1_1_Test_Init_40ca0e,
          "pressure_sensor.ads:21:4:",
-         Test_u16GetPressure_d83831'Access);
+         Test_Init_40ca0e'Access);
+      Runner_1.Create
+        (Case_2_1_Test_u16GetPressure_a48520,
+         "pressure_sensor.ads:23:4:",
+         Test_u16GetPressure_a48520'Access);
 
-      Result.Add_Test (Case_1_1_Test_u16GetPressure_d83831'Access);
+      Result.Add_Test (Case_1_1_Test_Init_40ca0e'Access);
+      Result.Add_Test (Case_2_1_Test_u16GetPressure_a48520'Access);
 
       return Result'Access;
 

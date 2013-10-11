@@ -8,8 +8,6 @@ package body ada_main is
 
    E171 : Short_Integer; pragma Import (Ada, E171, "system__os_lib_E");
    E018 : Short_Integer; pragma Import (Ada, E018, "system__soft_links_E");
-   E271 : Short_Integer; pragma Import (Ada, E271, "system__fat_flt_E");
-   E261 : Short_Integer; pragma Import (Ada, E261, "system__fat_llf_E");
    E026 : Short_Integer; pragma Import (Ada, E026, "system__exception_table_E");
    E151 : Short_Integer; pragma Import (Ada, E151, "ada__io_exceptions_E");
    E124 : Short_Integer; pragma Import (Ada, E124, "ada__strings_E");
@@ -56,18 +54,18 @@ package body ada_main is
    E197 : Short_Integer; pragma Import (Ada, E197, "avr__at90can128_E");
    E194 : Short_Integer; pragma Import (Ada, E194, "adc_E");
    E199 : Short_Integer; pragma Import (Ada, E199, "adc__test_data_E");
-   E209 : Short_Integer; pragma Import (Ada, E209, "avr__at90can128__calendar_E");
-   E211 : Short_Integer; pragma Import (Ada, E211, "avr__at90can128__calendar__test_data_E");
-   E217 : Short_Integer; pragma Import (Ada, E217, "avr__at90can128__can_E");
-   E219 : Short_Integer; pragma Import (Ada, E219, "avr__at90can128__can__test_data_E");
+   E211 : Short_Integer; pragma Import (Ada, E211, "avr__at90can128__clock_E");
+   E209 : Short_Integer; pragma Import (Ada, E209, "avr__at90can128__can_E");
+   E213 : Short_Integer; pragma Import (Ada, E213, "avr__at90can128__can__test_data_E");
+   E219 : Short_Integer; pragma Import (Ada, E219, "avr__at90can128__clock__test_data_E");
    E225 : Short_Integer; pragma Import (Ada, E225, "digital_io_E");
    E227 : Short_Integer; pragma Import (Ada, E227, "digital_io__test_data_E");
    E203 : Short_Integer; pragma Import (Ada, E203, "adc__test_data__tests_E");
    E205 : Short_Integer; pragma Import (Ada, E205, "adc__test_data__tests__suite_E");
-   E213 : Short_Integer; pragma Import (Ada, E213, "avr__at90can128__calendar__test_data__tests_E");
-   E215 : Short_Integer; pragma Import (Ada, E215, "avr__at90can128__calendar__test_data__tests__suite_E");
-   E221 : Short_Integer; pragma Import (Ada, E221, "avr__at90can128__can__test_data__tests_E");
-   E223 : Short_Integer; pragma Import (Ada, E223, "avr__at90can128__can__test_data__tests__suite_E");
+   E215 : Short_Integer; pragma Import (Ada, E215, "avr__at90can128__can__test_data__tests_E");
+   E217 : Short_Integer; pragma Import (Ada, E217, "avr__at90can128__can__test_data__tests__suite_E");
+   E221 : Short_Integer; pragma Import (Ada, E221, "avr__at90can128__clock__test_data__tests_E");
+   E223 : Short_Integer; pragma Import (Ada, E223, "avr__at90can128__clock__test_data__tests__suite_E");
    E229 : Short_Integer; pragma Import (Ada, E229, "digital_io__test_data__tests_E");
    E231 : Short_Integer; pragma Import (Ada, E231, "digital_io__test_data__tests__suite_E");
    E192 : Short_Integer; pragma Import (Ada, E192, "gnattest_main_suite_E");
@@ -79,14 +77,14 @@ package body ada_main is
    E243 : Short_Integer; pragma Import (Ada, E243, "salinity_sensor__test_data_E");
    E245 : Short_Integer; pragma Import (Ada, E245, "salinity_sensor__test_data__tests_E");
    E247 : Short_Integer; pragma Import (Ada, E247, "salinity_sensor__test_data__tests__suite_E");
-   E252 : Short_Integer; pragma Import (Ada, E252, "temp_sensor_E");
    E249 : Short_Integer; pragma Import (Ada, E249, "sensor_controller_pack_E");
-   E273 : Short_Integer; pragma Import (Ada, E273, "sensor_controller_pack__test_data_E");
-   E275 : Short_Integer; pragma Import (Ada, E275, "sensor_controller_pack__test_data__tests_E");
-   E277 : Short_Integer; pragma Import (Ada, E277, "sensor_controller_pack__test_data__tests__suite_E");
-   E279 : Short_Integer; pragma Import (Ada, E279, "temp_sensor__test_data_E");
-   E281 : Short_Integer; pragma Import (Ada, E281, "temp_sensor__test_data__tests_E");
-   E283 : Short_Integer; pragma Import (Ada, E283, "temp_sensor__test_data__tests__suite_E");
+   E253 : Short_Integer; pragma Import (Ada, E253, "sensor_controller_pack__test_data_E");
+   E255 : Short_Integer; pragma Import (Ada, E255, "sensor_controller_pack__test_data__tests_E");
+   E257 : Short_Integer; pragma Import (Ada, E257, "sensor_controller_pack__test_data__tests__suite_E");
+   E251 : Short_Integer; pragma Import (Ada, E251, "temp_sensor_E");
+   E259 : Short_Integer; pragma Import (Ada, E259, "temp_sensor__test_data_E");
+   E261 : Short_Integer; pragma Import (Ada, E261, "temp_sensor__test_data__tests_E");
+   E263 : Short_Integer; pragma Import (Ada, E263, "temp_sensor__test_data__tests__suite_E");
 
    Local_Priority_Specific_Dispatching : constant String := "";
    Local_Interrupt_States : constant String := "";
@@ -99,17 +97,17 @@ package body ada_main is
          procedure F1;
          pragma Import (Ada, F1, "temp_sensor__test_data__tests__suite__finalize_body");
       begin
-         E283 := E283 - 1;
+         E263 := E263 - 1;
          F1;
       end;
-      E281 := E281 - 1;
+      E261 := E261 - 1;
       declare
          procedure F2;
          pragma Import (Ada, F2, "temp_sensor__test_data__tests__finalize_spec");
       begin
          F2;
       end;
-      E279 := E279 - 1;
+      E259 := E259 - 1;
       declare
          procedure F3;
          pragma Import (Ada, F3, "temp_sensor__test_data__finalize_spec");
@@ -120,17 +118,17 @@ package body ada_main is
          procedure F4;
          pragma Import (Ada, F4, "sensor_controller_pack__test_data__tests__suite__finalize_body");
       begin
-         E277 := E277 - 1;
+         E257 := E257 - 1;
          F4;
       end;
-      E275 := E275 - 1;
+      E255 := E255 - 1;
       declare
          procedure F5;
          pragma Import (Ada, F5, "sensor_controller_pack__test_data__tests__finalize_spec");
       begin
          F5;
       end;
-      E273 := E273 - 1;
+      E253 := E253 - 1;
       declare
          procedure F6;
          pragma Import (Ada, F6, "sensor_controller_pack__test_data__finalize_spec");
@@ -195,7 +193,7 @@ package body ada_main is
       end;
       declare
          procedure F15;
-         pragma Import (Ada, F15, "avr__at90can128__can__test_data__tests__suite__finalize_body");
+         pragma Import (Ada, F15, "avr__at90can128__clock__test_data__tests__suite__finalize_body");
       begin
          E223 := E223 - 1;
          F15;
@@ -203,21 +201,21 @@ package body ada_main is
       E221 := E221 - 1;
       declare
          procedure F16;
-         pragma Import (Ada, F16, "avr__at90can128__can__test_data__tests__finalize_spec");
+         pragma Import (Ada, F16, "avr__at90can128__clock__test_data__tests__finalize_spec");
       begin
          F16;
       end;
       declare
          procedure F17;
-         pragma Import (Ada, F17, "avr__at90can128__calendar__test_data__tests__suite__finalize_body");
+         pragma Import (Ada, F17, "avr__at90can128__can__test_data__tests__suite__finalize_body");
       begin
-         E215 := E215 - 1;
+         E217 := E217 - 1;
          F17;
       end;
-      E213 := E213 - 1;
+      E215 := E215 - 1;
       declare
          procedure F18;
-         pragma Import (Ada, F18, "avr__at90can128__calendar__test_data__tests__finalize_spec");
+         pragma Import (Ada, F18, "avr__at90can128__can__test_data__tests__finalize_spec");
       begin
          F18;
       end;
@@ -245,14 +243,14 @@ package body ada_main is
       E219 := E219 - 1;
       declare
          procedure F22;
-         pragma Import (Ada, F22, "avr__at90can128__can__test_data__finalize_spec");
+         pragma Import (Ada, F22, "avr__at90can128__clock__test_data__finalize_spec");
       begin
          F22;
       end;
-      E211 := E211 - 1;
+      E213 := E213 - 1;
       declare
          procedure F23;
-         pragma Import (Ada, F23, "avr__at90can128__calendar__test_data__finalize_spec");
+         pragma Import (Ada, F23, "avr__at90can128__can__test_data__finalize_spec");
       begin
          F23;
       end;
@@ -481,10 +479,6 @@ package body ada_main is
       Finalize_Library_Objects := finalize_library'access;
 
       System.Soft_Links'Elab_Spec;
-      System.Fat_Flt'Elab_Spec;
-      E271 := E271 + 1;
-      System.Fat_Llf'Elab_Spec;
-      E261 := E261 + 1;
       System.Exception_Table'Elab_Body;
       E026 := E026 + 1;
       Ada.Io_Exceptions'Elab_Spec;
@@ -582,16 +576,15 @@ package body ada_main is
       AVR.AT90CAN128'ELAB_SPEC;
       E197 := E197 + 1;
       ADC'ELAB_SPEC;
-      ADC'ELAB_BODY;
       E194 := E194 + 1;
       ADC.TEST_DATA'ELAB_SPEC;
       E199 := E199 + 1;
-      AVR.AT90CAN128.CALENDAR'ELAB_BODY;
-      E209 := E209 + 1;
-      AVR.AT90CAN128.CALENDAR.TEST_DATA'ELAB_SPEC;
+      AVR.AT90CAN128.CLOCK'ELAB_BODY;
       E211 := E211 + 1;
-      E217 := E217 + 1;
+      E209 := E209 + 1;
       AVR.AT90CAN128.CAN.TEST_DATA'ELAB_SPEC;
+      E213 := E213 + 1;
+      AVR.AT90CAN128.CLOCK.TEST_DATA'ELAB_SPEC;
       E219 := E219 + 1;
       E225 := E225 + 1;
       Digital_Io.Test_Data'Elab_Spec;
@@ -600,13 +593,13 @@ package body ada_main is
       E203 := E203 + 1;
       ADC.TEST_DATA.TESTS.SUITE'ELAB_BODY;
       E205 := E205 + 1;
-      AVR.AT90CAN128.CALENDAR.TEST_DATA.TESTS'ELAB_SPEC;
-      E213 := E213 + 1;
-      AVR.AT90CAN128.CALENDAR.TEST_DATA.TESTS.SUITE'ELAB_BODY;
-      E215 := E215 + 1;
       AVR.AT90CAN128.CAN.TEST_DATA.TESTS'ELAB_SPEC;
-      E221 := E221 + 1;
+      E215 := E215 + 1;
       AVR.AT90CAN128.CAN.TEST_DATA.TESTS.SUITE'ELAB_BODY;
+      E217 := E217 + 1;
+      AVR.AT90CAN128.CLOCK.TEST_DATA.TESTS'ELAB_SPEC;
+      E221 := E221 + 1;
+      AVR.AT90CAN128.CLOCK.TEST_DATA.TESTS.SUITE'ELAB_BODY;
       E223 := E223 + 1;
       Digital_Io.Test_Data.Tests'Elab_Spec;
       E229 := E229 + 1;
@@ -626,20 +619,20 @@ package body ada_main is
       E245 := E245 + 1;
       Salinity_Sensor.Test_Data.Tests.Suite'Elab_Body;
       E247 := E247 + 1;
-      E252 := E252 + 1;
-      E249 := E249 + 1;
       Sensor_Controller_Pack.Test_Data'Elab_Spec;
-      E273 := E273 + 1;
+      E253 := E253 + 1;
       Sensor_Controller_Pack.Test_Data.Tests'Elab_Spec;
-      E275 := E275 + 1;
+      E255 := E255 + 1;
       Sensor_Controller_Pack.Test_Data.Tests.Suite'Elab_Body;
-      E277 := E277 + 1;
+      E257 := E257 + 1;
+      E251 := E251 + 1;
+      E249 := E249 + 1;
       Temp_Sensor.Test_Data'Elab_Spec;
-      E279 := E279 + 1;
+      E259 := E259 + 1;
       Temp_Sensor.Test_Data.Tests'Elab_Spec;
-      E281 := E281 + 1;
+      E261 := E261 + 1;
       Temp_Sensor.Test_Data.Tests.Suite'Elab_Body;
-      E283 := E283 + 1;
+      E263 := E263 + 1;
       Gnattest_Main_Suite'Elab_Body;
       E192 := E192 + 1;
    end adainit;
@@ -677,47 +670,47 @@ package body ada_main is
    end;
 
 --  BEGIN Object file/option list
-   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/Template2/sensor_controller3/build/avr.o
-   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/Template2/sensor_controller3/build/avr-at90can128.o
-   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/Template2/sensor_controller3/build/adc.o
-   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/Template2/sensor_controller3/build/gnattest/harness/adc-test_data.o
-   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/Template2/sensor_controller3/build/avr-at90can128-calendar.o
-   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/Template2/sensor_controller3/build/gnattest/harness/avr-at90can128-calendar-test_data.o
-   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/Template2/sensor_controller3/build/avr-at90can128-can.o
-   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/Template2/sensor_controller3/build/gnattest/harness/avr-at90can128-can-test_data.o
-   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/Template2/sensor_controller3/build/digital_io.o
-   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/Template2/sensor_controller3/build/gnattest/harness/digital_io-test_data.o
-   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/Template2/sensor_controller3/build/gnattest/harness/gnattest_generated.o
-   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/Template2/sensor_controller3/build/gnattest/harness/adc-test_data-tests.o
-   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/Template2/sensor_controller3/build/gnattest/harness/adc-test_data-tests-suite.o
-   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/Template2/sensor_controller3/build/gnattest/harness/avr-at90can128-calendar-test_data-tests.o
-   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/Template2/sensor_controller3/build/gnattest/harness/avr-at90can128-calendar-test_data-tests-suite.o
-   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/Template2/sensor_controller3/build/gnattest/harness/avr-at90can128-can-test_data-tests.o
-   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/Template2/sensor_controller3/build/gnattest/harness/avr-at90can128-can-test_data-tests-suite.o
-   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/Template2/sensor_controller3/build/gnattest/harness/digital_io-test_data-tests.o
-   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/Template2/sensor_controller3/build/gnattest/harness/digital_io-test_data-tests-suite.o
-   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/Template2/sensor_controller3/build/gnattest/harness/test_runner.o
-   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/Template2/sensor_controller3/build/pressure_sensor.o
-   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/Template2/sensor_controller3/build/gnattest/harness/pressure_sensor-test_data.o
-   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/Template2/sensor_controller3/build/gnattest/harness/pressure_sensor-test_data-tests.o
-   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/Template2/sensor_controller3/build/gnattest/harness/pressure_sensor-test_data-tests-suite.o
-   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/Template2/sensor_controller3/build/salinity_sensor.o
-   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/Template2/sensor_controller3/build/gnattest/harness/salinity_sensor-test_data.o
-   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/Template2/sensor_controller3/build/gnattest/harness/salinity_sensor-test_data-tests.o
-   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/Template2/sensor_controller3/build/gnattest/harness/salinity_sensor-test_data-tests-suite.o
-   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/Template2/sensor_controller3/build/temp_sensor.o
-   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/Template2/sensor_controller3/build/sensor_controller_pack.o
-   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/Template2/sensor_controller3/build/gnattest/harness/sensor_controller_pack-test_data.o
-   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/Template2/sensor_controller3/build/gnattest/harness/sensor_controller_pack-test_data-tests.o
-   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/Template2/sensor_controller3/build/gnattest/harness/sensor_controller_pack-test_data-tests-suite.o
-   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/Template2/sensor_controller3/build/gnattest/harness/temp_sensor-test_data.o
-   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/Template2/sensor_controller3/build/gnattest/harness/temp_sensor-test_data-tests.o
-   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/Template2/sensor_controller3/build/gnattest/harness/temp_sensor-test_data-tests-suite.o
-   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/Template2/sensor_controller3/build/gnattest/harness/gnattest_main_suite.o
-   --   -L/home/nils/robotic_project/git/naiad-auv-electronics/src/Template2/sensor_controller3/build/gnattest/harness/
-   --   -L/home/nils/robotic_project/git/naiad-auv-electronics/src/Template2/sensor_controller3/build/gnattest/harness/
+   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/firmware/sensor_controller3/build/avr.o
+   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/firmware/sensor_controller3/build/avr-at90can128.o
+   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/firmware/sensor_controller3/build/adc.o
+   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/firmware/sensor_controller3/build/gnattest/harness/adc-test_data.o
+   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/firmware/sensor_controller3/build/avr-at90can128-clock.o
+   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/firmware/sensor_controller3/build/avr-at90can128-can.o
+   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/firmware/sensor_controller3/build/gnattest/harness/avr-at90can128-can-test_data.o
+   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/firmware/sensor_controller3/build/gnattest/harness/avr-at90can128-clock-test_data.o
+   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/firmware/sensor_controller3/build/digital_io.o
+   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/firmware/sensor_controller3/build/gnattest/harness/digital_io-test_data.o
+   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/firmware/sensor_controller3/build/gnattest/harness/gnattest_generated.o
+   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/firmware/sensor_controller3/build/gnattest/harness/adc-test_data-tests.o
+   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/firmware/sensor_controller3/build/gnattest/harness/adc-test_data-tests-suite.o
+   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/firmware/sensor_controller3/build/gnattest/harness/avr-at90can128-can-test_data-tests.o
+   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/firmware/sensor_controller3/build/gnattest/harness/avr-at90can128-can-test_data-tests-suite.o
+   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/firmware/sensor_controller3/build/gnattest/harness/avr-at90can128-clock-test_data-tests.o
+   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/firmware/sensor_controller3/build/gnattest/harness/avr-at90can128-clock-test_data-tests-suite.o
+   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/firmware/sensor_controller3/build/gnattest/harness/digital_io-test_data-tests.o
+   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/firmware/sensor_controller3/build/gnattest/harness/digital_io-test_data-tests-suite.o
+   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/firmware/sensor_controller3/build/gnattest/harness/test_runner.o
+   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/firmware/sensor_controller3/build/pressure_sensor.o
+   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/firmware/sensor_controller3/build/gnattest/harness/pressure_sensor-test_data.o
+   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/firmware/sensor_controller3/build/gnattest/harness/pressure_sensor-test_data-tests.o
+   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/firmware/sensor_controller3/build/gnattest/harness/pressure_sensor-test_data-tests-suite.o
+   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/firmware/sensor_controller3/build/salinity_sensor.o
+   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/firmware/sensor_controller3/build/gnattest/harness/salinity_sensor-test_data.o
+   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/firmware/sensor_controller3/build/gnattest/harness/salinity_sensor-test_data-tests.o
+   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/firmware/sensor_controller3/build/gnattest/harness/salinity_sensor-test_data-tests-suite.o
+   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/firmware/sensor_controller3/build/gnattest/harness/sensor_controller_pack-test_data.o
+   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/firmware/sensor_controller3/build/gnattest/harness/sensor_controller_pack-test_data-tests.o
+   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/firmware/sensor_controller3/build/gnattest/harness/sensor_controller_pack-test_data-tests-suite.o
+   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/firmware/sensor_controller3/build/temp_sensor.o
+   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/firmware/sensor_controller3/build/sensor_controller_pack.o
+   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/firmware/sensor_controller3/build/gnattest/harness/temp_sensor-test_data.o
+   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/firmware/sensor_controller3/build/gnattest/harness/temp_sensor-test_data-tests.o
+   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/firmware/sensor_controller3/build/gnattest/harness/temp_sensor-test_data-tests-suite.o
+   --   /home/nils/robotic_project/git/naiad-auv-electronics/src/firmware/sensor_controller3/build/gnattest/harness/gnattest_main_suite.o
+   --   -L/home/nils/robotic_project/git/naiad-auv-electronics/src/firmware/sensor_controller3/build/gnattest/harness/
+   --   -L/home/nils/robotic_project/git/naiad-auv-electronics/src/firmware/sensor_controller3/build/gnattest/harness/
    --   -L/usr/gnat/lib/aunit/native-full/
-   --   -L/home/nils/robotic_project/git/naiad-auv-electronics/src/Template2/sensor_controller3/build/
+   --   -L/home/nils/robotic_project/git/naiad-auv-electronics/src/firmware/sensor_controller3/build/
    --   -L/usr/gnat/lib/gcc/x86_64-pc-linux-gnu/4.7.4/adalib/
    --   -static
    --   -lgnat

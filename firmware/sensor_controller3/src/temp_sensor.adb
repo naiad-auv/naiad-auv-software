@@ -1,18 +1,13 @@
 
 -- Written by: Nils Brynedal Ignell for the Naiad AUV project
--- Last changed (yyyy-mm-dd): 2013-10-05
+-- Last changed (yyyy-mm-dd): 2013-10-11
 
-with Ada.Unchecked_Conversion;
 
 with AVR.AT90CAN128;
-with AVR.AT90CAN128.Calendar;
-with Ada.Float_Text_IO;
+with AVR.AT90CAN128.Clock;
+--with Ada.Float_Text_IO;
 with Digital_IO;
 
-with Ada.Strings;
-with Ada.Strings.Fixed;
-
---with Text_IO;
 
 package body Temp_Sensor is
    pragma Suppress (All_Checks);
@@ -33,20 +28,75 @@ package body Temp_Sensor is
    end Init;
 
 
-   function i16ToStr(iTemp : Interfaces.Integer_16) return String is
-      sRet : String(1..10);
+   procedure i16ToStr(i16Temperature : Interfaces.Integer_16; sRet : out String) is
+
+      use Interfaces;
+
+      iPos : Integer := 1;
+      i16Temp   : Interfaces.Integer_16 := i16Temperature;
+      i16Tenths : Interfaces.Integer_16;
+      i16Mod : Interfaces.Integer_16;
+
    begin
-      Ada.Float_Text_IO.Put(sRet, Float(iTemp) / 16.0, 1, 0);
-      sRet := Ada.Strings.Fixed.Trim(sRet, Ada.Strings.Both); --removes spaces
-      return sRet;
+
+      if i16Temp < 0 then
+         i16Temp := -i16Temp;
+         sRet(iPos) := '-';
+         iPos := iPos + 1;
+      end if;
+
+      i16Mod := i16Temp rem 16;
+      i16Temp := i16Temp / 16;
+
+      if i16Temp < -100 then
+         sRet(iPos) := '1';
+         iPos := iPos + 1;
+         i16Temp := (-i16Temp) - 100;
+      elsif i16Temp > 100 then
+         sRet(iPos) := '1';
+         iPos := iPos + 1;
+         i16Temp := i16Temp - 100;
+      end if;
+
+      i16Tenths := i16Temp / Interfaces.Integer_16(10);
+      if i16Tenths /= 0 then
+         sRet(iPos) := Character'Val(i16Tenths + Character'Pos('0'));
+         iPos := iPos + 1;
+      end if;
+
+      i16Temp := i16Temp - (i16Tenths*10);
+      sRet(iPos) := Character'Val(Integer(i16Temp) + Character'Pos('0'));
+      iPos := iPos + 1;
+
+      -- i16Temperature is given in 1/16 of degrees, but since the sensor only has 12
+      -- bits of resolution, i16Temperature will be a multiple of 4
+      sRet(iPos) := '.';
+      iPos := iPos + 1;
+
+      if i16Mod = 4 then
+         sRet(iPos) := '2';
+         iPos := iPos + 1;
+         sRet(iPos) := '5';
+      elsif i16Mod = 8 then
+         sRet(iPos) := '5';
+      elsif i16Mod = 12 then
+         sRet(iPos) := '7';
+         iPos := iPos + 1;
+         sRet(iPos) := '5';
+      else
+         sRet(iPos) := '0';
+      end if;
+
+      for i in (iPos+1)..sRet'Last loop
+         sRet(i) := ASCII.NUL;
+      end loop;
    end i16ToStr;
 
 
    function i16Get_Temp_Int(u8Pin : Interfaces.Unsigned_8) return Interfaces.Integer_16 is
       u8Data : array(0..8) of Interfaces.Unsigned_8;
       bTemporary : Boolean;
-
-      function  i16Fromu16 is new Ada.Unchecked_Conversion (Interfaces.Unsigned_16, Interfaces.Integer_16);
+      use Interfaces;
    begin
 
       bTemporary := bReset_Pulse(u8Pin); --bTemporary not used
@@ -54,7 +104,7 @@ package body Temp_Sensor is
       Write_Byte(204, u8Pin); -- Skip ROM command
       Write_Byte(68, u8Pin);  -- Convert T command (measures the temperature
 
-   --   AVR.AT90CAN128.Calendar.Delay_ms(188);   --waits during temperature measurement
+      AVR.AT90CAN128.Clock.Delay_ms(188);   --waits during temperature measurement
 
       bTemporary := bReset_Pulse(u8Pin); --bTemporary not used
       Write_Byte(204, u8Pin); -- Skip ROM command
@@ -102,15 +152,15 @@ package body Temp_Sensor is
 
    procedure Write_Byte(u8Value : Interfaces.Unsigned_8; u8Pin : Interfaces.Unsigned_8) is
 
+      use Interfaces;
+
       procedure Write_One is
       begin
          Digital_IO.Make_Output_Pin(u8Pin);
          Digital_IO.Clear_Pin(u8Pin);
          Wait_Us(6);
          Digital_IO.Make_Input_Pin(u8Pin);
-
          Wait_Us(64);
-
       end Write_One;
 
       procedure Write_Zero is
@@ -119,19 +169,19 @@ package body Temp_Sensor is
          Digital_IO.Clear_Pin(u8Pin);
          Wait_Us(60);
          Digital_IO.Make_Input_Pin(u8Pin);
-
          Wait_Us(10);
-
       end Write_Zero;
 
+      u8Mask :  Interfaces.Unsigned_8 := 1;
    begin
 
       for i in 1..8 loop
-         if (u8Value and Interfaces.Shift_Right(Interfaces.Unsigned_8(1), i)) = 1 then --if bit number i is 1
+         if (u8Value and u8Mask) = 1 then --if bit number i is 1
             Write_One;
          else
             Write_Zero;
          end if;
+         u8Mask := u8Mask * 2;
       end loop;
    end Write_Byte;
 
@@ -150,8 +200,10 @@ package body Temp_Sensor is
 
    function u8Read_Byte(u8Pin : Interfaces.Unsigned_8) return Interfaces.Unsigned_8 is
 
-      function bRead_Bit_OneWire(u8Pin : Interfaces.Unsigned_8) return Boolean is
-         bRet : Boolean;
+      use Interfaces;
+
+      function bRead_Bit_OneWire(u8Pin : Interfaces.Unsigned_8) return Interfaces.Unsigned_8 is
+         u8Ret : Unsigned_8;
       begin
          Digital_IO.Make_Output_Pin(u8Pin);
          Digital_IO.Clear_Pin(u8Pin);
@@ -160,28 +212,28 @@ package body Temp_Sensor is
 
          Wait_Us(9);
 
-         bRet := Digital_IO.bRead_Pin(u8Pin);
+         if Digital_IO.bRead_Pin(u8Pin) then
+            u8Ret := 1;
+         else
+            u8Ret := 0;
+         end if;
+
          Wait_Us(55);
 
-         return bRet;
+         return u8Ret;
       end bRead_Bit_OneWire;
 
-      --These lines creates an Interfaces.Unsigned_8 and a General_Register that is the same
-      --data space, this way changing bits in pu8Ret changes u8Ret
       u8Ret : Interfaces.Unsigned_8;
-      pu8Ret : AVR.AT90CAN128.General_Register;
-      for pu8Ret'Address use u8Ret'Address;
-
    begin
 
-      pu8Ret.Bit_0 := bRead_Bit_OneWire(u8Pin);
-      pu8Ret.Bit_1 := bRead_Bit_OneWire(u8Pin);
-      pu8Ret.Bit_2 := bRead_Bit_OneWire(u8Pin);
-      pu8Ret.Bit_3 := bRead_Bit_OneWire(u8Pin);
-      pu8Ret.Bit_4 := bRead_Bit_OneWire(u8Pin);
-      pu8Ret.Bit_5 := bRead_Bit_OneWire(u8Pin);
-      pu8Ret.Bit_6 := bRead_Bit_OneWire(u8Pin);
-      pu8Ret.Bit_7 := bRead_Bit_OneWire(u8Pin);
+      u8Ret := bRead_Bit_OneWire(u8Pin);
+      u8Ret := u8Ret + bRead_Bit_OneWire(u8Pin) * 2;
+      u8Ret := u8Ret + bRead_Bit_OneWire(u8Pin) * 4;
+      u8Ret := u8Ret + bRead_Bit_OneWire(u8Pin) * 8;
+      u8Ret := u8Ret + bRead_Bit_OneWire(u8Pin) * 16;
+      u8Ret := u8Ret + bRead_Bit_OneWire(u8Pin) * 32;
+      u8Ret := u8Ret + bRead_Bit_OneWire(u8Pin) * 64;
+      u8Ret := u8Ret + bRead_Bit_OneWire(u8Pin) * 128;
 
       return u8Ret;
    end u8Read_Byte;
@@ -190,6 +242,7 @@ package body Temp_Sensor is
                           u8HighByte : Interfaces.Unsigned_8)
                           return Interfaces.Integer_16 is
       -- Google "two's complement" to understand this function
+      use Interfaces;
    begin
       if u8HighByte > 127 then --most significant bit set => negative number
          declare

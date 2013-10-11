@@ -10,9 +10,8 @@
 
 with Interfaces;
 with AVR.AT90CAN128.CAN;
-with Temp_Sensor;
 with Salinity_Sensor;
-with Pressure_Sensor;
+
 
 package Sensor_Controller_pack is
 

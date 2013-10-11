@@ -12,14 +12,13 @@
 -- TODO: The wait_us function needs to be changed so that it waits the correct amount of time
 -- TODO: In the i16GetTempInt function: Right now the code does not care whether the sensor responded with a
 -- presence pulse or not, this should be changed so that an error is reported if the sensor failed to respond.
--- TODO: In the i16GetTempInt function: The checksum is currently not tested.
+-- TODO: In the i16GetTempInt function: The checksum is currently not checked.
 -- TODO: Test everything...
 
 
 pragma Suppress (All_Checks);
 
 with Interfaces;
-use Interfaces;
 
 package Temp_Sensor is
 
@@ -28,13 +27,7 @@ package Temp_Sensor is
    --returns the temperature in its original Integer_16 format
    function i16Get_Temp_Int(u8Pin : Interfaces.Unsigned_8) return Interfaces.Integer_16;
 
-   function i16ToStr(iTemp : Interfaces.Integer_16) return String;
-
-
-   --returns the temperature as a string on the form SXXX.X, S being the sign (+/-)
-   -- for example +023.4 meaning 23.4 degrees Celsius
-   --as well as a 16 bit integer of equalling 16 times the temperature in Celsius
---   procedure sGet_Temp_Str(u8Pin : Interfaces.Unsigned_8; i16Temperature : out Interfaces.Integer_16; sTemperature : out String);
+   procedure i16ToStr(i16Temperature : Interfaces.Integer_16; sRet : out String);
 
 private
 

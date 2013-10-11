@@ -9,15 +9,17 @@
 --  TODO: Test everything...
 
 --  Written by: Nils Brynedal Ignell for the Naiad AUV project
---  Last changed (yyyy-mm-dd): 2013-09-25
+--  Last changed (yyyy-mm-dd): 2013-10-10
 
 
-with Interfaces;        use Interfaces;
+with Interfaces;
 
 
 
 package Pressure_Sensor is
 
-   function u16GetPressure (u8Pin : Unsigned_8) return Unsigned_16;
+   procedure Init(u8Pin : Interfaces.Unsigned_8);
+
+   function u16GetPressure return Interfaces.Unsigned_16;
 
 end Pressure_Sensor;

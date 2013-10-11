@@ -415,13 +415,13 @@ package ada_main is
    pragma Export (C, u00189, "gnat__stringsS");
    u00190 : constant Version_32 := 16#33489ddc#;
    pragma Export (C, u00190, "gnattest_generatedS");
-   u00191 : constant Version_32 := 16#26534eb3#;
+   u00191 : constant Version_32 := 16#b2871f86#;
    pragma Export (C, u00191, "gnattest_main_suiteB");
    u00192 : constant Version_32 := 16#eea1e993#;
    pragma Export (C, u00192, "gnattest_main_suiteS");
-   u00193 : constant Version_32 := 16#5e0b101b#;
+   u00193 : constant Version_32 := 16#76a1b58d#;
    pragma Export (C, u00193, "adcB");
-   u00194 : constant Version_32 := 16#1c9b322f#;
+   u00194 : constant Version_32 := 16#a0d120e5#;
    pragma Export (C, u00194, "adcS");
    u00195 : constant Version_32 := 16#9f9feadf#;
    pragma Export (C, u00195, "system__machine_codeS");
@@ -431,57 +431,57 @@ package ada_main is
    pragma Export (C, u00197, "avr__at90can128S");
    u00198 : constant Version_32 := 16#074ff69c#;
    pragma Export (C, u00198, "adc__test_dataB");
-   u00199 : constant Version_32 := 16#0d3ba433#;
+   u00199 : constant Version_32 := 16#b171b6f9#;
    pragma Export (C, u00199, "adc__test_dataS");
    u00200 : constant Version_32 := 16#269b1972#;
    pragma Export (C, u00200, "aunit__test_fixturesB");
    u00201 : constant Version_32 := 16#3b99f1a5#;
    pragma Export (C, u00201, "aunit__test_fixturesS");
-   u00202 : constant Version_32 := 16#db9ada29#;
+   u00202 : constant Version_32 := 16#84aab961#;
    pragma Export (C, u00202, "adc__test_data__testsB");
-   u00203 : constant Version_32 := 16#0ac682aa#;
+   u00203 : constant Version_32 := 16#0db242f3#;
    pragma Export (C, u00203, "adc__test_data__testsS");
-   u00204 : constant Version_32 := 16#ee7eadeb#;
+   u00204 : constant Version_32 := 16#6868fda1#;
    pragma Export (C, u00204, "adc__test_data__tests__suiteB");
-   u00205 : constant Version_32 := 16#a4882534#;
+   u00205 : constant Version_32 := 16#a3fce56d#;
    pragma Export (C, u00205, "adc__test_data__tests__suiteS");
    u00206 : constant Version_32 := 16#8f189ee8#;
    pragma Export (C, u00206, "aunit__test_callerB");
    u00207 : constant Version_32 := 16#581d22b8#;
    pragma Export (C, u00207, "aunit__test_callerS");
-   u00208 : constant Version_32 := 16#6fc82885#;
-   pragma Export (C, u00208, "avr__at90can128__calendarB");
-   u00209 : constant Version_32 := 16#10309d59#;
-   pragma Export (C, u00209, "avr__at90can128__calendarS");
-   u00210 : constant Version_32 := 16#8c2aa244#;
-   pragma Export (C, u00210, "avr__at90can128__calendar__test_dataB");
-   u00211 : constant Version_32 := 16#dc6c8ffd#;
-   pragma Export (C, u00211, "avr__at90can128__calendar__test_dataS");
-   u00212 : constant Version_32 := 16#30e51d49#;
-   pragma Export (C, u00212, "avr__at90can128__calendar__test_data__testsB");
-   u00213 : constant Version_32 := 16#3b972441#;
-   pragma Export (C, u00213, "avr__at90can128__calendar__test_data__testsS");
-   u00214 : constant Version_32 := 16#d57593f4#;
-   pragma Export (C, u00214, "avr__at90can128__calendar__test_data__tests__suiteB");
-   u00215 : constant Version_32 := 16#f3f1fca8#;
-   pragma Export (C, u00215, "avr__at90can128__calendar__test_data__tests__suiteS");
-   u00216 : constant Version_32 := 16#babc5fff#;
-   pragma Export (C, u00216, "avr__at90can128__canB");
-   u00217 : constant Version_32 := 16#499a3916#;
-   pragma Export (C, u00217, "avr__at90can128__canS");
-   u00218 : constant Version_32 := 16#4374b50c#;
-   pragma Export (C, u00218, "avr__at90can128__can__test_dataB");
-   u00219 : constant Version_32 := 16#5abf2027#;
-   pragma Export (C, u00219, "avr__at90can128__can__test_dataS");
-   u00220 : constant Version_32 := 16#710862ba#;
-   pragma Export (C, u00220, "avr__at90can128__can__test_data__testsB");
-   u00221 : constant Version_32 := 16#eaf93c85#;
-   pragma Export (C, u00221, "avr__at90can128__can__test_data__testsS");
-   u00222 : constant Version_32 := 16#2ec7727c#;
-   pragma Export (C, u00222, "avr__at90can128__can__test_data__tests__suiteB");
-   u00223 : constant Version_32 := 16#d709f702#;
-   pragma Export (C, u00223, "avr__at90can128__can__test_data__tests__suiteS");
-   u00224 : constant Version_32 := 16#aad5bb72#;
+   u00208 : constant Version_32 := 16#22cd0414#;
+   pragma Export (C, u00208, "avr__at90can128__canB");
+   u00209 : constant Version_32 := 16#4ec4f6cf#;
+   pragma Export (C, u00209, "avr__at90can128__canS");
+   u00210 : constant Version_32 := 16#3d2678f9#;
+   pragma Export (C, u00210, "avr__at90can128__clockB");
+   u00211 : constant Version_32 := 16#268e0fb9#;
+   pragma Export (C, u00211, "avr__at90can128__clockS");
+   u00212 : constant Version_32 := 16#4374b50c#;
+   pragma Export (C, u00212, "avr__at90can128__can__test_dataB");
+   u00213 : constant Version_32 := 16#7b6fe047#;
+   pragma Export (C, u00213, "avr__at90can128__can__test_dataS");
+   u00214 : constant Version_32 := 16#89191d24#;
+   pragma Export (C, u00214, "avr__at90can128__can__test_data__testsB");
+   u00215 : constant Version_32 := 16#9249cd33#;
+   pragma Export (C, u00215, "avr__at90can128__can__test_data__testsS");
+   u00216 : constant Version_32 := 16#c48a2119#;
+   pragma Export (C, u00216, "avr__at90can128__can__test_data__tests__suiteB");
+   u00217 : constant Version_32 := 16#afb906b4#;
+   pragma Export (C, u00217, "avr__at90can128__can__test_data__tests__suiteS");
+   u00218 : constant Version_32 := 16#49109ed4#;
+   pragma Export (C, u00218, "avr__at90can128__clock__test_dataB");
+   u00219 : constant Version_32 := 16#4ab7f5a0#;
+   pragma Export (C, u00219, "avr__at90can128__clock__test_dataS");
+   u00220 : constant Version_32 := 16#ad7ab904#;
+   pragma Export (C, u00220, "avr__at90can128__clock__test_data__testsB");
+   u00221 : constant Version_32 := 16#962af56d#;
+   pragma Export (C, u00221, "avr__at90can128__clock__test_data__testsS");
+   u00222 : constant Version_32 := 16#a961358d#;
+   pragma Export (C, u00222, "avr__at90can128__clock__test_data__tests__suiteB");
+   u00223 : constant Version_32 := 16#85d6d55c#;
+   pragma Export (C, u00223, "avr__at90can128__clock__test_data__tests__suiteS");
+   u00224 : constant Version_32 := 16#e56cfd73#;
    pragma Export (C, u00224, "digital_ioB");
    u00225 : constant Version_32 := 16#7d0ea0e8#;
    pragma Export (C, u00225, "digital_ioS");
@@ -497,110 +497,70 @@ package ada_main is
    pragma Export (C, u00230, "digital_io__test_data__tests__suiteB");
    u00231 : constant Version_32 := 16#a35790f3#;
    pragma Export (C, u00231, "digital_io__test_data__tests__suiteS");
-   u00232 : constant Version_32 := 16#38e0fbd3#;
+   u00232 : constant Version_32 := 16#d9795bbe#;
    pragma Export (C, u00232, "pressure_sensorB");
-   u00233 : constant Version_32 := 16#2e3a783e#;
+   u00233 : constant Version_32 := 16#2c93f6a4#;
    pragma Export (C, u00233, "pressure_sensorS");
    u00234 : constant Version_32 := 16#f667d0db#;
    pragma Export (C, u00234, "pressure_sensor__test_dataB");
-   u00235 : constant Version_32 := 16#63febaa7#;
+   u00235 : constant Version_32 := 16#6157343d#;
    pragma Export (C, u00235, "pressure_sensor__test_dataS");
-   u00236 : constant Version_32 := 16#8a2e7d83#;
+   u00236 : constant Version_32 := 16#3fa55a19#;
    pragma Export (C, u00236, "pressure_sensor__test_data__testsB");
-   u00237 : constant Version_32 := 16#e9563905#;
+   u00237 : constant Version_32 := 16#5f3bdc20#;
    pragma Export (C, u00237, "pressure_sensor__test_data__testsS");
-   u00238 : constant Version_32 := 16#bcfd4d5d#;
+   u00238 : constant Version_32 := 16#61f86dc8#;
    pragma Export (C, u00238, "pressure_sensor__test_data__tests__suiteB");
-   u00239 : constant Version_32 := 16#0035ed51#;
+   u00239 : constant Version_32 := 16#b6580874#;
    pragma Export (C, u00239, "pressure_sensor__test_data__tests__suiteS");
-   u00240 : constant Version_32 := 16#28b2c7ed#;
+   u00240 : constant Version_32 := 16#6d7d3620#;
    pragma Export (C, u00240, "salinity_sensorB");
-   u00241 : constant Version_32 := 16#02772e38#;
+   u00241 : constant Version_32 := 16#abdc35cb#;
    pragma Export (C, u00241, "salinity_sensorS");
    u00242 : constant Version_32 := 16#ecce09d7#;
    pragma Export (C, u00242, "salinity_sensor__test_dataB");
-   u00243 : constant Version_32 := 16#1f1213cf#;
+   u00243 : constant Version_32 := 16#b6b9083c#;
    pragma Export (C, u00243, "salinity_sensor__test_dataS");
-   u00244 : constant Version_32 := 16#d1d83491#;
+   u00244 : constant Version_32 := 16#22af8ab6#;
    pragma Export (C, u00244, "salinity_sensor__test_data__testsB");
-   u00245 : constant Version_32 := 16#d2ca3e54#;
+   u00245 : constant Version_32 := 16#6a11bbf1#;
    pragma Export (C, u00245, "salinity_sensor__test_data__testsS");
-   u00246 : constant Version_32 := 16#d33ce4ae#;
+   u00246 : constant Version_32 := 16#739dba77#;
    pragma Export (C, u00246, "salinity_sensor__test_data__tests__suiteB");
-   u00247 : constant Version_32 := 16#0563eeb1#;
+   u00247 : constant Version_32 := 16#bdb86b14#;
    pragma Export (C, u00247, "salinity_sensor__test_data__tests__suiteS");
-   u00248 : constant Version_32 := 16#992bdfae#;
+   u00248 : constant Version_32 := 16#1dc33296#;
    pragma Export (C, u00248, "sensor_controller_packB");
-   u00249 : constant Version_32 := 16#087c523d#;
+   u00249 : constant Version_32 := 16#235746da#;
    pragma Export (C, u00249, "sensor_controller_packS");
-   u00250 : constant Version_32 := 16#7dbbd31d#;
-   pragma Export (C, u00250, "text_ioS");
-   u00251 : constant Version_32 := 16#41a20612#;
-   pragma Export (C, u00251, "temp_sensorB");
-   u00252 : constant Version_32 := 16#9f062e47#;
-   pragma Export (C, u00252, "temp_sensorS");
-   u00253 : constant Version_32 := 16#e18a47a0#;
-   pragma Export (C, u00253, "ada__float_text_ioB");
-   u00254 : constant Version_32 := 16#e61b3c6c#;
-   pragma Export (C, u00254, "ada__float_text_ioS");
-   u00255 : constant Version_32 := 16#d5f9759f#;
-   pragma Export (C, u00255, "ada__text_io__float_auxB");
-   u00256 : constant Version_32 := 16#f854caf5#;
-   pragma Export (C, u00256, "ada__text_io__float_auxS");
-   u00257 : constant Version_32 := 16#cd6ba629#;
-   pragma Export (C, u00257, "ada__text_io__generic_auxB");
-   u00258 : constant Version_32 := 16#a6c327d3#;
-   pragma Export (C, u00258, "ada__text_io__generic_auxS");
-   u00259 : constant Version_32 := 16#6d0081c3#;
-   pragma Export (C, u00259, "system__img_realB");
-   u00260 : constant Version_32 := 16#578cc0f3#;
-   pragma Export (C, u00260, "system__img_realS");
-   u00261 : constant Version_32 := 16#4f1f4f21#;
-   pragma Export (C, u00261, "system__fat_llfS");
-   u00262 : constant Version_32 := 16#1b28662b#;
-   pragma Export (C, u00262, "system__float_controlB");
-   u00263 : constant Version_32 := 16#70d8d22d#;
-   pragma Export (C, u00263, "system__float_controlS");
-   u00264 : constant Version_32 := 16#06417083#;
-   pragma Export (C, u00264, "system__img_lluB");
-   u00265 : constant Version_32 := 16#b30ccda4#;
-   pragma Export (C, u00265, "system__img_lluS");
-   u00266 : constant Version_32 := 16#c054f766#;
-   pragma Export (C, u00266, "system__powten_tableS");
-   u00267 : constant Version_32 := 16#8ff77155#;
-   pragma Export (C, u00267, "system__val_realB");
-   u00268 : constant Version_32 := 16#6e0de600#;
-   pragma Export (C, u00268, "system__val_realS");
-   u00269 : constant Version_32 := 16#0be1b996#;
-   pragma Export (C, u00269, "system__exn_llfB");
-   u00270 : constant Version_32 := 16#11a08ffe#;
-   pragma Export (C, u00270, "system__exn_llfS");
-   u00271 : constant Version_32 := 16#13fde8c6#;
-   pragma Export (C, u00271, "system__fat_fltS");
-   u00272 : constant Version_32 := 16#d922e262#;
-   pragma Export (C, u00272, "sensor_controller_pack__test_dataB");
-   u00273 : constant Version_32 := 16#ec726df7#;
-   pragma Export (C, u00273, "sensor_controller_pack__test_dataS");
-   u00274 : constant Version_32 := 16#97bdfe3c#;
-   pragma Export (C, u00274, "sensor_controller_pack__test_data__testsB");
-   u00275 : constant Version_32 := 16#8fa290c1#;
-   pragma Export (C, u00275, "sensor_controller_pack__test_data__testsS");
-   u00276 : constant Version_32 := 16#54cb5898#;
-   pragma Export (C, u00276, "sensor_controller_pack__test_data__tests__suiteB");
-   u00277 : constant Version_32 := 16#94488daf#;
-   pragma Export (C, u00277, "sensor_controller_pack__test_data__tests__suiteS");
-   u00278 : constant Version_32 := 16#698aef6f#;
-   pragma Export (C, u00278, "temp_sensor__test_dataB");
-   u00279 : constant Version_32 := 16#2d90b353#;
-   pragma Export (C, u00279, "temp_sensor__test_dataS");
-   u00280 : constant Version_32 := 16#f849bf3a#;
-   pragma Export (C, u00280, "temp_sensor__test_data__testsB");
-   u00281 : constant Version_32 := 16#04512d03#;
-   pragma Export (C, u00281, "temp_sensor__test_data__testsS");
-   u00282 : constant Version_32 := 16#31c37087#;
-   pragma Export (C, u00282, "temp_sensor__test_data__tests__suiteB");
-   u00283 : constant Version_32 := 16#8323ddc2#;
-   pragma Export (C, u00283, "temp_sensor__test_data__tests__suiteS");
+   u00250 : constant Version_32 := 16#0354bcd0#;
+   pragma Export (C, u00250, "temp_sensorB");
+   u00251 : constant Version_32 := 16#a1a36e52#;
+   pragma Export (C, u00251, "temp_sensorS");
+   u00252 : constant Version_32 := 16#d922e262#;
+   pragma Export (C, u00252, "sensor_controller_pack__test_dataB");
+   u00253 : constant Version_32 := 16#fe1ef4fa#;
+   pragma Export (C, u00253, "sensor_controller_pack__test_dataS");
+   u00254 : constant Version_32 := 16#421c244a#;
+   pragma Export (C, u00254, "sensor_controller_pack__test_data__testsB");
+   u00255 : constant Version_32 := 16#8fa290c1#;
+   pragma Export (C, u00255, "sensor_controller_pack__test_data__testsS");
+   u00256 : constant Version_32 := 16#b7704d36#;
+   pragma Export (C, u00256, "sensor_controller_pack__test_data__tests__suiteB");
+   u00257 : constant Version_32 := 16#94488daf#;
+   pragma Export (C, u00257, "sensor_controller_pack__test_data__tests__suiteS");
+   u00258 : constant Version_32 := 16#698aef6f#;
+   pragma Export (C, u00258, "temp_sensor__test_dataB");
+   u00259 : constant Version_32 := 16#1335f346#;
+   pragma Export (C, u00259, "temp_sensor__test_dataS");
+   u00260 : constant Version_32 := 16#9ede7ff4#;
+   pragma Export (C, u00260, "temp_sensor__test_data__testsB");
+   u00261 : constant Version_32 := 16#76551734#;
+   pragma Export (C, u00261, "temp_sensor__test_data__testsS");
+   u00262 : constant Version_32 := 16#e0e3b8c6#;
+   pragma Export (C, u00262, "temp_sensor__test_data__tests__suiteB");
+   u00263 : constant Version_32 := 16#f127e7f5#;
+   pragma Export (C, u00263, "temp_sensor__test_data__tests__suiteS");
    --  BEGIN ELABORATION ORDER
    --  ada%s
    --  ada.characters%s
@@ -619,10 +579,6 @@ package ada_main is
    --  system.atomic_counters%b
    --  system.case_util%s
    --  system.case_util%b
-   --  system.exn_llf%s
-   --  system.exn_llf%b
-   --  system.float_control%s
-   --  system.float_control%b
    --  system.htable%s
    --  system.img_bool%s
    --  system.img_bool%b
@@ -630,7 +586,6 @@ package ada_main is
    --  system.img_enum_new%b
    --  system.img_int%s
    --  system.img_int%b
-   --  system.img_real%s
    --  system.io%s
    --  system.io%b
    --  system.machine_code%s
@@ -641,7 +596,6 @@ package ada_main is
    --  system.crtl%s
    --  interfaces.c_streams%s
    --  interfaces.c_streams%b
-   --  system.powten_table%s
    --  system.standard_library%s
    --  system.exceptions_debug%s
    --  system.exceptions_debug%b
@@ -662,22 +616,15 @@ package ada_main is
    --  ada.exceptions%s
    --  system.soft_links%s
    --  system.unsigned_types%s
-   --  system.fat_flt%s
-   --  system.fat_llf%s
-   --  system.img_llu%s
-   --  system.img_llu%b
    --  system.img_uns%s
    --  system.img_uns%b
-   --  system.img_real%b
    --  system.val_int%s
    --  system.val_lli%s
    --  system.val_llu%s
-   --  system.val_real%s
    --  system.val_uns%s
    --  system.val_util%s
    --  system.val_util%b
    --  system.val_uns%b
-   --  system.val_real%b
    --  system.val_llu%b
    --  system.val_lli%b
    --  system.val_int%b
@@ -772,17 +719,10 @@ package ada_main is
    --  ada.text_io%s
    --  ada.text_io%b
    --  gnat.command_line%b
-   --  ada.text_io.float_aux%s
-   --  ada.float_text_io%s
-   --  ada.float_text_io%b
-   --  ada.text_io.generic_aux%s
-   --  ada.text_io.generic_aux%b
-   --  ada.text_io.float_aux%b
    --  gnat.traceback%s
    --  gnat.traceback%b
    --  gnat.traceback.symbolic%s
    --  gnat.traceback.symbolic%b
-   --  text_io%s
    --  ada_containers%s
    --  ada_containers.aunit_lists%s
    --  aunit%s
@@ -821,14 +761,14 @@ package ada_main is
    --  adc%b
    --  adc.test_data%s
    --  adc.test_data%b
-   --  avr.at90can128.calendar%s
-   --  avr.at90can128.calendar%b
-   --  avr.at90can128.calendar.test_data%s
-   --  avr.at90can128.calendar.test_data%b
+   --  avr.at90can128.clock%s
+   --  avr.at90can128.clock%b
    --  avr.at90can128.can%s
    --  avr.at90can128.can%b
    --  avr.at90can128.can.test_data%s
    --  avr.at90can128.can.test_data%b
+   --  avr.at90can128.clock.test_data%s
+   --  avr.at90can128.clock.test_data%b
    --  digital_io%s
    --  digital_io%b
    --  digital_io.test_data%s
@@ -838,14 +778,14 @@ package ada_main is
    --  adc.test_data.tests%b
    --  adc.test_data.tests.suite%s
    --  adc.test_data.tests.suite%b
-   --  avr.at90can128.calendar.test_data.tests%s
-   --  avr.at90can128.calendar.test_data.tests%b
-   --  avr.at90can128.calendar.test_data.tests.suite%s
-   --  avr.at90can128.calendar.test_data.tests.suite%b
    --  avr.at90can128.can.test_data.tests%s
    --  avr.at90can128.can.test_data.tests%b
    --  avr.at90can128.can.test_data.tests.suite%s
    --  avr.at90can128.can.test_data.tests.suite%b
+   --  avr.at90can128.clock.test_data.tests%s
+   --  avr.at90can128.clock.test_data.tests%b
+   --  avr.at90can128.clock.test_data.tests.suite%s
+   --  avr.at90can128.clock.test_data.tests.suite%b
    --  digital_io.test_data.tests%s
    --  digital_io.test_data.tests%b
    --  digital_io.test_data.tests.suite%s
@@ -868,16 +808,16 @@ package ada_main is
    --  salinity_sensor.test_data.tests%b
    --  salinity_sensor.test_data.tests.suite%s
    --  salinity_sensor.test_data.tests.suite%b
-   --  temp_sensor%s
-   --  temp_sensor%b
    --  sensor_controller_pack%s
-   --  sensor_controller_pack%b
    --  sensor_controller_pack.test_data%s
    --  sensor_controller_pack.test_data%b
    --  sensor_controller_pack.test_data.tests%s
    --  sensor_controller_pack.test_data.tests%b
    --  sensor_controller_pack.test_data.tests.suite%s
    --  sensor_controller_pack.test_data.tests.suite%b
+   --  temp_sensor%s
+   --  temp_sensor%b
+   --  sensor_controller_pack%b
    --  temp_sensor.test_data%s
    --  temp_sensor.test_data%b
    --  temp_sensor.test_data.tests%s

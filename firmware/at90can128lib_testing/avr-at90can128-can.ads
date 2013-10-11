@@ -1,5 +1,4 @@
---with Interfaces; use Interfaces;
-with AVR.AT90CAN128;
+with AVR.AT90CAN128.CLOCK; use AVR.AT90CAN128.CLOCK;
 
 package AVR.AT90CAN128.CAN is
 
@@ -17,19 +16,16 @@ package AVR.AT90CAN128.CAN is
    end record;
 
 
-
    procedure Can_Init (Rate : Baud_Rate);
    procedure Can_SetBaudRate(Rate : Baud_Rate);
    procedure Can_Enable;
    procedure Can_Disable;
 
-   procedure Can_Enable_Reception (ID, Mask : CAN_ID; DLC : DLC_Type);
+   procedure Can_Set_MOB_ID_MASK (mob : READ_MOB_ID;  ID, Mask : CAN_ID);
+   procedure Can_Set_All_MOB_ID_MASK (ID, Mask : CAN_ID);
 
    procedure Can_Send (Msg : CAN_Message);
-   procedure Can_Get (Msg : out CAN_Message; Ret : out Boolean);
+   procedure Can_Get (Msg : out CAN_Message; Ret : out Boolean; Wait : in Time_Duration);
    function Can_Valid_Message  return Boolean;
 
 end AVR.AT90CAN128.CAN;
-
-
-

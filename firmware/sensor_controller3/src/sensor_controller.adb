@@ -17,39 +17,37 @@
 
 pragma Profile (Ravenscar);
 
-with AVR.AT90CAN128.Calendar;	use AVR.AT90CAN128.Calendar;
+with AVR.AT90CAN128.Clock;	use AVR.AT90CAN128.Clock;
 
-with Text_IO;
+--with Text_IO;
 
 
-with Temp_Sensor;
-with Salinity_Sensor;
-with Pressure_Sensor;
 with Sensor_Controller_pack;
-with Interfaces;
+--with Interfaces;
 
 procedure Sensor_Controller is
 
    pragma Suppress (All_Checks);
 
---   tLastLoop   		: AVR.AT90CAN128.Calendar.Time;  --  in milliseconds
- --  tLOOP_PERIOD 	: Constant AVR.AT90CAN128.Calendar.Time := 500; --  loop period in milliseconds
+   tLastLoop   		: AVR.AT90CAN128.Clock.Time;  --  in milliseconds
+   tLOOP_PERIOD 	: Constant AVR.AT90CAN128.Clock.Time := 500; --  loop period in milliseconds
 
-   use Interfaces;
+ --  use Interfaces;
+
 begin
 
- --  Sensor_Controller_pack.Init;
+
+   Sensor_Controller_pack.Init;
 
 --     Text_IO.Put_Line(Integer'Image(Integer(Temp_Sensor.i16From_Bytes(248, 255))));
 --     return;
    loop
-     -- tLastLoop := AVR.AT90CAN128.Calendar.Clock;
+      tLastLoop := AVR.AT90CAN128.Clock.getClockTime;
 
-    --  Sensor_Controller_pack.Handle_Can; 	--  check CAN
+      Sensor_Controller_pack.Handle_Can; 	--  check CAN
       Sensor_Controller_pack.Handle_Sensors; 	--  read sensors
---------------------- FOR DEBUGGING PURPOSES !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-    --  AVR.AT90CAN128.Calendar.Delay_Until(tLOOP_PERIOD + tLastLoop);
+      AVR.AT90CAN128.Clock.Delay_Until(tLOOP_PERIOD + tLastLoop);
 
    end loop;
 
