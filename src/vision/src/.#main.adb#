@@ -71,7 +71,7 @@ begin
 
    --HOUGH CIRCLES
    Vision.Image_Processing.Hough_Circles(iImageDestination, inverseRatioOfResolution, minDistBetweenCenters, houghCannyUpThres, centerDetectionThreshold, minRadius, maxRadius);
-   Vision.Image_Processing.Draw_Hough_Circles(iImageSource);
+   Vision.Image_Processing.Draw_Hough_Circles(iImageSource);--temporary function
    CoreWrap.imshow(New_String("why so circly?"), 1);--show image for debug purposes
    CoreWrap.waitKey(0);
 end main;
