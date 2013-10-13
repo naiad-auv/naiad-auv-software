@@ -58,7 +58,12 @@ void Processing_Wrap::Canny(int src, int dst, int lThresh, int hThresh, int kern
 //void tester(std::vector<Item*>&);std::vector<cv::Vec3f*>&circles
 void Processing_Wrap::HoughCircles(int src,int inverseRatioOfResolution,int minDistBetweenCenters,int cannyUpThres, int centerDetectionThreshold, int minRadius,int maxRadius )
 {
-  cv::HoughCircles( img.at(src), circles, CV_HOUGH_GRADIENT, inverseRatioOfResolution, minDistBetweenCenters, cannyUpThres, centerDetectionThreshold, minRadius, maxRadius );
+  std::vector<cv::Mat> sourceImage;
+
+  sourceImage=img.at(src);
+  minDist=sourceImage.rows/8;
+
+  cv::HoughCircles( img.at(src), circles, CV_HOUGH_GRADIENT, inverseRatioOfResolution, minDist, cannyUpThres, centerDetectionThreshold, minRadius, maxRadius );
 }
 
 ///////////////////////////////IN PROGRESS ///////////////////////////////////////////////
@@ -66,6 +71,7 @@ void Processing_Wrap::HoughCircles(int src,int inverseRatioOfResolution,int minD
 void Processing_Wrap::DrawHoughCircles(int src)
 {
   int i;
+
   for( size_t i = 0; i < circles.size(); i++ )
   {
       cv::Point center(cvRound(circles[i][0]), cvRound(circles[i][1]));
