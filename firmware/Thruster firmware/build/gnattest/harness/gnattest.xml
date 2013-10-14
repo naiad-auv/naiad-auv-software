@@ -1,0 +1,57 @@
+<tests_mapping mode="monolith">
+   <unit source_file="avr-at90can128-can.ads">
+      <test_unit target_file="avr-at90can128-can-test_data-tests.ads">
+         <setup file="avr-at90can128-can-test_data.adb" line="3"  column="4"/>
+         <teardown file="avr-at90can128-can-test_data.adb" line="9"  column="4"/>
+         <tested name="Can_Init" line="21" column="4">
+            <test file="avr-at90can128-can-test_data-tests.adb" line="13" column="1" timestamp="2013-10-11 05:43:08"/>
+         </tested>
+         <tested name="Can_SetBaudRate" line="22" column="4">
+            <test file="avr-at90can128-can-test_data-tests.adb" line="34" column="1" timestamp="2013-10-11 05:43:08"/>
+         </tested>
+         <tested name="Can_Enable" line="23" column="4">
+            <test file="avr-at90can128-can-test_data-tests.adb" line="55" column="1" timestamp="2013-10-11 05:43:08"/>
+         </tested>
+         <tested name="Can_Disable" line="24" column="4">
+            <test file="avr-at90can128-can-test_data-tests.adb" line="76" column="1" timestamp="2013-10-11 05:43:08"/>
+         </tested>
+         <tested name="Can_Enable_Reception" line="26" column="4">
+            <test file="avr-at90can128-can-test_data-tests.adb" line="97" column="1" timestamp="2013-10-11 05:43:08"/>
+         </tested>
+         <tested name="Can_Send" line="28" column="4">
+            <test file="avr-at90can128-can-test_data-tests.adb" line="118" column="1" timestamp="2013-10-11 05:43:08"/>
+         </tested>
+         <tested name="Can_Get" line="29" column="4">
+            <test file="avr-at90can128-can-test_data-tests.adb" line="139" column="1" timestamp="2013-10-11 05:43:08"/>
+         </tested>
+         <tested name="Can_Valid_Message" line="30" column="4">
+            <test file="avr-at90can128-can-test_data-tests.adb" line="160" column="1" timestamp="2013-10-11 05:43:08"/>
+         </tested>
+         <dangling>
+         </dangling>
+      </test_unit>
+   </unit>
+   <unit source_file="send_bytes.ads">
+      <test_unit target_file="send_bytes-test_data-tests.ads">
+         <setup file="send_bytes-test_data.adb" line="3"  column="4"/>
+         <teardown file="send_bytes-test_data.adb" line="9"  column="4"/>
+         <tested name="TMBAsendByteToMotor" line="11" column="4">
+            <test file="send_bytes-test_data-tests.adb" line="13" column="1" timestamp="2013-10-11 05:43:08"/>
+         </tested>
+         <tested name="Command_Motor" line="12" column="4">
+            <test file="send_bytes-test_data-tests.adb" line="34" column="1" timestamp="2013-10-11 05:43:08"/>
+         </tested>
+         <tested name="Initialize_PWM" line="13" column="4">
+            <test file="send_bytes-test_data-tests.adb" line="55" column="1" timestamp="2013-10-11 05:43:08"/>
+         </tested>
+         <tested name="Signed_8ToUnsigned_8" line="14" column="4">
+            <test file="send_bytes-test_data-tests.adb" line="76" column="1" timestamp="2013-10-11 05:43:08"/>
+         </tested>
+         <tested name="Stop_Motor" line="15" column="4">
+            <test file="send_bytes-test_data-tests.adb" line="97" column="1" timestamp="2013-10-11 05:43:08"/>
+         </tested>
+         <dangling>
+         </dangling>
+      </test_unit>
+   </unit>
+</tests_mapping>
