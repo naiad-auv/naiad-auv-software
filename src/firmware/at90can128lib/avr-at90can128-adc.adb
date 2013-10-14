@@ -9,7 +9,7 @@
 
 with System.Machine_Code;
 
-package body ADC is
+package body AVR.AT90CAN128.ADC is
    pragma suppress (All_Checks);
 
    channelSelection : TChannelSelection;
@@ -101,4 +101,4 @@ package body ADC is
          Change_Channel((currentChannel + 1) rem 8);
       end if;
    end Change_Channel;
-end ADC;
+end AVR.AT90CAN128.ADC;
