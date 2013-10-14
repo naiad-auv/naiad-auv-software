@@ -22,6 +22,7 @@ test_runner
 *.DS_Store
 *[Tt]humbs.db
 *.Trashes
+*~
 
 # LaTeX
 *.aux
