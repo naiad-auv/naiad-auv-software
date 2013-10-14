@@ -29,7 +29,8 @@ package body Navigation.Orientational_Controller.COrientationalController_Test_D
       pxOrientationalController : Navigation.Orientational_Controller.pCOrientationalController;
       pxOrientationalMatrix : Math.Matrices.pCMatrix;
 
-      xThrusterControlValues : Navigation.Motion_Component.TOrientationalControlValues;
+      xThrusterControlValues : Navigation.Thrusters.TThrusterEffects;
+      bAtleasteOneControlValue : boolean := false;
 
    begin
 
@@ -49,18 +50,15 @@ package body Navigation.Orientational_Controller.COrientationalController_Test_D
 
       xThrusterControlValues := pxOrientationalController.xGet_Orientational_Thruster_Control_Values(1.0);
 
-      AUnit.Assertions.Assert(Condition => xThrusterControlValues(Navigation.Motion_Component.Direction).xMotionComponent = Navigation.Motion_Component.Direction,
-                              Message   => "Component of xThrusterControlValues for Direction is set incorrectly");
+      for i in xThrusterControlValues'Range loop
+         if xThrusterControlValues(i) /= 0.0 then
+            bAtleasteOneControlValue := true;
+            exit;
+         end if;
+      end loop;
 
-      AUnit.Assertions.Assert(Condition => xThrusterControlValues(Navigation.Motion_Component.Direction).fValue /= 0.0,
-                              Message   => "fValue of xThrusterControlValues for Direction is incorrect");
-
-
-      AUnit.Assertions.Assert(Condition => xThrusterControlValues(Navigation.Motion_Component.Plane).xMotionComponent = Navigation.Motion_Component.Plane,
-                              Message   => "Component of xThrusterControlValues for Plane is set incorrectly");
-
-      AUnit.Assertions.Assert(Condition => xThrusterControlValues(Navigation.Motion_Component.Plane).fValue /= 0.0,
-                              Message   => "fValue of xThrusterControlValues for Direction is incorrect");
+      AUnit.Assertions.Assert(Condition => bAtleasteOneControlValue,
+                              Message   => "No control constatnts, this is not good");
 
 --  begin read only
    end Test_xGet_Orientational_Thruster_Control_Values;
@@ -236,7 +234,9 @@ package body Navigation.Orientational_Controller.COrientationalController_Test_D
       pxOrientationalController : Navigation.Orientational_Controller.pCOrientationalController;
       pxOrientationalMatrix : Math.Matrices.pCMatrix;
 
-      xThrusterControlValues : Navigation.Motion_Component.TComponentControlValue;
+      xThrusterControlValues : Navigation.Thrusters.TThrusterEffects;
+
+      bAtleasteOneControlValue : boolean := false;
 
    begin
 
@@ -257,11 +257,17 @@ package body Navigation.Orientational_Controller.COrientationalController_Test_D
       xThrusterControlValues := pxOrientationalController.xGet_Planal_Thruster_Control_Value(1.0);
 
 
-      AUnit.Assertions.Assert(Condition => xThrusterControlValues.xMotionComponent = Navigation.Motion_Component.Plane,
-                              Message   => "Component of xThrusterControlValues for Plane is set incorrectly");
+      for i in xThrusterControlValues'Range loop
+         if xThrusterControlValues(i) /= 0.0 then
+            bAtleasteOneControlValue := true;
+            exit;
+         end if;
+      end loop;
 
-      AUnit.Assertions.Assert(Condition => xThrusterControlValues.fValue /= 0.0,
-                              Message   => "fValue of xThrusterControlValues for Direction is incorrect");
+      AUnit.Assertions.Assert(Condition => bAtleasteOneControlValue,
+                              Message   => "No control constatnts, this is not good");
+
+
 
 --  begin read only
    end Test_xGet_Planal_Thruster_Control_Value;
@@ -284,10 +290,10 @@ package body Navigation.Orientational_Controller.COrientationalController_Test_D
       pxOrientationalController : Navigation.Orientational_Controller.pCOrientationalController;
       pxOrientationalMatrix : Math.Matrices.pCMatrix;
 
-      xThrusterControlValues : Navigation.Motion_Component.TComponentControlValue;
+      xThrusterControlValues : Navigation.Thrusters.TThrusterEffects;
+      bAtleasteOneControlValue : boolean := false;
 
    begin
-
       pxOrientationalController := Navigation.Orientational_Controller.pxCreate;
 
 
@@ -304,11 +310,16 @@ package body Navigation.Orientational_Controller.COrientationalController_Test_D
 
       xThrusterControlValues := pxOrientationalController.xGet_Directional_Thruster_Control_Value(1.0);
 
-      AUnit.Assertions.Assert(Condition => xThrusterControlValues.xMotionComponent = Navigation.Motion_Component.Direction,
-                              Message   => "Component of xThrusterControlValues for Direction is set incorrectly");
+      for i in xThrusterControlValues'Range loop
+         if xThrusterControlValues(i) /= 0.0 then
+            bAtleasteOneControlValue := true;
+            exit;
+         end if;
+      end loop;
 
-      AUnit.Assertions.Assert(Condition => xThrusterControlValues.fValue /= 0.0,
-                              Message   => "fValue of xThrusterControlValues for Direction is incorrect");
+      AUnit.Assertions.Assert(Condition => bAtleasteOneControlValue,
+                              Message   => "No control constatnts, this is not good");
+
 
 --  begin read only
    end Test_xGet_Directional_Thruster_Control_Value;
