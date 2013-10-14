@@ -14,6 +14,8 @@ package Navigation.Thrusters is
 
    procedure Change_Thruster_Effects (this : in out CThruster; iThrusterIndex : integer; tfThrusterEffects : in TThrusterEffects);
    function tfMake_Thruster_Effects (fXPosition, fYPosition, FZPosition, fXRotation, fYRotation, fZRotation : in float) return TThrusterEffects;
+   function "+" (tfLeftOperand : in TThrusterEffects; tfRightOperand : in TThrusterEffects) return TThrusterEffects;
+
 private
    procedure Put_Thruster_Effects_Into_Matrix (this : in CThruster; txThrusterEffectsMatrix : in out TThrusterEffectsMatrix; iThrusterIndex : in integer);
 

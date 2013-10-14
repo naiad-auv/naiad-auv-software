@@ -22,7 +22,7 @@ package body Navigation.Positional_Controller.CPositional_Controller_Test_Data.C
       
       use Navigation.Motion_Component;
 
-      pxPositionalController : Navigation.Positional_Controller.pCPositional_Controller;
+      pxPositionalController : Navigation.Positional_Controller.pCPositionalController;
 
       pxNewWanted : Math.Vectors.pCVector := Math.Vectors.pxCreate(5.0,5.0,5.0);
       pxPositionalScalings : Navigation.PID_Controller.TPIDComponentScalings := (1.0,1.0,1.0);

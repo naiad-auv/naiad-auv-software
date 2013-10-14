@@ -11,6 +11,7 @@ package Navigation.Thruster_Configurator is
    function pxCreate return pCThrusterConfigurator;
 
    function xGet_Final_Thruster_Power_Configuration(this : in CThrusterConfigurator) return float;
+   function iGet_Number_Of_Thrusters (this : in CThrusterConfigurator) return integer;
 
 private
 
