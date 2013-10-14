@@ -17,13 +17,13 @@ package Navigation.Orientational_Controller is
 
    procedure Update_Current_Absolute_Orientation(this : in out COrientationalController; pxNewCurrentAbsoluteOrientation : Math.Matrices.pCMatrix);
    procedure Update_Wanted_Absolute_Orientation (this : in out COrientationalController; pxNewWantedAbsoluteOrientation : Math.Matrices.pCMatrix);
-   procedure Update_Current_Errors (this : in COrientationalController);
+   procedure Update_Current_Errors (this : in out COrientationalController);
 
    procedure Set_New_PID_Component_Scalings(this : in COrientationalController; eComponentToUpdate : Navigation.Motion_Component.EMotionComponent; xNewPIDScaling : Navigation.PID_Controller.TPIDComponentScalings);
 
 private
 
-   procedure Update_Current_Planal_Error (this : in COrientationalController);
+   procedure Update_Current_Planal_Error (this : in out COrientationalController);
    procedure Update_Current_Directional_Error (this : in COrientationalController);
 
    function fGet_Directional_Error (pxCurrentRelativeDirectionVector : in Math.Vectors.pCVector; pxWantedRelativeDirectionVector : in Math.Vectors.pCVector) return float;

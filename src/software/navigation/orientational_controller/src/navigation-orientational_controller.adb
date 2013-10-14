@@ -21,7 +21,7 @@ package body Navigation.Orientational_Controller is
       return pxOrientationalController;
    end pxCreate;
 
-   procedure Update_Current_Errors (this : in COrientationalController) is
+   procedure Update_Current_Errors (this : in out COrientationalController) is
    begin
       this.Update_Current_Planal_Error;
       this.Update_Current_Directional_Error;
@@ -87,7 +87,7 @@ package body Navigation.Orientational_Controller is
       return this.pxDirectionalMotionComponent.xGet_New_Component_Control_Value(fDeltaTime);
    end xGet_Directional_Thruster_Control_Value;
 
-   procedure Update_Current_Planal_Error (this : in COrientationalController) is
+   procedure Update_Current_Planal_Error (this : in out COrientationalController) is
       use Math.Matrices;
       pxWantedRelativeOrientation : Math.Matrices.pCMatrix;
       pxCurrentRelativeOrientation : Math.Matrices.pCMatrix;
@@ -102,6 +102,11 @@ package body Navigation.Orientational_Controller is
       pxCurrentRelativePlane := Math.Planes.pxCreate(pxNormalVector      => Math.Vectors.pxCross_Product(pxCurrentRelativeOrientation.pxGet_Y_Vector, pxCurrentRelativeOrientation.pxGet_Z_Vector),
                                                      fDistanceFromOrigin => 0.0);
       pxWantedRelativePlane := pxWantedRelativeOrientation * pxCurrentRelativePlane;
+
+
+      this.pxCurrentToWantedPlaneRotation := Math.Quaternions.pxCreate(pxAxisVector => Math.Planes.pxGet_Intersection_Vector_Between(pxCurrentRelativePlane, pxWantedRelativePlane),
+                                                                       fAngleInDegrees => Math.Planes.fAngle_Between_In_Degrees(pxCurrentRelativePlane, pxWantedRelativePlane));
+
 
       this.pxPlanalMotionComponent.Update_Current_Error(fGet_Planal_Error(pxCurrentRelativePlane, pxWantedRelativePlane));
    end Update_Current_Planal_Error;
