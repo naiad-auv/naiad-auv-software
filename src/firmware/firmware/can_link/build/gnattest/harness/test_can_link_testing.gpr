@@ -1,0 +1,16 @@
+with "aunit";
+with "../../../can_link_testing.gpr";
+project test_can_link_testing is
+
+   for Source_Dirs use
+     ("../tests",
+      "common");
+
+   package Compiler is
+      for Default_Switches ("ada") use
+        ("-g", "-O1", "-gnatyM0", "-gnata");
+   end Compiler;
+
+   package Ide renames can_link_testing.Ide;
+
+end test_can_link_testing;

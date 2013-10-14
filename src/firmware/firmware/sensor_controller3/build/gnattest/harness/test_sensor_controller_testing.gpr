@@ -1,0 +1,16 @@
+with "aunit";
+with "../../../sensor_controller_testing.gpr";
+project test_sensor_controller_testing is
+
+   for Source_Dirs use
+     ("../tests",
+      "common");
+
+   package Compiler is
+      for Default_Switches ("ada") use
+        ("-g", "-O1", "-gnatyM0", "-gnata");
+   end Compiler;
+
+   package Ide renames sensor_controller_testing.Ide;
+
+end test_sensor_controller_testing;
