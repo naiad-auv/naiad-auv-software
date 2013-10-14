@@ -12,7 +12,7 @@ with AVR.AT90CAN128;
 --use  AVR.AT90CAN128;
 with Interfaces; --use Interfaces;
 
-package ADC is
+package AVR.AT90CAN128.ADC is
 
  --  type TPin is Integer range 0..7;
  --  type TChannelSelection is array(TPin) of Boolean;
@@ -33,4 +33,4 @@ private
 
    procedure Change_Channel(currentChannel : Integer);
 
-end ADC;
+end AVR.AT90CAN128.ADC;
