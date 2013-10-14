@@ -1,0 +1,14 @@
+project CAN_Link_Testing is
+
+   for Object_Dir use "build";
+   for Exec_Dir use "target";
+   for Source_Dirs use ("src", "../at90can128lib_testing", "../lib");
+   for Source_Files use ("avr-at90can128-calendar.adb", "avr-at90can128-calendar.ads", "avr-at90can128-can.adb", "avr-at90can128-can.adb", "avr-at90can128-can.ads", "avr-at90can128-usart.adb", "avr-at90can128-usart.ads", 
+      "avr-at90can128.ads", "avr.ads", "can_link.adb", "can_link_pack.adb", "can_link_pack.ads");
+   for Main use ("can_link.adb");
+
+   package Ide is
+   end Ide;
+
+end CAN_Link_Testing;
+
