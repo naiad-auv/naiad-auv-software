@@ -91,6 +91,9 @@ package body Math.Quaternions is
         (pxLeftOperandQuaternion.fY = pxRightOperandQuaternion.fY) and
         (pxLeftOperandQuaternion.fZ = pxRightOperandQuaternion.fZ) and
         (pxLeftOperandQuaternion.fW = pxRightOperandQuaternion.fW);
+
+      exception
+         when CONSTRAINT_ERROR => return false;
    end "=";
 
 

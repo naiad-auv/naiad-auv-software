@@ -71,10 +71,6 @@ package body Math.Vectors is
    function "=" (pxLeftOperandVector : in pCVector; pxRightOperandVector : in pCVector) return boolean is
       use System;
    begin
-      if(pxLeftOperandVector'Address = pxRightOperandVector'Address) then
-         return true;
-      end if;
-
       return abs(pxLeftOperandVector.fX - pxRightOperandVector.fX) < 0.0001 and
         abs(pxLeftOperandVector.fY - pxRightOperandVector.fY) < 0.0001 and
         abs(pxLeftOperandVector.fZ - pxRightOperandVector.fZ) < 0.0001;

@@ -5,6 +5,7 @@ with Navigation.Motion_Component;
 with Math.Vectors;
 with Navigation.PID_Controller;
 with Math.Matrices;
+with Navigation.Thrusters;
 
 package Navigation.Dispatcher is
 
@@ -13,15 +14,15 @@ package Navigation.Dispatcher is
 
    function pxCreate return pCDispatcher;
 
-   function pxGet_New_Thruster_Control_Values(this : in out CDispatcher) return Navigation.Thruster_Configurator.TMovementVector;
+   function pxGet_New_Thruster_Control_Values(this : in CDispatcher; fDeltaTime : in float) return Navigation.Thrusters.TThrusterEffects;
 
-   procedure Set_New_Component_PID_Scalings(this : in out CDispatcher; eComponetToChange : Navigation.Motion_Component.EMotionComponent;xNewPIDSCalings : in Navigation.PID_Controller.TPIDComponentScalings);
+   procedure Set_New_Component_PID_Scalings(this : in out CDispatcher; eComponentToChange : Navigation.Motion_Component.EMotionComponent;xNewPIDSCalings : in Navigation.PID_Controller.TPIDComponentScalings);
 
-   procedure Update_Current_Position(this : in out CDispatcher; xNewCurrentPosition : Math.Vectors.CVector);
-   procedure Update_Wanted_Position(this : in out CDispatcher; xNewWantedPosition : Math.Vectors.CVector);
+   procedure Update_Current_Absolute_Position(this : in out CDispatcher; xNewCurrentAbsolutePosition : in Math.Vectors.CVector);
+   procedure Update_Wanted_Absolute_Position(this : in out CDispatcher; xNewWantedAbsolutePosition : in Math.Vectors.CVector);
 
-   procedure Update_Current_Orientation(this : in out CDispatcher; xNewCurrentOrientation : Math.Matrices.pCMatrix);
-   procedure Update_Wanted_Orientation(this : in out CDispatcher; xNewWantedOrientation : Math.Matrices.pCMatrix);
+   procedure Update_Current_Absolute_Orientation(this : in out CDispatcher; xNewCurrentAbsoluteOrientation : in Math.Matrices.pCMatrix);
+   procedure Update_Wanted_Absolute_Orientation(this : in out CDispatcher; xNewWantedAbsoluteOrientation : in Math.Matrices.pCMatrix);
 
    --borde hålla motorkonfigurationen
 
@@ -30,17 +31,17 @@ private
    type CDispatcher is tagged
       record
 
-         pxThrusterConfigurator : Navigation.Thruster_Configurator.pCThruster_Configurator;
+         pxThrusterConfigurator : Navigation.Thruster_Configurator.pCThrusterConfigurator;
 
          pxOrientationalController : Navigation.Orientational_Controller.pCOrientationalController;
 
-         pxPositionalController : Navigation.Positional_Controller.pCPositional_Controller;
+         pxPositionalController : Navigation.Positional_Controller.pCPositionalController;
 
-         pxCurrentPosition : Math.Vectors.pCVector;
-         pxWantedPosition : Math.Vectors.pCVector;
+         pxCurrentAbsolutePosition : Math.Vectors.pCVector;
+         pxWantedAbsolutePosition : Math.Vectors.pCVector;
 
-         pxCurrentOrientation : Math.Matrices.pCMatrix;
-         pxWantedOrientation : Math.Matrices.pCMatrix;
+         pxCurrentAbsoluteOrientation : Math.Matrices.pCMatrix;
+         pxWantedAbsoluteOrientation : Math.Matrices.pCMatrix;
       end record;
 
 end Navigation.Dispatcher;

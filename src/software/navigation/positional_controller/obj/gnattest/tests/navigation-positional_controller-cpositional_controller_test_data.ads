@@ -9,7 +9,7 @@ with GNATtest_Generated;
 
 package Navigation.Positional_Controller.CPositional_Controller_Test_Data is
 
-   type CPositional_Controller_Access is access all GNATtest_Generated.GNATtest_Standard.Navigation.Positional_Controller.CPositional_Controller'Class;
+   type CPositional_Controller_Access is access all GNATtest_Generated.GNATtest_Standard.Navigation.Positional_Controller.CPositionalController'Class;
 
 --  begin read only
    type Test_CPositional_Controller is new AUnit.Test_Fixtures.Test_Fixture

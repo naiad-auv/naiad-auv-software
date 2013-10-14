@@ -5,7 +5,7 @@
 
 package body Navigation.Positional_Controller.CPositional_Controller_Test_Data is
 
-   Local_CPositional_Controller : aliased GNATtest_Generated.GNATtest_Standard.Navigation.Positional_Controller.CPositional_Controller;
+   Local_CPositional_Controller : aliased GNATtest_Generated.GNATtest_Standard.Navigation.Positional_Controller.CPositionalController;
    procedure Set_Up (Gnattest_T : in out Test_CPositional_Controller) is
    begin
       Gnattest_T.Fixture := Local_CPositional_Controller'Access;

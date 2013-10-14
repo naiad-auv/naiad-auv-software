@@ -25,7 +25,7 @@ package body Navigation.Orientational_Controller.COrientational_Controller_Test_
 
       AUnit.Assertions.Assert
         (Gnattest_Generated.Default_Assert_Value,
-         "Test not implemented.");
+         "TeASDASDASDd.");
 
 --  begin read only
    end Test_xGet_Orientational_Thruster_Control_Values;

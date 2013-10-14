@@ -2,6 +2,7 @@ with Navigation.Motion_Component;
 with Navigation.PID_Controller;
 with Math.Vectors;
 with Math.Matrices;
+with Navigation.Thrusters;
 
 package Navigation.Positional_Controller is
 
@@ -10,7 +11,7 @@ package Navigation.Positional_Controller is
 
    function pxCreate return pCPositionalController;
 
-   function xGet_Positional_Thruster_Control_Values(this : in out CPositionalController; fDeltaTime : float) return Navigation.Motion_Component.TPositionalControlValues;
+   function xGet_Positional_Thruster_Control_Values(this : in out CPositionalController; fDeltaTime : float) return Navigation.Thrusters.TThrusterEffects;
 
    procedure Update_Current_Absolute_Orientation(this : in out CPositionalController; pxNewCurrentAbsoluteOrientation : Math.Matrices.pCMatrix);
    procedure Update_Wanted_Absolute_Position(this : in out CPositionalController; pxNewWantedAbsolutePosition : Math.Vectors.pCVector);

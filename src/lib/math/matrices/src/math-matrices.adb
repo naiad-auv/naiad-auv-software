@@ -193,6 +193,9 @@ package body Math.Matrices is
          end loop;
       end loop;
       return true;
+
+      exception
+         when CONSTRAINT_ERROR => return false;
    end "=";
 
 
