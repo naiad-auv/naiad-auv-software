@@ -15,7 +15,7 @@ package Navigation.Dispatcher is
    function pxCreate return pCDispatcher;
 
 
-   function tfGet_Thruster_Values(this : in CDispatcher) return Navigation.Thrusters.TThrusterValuesArray;
+   function tfGet_Thruster_Values(this : in CDispatcher; fDeltaTime : in float) return Navigation.Thrusters.TThrusterValuesArray;
 
 
    procedure Set_New_Component_PID_Scalings(this : in out CDispatcher; eComponentToChange : Navigation.Motion_Component.EMotionComponent;xNewPIDSCalings : in Navigation.PID_Controller.TPIDComponentScalings);
@@ -30,9 +30,9 @@ package Navigation.Dispatcher is
 
 private
 
-   function pxGet_New_Thruster_Control_Values(this : in CDispatcher; fDeltaTime : in float) return Navigation.Thrusters.TThrusterEffects;
-
-   function tfScale_Thruster_Values (tfThrusterValues : in Navigation.Thrusters.TThrusterValuesArray) return Navigation.Thrusters.TThrusterValuesArray;
+   procedure Insert_Values_Into_Matrix(tfValues : in Navigation.Thrusters.TThrusterEffects; tfThrusterEffectsMatrix : in out Navigation.Thrusters.TThrusterEffectsMatrix);
+   procedure Get_Thruster_Values(tfThrusterEffectsMatrix : in Navigation.Thrusters.TThrusterEffectsMatrix; tfThrusterValues : in out Navigation.Thrusters.TThrusterValuesArray);
+   procedure Scale_Thruster_Values (tfThrusterValues : in out Navigation.Thrusters.TThrusterValuesArray);
    function bThruster_Values_Need_Scaling (tfThrusterValues : in Navigation.Thrusters.TThrusterValuesArray) return boolean;
    type CDispatcher is tagged
       record

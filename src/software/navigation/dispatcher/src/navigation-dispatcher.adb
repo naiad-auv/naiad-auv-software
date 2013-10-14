@@ -26,14 +26,14 @@ package body Navigation.Dispatcher is
    end pxCreate;
 
 
-   function tfGet_Thruster_Values(this : in CDispatcher) return Navigation.Thrusters.TThrusterValuesArray is
+   function tfGet_Thruster_Values(this : in CDispatcher; fDeltaTime : in float) return Navigation.Thrusters.TThrusterValuesArray is
+      use Navigation.Thrusters;
       tfThrusterValues : Navigation.Thrusters.TThrusterValuesArray(1 .. this.pxThrusterConfigurator.iGet_Number_Of_Thrusters);
-      tfThrusterEffectsMatrix : Navigation.Thrusters.TThrusterEffectsMatrix;
+      tfThrusterEffectsMatrix : Navigation.Thrusters.TThrusterEffectsMatrix(1 .. this.pxThrusterConfigurator.iGet_Number_Of_Thrusters+1);
       tfPositionalValues : Navigation.Thrusters.TThrusterEffects;
       tfOrientationalValues : Navigation.Thrusters.TThrusterEffects;
       tfCombinedValues : Navigation.Thrusters.TThrusterEffects;
       iThrusterCount : integer;
-      iIterator : integer;
 
    begin
       iThrusterCount := this.pxThrusterConfigurator.iGet_Number_Of_Thrusters;
@@ -47,35 +47,46 @@ package body Navigation.Dispatcher is
 
       tfCombinedValues := tfPositionalValues + tfOrientationalValues;
 
-      for i in Navigation.Thrusters.XPosition .. Navigation.Thrusters.ZRotation
-      loop
-         tfThrusterEffectsMatrix(iThrusterCount + 1)(i) := tfCombinedValues(i);
-      end loop;
+      Insert_Values_Into_Matrix(tfValues                => tfCombinedValues,
+                                tfThrusterEffectsMatrix => tfThrusterEffectsMatrix);
 
       -- KAOSA HÄR!!
 
+      Get_Thruster_Values(tfThrusterEffectsMatrix => tfThrusterEffectsMatrix,
+                          tfThrusterValues        => tfThrusterValues);
+
       if bThruster_Values_Need_Scaling(tfThrusterValues) then
-         tfCombinedValues := tfPositionalValues;
-         for i in Navigation.Thrusters.XPosition .. Navigation.Thrusters.ZRotation
-         loop
-            tfThrusterEffectsMatrix(iThrusterCount + 1)(i) := tfCombinedValues(i);
-         end loop;
+         Insert_Values_Into_Matrix(tfValues                => tfPositionalValues,
+                                   tfThrusterEffectsMatrix => tfThrusterEffectsMatrix);
          -- KAOSA IGEN
+         Get_Thruster_Values(tfThrusterEffectsMatrix => tfThrusterEffectsMatrix,
+                             tfThrusterValues        => tfThrusterValues);
          if bThruster_Values_Need_Scaling(tfThrusterValues) then
-            iIterator := 1;
-            for i in Navigation.Thrusters.XPosition .. Navigation.Thrusters.ZRotation
-            loop
-               tfThrusterValues(iIterator) := tfThrusterEffectsMatrix(iThrusterCount + 1)(i);
-               iIterator := iIterator + 1;
-            end loop;
-            tfScale_Thruster_Values(tfThrusterValues);
+            Scale_Thruster_Values(tfThrusterValues);
          end if;
       end if;
 
-
-
-      return (others => 0.0);
+      return tfThrusterValues;
    end tfGet_Thruster_Values;
+
+   procedure Insert_Values_Into_Matrix(tfValues : in Navigation.Thrusters.TThrusterEffects; tfThrusterEffectsMatrix : in out Navigation.Thrusters.TThrusterEffectsMatrix) is
+   begin
+      for i in tfValues'Range
+      loop
+         tfThrusterEffectsMatrix(tfThrusterEffectsMatrix'Last)(i) := tfValues(i);
+      end loop;
+   end Insert_Values_Into_Matrix;
+
+
+   procedure Get_Thruster_Values(tfThrusterEffectsMatrix : in Navigation.Thrusters.TThrusterEffectsMatrix; tfThrusterValues : in out Navigation.Thrusters.TThrusterValuesArray) is
+      iIterator : integer := 1;
+   begin
+      for i in tfThrusterEffectsMatrix(tfThrusterEffectsMatrix'Last)'First .. tfThrusterEffectsMatrix(tfThrusterEffectsMatrix'Last)'Last
+      loop
+         tfThrusterValues(iIterator) := tfThrusterEffectsMatrix(tfThrusterEffectsMatrix'Last)(i);
+         iIterator := iIterator + 1;
+      end loop;
+   end Get_Thruster_Values;
 
 
    procedure Set_New_Component_PID_Scalings(this : in out CDispatcher; eComponentToChange : Navigation.Motion_Component.EMotionComponent;xNewPIDSCalings : in Navigation.PID_Controller.TPIDComponentScalings) is
@@ -122,61 +133,25 @@ package body Navigation.Dispatcher is
    end Update_Wanted_Absolute_Orientation;
 
 
-
-
-
-   function pxGet_New_Thruster_Control_Values(this : in CDispatcher; fDeltaTime : in float) return Navigation.Thrusters.TThrusterEffects is
-      use Navigation.Thrusters;
-      tfOrientationalValues : Navigation.Thrusters.TThrusterEffects;
-      tfPositionalValues : Navigation.Thrusters.TThrusterEffects;
-      tfCombinedValues : Navigation.Thrusters.TThrusterEffects;
-
-      iMaxComponent : Navigation.Thrusters.EThrusterEffectsComponents;
-      fRatio : float;
+   procedure Scale_Thruster_Values (tfThrusterValues : in out Navigation.Thrusters.TThrusterValuesArray) is
+      fScaleRatio : float;
+      fMaxValue : float := 0.0;
    begin
 
-      this.pxPositionalController.Update_Current_Errors;
-      this.pxOrientationalController.Update_Current_Errors;
-
-      tfPositionalValues := this.pxPositionalController.xGet_Positional_Thruster_Control_Values(fDeltaTime);
-      tfOrientationalValues := this.pxOrientationalController.xGet_Orientational_Thruster_Control_Values(fDeltaTime);
-
-      tfCombinedValues := tfPositionalValues + tfOrientationalValues;
-
-      for iComponent in Navigation.Thrusters.XPosition .. Navigation.Thrusters.ZRotation
+      for t in tfThrusterValues'Range
       loop
-         if abs(tfCombinedValues(iComponent)) > 100.0 then
-            tfCombinedValues := tfPositionalValues;
-            exit;
+         if abs(tfThrusterValues(t)) > fMaxValue then
+            fMaxValue := abs(tfThrusterValues(t));
          end if;
       end loop;
 
-      iMaxComponent := Navigation.Thrusters.XPosition;
-      for iComponent in Navigation.Thrusters.YPosition .. Navigation.Thrusters.ZRotation
+      fScaleRatio := 100.0 / fMaxValue;
+
+      for t in tfThrusterValues'Range
       loop
-         if abs(tfCombinedValues(iComponent)) > abs(tfCombinedValues(iMaxComponent)) then
-            iMaxComponent := iComponent;
-         end if;
+         tfThrusterValues(t) := tfThrusterValues(t) * fScaleRatio;
       end loop;
-
-      if abs(tfCombinedValues(iMaxComponent)) > 100.0 then
-         fRatio := 100.0 / abs(tfCombinedValues(iMaxComponent));
-         for iComponent in Navigation.Thrusters.XPosition .. Navigation.Thrusters.ZRotation
-         loop
-            tfCombinedValues(iComponent) := tfCombinedValues(iComponent) * fRatio;
-         end loop;
-      end if;
-
-      return tfCombinedValues;
-   end pxGet_New_Thruster_Control_Values;
-
-   function tfScale_Thruster_Values (tfThrusterValues : in Navigation.Thrusters.TThrusterValuesArray) return Navigation.Thrusters.TThrusterValuesArray is
-      tfScaledThrusterValues : Navigation.Thrusters.TThrusterValuesArray(1 .. tfThrusterValues'Length);
-   begin
-
-      return (others => 0.0);
-
-   end tfScale_Thruster_Values;
+   end Scale_Thruster_Values;
 
    function bThruster_Values_Need_Scaling (tfThrusterValues : in Navigation.Thrusters.TThrusterValuesArray) return boolean is
    begin
