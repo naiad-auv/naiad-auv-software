@@ -1,8 +1,8 @@
-with "../../math/quaternions/quaternions.gpr";
-with "../../math/planes/planes.gpr";
-with "../../math/vectors/vectors.gpr";
-with "../../math/angles/angles.gpr";
-with "../../math/matrices/matrices.gpr";
+with "../../../lib/math/quaternions/quaternions.gpr";
+with "../../../lib/math/planes/planes.gpr";
+with "../../../lib/math/vectors/vectors.gpr";
+with "../../../lib/math/angles/angles.gpr";
+with "../../../lib/math/matrices/matrices.gpr";
 with "../motion_component/motion_component.gpr";
 with "../pid_controller/pid_controller.gpr";
 with "../navigation.gpr";

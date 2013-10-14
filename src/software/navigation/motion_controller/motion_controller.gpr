@@ -1,4 +1,4 @@
-with "../../math/vectors/vectors.gpr";
+with "../../../lib/math/vectors/vectors.gpr";
 with "../dispatcher/dispatcher.gpr";
 with "../motion_component/motion_component.gpr";
 with "../navigation.gpr";

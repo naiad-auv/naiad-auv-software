@@ -1,7 +1,7 @@
-with "../../math/planes/planes.gpr";
-with "../../math/matrices/matrices.gpr";
+with "../../../lib/math/planes/planes.gpr";
+with "../../../lib/math/matrices/matrices.gpr";
 with "../pid_controller/pid_controller.gpr";
-with "../../math/vectors/vectors.gpr";
+with "../../../lib/math/vectors/vectors.gpr";
 with "../navigation.gpr";
 with "../motion_component/motion_component.gpr";
 

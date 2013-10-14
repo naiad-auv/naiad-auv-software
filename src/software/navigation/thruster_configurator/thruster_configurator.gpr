@@ -1,7 +1,7 @@
 with "../thrusters/thrusters.gpr";
 with "../motion_component/motion_component.gpr";
-with "../../math/vectors/vectors.gpr";
-with "../../math/matrices/matrices.gpr";
+with "../../../lib/math/vectors/vectors.gpr";
+with "../../../lib/math/matrices/matrices.gpr";
 with "../navigation.gpr";
 
 project Thruster_Configurator is
