@@ -25,6 +25,17 @@ package body Math.Matrices is
       return Math.Vectors.fDot_Product(pxXVector, Math.Vectors.pxCross_Product(pxYVector, pxZVector));
    end fGet_Determinant;
 
+   procedure Copy_From(this : in out CMatrix; pxSourceMatrix : in pCMatrix) is
+   begin
+      for i in 1 .. 3
+      loop
+         for j in 1 .. 3
+         loop
+            this.tfMatrix(i,j) := pxSourceMatrix.tfMatrix(i,j);
+         end loop;
+      end loop;
+   end Copy_From;
+
 
    ------------------------------
    -- pxCreate_From_Quaternion --

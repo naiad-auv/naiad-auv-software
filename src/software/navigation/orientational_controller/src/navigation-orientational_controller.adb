@@ -3,15 +3,15 @@
 package body Navigation.Orientational_Controller is
 
 
-   function pxCreate return pCOrientationalController is
+   function pxCreate (pxCurrentAbsoluteOrientation : in Math.Matrices.pCMatrix; pxWantedAbsoluteOrientation : in Math.Matrices.pCMatrix) return pCOrientationalController is
       pxOrientationalController : Navigation.Orientational_Controller.pCOrientationalController;
 
    begin
 
       pxOrientationalController := new Navigation.Orientational_Controller.COrientationalController;
 
-      pxOrientationalController.pxCurrentAbsoluteOrientation := Math.Matrices.pxCreate_Identity;
-      pxOrientationalController.pxWantedAbsoluteOrientation := Math.Matrices.pxCreate_Identity;
+      pxOrientationalController.pxCurrentAbsoluteOrientation := pxCurrentAbsoluteOrientation;
+      pxOrientationalController.pxWantedAbsoluteOrientation := pxWantedAbsoluteOrientation;
 
       pxOrientationalController.pxPlanalMotionComponent := Navigation.Motion_Component.pxCreate(eAxisIndex    => Navigation.Motion_Component.Plane,
                                                                                                 xPID_Scalings => (0.0,0.0,0.0));
@@ -34,20 +34,6 @@ package body Navigation.Orientational_Controller is
    begin
       return this.xGet_Planal_Thruster_Control_Value(fDeltaTime) + this.xGet_Directional_Thruster_Control_Value(fDeltaTime);
    end xGet_Orientational_Thruster_Control_Values;
-
-
-   procedure Update_Current_Absolute_Orientation (this : in out COrientationalController; pxNewCurrentAbsoluteOrientation : Math.Matrices.pCMatrix) is
-   begin
-      this.pxCurrentAbsoluteOrientation := pxNewCurrentAbsoluteOrientation.pxGet_Copy;
-
-   end Update_Current_Absolute_Orientation;
-
-   procedure Update_Wanted_Absolute_Orientation (this : in out COrientationalController; pxNewWantedAbsoluteOrientation : Math.Matrices.pCMatrix) is
-   begin
-      this.pxWantedAbsoluteOrientation := pxNewWantedAbsoluteOrientation.pxGet_Copy;
-
-   end Update_Wanted_Absolute_Orientation;
-
 
    procedure Set_New_PID_Component_Scalings(this : in COrientationalController; eComponentToUpdate : Navigation.Motion_Component.EMotionComponent; xNewPIDScaling : Navigation.PID_Controller.TPIDComponentScalings) is
    begin

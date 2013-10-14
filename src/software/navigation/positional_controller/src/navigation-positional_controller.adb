@@ -1,7 +1,7 @@
 package body Navigation.Positional_Controller is
 
 
-   function pxCreate return pCPositionalController is
+   function pxCreate (pxCurrentAbsolutePosition : in Math.Vectors.pCVector; pxWantedAbsolutePosition : in Math.Vectors.pCVector; pxCurrentAbsoluteOrientation : in Math.Matrices.pCMatrix) return pCPositionalController is
 
       xPositionalController : pCPositionalController;
 
@@ -9,9 +9,9 @@ package body Navigation.Positional_Controller is
 
       xPositionalController := new CPositionalController;
 
-      xPositionalController.pxWantedAbsolutePosition := Math.Vectors.pxCreate(0.0, 0.0, 0.0);
-      xPositionalController.pxCurrentAbsolutePosition := Math.Vectors.pxCreate(0.0, 0.0, 0.0);
-      xPositionalController.pxCurrentAbsoluteOrientation := Math.Matrices.pxCreate_Identity;
+      xPositionalController.pxWantedAbsolutePosition := pxWantedAbsolutePosition;
+      xPositionalController.pxCurrentAbsolutePosition := pxCurrentAbsolutePosition;
+      xPositionalController.pxCurrentAbsoluteOrientation := pxCurrentAbsoluteOrientation;
 
       xPositionalController.pxXMotionComponent := Navigation.Motion_Component.pxCreate(eAxisIndex    => Navigation.Motion_Component.X,
                                                                                        xPID_Scalings => Navigation.PID_Controller.TPIDComponentScalings'(0.0,0.0,0.0));
@@ -35,15 +35,6 @@ package body Navigation.Positional_Controller is
    end xGet_Positional_Thruster_Control_Values;
 
 
-   procedure Update_Wanted_Absolute_Position(this : in out CPositionalController; pxNewWantedAbsolutePosition : Math.Vectors.pCVector) is
-   begin
-      this.pxWantedAbsolutePosition := pxNewWantedAbsolutePosition.pxGet_Copy;
-   end Update_Wanted_Absolute_Position;
-
-   procedure Update_Current_Absolute_Orientation(this : in out CPositionalController; pxNewCurrentAbsoluteOrientation : Math.Matrices.pCMatrix) is
-   begin
-      this.pxCurrentAbsoluteOrientation := pxNewCurrentAbsoluteOrientation;
-   end Update_Current_Absolute_Orientation;
 
 
    procedure Update_Current_Errors (this : in CPositionalController) is
@@ -60,13 +51,6 @@ package body Navigation.Positional_Controller is
       this.pxYMotionComponent.Update_Current_Error(pxRelativeWantedPositionVector.fGet_Y);
       this.pxZMotionComponent.Update_Current_Error(pxRelativeWantedPositionVector.fGet_Z);
    end Update_Current_Errors;
-
-   procedure Update_Current_Absolute_Position(this : in out CPositionalController; pxNewCurrentAbsolutePosition : Math.Vectors.pCVector) is
-   begin
-      this.pxCurrentAbsolutePosition := pxNewCurrentAbsolutePosition;
-   end Update_Current_Absolute_Position;
-
-
 
 
 

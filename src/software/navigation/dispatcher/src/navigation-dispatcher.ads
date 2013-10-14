@@ -14,12 +14,14 @@ package Navigation.Dispatcher is
 
    function pxCreate return pCDispatcher;
 
-   function pxGet_New_Thruster_Control_Values(this : in CDispatcher; fDeltaTime : in float) return Navigation.Thrusters.TThrusterEffects;
+
+   function tfGet_Thruster_Values(this : in CDispatcher) return Navigation.Thrusters.TThrusterValuesArray;
+
 
    procedure Set_New_Component_PID_Scalings(this : in out CDispatcher; eComponentToChange : Navigation.Motion_Component.EMotionComponent;xNewPIDSCalings : in Navigation.PID_Controller.TPIDComponentScalings);
 
-   procedure Update_Current_Absolute_Position(this : in out CDispatcher; xNewCurrentAbsolutePosition : in Math.Vectors.CVector);
-   procedure Update_Wanted_Absolute_Position(this : in out CDispatcher; xNewWantedAbsolutePosition : in Math.Vectors.CVector);
+   procedure Update_Current_Absolute_Position(this : in out CDispatcher; xNewCurrentAbsolutePosition : in Math.Vectors.pCVector);
+   procedure Update_Wanted_Absolute_Position(this : in out CDispatcher; xNewWantedAbsolutePosition : in Math.Vectors.pCVector);
 
    procedure Update_Current_Absolute_Orientation(this : in out CDispatcher; xNewCurrentAbsoluteOrientation : in Math.Matrices.pCMatrix);
    procedure Update_Wanted_Absolute_Orientation(this : in out CDispatcher; xNewWantedAbsoluteOrientation : in Math.Matrices.pCMatrix);
@@ -28,6 +30,10 @@ package Navigation.Dispatcher is
 
 private
 
+   function pxGet_New_Thruster_Control_Values(this : in CDispatcher; fDeltaTime : in float) return Navigation.Thrusters.TThrusterEffects;
+
+   function tfScale_Thruster_Values (tfThrusterValues : in Navigation.Thrusters.TThrusterValuesArray) return Navigation.Thrusters.TThrusterValuesArray;
+   function bThruster_Values_Need_Scaling (tfThrusterValues : in Navigation.Thrusters.TThrusterValuesArray) return boolean;
    type CDispatcher is tagged
       record
 

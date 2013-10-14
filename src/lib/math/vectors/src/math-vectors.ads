@@ -30,10 +30,12 @@ package Math.Vectors is
    function pxCross_Product (pxLeftOperandVector : in pCVector; pxRightOperandVector : in pCVector) return pCVector;
    function fAngle_Between_In_Radians (pxLeftOperandVector, pxRightOperandVector : in pCVector) return float;
 
-   -- lol function
+
    function fGet_X (this : in CVector) return float;
    function fGet_Y (this : in CVector) return float;
    function fGet_Z (this : in CVector) return float;
+
+   procedure Copy_From(this : in out CVector; pxSourceVector : in pCVector);
 
 private
    type CVector is tagged

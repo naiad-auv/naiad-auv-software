@@ -34,6 +34,7 @@ package Math.Matrices is
    function pxGet_Y_Vector (this : in CMatrix) return Math.Vectors.pCVector;
    function pxGet_Z_Vector (this : in CMatrix) return Math.Vectors.pCVector;
 
+   procedure Copy_From(this : in out CMatrix; pxSourceMatrix : in pCMatrix);
 
 private
    type TExtendedMatrix is array(1 .. 3, 1 .. 6) of float;

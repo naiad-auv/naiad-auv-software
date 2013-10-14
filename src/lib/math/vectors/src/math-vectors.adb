@@ -188,4 +188,12 @@ package body Math.Vectors is
    end pxGet_Copy;
 
 
+   procedure Copy_From(this : in out CVector; pxSourceVector : in pCVector) is
+   begin
+      this.fX := pxSourceVector.fX;
+      this.fY := pxSourceVector.fY;
+      this.fZ := pxSourceVector.fZ;
+   end Copy_From;
+
+
 end Math.Vectors;

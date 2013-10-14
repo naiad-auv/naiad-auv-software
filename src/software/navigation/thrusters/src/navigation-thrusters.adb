@@ -68,8 +68,9 @@ package body Navigation.Thrusters is
      (this : in CThruster)
       return TThrusterEffectsMatrix
    is
-      txThrusterEffectsMatrix : TThrusterEffectsMatrix(1 .. this.iGet_Count);
+      txThrusterEffectsMatrix : TThrusterEffectsMatrix(1 .. this.iGet_Count+1);
    begin
+      txThrusterEffectsMatrix := (others => (others => 0.0));
       this.Put_Thruster_Effects_Into_Matrix(txThrusterEffectsMatrix, 1);
       return txThrusterEffectsMatrix;
    end txGet_Thruster_Effects_Matrix;
