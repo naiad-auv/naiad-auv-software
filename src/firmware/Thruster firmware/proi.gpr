@@ -1,0 +1,9 @@
+project Proi is
+
+   for Main use ("avr-at90can128-can.adb", "avr-at90can128-can.ads", "avr-at90can128.ads", "avr.ads", "Main.adb", "SEND_bytes.adb", "send_bytes.ads");
+   for Source_Files use ("avr-at90can128-can.adb", "avr-at90can128-can.ads", "avr-at90can128.ads", "avr.ads", "Main.adb", "SEND_bytes.adb", "send_bytes.ads");
+   for Object_Dir use "build";
+   for Source_Dirs use ("src");
+
+end Proi;
+

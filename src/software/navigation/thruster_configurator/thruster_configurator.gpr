@@ -1,0 +1,13 @@
+with "../thrusters/thrusters.gpr";
+with "../motion_component/motion_component.gpr";
+with "../../math/vectors/vectors.gpr";
+with "../../math/matrices/matrices.gpr";
+with "../navigation.gpr";
+
+project Thruster_Configurator is
+
+   for Source_Dirs use ("src");
+   for Object_Dir use "obj";
+
+end Thruster_Configurator;
+
