@@ -85,12 +85,19 @@ void Processing_Wrap::DrawHoughCircles(int src)
 ////////////////////////////////////HOUGH LINES////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
 
-void Processing_Wrap::HoughLines(int src, int cdst, int rho, float theta, int intersectionThreshold)
+void Processing_Wrap::HoughLines(int src, int rho, float theta, int intersectionThreshold)
 {
   //std::vector<cv::Mat> cdst;
   
-  cv::HoughLines( img.at(src), lines, rho, theta, intersectionThreshold, 0, 0 );
-  
+  cv::HoughLines( img.at(src), lines, rho, theta, intersectionThreshold, 0, 0 );	
+ 
+}
+
+
+///////////////////////////////DRAW HOUGH LINES////////////////////////////////////////////
+
+void Processing_Wrap::DrawHoughLines(int cdst)
+{
   int i;
 
   for( size_t i = 0; i < lines.size(); i++ )
@@ -99,6 +106,7 @@ void Processing_Wrap::HoughLines(int src, int cdst, int rho, float theta, int in
 	cv::Point pt1, pt2;
 	double a = cos(theta), b = sin(theta);
 	double x0 = a*rho, y0 = b *rho;
+
 	pt1.x = cvRound(x0 + 1000*(-b));
 	pt1.y = cvRound(y0 + 1000*(a));
 	pt2.x = cvRound(x0 + 1000*(-b));
@@ -108,8 +116,10 @@ void Processing_Wrap::HoughLines(int src, int cdst, int rho, float theta, int in
 	
       
    }
-  
 }
+
+
+///////////////////////////////////////////////////////////////////////////////////////////
 
 Processing_Wrap::Processing_Wrap(){}
 // VideoCapture test - Stream

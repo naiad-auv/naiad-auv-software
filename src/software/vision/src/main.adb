@@ -32,8 +32,8 @@ begin
    iImageSource := 1;
    iImageDestination := 2;
    iGreyFilter := 6;
-   iCannyLowThres := 10;
-   iCannyHighThres := 460;
+   iCannyLowThres := 50;
+   iCannyHighThres := 200;
    iCannyKernelSize := 3;
 
    --hough circle declarations
@@ -44,11 +44,12 @@ begin
    centerDetectionThreshold := 100;
    minRadius := 0;--zero used if unknown
    maxRadius :=	 0;--zero used if unknown
+
    --CHECK FOR INSTRUCTION--to be implemented, for now just working on default mode
 
    --GET IMAGE-- read from buffer, but for now just read in png
    CoreWrap.push_back(New_String("lena.png"));
-   CoreWrap.push_back(New_String("rosie.png"));
+   CoreWrap.push_back(New_String("134.jpg"));
    CoreWrap.push_back(New_String("circle3.jpg"));
    CoreWrap.push_back(New_String("circle3.jpg"));
    CoreWrap.waitKey(0);
@@ -77,11 +78,17 @@ begin
 
 
    --HOUGH LINES
-   Vision.Image_Processing.Convert_To_Greyscale(iImageDestination,iImageSource, 8);
-   CoreWrap.imshow(New_String("back to BGR"), 1);--show image for debug purposes
-   CoreWrap.waitKey(0);
-   processingWrap.HoughLines(Interfaces.C.int(iImageDestination), Interfaces.C.int(iImageSource), Interfaces.C.int(1), 1.0,  Interfaces.C.int(2));
-   CoreWrap.imshow(New_String("why so liney?"), 1);
+   --Vision.Image_Processing.Convert_To_Greyscale(iImageDestination,iImageSource, 8);
+   --CoreWrap.imshow(New_String("back to BGR"), 1);--show image for debug purposes
+   --CoreWrap.waitKey(0);
+
+   processingWrap.HoughLines(src                   => Interfaces.C.int(iImageDestination),
+                             rho                   => 1,
+                             theta                 => Standard.Float(1),
+                             intersectionThreshold => 100);
+   processingWrap.DrawHoughLines(cdst => Interfaces.C.int(iImageSource));
+   CoreWrap.imshow(name => New_String("Lines disp"),
+                   src  => Interfaces.C.int(iImageSource));
    CoreWrap.waitKey(0);
 end main;
 
