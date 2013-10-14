@@ -1,16 +1,25 @@
 package body Navigation.Dispatcher is
 
    function pxCreate return pCDispatcher is
+      pxNewDispatcher : pCDispatcher;
    begin
-      return null;
+      pxNewDispatcher := new CDispatcher;
+
+      pxNewDispatcher.pxOrientationalController := Navigation.Orientational_Controller.pxCreate;
+      pxNewDispatcher.pxPositionalController := Navigation.Positional_Controller.pxCreate;
+
+      return pxNewDispatcher;
+
+      -- TODO: NOT DONE!!
    end pxCreate;
 
    function pxGet_New_Thruster_Control_Values(this : in CDispatcher; fDeltaTime : in float) return Navigation.Thrusters.TThrusterEffects is
+      use Navigation.Thrusters;
       tfOrientationalValues : Navigation.Thrusters.TThrusterEffects;
       tfPositionalValues : Navigation.Thrusters.TThrusterEffects;
       tfCombinedValues : Navigation.Thrusters.TThrusterEffects;
 
-      iMaxComponent : integer;
+      iMaxComponent : Navigation.Thrusters.EThrusterEffectsComponents;
       fRatio : float;
    begin
       tfPositionalValues := this.pxPositionalController.xGet_Positional_Thruster_Control_Values(fDeltaTime);
@@ -18,7 +27,7 @@ package body Navigation.Dispatcher is
 
       tfCombinedValues := tfPositionalValues + tfOrientationalValues;
 
-      for iComponent in 1 .. this.pxThrusterConfigurator.iGet_Number_Of_Thrusters
+      for iComponent in Navigation.Thrusters.XPosition .. Navigation.Thrusters.ZRotation
       loop
          if abs(tfCombinedValues(iComponent)) > 100.0 then
             tfCombinedValues := tfPositionalValues;
@@ -26,8 +35,8 @@ package body Navigation.Dispatcher is
          end if;
       end loop;
 
-      iMaxComponent := 1;
-      for iComponent in 2 .. this.pxThrusterConfigurator.iGet_Number_Of_Thrusters
+      iMaxComponent := Navigation.Thrusters.XPosition;
+      for iComponent in Navigation.Thrusters.YPosition .. Navigation.Thrusters.ZRotation
       loop
          if abs(tfCombinedValues(iComponent)) > abs(tfCombinedValues(iMaxComponent)) then
             iMaxComponent := iComponent;
@@ -36,7 +45,7 @@ package body Navigation.Dispatcher is
 
       if abs(tfCombinedValues(iMaxComponent)) > 100.0 then
          fRatio := 100.0 / abs(tfCombinedValues(iMaxComponent));
-         for iComponent in 1 .. this.pxThrusterConfigurator.iGet_Number_Of_Thrusters
+         for iComponent in Navigation.Thrusters.XPosition .. Navigation.Thrusters.ZRotation
          loop
             tfCombinedValues(iComponent) := tfCombinedValues(iComponent) * fRatio;
          end loop;

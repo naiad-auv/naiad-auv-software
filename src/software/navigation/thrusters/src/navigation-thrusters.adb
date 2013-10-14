@@ -112,4 +112,17 @@ package body Navigation.Thrusters is
       end if;
    end Put_Thruster_Effects_Into_Matrix;
 
+   function "+" (tfLeftOperand : in TThrusterEffects; tfRightOperand : in TThrusterEffects) return TThrusterEffects is
+   begin
+      return TThrusterEffects'(tfLeftOperand(XPosition) + tfRightOperand(XPosition),
+                               tfLeftOperand(YPosition) + tfRightOperand(YPosition),
+                               tfLeftOperand(ZPosition) + tfRightOperand(ZPosition),
+                               tfLeftOperand(XRotation) + tfRightOperand(XRotation),
+                               tfLeftOperand(YRotation) + tfRightOperand(YRotation),
+                               tfLeftOperand(ZRotation) + tfRightOperand(ZRotation));
+
+   end "+";
+
+
+
 end Navigation.Thrusters;

@@ -5,6 +5,7 @@ with Navigation.Motion_Component;
 with Navigation.PID_Controller;
 with Math.Matrices;
 with Math.Quaternions;
+with Navigation.Thrusters;
 
 package Navigation.Orientational_Controller is
 
@@ -13,7 +14,7 @@ package Navigation.Orientational_Controller is
 
    function pxCreate return pCOrientationalController;
 
-   function xGet_Orientational_Thruster_Control_Values (this : in out COrientationalController; fDeltaTime : in float) return Navigation.Motion_Component.TOrientationalControlValues;
+   function xGet_Orientational_Thruster_Control_Values (this : in out COrientationalController; fDeltaTime : in float) return Navigation.Thrusters.TThrusterEffects;
 
    procedure Update_Current_Absolute_Orientation(this : in out COrientationalController; pxNewCurrentAbsoluteOrientation : Math.Matrices.pCMatrix);
    procedure Update_Wanted_Absolute_Orientation (this : in out COrientationalController; pxNewWantedAbsoluteOrientation : Math.Matrices.pCMatrix);
@@ -29,8 +30,8 @@ private
    function fGet_Directional_Error (pxCurrentRelativeDirectionVector : in Math.Vectors.pCVector; pxWantedRelativeDirectionVector : in Math.Vectors.pCVector) return float;
    function fGet_Planal_Error (pxCurrentRelativePlane : in Math.Planes.pCPlane; pxWantedRelativePlane : in Math.Planes.pCPlane) return float;
 
-   function xGet_Planal_Thruster_Control_Value (this : in COrientationalController; fDeltaTime : in float) return Navigation.Motion_Component.TComponentControlValue;
-   function xGet_Directional_Thruster_Control_Value (this : in COrientationalController; fDeltaTime : in float) return Navigation.Motion_Component.TComponentControlValue;
+   function xGet_Planal_Thruster_Control_Value (this : in COrientationalController; fDeltaTime : in float) return Navigation.Thrusters.TThrusterEffects;
+   function xGet_Directional_Thruster_Control_Value (this : in COrientationalController; fDeltaTime : in float) return Navigation.Thrusters.TThrusterEffects;
 
    type COrientationalController is tagged
       record
