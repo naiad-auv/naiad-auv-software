@@ -12,12 +12,10 @@ package Navigation.Orientational_Controller is
    type COrientationalController is tagged private;
    type pCOrientationalController is access COrientationalController;
 
-   function pxCreate return pCOrientationalController;
+   function pxCreate (pxCurrentAbsoluteOrientation : in Math.Matrices.pCMatrix; pxWantedAbsoluteOrientation : in Math.Matrices.pCMatrix) return pCOrientationalController;
 
    function xGet_Orientational_Thruster_Control_Values (this : in out COrientationalController; fDeltaTime : in float) return Navigation.Thrusters.TThrusterEffects;
 
-   procedure Update_Current_Absolute_Orientation(this : in out COrientationalController; pxNewCurrentAbsoluteOrientation : Math.Matrices.pCMatrix);
-   procedure Update_Wanted_Absolute_Orientation (this : in out COrientationalController; pxNewWantedAbsoluteOrientation : Math.Matrices.pCMatrix);
    procedure Update_Current_Errors (this : in out COrientationalController);
 
    procedure Set_New_PID_Component_Scalings(this : in COrientationalController; eComponentToUpdate : Navigation.Motion_Component.EMotionComponent; xNewPIDScaling : Navigation.PID_Controller.TPIDComponentScalings);

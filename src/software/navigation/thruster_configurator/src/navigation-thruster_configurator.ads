@@ -10,8 +10,10 @@ package Navigation.Thruster_Configurator is
 
    function pxCreate return pCThrusterConfigurator;
 
-   function xGet_Final_Thruster_Power_Configuration(this : in CThrusterConfigurator) return float;
    function iGet_Number_Of_Thrusters (this : in CThrusterConfigurator) return integer;
+   function xGet_Final_Thruster_Power_Configuration(this : in CThrusterConfigurator) return float;
+   function tfGet_Thruster_Effects_Matrix (this : in CThrusterConfigurator) return Navigation.Thrusters.TThrusterEffectsMatrix;
+
 
 private
 

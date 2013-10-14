@@ -17,6 +17,12 @@ package body Navigation.Thruster_Configurator is
       return this.pxThrusterList.iGet_Count;
    end iGet_Number_Of_Thrusters;
 
+   function tfGet_Thruster_Effects_Matrix (this : in CThrusterConfigurator) return Navigation.Thrusters.TThrusterEffectsMatrix is
+   begin
+      return this.pxThrusterList.txGet_Thruster_Effects_Matrix;
+   end tfGet_Thruster_Effects_Matrix;
+
+
 
 
 end Navigation.Thruster_Configurator;
