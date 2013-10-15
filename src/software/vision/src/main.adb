@@ -49,7 +49,7 @@ begin
 
    --GET IMAGE-- read from buffer, but for now just read in png
    CoreWrap.push_back(New_String("lena.png"));
-   CoreWrap.push_back(New_String("134.jpg"));
+   CoreWrap.push_back(New_String("rosie.png"));
    CoreWrap.push_back(New_String("circle3.jpg"));
    CoreWrap.push_back(New_String("circle3.jpg"));
    CoreWrap.waitKey(0);
@@ -71,25 +71,27 @@ begin
    CoreWrap.waitKey(0);
 
    --HOUGH CIRCLES
-   Vision.Image_Processing.Hough_Circles(iImageDestination, inverseRatioOfResolution, minDistBetweenCenters, houghCannyUpThres, centerDetectionThreshold, minRadius, maxRadius);
-   Vision.Image_Processing.Draw_Hough_Circles(iImageSource);
-   CoreWrap.imshow(New_String("why so circly?"), 1);--show image for debug purposes
-   CoreWrap.waitKey(0);
-
+  -- Vision.Image_Processing.Hough_Circles(iImageDestination, inverseRatioOfResolution, minDistBetweenCenters, houghCannyUpThres, centerDetectionThreshold, minRadius, maxRadius);
+  -- Vision.Image_Processing.Draw_Hough_Circles(iImageSource);
+   --CoreWrap.imshow(New_String("why so circly?"), 1);--show image for debug purposes
+   --CoreWrap.waitKey(0);
+Put("here now");
+CoreWrap.waitKey(0);
 
    --HOUGH LINES
    --Vision.Image_Processing.Convert_To_Greyscale(iImageDestination,iImageSource, 8);
    --CoreWrap.imshow(New_String("back to BGR"), 1);--show image for debug purposes
    --CoreWrap.waitKey(0);
 
-   processingWrap.HoughLines(src                   => Interfaces.C.int(iImageDestination),
-                             rho                   => 1,
-                             theta                 => Standard.Float(1),
-                             intersectionThreshold => 100);
-   processingWrap.DrawHoughLines(cdst => Interfaces.C.int(iImageSource));
-   CoreWrap.imshow(name => New_String("Lines disp"),
-                   src  => Interfaces.C.int(iImageSource));
-   CoreWrap.waitKey(0);
+   --processingWrap.HoughLines(src                   => Interfaces.C.int(iImageDestination),
+     --                        rho                   => 1,
+       --                      theta                 => Standard.Float(1),
+         --                    intersectionThreshold => 100);
+   --processingWrap.DrawHoughLines(cdst => Interfaces.C.int(iImageSource));
+   --CoreWrap.imshow(name => New_String("Lines disp"),
+     --              src  => Interfaces.C.int(iImageSource));
+   --CoreWrap.waitKey(0);
+   processingWrap.LabelPoints(Interfaces.C.int(2));
 end main;
 
 

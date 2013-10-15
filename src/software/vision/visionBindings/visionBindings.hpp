@@ -34,6 +34,8 @@ virtual void HoughLines(int src, int rho, float theta, int intersectionThreshold
 
 virtual void DrawHoughLines(int cdst);
 
+virtual void LabelPoints(int src);
+
 Processing_Wrap();
 };
 
