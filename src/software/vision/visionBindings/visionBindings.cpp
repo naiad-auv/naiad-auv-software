@@ -8,6 +8,7 @@
 std::vector<cv::Mat> img;
 std::vector<cv::Vec3f> circles;
 std::vector<cv::Vec2f> lines;
+std::vector<cv::Point> contours;
 cv::VideoCapture cap;
 
 void Core_Wrap::push_back(char * src)
@@ -118,7 +119,37 @@ void Processing_Wrap::DrawHoughLines(int cdst)
    }
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////// Contours ////////////////////////////////////////////
 
+void Processing_Wrap::Contours(int src) // TO DO : include image-ROI
+{
+	std::cout<<"im  in here \n";
+	cv::waitKey(0);
+	if(img.at(src).data)
+	{
+		std::cout<<"im  in here again \n";
+		std::cout<<img.at(src).data;
+		std::cout<<"im  in here again and again";
+		cv::waitKey(0);
+	}
+	else
+	{
+		std::cout<<"img not found";
+		cv::waitKey(0);
+	}
+	//cv::imshow("in contours", img.at(src)); //TO DO : REMOVE
+	cv::findContours( img.at(src), contours, CV_RETR_LIST, CV_CHAIN_APPROX_SIMPLE);
+}
+
+/////////////////////////////////////// display ///////////////////////////////////////////
+
+void Processing_Wrap::showContours(int contourOut, int contourId = -1, int thickness = 3)
+{
+	cv::drawContours(img.at(contourOut), contours, contourId, cv::Scalar(0,0,255), thickness, CV_AA );	
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
 
 Processing_Wrap::Processing_Wrap(){}

@@ -10,6 +10,7 @@ with Ada.Command_Line;
 procedure main is
    iImageSource : integer;
    iImageDestination : integer;
+   iImageCannyOut : integer;
    iGreyFilter : integer;
    iCannyKernelSize :integer;
    iCannyLowThres : integer;
@@ -33,6 +34,7 @@ begin
    --canny declarations
    iImageSource := 1;
    iImageDestination := 2;
+   iImageCannyOut := 4;
    iGreyFilter := 6;
    iCannyLowThres := 20;
    iCannyHighThres := 100;
@@ -40,12 +42,12 @@ begin
 
    --hough circle declarations
    --src use destination of canny as source for hough circles
-   inverseRatioOfResolution := 1;
-   minDistBetweenCenters := 10;
-   houghCannyUpThres := 180;
-   centerDetectionThreshold := 100;
-   minRadius := 0;--zero used if unknown
-   maxRadius :=	 0;--zero used if unknown
+--     inverseRatioOfResolution := 1;
+--     minDistBetweenCenters := 10;
+--     houghCannyUpThres := 180;
+--     centerDetectionThreshold := 100;
+--     minRadius := 0;--zero used if unknown
+--     maxRadius :=	 0;--zero used if unknown
 
    --CHECK FOR INSTRUCTION--to be implemented, for now just working on default mode
 
@@ -75,19 +77,20 @@ begin
    CoreWrap.waitKey(0);
 
    --USE CANNY ON GREYSCALE IMAGE
---     Vision.Image_Processing.Canny(iImageDestination,iImageDestination, iCannyLowThres, iCannyHighThres, iCannyKernelSize);
---     CoreWrap.imshow(New_String("why so canny Sir star fish?"), 2);--show image for debug purposes
---     CoreWrap.waitKey(0);
---     ret := CoreWrap.imwrite(name => New_String("CannyOut.jpg"),
---                      src  => 2 );
+   Vision.Image_Processing.Canny(iImageDestination,iImageDestination, iCannyLowThres, iCannyHighThres, iCannyKernelSize);
+   CoreWrap.imshow(New_String("why so canny Sir star fish?"), 2);--show image for debug purposes
+   CoreWrap.waitKey(0);
+   ret := CoreWrap.imwrite(name => New_String("CannyOut.jpg"),
+                           src  => 2 );
+   CoreWrap.push_back(New_String("CannyOut.jpg"));
 
    --HOUGH CIRCLES
-   Vision.Image_Processing.Hough_Circles(iImageDestination, inverseRatioOfResolution, minDistBetweenCenters, houghCannyUpThres, centerDetectionThreshold, minRadius, maxRadius);
-   Vision.Image_Processing.Draw_Hough_Circles(iImageSource);
-   CoreWrap.imshow(New_String("why so circly?"), 1);--show image for debug purposes
-   CoreWrap.waitKey(0);
-   ret := CoreWrap.imwrite(name => New_String("HoughOut.jpg"),
-                    src  => 1 );
+--     Vision.Image_Processing.Hough_Circles(iImageDestination, inverseRatioOfResolution, minDistBetweenCenters, houghCannyUpThres, centerDetectionThreshold, minRadius, maxRadius);
+--     Vision.Image_Processing.Draw_Hough_Circles(iImageSource);
+--     CoreWrap.imshow(New_String("why so circly?"), 1);--show image for debug purposes
+--     CoreWrap.waitKey(0);
+--     ret := CoreWrap.imwrite(name => New_String("HoughOut.jpg"),
+--                      src  => 1 );
 
 
    --HOUGH LINES
@@ -103,6 +106,24 @@ begin
    --     CoreWrap.imshow(name => New_String("Lines disp"),
    --                     src  => Interfaces.C.int(iImageSource));
    --     CoreWrap.waitKey(0);
+
+
+   --Contours
+   CoreWrap.imshow(name => New_String("test_disp"),
+                   src  => 4);
+   CoreWrap.waitKey(0);
+   processingWrap.Contours(src    => 4);
+
+   CoreWrap.imshow(name => New_String("test_disp"),
+                   src  => 4);
+   CoreWrap.waitKey(0);
+
+   processingWrap.showContours(contourOut => Interfaces.C.int(iImageSource),
+                               contourId  => -1 ,
+                               thickness  => 3 );
+   ret := CoreWrap.imwrite(name => New_String("Contours"),
+                           src  => 1);
+   CoreWrap.waitKey(0);
 end main;
 
 
