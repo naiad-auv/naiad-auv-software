@@ -5,6 +5,7 @@ with Ada.Text_IO; use Ada.Text_IO;
 --with Vision.Image; use Vision.Image;
 with Vision.Image_Preprocessing; use Vision.Image_Preprocessing;
 with Vision.Image_Processing;
+with Ada.Command_Line;
 
 procedure main is
    iImageSource : integer;
@@ -13,6 +14,7 @@ procedure main is
    iCannyKernelSize :integer;
    iCannyLowThres : integer;
    iCannyHighThres : integer;
+   ret : Interfaces.C.int;
 
    --hough cirlces variables
    --src use destination of canny as source for hough circles
@@ -32,24 +34,31 @@ begin
    iImageSource := 1;
    iImageDestination := 2;
    iGreyFilter := 6;
-   iCannyLowThres := 50;
-   iCannyHighThres := 200;
+   iCannyLowThres := 20;
+   iCannyHighThres := 100;
    iCannyKernelSize := 3;
 
    --hough circle declarations
    --src use destination of canny as source for hough circles
    inverseRatioOfResolution := 1;
    minDistBetweenCenters := 10;
-   houghCannyUpThres := 200;
+   houghCannyUpThres := 180;
    centerDetectionThreshold := 100;
    minRadius := 0;--zero used if unknown
    maxRadius :=	 0;--zero used if unknown
 
    --CHECK FOR INSTRUCTION--to be implemented, for now just working on default mode
 
+
+   --try for user input image
+--     for Arg in 1..Argument_Count loop
+--
+--     CoreWrap.imshow(name => New_String("user input"),
+--                     src  => Ada.Command_Line.Argument(Number =>Standard.Integer(1) ));
+
    --GET IMAGE-- read from buffer, but for now just read in png
    CoreWrap.push_back(New_String("lena.png"));
-   CoreWrap.push_back(New_String("134.jpg"));
+   CoreWrap.push_back(New_String("circle2.jpg"));
    CoreWrap.push_back(New_String("circle3.jpg"));
    CoreWrap.push_back(New_String("circle3.jpg"));
    CoreWrap.waitKey(0);
@@ -66,30 +75,34 @@ begin
    CoreWrap.waitKey(0);
 
    --USE CANNY ON GREYSCALE IMAGE
-   Vision.Image_Processing.Canny(iImageDestination,iImageDestination, iCannyLowThres, iCannyHighThres, iCannyKernelSize);
-   CoreWrap.imshow(New_String("why so canny Sir star fish?"), 2);--show image for debug purposes
-   CoreWrap.waitKey(0);
+--     Vision.Image_Processing.Canny(iImageDestination,iImageDestination, iCannyLowThres, iCannyHighThres, iCannyKernelSize);
+--     CoreWrap.imshow(New_String("why so canny Sir star fish?"), 2);--show image for debug purposes
+--     CoreWrap.waitKey(0);
+--     ret := CoreWrap.imwrite(name => New_String("CannyOut.jpg"),
+--                      src  => 2 );
 
    --HOUGH CIRCLES
    Vision.Image_Processing.Hough_Circles(iImageDestination, inverseRatioOfResolution, minDistBetweenCenters, houghCannyUpThres, centerDetectionThreshold, minRadius, maxRadius);
    Vision.Image_Processing.Draw_Hough_Circles(iImageSource);
    CoreWrap.imshow(New_String("why so circly?"), 1);--show image for debug purposes
    CoreWrap.waitKey(0);
+   ret := CoreWrap.imwrite(name => New_String("HoughOut.jpg"),
+                    src  => 1 );
 
 
    --HOUGH LINES
-   --Vision.Image_Processing.Convert_To_Greyscale(iImageDestination,iImageSource, 8);
-   --CoreWrap.imshow(New_String("back to BGR"), 1);--show image for debug purposes
-   --CoreWrap.waitKey(0);
+   --  Vision.Image_Processing.Convert_To_Greyscale(iImageDestination,iImageSource, 8);
+   --  CoreWrap.imshow(New_String("back to BGR"), 1);--show image for debug purposes
+   --  CoreWrap.waitKey(0);
 
-   processingWrap.HoughLines(src                   => Interfaces.C.int(iImageDestination),
-                             rho                   => 1,
-                             theta                 => Standard.Float(1),
-                             intersectionThreshold => 100);
-   processingWrap.DrawHoughLines(cdst => Interfaces.C.int(iImageSource));
-   CoreWrap.imshow(name => New_String("Lines disp"),
-                   src  => Interfaces.C.int(iImageSource));
-   CoreWrap.waitKey(0);
+   --     processingWrap.HoughLines(src                   => Interfaces.C.int(iImageDestination),
+   --                               rho                   => 1,
+   --                               theta                 => Standard.Float(1),
+   --                               intersectionThreshold => 2);
+   --     processingWrap.DrawHoughLines(cdst => Interfaces.C.int(iImageSource));
+   --     CoreWrap.imshow(name => New_String("Lines disp"),
+   --                     src  => Interfaces.C.int(iImageSource));
+   --     CoreWrap.waitKey(0);
 end main;
 
 
