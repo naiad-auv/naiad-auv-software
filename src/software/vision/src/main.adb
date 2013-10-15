@@ -60,7 +60,7 @@ begin
 
    --GET IMAGE-- read from buffer, but for now just read in png
    CoreWrap.push_back(New_String("lena.png"));
-   CoreWrap.push_back(New_String("circle2.jpg"));
+   CoreWrap.push_back(New_String("CannyOut.jpg"));
    CoreWrap.push_back(New_String("circle3.jpg"));
    CoreWrap.push_back(New_String("circle3.jpg"));
    CoreWrap.waitKey(0);
@@ -77,12 +77,12 @@ begin
    CoreWrap.waitKey(0);
 
    --USE CANNY ON GREYSCALE IMAGE
-   Vision.Image_Processing.Canny(iImageDestination,iImageDestination, iCannyLowThres, iCannyHighThres, iCannyKernelSize);
-   CoreWrap.imshow(New_String("why so canny Sir star fish?"), 2);--show image for debug purposes
-   CoreWrap.waitKey(0);
-   ret := CoreWrap.imwrite(name => New_String("CannyOut.jpg"),
-                           src  => 2 );
-   CoreWrap.push_back(New_String("CannyOut.jpg"));
+--     Vision.Image_Processing.Canny(iImageDestination,iImageDestination, iCannyLowThres, iCannyHighThres, iCannyKernelSize);
+--     CoreWrap.imshow(New_String("why so canny Sir star fish?"), 2);--show image for debug purposes
+--     CoreWrap.waitKey(0);
+--     ret := CoreWrap.imwrite(name => New_String("CannyOut.jpg"),
+--                             src  => 2 );
+--     CoreWrap.push_back(New_String("CannyOut.jpg"));
 
    --HOUGH CIRCLES
 --     Vision.Image_Processing.Hough_Circles(iImageDestination, inverseRatioOfResolution, minDistBetweenCenters, houghCannyUpThres, centerDetectionThreshold, minRadius, maxRadius);
@@ -112,13 +112,14 @@ begin
    CoreWrap.imshow(name => New_String("test_disp"),
                    src  => 4);
    CoreWrap.waitKey(0);
-   processingWrap.Contours(src    => 4);
-   processingWrap.showContours(contourOut => Interfaces.C.int(iImageSource),
-                               contourId  => -1 ,
-                               thickness  => 3 );
-   ret := CoreWrap.imwrite(name => New_String("Contours"),
-                           src  => 1);
-   CoreWrap.waitKey(0);
+
+--     processingWrap.Contours(src    => 1);
+--     processingWrap.showContours(contourOut => Interfaces.C.int(iImageSource),
+--                                 contourId  => -1 ,
+--                                 thickness  => 3 );
+--     ret := CoreWrap.imwrite(name => New_String("Contours"),
+--                             src  => 1);
+--     CoreWrap.waitKey(0);
 end main;
 
 
