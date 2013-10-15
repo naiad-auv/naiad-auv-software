@@ -124,7 +124,7 @@ void Processing_Wrap::DrawHoughLines(int cdst)
 
 void Processing_Wrap::Contours(int src) // TO DO : include image-ROI
 {
-	/*cv::Mat G;
+	cv::Mat G;
 	if(img.at(src).data)
 	{
 		std::cout<<"in contour \n";
@@ -143,7 +143,7 @@ void Processing_Wrap::Contours(int src) // TO DO : include image-ROI
 	cv::waitKey(0);
 	cv::imshow("super canny",G);
 	cv::waitKey(0);
-	*/
+	
 	cv::findContours( G, contours, CV_RETR_LIST, CV_CHAIN_APPROX_SIMPLE);
 	cv::waitKey(0);
 	char* name = "in contours";
