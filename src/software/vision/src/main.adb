@@ -107,6 +107,8 @@ begin
    --                     src  => Interfaces.C.int(iImageSource));
    --     CoreWrap.waitKey(0);
 
+   --lines
+   processingWrap.LabelPoints(Interfaces.C.int(4));
 
    --Contours
    CoreWrap.imshow(name => New_String("test_disp"),

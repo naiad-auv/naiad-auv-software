@@ -99,7 +99,10 @@ package visionBindings_hpp is
          thickness : int);  -- visionBindings.hpp:39
       pragma Import (CPP, showContours, "_ZN15Processing_Wrap12showContoursEiii");
 
-      function New_Processing_Wrap return Processing_Wrap;  -- visionBindings.hpp:41
+      procedure LabelPoints (this : access Processing_Wrap; src : int);  -- visionBindings.hpp:41
+      pragma Import (CPP, LabelPoints, "_ZN15Processing_Wrap11LabelPointsEi");
+
+      function New_Processing_Wrap return Processing_Wrap;  -- visionBindings.hpp:43
       pragma CPP_Constructor (New_Processing_Wrap, "_ZN15Processing_WrapC1Ev");
 
 
@@ -111,19 +114,19 @@ package visionBindings_hpp is
       end record;
       pragma Import (CPP, Preprocessing_Wrap);
 
-      procedure VideoCaptureOpen (this : access Preprocessing_Wrap);  -- visionBindings.hpp:48
+      procedure VideoCaptureOpen (this : access Preprocessing_Wrap);  -- visionBindings.hpp:50
       pragma Import (CPP, VideoCaptureOpen, "_ZN18Preprocessing_Wrap16VideoCaptureOpenEv");
 
       procedure namedWindow
         (this : access Preprocessing_Wrap;
          name : Interfaces.C.Strings.chars_ptr;
-         num : int);  -- visionBindings.hpp:50
+         num : int);  -- visionBindings.hpp:52
       pragma Import (CPP, namedWindow, "_ZN18Preprocessing_Wrap11namedWindowEPci");
 
-      procedure nextFrame (this : access Preprocessing_Wrap; dst : int);  -- visionBindings.hpp:52
+      procedure nextFrame (this : access Preprocessing_Wrap; dst : int);  -- visionBindings.hpp:54
       pragma Import (CPP, nextFrame, "_ZN18Preprocessing_Wrap9nextFrameEi");
 
-      function New_Preprocessing_Wrap return Preprocessing_Wrap;  -- visionBindings.hpp:54
+      function New_Preprocessing_Wrap return Preprocessing_Wrap;  -- visionBindings.hpp:56
       pragma CPP_Constructor (New_Preprocessing_Wrap, "_ZN18Preprocessing_WrapC1Ev");
 
 
