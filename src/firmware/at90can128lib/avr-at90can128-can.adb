@@ -1,25 +1,14 @@
-with AVR.AT90CAN128 ; use AVR.AT90CAN128;
---with System	    ; use System;
+with AVR.AT90CAN128 ;
 
 package body AVR.AT90CAN128.CAN is
    pragma Suppress (All_Checks);
 
    Buffer_Size : constant := 16;
    type Buffer_pointer is mod 2 ** 5;
---     type Can_Buffer;
    type Can_Buffer_Array is array (Buffer_pointer range 0..15) of CAN_Message;
-
---     type Can_Buffer is record
---        Write : Buffer_pointer := 0;
---        Read : Buffer_pointer := 0;
---        Buffer : Can_Buffer_Array;
---     end record;
 
    ID_Tag_array : array (READ_MOB_ID) of CAN_ID;
    ID_Mask_array : array (READ_MOB_ID) of CAN_ID;
-
---     RX_Buffer : Can_Buffer;
---     TX_Buffer : Can_Buffer;
 
    pRXWrite   : Buffer_pointer := 0;
    pRXRead	: Buffer_pointer := 0;
@@ -46,29 +35,16 @@ package body AVR.AT90CAN128.CAN is
    end iGetBufferSize;
 
    procedure CanWriteTXMOB is
-   Msg : CAN_Message;
-begin
-   Msg := TX_buffer(pTXRead mod Buffer_Size);
-   CANPAGE := (TX_MOB_ID, False, 0);
-   for I in 1..Msg.Len loop
-      CANMSG := Msg.Data (I);
-   end loop;
-   CANIDT   := Shift_Left(Unsigned_16(Msg.ID),5);
-   CANCDMOB := (Enable_Transmission, False, False, Msg.Len);
-end CanWriteTXMOB;
-
-   -- Find_Free_MOB : Find a free MOB.
-   -- Parameter:
-   --           MOB_ID : the ID of a free MOB.
-   function Find_Free_MOB return MOB_ID is
+      Msg : CAN_Message;
    begin
-      for M in MOB_ID loop
-         if not CANEN (M) then
-            return M;
-         end if;
+      Msg := TX_buffer(pTXRead mod Buffer_Size);
+      CANPAGE := (TX_MOB_ID, False, 0);
+      for I in 1..Msg.Len loop
+         CANMSG := Msg.Data (I);
       end loop;
-      return 14; --No MOB available;
-   end Find_Free_MOB;
+      CANIDT   := Shift_Left(Unsigned_16(Msg.ID),5);
+      CANCDMOB := (Enable_Transmission, False, False, Msg.Len);
+   end CanWriteTXMOB;
 
    -- Can_Enable: Enable the CAN bus
    procedure Can_Enable is
@@ -85,20 +61,6 @@ end CanWriteTXMOB;
       CANGIE.ENRX := False; -- Disable Receive Interrup
       CANGIE.ENTX := False; -- Disable Transmit Interrupt
    end Can_Disable;
-
-   -- Can_Enable_Reception: Initialize MOBs and prepare to receive messages
-   --  Parameters: ID   : ID of the CAN message.
-   --		   MASK : this paremeter define a scope of IDs which CAN controller
-   --                     should read from CAN bus.
-   --              DLC  : the length of the DATA of CAN message
-   procedure Can_Enable_Reception (ID, Mask : CAN_ID; DLC : DLC_Type) is
-   begin
-      CANPAGE := (Find_Free_MOB, True, 0); -- (Full_MOB_ID, Auto_Increment, Data Index)
-      CANIDT   := Shift_Left(Unsigned_16(ID),5);
-      CANCDMOB := (Enable_Reception, False, False, DLC);
-      CANIDM := Shift_Left(Unsigned_16(Mask),5);
-   end Can_Enable_Reception;
-
 
    -- Can_Send  : Send out a CAN messaage
    -- Parameter :
@@ -209,7 +171,8 @@ end CanWriteTXMOB;
    --           Ret (out): this parameter will be False if there is
    --                      no message is available. Otherwise it will
    --                      be True.
-   Procedure Can_Get(Msg : out CAN_Message; Ret : out Boolean; Wait : Time_Duration) is
+   Procedure Can_Get(Msg : out CAN_Message; Ret : out Boolean; Wait : AVR.AT90CAN128.CLOCK.Time_Duration) is
+      use AVR.AT90CAN128.CLOCK;
       timer : Time;
       curr : Time;
       inf : Boolean := False;

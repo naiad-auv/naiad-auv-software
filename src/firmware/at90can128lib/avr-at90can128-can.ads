@@ -1,4 +1,4 @@
-with AVR.AT90CAN128.CLOCK; use AVR.AT90CAN128.CLOCK;
+with AVR.AT90CAN128.CLOCK;
 
 package AVR.AT90CAN128.CAN is
 
@@ -25,7 +25,7 @@ package AVR.AT90CAN128.CAN is
    procedure Can_Set_All_MOB_ID_MASK (ID, Mask : CAN_ID);
 
    procedure Can_Send (Msg : CAN_Message);
-   procedure Can_Get (Msg : out CAN_Message; Ret : out Boolean; Wait : in Time_Duration);
+   procedure Can_Get (Msg : out CAN_Message; Ret : out Boolean; Wait : in AVR.AT90CAN128.CLOCK.Time_Duration);
    function Can_Valid_Message  return Boolean;
 
 end AVR.AT90CAN128.CAN;

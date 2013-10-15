@@ -426,13 +426,59 @@ package AVR.AT90CAN128 is
    ADCL : Unsigned_8;
    for ADCL'Address use System'To_Address (16#78#);
 
+   --SPI Registers
+
+   type SPCRREG is record
+      SPIE	: Boolean;
+      SPE	: Boolean;
+      DORD	: Boolean;
+      MSTR	: Boolean;
+      CPOL	: Boolean;
+      CPHA	: Boolean;
+      SPR1	: Boolean;
+      SPR0	: Boolean;
+   end record;
+
+   for SPCRREG use record
+      SPIE	at 0 range 7 .. 7;
+      SPE	at 0 range 6 .. 6;
+      DORD	at 0 range 5 .. 5;
+      MSTR	at 0 range 4 .. 4;
+      CPOL	at 0 range 3 .. 3;
+      CPHA	at 0 range 2 .. 2;
+      SPR1	at 0 range 1 .. 1;
+      SPR0	at 0 range 0 .. 0;
+   end record;
+   for SPCRREG'Size use 8;
+
+   SPCR : SPCRREG;
+   for SPCR'Address use System'To_Address (16#4C#);
+
+   type SPSRREG is record
+      SPIF	: Boolean;
+      WCOL	: Boolean;
+      SPI2X	: Boolean;
+   end record;
+
+   for SPSRREG use record
+      SPIF	at 0 range 7 .. 7;
+      WCOL	at 0 range 6 .. 6;
+      SPI2X	at 0 range 0 .. 0;
+   end record;
+   for SPSRREG'Size use 8;
+
+   SPSR : SPSRREG;
+   for SPSR'Address use System'To_Address (16#4D#);
+
+   SPDR : Unsigned_8;
+   for SPDR'Address use System'To_Address (16#4E#);
 
    --CAN Definition
    type Full_MOB_ID is range 0..15;
    for Full_MOB_ID'size use 4;
 
    subtype MOB_ID is Full_MOB_ID range 0..14;
-   subtype READ_MOB_ID is Full_MOB_ID range 0..7;
+   subtype READ_MOB_ID is Full_MOB_ID range 0..10;
 
    type MOB_Array is array (MOB_ID) of Boolean;
    pragma Pack (MOB_Array);
