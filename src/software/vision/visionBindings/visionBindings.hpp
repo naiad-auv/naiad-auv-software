@@ -34,13 +34,11 @@ virtual void DrawHoughCircles(int src);
 virtual void HoughLines(int src, int rho, float theta, int intersectionThreshold);
 virtual void DrawHoughLines(int cdst);
 
-<<<<<<< HEAD
-=======
 //Contours
 virtual void Contours(int src);
 virtual void showContours(int contourOut, int contourId, int thickness);
 
->>>>>>> contour
+
 virtual void LabelPoints(int src);
 
 Processing_Wrap();

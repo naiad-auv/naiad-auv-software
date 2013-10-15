@@ -206,44 +206,6 @@ void Processing_Wrap::showContours(int contourOut, int contourId = -1, int thick
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
 
-//labeler func
-void Processing_Wrap::LabelPoints(int src)
-{
-int x,y;
-x=y=0;
-
-
-cv::Size dim = img.at(src).size();
-//cv::Mat G;
-cv::Mat F = img.at(src).clone();
-cv::imshow("test func image", F);
-cv::waitKey(0);
-//cv::Scalar intensity = F.at<uchar>(cv::Point(x, y));
-//cv::Vec3b intensity = F.at<cv::Vec3b>(cv::Point(x, y));
-
-std::cout<<"width of image is"<<dim.width;
-std::cout<<"made it here";
-cv::waitKey(0);
-//cv::Canny(F, G, 50, 450, 3);
-//cv::imshow("cannied that bitch", G);
-//cv::waitKey(0);
-cv::Scalar intensity;
-
-cv::waitKey(0);
-
-    for(int heightIndex=0;heightIndex<dim.height;++heightIndex)
-    {
-	std::cout<<"change height";
-	for(int widthIndex=0;widthIndex<dim.width;++widthIndex)
-	{
-		intensity = F .at<uchar>(cv::Point(widthIndex,heightIndex));
-		std::cout<< intensity.val[0];
-	}
-	std::cout<<std::endl;
-    }
-	std::cout<<"height"<<dim.height<<"width"<<dim.width;
-	cv::waitKey(0);
-}
 
 
 
