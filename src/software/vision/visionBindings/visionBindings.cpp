@@ -8,7 +8,7 @@
 std::vector<cv::Mat> img;
 std::vector<cv::Vec3f> circles;
 std::vector<cv::Vec2f> lines;
-std::vector<cv::Point> contours;
+std::vector<cv::Mat> contours;
 cv::VideoCapture cap;
 
 void Core_Wrap::push_back(char * src)
@@ -124,13 +124,10 @@ void Processing_Wrap::DrawHoughLines(int cdst)
 
 void Processing_Wrap::Contours(int src) // TO DO : include image-ROI
 {
-	std::cout<<"im  in here \n";
-	cv::waitKey(0);
+	cv::Mat G;
 	if(img.at(src).data)
 	{
-		std::cout<<"im  in here again \n";
-		std::cout<<img.at(src).data;
-		std::cout<<"im  in here again and again";
+		std::cout<<"in contour \n";
 		cv::waitKey(0);
 	}
 	else
@@ -138,15 +135,28 @@ void Processing_Wrap::Contours(int src) // TO DO : include image-ROI
 		std::cout<<"img not found";
 		cv::waitKey(0);
 	}
-	//cv::imshow("in contours", img.at(src)); //TO DO : REMOVE
-	cv::findContours( img.at(src), contours, CV_RETR_LIST, CV_CHAIN_APPROX_SIMPLE);
+	cv::Mat F=img.at(1).clone();
+	cv::imshow("precanny", F);
+	cv::waitKey(0);
+	cv::Canny(F,G,50,450,3);
+	std::cout<<"wait after canny";
+	cv::waitKey(0);
+	cv::imshow("super canny",G);
+	cv::waitKey(0);
+	
+	cv::findContours( G, contours, CV_RETR_LIST, CV_CHAIN_APPROX_SIMPLE);
+	cv::waitKey(0);
+	char* name = "in contours";
+	cv::imshow(name, img.at(src)); //TO DO : REMOVE
+	cv::waitKey(0);
 }
 
 /////////////////////////////////////// display ///////////////////////////////////////////
 
 void Processing_Wrap::showContours(int contourOut, int contourId = -1, int thickness = 3)
 {
-	cv::drawContours(img.at(contourOut), contours, contourId, cv::Scalar(0,0,255), thickness, CV_AA );	
+	cv::drawContours(img.at(contourOut), contours, contourId, cv::Scalar(0,0,255), thickness, CV_AA );
+	cv::waitKey(0);	
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
