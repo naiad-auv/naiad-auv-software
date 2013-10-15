@@ -70,7 +70,15 @@ package body AVR.AT90CAN128.USART is
                UBRR0L := 8;   -- 16 Mhz Osc.  115200 Baud
          end case;
 
-         --UBRR0H := 0;
+--           UBRR0H := 0;
+--
+--           UCSR0C := (false, -- reserved
+--                      false, -- asynchronous mode
+--                      false, false, -- no parity
+--                      false, -- one stop bit
+--                      true, true, --8-bit Character Size
+--                      false); --Clock Polarity
+
 
       when USART1 =>
          -- Enable receiver and transmitter and the interrupt for receive
@@ -88,7 +96,14 @@ package body AVR.AT90CAN128.USART is
             when BAUD115200 =>
                UBRR1L := 8;   -- 16 Mhz Osc.  115200 Baud
          end case;
-         --UBRR1H := 0;
+--           UBRR1H := 0;
+--
+--           UCSR1C := (false, -- reserved
+--                      false, -- asynchronous mode
+--                      false, false, -- no parity
+--                      false, -- one stop bit
+--                      true, true, --8-bit Character Size
+--                      false); --Clock Polarity
       end case;
    end Init;
 
