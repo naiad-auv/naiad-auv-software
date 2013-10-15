@@ -135,10 +135,10 @@ void Processing_Wrap::Contours(int src) // TO DO : include image-ROI
 		std::cout<<"img not found";
 		cv::waitKey(0);
 	}
-	cv::Mat F=img.at(1).clone();
+	cv::Mat F=img.at(2).clone();
 	cv::imshow("precanny", F);
 	cv::waitKey(0);
-	cv::Canny(F,G,50,450,3);
+	cv::Canny(F, G, 50, 450, 3);
 	std::cout<<"wait after canny";
 	cv::waitKey(0);
 	cv::imshow("super canny",G);
@@ -155,6 +155,8 @@ void Processing_Wrap::Contours(int src) // TO DO : include image-ROI
 
 void Processing_Wrap::showContours(int contourOut, int contourId = -1, int thickness = 3)
 {
+	std::cout<<"in show contour \n";
+	cv::waitKey(0);
 	cv::drawContours(img.at(contourOut), contours, contourId, cv::Scalar(0,0,255), thickness, CV_AA );
 	cv::waitKey(0);	
 }
