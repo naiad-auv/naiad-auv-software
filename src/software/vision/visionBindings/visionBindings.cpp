@@ -9,6 +9,7 @@
 std::vector<cv::Mat> img;
 std::vector<cv::Vec3f> circles;
 std::vector<cv::Vec2f> lines;
+std::vector<cv::Mat> contours;
 cv::VideoCapture cap;
 
 void Core_Wrap::push_back(char * src)
@@ -160,8 +161,91 @@ void Processing_Wrap::DrawHoughLines(int cdst)
    }
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////// Contours ////////////////////////////////////////////
+
+void Processing_Wrap::Contours(int src) // TO DO : include image-ROI
+{
+	cv::Mat G;
+	if(img.at(src).data)
+	{
+		std::cout<<"in contour \n";
+		cv::waitKey(0);
+	}
+	else
+	{
+		std::cout<<"img not found";
+		cv::waitKey(0);
+	}
+	cv::Mat F=img.at(2).clone();
+	cv::imshow("precanny", F);
+	cv::waitKey(0);
+	cv::Canny(F, G, 50, 450, 3);
+	std::cout<<"wait after canny";
+	cv::waitKey(0);
+	cv::imshow("super canny",G);
+	cv::waitKey(0);
+	
+	cv::findContours( G, contours, CV_RETR_LIST, CV_CHAIN_APPROX_SIMPLE);
+	cv::waitKey(0);
+	char* name = "in contours";
+	cv::imshow(name, img.at(src)); //TO DO : REMOVE
+	cv::waitKey(0);
+}
+
+/////////////////////////////////////// display ///////////////////////////////////////////
+
+void Processing_Wrap::showContours(int contourOut, int contourId = -1, int thickness = 3)
+{
+	std::cout<<"in show contour \n";
+	cv::waitKey(0);
+	cv::drawContours(img.at(contourOut), contours, contourId, cv::Scalar(0,0,255), thickness, CV_AA );
+	cv::waitKey(0);	
+}
 
 ///////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////
+
+//labeler func
+void Processing_Wrap::LabelPoints(int src)
+{
+int x,y;
+x=y=0;
+
+
+cv::Size dim = img.at(src).size();
+//cv::Mat G;
+cv::Mat F = img.at(src).clone();
+cv::imshow("test func image", F);
+cv::waitKey(0);
+//cv::Scalar intensity = F.at<uchar>(cv::Point(x, y));
+//cv::Vec3b intensity = F.at<cv::Vec3b>(cv::Point(x, y));
+
+std::cout<<"width of image is"<<dim.width;
+std::cout<<"made it here";
+cv::waitKey(0);
+//cv::Canny(F, G, 50, 450, 3);
+//cv::imshow("cannied that bitch", G);
+//cv::waitKey(0);
+cv::Scalar intensity;
+
+cv::waitKey(0);
+
+    for(int heightIndex=0;heightIndex<dim.height;++heightIndex)
+    {
+	std::cout<<"change height";
+	for(int widthIndex=0;widthIndex<dim.width;++widthIndex)
+	{
+		intensity = F .at<uchar>(cv::Point(widthIndex,heightIndex));
+		std::cout<< intensity.val[0];
+	}
+	std::cout<<std::endl;
+    }
+	std::cout<<"height"<<dim.height<<"width"<<dim.width;
+	cv::waitKey(0);
+}
+
+
 
 Processing_Wrap::Processing_Wrap(){}
 // VideoCapture test - Stream
