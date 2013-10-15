@@ -113,11 +113,6 @@ begin
                    src  => 4);
    CoreWrap.waitKey(0);
    processingWrap.Contours(src    => 4);
-
-   CoreWrap.imshow(name => New_String("test_disp"),
-                   src  => 4);
-   CoreWrap.waitKey(0);
-
    processingWrap.showContours(contourOut => Interfaces.C.int(iImageSource),
                                contourId  => -1 ,
                                thickness  => 3 );
