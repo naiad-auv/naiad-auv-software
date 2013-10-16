@@ -25,15 +25,20 @@ std::string imageType = ".jpg";
 char numstr[21]; // enough to hold all numbers up to 64-bits
 sprintf(numstr, "%d", imageName);
 result = folderPath + numstr + imageType;
- cv::Mat F=cv::imread(result,0);	
- cv::imshow("test Fun img",F);
+
+
+
+ cv::Mat F=cv::imread(result,0);
+imageBuffer.push_back(F);	
+ cv::imshow("test Fun img",imageBuffer.at(0));
 
 imageName=imageName+1;
 sprintf(numstr, "%d", imageName);
 result = folderPath + numstr + imageType;
 
- F=cv::imread(result,0);	
- cv::imshow("test Fun img2",F);
+ F=cv::imread(result,0);
+imageBuffer.push_back(F);	
+ cv::imshow("test Fun img2",imageBuffer(1));
 
 
  cv::waitKey(0);
