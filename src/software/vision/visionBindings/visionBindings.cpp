@@ -10,7 +10,12 @@ std::vector<cv::Mat> img;
 std::vector<cv::Vec3f> circles;
 std::vector<cv::Vec2f> lines;
 std::vector<cv::Mat> contours;
+std::vector<cv::MatND> hist;
 cv::VideoCapture cap;
+
+float* hrange = {0,180};
+float* srange = {0,256};
+float* ranges = {hrange, srange};
 
 void Core_Wrap::push_back(char * src)
 {
@@ -124,9 +129,8 @@ cv::waitKey(0);
 }
 
 
-
-////////////////////////////////////HOUGH LINES////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////HOUGH LINES////////////////////////////////////////////
 
 void Processing_Wrap::HoughLines(int src, int rho, float theta, int intersectionThreshold)
 {
@@ -204,9 +208,26 @@ void Processing_Wrap::showContours(int contourOut, int contourId = -1, int thick
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////// HISTOGRAM ////////////////////////////////////////////
+
+void Processing_Wrap::Histogram(int src)
+{
+	cv::Mat G;
+	int* channels[] = {0,1};
+	int histSize[] = {30,32};
+	cv::cvtColor(img.at(src), G, CV_BGR2HSV);
+	cv::calcHist(img.at(G), 1, {0,1}, NULL, hist, 2, histSize, ranges, true, false); //TO DO : ACCUMULATE flag : check to set this when working with multiple frames
+}
+
+///////////////////////////////////// display /////////////////////////////////////////////
+
+void Processing_Wrap::showHistogram()
+{
+	std::cout<<"Histogram : "<< &hist;
+}
+
 ///////////////////////////////////////////////////////////////////////////////////////////
-
-
+///////////////////////////////////////////////////////////////////////////////////////////
 
 
 Processing_Wrap::Processing_Wrap(){}

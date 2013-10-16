@@ -38,6 +38,10 @@ virtual void DrawHoughLines(int cdst);
 virtual void Contours(int src);
 virtual void showContours(int contourOut, int contourId, int thickness);
 
+//Histogram
+virtual void Histogram(int src);
+virtual void showHistogram();
+
 
 virtual void LabelPoints(int src);
 
