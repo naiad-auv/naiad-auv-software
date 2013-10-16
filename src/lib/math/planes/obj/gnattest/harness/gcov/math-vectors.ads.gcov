@@ -1,0 +1,73 @@
+        -:    0:Source:/home/evr/git/naiad-auv-software/src/lib/math/vectors/src/math-vectors.ads
+        -:    0:Programs:21
+        -:    1:-- Vector package for Project Naiad
+        -:    2:-- Written by Per-Erik Måhl, 2013
+        -:    3:with Math;
+        -:    4:with Ada.Numerics;
+        -:    5:with Ada.Exceptions;
+        -:    6:with System;
+        -:    7:
+        -:    8:-- Vectors package for classes, types and functionality regarding vectors. A vector object is stored in a pCVector variable and is created with the pxCreate function.
+        4:    9:package Math.Vectors is
+    #####:   10:   type CVector is tagged private;
+        -:   11:   --  <summary>Class for vector.</summary>
+        -:   12:
+        -:   13:   type pCVector is access CVector;
+        -:   14:   --  <summary>Pointer type for object of type CVector. Objects of type CVector should always be stored in variables of this type.</summary>
+        -:   15:
+        -:   16:   function pxCreate (fX, fY, fZ : float) return pCVector;
+        -:   17:   --  <summary>Creates an object of type CVector. Returns a pointer of type pCVector to the object created.</summary>
+        -:   18:   --  <parameter name="fX">The value of the vector's X-component.</parameter>
+        -:   19:   --  <parameter name="fY">The value of the vector's Y-component.</parameter>
+        -:   20:   --  <parameter name="fZ">The value of the vector's Z-component.</parameter>
+        -:   21:
+        -:   22:   function pxGet_Copy (this : in CVector) return pCVector;
+        -:   23:   --  <summary>Creates an object of type CVector with the same component values as the object called on. Returns a pointer of type pCVector to the object created.</summary>
+        -:   24:   --  <parameter name="this">The CVector object to copy the component values from.</parameter>
+        -:   25:
+        -:   26:   function pxGet_Normalized (this : in CVector) return pCVector;
+        -:   27:   --  <summary>Creates an object of type CVector which is equal to the normalized vector of the object called on. Returns a pointer of type pCVector to the object created.</summary>
+        -:   28:   --  <parameter name="this">The CVector object to base the normalized vector on.</parameter>
+        -:   29:
+        -:   30:
+        -:   31:   function fLength_Squared (this : in CVector) return float;
+        -:   32:   --  <summary>Returns the length of the vector squared.</summary>
+        -:   33:   --  <parameter name="this">The CVector object to calculate the length of.</parameter>
+        -:   34:
+        -:   35:   function fLength (this : in CVector) return float;
+        -:   36:   --  <summary>Returns the length of the vector.</summary>
+        -:   37:   --  <parameter name="this">The CVector object to calculate the length of.</parameter>
+        -:   38:
+        -:   39:   function "+" (pxLeftOperandVector, pxRightOperandVector : in pCVector) return pCVector;
+        -:   40:   function "-" (pxLeftOperandVector, pxRightOperandVector : in pCVector) return pCVector;
+        -:   41:   function "-" (pxOperandVector : in pCVector) return pCVector;
+        -:   42:   function "*" (pxLeftOperandVector, pxRightOperandVector : in pCVector) return pCVector;
+        -:   43:   function "*" (pxLeftOperandVector : in pCVector; fRightOperand : in float) return pCVector;
+        -:   44:   function "*" (fLeftOperand : in float; pxRightOperandVector : in pCVector) return pCVector;
+        -:   45:   function "/" (pxLeftOperandVector : in pCVector; fRightOperand : in float) return pCVector;
+        -:   46:   function "=" (pxLeftOperandVector : in pCVector; pxRightOperandVector : in pCVector) return boolean;
+        -:   47:
+        -:   48:
+        -:   49:   function fDot_Product (pxLeftOperandVector : in pCVector; pxRightOperandVector : in pCVector) return float;
+        -:   50:   function pxCross_Product (pxLeftOperandVector : in pCVector; pxRightOperandVector : in pCVector) return pCVector;
+        -:   51:   function fAngle_Between_In_Radians (pxLeftOperandVector, pxRightOperandVector : in pCVector) return float;
+        -:   52:
+        -:   53:
+        -:   54:   function fGet_X (this : in CVector) return float;
+        -:   55:   function fGet_Y (this : in CVector) return float;
+        -:   56:   function fGet_Z (this : in CVector) return float;
+        -:   57:
+        -:   58:   procedure Copy_From(this : in out CVector; pxSourceVector : in pCVector);
+        -:   59:
+        -:   60:private
+       52:   61:   type CVector is tagged
+        -:   62:      record
+        -:   63:         fX : float;
+        -:   64:         fY : float;
+        -:   65:         fZ : float;
+        -:   66:      end record;
+        -:   67:
+        -:   68:   -- used in pxGet_Normalized to allow division by a vector's length without pointer
+        -:   69:   function "/" (xLeftOperandVector : in CVector; fRightOperand : in float) return pCVector;
+        -:   70:
+        2:   71:end Math.Vectors;

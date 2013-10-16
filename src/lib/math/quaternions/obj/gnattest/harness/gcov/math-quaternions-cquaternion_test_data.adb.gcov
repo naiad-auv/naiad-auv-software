@@ -1,0 +1,20 @@
+        -:    0:Source:/home/evr/git/naiad-auv-software/src/lib/math/quaternions/obj/gnattest/tests/math-quaternions-cquaternion_test_data.adb
+        -:    0:Programs:65
+        -:    1:--  This package is intended to set up and tear down  the test environment.
+        -:    2:--  Once created by GNATtest, this package will never be overwritten
+        -:    3:--  automatically. Contents of this package can be modified in any way
+        -:    4:--  except for sections surrounded by a 'read only' marker.
+        -:    5:
+        6:    6:package body Math.Quaternions.CQuaternion_Test_Data is
+        -:    7:
+        6:    8:   Local_CQuaternion : aliased GNATtest_Generated.GNATtest_Standard.Math.Quaternions.CQuaternion;
+       60:    9:   procedure Set_Up (Gnattest_T : in out Test_CQuaternion) is
+        -:   10:   begin
+       60:   11:      Gnattest_T.Fixture := Local_CQuaternion'Access;
+       60:   12:   end Set_Up;
+       60:   13:   procedure Tear_Down (Gnattest_T : in out Test_CQuaternion) is
+        -:   14:   begin
+        -:   15:      null;
+       60:   16:   end Tear_Down;
+        -:   17:
+        6:   18:end Math.Quaternions.CQuaternion_Test_Data;

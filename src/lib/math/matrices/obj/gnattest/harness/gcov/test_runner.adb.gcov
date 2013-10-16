@@ -1,0 +1,43 @@
+        -:    0:Source:/home/evr/git/naiad-auv-software/src/lib/math/matrices/obj/gnattest/harness/test_runner.adb
+        -:    0:Programs:122
+        -:    1:--  This package has been generated automatically by GNATtest.
+        -:    2:--  Do not edit any part of it, see GNATtest documentation for more details.
+        -:    3:
+        -:    4:--  begin read only
+        -:    5:with AUnit.Reporter.GNATtest;
+        -:    6:with AUnit.Run;
+        -:    7:with Gnattest_Main_Suite; use Gnattest_Main_Suite;
+        -:    8:
+        -:    9:with GNAT.Command_Line; use GNAT.Command_Line;
+        -:   10:
+        -:   11:with Gnattest_Generated;
+        -:   12:
+        2:   13:procedure Test_Runner is
+        -:   14:   procedure Runner is new AUnit.Run.Test_Runner (Suite);
+        2:   15:   Reporter : AUnit.Reporter.GNATtest.GNATtest_Reporter;
+        -:   16:begin
+        -:   17:
+        -:   18:   begin
+        2:   19:      Initialize_Option_Scan;
+        -:   20:      loop
+        2:   21:         case GNAT.Command_Line.Getopt ("-skeleton-default=") is
+        -:   22:            when ASCII.NUL =>
+        -:   23:               exit;
+        -:   24:            when '-' =>
+    #####:   25:               if Full_Switch = "-skeleton-default" then
+    #####:   26:                  if Parameter = "pass" then
+    #####:   27:                     Gnattest_Generated.Default_Assert_Value := True;
+    #####:   28:                  elsif Parameter = "fail" then
+    #####:   29:                     Gnattest_Generated.Default_Assert_Value := False;
+        -:   30:                  end if;
+        -:   31:               end if;
+        -:   32:            when others => null;
+        -:   33:         end case;
+        -:   34:      end loop;
+        -:   35:   exception
+    #####:   36:      when GNAT.Command_Line.Invalid_Switch => null;
+    #####:   37:   end;
+        -:   38:
+        2:   39:   Runner (Reporter);
+        2:   40:end Test_Runner;
+        -:   41:--  end read only

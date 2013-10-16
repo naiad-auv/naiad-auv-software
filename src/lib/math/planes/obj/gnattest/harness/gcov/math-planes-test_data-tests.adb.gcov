@@ -1,0 +1,127 @@
+        -:    0:Source:/home/evr/git/naiad-auv-software/src/lib/math/planes/obj/gnattest/tests/math-planes-test_data-tests.adb
+        -:    0:Programs:21
+        -:    1:--  This package has been generated automatically by GNATtest.
+        -:    2:--  You are allowed to add your code to the bodies of test routines.
+        -:    3:--  Such changes will be kept during further regeneration of this file.
+        -:    4:--  All code placed outside of test routine bodies will be lost. The
+        -:    5:--  code intended to set up and tear down the test environment should be
+        -:    6:--  placed into Math.Planes.Test_Data.
+        -:    7:
+        -:    8:with AUnit.Assertions; use AUnit.Assertions;
+        -:    9:
+        -:   10:package body Math.Planes.Test_Data.Tests is
+        -:   11:
+        -:   12:
+        -:   13:--  begin read only
+        -:   14:   procedure Test_pxCreate (Gnattest_T : in out Test);
+        2:   15:   procedure Test_pxCreate_ef4fa7 (Gnattest_T : in out Test) renames Test_pxCreate;
+        -:   16:--  id:2.1/ef4fa732366cbfbb/pxCreate/1/0/
+        2:   17:   procedure Test_pxCreate (Gnattest_T : in out Test) is
+        -:   18:   --  math-planes.ads:9:4:pxCreate
+        -:   19:--  end read only
+        -:   20:
+        -:   21:      pragma Unreferenced (Gnattest_T);
+        -:   22:
+        2:   23:      pxTestPlane : pCPlane;
+        2:   24:      pxTestNormal : Math.Vectors.pCVector;
+        -:   25:      fExpectedAX : float := 0.980581;
+        -:   26:      fExpectedBY : float := 0.0;
+        -:   27:      fExpectedCZ : float := -0.196116;
+        -:   28:      fExpectedD : float := 0.0;
+        -:   29:
+        -:   30:   begin
+        -:   31:
+        2:   32:      pxTestNormal := Math.Vectors.pxCreate(fX => 5.0,
+        -:   33:                                            fY => 0.0,
+        -:   34:                                            fZ => -1.0);
+        2:   35:      pxTestPlane := Math.Planes.pxCreate(pxNormalVector      => pxTestNormal,
+        -:   36:                                          fDistanceFromOrigin => 0.0);
+        -:   37:
+        -:   38:
+        -:   39:
+        2:   40:      AUnit.Assertions.Assert(Condition => pxTestNormal.pxGet_Normalized = pxTestPlane.pxGet_Normal_Vector,
+        -:   41:                              Message   => "CPlane.pxCreate failed, normal vector is wrong.");
+        2:   42:      AUnit.Assertions.Assert(Condition => pxTestPlane.fDistanceFromOrigin = fExpectedD,
+        -:   43:                              Message   => "CPlane.pxCreate failed, wrong distance from origin.");
+        -:   44:--        AUnit.Assertions.Assert(Condition => abs(pxTestPlane.fCZ - fExpectedCZ) < 0.001,
+        -:   45:--                                Message   => "CPlane.pxCreate failed, wrong CZ value. Value: " & float'Image(pxTestPlane.fCZ) & ". Expected: " & float'Image(fExpectedCZ) & ".");
+        -:   46:--        AUnit.Assertions.Assert(Condition => abs(pxTestPlane.fD - fExpectedD) < 0.001,
+        -:   47:--                                Message   => "CPlane.pxCreate failed, wrong D value. Value: " & float'Image(pxTestPlane.fD) & ". Expected: " & float'Image(fExpectedD) & ".");
+        -:   48:
+        -:   49:--  begin read only
+        2:   50:   end Test_pxCreate;
+        -:   51:--  end read only
+        -:   52:
+        -:   53:
+        -:   54:--  begin read only
+        -:   55:   procedure Test_fAngle_Between_In_Degrees (Gnattest_T : in out Test);
+        2:   56:   procedure Test_fAngle_Between_In_Degrees_4fe9d1 (Gnattest_T : in out Test) renames Test_fAngle_Between_In_Degrees;
+        -:   57:--  id:2.1/4fe9d1bd22e7e480/fAngle_Between_In_Degrees/1/0/
+        2:   58:   procedure Test_fAngle_Between_In_Degrees (Gnattest_T : in out Test) is
+        -:   59:   --  math-planes.ads:14:4:fAngle_Between_In_Degrees
+        -:   60:--  end read only
+        -:   61:
+        -:   62:      pragma Unreferenced (Gnattest_T);
+        -:   63:
+        2:   64:      pxLeftPlane : pCPlane;
+        2:   65:      pxRightPlane : pCPlane;
+        -:   66:   begin
+        -:   67:
+        2:   68:      pxLeftPlane := Math.Planes.pxCreate(pxNormalVector      => Math.Vectors.pxCreate(fX => 1.0,
+        -:   69:                                                                                       fY => 0.0,
+        -:   70:                                                                                       fZ => 0.0),
+        -:   71:                                          fDistanceFromOrigin => 0.0);
+        2:   72:      pxRightPlane := Math.Planes.pxCreate(pxNormalVector      => Math.Vectors.pxCreate(fX => 0.0,
+        -:   73:                                                                                       fY => 1.0,
+        -:   74:                                                                                       fZ => 0.0),
+        -:   75:                                          fDistanceFromOrigin => 0.0);
+        2:   76:      AUnit.Assertions.Assert(Condition => Math.Planes.fAngle_Between_In_Degrees(pxLeftOperandPlane  => pxLeftPlane,
+        -:   77:                                                                      pxRightOperandPlane => pxRightPlane) = 90.0,
+        -:   78:                              Message   => "CPlane.fAngle_Between_In_Degrees failed.");
+        -:   79:
+        -:   80:--  begin read only
+        2:   81:   end Test_fAngle_Between_In_Degrees;
+        -:   82:--  end read only
+        -:   83:
+        -:   84:
+        -:   85:--  begin read only
+        -:   86:   procedure Test_pxGet_Intersection_Vector_Between (Gnattest_T : in out Test);
+        2:   87:   procedure Test_pxGet_Intersection_Vector_Between_ae083a (Gnattest_T : in out Test) renames Test_pxGet_Intersection_Vector_Between;
+        -:   88:--  id:2.1/ae083a1283dac6b1/pxGet_Intersection_Vector_Between/1/0/
+        2:   89:   procedure Test_pxGet_Intersection_Vector_Between (Gnattest_T : in out Test) is
+        -:   90:   --  math-planes.ads:16:4:pxGet_Intersection_Vector_Between
+        -:   91:--  end read only
+        -:   92:
+        -:   93:      pragma Unreferenced (Gnattest_T);
+        -:   94:
+        2:   95:      pxLeftPlane, pxRightPlane : pCPlane;
+        2:   96:      pxLeftNormal, pxRightNormal : Math.Vectors.pCVector;
+        2:   97:      pxExpectedIntersection : Math.Vectors.pCVector;
+        2:   98:      pxIntersection : Math.Vectors.pCVector;
+        -:   99:   begin
+        -:  100:
+        2:  101:      pxLeftNormal := Math.Vectors.pxCreate(fX => 1.0,
+        -:  102:                                            fY => 0.0,
+        -:  103:                                            fZ => 0.0);
+        2:  104:      pxRightNormal := Math.Vectors.pxCreate(fX => 0.0,
+        -:  105:                                             fY => 1.0,
+        -:  106:                                             fZ => 0.0);
+        2:  107:      pxLeftPlane := Math.Planes.pxCreate(pxNormalVector      => pxLeftNormal,
+        -:  108:                                          fDistanceFromOrigin => 0.0);
+        2:  109:      pxRightPlane := Math.Planes.pxCreate(pxNormalVector      => pxRightNormal,
+        -:  110:                                           fDistanceFromOrigin => 0.0);
+        2:  111:      pxExpectedIntersection := Math.Vectors.pxCreate(fX => 0.0,
+        -:  112:                                                      fY => 0.0,
+        -:  113:                                                      fZ => 1.0);
+        2:  114:      pxIntersection := Math.Planes.pxGet_Intersection_Vector_Between(pxLeftOperandPlane  => pxLeftPlane,
+        -:  115:                                                                      pxRightOperandPlane => pxRightPlane);
+        2:  116:      AUnit.Assertions.Assert(Condition => pxIntersection = pxExpectedIntersection,
+        -:  117:                              Message   => "CPlane.pxGet_Intersection_Vector_Between failed.");
+        -:  118:
+        -:  119:--  begin read only
+        2:  120:   end Test_pxGet_Intersection_Vector_Between;
+        -:  121:--  end read only
+        -:  122:
+        -:  123:
+        -:  124:
+        -:  125:end Math.Planes.Test_Data.Tests;

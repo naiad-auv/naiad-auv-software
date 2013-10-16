@@ -1,0 +1,40 @@
+        -:    0:Source:/home/evr/git/naiad-auv-software/src/lib/math/planes/obj/gnattest/harness/math-planes-cplane_test_data-cplane_tests-suite.adb
+        -:    0:Programs:21
+        -:    1:--  This package has been generated automatically by GNATtest.
+        -:    2:--  Do not edit any part of it, see GNATtest documentation for more details.
+        -:    3:
+        -:    4:--  begin read only
+        -:    5:with AUnit.Test_Caller;
+        -:    6:with Gnattest_Generated;
+        -:    7:
+        6:    8:package body Math.Planes.CPlane_Test_Data.CPlane_Tests.Suite is
+        -:    9:
+        -:   10:   package Runner_1 is new AUnit.Test_Caller
+        -:   11:     (GNATtest_Generated.GNATtest_Standard.Math.Planes.CPlane_Test_Data.CPlane_Tests.Test_CPlane);
+        -:   12:
+        2:   13:   Result : aliased AUnit.Test_Suites.Test_Suite;
+        -:   14:
+        2:   15:   Case_1_1_Test_pxGet_Normal_Vector_4c7399 : aliased Runner_1.Test_Case;
+        2:   16:   Case_2_1_Test_fGet_Distance_From_Origin_1b1e67 : aliased Runner_1.Test_Case;
+        -:   17:
+        2:   18:   function Suite return AUnit.Test_Suites.Access_Test_Suite is
+        -:   19:   begin
+        -:   20:
+        2:   21:      Runner_1.Create
+        -:   22:        (Case_1_1_Test_pxGet_Normal_Vector_4c7399,
+        -:   23:         "math-planes.ads:11:4:",
+        -:   24:         Test_pxGet_Normal_Vector_4c7399'Access);
+        2:   25:      Runner_1.Create
+        -:   26:        (Case_2_1_Test_fGet_Distance_From_Origin_1b1e67,
+        -:   27:         "math-planes.ads:12:4:",
+        -:   28:         Test_fGet_Distance_From_Origin_1b1e67'Access);
+        -:   29:
+        2:   30:      Result.Add_Test (Case_1_1_Test_pxGet_Normal_Vector_4c7399'Access);
+        2:   31:      Result.Add_Test (Case_2_1_Test_fGet_Distance_From_Origin_1b1e67'Access);
+        -:   32:
+        2:   33:      return Result'Access;
+        -:   34:
+        -:   35:   end Suite;
+        -:   36:
+        2:   37:end Math.Planes.CPlane_Test_Data.CPlane_Tests.Suite;
+        -:   38:--  end read only
