@@ -36,8 +36,8 @@ package Math.Quaternions.CQuaternion_Test_Data.CQuaternion_Tests is
    procedure Test_fGet_Axis_Vector_cd62fd (Gnattest_T : in out Test_CQuaternion);
    --  math-quaternions.ads:29:4:fGet_Axis_Vector
 
-   procedure Test_fGet_Angle_1301b6 (Gnattest_T : in out Test_CQuaternion);
-   --  math-quaternions.ads:30:4:fGet_Angle
+   procedure Test_fGet_Angle_In_Degrees_ce63d3 (Gnattest_T : in out Test_CQuaternion);
+   --  math-quaternions.ads:30:4:fGet_Angle_In_Degrees
 
 end Math.Quaternions.CQuaternion_Test_Data.CQuaternion_Tests;
 --  end read only

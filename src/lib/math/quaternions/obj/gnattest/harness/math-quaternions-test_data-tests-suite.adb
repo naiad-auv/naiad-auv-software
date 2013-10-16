@@ -19,7 +19,6 @@ package body Math.Quaternions.Test_Data.Tests.Suite is
    Case_5_1_Test_Multiply_cbc666 : aliased Runner_1.Test_Case;
    Case_6_1_Test_Equal_079d85 : aliased Runner_1.Test_Case;
    Case_7_1_Test_fGet_Dot_Product_be0506 : aliased Runner_1.Test_Case;
-   Case_8_1_Test_pxGet_Spherical_Linear_Interpolation_Quaternion_ccc0de : aliased Runner_1.Test_Case;
 
    function Suite return AUnit.Test_Suites.Access_Test_Suite is
    begin
@@ -52,10 +51,6 @@ package body Math.Quaternions.Test_Data.Tests.Suite is
         (Case_7_1_Test_fGet_Dot_Product_be0506,
          "math-quaternions.ads:18:4:",
          Test_fGet_Dot_Product_be0506'Access);
-      Runner_1.Create
-        (Case_8_1_Test_pxGet_Spherical_Linear_Interpolation_Quaternion_ccc0de,
-         "math-quaternions.ads:20:4:",
-         Test_pxGet_Spherical_Linear_Interpolation_Quaternion_ccc0de'Access);
 
       Result.Add_Test (Case_1_1_Test_pxCreate_fbac4b'Access);
       Result.Add_Test (Case_2_1_Test_pxCreate_937a51'Access);
@@ -64,7 +59,6 @@ package body Math.Quaternions.Test_Data.Tests.Suite is
       Result.Add_Test (Case_5_1_Test_Multiply_cbc666'Access);
       Result.Add_Test (Case_6_1_Test_Equal_079d85'Access);
       Result.Add_Test (Case_7_1_Test_fGet_Dot_Product_be0506'Access);
-      Result.Add_Test (Case_8_1_Test_pxGet_Spherical_Linear_Interpolation_Quaternion_ccc0de'Access);
 
       return Result'Access;
 

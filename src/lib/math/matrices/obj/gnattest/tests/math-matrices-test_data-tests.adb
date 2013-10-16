@@ -7,9 +7,6 @@
 
 with AUnit.Assertions; use AUnit.Assertions;
 
-with Ada.Text_IO;
-with Ada.Numerics.Elementary_Functions;
-
 package body Math.Matrices.Test_Data.Tests is
 
 
@@ -18,8 +15,7 @@ package body Math.Matrices.Test_Data.Tests is
    procedure Test_pxCreate_From_Quaternion_7a9b71 (Gnattest_T : in out Test) renames Test_pxCreate_From_Quaternion;
 --  id:2.1/7a9b71c21c8b2562/pxCreate_From_Quaternion/1/0/
    procedure Test_pxCreate_From_Quaternion (Gnattest_T : in out Test) is
-
-   --  math-matrices.ads:15:4:pxCreate_From_Quaternion
+   --  math-matrices.ads:16:4:pxCreate_From_Quaternion
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -73,9 +69,24 @@ package body Math.Matrices.Test_Data.Tests is
                                  Message   => "Matrices.pxCreate_From_Quaternion failed, Y component in vector is wrong. Angle: " & float'Image(fAngle) & ". Value: " & float'Image(pxRotatedVectorWithQuat.fGet_Y) & ". Expected: " & float'Image(pxRotatedVectorWithMat.fGet_Y) & ".");
          AUnit.Assertions.Assert(Condition => abs(pxRotatedVectorWithMat.fGet_Z - pxRotatedVectorWithQuat.fGet_Z) < 0.01,
                                  Message   => "Matrices.pxCreate_From_Quaternion failed, Z component in vector is wrong. Angle: " & float'Image(fAngle) & ". Value: " & float'Image(pxRotatedVectorWithQuat.fGet_Z) & ". Expected: " & float'Image(pxRotatedVectorWithMat.fGet_Z) & ".");
-         
-         
+                           
       end loop;
+      
+      pxRotQuat := Math.Quaternions.pxCreate(fX => 0.5,
+                                             fY => 0.0,
+                                             fZ => 0.0,
+                                             fW => 0.0);
+      
+      pxQuatRotMatrix := Math.Matrices.pxCreate_From_Quaternion(pxRotQuat);
+      AUnit.Assertions.Assert(Condition => False,
+                              Message   => "Matrices.pxCreate_From_Quaternion failed, should have raised exception");
+   exception
+      when Numeric_Error =>
+         null; -- Test passed
+      when E : others =>
+         AUnit.Assertions.Assert(Condition => False,
+                                 Message   =>"Matrices.pxCreate_From_Quaternion failed, wrong exception raised: " & Ada.Exceptions.Exception_Name (E) & ". Expected: NUMERIC_ERROR.");      
+      
       
 --  begin read only
    end Test_pxCreate_From_Quaternion;
@@ -87,7 +98,7 @@ package body Math.Matrices.Test_Data.Tests is
    procedure Test_pxCreate_Rotation_Around_X_Axis_dc136b (Gnattest_T : in out Test) renames Test_pxCreate_Rotation_Around_X_Axis;
 --  id:2.1/dc136b6fcd55b227/pxCreate_Rotation_Around_X_Axis/1/0/
    procedure Test_pxCreate_Rotation_Around_X_Axis (Gnattest_T : in out Test) is
-   --  math-matrices.ads:16:4:pxCreate_Rotation_Around_X_Axis
+   --  math-matrices.ads:17:4:pxCreate_Rotation_Around_X_Axis
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -109,7 +120,7 @@ package body Math.Matrices.Test_Data.Tests is
          fAngle := float(i - 180);
          pxRotMatrix := Math.Matrices.pxCreate_Rotation_Around_X_Axis(tfAngleInDegrees => Math.Angles.TAngle(fAngle));
          pxRotatedVector := pxRotMatrix * pxOriginalVector;
-         fNewAngle := Math.Vectors.fAngle_Between(pxOriginalVector, pxRotatedVector);
+         fNewAngle := Math.Vectors.fAngle_Between_In_Radians(pxOriginalVector, pxRotatedVector);
          fNewAngle := Math.Angles.fRadians_To_Degrees(fNewAngle);
 
          if fAngle /= 0.0 then
@@ -134,7 +145,7 @@ package body Math.Matrices.Test_Data.Tests is
    procedure Test_pxCreate_Rotation_Around_Y_Axis_1fc26a (Gnattest_T : in out Test) renames Test_pxCreate_Rotation_Around_Y_Axis;
 --  id:2.1/1fc26a5b46dacfbe/pxCreate_Rotation_Around_Y_Axis/1/0/
    procedure Test_pxCreate_Rotation_Around_Y_Axis (Gnattest_T : in out Test) is
-   --  math-matrices.ads:17:4:pxCreate_Rotation_Around_Y_Axis
+   --  math-matrices.ads:18:4:pxCreate_Rotation_Around_Y_Axis
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -156,7 +167,7 @@ package body Math.Matrices.Test_Data.Tests is
          fAngle := float(i - 180);
          pxRotMatrix := Math.Matrices.pxCreate_Rotation_Around_Y_Axis(tfAngleInDegrees => Math.Angles.TAngle(fAngle));
          pxRotatedVector := pxRotMatrix * pxOriginalVector;
-         fNewAngle := Math.Vectors.fAngle_Between(pxOriginalVector, pxRotatedVector);
+         fNewAngle := Math.Vectors.fAngle_Between_In_Radians(pxOriginalVector, pxRotatedVector);
          fNewAngle := Math.Angles.fRadians_To_Degrees(fNewAngle);
 
          if fAngle /= 0.0 then
@@ -181,7 +192,7 @@ package body Math.Matrices.Test_Data.Tests is
    procedure Test_pxCreate_Rotation_Around_Z_Axis_0d121c (Gnattest_T : in out Test) renames Test_pxCreate_Rotation_Around_Z_Axis;
 --  id:2.1/0d121c8183192933/pxCreate_Rotation_Around_Z_Axis/1/0/
    procedure Test_pxCreate_Rotation_Around_Z_Axis (Gnattest_T : in out Test) is
-   --  math-matrices.ads:18:4:pxCreate_Rotation_Around_Z_Axis
+   --  math-matrices.ads:19:4:pxCreate_Rotation_Around_Z_Axis
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -203,7 +214,7 @@ package body Math.Matrices.Test_Data.Tests is
          fAngle := float(i - 180);
          pxRotMatrix := Math.Matrices.pxCreate_Rotation_Around_Z_Axis(tfAngleInDegrees => Math.Angles.TAngle(fAngle));
          pxRotatedVector := pxRotMatrix * pxOriginalVector;
-         fNewAngle := Math.Vectors.fAngle_Between(pxOriginalVector, pxRotatedVector);
+         fNewAngle := Math.Vectors.fAngle_Between_In_Radians(pxOriginalVector, pxRotatedVector);
          fNewAngle := Math.Angles.fRadians_To_Degrees(fNewAngle);
 
          if fAngle /= 0.0 then
@@ -227,7 +238,7 @@ package body Math.Matrices.Test_Data.Tests is
    procedure Test_pxCreate_Identity_4ca1dd (Gnattest_T : in out Test) renames Test_pxCreate_Identity;
 --  id:2.1/4ca1ddd48ff74b85/pxCreate_Identity/1/0/
    procedure Test_pxCreate_Identity (Gnattest_T : in out Test) is
-   --  math-matrices.ads:19:4:pxCreate_Identity
+   --  math-matrices.ads:20:4:pxCreate_Identity
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -258,11 +269,12 @@ package body Math.Matrices.Test_Data.Tests is
    procedure Test_pxCreate_23e020 (Gnattest_T : in out Test) renames Test_pxCreate;
 --  id:2.1/23e0209614501591/pxCreate/1/0/
    procedure Test_pxCreate (Gnattest_T : in out Test) is
-   --  math-matrices.ads:20:4:pxCreate
+   --  math-matrices.ads:21:4:pxCreate
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
 
+      use System;
       tfMatrix : TMatrix;
       pxNewMatrix : pCMatrix;
    begin
@@ -292,7 +304,7 @@ package body Math.Matrices.Test_Data.Tests is
    procedure Test_Multiply_519195 (Gnattest_T : in out Test) renames Test_1_Multiply;
 --  id:2.1/519195d06a3006e3/Multiply/1/0/
    procedure Test_1_Multiply (Gnattest_T : in out Test) is
-   --  math-matrices.ads:22:4:"*"
+   --  math-matrices.ads:23:4:"*"
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -336,7 +348,7 @@ package body Math.Matrices.Test_Data.Tests is
    procedure Test_Multiply_89b399 (Gnattest_T : in out Test) renames Test_2_Multiply;
 --  id:2.1/89b399b1e6416175/Multiply/0/0/
    procedure Test_2_Multiply (Gnattest_T : in out Test) is
-   --  math-matrices.ads:23:4:"*"
+   --  math-matrices.ads:24:4:"*"
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -377,7 +389,7 @@ package body Math.Matrices.Test_Data.Tests is
    procedure Test_Multiply_a96879 (Gnattest_T : in out Test) renames Test_3_Multiply;
 --  id:2.1/a96879e66708ce70/Multiply/0/0/
    procedure Test_3_Multiply (Gnattest_T : in out Test) is
-   --  math-matrices.ads:24:4:"*"
+   --  math-matrices.ads:25:4:"*"
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -402,7 +414,7 @@ package body Math.Matrices.Test_Data.Tests is
       pxExpectedNormal := Math.Vectors.pxCreate(-1.0,0.0,0.0);
       
       AUnit.Assertions.Assert(Condition => pxExpectedNormal = pxRotatedPlane.pxGet_Normal_Vector,
-                              Message   => "Matrices.*(binary matrix * plane) failed, wrong normal. Normal: " & float'Image(pxRotatedPlane.pxGet_Normal_Vector.fGet_X) & ", " & float'Image(pxRotatedPlane.pxGet_Normal_Vector.fGet_Y) & ", " & float'Image(pxRotatedPlane.pxGet_Normal_Vector.fGet_Z) & ". Angle: " & float'Image(Math.Angles.fRadians_To_Degrees(Math.Vectors.fAngle_Between(pxRightOperandPlane.pxGet_Normal_Vector, pxRotatedPlane.pxGet_Normal_Vector))));
+                              Message   => "Matrices.*(binary matrix * plane) failed, wrong normal. Normal: " & float'Image(pxRotatedPlane.pxGet_Normal_Vector.fGet_X) & ", " & float'Image(pxRotatedPlane.pxGet_Normal_Vector.fGet_Y) & ", " & float'Image(pxRotatedPlane.pxGet_Normal_Vector.fGet_Z) & ". Angle: " & float'Image(Math.Angles.fRadians_To_Degrees(Math.Vectors.fAngle_Between_In_Radians(pxRightOperandPlane.pxGet_Normal_Vector, pxRotatedPlane.pxGet_Normal_Vector))));
 
 
 --  begin read only
@@ -415,7 +427,7 @@ package body Math.Matrices.Test_Data.Tests is
    procedure Test_Equal_1c1727 (Gnattest_T : in out Test) renames Test_Equal;
 --  id:2.1/1c1727b7e69435f3/Equal/1/0/
    procedure Test_Equal (Gnattest_T : in out Test) is
-   --  math-matrices.ads:25:4:"="
+   --  math-matrices.ads:26:4:"="
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -446,12 +458,24 @@ package body Math.Matrices.Test_Data.Tests is
 
                   AUnit.Assertions.Assert(Condition => pxRotMatrix1 = pxRotMatrix2,
                                           Message => "Matrices.=(binary equal) failed, not equal");
+               
 
 
             end loop;
 
-         end loop;
+         end loop;         
       end loop;
+      
+      tfXRotAngle := Math.Angles.TAngle(45.0);
+      tfYRotAngle := Math.Angles.TAngle(-32.4);
+      tfZRotAngle := Math.Angles.TAngle(94.0);
+      
+      pxRotMatrix1 := pxCreate_Rotation_Around_Z_Axis(tfZRotAngle) *
+        pxCreate_Rotation_Around_Y_Axis(tfYRotAngle) *
+        pxCreate_Rotation_Around_X_Axis(tfXRotAngle);
+      AUnit.Assertions.Assert(Condition => pxRotMatrix1 /= pxCreate_Identity,
+                              Message => "Matrices.=(binary equal) failed, equal. Values: " & float'Image(float(tfXRotAngle)) & float'Image(float(tfYRotAngle)) & float'Image(float(tfZRotAngle)));               
+
 
 --  begin read only
    end Test_Equal;
@@ -463,7 +487,7 @@ package body Math.Matrices.Test_Data.Tests is
    procedure Test_Swap_Values_In_Extended_Matrix_d790ab (Gnattest_T : in out Test) renames Test_Swap_Values_In_Extended_Matrix;
 --  id:2.1/d790ab373c6b2b67/Swap_Values_In_Extended_Matrix/1/0/
    procedure Test_Swap_Values_In_Extended_Matrix (Gnattest_T : in out Test) is
-   --  math-matrices.ads:41:4:Swap_Values_In_Extended_Matrix
+   --  math-matrices.ads:47:4:Swap_Values_In_Extended_Matrix
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -500,7 +524,7 @@ package body Math.Matrices.Test_Data.Tests is
    procedure Test_Swap_Rows_In_Extended_Matrix_e8fd17 (Gnattest_T : in out Test) renames Test_Swap_Rows_In_Extended_Matrix;
 --  id:2.1/e8fd17c37874e11a/Swap_Rows_In_Extended_Matrix/1/0/
    procedure Test_Swap_Rows_In_Extended_Matrix (Gnattest_T : in out Test) is
-   --  math-matrices.ads:42:4:Swap_Rows_In_Extended_Matrix
+   --  math-matrices.ads:48:4:Swap_Rows_In_Extended_Matrix
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -543,7 +567,7 @@ package body Math.Matrices.Test_Data.Tests is
    procedure Test_Scale_Row_In_Extended_Matrix_51dfbc (Gnattest_T : in out Test) renames Test_Scale_Row_In_Extended_Matrix;
 --  id:2.1/51dfbc1174bc677d/Scale_Row_In_Extended_Matrix/1/0/
    procedure Test_Scale_Row_In_Extended_Matrix (Gnattest_T : in out Test) is
-   --  math-matrices.ads:43:4:Scale_Row_In_Extended_Matrix
+   --  math-matrices.ads:49:4:Scale_Row_In_Extended_Matrix
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -585,7 +609,7 @@ package body Math.Matrices.Test_Data.Tests is
    procedure Test_Remove_Component_In_Following_Rows_6495d3 (Gnattest_T : in out Test) renames Test_Remove_Component_In_Following_Rows;
 --  id:2.1/6495d3336c05d94a/Remove_Component_In_Following_Rows/1/0/
    procedure Test_Remove_Component_In_Following_Rows (Gnattest_T : in out Test) is
-   --  math-matrices.ads:44:4:Remove_Component_In_Following_Rows
+   --  math-matrices.ads:50:4:Remove_Component_In_Following_Rows
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -633,7 +657,7 @@ package body Math.Matrices.Test_Data.Tests is
    procedure Test_Remove_Component_In_Leading_Rows_4f91f1 (Gnattest_T : in out Test) renames Test_Remove_Component_In_Leading_Rows;
 --  id:2.1/4f91f1bfc85381f1/Remove_Component_In_Leading_Rows/1/0/
    procedure Test_Remove_Component_In_Leading_Rows (Gnattest_T : in out Test) is
-   --  math-matrices.ads:45:4:Remove_Component_In_Leading_Rows
+   --  math-matrices.ads:51:4:Remove_Component_In_Leading_Rows
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -683,7 +707,7 @@ package body Math.Matrices.Test_Data.Tests is
    procedure Test_Find_Row_With_Highest_Component_203fad (Gnattest_T : in out Test) renames Test_Find_Row_With_Highest_Component;
 --  id:2.1/203fad08cc0aa40d/Find_Row_With_Highest_Component/1/0/
    procedure Test_Find_Row_With_Highest_Component (Gnattest_T : in out Test) is
-   --  math-matrices.ads:46:4:Find_Row_With_Highest_Component
+   --  math-matrices.ads:52:4:Find_Row_With_Highest_Component
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -712,8 +736,7 @@ package body Math.Matrices.Test_Data.Tests is
    procedure Test_Perform_Gauss_Jordan_Elimination_On_00378a (Gnattest_T : in out Test) renames Test_Perform_Gauss_Jordan_Elimination_On;
 --  id:2.1/00378a185cddf76c/Perform_Gauss_Jordan_Elimination_On/1/0/
    procedure Test_Perform_Gauss_Jordan_Elimination_On (Gnattest_T : in out Test) is
-   --  math-matrices.ads:47:4:Perform_Gauss_Jordan_Elimination_On
-
+   --  math-matrices.ads:53:4:Perform_Gauss_Jordan_Elimination_On
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -722,6 +745,7 @@ package body Math.Matrices.Test_Data.Tests is
       pxInverseMatrix : pCMatrix;
       pxIdentityMatrix : pCMatrix;
       tfExtendedMatrix : TExtendedMatrix;
+      tfMatrix : TMatrix;
       tfXRotAngle : Math.Angles.TAngle;
       tfYRotAngle : Math.Angles.TAngle;
       tfZRotAngle : Math.Angles.TAngle;
@@ -751,18 +775,32 @@ package body Math.Matrices.Test_Data.Tests is
                   pxInverseMatrix := Math.Matrices.pxCreate(tfGet_Inverse_Part_From(tfExtendedMatrix));
 
                   AUnit.Assertions.Assert(Condition => pxOriginalMatrix * pxInverseMatrix = pxIdentityMatrix,
-                                          Message => "CMatrix.pxGet_Inverse failed, M * M-1 != I. Values: " & float'Image(float(tfXRotAngle)) & float'Image(float(tfYRotAngle)) & float'Image(float(tfZRotAngle)));
+                                          Message => "Matrices.Perform_Gauss_Jordan_Elimination_On failed, M * M-1 != I. Values: " & float'Image(float(tfXRotAngle)) & float'Image(float(tfYRotAngle)) & float'Image(float(tfZRotAngle)));
                   AUnit.Assertions.Assert(Condition => pxInverseMatrix * pxOriginalMatrix = pxIdentityMatrix,
-                                          Message => "CMatrix.pxGet_Inverse failed, M-1 * M != I. Values: " & float'Image(float(tfXRotAngle)) & float'Image(float(tfYRotAngle)) & float'Image(float(tfZRotAngle)));
+                                          Message => "Matrices.Perform_Gauss_Jordan_Elimination_On failed, M-1 * M != I. Values: " & float'Image(float(tfXRotAngle)) & float'Image(float(tfYRotAngle)) & float'Image(float(tfZRotAngle)));
                end if;
 
             end loop;
 
          end loop;
       end loop;
+      
+      tfMatrix := ((5.0,5.0,5.0),
+                   (3.0,3.0,3.0),
+                   (0.0,5.0,2.0));
+      
+      tfExtendedMatrix := tfCreate_Extended_Matrix_From(tfMatrix);
+      Perform_Gauss_Jordan_Elimination_On(tfExtendedMatrix);
+      AUnit.Assertions.Assert(Condition => False,
+                              Message   => "Matrices.Perform_Gauss_Jordan_Elimination_On failed, should have raised exception");
+   exception
+      when Numeric_Error =>
+         null; -- Test passed
+      when E : others =>
+         AUnit.Assertions.Assert(Condition => False,
+                                 Message   =>"Matrices.Perform_Gauss_Jordan_Elimination_On failed, wrong exception raised: " & Ada.Exceptions.Exception_Name (E) & ". Expected: NUMERIC_ERROR.");      
 
 --  begin read only
-
    end Test_Perform_Gauss_Jordan_Elimination_On;
 --  end read only
 
@@ -772,7 +810,7 @@ package body Math.Matrices.Test_Data.Tests is
    procedure Test_tfCreate_Extended_Matrix_From_d7fdf5 (Gnattest_T : in out Test) renames Test_tfCreate_Extended_Matrix_From;
 --  id:2.1/d7fdf56c22324800/tfCreate_Extended_Matrix_From/1/0/
    procedure Test_tfCreate_Extended_Matrix_From (Gnattest_T : in out Test) is
-   --  math-matrices.ads:48:4:tfCreate_Extended_Matrix_From
+   --  math-matrices.ads:54:4:tfCreate_Extended_Matrix_From
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -827,7 +865,7 @@ package body Math.Matrices.Test_Data.Tests is
    procedure Test_tfGet_Inverse_Part_From_e434a4 (Gnattest_T : in out Test) renames Test_tfGet_Inverse_Part_From;
 --  id:2.1/e434a4d0aac93f30/tfGet_Inverse_Part_From/1/0/
    procedure Test_tfGet_Inverse_Part_From (Gnattest_T : in out Test) is
-   --  math-matrices.ads:49:4:tfGet_Inverse_Part_From
+   --  math-matrices.ads:55:4:tfGet_Inverse_Part_From
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -881,7 +919,7 @@ package body Math.Matrices.Test_Data.Tests is
    procedure Test_bMatrix_Has_No_Inverse_8de23e (Gnattest_T : in out Test) renames Test_bMatrix_Has_No_Inverse;
 --  id:2.1/8de23e19802d9aa9/bMatrix_Has_No_Inverse/1/0/
    procedure Test_bMatrix_Has_No_Inverse (Gnattest_T : in out Test) is
-   --  math-matrices.ads:50:4:bMatrix_Has_No_Inverse
+   --  math-matrices.ads:56:4:bMatrix_Has_No_Inverse
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -912,118 +950,6 @@ package body Math.Matrices.Test_Data.Tests is
 
 --  begin read only
    end Test_bMatrix_Has_No_Inverse;
---  end read only
-
-
---  begin read only
-   --  procedure Test_Multiply (Gnattest_T : in out Test_);
-   --  procedure Test_Multiply_0bc568 (Gnattest_T : in out Test_) renames Test_Multiply;
---  id:2.1/0bc568aae554970f/Multiply/0/1/
-   --  procedure Test_Multiply (Gnattest_T : in out Test_) is
---  end read only
---  
---        pragma Unreferenced (Gnattest_T);
---        use Math.Rotators;
---  
---        pxRightOperandRotator : Math.Rotators.pCRotator;
---        pxLeftOperandMatrix : pCMatrix;
---        pxProductRotator : Math.Rotators.pCRotator;
---     begin
---  
---        pxRightOperandRotator := Math.Rotators.pxCreate(fYaw   => 45.0,
---                                                        fPitch => 0.0,
---                                                        fRoll  => 0.0);
---        pxLeftOperandMatrix := Math.Matrices.pxCreate_Rotation_Around_Z_Axis(tfAngle => 1.0);
---        
---        pxProductRotator := pxLeftOperandMatrix * pxRightOperandRotator;
---        
---  
---        AUnit.Assertions.Assert(Condition => float(pxProductRotator.tfGet_Yaw) = 90.0,
---                                      Message   => "CMatrix.*(binary matrix * rotator), wrong value in yaw. Value: " & float'Image(float(pxProductRotator.tfGet_Roll)) & ". Expected: " & float'Image(90.0) & ".");
---  
---  begin read only
-   --  end Test_Multiply;
---  end read only
-
-
---  begin read only
-   --  procedure Test_Multiply (Gnattest_T : in out Test_);
-   --  procedure Test_Multiply_27d2dc (Gnattest_T : in out Test_) renames Test_Multiply;
---  id:2.1/27d2dc5916b25a8e/Multiply/0/1/
-   --  procedure Test_Multiply (Gnattest_T : in out Test_) is
---  end read only
---  
---        pragma Unreferenced (Gnattest_T);
---  
---     begin
---  
---        AUnit.Assertions.Assert
---          (Gnattest_Generated.Default_Assert_Value,
---           "Test not implemented.");
---  
---  begin read only
-   --  end Test_Multiply;
---  end read only
-
-
---  begin read only
-   --  procedure Test_pxCreate_From_Rotator (Gnattest_T : in out Test_);
-   --  procedure Test_pxCreate_From_Rotator_7cf7c8 (Gnattest_T : in out Test_) renames Test_pxCreate_From_Rotator;
---  id:2.1/7cf7c8677930ae54/pxCreate_From_Rotator/1/1/
-   --  procedure Test_pxCreate_From_Rotator (Gnattest_T : in out Test_) is
---  end read only
---  
---        pragma Unreferenced (Gnattest_T);
---  
---     begin
---  
---        AUnit.Assertions.Assert
---          (Gnattest_Generated.Default_Assert_Value,
---           "Test not implemented.");
---  
---  begin read only
-   --  end Test_pxCreate_From_Rotator;
---  end read only
-
-
---  begin read only
-   --  procedure Test_Multiply (Gnattest_T : in out Test_);
-   --  procedure Test_Multiply_82bc09 (Gnattest_T : in out Test_) renames Test_Multiply;
---  id:2.1/82bc09ebb76c2479/Multiply/0/1/
-   --  procedure Test_Multiply (Gnattest_T : in out Test_) is
---  end read only
---  
---        pragma Unreferenced (Gnattest_T);
---  
---     begin
---  
---        AUnit.Assertions.Assert
---          (Gnattest_Generated.Default_Assert_Value,
---           "Test not implemented.");
---  
---  begin read only
-   --  end Test_Multiply;
---  end read only
-
-
---  begin read only
-   --  procedure Test_Multiply (Gnattest_T : in out Test_);
-   --  procedure Test_Multiply_ddb4ca (Gnattest_T : in out Test_) renames Test_Multiply;
---  id:2.1/ddb4cab884764c67/Multiply/0/1/
-   --  procedure Test_Multiply (Gnattest_T : in out Test_) is
---  end read only
---  
---        pragma Unreferenced (Gnattest_T);
---  
---     begin
---  
---        AUnit.Assertions.Assert
---          (Gnattest_Generated.Default_Assert_Value,
---           "Test not implemented.");
---  
---  begin read only
-   --  end Test_Multiply;
-
 --  end read only
 
 end Math.Matrices.Test_Data.Tests;

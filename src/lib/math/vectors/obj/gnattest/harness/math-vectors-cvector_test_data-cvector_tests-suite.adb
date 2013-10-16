@@ -19,7 +19,8 @@ package body Math.Vectors.CVector_Test_Data.CVector_Tests.Suite is
    Case_5_1_Test_fGet_X_2bcacb : aliased Runner_1.Test_Case;
    Case_6_1_Test_fGet_Y_5c8b74 : aliased Runner_1.Test_Case;
    Case_7_1_Test_fGet_Z_6025cf : aliased Runner_1.Test_Case;
-   Case_8_1_Test_Devide_7a37a3 : aliased Runner_1.Test_Case;
+   Case_8_1_Test_Copy_From_535aa7 : aliased Runner_1.Test_Case;
+   Case_9_1_Test_Devide_7a37a3 : aliased Runner_1.Test_Case;
 
    function Suite return AUnit.Test_Suites.Access_Test_Suite is
    begin
@@ -42,19 +43,23 @@ package body Math.Vectors.CVector_Test_Data.CVector_Tests.Suite is
          Test_fLength_7b67f3'Access);
       Runner_1.Create
         (Case_5_1_Test_fGet_X_2bcacb,
-         "math-vectors.ads:33:4:",
+         "math-vectors.ads:34:4:",
          Test_fGet_X_2bcacb'Access);
       Runner_1.Create
         (Case_6_1_Test_fGet_Y_5c8b74,
-         "math-vectors.ads:34:4:",
+         "math-vectors.ads:35:4:",
          Test_fGet_Y_5c8b74'Access);
       Runner_1.Create
         (Case_7_1_Test_fGet_Z_6025cf,
-         "math-vectors.ads:35:4:",
+         "math-vectors.ads:36:4:",
          Test_fGet_Z_6025cf'Access);
       Runner_1.Create
-        (Case_8_1_Test_Devide_7a37a3,
-         "math-vectors.ads:46:4:",
+        (Case_8_1_Test_Copy_From_535aa7,
+         "math-vectors.ads:38:4:",
+         Test_Copy_From_535aa7'Access);
+      Runner_1.Create
+        (Case_9_1_Test_Devide_7a37a3,
+         "math-vectors.ads:49:4:",
          Test_Devide_7a37a3'Access);
 
       Result.Add_Test (Case_1_1_Test_pxGet_Copy_4fdcfb'Access);
@@ -64,7 +69,8 @@ package body Math.Vectors.CVector_Test_Data.CVector_Tests.Suite is
       Result.Add_Test (Case_5_1_Test_fGet_X_2bcacb'Access);
       Result.Add_Test (Case_6_1_Test_fGet_Y_5c8b74'Access);
       Result.Add_Test (Case_7_1_Test_fGet_Z_6025cf'Access);
-      Result.Add_Test (Case_8_1_Test_Devide_7a37a3'Access);
+      Result.Add_Test (Case_8_1_Test_Copy_From_535aa7'Access);
+      Result.Add_Test (Case_9_1_Test_Devide_7a37a3'Access);
 
       return Result'Access;
 

@@ -52,7 +52,7 @@ package body Math.Angles.Test_Data.Tests is
 
       pragma Unreferenced (Gnattest_T);
 
-      fAngle : float := -1.5;
+      fAngle : float := -100.5;
       fRangeFrom : float := -1.0 * Ada.Numerics.Pi;
    begin
 
