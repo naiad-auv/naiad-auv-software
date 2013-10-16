@@ -6,42 +6,40 @@
 #include<iostream>
 #include<vector>
 #include<string>
+#include<queue>
 
 std::vector<cv::Mat> img;
 std::vector<cv::Vec3f> circles;
 std::vector<cv::Vec2f> lines;
 std::vector<cv::Mat> contours;
 cv::VideoCapture cap;
-std::vector<cv::Mat> imageBuffer(IMAGE_BUFFER_SIZE);
+std::queue <cv::Mat> imageBuf; // Declare a queue 
 
 void Core_Wrap::test_func()
 {
+  char strStorage[50]; // enough to hold all numbers up to 64-bits
+  int bufSize=0;
+  
+  std::string folderPath = "/home/vision/Documents/project/cdt508/Robosub2012_logging/Loggning/log 3/Front/"; int imageName = 0;
+  std::string result;
+  std::string imageType = ".jpg";
+  
+  //load buffer
+  do{
+  sprintf(strStorage, "%d", imageName);
+  result = folderPath + strStorage + imageType;
+  cv::Mat F=cv::imread(result,0);
+  imageBuf.push(F);
+  imageName=imageName+1;
+  bufSize=imageBuf.size();
+}while (bufSize<IMAGE_BUFFER_SIZE);
 
-std::string folderPath = "/home/vision/Documents/project/"; int imageName = 1;
-std::string result;
-std::string imageType = ".jpg";
+  cv::imshow("test Fun img",imageBuf.front());
+  cv::waitKey(0);
+  ////////////////////////////////////////////
+  //imageBuf.pop ();
+  //imageBuf.size();
 
-// 6. with sprintf
-char numstr[21]; // enough to hold all numbers up to 64-bits
-sprintf(numstr, "%d", imageName);
-result = folderPath + numstr + imageType;
-
-
-
- cv::Mat F=cv::imread(result,0);
-imageBuffer.push_back(F);	
- cv::imshow("test Fun img",imageBuffer.at(0));
-
-imageName=imageName+1;
-sprintf(numstr, "%d", imageName);
-result = folderPath + numstr + imageType;
-
- F=cv::imread(result,0);
-imageBuffer.push_back(F);	
- cv::imshow("test Fun img2",imageBuffer(1));
-
-
- cv::waitKey(0);
 }
 
 void Core_Wrap::push_back(char * src)
