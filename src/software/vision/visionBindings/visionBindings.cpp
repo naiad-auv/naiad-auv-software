@@ -13,33 +13,41 @@ std::vector<cv::Vec3f> circles;
 std::vector<cv::Vec2f> lines;
 std::vector<cv::Mat> contours;
 cv::VideoCapture cap;
-std::queue <cv::Mat> imageBuf; // Declare a queue 
+std::queue <cv::Mat> imageBuf; // Declare a queue
+int imageName=0;
 
 void Core_Wrap::test_func()
 {
   char strStorage[50]; // enough to hold all numbers up to 64-bits
   int bufSize=0;
   
-  std::string folderPath = "/home/vision/Documents/project/cdt508/Robosub2012_logging/Loggning/log 3/Front/"; int imageName = 0;
+  std::string folderPath = "/home/gerard/Documents/project/cdt508/Robosub2012_logging/Loggning/log 3/Front/";// int imageName = 0;
   std::string result;
   std::string imageType = ".jpg";
   
-  //load buffer
-  do{
-  sprintf(strStorage, "%d", imageName);
-  result = folderPath + strStorage + imageType;
-  cv::Mat F=cv::imread(result,0);
-  imageBuf.push(F);
-  imageName=imageName+1;
-  bufSize=imageBuf.size();
-}while (bufSize<IMAGE_BUFFER_SIZE);
-
-  cv::imshow("test Fun img",imageBuf.front());
-  cv::waitKey(0);
-  ////////////////////////////////////////////
-  //imageBuf.pop ();
-  //imageBuf.size();
-
+  if (imageBuf.size()==0)//load image, then pop image and enter do loop
+  {
+	sprintf(strStorage, "%d", imageName);
+  	result = folderPath + strStorage + imageType;
+  	cv::Mat F=cv::imread(result,1);//<0 unchanged, 0 greyscale, >0 rgb
+  	imageBuf.push(F);
+   }
+   img.at(0)=imageBuf.front();
+   imageBuf.pop();
+	
+    //load buffer
+   do{
+   sprintf(strStorage, "%d", imageName);
+   result = folderPath + strStorage + imageType;
+   cv::Mat F=cv::imread(result,1);//<0 unchanged, 0 greyscale, >0 rgb
+   imageBuf.push(F);
+   imageName=imageName+1;
+   bufSize=imageBuf.size();
+   }while (bufSize<IMAGE_BUFFER_SIZE);
+   
+   std::cout<<imageName;
+   //cv::imshow("test Fun img",imageBuf.front());
+   //cv::waitKey(0);
 }
 
 void Core_Wrap::push_back(char * src)
@@ -222,8 +230,7 @@ void Processing_Wrap::Contours(int src) // TO DO : include image-ROI
 	
 	cv::findContours( G, contours, CV_RETR_LIST, CV_CHAIN_APPROX_SIMPLE);
 	cv::waitKey(0);
-	char* name = "in contours";
-	cv::imshow(name, img.at(src)); //TO DO : REMOVE
+	cv::imshow("in contours", img.at(src)); //TO DO : REMOVE
 	cv::waitKey(0);
 }
 

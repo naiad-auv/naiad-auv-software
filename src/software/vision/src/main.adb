@@ -30,8 +30,8 @@ procedure main is
    preprocessingWrap : aliased Class_Preprocessing_Wrap.Preprocessing_Wrap;
 begin
    --canny declarations
-   iImageSource := 1;
-   iImageDestination := 2;
+   iImageSource := 0;
+   iImageDestination := 0;
    iImageCannyOut := 4;
    iGreyFilter := 6;
    iCannyLowThres := 50;
@@ -54,14 +54,17 @@ begin
    --     maxRadius :=	 0;--zero used if unknown
 
    --CHECK FOR INSTRUCTION--to be implemented, for now just working on default mode
-
+  
    --GET IMAGE-- read from buffer, but for now just read in png
    CoreWrap.push_back(New_String("rosie.png"));
    CoreWrap.push_back(New_String("rosie.png"));
-   CoreWrap.push_back(New_String("circle3.jpg"));
-   CoreWrap.push_back(New_String("circle3.jpg"));
-   CoreWrap.waitKey(0);
-   CoreWrap.test_func;
+   --CoreWrap.push_back(New_String("circle3.jpg"));
+   --CoreWrap.push_back(New_String("circle3.jpg"));
+   --CoreWrap.waitKey(0);
+   
+   Endless_Loop:
+   loop
+   CoreWrap.test_func;--load image to img.at(0)
    CoreWrap.imshow(New_String("Why so normal?"), 0);--show image for debug purposes
    CoreWrap.waitKey(0);
 
@@ -71,13 +74,14 @@ begin
    --CONVERT IMAGE TO GREYSCALE FOR CANNY
    --call convertToGreyscale procedure
    Vision.Image_Processing.Convert_To_Greyscale(iImageSource,iImageDestination, iGreyFilter);
-   CoreWrap.imshow(New_String("why so grey?"), 2);--show image for debug purposes
+   CoreWrap.imshow(New_String("why so grey?"), 0);--show image for debug purposes
    CoreWrap.waitKey(0);
 
    --USE CANNY ON GREYSCALE IMAGE
      Vision.Image_Processing.Canny(iImageDestination,iImageDestination, iCannyLowThres, iCannyHighThres, iCannyKernelSize);
-     CoreWrap.imshow(New_String("why so canny Sir star fish?"), 2);--show image for debug purposes
+     CoreWrap.imshow(New_String("why so canny Sir star fish?"), 0);--show image for debug purposes
      CoreWrap.waitKey(0);
+   end loop Endless_Loop;
      --Vision.Image_Processing.Canny(iImageDestination,iImageDestination, iCannyLowThres, iCannyHighThres, iCannyKernelSize);
    --CoreWrap.imshow(New_String("why so canny Sir star fish?"), 2);--show image for debug purposes
    --CoreWrap.waitKey(0);
