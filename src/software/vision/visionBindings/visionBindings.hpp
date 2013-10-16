@@ -2,6 +2,10 @@
 #include <stdio.h>
 #include <string>
 
+//defines
+#define IMAGE_BUFFER_SIZE 10
+
+
 class Core_Wrap{
 
 virtual void push_back(char * src);
@@ -15,6 +19,8 @@ virtual void imshow(char * name, int src);
 virtual void waitKey(int time);
 
 virtual int size(void);
+
+virtual void test_func(void);
 
 Core_Wrap();
 

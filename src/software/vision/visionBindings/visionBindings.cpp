@@ -5,12 +5,39 @@
 #include <vector>
 #include<iostream>
 #include<vector>
+#include<string>
 
 std::vector<cv::Mat> img;
 std::vector<cv::Vec3f> circles;
 std::vector<cv::Vec2f> lines;
 std::vector<cv::Mat> contours;
 cv::VideoCapture cap;
+std::vector<cv::Mat> imageBuffer(IMAGE_BUFFER_SIZE);
+
+void Core_Wrap::test_func()
+{
+
+std::string folderPath = "/home/vision/Documents/project/"; int imageName = 1;
+std::string result;
+std::string imageType = ".jpg";
+
+// 6. with sprintf
+char numstr[21]; // enough to hold all numbers up to 64-bits
+sprintf(numstr, "%d", imageName);
+result = folderPath + numstr + imageType;
+ cv::Mat F=cv::imread(result,0);	
+ cv::imshow("test Fun img",F);
+
+imageName=imageName+1;
+sprintf(numstr, "%d", imageName);
+result = folderPath + numstr + imageType;
+
+ F=cv::imread(result,0);	
+ cv::imshow("test Fun img2",F);
+
+
+ cv::waitKey(0);
+}
 
 void Core_Wrap::push_back(char * src)
 {
@@ -56,6 +83,10 @@ void Processing_Wrap::cvtColor(int src, int dst, int filter)
 void Processing_Wrap::Canny(int src, int dst, int lThresh, int hThresh, int kernelSize)
 {
   cv::Canny(img.at(src), img.at(dst), lThresh, hThresh, kernelSize);
+/*  cvCreateTrackbar("Thresh1", "Tutorial", &lThresh, 256, 0);
+  cvCreateTrackbar("Thresh2", "Tutorial", &hThresh, 256, 0);
+  cv::imshow("test func image", img.at(src));
+  cv::waitKey(0);*/
 }
 
 //void tester(std::vector<Item*>&);std::vector<cv::Vec3f*>&circles
