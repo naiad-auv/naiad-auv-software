@@ -26,12 +26,9 @@ package Navigation.Dispatcher is
    procedure Update_Current_Absolute_Orientation(this : in out CDispatcher; xNewCurrentAbsoluteOrientation : in Math.Matrices.pCMatrix);
    procedure Update_Wanted_Absolute_Orientation(this : in out CDispatcher; xNewWantedAbsoluteOrientation : in Math.Matrices.pCMatrix);
 
-   --borde hålla motorkonfigurationen
 
 private
 
-   procedure Insert_Values_Into_Matrix(tfValues : in Navigation.Thrusters.TThrusterEffects; tfThrusterEffectsMatrix : in out Navigation.Thrusters.TThrusterEffectsMatrix);
-   procedure Get_Thruster_Values(tfThrusterEffectsMatrix : in Navigation.Thrusters.TThrusterEffectsMatrix; tfThrusterValues : in out Navigation.Thrusters.TThrusterValuesArray);
    procedure Scale_Thruster_Values (tfThrusterValues : in out Navigation.Thrusters.TThrusterValuesArray);
    function bThruster_Values_Need_Scaling (tfThrusterValues : in Navigation.Thrusters.TThrusterValuesArray) return boolean;
    type CDispatcher is tagged

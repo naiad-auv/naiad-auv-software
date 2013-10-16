@@ -5,6 +5,8 @@ package body Navigation.Dispatcher is
    begin
       pxNewDispatcher := new CDispatcher;
 
+      pxNewDispatcher.pxThrusterConfigurator := Navigation.Thruster_Configurator.pxCreate;
+
       pxNewDispatcher.pxCurrentAbsoluteOrientation := Math.Matrices.pxCreate_Identity;
       pxNewDispatcher.pxWantedAbsoluteOrientation := Math.Matrices.pxCreate_Identity;
 
@@ -47,20 +49,10 @@ package body Navigation.Dispatcher is
 
       tfCombinedValues := tfPositionalValues + tfOrientationalValues;
 
-      Insert_Values_Into_Matrix(tfValues                => tfCombinedValues,
-                                tfThrusterEffectsMatrix => tfThrusterEffectsMatrix);
-
-      -- KAOSA HÄR!!
-
-      Get_Thruster_Values(tfThrusterEffectsMatrix => tfThrusterEffectsMatrix,
-                          tfThrusterValues        => tfThrusterValues);
+      tfThrusterValues := this.pxThrusterConfigurator.tfGet_Thruster_Values(tfComponentValues => tfCombinedValues);
 
       if bThruster_Values_Need_Scaling(tfThrusterValues) then
-         Insert_Values_Into_Matrix(tfValues                => tfPositionalValues,
-                                   tfThrusterEffectsMatrix => tfThrusterEffectsMatrix);
-         -- KAOSA IGEN
-         Get_Thruster_Values(tfThrusterEffectsMatrix => tfThrusterEffectsMatrix,
-                             tfThrusterValues        => tfThrusterValues);
+         tfThrusterValues := this.pxThrusterConfigurator.tfGet_Thruster_Values(tfComponentValues => tfPositionalValues);
          if bThruster_Values_Need_Scaling(tfThrusterValues) then
             Scale_Thruster_Values(tfThrusterValues);
          end if;
@@ -68,26 +60,6 @@ package body Navigation.Dispatcher is
 
       return tfThrusterValues;
    end tfGet_Thruster_Values;
-
-   procedure Insert_Values_Into_Matrix(tfValues : in Navigation.Thrusters.TThrusterEffects; tfThrusterEffectsMatrix : in out Navigation.Thrusters.TThrusterEffectsMatrix) is
-   begin
-      for i in tfValues'Range
-      loop
-         tfThrusterEffectsMatrix(tfThrusterEffectsMatrix'Last)(i) := tfValues(i);
-      end loop;
-   end Insert_Values_Into_Matrix;
-
-
-   procedure Get_Thruster_Values(tfThrusterEffectsMatrix : in Navigation.Thrusters.TThrusterEffectsMatrix; tfThrusterValues : in out Navigation.Thrusters.TThrusterValuesArray) is
-      iIterator : integer := 1;
-   begin
-      for i in tfThrusterEffectsMatrix(tfThrusterEffectsMatrix'Last)'First .. tfThrusterEffectsMatrix(tfThrusterEffectsMatrix'Last)'Last
-      loop
-         tfThrusterValues(iIterator) := tfThrusterEffectsMatrix(tfThrusterEffectsMatrix'Last)(i);
-         iIterator := iIterator + 1;
-      end loop;
-   end Get_Thruster_Values;
-
 
    procedure Set_New_Component_PID_Scalings(this : in out CDispatcher; eComponentToChange : Navigation.Motion_Component.EMotionComponent;xNewPIDSCalings : in Navigation.PID_Controller.TPIDComponentScalings) is
    begin
