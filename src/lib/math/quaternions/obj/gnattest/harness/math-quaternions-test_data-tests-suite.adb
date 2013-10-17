@@ -25,31 +25,31 @@ package body Math.Quaternions.Test_Data.Tests.Suite is
 
       Runner_1.Create
         (Case_1_1_Test_pxCreate_fbac4b,
-         "math-quaternions.ads:10:4:",
+         "math-quaternions.ads:14:4:",
          Test_pxCreate_fbac4b'Access);
       Runner_1.Create
         (Case_2_1_Test_pxCreate_937a51,
-         "math-quaternions.ads:11:4:",
+         "math-quaternions.ads:21:4:",
          Test_pxCreate_937a51'Access);
       Runner_1.Create
         (Case_3_1_Test_Plus_bd5b1d,
-         "math-quaternions.ads:14:4:",
+         "math-quaternions.ads:30:4:",
          Test_Plus_bd5b1d'Access);
       Runner_1.Create
         (Case_4_1_Test_Minus_2f7442,
-         "math-quaternions.ads:15:4:",
+         "math-quaternions.ads:35:4:",
          Test_Minus_2f7442'Access);
       Runner_1.Create
         (Case_5_1_Test_Multiply_cbc666,
-         "math-quaternions.ads:16:4:",
+         "math-quaternions.ads:40:4:",
          Test_Multiply_cbc666'Access);
       Runner_1.Create
         (Case_6_1_Test_Equal_079d85,
-         "math-quaternions.ads:17:4:",
+         "math-quaternions.ads:45:4:",
          Test_Equal_079d85'Access);
       Runner_1.Create
         (Case_7_1_Test_fGet_Dot_Product_be0506,
-         "math-quaternions.ads:18:4:",
+         "math-quaternions.ads:50:4:",
          Test_fGet_Dot_Product_be0506'Access);
 
       Result.Add_Test (Case_1_1_Test_pxCreate_fbac4b'Access);

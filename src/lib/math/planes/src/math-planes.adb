@@ -39,6 +39,10 @@ package body Math.Planes is
       pxIntersectionVector : Math.Vectors.pCVector;
    begin
 
+      if abs(Math.Vectors.fDot_Product(pxLeftOperandPlane.pxNormalVector, pxRightOperandPlane.pxNormalVector)) = 1.0 then
+         raise Numeric_Error;
+      end if;
+
       pxIntersectionVector := Math.Vectors.pxCross_Product(pxLeftOperandVector  => pxLeftOperandPlane.pxGet_Normal_Vector,
                                                            pxRightOperandVector => pxRightOperandPlane.pxGet_Normal_Vector);
       return pxIntersectionVector.pxGet_Normalized;

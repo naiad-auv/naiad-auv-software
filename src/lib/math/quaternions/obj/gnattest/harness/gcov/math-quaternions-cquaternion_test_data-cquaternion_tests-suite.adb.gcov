@@ -1,5 +1,5 @@
         -:    0:Source:/home/evr/git/naiad-auv-software/src/lib/math/quaternions/obj/gnattest/harness/math-quaternions-cquaternion_test_data-cquaternion_tests-suite.adb
-        -:    0:Programs:65
+        -:    0:Programs:21
         -:    1:--  This package has been generated automatically by GNATtest.
         -:    2:--  Do not edit any part of it, see GNATtest documentation for more details.
         -:    3:
@@ -7,82 +7,82 @@
         -:    5:with AUnit.Test_Caller;
         -:    6:with Gnattest_Generated;
         -:    7:
-       18:    8:package body Math.Quaternions.CQuaternion_Test_Data.CQuaternion_Tests.Suite is
+        6:    8:package body Math.Quaternions.CQuaternion_Test_Data.CQuaternion_Tests.Suite is
         -:    9:
         -:   10:   package Runner_1 is new AUnit.Test_Caller
         -:   11:     (GNATtest_Generated.GNATtest_Standard.Math.Quaternions.CQuaternion_Test_Data.CQuaternion_Tests.Test_CQuaternion);
         -:   12:
-        6:   13:   Result : aliased AUnit.Test_Suites.Test_Suite;
+        2:   13:   Result : aliased AUnit.Test_Suites.Test_Suite;
         -:   14:
-        6:   15:   Case_1_1_Test_pxGet_Copy_d4ad30 : aliased Runner_1.Test_Case;
-        6:   16:   Case_2_1_Test_pxGet_Normalized_be75a2 : aliased Runner_1.Test_Case;
-        6:   17:   Case_3_1_Test_fGet_Length_a40d15 : aliased Runner_1.Test_Case;
-        6:   18:   Case_4_1_Test_fGet_Length_Squared_4d190d : aliased Runner_1.Test_Case;
-        6:   19:   Case_5_1_Test_fGet_X_42438b : aliased Runner_1.Test_Case;
-        6:   20:   Case_6_1_Test_fGet_Y_c7b5f1 : aliased Runner_1.Test_Case;
-        6:   21:   Case_7_1_Test_fGet_Z_dfd5d9 : aliased Runner_1.Test_Case;
-        6:   22:   Case_8_1_Test_fGet_W_90387e : aliased Runner_1.Test_Case;
-        6:   23:   Case_9_1_Test_fGet_Axis_Vector_cd62fd : aliased Runner_1.Test_Case;
-        6:   24:   Case_10_1_Test_fGet_Angle_In_Degrees_ce63d3 : aliased Runner_1.Test_Case;
+        2:   15:   Case_1_1_Test_pxGet_Copy_d4ad30 : aliased Runner_1.Test_Case;
+        2:   16:   Case_2_1_Test_pxGet_Normalized_be75a2 : aliased Runner_1.Test_Case;
+        2:   17:   Case_3_1_Test_fGet_Length_a40d15 : aliased Runner_1.Test_Case;
+        2:   18:   Case_4_1_Test_fGet_Length_Squared_4d190d : aliased Runner_1.Test_Case;
+        2:   19:   Case_5_1_Test_fGet_X_42438b : aliased Runner_1.Test_Case;
+        2:   20:   Case_6_1_Test_fGet_Y_c7b5f1 : aliased Runner_1.Test_Case;
+        2:   21:   Case_7_1_Test_fGet_Z_dfd5d9 : aliased Runner_1.Test_Case;
+        2:   22:   Case_8_1_Test_fGet_W_90387e : aliased Runner_1.Test_Case;
+        2:   23:   Case_9_1_Test_fGet_Axis_Vector_cd62fd : aliased Runner_1.Test_Case;
+        2:   24:   Case_10_1_Test_fGet_Angle_In_Degrees_ce63d3 : aliased Runner_1.Test_Case;
         -:   25:
-        6:   26:   function Suite return AUnit.Test_Suites.Access_Test_Suite is
+        2:   26:   function Suite return AUnit.Test_Suites.Access_Test_Suite is
         -:   27:   begin
         -:   28:
-        6:   29:      Runner_1.Create
+        2:   29:      Runner_1.Create
         -:   30:        (Case_1_1_Test_pxGet_Copy_d4ad30,
         -:   31:         "math-quaternions.ads:12:4:",
         -:   32:         Test_pxGet_Copy_d4ad30'Access);
-        6:   33:      Runner_1.Create
+        2:   33:      Runner_1.Create
         -:   34:        (Case_2_1_Test_pxGet_Normalized_be75a2,
         -:   35:         "math-quaternions.ads:21:4:",
         -:   36:         Test_pxGet_Normalized_be75a2'Access);
-        6:   37:      Runner_1.Create
+        2:   37:      Runner_1.Create
         -:   38:        (Case_3_1_Test_fGet_Length_a40d15,
         -:   39:         "math-quaternions.ads:23:4:",
         -:   40:         Test_fGet_Length_a40d15'Access);
-        6:   41:      Runner_1.Create
+        2:   41:      Runner_1.Create
         -:   42:        (Case_4_1_Test_fGet_Length_Squared_4d190d,
         -:   43:         "math-quaternions.ads:24:4:",
         -:   44:         Test_fGet_Length_Squared_4d190d'Access);
-        6:   45:      Runner_1.Create
+        2:   45:      Runner_1.Create
         -:   46:        (Case_5_1_Test_fGet_X_42438b,
         -:   47:         "math-quaternions.ads:25:4:",
         -:   48:         Test_fGet_X_42438b'Access);
-        6:   49:      Runner_1.Create
+        2:   49:      Runner_1.Create
         -:   50:        (Case_6_1_Test_fGet_Y_c7b5f1,
         -:   51:         "math-quaternions.ads:26:4:",
         -:   52:         Test_fGet_Y_c7b5f1'Access);
-        6:   53:      Runner_1.Create
+        2:   53:      Runner_1.Create
         -:   54:        (Case_7_1_Test_fGet_Z_dfd5d9,
         -:   55:         "math-quaternions.ads:27:4:",
         -:   56:         Test_fGet_Z_dfd5d9'Access);
-        6:   57:      Runner_1.Create
+        2:   57:      Runner_1.Create
         -:   58:        (Case_8_1_Test_fGet_W_90387e,
         -:   59:         "math-quaternions.ads:28:4:",
         -:   60:         Test_fGet_W_90387e'Access);
-        6:   61:      Runner_1.Create
+        2:   61:      Runner_1.Create
         -:   62:        (Case_9_1_Test_fGet_Axis_Vector_cd62fd,
         -:   63:         "math-quaternions.ads:29:4:",
         -:   64:         Test_fGet_Axis_Vector_cd62fd'Access);
-        6:   65:      Runner_1.Create
+        2:   65:      Runner_1.Create
         -:   66:        (Case_10_1_Test_fGet_Angle_In_Degrees_ce63d3,
         -:   67:         "math-quaternions.ads:30:4:",
         -:   68:         Test_fGet_Angle_In_Degrees_ce63d3'Access);
         -:   69:
-        6:   70:      Result.Add_Test (Case_1_1_Test_pxGet_Copy_d4ad30'Access);
-        6:   71:      Result.Add_Test (Case_2_1_Test_pxGet_Normalized_be75a2'Access);
-        6:   72:      Result.Add_Test (Case_3_1_Test_fGet_Length_a40d15'Access);
-        6:   73:      Result.Add_Test (Case_4_1_Test_fGet_Length_Squared_4d190d'Access);
-        6:   74:      Result.Add_Test (Case_5_1_Test_fGet_X_42438b'Access);
-        6:   75:      Result.Add_Test (Case_6_1_Test_fGet_Y_c7b5f1'Access);
-        6:   76:      Result.Add_Test (Case_7_1_Test_fGet_Z_dfd5d9'Access);
-        6:   77:      Result.Add_Test (Case_8_1_Test_fGet_W_90387e'Access);
-        6:   78:      Result.Add_Test (Case_9_1_Test_fGet_Axis_Vector_cd62fd'Access);
-        6:   79:      Result.Add_Test (Case_10_1_Test_fGet_Angle_In_Degrees_ce63d3'Access);
+        2:   70:      Result.Add_Test (Case_1_1_Test_pxGet_Copy_d4ad30'Access);
+        2:   71:      Result.Add_Test (Case_2_1_Test_pxGet_Normalized_be75a2'Access);
+        2:   72:      Result.Add_Test (Case_3_1_Test_fGet_Length_a40d15'Access);
+        2:   73:      Result.Add_Test (Case_4_1_Test_fGet_Length_Squared_4d190d'Access);
+        2:   74:      Result.Add_Test (Case_5_1_Test_fGet_X_42438b'Access);
+        2:   75:      Result.Add_Test (Case_6_1_Test_fGet_Y_c7b5f1'Access);
+        2:   76:      Result.Add_Test (Case_7_1_Test_fGet_Z_dfd5d9'Access);
+        2:   77:      Result.Add_Test (Case_8_1_Test_fGet_W_90387e'Access);
+        2:   78:      Result.Add_Test (Case_9_1_Test_fGet_Axis_Vector_cd62fd'Access);
+        2:   79:      Result.Add_Test (Case_10_1_Test_fGet_Angle_In_Degrees_ce63d3'Access);
         -:   80:
-        6:   81:      return Result'Access;
+        2:   81:      return Result'Access;
         -:   82:
         -:   83:   end Suite;
         -:   84:
-        6:   85:end Math.Quaternions.CQuaternion_Test_Data.CQuaternion_Tests.Suite;
+        2:   85:end Math.Quaternions.CQuaternion_Test_Data.CQuaternion_Tests.Suite;
         -:   86:--  end read only

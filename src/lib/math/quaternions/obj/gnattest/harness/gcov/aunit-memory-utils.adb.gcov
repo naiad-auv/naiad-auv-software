@@ -1,5 +1,5 @@
         -:    0:Source:/usr/gnat/include/aunit/framework/nativememory/aunit-memory-utils.adb
-        -:    0:Programs:65
+        -:    0:Programs:21
         -:    1:------------------------------------------------------------------------------
         -:    2:--                                                                          --
         -:    3:--                         GNAT COMPILER COMPONENTS                         --
@@ -37,9 +37,9 @@
         -:   35:   -- Gen_Alloc --
         -:   36:   ---------------
         -:   37:
-       12:   38:   function Gen_Alloc return Name is
+        4:   38:   function Gen_Alloc return Name is
         -:   39:   begin
-       12:   40:      return new Object;
+        4:   40:      return new Object;
         -:   41:   end Gen_Alloc;
         -:   42:
         -:   43:end AUnit.Memory.Utils;

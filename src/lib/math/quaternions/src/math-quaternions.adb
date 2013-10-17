@@ -197,7 +197,7 @@ package body Math.Quaternions is
       return this.fW;
    end fGet_W;
 
-   function fGet_Axis_Vector ( this : in CQuaternion) return Math.Vectors.pCVector is
+   function pxGet_Axis_Vector ( this : in CQuaternion) return Math.Vectors.pCVector is
       fScale : float;
    begin
       fScale := Ada.Numerics.Elementary_Functions.Sqrt((this.fX*this.fX)+(this.fY*this.fY)+(this.fZ*this.fZ));
@@ -210,7 +210,7 @@ package body Math.Quaternions is
       return Math.Vectors.pxCreate(fX => this.fX / fScale,
                                    fY => this.fY / fScale,
                                    fZ => this.fZ / fScale);
-   end fGet_Axis_Vector;
+   end pxGet_Axis_Vector;
 
    function fGet_Angle_In_Degrees (this : in CQuaternion) return float is
    begin

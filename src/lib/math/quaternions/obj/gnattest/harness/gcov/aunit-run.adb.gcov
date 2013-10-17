@@ -1,5 +1,5 @@
         -:    0:Source:/usr/gnat/include/aunit/framework/aunit-run.adb
-        -:    0:Programs:65
+        -:    0:Programs:21
         -:    1:------------------------------------------------------------------------------
         -:    2:--                                                                          --
         -:    3:--                         GNAT COMPILER COMPONENTS                         --
@@ -78,17 +78,17 @@
         -:   76:   -- Test_Runner --
         -:   77:   -----------------
         -:   78:
-        3:   79:   procedure Test_Runner
+        1:   79:   procedure Test_Runner
         -:   80:     (Reporter : AUnit.Reporter.Reporter'Class;
         -:   81:      Options  : AUnit.Options.AUnit_Options := AUnit.Options.Default_Options)
         -:   82:   is
-        3:   83:      Results : Test_Results.Result;
+        1:   83:      Results : Test_Results.Result;
         -:   84:      Outcome : Status;
         -:   85:      pragma Unreferenced (Outcome);
         -:   86:   begin
-        3:   87:      Test_Results.Clear (Results);
-        3:   88:      Run (Suite, Results, Options, Reporter, Outcome);
-        3:   89:   end Test_Runner;
+        1:   87:      Test_Results.Clear (Results);
+        1:   88:      Run (Suite, Results, Options, Reporter, Outcome);
+        1:   89:   end Test_Runner;
         -:   90:
         -:   91:   -----------------------------
         -:   92:   -- Test_Runner_With_Status --
