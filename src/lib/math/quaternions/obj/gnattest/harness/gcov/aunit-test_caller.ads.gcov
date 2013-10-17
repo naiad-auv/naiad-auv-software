@@ -1,5 +1,5 @@
         -:    0:Source:/usr/gnat/include/aunit/framework/aunit-test_caller.ads
-        -:    0:Programs:65
+        -:    0:Programs:21
         -:    1:------------------------------------------------------------------------------
         -:    2:--                                                                          --
         -:    3:--                         GNAT COMPILER COMPONENTS                         --
@@ -80,7 +80,7 @@
         -:   78:package AUnit.Test_Caller is
         -:   79:
     #####:   80:   type Test_Case is new AUnit.Simple_Test_Cases.Test_Case with private;
-       24:   81:   type Test_Case_Access is access all Test_Case'Class;
+        8:   81:   type Test_Case_Access is access all Test_Case'Class;
         -:   82:
         -:   83:   type Test_Method is access procedure (Test : in out Test_Fixture);
         -:   84:
@@ -114,7 +114,7 @@
         -:  112:   type Fixture_Access is access all Test_Fixture;
         -:  113:   pragma No_Strict_Aliasing (Fixture_Access);
         -:  114:
-       12:  115:   type Test_Case is new AUnit.Simple_Test_Cases.Test_Case with record
+        4:  115:   type Test_Case is new AUnit.Simple_Test_Cases.Test_Case with record
         -:  116:      Fixture : Fixture_Access;
         -:  117:      Name    : Message_String;
         -:  118:      Method  : Test_Method;

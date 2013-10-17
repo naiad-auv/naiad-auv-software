@@ -1,5 +1,5 @@
         -:    0:Source:/home/evr/git/naiad-auv-software/src/lib/math/quaternions/obj/gnattest/harness/test_runner.adb
-        -:    0:Programs:65
+        -:    0:Programs:21
         -:    1:--  This package has been generated automatically by GNATtest.
         -:    2:--  Do not edit any part of it, see GNATtest documentation for more details.
         -:    3:
@@ -12,15 +12,15 @@
         -:   10:
         -:   11:with Gnattest_Generated;
         -:   12:
-        3:   13:procedure Test_Runner is
+        1:   13:procedure Test_Runner is
         -:   14:   procedure Runner is new AUnit.Run.Test_Runner (Suite);
-        3:   15:   Reporter : AUnit.Reporter.GNATtest.GNATtest_Reporter;
+        1:   15:   Reporter : AUnit.Reporter.GNATtest.GNATtest_Reporter;
         -:   16:begin
         -:   17:
         -:   18:   begin
-        3:   19:      Initialize_Option_Scan;
+        1:   19:      Initialize_Option_Scan;
         -:   20:      loop
-        3:   21:         case GNAT.Command_Line.Getopt ("-skeleton-default=") is
+        1:   21:         case GNAT.Command_Line.Getopt ("-skeleton-default=") is
         -:   22:            when ASCII.NUL =>
         -:   23:               exit;
         -:   24:            when '-' =>
@@ -38,6 +38,6 @@
     #####:   36:      when GNAT.Command_Line.Invalid_Switch => null;
     #####:   37:   end;
         -:   38:
-        3:   39:   Runner (Reporter);
-        3:   40:end Test_Runner;
+        1:   39:   Runner (Reporter);
+        1:   40:end Test_Runner;
         -:   41:--  end read only

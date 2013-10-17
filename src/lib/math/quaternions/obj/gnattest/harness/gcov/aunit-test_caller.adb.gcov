@@ -1,5 +1,5 @@
         -:    0:Source:/usr/gnat/include/aunit/framework/aunit-test_caller.adb
-        -:    0:Programs:65
+        -:    0:Programs:21
         -:    1:------------------------------------------------------------------------------
         -:    2:--                                                                          --
         -:    3:--                         GNAT COMPILER COMPONENTS                         --
@@ -40,22 +40,22 @@
         -:   38:   function New_Fixture is new AUnit.Memory.Utils.Gen_Alloc
         -:   39:     (Test_Fixture, Fixture_Access);
         -:   40:
-       12:   41:   The_Fixture_Object : constant Fixture_Access := New_Fixture;
+        4:   41:   The_Fixture_Object : constant Fixture_Access := New_Fixture;
         -:   42:
         -:   43:   ------------
         -:   44:   -- Create --
         -:   45:   ------------
         -:   46:
-      102:   47:   procedure Create
+       34:   47:   procedure Create
         -:   48:     (TC   : out Test_Case'Class;
         -:   49:      Name : String;
         -:   50:      Test : Test_Method)
         -:   51:   is
         -:   52:   begin
-      102:   53:      TC.Name    := Format (Name);
-      102:   54:      TC.Method  := Test;
-      102:   55:      TC.Fixture := The_Fixture_Object;
-      102:   56:   end Create;
+       34:   53:      TC.Name    := Format (Name);
+       34:   54:      TC.Method  := Test;
+       34:   55:      TC.Fixture := The_Fixture_Object;
+       34:   56:   end Create;
         -:   57:
         -:   58:   ------------
         -:   59:   -- Create --
@@ -80,40 +80,40 @@
         -:   78:   -- Name --
         -:   79:   ----------
         -:   80:
-      102:   81:   function Name (Test : Test_Case) return Message_String is
+       34:   81:   function Name (Test : Test_Case) return Message_String is
         -:   82:   begin
-      102:   83:      return Test.Name;
+       34:   83:      return Test.Name;
         -:   84:   end Name;
         -:   85:
         -:   86:   --------------
         -:   87:   -- Run_Test --
         -:   88:   --------------
         -:   89:
-      102:   90:   procedure Run_Test (Test : in out Test_Case) is
+       34:   90:   procedure Run_Test (Test : in out Test_Case) is
         -:   91:   begin
         -:   92:      --  Before running the fixture's method, we need to make sure that
         -:   93:      --  the test Ids correspond so that a failure reported via Fixture is
         -:   94:      --  correctly understood as being part of Test.
-      102:   95:      AUnit.Assertions.Copy_Id (Test, Test.Fixture.all);
-      102:   96:      Test.Method (Test_Fixture (Test.Fixture.all));
-      102:   97:   end Run_Test;
+       34:   95:      AUnit.Assertions.Copy_Id (Test, Test.Fixture.all);
+       34:   96:      Test.Method (Test_Fixture (Test.Fixture.all));
+       34:   97:   end Run_Test;
         -:   98:
         -:   99:   ------------
         -:  100:   -- Set_Up --
         -:  101:   ------------
         -:  102:
-      102:  103:   procedure Set_Up (Test : in out Test_Case) is
+       34:  103:   procedure Set_Up (Test : in out Test_Case) is
         -:  104:   begin
-      102:  105:      Set_Up (Test.Fixture.all);
-      102:  106:   end Set_Up;
+       34:  105:      Set_Up (Test.Fixture.all);
+       34:  106:   end Set_Up;
         -:  107:
         -:  108:   ---------------
         -:  109:   -- Tear_Down --
         -:  110:   ---------------
         -:  111:
-      102:  112:   procedure Tear_Down (Test : in out Test_Case) is
+       34:  112:   procedure Tear_Down (Test : in out Test_Case) is
         -:  113:   begin
-      102:  114:      Tear_Down (Test.Fixture.all);
-      102:  115:   end Tear_Down;
+       34:  114:      Tear_Down (Test.Fixture.all);
+       34:  115:   end Tear_Down;
         -:  116:
         -:  117:end AUnit.Test_Caller;

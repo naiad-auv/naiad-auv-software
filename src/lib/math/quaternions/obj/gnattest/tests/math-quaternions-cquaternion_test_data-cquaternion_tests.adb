@@ -15,7 +15,7 @@ package body Math.Quaternions.CQuaternion_Test_Data.CQuaternion_Tests is
    procedure Test_pxGet_Copy_d4ad30 (Gnattest_T : in out Test_CQuaternion) renames Test_pxGet_Copy;
 --  id:2.1/d4ad3014ebf1a501/pxGet_Copy/1/0/
    procedure Test_pxGet_Copy (Gnattest_T : in out Test_CQuaternion) is
-   --  math-quaternions.ads:12:4:pxGet_Copy
+   --  math-quaternions.ads:26:4:pxGet_Copy
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -55,7 +55,7 @@ package body Math.Quaternions.CQuaternion_Test_Data.CQuaternion_Tests is
    procedure Test_pxGet_Normalized_be75a2 (Gnattest_T : in out Test_CQuaternion) renames Test_pxGet_Normalized;
 --  id:2.1/be75a2cbb1bc553a/pxGet_Normalized/1/0/
    procedure Test_pxGet_Normalized (Gnattest_T : in out Test_CQuaternion) is
-   --  math-quaternions.ads:21:4:pxGet_Normalized
+   --  math-quaternions.ads:56:4:pxGet_Normalized
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -113,7 +113,7 @@ package body Math.Quaternions.CQuaternion_Test_Data.CQuaternion_Tests is
    procedure Test_fGet_Length_a40d15 (Gnattest_T : in out Test_CQuaternion) renames Test_fGet_Length;
 --  id:2.1/a40d15467fa6b82e/fGet_Length/1/0/
    procedure Test_fGet_Length (Gnattest_T : in out Test_CQuaternion) is
-   --  math-quaternions.ads:23:4:fGet_Length
+   --  math-quaternions.ads:60:4:fGet_Length
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -139,7 +139,7 @@ package body Math.Quaternions.CQuaternion_Test_Data.CQuaternion_Tests is
    procedure Test_fGet_Length_Squared_4d190d (Gnattest_T : in out Test_CQuaternion) renames Test_fGet_Length_Squared;
 --  id:2.1/4d190d2d13e2b130/fGet_Length_Squared/1/0/
    procedure Test_fGet_Length_Squared (Gnattest_T : in out Test_CQuaternion) is
-   --  math-quaternions.ads:24:4:fGet_Length_Squared
+   --  math-quaternions.ads:64:4:fGet_Length_Squared
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -165,7 +165,7 @@ package body Math.Quaternions.CQuaternion_Test_Data.CQuaternion_Tests is
    procedure Test_fGet_X_42438b (Gnattest_T : in out Test_CQuaternion) renames Test_fGet_X;
 --  id:2.1/42438b75dc7e62f2/fGet_X/1/0/
    procedure Test_fGet_X (Gnattest_T : in out Test_CQuaternion) is
-   --  math-quaternions.ads:25:4:fGet_X
+   --  math-quaternions.ads:68:4:fGet_X
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -192,7 +192,7 @@ package body Math.Quaternions.CQuaternion_Test_Data.CQuaternion_Tests is
    procedure Test_fGet_Y_c7b5f1 (Gnattest_T : in out Test_CQuaternion) renames Test_fGet_Y;
 --  id:2.1/c7b5f1b72b128413/fGet_Y/1/0/
    procedure Test_fGet_Y (Gnattest_T : in out Test_CQuaternion) is
-   --  math-quaternions.ads:26:4:fGet_Y
+   --  math-quaternions.ads:72:4:fGet_Y
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -218,7 +218,7 @@ package body Math.Quaternions.CQuaternion_Test_Data.CQuaternion_Tests is
    procedure Test_fGet_Z_dfd5d9 (Gnattest_T : in out Test_CQuaternion) renames Test_fGet_Z;
 --  id:2.1/dfd5d94f2be36c5a/fGet_Z/1/0/
    procedure Test_fGet_Z (Gnattest_T : in out Test_CQuaternion) is
-   --  math-quaternions.ads:27:4:fGet_Z
+   --  math-quaternions.ads:76:4:fGet_Z
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -244,7 +244,7 @@ package body Math.Quaternions.CQuaternion_Test_Data.CQuaternion_Tests is
    procedure Test_fGet_W_90387e (Gnattest_T : in out Test_CQuaternion) renames Test_fGet_W;
 --  id:2.1/90387ea4bd39b36b/fGet_W/1/0/
    procedure Test_fGet_W (Gnattest_T : in out Test_CQuaternion) is
-   --  math-quaternions.ads:28:4:fGet_W
+   --  math-quaternions.ads:80:4:fGet_W
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -266,11 +266,11 @@ package body Math.Quaternions.CQuaternion_Test_Data.CQuaternion_Tests is
 
 
 --  begin read only
-   procedure Test_fGet_Axis_Vector (Gnattest_T : in out Test_CQuaternion);
-   procedure Test_fGet_Axis_Vector_cd62fd (Gnattest_T : in out Test_CQuaternion) renames Test_fGet_Axis_Vector;
---  id:2.1/cd62fdaca3d8f8a6/fGet_Axis_Vector/1/0/
-   procedure Test_fGet_Axis_Vector (Gnattest_T : in out Test_CQuaternion) is
-   --  math-quaternions.ads:29:4:fGet_Axis_Vector
+   procedure Test_pxGet_Axis_Vector (Gnattest_T : in out Test_CQuaternion);
+   procedure Test_pxGet_Axis_Vector_6016bc (Gnattest_T : in out Test_CQuaternion) renames Test_pxGet_Axis_Vector;
+--  id:2.1/6016bc6a6dc01812/pxGet_Axis_Vector/1/0/
+   procedure Test_pxGet_Axis_Vector (Gnattest_T : in out Test_CQuaternion) is
+   --  math-quaternions.ads:85:4:pxGet_Axis_Vector
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -289,7 +289,7 @@ package body Math.Quaternions.CQuaternion_Test_Data.CQuaternion_Tests is
 
 
       pxTestVector := pxTestVector.pxGet_Normalized;
-      pxAxisVector := pxTestQuaternion.fGet_Axis_Vector;
+      pxAxisVector := pxTestQuaternion.pxGet_Axis_Vector;
 
       AUnit.Assertions.Assert(Condition => abs(pxAxisVector.fGet_X - pxTestVector.fGet_X) < 0.001,
                               Message   => "CQuaternion.pxGet_Axis_Vector failed, wrong X value. Value: " & float'Image(pxAxisVector.fGet_X) & ". Expected: " & float'Image(pxTestVector.fGet_X) & ".");
@@ -305,7 +305,7 @@ package body Math.Quaternions.CQuaternion_Test_Data.CQuaternion_Tests is
       pxTestVector := Math.Vectors.pxCreate(fX => 1.0,
                                             fY => 0.0,
                                             fZ => 0.0);
-      pxAxisVector := pxTestQuaternion.fGet_Axis_Vector;
+      pxAxisVector := pxTestQuaternion.pxGet_Axis_Vector;
 
       AUnit.Assertions.Assert(Condition => abs(pxAxisVector.fGet_X - pxTestVector.fGet_X) < 0.001,
                               Message   => "CQuaternion.pxGet_Axis_Vector failed, wrong X value. Value: " & float'Image(pxAxisVector.fGet_X) & ". Expected: " & float'Image(pxTestVector.fGet_X) & ".");
@@ -315,7 +315,7 @@ package body Math.Quaternions.CQuaternion_Test_Data.CQuaternion_Tests is
                               Message   => "CQuaternion.pxGet_Axis_Vector failed, wrong Z value. Value: " & float'Image(pxAxisVector.fGet_Z) & ". Expected: " & float'Image(pxTestVector.fGet_Z) & ".");
 
 --  begin read only
-   end Test_fGet_Axis_Vector;
+   end Test_pxGet_Axis_Vector;
 --  end read only
 
 
@@ -324,7 +324,7 @@ package body Math.Quaternions.CQuaternion_Test_Data.CQuaternion_Tests is
    procedure Test_fGet_Angle_In_Degrees_ce63d3 (Gnattest_T : in out Test_CQuaternion) renames Test_fGet_Angle_In_Degrees;
 --  id:2.1/ce63d3a8aac7255b/fGet_Angle_In_Degrees/1/0/
    procedure Test_fGet_Angle_In_Degrees (Gnattest_T : in out Test_CQuaternion) is
-   --  math-quaternions.ads:30:4:fGet_Angle_In_Degrees
+   --  math-quaternions.ads:89:4:fGet_Angle_In_Degrees
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -346,5 +346,56 @@ package body Math.Quaternions.CQuaternion_Test_Data.CQuaternion_Tests is
 --  end read only
 
 
+--  begin read only
+   --  procedure Test_fGet_Axis_Vector (Gnattest_T : in out Test);
+   --  procedure Test_fGet_Axis_Vector_cd62fd (Gnattest_T : in out Test) renames Test_fGet_Axis_Vector;
+--  id:2.1/cd62fdaca3d8f8a6/fGet_Axis_Vector/0/1/
+   --  procedure Test_fGet_Axis_Vector (Gnattest_T : in out Test) is
+--  end read only
+--  
+--        pragma Unreferenced (Gnattest_T);
+--  
+--        pxTestVector : Math.Vectors.pCVector;
+--        pxTestQuaternion : Math.Quaternions.pCQuaternion;
+--        pxAxisVector : Math.Vectors.pCVector;
+--  
+--     begin
+--  
+--        pxTestVector := Math.Vectors.pxCreate(fX => 4.0,
+--                                              fY => 16.3,
+--                                              fZ => -23.0);
+--        pxTestQuaternion := Math.Quaternions.pxCreate(pxAxisVector    => pxTestVector,
+--                                                      fAngleInDegrees => 90.0);
+--  
+--  
+--        pxTestVector := pxTestVector.pxGet_Normalized;
+--        pxAxisVector := pxTestQuaternion.fGet_Axis_Vector;
+--  
+--        AUnit.Assertions.Assert(Condition => abs(pxAxisVector.fGet_X - pxTestVector.fGet_X) < 0.001,
+--                                Message   => "CQuaternion.pxGet_Axis_Vector failed, wrong X value. Value: " & float'Image(pxAxisVector.fGet_X) & ". Expected: " & float'Image(pxTestVector.fGet_X) & ".");
+--        AUnit.Assertions.Assert(Condition => abs(pxAxisVector.fGet_Y - pxTestVector.fGet_Y) < 0.001,
+--                                Message   => "CQuaternion.pxGet_Axis_Vector failed, wrong Y value. Value: " & float'Image(pxAxisVector.fGet_Y) & ". Expected: " & float'Image(pxTestVector.fGet_Y) & ".");
+--        AUnit.Assertions.Assert(Condition => abs(pxAxisVector.fGet_Z - pxTestVector.fGet_Z) < 0.001,
+--                                Message   => "CQuaternion.pxGet_Axis_Vector failed, wrong Z value. Value: " & float'Image(pxAxisVector.fGet_Z) & ". Expected: " & float'Image(pxTestVector.fGet_Z) & ".");
+--  
+--        pxTestQuaternion := Math.Quaternions.pxCreate(pxAxisVector    => pxTestVector,
+--                                                      fAngleInDegrees => 0.0);
+--  
+--  
+--        pxTestVector := Math.Vectors.pxCreate(fX => 1.0,
+--                                              fY => 0.0,
+--                                              fZ => 0.0);
+--        pxAxisVector := pxTestQuaternion.fGet_Axis_Vector;
+--  
+--        AUnit.Assertions.Assert(Condition => abs(pxAxisVector.fGet_X - pxTestVector.fGet_X) < 0.001,
+--                                Message   => "CQuaternion.pxGet_Axis_Vector failed, wrong X value. Value: " & float'Image(pxAxisVector.fGet_X) & ". Expected: " & float'Image(pxTestVector.fGet_X) & ".");
+--        AUnit.Assertions.Assert(Condition => abs(pxAxisVector.fGet_Y - pxTestVector.fGet_Y) < 0.001,
+--                                Message   => "CQuaternion.pxGet_Axis_Vector failed, wrong Y value. Value: " & float'Image(pxAxisVector.fGet_Y) & ". Expected: " & float'Image(pxTestVector.fGet_Y) & ".");
+--        AUnit.Assertions.Assert(Condition => abs(pxAxisVector.fGet_Z - pxTestVector.fGet_Z) < 0.001,
+--                                Message   => "CQuaternion.pxGet_Axis_Vector failed, wrong Z value. Value: " & float'Image(pxAxisVector.fGet_Z) & ". Expected: " & float'Image(pxTestVector.fGet_Z) & ".");
+--  
+--  begin read only
+   --  end Test_fGet_Axis_Vector;
+--  end read only
 
 end Math.Quaternions.CQuaternion_Test_Data.CQuaternion_Tests;

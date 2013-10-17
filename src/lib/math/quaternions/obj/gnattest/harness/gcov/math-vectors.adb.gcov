@@ -1,5 +1,5 @@
         -:    0:Source:/home/evr/git/naiad-auv-software/src/lib/math/vectors/src/math-vectors.adb
-        -:    0:Programs:65
+        -:    0:Programs:21
         -:    1:-- Vector package for Project Naiad
         -:    2:-- Written by Per-Erik Måhl, 2013
         -:    3:
@@ -11,24 +11,24 @@
         -:    9:
         -:   10:package body Math.Vectors is
         -:   11:
-      542:   12:   function pxCreate (fX, fY, fZ : float) return pCVector is
-      542:   13:      pxNew_Vector : pCVector := new CVector;
+       24:   12:   function pxCreate (fX, fY, fZ : float) return pCVector is
+       24:   13:      pxNew_Vector : pCVector := new CVector;
         -:   14:   begin
-      542:   15:      pxNew_Vector.fX := fX;
-      542:   16:      pxNew_Vector.fY := fY;
-      542:   17:      pxNew_Vector.fZ := fZ;
-      542:   18:      return pxNew_Vector;
+       24:   15:      pxNew_Vector.fX := fX;
+       24:   16:      pxNew_Vector.fY := fY;
+       24:   17:      pxNew_Vector.fZ := fZ;
+       24:   18:      return pxNew_Vector;
         -:   19:   end pxCreate;
         -:   20:
         -:   21:
-      156:   22:   function fLength_Squared (this : in CVector) return float is
+       28:   22:   function fLength_Squared (this : in CVector) return float is
         -:   23:   begin
-      156:   24:      return (this.fX**2) + (this.fY**2) + (this.fZ**2);
+       28:   24:      return (this.fX**2) + (this.fY**2) + (this.fZ**2);
         -:   25:   end fLength_Squared;
         -:   26:
-       64:   27:   function fLength (this : in CVector) return float is
+       10:   27:   function fLength (this : in CVector) return float is
         -:   28:   begin
-       64:   29:      return Ada.Numerics.Elementary_Functions.Sqrt(this.fLength_Squared);
+       10:   29:      return Ada.Numerics.Elementary_Functions.Sqrt(this.fLength_Squared);
         -:   30:   end fLength;
         -:   31:
         -:   32:
@@ -70,30 +70,30 @@
     #####:   68:      return pxLeftOperandVector * fScaleFactor;
         -:   69:   end "/";
         -:   70:
-      206:   71:   function "=" (pxLeftOperandVector : in pCVector; pxRightOperandVector : in pCVector) return boolean is
+    #####:   71:   function "=" (pxLeftOperandVector : in pCVector; pxRightOperandVector : in pCVector) return boolean is
         -:   72:      use System;
         -:   73:   begin
-      824:   74:      return abs(pxLeftOperandVector.fX - pxRightOperandVector.fX) < 0.0001 and
-      412:   75:        abs(pxLeftOperandVector.fY - pxRightOperandVector.fY) < 0.0001 and
-      412:   76:        abs(pxLeftOperandVector.fZ - pxRightOperandVector.fZ) < 0.0001;
+    #####:   74:      return abs(pxLeftOperandVector.fX - pxRightOperandVector.fX) < 0.0001 and
+    #####:   75:        abs(pxLeftOperandVector.fY - pxRightOperandVector.fY) < 0.0001 and
+    #####:   76:        abs(pxLeftOperandVector.fZ - pxRightOperandVector.fZ) < 0.0001;
         -:   77:
         -:   78:   exception
     #####:   79:         when CONSTRAINT_ERROR => return false;
     #####:   80:   end "=";
         -:   81:
-       96:   82:   function fGet_X (this : in CVector) return float is
+       28:   82:   function fGet_X (this : in CVector) return float is
         -:   83:   begin
-       96:   84:      return this.fX;
+       28:   84:      return this.fX;
         -:   85:   end fGet_X;
         -:   86:
-       96:   87:   function fGet_Y (this : in CVector) return float is
+       28:   87:   function fGet_Y (this : in CVector) return float is
         -:   88:   begin
-       96:   89:      return this.fY;
+       28:   89:      return this.fY;
         -:   90:   end fGet_Y;
         -:   91:
-       96:   92:   function fGet_Z (this : in CVector) return float is
+       28:   92:   function fGet_Z (this : in CVector) return float is
         -:   93:   begin
-       96:   94:      return this.fZ;
+       28:   94:      return this.fZ;
         -:   95:   end fGet_Z;
         -:   96:
         -:   97:
@@ -124,68 +124,68 @@
     #####:  122:      return pxLeftOperandVector + (-pxRightOperandVector);
         -:  123:   end "-";
         -:  124:
-        2:  125:   function fDot_Product (pxLeftOperandVector : in pCVector; pxRightOperandVector : in pCVector) return float is
+    #####:  125:   function fDot_Product (pxLeftOperandVector : in pCVector; pxRightOperandVector : in pCVector) return float is
         -:  126:      fDotProduct : float;
         -:  127:   begin
-        6:  128:      fDotProduct := (pxLeftOperandVector.fX * pxRightOperandVector.fX)
-        4:  129:        + (pxLeftOperandVector.fY * pxRightOperandVector.fY)
-        4:  130:        + (pxLeftOperandVector.fZ * pxRightOperandVector.fZ);
-        2:  131:      return fDotProduct;
+    #####:  128:      fDotProduct := (pxLeftOperandVector.fX * pxRightOperandVector.fX)
+    #####:  129:        + (pxLeftOperandVector.fY * pxRightOperandVector.fY)
+    #####:  130:        + (pxLeftOperandVector.fZ * pxRightOperandVector.fZ);
+    #####:  131:      return fDotProduct;
         -:  132:   end fDot_Product;
         -:  133:
         -:  134:
-        2:  135:   function fAngle_Between_In_Radians (pxLeftOperandVector, pxRightOperandVector : in pCVector) return float is
+    #####:  135:   function fAngle_Between_In_Radians (pxLeftOperandVector, pxRightOperandVector : in pCVector) return float is
         -:  136:      fDotProduct : float;
         -:  137:   begin
-        2:  138:      fDotProduct := Math.Vectors.fDot_Product(pxLeftOperandVector  => pxLeftOperandVector,
+    #####:  138:      fDotProduct := Math.Vectors.fDot_Product(pxLeftOperandVector  => pxLeftOperandVector,
         -:  139:                                               pxRightOperandVector => pxRightOperandVector);
-        2:  140:      fDotProduct := fDotProduct / (pxLeftOperandVector.fLength * pxRightOperandVector.fLength);
+    #####:  140:      fDotProduct := fDotProduct / (pxLeftOperandVector.fLength * pxRightOperandVector.fLength);
         -:  141:
-        2:  142:      fDotProduct := float'Min(float'Max(fDotProduct,-1.0),1.0);
+    #####:  142:      fDotProduct := float'Min(float'Max(fDotProduct,-1.0),1.0);
         -:  143:
-        2:  144:      return Ada.Numerics.Elementary_Functions.Arccos(fDotProduct);
+    #####:  144:      return Ada.Numerics.Elementary_Functions.Arccos(fDotProduct);
         -:  145:   end fAngle_Between_In_Radians;
         -:  146:
         -:  147:
-       60:  148:   function pxGet_Normalized (this : in CVector) return pCVector is
-       60:  149:      pxNormalizedVector : pCVector;
+       10:  148:   function pxGet_Normalized (this : in CVector) return pCVector is
+       10:  149:      pxNormalizedVector : pCVector;
         -:  150:   begin
-       60:  151:      if this.fLength_Squared = 0.0 then
+       10:  151:      if this.fLength_Squared = 0.0 then
     #####:  152:         raise Numeric_Error;
         -:  153:      end if;
         -:  154:
-       60:  155:      pxNormalizedVector := this / this.fLength;
-       60:  156:      return pxNormalizedVector;
+       10:  155:      pxNormalizedVector := this / this.fLength;
+       10:  156:      return pxNormalizedVector;
         -:  157:   end pxGet_Normalized;
         -:  158:
-        2:  159:   function pxCross_Product (pxLeftOperandVector : in pCVector; pxRightOperandVector : in pCVector) return pCVector is
-        2:  160:      pxCrossProductVector : pCVector;
+    #####:  159:   function pxCross_Product (pxLeftOperandVector : in pCVector; pxRightOperandVector : in pCVector) return pCVector is
+    #####:  160:      pxCrossProductVector : pCVector;
         -:  161:   begin
-        4:  162:      pxCrossProductVector := Math.Vectors.pxCreate(fX => (pxLeftOperandVector.fY * pxRightOperandVector.fZ) - (pxLeftOperandVector.fZ * pxRightOperandVector.fY),
-        4:  163:                                                          fY => (pxLeftOperandVector.fZ * pxRightOperandVector.fX) - (pxLeftOperandVector.fX * pxRightOperandVector.fZ),
-        2:  164:                                                          fZ => (pxLeftOperandVector.fX * pxRightOperandVector.fY) - (pxLeftOperandVector.fY * pxRightOperandVector.fX));
-        2:  165:      return pxCrossProductVector;
+    #####:  162:      pxCrossProductVector := Math.Vectors.pxCreate(fX => (pxLeftOperandVector.fY * pxRightOperandVector.fZ) - (pxLeftOperandVector.fZ * pxRightOperandVector.fY),
+    #####:  163:                                                          fY => (pxLeftOperandVector.fZ * pxRightOperandVector.fX) - (pxLeftOperandVector.fX * pxRightOperandVector.fZ),
+    #####:  164:                                                          fZ => (pxLeftOperandVector.fX * pxRightOperandVector.fY) - (pxLeftOperandVector.fY * pxRightOperandVector.fX));
+    #####:  165:      return pxCrossProductVector;
         -:  166:   end pxCross_Product;
         -:  167:
         -:  168:
-       60:  169:   function "/" (xLeftOperandVector : in CVector; fRightOperand : in float) return pCVector is
+       10:  169:   function "/" (xLeftOperandVector : in CVector; fRightOperand : in float) return pCVector is
         -:  170:   begin
-       60:  171:      if abs(fRightOperand) = 0.0 then
+       10:  171:      if abs(fRightOperand) = 0.0 then
     #####:  172:         raise Numeric_Error;
         -:  173:      end if;
         -:  174:
-      180:  175:      return Math.Vectors.pxCreate(fX => xLeftOperandVector.fX / fRightOperand,
-       60:  176:                                         fY => xLeftOperandVector.fY / fRightOperand,
-       60:  177:                                         fZ => xLeftOperandVector.fZ / fRightOperand);
+       30:  175:      return Math.Vectors.pxCreate(fX => xLeftOperandVector.fX / fRightOperand,
+       10:  176:                                         fY => xLeftOperandVector.fY / fRightOperand,
+       10:  177:                                         fZ => xLeftOperandVector.fZ / fRightOperand);
         -:  178:   end "/";
         -:  179:
-       12:  180:   function pxGet_Copy (this : in CVector) return pCVector is
-       12:  181:      pxCopy : pCVector;
+    #####:  180:   function pxGet_Copy (this : in CVector) return pCVector is
+    #####:  181:      pxCopy : pCVector;
         -:  182:   begin
-       12:  183:      pxCopy := Math.Vectors.pxCreate(fX => this.fX,
+    #####:  183:      pxCopy := Math.Vectors.pxCreate(fX => this.fX,
         -:  184:                                            fY => this.fY,
         -:  185:                                            fZ => this.fZ);
-       12:  186:      return pxCopy;
+    #####:  186:      return pxCopy;
         -:  187:   end pxGet_Copy;
         -:  188:
         -:  189:

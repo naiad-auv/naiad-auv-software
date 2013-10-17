@@ -1,5 +1,5 @@
         -:    0:Source:/home/evr/git/naiad-auv-software/src/lib/math/quaternions/obj/gnattest/tests/math-quaternions-test_data-tests.adb
-        -:    0:Programs:65
+        -:    0:Programs:21
         -:    1:--  This package has been generated automatically by GNATtest.
         -:    2:--  You are allowed to add your code to the bodies of test routines.
         -:    3:--  Such changes will be kept during further regeneration of this file.

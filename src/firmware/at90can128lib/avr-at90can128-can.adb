@@ -37,6 +37,9 @@ package body AVR.AT90CAN128.CAN is
    procedure CanWriteTXMOB is
       Msg : CAN_Message;
    begin
+      if pTXRead = pTXWrite then
+         return;
+      end if;
       Msg := TX_buffer(pTXRead mod Buffer_Size);
       CANPAGE := (TX_MOB_ID, False, 0);
       for I in 1..Msg.Len loop
