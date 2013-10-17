@@ -3,7 +3,7 @@
 -- This code is mainly based on the router.adb file from the Vasa project
 
 -- Rewritten by Nils Brynedal Ignell for the Naiad AUV project
--- Last changed (yyyy-mm-dd): 2013-10-05
+-- Last changed (yyyy-mm-dd): 2013-10-16
 
 -- TODO:
 
@@ -114,21 +114,23 @@ package body CAN_Link_pack is
    end Send_CanData_To_Can;
 
 
-   procedure Send_Serial_Data_Out(Data : String; Len : Interfaces.Unsigned_8) is
-   begin
-      usart_write(Data, xUSART, Integer(Len));
-   end Send_Serial_Data_Out;
+--     procedure Send_Serial_Data_Out(Data : String; Len : Interfaces.Unsigned_8) is
+--     begin
+--        usart_write(Data, xUSART, Integer(Len));
+--     end Send_Serial_Data_Out;
 
    procedure CANBUS_Monitoring is
    begin
-      AVR.AT90CAN128.CAN.Can_Enable_Reception(MIN_CANID, 16#7_00#, MAX_DATALEN); -- Messages 0..255
+      --AVR.AT90CAN128.CAN.Can_Enable_Reception(MIN_CANID, 16#7_00#, MAX_DATALEN); -- Messages 0..255
+
+
 
       while AVR.AT90CAN128.CAN.Can_Valid_Message loop
          declare
             Msg_In : AVR.AT90CAN128.CAN.CAN_Message;
          Ret    : Boolean;
       begin
-          AVR.AT90CAN128.CAN.Can_Get(Msg_In, Ret);
+          AVR.AT90CAN128.CAN.Can_Get(Msg_In, Ret, 0);
          if Ret then
             Send_CanData_To_Qseven(Msg_In);
          end if;
@@ -173,13 +175,14 @@ package body CAN_Link_pack is
          Data_Type := Character'Pos(Head_Buf(BUSTYPE_POS));
          case Data_Type is
             -- Can bus data
-           when Can_Data =>
+           when CAN_DATA =>
            ID := Character'Pos(Head_Buf(IDHIGH_POS)) * 256 + Character'Pos(Head_Buf(IDLOW_POS));
 
               Send_CanData_To_Can(ID, AVR.AT90CAN128.DLC_Type(Datalen), Data_Buf);
                --Command for Servo
             when Serial_Data =>
-               Send_Serial_Data_Out(Data_buf, DataLen);
+               --  Send_Serial_Data_Out(Data_buf, DataLen);
+               null;
             when others => null;
          end case;
       end if;
@@ -220,7 +223,7 @@ package body CAN_Link_pack is
    --This application should start before Qseven starts
    procedure HandshakeWithQseven is
    begin
-      AVR.AT90CAN128.WDTCR := (False, False, False, True, True, True, True, True);
+      AVR.AT90CAN128.WDTCR := (False, False, False, True, True, True, True, True);  -- enables watchdog timer, will resest the controller if no handshake successful
       AVR.AT90CAN128.WDTCR := (False, False, False, True, True, True, True, True);
       Wait_For_Reply(Q7USART);
       AVR.AT90CAN128.WDTCR := (False, False, False, True, True, True, True, True);
@@ -245,7 +248,8 @@ package body CAN_Link_pack is
    procedure hardware_init is
    begin
       AVR.AT90CAN128.USART.Init(Q7USART,  AVR.AT90CAN128.USART.BAUD38400);
-      AVR.AT90CAN128.CAN.Can_Init(AVR.AT90CAN128.CAN.K100);
+      AVR.AT90CAN128.CAN.Can_Init(AVR.AT90CAN128.CAN.K250);
+      AVR.AT90CAN128.CAN.Can_Set_All_MOB_ID_MASK(0, 0);
    end hardware_init;
 
 end CAN_Link_pack;
