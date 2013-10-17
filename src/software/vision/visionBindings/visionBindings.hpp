@@ -44,7 +44,16 @@ virtual void DrawHoughLines(int cdst);
 virtual void Contours(int src);
 virtual void showContours(int contourOut, int contourId, int thickness);
 
+
 virtual void approxPolyDP(double epsilon, bool closed);
+
+//Channels
+virtual void splitChannels(int src);
+virtual void showBlueChannel();
+virtual void showGreenChannel();
+virtual void showRedChannel();
+
+
 virtual void LabelPoints(int src);
 
 Processing_Wrap();

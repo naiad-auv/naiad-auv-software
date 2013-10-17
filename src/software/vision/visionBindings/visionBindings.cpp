@@ -13,8 +13,10 @@ std::vector<cv::Vec3f> circles;
 std::vector<cv::Vec2f> lines;
 std::vector<cv::Mat> contours;
 cv::VideoCapture cap;
+std::vector<cv::Mat> channels;
+
 std::queue <cv::Mat> imageBuf; // Declare a queue
-int imageName=0;
+int imageName=31;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////    IMAGE BUFFER FUNC   ////////////////////////////////////////////////////////////////////////
@@ -27,7 +29,9 @@ void Core_Wrap::test_func()
   char strStorage[50]; // enough to hold all numbers up to 64-bits
   int bufSize=0;
   
+
   std::string folderPath = "/home/vision/Documents/project/cdt508/Robosub2012_logging/Loggning/log 3/Bottom/";
+
   std::string result;
   std::string imageType = ".jpg";
   
@@ -264,11 +268,30 @@ cv::waitKey(0);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////// CHANNELS ////////////////////////////////////////////
+
+void Processing_Wrap::splitChannels(int src)
+{
+	cv::split(img.at(src), channels);
+}
+
 ///////////////////////////////////////////////////////////////////////////////////////////
 
+void Processing_Wrap::showBlueChannel()
+{
+	std::cout<<channels[0];
+}
+void Processing_Wrap::showGreenChannel()
+{
+	std::cout<<channels[1];
+}
+void Processing_Wrap::showRedChannel()
+{
+	std::cout<<channels[2];
+}
 
-
-
+///////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////
 Processing_Wrap::Processing_Wrap(){}
 // VideoCapture test - Stream
 
