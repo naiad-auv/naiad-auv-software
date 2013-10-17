@@ -110,7 +110,7 @@ package body AVR.AT90CAN128.CAN is
                for I in 1..Msg.Len loop
                   Msg.Data (I) := CANMSG;
                end loop;
-               if iGetBufferSize(pRXWrite,pRXRead) /= Buffer_Size then
+               if iGetBufferSize(pRXWrite,pRXRead) < Buffer_Size then
                   Pos := pRXWrite;
                   RX_buffer(Pos mod Buffer_Size) := Msg;
                   Pos := Pos + 1;
@@ -150,17 +150,17 @@ package body AVR.AT90CAN128.CAN is
 
 
    function findHighestPriorityMessage( buffer : in Can_Buffer_Array ; pRead, pWrite : in Buffer_pointer) return Buffer_pointer is
-      ret : Buffer_pointer;
+      ret : Buffer_pointer := pRead;
       prio : CAN_ID := CAN_ID'Last;
       counter : Buffer_pointer;
    begin
       counter := pRead;
       while counter /= pWrite loop
-         if buffer(counter).ID < prio then
+         if buffer(counter mod Buffer_Size).ID < prio then
             prio := buffer(counter mod Buffer_Size).ID;
             ret := counter;
-            counter := counter + 1;
          end if;
+         counter := counter + 1;
       end loop;
       return ret;
    end findHighestPriorityMessage;
