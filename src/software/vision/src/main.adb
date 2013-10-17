@@ -64,25 +64,30 @@ begin
    
    Endless_Loop:
    loop
-   CoreWrap.test_func;--load image to img.at(0)
-   CoreWrap.imshow(New_String("Why so normal?"), 0);--show image for debug purposes
-   CoreWrap.waitKey(0);
+      CoreWrap.test_func;--load image to img.at(0)
+      CoreWrap.imshow(New_String("Why so normal?"), 0);--show image for debug purposes
+      CoreWrap.waitKey(0);
+   
+      --test Channels
+      processingWrap.splitChannels(src => Interfaces.C.int(0));
+      processingWrap.showRedChannel;
+      
 
 
 
-   --CLEAN IMAGE--to be implemented
-   --CONVERT IMAGE TO GREYSCALE FOR CANNY
-   --call convertToGreyscale procedure
-   Vision.Image_Processing.Convert_To_Greyscale(iImageSource,iImageDestination, iGreyFilter);
-   CoreWrap.imshow(New_String("why so grey?"), 0);--show image for debug purposes
-   CoreWrap.waitKey(0);
+      --CLEAN IMAGE--to be implemented
+      --CONVERT IMAGE TO GREYSCALE FOR CANNY
+      --call convertToGreyscale procedure
+      --     Vision.Image_Processing.Convert_To_Greyscale(iImageSource,iImageDestination, iGreyFilter);
+      --     CoreWrap.imshow(New_String("why so grey?"), 0);--show image for debug purposes
+      --     CoreWrap.waitKey(0);
 
-   --USE CANNY ON GREYSCALE IMAGE
-     Vision.Image_Processing.Canny(iImageDestination,iImageDestination, iCannyLowThres, iCannyHighThres, iCannyKernelSize);
-     CoreWrap.imshow(New_String("why so canny Sir star fish?"), 0);--show image for debug purposes
-     CoreWrap.waitKey(0);
+      --USE CANNY ON GREYSCALE IMAGE
+      --       Vision.Image_Processing.Canny(iImageDestination,iImageDestination, iCannyLowThres, iCannyHighThres, iCannyKernelSize);
+      --       CoreWrap.imshow(New_String("why so canny Sir star fish?"), 0);--show image for debug purposes
+      --       CoreWrap.waitKey(0);
    end loop Endless_Loop;
-     --Vision.Image_Processing.Canny(iImageDestination,iImageDestination, iCannyLowThres, iCannyHighThres, iCannyKernelSize);
+   --Vision.Image_Processing.Canny(iImageDestination,iImageDestination, iCannyLowThres, iCannyHighThres, iCannyKernelSize);
    --CoreWrap.imshow(New_String("why so canny Sir star fish?"), 2);--show image for debug purposes
    --CoreWrap.waitKey(0);
    --ret := CoreWrap.imwrite(name => New_String("CannyOut.jpg"),
