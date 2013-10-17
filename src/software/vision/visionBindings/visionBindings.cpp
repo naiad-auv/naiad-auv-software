@@ -16,18 +16,24 @@ cv::VideoCapture cap;
 std::queue <cv::Mat> imageBuf; // Declare a queue
 int imageName=0;
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////    IMAGE BUFFER FUNC   ////////////////////////////////////////////////////////////////////////
+//func that loads in images in buffer of size IMAGE_BUFFER_SIZE(uses queue func from c++, and creates a queue of IMAGE_BUFFER_SIZE
+//It loads buffer and replaces the image at img.at(0)
+//NB takes images from a folder at the minute, this will need to be changed when the real input method for the system
+//becomes available. 
 void Core_Wrap::test_func()
 {
   char strStorage[50]; // enough to hold all numbers up to 64-bits
   int bufSize=0;
   
-  std::string folderPath = "/home/vision/Documents/project/cdt508/Robosub2012_logging/Loggning/log 3/Front/";// int imageName = 0;
+  std::string folderPath = "/home/vision/Documents/project/cdt508/Robosub2012_logging/Loggning/log 3/Bottom/";
   std::string result;
   std::string imageType = ".jpg";
   
   if (imageBuf.size()==0)//load image, then pop image and enter do loop
   {
-	sprintf(strStorage, "%d", imageName);
+	sprintf(strStorage, "%d", imageName);//imageName global, set to 1, and increases as prog scrolls through images in folder
   	result = folderPath + strStorage + imageType;
   	cv::Mat F=cv::imread(result,1);//<0 unchanged, 0 greyscale, >0 rgb
   	imageBuf.push(F);
@@ -46,8 +52,6 @@ void Core_Wrap::test_func()
    }while (bufSize<IMAGE_BUFFER_SIZE);
    
    std::cout<<imageName;
-   //cv::imshow("test Fun img",imageBuf.front());
-   //cv::waitKey(0);
 }
 
 void Core_Wrap::push_back(char * src)
@@ -85,30 +89,30 @@ int Core_Wrap::size(void)
 
 Core_Wrap::Core_Wrap(){}
 
+
 //processing functions in openCV!!
 void Processing_Wrap::cvtColor(int src, int dst, int filter)
 {
   cv::cvtColor(img.at(src), img.at(dst), filter);
 }
-
+////////////////////////////////////////CANNY/////////////////////////////////////////////////////
+// NB Canny works on an input greyscale image
 void Processing_Wrap::Canny(int src, int dst, int lThresh, int hThresh, int kernelSize)
 {
   cv::Canny(img.at(src), img.at(dst), lThresh, hThresh, kernelSize);
-/*  cvCreateTrackbar("Thresh1", "Tutorial", &lThresh, 256, 0);
-  cvCreateTrackbar("Thresh2", "Tutorial", &hThresh, 256, 0);
-  cv::imshow("test func image", img.at(src));
-  cv::waitKey(0);*/
 }
 
-//void tester(std::vector<Item*>&);std::vector<cv::Vec3f*>&circles
+//////////////////////////////////////HOUGH CIRCLES//////////////////////////////////////////////////////////////
+// Takes in source image index, stores result in circles vector defined above
 void Processing_Wrap::HoughCircles(int src,int inverseRatioOfResolution,int minDistBetweenCenters,int cannyUpThres, int centerDetectionThreshold, int minRadius,int maxRadius )
 {
   cv::HoughCircles( img.at(src), circles, CV_HOUGH_GRADIENT, inverseRatioOfResolution, minDistBetweenCenters, cannyUpThres, centerDetectionThreshold, minRadius, maxRadius );
 
 }
 
-///////////////////////////////IN PROGRESS ///////////////////////////////////////////////
-/// Draw the hough circles detected
+///////////////////////////////DRAW CIRCLES ///////////////////////////////////////////////
+// Draw the hough circles detected, Gets input from circles vector defined above, 
+// NB This function will be removed, only used for testing
 void Processing_Wrap::DrawHoughCircles(int src)
 {
   int i;
@@ -123,33 +127,19 @@ void Processing_Wrap::DrawHoughCircles(int src)
       cv::circle( img.at(src), center, radius, cv::Scalar(0,0,255), 3, 8, 0 );
    }
 }
-///////////////////////////////////////////////////////////////////////////////////////////
 
-
-//labeler func
+/////////////////////////////// IMAGE INTENSITY FUNCTION////////////////////////////////////7
+// This function searches through an image at img.at(src) pixel by pixel and prints the intensity
+// value for each picture
+//NB "print" has to be changed to "add to a storage vector" if it is decided that this function
+//is needed. At the minute it is surplus to requirements but this will more than likely change
 void Processing_Wrap::LabelPoints(int src)
 {
 int x,y;
 x=y=0;
-
-
 cv::Size dim = img.at(src).size();
-//cv::Mat G;
 cv::Mat F = img.at(src).clone();
-cv::imshow("test func image", F);
-cv::waitKey(0);
-//cv::Scalar intensity = F.at<uchar>(cv::Point(x, y));
-//cv::Vec3b intensity = F.at<cv::Vec3b>(cv::Point(x, y));
-
-std::cout<<"width of image is"<<dim.width;
-std::cout<<"made it here";
-cv::waitKey(0);
-//cv::Canny(F, G, 50, 450, 3);
-//cv::imshow("cannied that bitch", G);
-//cv::waitKey(0);
 cv::Scalar intensity;
-
-cv::waitKey(0);
 
     for(int heightIndex=0;heightIndex<dim.height;++heightIndex)
     {
@@ -159,7 +149,6 @@ cv::waitKey(0);
 		intensity = F .at<uchar>(cv::Point(widthIndex,heightIndex));
 		std::cout<< intensity.val[0];
 	}
-	std::cout<<std::endl;
     }
 	std::cout<<"height"<<dim.height<<"width"<<dim.width;
 	cv::waitKey(0);
@@ -208,40 +197,70 @@ void Processing_Wrap::DrawHoughLines(int cdst)
 
 void Processing_Wrap::Contours(int src) // TO DO : include image-ROI
 {
-	cv::Mat G;
+	//cv::Mat G;
 	if(img.at(src).data)
 	{
-		std::cout<<"in contour \n";
-		cv::waitKey(0);
+		//std::cout<<"in contour \n";
+		//cv::waitKey(0);
 	}
 	else
 	{
 		std::cout<<"img not found";
 		cv::waitKey(0);
 	}
-	cv::Mat F=img.at(2).clone();
-	cv::imshow("precanny", F);
-	cv::waitKey(0);
-	cv::Canny(F, G, 50, 450, 3);
-	std::cout<<"wait after canny";
-	cv::waitKey(0);
-	cv::imshow("super canny",G);
-	cv::waitKey(0);
+	//cv::Mat F=img.at(src).clone();
+	//cv::imshow("precontours", F);
+	//cv::waitKey(0);
+//	cv::Canny(F, G, 50, 450, 3);
+//	std::cout<<"wait after canny";
+//	cv::waitKey(0);
+//	cv::imshow("super canny",G);
+//	cv::waitKey(0);
 	
-	cv::findContours( G, contours, CV_RETR_LIST, CV_CHAIN_APPROX_SIMPLE);
-	cv::waitKey(0);
-	cv::imshow("in contours", img.at(src)); //TO DO : REMOVE
-	cv::waitKey(0);
+	cv::findContours( img.at(src), contours, CV_RETR_LIST, CV_CHAIN_APPROX_SIMPLE);
+	//cv::waitKey(0);
+	//cv::imshow("in contours", img.at(src)); //TO DO : REMOVE
+	//cv::waitKey(0);
 }
 
 /////////////////////////////////////// display ///////////////////////////////////////////
 
-void Processing_Wrap::showContours(int contourOut, int contourId = -1, int thickness = 3)
+void Processing_Wrap::showContours(int contourOut, int contourId = -1, int thickness = 1)
 {
-	std::cout<<"in show contour \n";
-	cv::waitKey(0);
+	//std::cout<<"in show contour \n";
+	//cv::waitKey(0);
 	cv::drawContours(img.at(contourOut), contours, contourId, cv::Scalar(0,0,255), thickness, CV_AA );
-	cv::waitKey(0);	
+	//cv::waitKey(0);	
+}
+
+//////////////////////////aprox poly //////////////////////////////////////////////////////
+void Processing_Wrap::approxPolyDP(double epsilon, bool closed)
+{
+   std::cout<<"in aprox poly \n";
+int count = 0;
+   std::vector<cv::Point> polys;
+   //std::vector<cv::Mat>fourPolys;
+
+   for (int i =0;i<contours.size();i++)
+	{
+	cv::approxPolyDP(contours[i], polys, arcLength(cv::Mat(contours[i]), true)*0.02,closed);
+	if (polys.size()==4)
+	{
+	
+        std::cout<<"\n polys : "<<polys<<"\n";
+
+	count=count+1;
+	cv::waitKey(0);
+	}
+	else 
+	{
+	std::cout<<"no square \n";	
+	}	
+	}
+	
+    std::cout<<"outside loop \n"<<"we found this many squares:"<<count;
+  //cv::drawContours(img.at(0), fourPolys, -1, cv::Scalar(255,0,0), 3, CV_AA );
+cv::waitKey(0); 
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////

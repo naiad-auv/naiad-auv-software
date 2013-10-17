@@ -3,6 +3,7 @@ pragma Style_Checks (Off);
 
 with Interfaces.C; use Interfaces.C;
 with Interfaces.C.Strings;
+with Interfaces.C.Extensions;
 
 package visionBindings_hpp is
 
@@ -104,6 +105,12 @@ package visionBindings_hpp is
          contourId : int;
          thickness : int);  -- visionBindings.hpp:45
       pragma Import (CPP, showContours, "_ZN15Processing_Wrap12showContoursEiii");
+
+      procedure approxPolyDP
+        (this : access Processing_Wrap;
+         epsilon : double;
+         closed : Extensions.bool);  -- visionBindings.hpp:47
+      pragma Import (CPP, approxPolyDP, "_ZN15Processing_Wrap12approxPolyDPEdb");
 
       procedure LabelPoints (this : access Processing_Wrap; src : int);  -- visionBindings.hpp:48
       pragma Import (CPP, LabelPoints, "_ZN15Processing_Wrap11LabelPointsEi");

@@ -31,11 +31,11 @@ procedure main is
 begin
    --canny declarations
    iImageSource := 0;
-   iImageDestination := 0;
+   iImageDestination := 1;
    iImageCannyOut := 4;
    iGreyFilter := 6;
-   iCannyLowThres := 50;
-   iCannyHighThres := 100;
+   iCannyLowThres := 20;
+   iCannyHighThres := 200;
    iCannyKernelSize := 3;
 
    --hough circle declarations
@@ -56,35 +56,35 @@ begin
    --CHECK FOR INSTRUCTION--to be implemented, for now just working on default mode
   
    --GET IMAGE-- read from buffer, but for now just read in png
-   CoreWrap.push_back(New_String("rosie.png"));
-   CoreWrap.push_back(New_String("rosie.png"));
+   CoreWrap.push_back(New_String("Square.jpg"));--rosie.png
+   CoreWrap.push_back(New_String("Square.jpg"));
+   CoreWrap.push_back(New_String("Square.jpg"));
+   CoreWrap.push_back(New_String("Square.jpg"));--Square.jpg
    --CoreWrap.push_back(New_String("circle3.jpg"));
    --CoreWrap.push_back(New_String("circle3.jpg"));
    --CoreWrap.waitKey(0);
    
-   Endless_Loop:
-   loop
-   CoreWrap.test_func;--load image to img.at(0)
+  --Endless_Loop:
+   --loop
+   --CoreWrap.test_func;--load image to img.at(0)
    CoreWrap.imshow(New_String("Why so normal?"), 0);--show image for debug purposes
    CoreWrap.waitKey(0);
 
 
 
    --CLEAN IMAGE--to be implemented
-   --CONVERT IMAGE TO GREYSCALE FOR CANNY
+   --CONVERT IMAGE TO GREYSCALE 
    --call convertToGreyscale procedure
    Vision.Image_Processing.Convert_To_Greyscale(iImageSource,iImageDestination, iGreyFilter);
-   CoreWrap.imshow(New_String("why so grey?"), 0);--show image for debug purposes
+   CoreWrap.imshow(New_String("why so grey?"), 1);--show image for debug purposes
    CoreWrap.waitKey(0);
 
    --USE CANNY ON GREYSCALE IMAGE
      Vision.Image_Processing.Canny(iImageDestination,iImageDestination, iCannyLowThres, iCannyHighThres, iCannyKernelSize);
-     CoreWrap.imshow(New_String("why so canny Sir star fish?"), 0);--show image for debug purposes
+     CoreWrap.imshow(New_String("why so canny?"), 1);--show image for debug purposes
      CoreWrap.waitKey(0);
-   end loop Endless_Loop;
-     --Vision.Image_Processing.Canny(iImageDestination,iImageDestination, iCannyLowThres, iCannyHighThres, iCannyKernelSize);
-   --CoreWrap.imshow(New_String("why so canny Sir star fish?"), 2);--show image for debug purposes
-   --CoreWrap.waitKey(0);
+  -- end loop Endless_Loop;
+   
    --ret := CoreWrap.imwrite(name => New_String("CannyOut.jpg"),
    --                      src  => 2 );
    --CoreWrap.push_back(New_String("CannyOut.jpg"));
@@ -137,19 +137,23 @@ begin
    --processingWrap.LabelPoints(Interfaces.C.int(4));
 
    --Contours
-     --CoreWrap.imshow(name => New_String("test_disp"),
-       --              src  => 1);
+    -- CoreWrap.imshow(name => New_String("test_disp"),
+      --               src  => 1);
    --CoreWrap.waitKey(0);
 
---   processingWrap.Contours(src    => Interfaces.C.int(1));
---   processingWrap.showContours(contourOut => Interfaces.C.int(1),
- --                              contourId  => -1 ,
- --                              thickness  => 3 );
-  -- CoreWrap.imshow(name => New_String("contour_out"),
-   --                src  => 1);
-   --CoreWrap.waitKey(0);
-  -- ret := CoreWrap.imwrite(name => New_String("Contours.jpg"),
-   --                        src  => 1);
+   processingWrap.Contours(src    => Interfaces.C.int(1));
+   processingWrap.showContours(contourOut => Interfaces.C.int(0),
+                               contourId  => -1 ,
+                               thickness  => 3 );
+   CoreWrap.imshow(name => New_String("contour_out"),
+                   src  => 0);
+   CoreWrap.waitKey(0);
+   --ret := CoreWrap.imwrite(name => New_String("Contours.jpg"),
+            --               src  => 0);
+ 
+   processingWrap.approxPolyDP(1.2, 1);
+
+  --end loop Endless_Loop;
    CoreWrap.waitKey(0);
 end main;
 
