@@ -21,7 +21,7 @@ void Core_Wrap::test_func()
   char strStorage[50]; // enough to hold all numbers up to 64-bits
   int bufSize=0;
   
-  std::string folderPath = "/home/gerard/Documents/project/cdt508/Robosub2012_logging/Loggning/log 3/Front/";// int imageName = 0;
+  std::string folderPath = "/home/vision/Documents/project/cdt508/Robosub2012_logging/Loggning/log 3/Front/";// int imageName = 0;
   std::string result;
   std::string imageType = ".jpg";
   

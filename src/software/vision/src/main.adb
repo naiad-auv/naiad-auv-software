@@ -35,7 +35,7 @@ begin
    iImageCannyOut := 4;
    iGreyFilter := 6;
    iCannyLowThres := 50;
-   iCannyHighThres := 200;
+   iCannyHighThres := 100;
    iCannyKernelSize := 3;
 
    --hough circle declarations
