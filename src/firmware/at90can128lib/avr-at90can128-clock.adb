@@ -1,6 +1,5 @@
-with System.Machine_Code;
+with AVR.AT90CAN128.INTERRUPT;
 with interfaces;
-use Interfaces;
 
 package body AVR.AT90CAN128.CLOCK is
    pragma Suppress (All_Checks);
@@ -12,12 +11,11 @@ package body AVR.AT90CAN128.CLOCK is
 
 
    function getClockTime return Time is
-      use  System.Machine_Code;
       Result : Time;
    begin
-      Asm ("cli", Volatile => True);
+      AVR.AT90CAN128.INTERRUPT.disableInterrupt;
       Result := Time_Of_Day;
-      Asm ("sei", Volatile => True);
+      AVR.AT90CAN128.INTERRUPT.enableInterrupt;
       return Result;
    end getClockTime;
 

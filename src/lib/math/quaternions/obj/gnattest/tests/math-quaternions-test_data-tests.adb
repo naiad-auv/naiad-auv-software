@@ -84,8 +84,8 @@ package body Math.Quaternions.Test_Data.Tests is
                               Message   => "CQuaternion.pxCreate failed, fY got the wrong value.");
       AUnit.Assertions.Assert(Condition => abs(pxTestVector.fGet_Z - fExpectedZValue) < 0.001,
                               Message   => "CQuaternion.pxCreate failed, fZ got the wrong value.");
-      AUnit.Assertions.Assert(Condition => abs(pxNewQuaternion.fGet_Angle - fAngle) < 0.001,
-                              Message   => "CQuaternion.pxCreate failed, fW got the wrong value. Angle: " & float'Image(pxNewQuaternion.fGet_Angle));
+      AUnit.Assertions.Assert(Condition => abs(pxNewQuaternion.fGet_Angle_In_Degrees - fAngle) < 0.001,
+                              Message   => "CQuaternion.pxCreate failed, fW got the wrong value. Angle: " & float'Image(pxNewQuaternion.fGet_Angle_In_Degrees));
 
 
 --  begin read only
@@ -260,6 +260,12 @@ package body Math.Quaternions.Test_Data.Tests is
       pxRightOperandQuaternion.fX := pxRightOperandQuaternion.fX + 0.01;
       AUnit.Assertions.Assert(Condition => not (pxLeftOperandQuaternion = pxRightOperandQuaternion),
                               Message   => "CQuaternion.=(binary) failed, left operand equals right operand.");
+      
+      
+      pxRightOperandQuaternion := null;
+      AUnit.Assertions.Assert(Condition => pxLeftOperandQuaternion /= pxRightOperandQuaternion,
+                              Message   => "CQuaternion.=(binary) failed, left operand equals right operand.");
+      
 
 --  begin read only
    end Test_Equal;
@@ -305,53 +311,52 @@ package body Math.Quaternions.Test_Data.Tests is
 
 
 --  begin read only
-   procedure Test_pxGet_Spherical_Linear_Interpolation_Quaternion (Gnattest_T : in out Test);
-   procedure Test_pxGet_Spherical_Linear_Interpolation_Quaternion_ccc0de (Gnattest_T : in out Test) renames Test_pxGet_Spherical_Linear_Interpolation_Quaternion;
---  id:2.1/ccc0deca44691779/pxGet_Spherical_Linear_Interpolation_Quaternion/1/0/
-   procedure Test_pxGet_Spherical_Linear_Interpolation_Quaternion (Gnattest_T : in out Test) is
-   --  math-quaternions.ads:20:4:pxGet_Spherical_Linear_Interpolation_Quaternion
+   --  procedure Test_pxGet_Spherical_Linear_Interpolation_Quaternion (Gnattest_T : in out Test);
+   --  procedure Test_pxGet_Spherical_Linear_Interpolation_Quaternion_ccc0de (Gnattest_T : in out Test) renames Test_pxGet_Spherical_Linear_Interpolation_Quaternion;
+--  id:2.1/ccc0deca44691779/pxGet_Spherical_Linear_Interpolation_Quaternion/1/1/
+   --  procedure Test_pxGet_Spherical_Linear_Interpolation_Quaternion (Gnattest_T : in out Test) is
 --  end read only
-
-      pragma Unreferenced (Gnattest_T);
-
-      pxFromQuaternion : pCQuaternion;
-      pxToQuaternion : pCQuaternion;
-      pxInterpolatedQuaternion : pCQuaternion;
-      pxLastInterpolatedQuaternion : pCQuaternion;
-      pxAxisVector : Math.Vectors.pCVector;
-      fCoefficient : float;
-   begin
-
-      pxAxisVector := Math.Vectors.pxCreate(fX => 1.0,
-                                            fY => 0.0,
-                                            fZ => 0.0);
-      pxFromQuaternion := Math.Quaternions.pxCreate(pxAxisVector    => pxAxisVector,
-                                                    fAngleInDegrees => 45.0);
-
-      pxAxisVector := Math.Vectors.pxCreate(fX => 1.0,
-                                            fY => 0.0,
-                                            fZ => 0.0);
-      pxToQuaternion := Math.Quaternions.pxCreate(pxAxisVector    => pxAxisVector,
-                                                  fAngleInDegrees => -45.0);
-
-
-      pxLastInterpolatedQuaternion := Math.Quaternions.pxGet_Spherical_Linear_Interpolation_Quaternion(pxFromQuaternion          => pxFromQuaternion,
-                                                                                                   pxToQuaternion            => pxToQuaternion,
-                                                                                                   fInterpolationCoefficient => 0.0);
-      for t in 1 .. 100 loop
-         fCoefficient := float(t) * 0.01;
-         pxInterpolatedQuaternion := Math.Quaternions.pxGet_Spherical_Linear_Interpolation_Quaternion(pxFromQuaternion          => pxFromQuaternion,
-                                                                                                      pxToQuaternion            => pxToQuaternion,
-                                                                                                      fInterpolationCoefficient => 0.5);
-       AUnit.Assertions.Assert(Condition => pxInterpolatedQuaternion.fGet_Axis_Vector = pxLastInterpolatedQuaternion.fGet_Axis_Vector,
-                              Message   => "CQuaternion.pxGet_Spherical_Linear_Interpolation_Quaternion failed, wrong axis vector in for loop.");
-       AUnit.Assertions.Assert(Condition => pxInterpolatedQuaternion.fGet_Angle < pxLastInterpolatedQuaternion.fGet_Angle,
-                              Message   => "CQuaternion.pxGet_Spherical_Linear_Interpolation_Quaternion failed, wrong angle in foor loop. Coefficient: " & float'Image(fCoefficient));
-
-      end loop;
-
+--  
+--        pragma Unreferenced (Gnattest_T);
+--  
+--        pxFromQuaternion : pCQuaternion;
+--        pxToQuaternion : pCQuaternion;
+--        pxInterpolatedQuaternion : pCQuaternion;
+--        pxLastInterpolatedQuaternion : pCQuaternion;
+--        pxAxisVector : Math.Vectors.pCVector;
+--        fCoefficient : float;
+--     begin
+--  
+--        pxAxisVector := Math.Vectors.pxCreate(fX => 1.0,
+--                                              fY => 0.0,
+--                                              fZ => 0.0);
+--        pxFromQuaternion := Math.Quaternions.pxCreate(pxAxisVector    => pxAxisVector,
+--                                                      fAngleInDegrees => 45.0);
+--  
+--        pxAxisVector := Math.Vectors.pxCreate(fX => 1.0,
+--                                              fY => 0.0,
+--                                              fZ => 0.0);
+--        pxToQuaternion := Math.Quaternions.pxCreate(pxAxisVector    => pxAxisVector,
+--                                                    fAngleInDegrees => -45.0);
+--  
+--  
+--        pxLastInterpolatedQuaternion := Math.Quaternions.pxGet_Spherical_Linear_Interpolation_Quaternion(pxFromQuaternion          => pxFromQuaternion,
+--                                                                                                     pxToQuaternion            => pxToQuaternion,
+--                                                                                                     fInterpolationCoefficient => 0.0);
+--        for t in 1 .. 100 loop
+--           fCoefficient := float(t) * 0.01;
+--           pxInterpolatedQuaternion := Math.Quaternions.pxGet_Spherical_Linear_Interpolation_Quaternion(pxFromQuaternion          => pxFromQuaternion,
+--                                                                                                        pxToQuaternion            => pxToQuaternion,
+--                                                                                                        fInterpolationCoefficient => 0.5);
+--         AUnit.Assertions.Assert(Condition => pxInterpolatedQuaternion.fGet_Axis_Vector = pxLastInterpolatedQuaternion.fGet_Axis_Vector,
+--                                Message   => "CQuaternion.pxGet_Spherical_Linear_Interpolation_Quaternion failed, wrong axis vector in for loop.");
+--         AUnit.Assertions.Assert(Condition => pxInterpolatedQuaternion.fGet_Angle_In_Degrees < pxLastInterpolatedQuaternion.fGet_Angle_In_Degrees,
+--                                Message   => "CQuaternion.pxGet_Spherical_Linear_Interpolation_Quaternion failed, wrong angle in foor loop. Coefficient: " & float'Image(fCoefficient));
+--  
+--        end loop;
+--  
 --  begin read only
-   end Test_pxGet_Spherical_Linear_Interpolation_Quaternion;
+   --  end Test_pxGet_Spherical_Linear_Interpolation_Quaternion;
 --  end read only
 
 end Math.Quaternions.Test_Data.Tests;

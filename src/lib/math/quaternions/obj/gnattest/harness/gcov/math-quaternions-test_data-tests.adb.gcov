@@ -1,0 +1,364 @@
+        -:    0:Source:/home/evr/git/naiad-auv-software/src/lib/math/quaternions/obj/gnattest/tests/math-quaternions-test_data-tests.adb
+        -:    0:Programs:65
+        -:    1:--  This package has been generated automatically by GNATtest.
+        -:    2:--  You are allowed to add your code to the bodies of test routines.
+        -:    3:--  Such changes will be kept during further regeneration of this file.
+        -:    4:--  All code placed outside of test routine bodies will be lost. The
+        -:    5:--  code intended to set up and tear down the test environment should be
+        -:    6:--  placed into Math.Quaternions.Test_Data.
+        -:    7:
+        -:    8:with AUnit.Assertions; use AUnit.Assertions;
+        -:    9:
+        -:   10:package body Math.Quaternions.Test_Data.Tests is
+        -:   11:
+        -:   12:
+        -:   13:--  begin read only
+        -:   14:   procedure Test_1_pxCreate (Gnattest_T : in out Test);
+        2:   15:   procedure Test_pxCreate_fbac4b (Gnattest_T : in out Test) renames Test_1_pxCreate;
+        -:   16:--  id:2.1/fbac4bee6ca29f21/pxCreate/1/0/
+        2:   17:   procedure Test_1_pxCreate (Gnattest_T : in out Test) is
+        -:   18:   --  math-quaternions.ads:10:4:pxCreate
+        -:   19:--  end read only
+        -:   20:
+        -:   21:      pragma Unreferenced (Gnattest_T);
+        -:   22:
+        2:   23:      pxNewQuaternion : pCQuaternion;
+        -:   24:      fExpectedXValue : float := 3.0;
+        -:   25:      fExpectedYValue : float := 4.0;
+        -:   26:      fExpectedZValue : float := -5.0;
+        -:   27:      fExpectedWValue : float := 10.0;
+        -:   28:   begin
+        -:   29:
+        2:   30:      pxNewQuaternion := Math.Quaternions.pxCreate(fX => fExpectedXValue,
+        -:   31:                                                   fY => fExpectedYValue,
+        -:   32:                                                   fZ => fExpectedZValue,
+        -:   33:                                                   fW => fExpectedWValue);
+        -:   34:
+        -:   35:
+        2:   36:      AUnit.Assertions.Assert(Condition => pxNewQuaternion.fX = fExpectedXValue,
+        2:   37:                              Message   => "CQuaternion.pxCreate failed, fX got the wrong value. Value:" & float'Image(pxNewQuaternion.fX) & ". Expected:" & float'Image(fExpectedXValue) & ".");
+        2:   38:      AUnit.Assertions.Assert(Condition => pxNewQuaternion.fY = fExpectedYValue,
+        2:   39:                              Message   => "CQuaternion.pxCreate failed, fY got the wrong value. Value:" & float'Image(pxNewQuaternion.fY) & ". Expected:" & float'Image(fExpectedYValue) & ".");
+        2:   40:      AUnit.Assertions.Assert(Condition => pxNewQuaternion.fZ = fExpectedZValue,
+        2:   41:                              Message   => "CQuaternion.pxCreate failed, fZ got the wrong value. Value:" & float'Image(pxNewQuaternion.fZ) & ". Expected:" & float'Image(fExpectedZValue) & ".");
+        2:   42:      AUnit.Assertions.Assert(Condition => pxNewQuaternion.fW = fExpectedWValue,
+        2:   43:                              Message   => "CQuaternion.pxCreate failed, fW got the wrong value. Value:" & float'Image(pxNewQuaternion.fW) & ". Expected:" & float'Image(fExpectedWValue) & ".");
+        -:   44:
+        -:   45:--  begin read only
+        2:   46:   end Test_1_pxCreate;
+        -:   47:--  end read only
+        -:   48:
+        -:   49:
+        -:   50:--  begin read only
+        -:   51:   procedure Test_2_pxCreate (Gnattest_T : in out Test);
+        2:   52:   procedure Test_pxCreate_937a51 (Gnattest_T : in out Test) renames Test_2_pxCreate;
+        -:   53:--  id:2.1/937a5186dd726f3b/pxCreate/0/0/
+        2:   54:   procedure Test_2_pxCreate (Gnattest_T : in out Test) is
+        -:   55:   --  math-quaternions.ads:11:4:pxCreate
+        -:   56:--  end read only
+        -:   57:
+        -:   58:      pragma Unreferenced (Gnattest_T);
+        -:   59:
+        2:   60:      pxNewQuaternion : pCQuaternion;
+        2:   61:      pxTestVector : Math.Vectors.pCVector;
+        -:   62:      fAngle : float := 4.0;
+        2:   63:      fExpectedXValue : float := 1.0;
+        2:   64:      fExpectedYValue : float := 1.0;
+        2:   65:      fExpectedZValue : float := 0.0;
+        -:   66:   begin
+        -:   67:
+        2:   68:      pxTestVector := Math.Vectors.pxCreate(fX => fExpectedXValue,
+        -:   69:                                            fY => fExpectedYValue,
+        -:   70:                                            fZ => fExpectedZValue);
+        2:   71:      pxNewQuaternion := Math.Quaternions.pxCreate(pxAxisVector    => pxTestVector,
+        -:   72:                                                   fAngleInDegrees => fAngle);
+        -:   73:
+        2:   74:      pxTestVector := pxTestVector.pxGet_Normalized;
+        2:   75:      fExpectedXValue := pxTestVector.fGet_X;
+        2:   76:      fExpectedYValue := pxTestVector.fGet_Y;
+        2:   77:      fExpectedZValue := pxTestVector.fGet_Z;
+        -:   78:
+        2:   79:      pxTestVector := pxNewQuaternion.fGet_Axis_Vector;
+        -:   80:
+        2:   81:      AUnit.Assertions.Assert(Condition => abs(pxTestVector.fGet_X - fExpectedXValue) < 0.001,
+        -:   82:                              Message   => "CQuaternion.pxCreate failed, fX got the wrong value.");
+        2:   83:      AUnit.Assertions.Assert(Condition => abs(pxTestVector.fGet_Y - fExpectedYValue) < 0.001,
+        -:   84:                              Message   => "CQuaternion.pxCreate failed, fY got the wrong value.");
+        2:   85:      AUnit.Assertions.Assert(Condition => abs(pxTestVector.fGet_Z - fExpectedZValue) < 0.001,
+        -:   86:                              Message   => "CQuaternion.pxCreate failed, fZ got the wrong value.");
+        2:   87:      AUnit.Assertions.Assert(Condition => abs(pxNewQuaternion.fGet_Angle_In_Degrees - fAngle) < 0.001,
+        2:   88:                              Message   => "CQuaternion.pxCreate failed, fW got the wrong value. Angle: " & float'Image(pxNewQuaternion.fGet_Angle_In_Degrees));
+        -:   89:
+        -:   90:
+        -:   91:--  begin read only
+        2:   92:   end Test_2_pxCreate;
+        -:   93:--  end read only
+        -:   94:
+        -:   95:
+        -:   96:--  begin read only
+        -:   97:   procedure Test_Plus (Gnattest_T : in out Test);
+        2:   98:   procedure Test_Plus_bd5b1d (Gnattest_T : in out Test) renames Test_Plus;
+        -:   99:--  id:2.1/bd5b1df12406b840/Plus/1/0/
+        2:  100:   procedure Test_Plus (Gnattest_T : in out Test) is
+        -:  101:   --  math-quaternions.ads:14:4:"+"
+        -:  102:--  end read only
+        -:  103:
+        -:  104:      pragma Unreferenced (Gnattest_T);
+        -:  105:
+        2:  106:      pxLeftOperandQuaternion : pCQuaternion;
+        2:  107:      pxRightOperandQuaternion : pCQuaternion;
+        2:  108:      pxSumQuaternion : pCQuaternion;
+        -:  109:   begin
+        -:  110:
+        2:  111:      pxLeftOperandQuaternion := Math.Quaternions.pxCreate(fX => 2.3,
+        -:  112:                                                           fY => -5.3,
+        -:  113:                                                           fZ => 6.2,
+        -:  114:                                                           fW => 6.0);
+        2:  115:      pxRightOperandQuaternion := Math.Quaternions.pxCreate(fX => 12.5,
+        -:  116:                                                            fY => 60.2,
+        -:  117:                                                            fZ => -523.0,
+        -:  118:                                                            fW => 23.0);
+        2:  119:      pxSumQuaternion := pxLeftOperandQuaternion + pxRightOperandQuaternion;
+        -:  120:
+        2:  121:      AUnit.Assertions.Assert(Condition => pxSumQuaternion'Address /= pxLeftOperandQuaternion'Address,
+        -:  122:                              Message   => "CQuaternion.+(binary) failed, pointer to sum is the same as pointer to left operand.");
+        2:  123:      AUnit.Assertions.Assert(Condition => pxSumQuaternion'Address /= pxRightOperandQuaternion'Address,
+        -:  124:                              Message   => "CQuaternion.+(binary) failed, pointer to sum is the same as pointer to right operand.");
+        -:  125:
+        4:  126:      AUnit.Assertions.Assert(Condition => pxSumQuaternion.fX = (pxLeftOperandQuaternion.fX + pxRightOperandQuaternion.fX),
+        4:  127:                              Message   => "CQuaternion.+(binary) failed, wrong result in X component. Value: " & float'Image(pxSumQuaternion.fX) & ". Expected: " & float'Image(pxLeftOperandQuaternion.fX + pxRightOperandQuaternion.fX) & ".");
+        4:  128:      AUnit.Assertions.Assert(Condition => pxSumQuaternion.fY = (pxLeftOperandQuaternion.fY + pxRightOperandQuaternion.fY),
+        4:  129:                              Message   => "CQuaternion.+(binary) failed, wrong result in Y component. Value: " & float'Image(pxSumQuaternion.fY) & ". Expected: " & float'Image(pxLeftOperandQuaternion.fY + pxRightOperandQuaternion.fY) & ".");
+        4:  130:      AUnit.Assertions.Assert(Condition => pxSumQuaternion.fZ = (pxLeftOperandQuaternion.fZ + pxRightOperandQuaternion.fZ),
+        4:  131:                              Message   => "CQuaternion.+(binary) failed, wrong result in Z component. Value: " & float'Image(pxSumQuaternion.fZ) & ". Expected: " & float'Image(pxLeftOperandQuaternion.fZ + pxRightOperandQuaternion.fZ) & ".");
+        4:  132:      AUnit.Assertions.Assert(Condition => pxSumQuaternion.fW = (pxLeftOperandQuaternion.fW + pxRightOperandQuaternion.fW),
+        4:  133:                              Message   => "CQuaternion.+(binary) failed, wrong result in W component. Value: " & float'Image(pxSumQuaternion.fW) & ". Expected: " & float'Image(pxLeftOperandQuaternion.fW + pxRightOperandQuaternion.fW) & ".");
+        -:  134:
+        -:  135:--  begin read only
+        2:  136:   end Test_Plus;
+        -:  137:--  end read only
+        -:  138:
+        -:  139:
+        -:  140:--  begin read only
+        -:  141:   procedure Test_Minus (Gnattest_T : in out Test);
+        2:  142:   procedure Test_Minus_2f7442 (Gnattest_T : in out Test) renames Test_Minus;
+        -:  143:--  id:2.1/2f74421dfd689023/Minus/1/0/
+        2:  144:   procedure Test_Minus (Gnattest_T : in out Test) is
+        -:  145:   --  math-quaternions.ads:15:4:"-"
+        -:  146:--  end read only
+        -:  147:
+        -:  148:      pragma Unreferenced (Gnattest_T);
+        -:  149:
+        2:  150:      pxLeftOperandQuaternion : pCQuaternion;
+        2:  151:      pxRightOperandQuaternion : pCQuaternion;
+        2:  152:      pxDifferenceQuaternion : pCQuaternion;
+        -:  153:   begin
+        -:  154:
+        2:  155:      pxLeftOperandQuaternion := Math.Quaternions.pxCreate(fX => 2.3,
+        -:  156:                                                           fY => -5.3,
+        -:  157:                                                           fZ => 6.2,
+        -:  158:                                                           fW => 6.0);
+        2:  159:      pxRightOperandQuaternion := Math.Quaternions.pxCreate(fX => 12.5,
+        -:  160:                                                            fY => 60.2,
+        -:  161:                                                            fZ => -523.0,
+        -:  162:                                                            fW => 23.0);
+        2:  163:      pxDifferenceQuaternion := pxLeftOperandQuaternion - pxRightOperandQuaternion;
+        -:  164:
+        2:  165:      AUnit.Assertions.Assert(Condition => pxDifferenceQuaternion'Address /= pxLeftOperandQuaternion'Address,
+        -:  166:                              Message   => "CQuaternion.-(binary) failed, pointer to difference is the same as pointer to left operand.");
+        2:  167:      AUnit.Assertions.Assert(Condition => pxDifferenceQuaternion'Address /= pxRightOperandQuaternion'Address,
+        -:  168:                              Message   => "CQuaternion.-(binary) failed, pointer to difference is the same as pointer to right operand.");
+        -:  169:
+        4:  170:      AUnit.Assertions.Assert(Condition => pxDifferenceQuaternion.fX = (pxLeftOperandQuaternion.fX - pxRightOperandQuaternion.fX),
+        4:  171:                              Message   => "CQuaternion.-(binary) failed, wrong result in X component. Value: " & float'Image(pxDifferenceQuaternion.fX) & ". Expected: " & float'Image(pxLeftOperandQuaternion.fX - pxRightOperandQuaternion.fX) & ".");
+        4:  172:      AUnit.Assertions.Assert(Condition => pxDifferenceQuaternion.fY = (pxLeftOperandQuaternion.fY - pxRightOperandQuaternion.fY),
+        4:  173:                              Message   => "CQuaternion.-(binary) failed, wrong result in Y component. Value: " & float'Image(pxDifferenceQuaternion.fY) & ". Expected: " & float'Image(pxLeftOperandQuaternion.fY - pxRightOperandQuaternion.fY) & ".");
+        4:  174:      AUnit.Assertions.Assert(Condition => pxDifferenceQuaternion.fZ = (pxLeftOperandQuaternion.fZ - pxRightOperandQuaternion.fZ),
+        4:  175:                              Message   => "CQuaternion.-(binary) failed, wrong result in Z component. Value: " & float'Image(pxDifferenceQuaternion.fZ) & ". Expected: " & float'Image(pxLeftOperandQuaternion.fZ - pxRightOperandQuaternion.fZ) & ".");
+        4:  176:      AUnit.Assertions.Assert(Condition => pxDifferenceQuaternion.fW = (pxLeftOperandQuaternion.fW - pxRightOperandQuaternion.fW),
+        4:  177:                              Message   => "CQuaternion.-(binary) failed, wrong result in W component. Value: " & float'Image(pxDifferenceQuaternion.fW) & ". Expected: " & float'Image(pxLeftOperandQuaternion.fW - pxRightOperandQuaternion.fW) & ".");
+        -:  178:
+        -:  179:--  begin read only
+        2:  180:   end Test_Minus;
+        -:  181:--  end read only
+        -:  182:
+        -:  183:
+        -:  184:--  begin read only
+        -:  185:   procedure Test_Multiply (Gnattest_T : in out Test);
+        2:  186:   procedure Test_Multiply_cbc666 (Gnattest_T : in out Test) renames Test_Multiply;
+        -:  187:--  id:2.1/cbc66689b1a4c76f/Multiply/1/0/
+        2:  188:   procedure Test_Multiply (Gnattest_T : in out Test) is
+        -:  189:   --  math-quaternions.ads:16:4:"*"
+        -:  190:--  end read only
+        -:  191:
+        -:  192:      pragma Unreferenced (Gnattest_T);
+        2:  193:      pxLeftOperandQuaternion : pCQuaternion;
+        2:  194:      pxRightOperandQuaternion : pCQuaternion;
+        2:  195:      pxProductQuaternion : pCQuaternion;
+        -:  196:      fExpectedX : float;
+        -:  197:      fExpectedY : float;
+        -:  198:      fExpectedZ : float;
+        -:  199:      fExpectedW : float;
+        -:  200:   begin
+        -:  201:
+        2:  202:      pxLeftOperandQuaternion := Math.Quaternions.pxCreate(fX => 2.3,
+        -:  203:                                                           fY => -5.3,
+        -:  204:                                                           fZ => 6.2,
+        -:  205:                                                           fW => 6.0);
+        2:  206:      pxRightOperandQuaternion := Math.Quaternions.pxCreate(fX => 12.5,
+        -:  207:                                                            fY => 60.2,
+        -:  208:                                                            fZ => -523.0,
+        -:  209:                                                            fW => 23.0);
+        2:  210:      pxProductQuaternion := pxLeftOperandQuaternion * pxRightOperandQuaternion;
+        -:  211:
+        2:  212:      fExpectedX := ((pxLeftOperandQuaternion.fW*pxRightOperandQuaternion.fX)+(pxLeftOperandQuaternion.fX*pxRightOperandQuaternion.fW)+(pxLeftOperandQuaternion.fY*pxRightOperandQuaternion.fZ)-(pxLeftOperandQuaternion.fZ*pxRightOperandQuaternion.fY));
+        2:  213:      fExpectedY := ((pxLeftOperandQuaternion.fW*pxRightOperandQuaternion.fY)-(pxLeftOperandQuaternion.fX*pxRightOperandQuaternion.fZ)+(pxLeftOperandQuaternion.fY*pxRightOperandQuaternion.fW)+(pxLeftOperandQuaternion.fZ*pxRightOperandQuaternion.fX));
+        2:  214:      fExpectedZ := ((pxLeftOperandQuaternion.fW*pxRightOperandQuaternion.fZ)+(pxLeftOperandQuaternion.fX*pxRightOperandQuaternion.fY)-(pxLeftOperandQuaternion.fY*pxRightOperandQuaternion.fX)-(pxLeftOperandQuaternion.fZ*pxRightOperandQuaternion.fW));
+        2:  215:      fExpectedW := ((pxLeftOperandQuaternion.fW*pxRightOperandQuaternion.fW)-(pxLeftOperandQuaternion.fX*pxRightOperandQuaternion.fX)-(pxLeftOperandQuaternion.fY*pxRightOperandQuaternion.fY)-(pxLeftOperandQuaternion.fZ*pxRightOperandQuaternion.fZ));
+        -:  216:
+        2:  217:      AUnit.Assertions.Assert(Condition => pxProductQuaternion'Address /= pxLeftOperandQuaternion'Address,
+        -:  218:                              Message   => "CQuaternion.*(binary) failed, pointer to product is the same as pointer to left operand.");
+        2:  219:      AUnit.Assertions.Assert(Condition => pxProductQuaternion'Address /= pxRightOperandQuaternion'Address,
+        -:  220:                              Message   => "CQuaternion.*(binary) failed, pointer to product is the same as pointer to right operand.");
+        -:  221:
+        2:  222:      AUnit.Assertions.Assert(Condition => pxProductQuaternion.fX = fExpectedX,
+        2:  223:                              Message   => "CQuaternion.*(binary) failed, wrong result in X component. Value: " & float'Image(pxProductQuaternion.fX) & ". Expected: " & float'Image(fExpectedX) & ".");
+        2:  224:      AUnit.Assertions.Assert(Condition => pxProductQuaternion.fY = fExpectedY,
+        2:  225:                              Message   => "CQuaternion.*(binary) failed, wrong result in Y component. Value: " & float'Image(pxProductQuaternion.fY) & ". Expected: " & float'Image(fExpectedY) & ".");
+        2:  226:      AUnit.Assertions.Assert(Condition => pxProductQuaternion.fZ = fExpectedZ,
+        2:  227:                              Message   => "CQuaternion.*(binary) failed, wrong result in Z component. Value: " & float'Image(pxProductQuaternion.fZ) & ". Expected: " & float'Image(fExpectedZ) & ".");
+        2:  228:      AUnit.Assertions.Assert(Condition => pxProductQuaternion.fW = fExpectedW,
+        2:  229:                              Message   => "CQuaternion.*(binary) failed, wrong result in W component. Value: " & float'Image(pxProductQuaternion.fW) & ". Expected: " & float'Image(fExpectedW) & ".");
+        -:  230:
+        -:  231:
+        -:  232:
+        -:  233:--  begin read only
+        2:  234:   end Test_Multiply;
+        -:  235:--  end read only
+        -:  236:
+        -:  237:
+        -:  238:--  begin read only
+        -:  239:   procedure Test_Equal (Gnattest_T : in out Test);
+        2:  240:   procedure Test_Equal_079d85 (Gnattest_T : in out Test) renames Test_Equal;
+        -:  241:--  id:2.1/079d85964c7551a7/Equal/1/0/
+        2:  242:   procedure Test_Equal (Gnattest_T : in out Test) is
+        -:  243:   --  math-quaternions.ads:17:4:"="
+        -:  244:--  end read only
+        -:  245:
+        -:  246:      pragma Unreferenced (Gnattest_T);
+        2:  247:     pxLeftOperandQuaternion : pCQuaternion;
+        2:  248:      pxRightOperandQuaternion : pCQuaternion;
+        -:  249:   begin
+        -:  250:
+        2:  251:      pxLeftOperandQuaternion := Math.Quaternions.pxCreate(fX => 2.3,
+        -:  252:                                                           fY => -5.3,
+        -:  253:                                                           fZ => 6.2,
+        -:  254:                                                           fW => 6.0);
+        2:  255:      pxRightOperandQuaternion := pxLeftOperandQuaternion.pxGet_Copy;
+        -:  256:
+        2:  257:      AUnit.Assertions.Assert(Condition => pxLeftOperandQuaternion = pxRightOperandQuaternion,
+        -:  258:                              Message   => "CQuaternion.=(binary) failed, left operand does not equal right operand.");
+        -:  259:
+        2:  260:      pxRightOperandQuaternion.fX := pxRightOperandQuaternion.fX + 0.01;
+        2:  261:      AUnit.Assertions.Assert(Condition => not (pxLeftOperandQuaternion = pxRightOperandQuaternion),
+        -:  262:                              Message   => "CQuaternion.=(binary) failed, left operand equals right operand.");
+        -:  263:      
+        -:  264:      
+        2:  265:      pxRightOperandQuaternion := null;
+        2:  266:      AUnit.Assertions.Assert(Condition => pxLeftOperandQuaternion /= pxRightOperandQuaternion,
+        -:  267:                              Message   => "CQuaternion.=(binary) failed, left operand equals right operand.");
+        -:  268:      
+        -:  269:
+        -:  270:--  begin read only
+        2:  271:   end Test_Equal;
+        -:  272:--  end read only
+        -:  273:
+        -:  274:
+        -:  275:--  begin read only
+        -:  276:   procedure Test_fGet_Dot_Product (Gnattest_T : in out Test);
+        2:  277:   procedure Test_fGet_Dot_Product_be0506 (Gnattest_T : in out Test) renames Test_fGet_Dot_Product;
+        -:  278:--  id:2.1/be0506155b2e61ac/fGet_Dot_Product/1/0/
+        2:  279:   procedure Test_fGet_Dot_Product (Gnattest_T : in out Test) is
+        -:  280:   --  math-quaternions.ads:18:4:fGet_Dot_Product
+        -:  281:--  end read only
+        -:  282:
+        -:  283:      pragma Unreferenced (Gnattest_T);
+        -:  284:
+        2:  285:      pxLeftOperandQuaternion : pCQuaternion;
+        2:  286:      pxRightOperandQuaternion : pCQuaternion;
+        -:  287:      fDotProduct : float;
+        -:  288:   begin
+        -:  289:
+        -:  290:      --(,,,) dot (12.0,,,)
+        2:  291:      pxLeftOperandQuaternion := Math.Quaternions.pxCreate(fX => 4.3,
+        -:  292:                                                           fY => 7.3,
+        -:  293:                                                           fZ => -12.3,
+        -:  294:                                                           fW => 63.0);
+        2:  295:      pxRightOperandQuaternion := Math.Quaternions.pxCreate(fX => 12.0,
+        -:  296:                                                            fY => 76.3,
+        -:  297:                                                            fZ => 12.3,
+        -:  298:                                                            fW => -15.0);
+        2:  299:      fDotProduct := Math.Quaternions.fGet_Dot_Product(pxLeftOperandQuaternion  => pxLeftOperandQuaternion,
+        -:  300:                                                       pxRightOperandQuaternion => pxRightOperandQuaternion);
+        -:  301:
+        2:  302:      AUnit.Assertions.Assert(Condition => abs(fDotProduct - (-487.7)) < 0.001,
+        2:  303:                              Message   => "CQuaternion.fGet_Dot_Product failed, wrong value. Value: " & float'Image(fDotProduct) & ". Expected: " & float'Image(-487.7) & ".");
+        -:  304:
+        -:  305:
+        -:  306:
+        -:  307:
+        -:  308:--  begin read only
+        2:  309:   end Test_fGet_Dot_Product;
+        -:  310:--  end read only
+        -:  311:
+        -:  312:
+        -:  313:--  begin read only
+        -:  314:   --  procedure Test_pxGet_Spherical_Linear_Interpolation_Quaternion (Gnattest_T : in out Test);
+        -:  315:   --  procedure Test_pxGet_Spherical_Linear_Interpolation_Quaternion_ccc0de (Gnattest_T : in out Test) renames Test_pxGet_Spherical_Linear_Interpolation_Quaternion;
+        -:  316:--  id:2.1/ccc0deca44691779/pxGet_Spherical_Linear_Interpolation_Quaternion/1/1/
+        -:  317:   --  procedure Test_pxGet_Spherical_Linear_Interpolation_Quaternion (Gnattest_T : in out Test) is
+        -:  318:--  end read only
+        -:  319:--  
+        -:  320:--        pragma Unreferenced (Gnattest_T);
+        -:  321:--  
+        -:  322:--        pxFromQuaternion : pCQuaternion;
+        -:  323:--        pxToQuaternion : pCQuaternion;
+        -:  324:--        pxInterpolatedQuaternion : pCQuaternion;
+        -:  325:--        pxLastInterpolatedQuaternion : pCQuaternion;
+        -:  326:--        pxAxisVector : Math.Vectors.pCVector;
+        -:  327:--        fCoefficient : float;
+        -:  328:--     begin
+        -:  329:--  
+        -:  330:--        pxAxisVector := Math.Vectors.pxCreate(fX => 1.0,
+        -:  331:--                                              fY => 0.0,
+        -:  332:--                                              fZ => 0.0);
+        -:  333:--        pxFromQuaternion := Math.Quaternions.pxCreate(pxAxisVector    => pxAxisVector,
+        -:  334:--                                                      fAngleInDegrees => 45.0);
+        -:  335:--  
+        -:  336:--        pxAxisVector := Math.Vectors.pxCreate(fX => 1.0,
+        -:  337:--                                              fY => 0.0,
+        -:  338:--                                              fZ => 0.0);
+        -:  339:--        pxToQuaternion := Math.Quaternions.pxCreate(pxAxisVector    => pxAxisVector,
+        -:  340:--                                                    fAngleInDegrees => -45.0);
+        -:  341:--  
+        -:  342:--  
+        -:  343:--        pxLastInterpolatedQuaternion := Math.Quaternions.pxGet_Spherical_Linear_Interpolation_Quaternion(pxFromQuaternion          => pxFromQuaternion,
+        -:  344:--                                                                                                     pxToQuaternion            => pxToQuaternion,
+        -:  345:--                                                                                                     fInterpolationCoefficient => 0.0);
+        -:  346:--        for t in 1 .. 100 loop
+        -:  347:--           fCoefficient := float(t) * 0.01;
+        -:  348:--           pxInterpolatedQuaternion := Math.Quaternions.pxGet_Spherical_Linear_Interpolation_Quaternion(pxFromQuaternion          => pxFromQuaternion,
+        -:  349:--                                                                                                        pxToQuaternion            => pxToQuaternion,
+        -:  350:--                                                                                                        fInterpolationCoefficient => 0.5);
+        -:  351:--         AUnit.Assertions.Assert(Condition => pxInterpolatedQuaternion.fGet_Axis_Vector = pxLastInterpolatedQuaternion.fGet_Axis_Vector,
+        -:  352:--                                Message   => "CQuaternion.pxGet_Spherical_Linear_Interpolation_Quaternion failed, wrong axis vector in for loop.");
+        -:  353:--         AUnit.Assertions.Assert(Condition => pxInterpolatedQuaternion.fGet_Angle_In_Degrees < pxLastInterpolatedQuaternion.fGet_Angle_In_Degrees,
+        -:  354:--                                Message   => "CQuaternion.pxGet_Spherical_Linear_Interpolation_Quaternion failed, wrong angle in foor loop. Coefficient: " & float'Image(fCoefficient));
+        -:  355:--  
+        -:  356:--        end loop;
+        -:  357:--  
+        -:  358:--  begin read only
+        -:  359:   --  end Test_pxGet_Spherical_Linear_Interpolation_Quaternion;
+        -:  360:--  end read only
+        -:  361:
+        -:  362:end Math.Quaternions.Test_Data.Tests;

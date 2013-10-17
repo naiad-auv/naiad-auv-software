@@ -4,12 +4,12 @@ package body Navigation.Thrusters is
    -- pxCreate --
    --------------
 
-   function pxCreate return pCThruster is
+   function pxCreate (tfThrusterEffects : in TThrusterEffects) return pCThruster is
       pxNewThruster : pCThruster;
    begin
       pxNewThruster := new CThruster;
       pxNewThruster.pxNextThruster := null;
-      pxNewThruster.tfThrusterEffects := (others => 0.0);
+      pxNewThruster.tfThrusterEffects := tfThrusterEffects;
       return pxNewThruster;
    end pxCreate;
 
@@ -35,8 +35,7 @@ package body Navigation.Thrusters is
    is
    begin
       if this.pxNextThruster = null then
-         this.pxNextThruster := pxCreate;
-         this.pxNextThruster.tfThrusterEffects := tfThrusterEffects;
+         this.pxNextThruster := pxCreate(tfThrusterEffects);
       else
          this.pxNextThruster.Add_Thruster_With_Effects(tfThrusterEffects);
       end if;

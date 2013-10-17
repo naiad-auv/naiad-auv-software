@@ -1,0 +1,45 @@
+        -:    0:Source:/home/evr/git/naiad-auv-software/src/lib/math/quaternions/obj/gnattest/tests/math-quaternions-cquaternion_test_data-cquaternion_tests.ads
+        -:    0:Programs:65
+        -:    1:--  This package has been generated automatically by GNATtest.
+        -:    2:--  Do not edit any part of it, see GNATtest documentation for more details.
+        -:    3:
+        -:    4:--  begin read only
+        -:    5:with GNATtest_Generated;
+        -:    6:
+        8:    7:package Math.Quaternions.CQuaternion_Test_Data.CQuaternion_Tests is
+        -:    8:
+        4:    9:   type Test_CQuaternion is new
+        -:   10:     GNATtest_Generated.GNATtest_Standard.Math.Quaternions.CQuaternion_Test_Data.Test_CQuaternion with null record;
+        -:   11:
+        -:   12:   procedure Test_pxGet_Copy_d4ad30 (Gnattest_T : in out Test_CQuaternion);
+        -:   13:   --  math-quaternions.ads:12:4:pxGet_Copy
+        -:   14:
+        -:   15:   procedure Test_pxGet_Normalized_be75a2 (Gnattest_T : in out Test_CQuaternion);
+        -:   16:   --  math-quaternions.ads:21:4:pxGet_Normalized
+        -:   17:
+        -:   18:   procedure Test_fGet_Length_a40d15 (Gnattest_T : in out Test_CQuaternion);
+        -:   19:   --  math-quaternions.ads:23:4:fGet_Length
+        -:   20:
+        -:   21:   procedure Test_fGet_Length_Squared_4d190d (Gnattest_T : in out Test_CQuaternion);
+        -:   22:   --  math-quaternions.ads:24:4:fGet_Length_Squared
+        -:   23:
+        -:   24:   procedure Test_fGet_X_42438b (Gnattest_T : in out Test_CQuaternion);
+        -:   25:   --  math-quaternions.ads:25:4:fGet_X
+        -:   26:
+        -:   27:   procedure Test_fGet_Y_c7b5f1 (Gnattest_T : in out Test_CQuaternion);
+        -:   28:   --  math-quaternions.ads:26:4:fGet_Y
+        -:   29:
+        -:   30:   procedure Test_fGet_Z_dfd5d9 (Gnattest_T : in out Test_CQuaternion);
+        -:   31:   --  math-quaternions.ads:27:4:fGet_Z
+        -:   32:
+        -:   33:   procedure Test_fGet_W_90387e (Gnattest_T : in out Test_CQuaternion);
+        -:   34:   --  math-quaternions.ads:28:4:fGet_W
+        -:   35:
+        -:   36:   procedure Test_fGet_Axis_Vector_cd62fd (Gnattest_T : in out Test_CQuaternion);
+        -:   37:   --  math-quaternions.ads:29:4:fGet_Axis_Vector
+        -:   38:
+        -:   39:   procedure Test_fGet_Angle_In_Degrees_ce63d3 (Gnattest_T : in out Test_CQuaternion);
+        -:   40:   --  math-quaternions.ads:30:4:fGet_Angle_In_Degrees
+        -:   41:
+        4:   42:end Math.Quaternions.CQuaternion_Test_Data.CQuaternion_Tests;
+        -:   43:--  end read only

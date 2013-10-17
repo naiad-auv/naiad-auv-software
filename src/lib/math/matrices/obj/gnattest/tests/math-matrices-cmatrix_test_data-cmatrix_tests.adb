@@ -6,7 +6,6 @@
 --  placed into Math.Matrices.CMatrix_Test_Data.
 
 with AUnit.Assertions; use AUnit.Assertions;
-with Ada.Text_IO;
 
 package body Math.Matrices.CMatrix_Test_Data.CMatrix_Tests is
 
@@ -16,7 +15,7 @@ package body Math.Matrices.CMatrix_Test_Data.CMatrix_Tests is
    procedure Test_pxGet_Inverse_4c7f5a (Gnattest_T : in out Test_CMatrix) renames Test_pxGet_Inverse;
 --  id:2.1/4c7f5ab12bd672d4/pxGet_Inverse/1/0/
    procedure Test_pxGet_Inverse (Gnattest_T : in out Test_CMatrix) is
-   --  math-matrices.ads:27:4:pxGet_Inverse
+   --  math-matrices.ads:28:4:pxGet_Inverse
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -60,15 +59,6 @@ package body Math.Matrices.CMatrix_Test_Data.CMatrix_Tests is
          end loop;
       end loop;
 
-   exception
-      when Numeric_Error =>
-         for i in 1 .. 3
-         loop
-            for j in 1 .. 3
-            loop
-               Ada.Text_IO.Put_Line(integer'Image(i) & "," & integer'Image(j) & " -> " & float'Image(float(pxOriginalMatrix.tfMatrix(i,j))));
-            end loop;
-         end loop;
 
 
 
@@ -83,7 +73,7 @@ package body Math.Matrices.CMatrix_Test_Data.CMatrix_Tests is
    procedure Test_pxGet_Copy_3c9397 (Gnattest_T : in out Test_CMatrix) renames Test_pxGet_Copy;
 --  id:2.1/3c9397de3adc8e2e/pxGet_Copy/1/0/
    procedure Test_pxGet_Copy (Gnattest_T : in out Test_CMatrix) is
-   --  math-matrices.ads:28:4:pxGet_Copy
+   --  math-matrices.ads:29:4:pxGet_Copy
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -127,7 +117,7 @@ package body Math.Matrices.CMatrix_Test_Data.CMatrix_Tests is
    procedure Test_pxGet_Transpose_88bdfe (Gnattest_T : in out Test_CMatrix) renames Test_pxGet_Transpose;
 --  id:2.1/88bdfed098f158c5/pxGet_Transpose/1/0/
    procedure Test_pxGet_Transpose (Gnattest_T : in out Test_CMatrix) is
-   --  math-matrices.ads:29:4:pxGet_Transpose
+   --  math-matrices.ads:30:4:pxGet_Transpose
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -178,7 +168,7 @@ package body Math.Matrices.CMatrix_Test_Data.CMatrix_Tests is
    procedure Test_tfGet_Raw_Matrix_d46bc2 (Gnattest_T : in out Test_CMatrix) renames Test_tfGet_Raw_Matrix;
 --  id:2.1/d46bc24c8df48416/tfGet_Raw_Matrix/1/0/
    procedure Test_tfGet_Raw_Matrix (Gnattest_T : in out Test_CMatrix) is
-   --  math-matrices.ads:30:4:tfGet_Raw_Matrix
+   --  math-matrices.ads:31:4:tfGet_Raw_Matrix
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -230,7 +220,7 @@ package body Math.Matrices.CMatrix_Test_Data.CMatrix_Tests is
    procedure Test_fGet_Determinant_6a3440 (Gnattest_T : in out Test_CMatrix) renames Test_fGet_Determinant;
 --  id:2.1/6a34401378c12db4/fGet_Determinant/1/0/
    procedure Test_fGet_Determinant (Gnattest_T : in out Test_CMatrix) is
-   --  math-matrices.ads:31:4:fGet_Determinant
+   --  math-matrices.ads:32:4:fGet_Determinant
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -264,6 +254,123 @@ package body Math.Matrices.CMatrix_Test_Data.CMatrix_Tests is
 
 --  begin read only
    end Test_fGet_Determinant;
+--  end read only
+
+
+--  begin read only
+   procedure Test_pxGet_X_Vector (Gnattest_T : in out Test_CMatrix);
+   procedure Test_pxGet_X_Vector_160735 (Gnattest_T : in out Test_CMatrix) renames Test_pxGet_X_Vector;
+--  id:2.1/160735b33c12b065/pxGet_X_Vector/1/0/
+   procedure Test_pxGet_X_Vector (Gnattest_T : in out Test_CMatrix) is
+   --  math-matrices.ads:34:4:pxGet_X_Vector
+--  end read only
+
+      pragma Unreferenced (Gnattest_T);
+
+      use Math.Vectors;
+      pxTestVector : Math.Vectors.pCVector;
+      pxXVector : Math.Vectors.pCVector;
+   begin
+
+      pxTestVector := Math.Vectors.pxCreate(fX => 1.0,
+                                            fY => 0.0,
+                                            fZ => 0.0);
+      pxXVector := Math.Matrices.pxCreate_Identity.pxGet_X_Vector;
+
+      AUnit.Assertions.Assert(Condition => pxTestVector = pxXVector,
+                              Message   => "CMatrix.pxGet_X_Vector failed.");
+
+--  begin read only
+   end Test_pxGet_X_Vector;
+--  end read only
+
+
+--  begin read only
+   procedure Test_pxGet_Y_Vector (Gnattest_T : in out Test_CMatrix);
+   procedure Test_pxGet_Y_Vector_2cb764 (Gnattest_T : in out Test_CMatrix) renames Test_pxGet_Y_Vector;
+--  id:2.1/2cb764bb93e43f1b/pxGet_Y_Vector/1/0/
+   procedure Test_pxGet_Y_Vector (Gnattest_T : in out Test_CMatrix) is
+   --  math-matrices.ads:35:4:pxGet_Y_Vector
+--  end read only
+
+      pragma Unreferenced (Gnattest_T);
+
+      use Math.Vectors;
+      pxTestVector : Math.Vectors.pCVector;
+      pxYVector : Math.Vectors.pCVector;
+   begin
+
+      pxTestVector := Math.Vectors.pxCreate(fX => 0.0,
+                                            fY => 1.0,
+                                            fZ => 0.0);
+      pxYVector := Math.Matrices.pxCreate_Identity.pxGet_Y_Vector;
+
+      AUnit.Assertions.Assert(Condition => pxTestVector = pxYVector,
+                              Message   => "CMatrix.pxGet_Y_Vector failed.");
+--  begin read only
+   end Test_pxGet_Y_Vector;
+--  end read only
+
+
+--  begin read only
+   procedure Test_pxGet_Z_Vector (Gnattest_T : in out Test_CMatrix);
+   procedure Test_pxGet_Z_Vector_fd9c88 (Gnattest_T : in out Test_CMatrix) renames Test_pxGet_Z_Vector;
+--  id:2.1/fd9c8886cfec5468/pxGet_Z_Vector/1/0/
+   procedure Test_pxGet_Z_Vector (Gnattest_T : in out Test_CMatrix) is
+   --  math-matrices.ads:36:4:pxGet_Z_Vector
+--  end read only
+
+      pragma Unreferenced (Gnattest_T);
+      use Math.Vectors;
+      pxTestVector : Math.Vectors.pCVector;
+      pxZVector : Math.Vectors.pCVector;
+   begin
+
+      pxTestVector := Math.Vectors.pxCreate(fX => 0.0,
+                                            fY => 0.0,
+                                            fZ => 1.0);
+      pxZVector := Math.Matrices.pxCreate_Identity.pxGet_Z_Vector;
+
+      AUnit.Assertions.Assert(Condition => pxTestVector = pxZVector,
+                              Message   => "CMatrix.pxGet_Z_Vector failed.");
+
+--  begin read only
+   end Test_pxGet_Z_Vector;
+--  end read only
+
+
+--  begin read only
+   procedure Test_Copy_From (Gnattest_T : in out Test_CMatrix);
+   procedure Test_Copy_From_d33e2b (Gnattest_T : in out Test_CMatrix) renames Test_Copy_From;
+--  id:2.1/d33e2b48baa0fe97/Copy_From/1/0/
+   procedure Test_Copy_From (Gnattest_T : in out Test_CMatrix) is
+   --  math-matrices.ads:38:4:Copy_From
+--  end read only
+
+      pragma Unreferenced (Gnattest_T);
+      use System;
+
+      pxTestMatrix : Math.Matrices.pCMatrix;
+      pxCopyMatrix : Math.Matrices.pCMatrix;
+      pxCopyPointerMatrix : Math.Matrices.pCMatrix;
+
+   begin
+
+      pxTestMatrix := Math.Matrices.pxCreate_Rotation_Around_Z_Axis(Math.Angles.TAngle(25.0)) *
+        Math.Matrices.pxCreate_Rotation_Around_Z_Axis(Math.Angles.TAngle(-25.0)) *
+        Math.Matrices.pxCreate_Rotation_Around_Z_Axis(Math.Angles.TAngle(50.0));
+
+      pxCopyMatrix := Math.Matrices.pxCreate_Identity;
+      pxCopyPointerMatrix := pxCopyMatrix;
+      pxCopyMatrix.Copy_From(pxTestMatrix);
+
+      AUnit.Assertions.Assert(Condition => pxTestMatrix = pxCopyPointerMatrix,
+                              Message   => "CMatrix.Copy_From failed, matrices do not match.");
+        AUnit.Assertions.Assert(Condition => pxCopyPointerMatrix.all'Address = pxCopyMatrix.all'Address,
+                               Message   => "CMatrix.Copy_From failed, addresses do not match.");
+
+--  begin read only
+   end Test_Copy_From;
 --  end read only
 
 end Math.Matrices.CMatrix_Test_Data.CMatrix_Tests;

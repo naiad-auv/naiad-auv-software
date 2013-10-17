@@ -1,0 +1,79 @@
+        -:    0:Source:/home/evr/git/naiad-auv-software/src/lib/math/planes/obj/gnattest/tests/math-planes-cplane_test_data-cplane_tests.adb
+        -:    0:Programs:21
+        -:    1:--  This package has been generated automatically by GNATtest.
+        -:    2:--  You are allowed to add your code to the bodies of test routines.
+        -:    3:--  Such changes will be kept during further regeneration of this file.
+        -:    4:--  All code placed outside of test routine bodies will be lost. The
+        -:    5:--  code intended to set up and tear down the test environment should be
+        -:    6:--  placed into Math.Planes.CPlane_Test_Data.
+        -:    7:
+        -:    8:with AUnit.Assertions; use AUnit.Assertions;
+        -:    9:
+        -:   10:package body Math.Planes.CPlane_Test_Data.CPlane_Tests is
+        -:   11:
+        -:   12:
+        -:   13:--  begin read only
+        -:   14:   procedure Test_pxGet_Normal_Vector (Gnattest_T : in out Test_CPlane);
+        2:   15:   procedure Test_pxGet_Normal_Vector_4c7399 (Gnattest_T : in out Test_CPlane) renames Test_pxGet_Normal_Vector;
+        -:   16:--  id:2.1/4c7399a6c0ba5408/pxGet_Normal_Vector/1/0/
+        2:   17:   procedure Test_pxGet_Normal_Vector (Gnattest_T : in out Test_CPlane) is
+        -:   18:   --  math-planes.ads:11:4:pxGet_Normal_Vector
+        -:   19:--  end read only
+        -:   20:
+        -:   21:      pragma Unreferenced (Gnattest_T);
+        -:   22:
+        2:   23:      pxTestPlane : pCPlane;
+        2:   24:      pxTestNormal : Math.Vectors.pCVector;
+        -:   25:--      fExpectedAX : float := 0.980581;
+        -:   26:--      fExpectedBY : float := 0.0;
+        -:   27:--      fExpectedCZ : float := -0.196116;
+        -:   28:
+        -:   29:   begin
+        -:   30:
+        2:   31:      pxTestNormal := Math.Vectors.pxCreate(fX => 5.0,
+        -:   32:                                            fY => 0.0,
+        -:   33:                                            fZ => -1.0);
+        2:   34:      pxTestPlane := Math.Planes.pxCreate(pxNormalVector      => pxTestNormal,
+        -:   35:                                          fDistanceFromOrigin => 0.0);
+        2:   36:      pxTestNormal := pxTestNormal.pxGet_Normalized;
+        -:   37:
+        2:   38:      AUnit.Assertions.Assert(Condition => pxTestNormal = pxTestPlane.pxGet_Normal_Vector,
+        -:   39:                              Message   => "CPlane.pxGet_Normal_Vector failed.");
+        -:   40:
+        -:   41:
+        -:   42:--  begin read only
+        2:   43:   end Test_pxGet_Normal_Vector;
+        -:   44:--  end read only
+        -:   45:
+        -:   46:
+        -:   47:--  begin read only
+        -:   48:   procedure Test_fGet_Distance_From_Origin (Gnattest_T : in out Test_CPlane);
+        2:   49:   procedure Test_fGet_Distance_From_Origin_1b1e67 (Gnattest_T : in out Test_CPlane) renames Test_fGet_Distance_From_Origin;
+        -:   50:--  id:2.1/1b1e6780f65bcbcd/fGet_Distance_From_Origin/1/0/
+        2:   51:   procedure Test_fGet_Distance_From_Origin (Gnattest_T : in out Test_CPlane) is
+        -:   52:   --  math-planes.ads:12:4:fGet_Distance_From_Origin
+        -:   53:--  end read only
+        -:   54:
+        -:   55:      pragma Unreferenced (Gnattest_T);
+        -:   56:
+        2:   57:      pxTestPlane : pCPlane;
+        2:   58:      pxTestNormal : Math.Vectors.pCVector;
+        -:   59:      fExpectedD : float := 0.0;
+        -:   60:   begin
+        -:   61:
+        -:   62:
+        2:   63:      pxTestNormal := Math.Vectors.pxCreate(fX => 5.0,
+        -:   64:                                            fY => 0.0,
+        -:   65:                                            fZ => -1.0);
+        2:   66:      pxTestPlane := Math.Planes.pxCreate(pxNormalVector      => pxTestNormal,
+        -:   67:                                          fDistanceFromOrigin => 0.0);
+        -:   68:
+        2:   69:      AUnit.Assertions.Assert(Condition => pxTestPlane.fGet_Distance_From_Origin = pxTestPlane.fDistanceFromOrigin,
+        -:   70:                              Message   => "CPlane.fGet_Distance_From_Origin failed.");
+        -:   71:
+        -:   72:--  begin read only
+        2:   73:   end Test_fGet_Distance_From_Origin;
+        -:   74:--  end read only
+        -:   75:
+        -:   76:
+        -:   77:end Math.Planes.CPlane_Test_Data.CPlane_Tests;

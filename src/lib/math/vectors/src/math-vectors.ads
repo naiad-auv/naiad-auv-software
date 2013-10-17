@@ -5,16 +5,36 @@ with Ada.Numerics;
 with Ada.Exceptions;
 with System;
 
+-- Vectors package for classes, types and functionality regarding vectors. A vector object is stored in a pCVector variable and is created with the pxCreate function.
 package Math.Vectors is
    type CVector is tagged private;
+   --  <summary>Class for vector.</summary>
+
    type pCVector is access CVector;
+   --  <summary>Pointer type for object of type CVector. Objects of type CVector should always be stored in variables of this type.</summary>
 
    function pxCreate (fX, fY, fZ : float) return pCVector;
+   --  <summary>Creates an object of type CVector. Returns a pointer of type pCVector to the object created.</summary>
+   --  <parameter name="fX">The value of the vector's X-component.</parameter>
+   --  <parameter name="fY">The value of the vector's Y-component.</parameter>
+   --  <parameter name="fZ">The value of the vector's Z-component.</parameter>
+
    function pxGet_Copy (this : in CVector) return pCVector;
+   --  <summary>Creates an object of type CVector with the same component values as the object called on. Returns a pointer of type pCVector to the object created.</summary>
+   --  <parameter name="this">The CVector object to copy the component values from.</parameter>
+
    function pxGet_Normalized (this : in CVector) return pCVector;
+   --  <summary>Creates an object of type CVector which is equal to the normalized vector of the object called on. Returns a pointer of type pCVector to the object created.</summary>
+   --  <parameter name="this">The CVector object to base the normalized vector on.</parameter>
+
 
    function fLength_Squared (this : in CVector) return float;
+   --  <summary>Returns the length of the vector squared.</summary>
+   --  <parameter name="this">The CVector object to calculate the length of.</parameter>
+
    function fLength (this : in CVector) return float;
+   --  <summary>Returns the length of the vector.</summary>
+   --  <parameter name="this">The CVector object to calculate the length of.</parameter>
 
    function "+" (pxLeftOperandVector, pxRightOperandVector : in pCVector) return pCVector;
    function "-" (pxLeftOperandVector, pxRightOperandVector : in pCVector) return pCVector;

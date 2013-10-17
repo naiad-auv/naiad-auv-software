@@ -297,17 +297,34 @@ package body Math.Quaternions.CQuaternion_Test_Data.CQuaternion_Tests is
                               Message   => "CQuaternion.pxGet_Axis_Vector failed, wrong Y value. Value: " & float'Image(pxAxisVector.fGet_Y) & ". Expected: " & float'Image(pxTestVector.fGet_Y) & ".");
       AUnit.Assertions.Assert(Condition => abs(pxAxisVector.fGet_Z - pxTestVector.fGet_Z) < 0.001,
                               Message   => "CQuaternion.pxGet_Axis_Vector failed, wrong Z value. Value: " & float'Image(pxAxisVector.fGet_Z) & ". Expected: " & float'Image(pxTestVector.fGet_Z) & ".");
+
+      pxTestQuaternion := Math.Quaternions.pxCreate(pxAxisVector    => pxTestVector,
+                                                    fAngleInDegrees => 0.0);
+
+
+      pxTestVector := Math.Vectors.pxCreate(fX => 1.0,
+                                            fY => 0.0,
+                                            fZ => 0.0);
+      pxAxisVector := pxTestQuaternion.fGet_Axis_Vector;
+
+      AUnit.Assertions.Assert(Condition => abs(pxAxisVector.fGet_X - pxTestVector.fGet_X) < 0.001,
+                              Message   => "CQuaternion.pxGet_Axis_Vector failed, wrong X value. Value: " & float'Image(pxAxisVector.fGet_X) & ". Expected: " & float'Image(pxTestVector.fGet_X) & ".");
+      AUnit.Assertions.Assert(Condition => abs(pxAxisVector.fGet_Y - pxTestVector.fGet_Y) < 0.001,
+                              Message   => "CQuaternion.pxGet_Axis_Vector failed, wrong Y value. Value: " & float'Image(pxAxisVector.fGet_Y) & ". Expected: " & float'Image(pxTestVector.fGet_Y) & ".");
+      AUnit.Assertions.Assert(Condition => abs(pxAxisVector.fGet_Z - pxTestVector.fGet_Z) < 0.001,
+                              Message   => "CQuaternion.pxGet_Axis_Vector failed, wrong Z value. Value: " & float'Image(pxAxisVector.fGet_Z) & ". Expected: " & float'Image(pxTestVector.fGet_Z) & ".");
+
 --  begin read only
    end Test_fGet_Axis_Vector;
 --  end read only
 
 
 --  begin read only
-   procedure Test_fGet_Angle (Gnattest_T : in out Test_CQuaternion);
-   procedure Test_fGet_Angle_1301b6 (Gnattest_T : in out Test_CQuaternion) renames Test_fGet_Angle;
---  id:2.1/1301b6f16301ca2b/fGet_Angle/1/0/
-   procedure Test_fGet_Angle (Gnattest_T : in out Test_CQuaternion) is
-   --  math-quaternions.ads:30:4:fGet_Angle
+   procedure Test_fGet_Angle_In_Degrees (Gnattest_T : in out Test_CQuaternion);
+   procedure Test_fGet_Angle_In_Degrees_ce63d3 (Gnattest_T : in out Test_CQuaternion) renames Test_fGet_Angle_In_Degrees;
+--  id:2.1/ce63d3a8aac7255b/fGet_Angle_In_Degrees/1/0/
+   procedure Test_fGet_Angle_In_Degrees (Gnattest_T : in out Test_CQuaternion) is
+   --  math-quaternions.ads:30:4:fGet_Angle_In_Degrees
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -321,12 +338,13 @@ package body Math.Quaternions.CQuaternion_Test_Data.CQuaternion_Tests is
                                                                                              fY => 12.0,
                                                                                              fZ => -345.2),
                                                     fAngleInDegrees => fAngle);
-      AUnit.Assertions.Assert(Condition => abs(pxTestQuaternion.fGet_Angle - fAngle) < 0.001,
-                              Message   => "CQuaternion.pxGet_Angle failed, wrong value. Value: " & float'Image(pxTestQuaternion.fGet_Angle) & ". Expected: " & float'Image(fAngle) & ".");
-
+      AUnit.Assertions.Assert(Condition => abs(pxTestQuaternion.fGet_Angle_In_Degrees - fAngle) < 0.001,
+                              Message   => "CQuaternion.pxGet_Angle_In_Degrees failed, wrong value. Value: " & float'Image(pxTestQuaternion.fGet_Angle_In_Degrees) & ". Expected: " & float'Image(fAngle) & ".");
 
 --  begin read only
-   end Test_fGet_Angle;
+   end Test_fGet_Angle_In_Degrees;
 --  end read only
+
+
 
 end Math.Quaternions.CQuaternion_Test_Data.CQuaternion_Tests;

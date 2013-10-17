@@ -1,0 +1,70 @@
+        -:    0:Source:/home/evr/git/naiad-auv-software/src/lib/math/quaternions/obj/gnattest/harness/math-quaternions-test_data-tests-suite.adb
+        -:    0:Programs:65
+        -:    1:--  This package has been generated automatically by GNATtest.
+        -:    2:--  Do not edit any part of it, see GNATtest documentation for more details.
+        -:    3:
+        -:    4:--  begin read only
+        -:    5:with AUnit.Test_Caller;
+        -:    6:with Gnattest_Generated;
+        -:    7:
+       18:    8:package body Math.Quaternions.Test_Data.Tests.Suite is
+        -:    9:
+        -:   10:   package Runner_1 is new AUnit.Test_Caller
+        -:   11:     (GNATtest_Generated.GNATtest_Standard.Math.Quaternions.Test_Data.Tests.Test);
+        -:   12:
+        6:   13:   Result : aliased AUnit.Test_Suites.Test_Suite;
+        -:   14:
+        6:   15:   Case_1_1_Test_pxCreate_fbac4b : aliased Runner_1.Test_Case;
+        6:   16:   Case_2_1_Test_pxCreate_937a51 : aliased Runner_1.Test_Case;
+        6:   17:   Case_3_1_Test_Plus_bd5b1d : aliased Runner_1.Test_Case;
+        6:   18:   Case_4_1_Test_Minus_2f7442 : aliased Runner_1.Test_Case;
+        6:   19:   Case_5_1_Test_Multiply_cbc666 : aliased Runner_1.Test_Case;
+        6:   20:   Case_6_1_Test_Equal_079d85 : aliased Runner_1.Test_Case;
+        6:   21:   Case_7_1_Test_fGet_Dot_Product_be0506 : aliased Runner_1.Test_Case;
+        -:   22:
+        6:   23:   function Suite return AUnit.Test_Suites.Access_Test_Suite is
+        -:   24:   begin
+        -:   25:
+        6:   26:      Runner_1.Create
+        -:   27:        (Case_1_1_Test_pxCreate_fbac4b,
+        -:   28:         "math-quaternions.ads:10:4:",
+        -:   29:         Test_pxCreate_fbac4b'Access);
+        6:   30:      Runner_1.Create
+        -:   31:        (Case_2_1_Test_pxCreate_937a51,
+        -:   32:         "math-quaternions.ads:11:4:",
+        -:   33:         Test_pxCreate_937a51'Access);
+        6:   34:      Runner_1.Create
+        -:   35:        (Case_3_1_Test_Plus_bd5b1d,
+        -:   36:         "math-quaternions.ads:14:4:",
+        -:   37:         Test_Plus_bd5b1d'Access);
+        6:   38:      Runner_1.Create
+        -:   39:        (Case_4_1_Test_Minus_2f7442,
+        -:   40:         "math-quaternions.ads:15:4:",
+        -:   41:         Test_Minus_2f7442'Access);
+        6:   42:      Runner_1.Create
+        -:   43:        (Case_5_1_Test_Multiply_cbc666,
+        -:   44:         "math-quaternions.ads:16:4:",
+        -:   45:         Test_Multiply_cbc666'Access);
+        6:   46:      Runner_1.Create
+        -:   47:        (Case_6_1_Test_Equal_079d85,
+        -:   48:         "math-quaternions.ads:17:4:",
+        -:   49:         Test_Equal_079d85'Access);
+        6:   50:      Runner_1.Create
+        -:   51:        (Case_7_1_Test_fGet_Dot_Product_be0506,
+        -:   52:         "math-quaternions.ads:18:4:",
+        -:   53:         Test_fGet_Dot_Product_be0506'Access);
+        -:   54:
+        6:   55:      Result.Add_Test (Case_1_1_Test_pxCreate_fbac4b'Access);
+        6:   56:      Result.Add_Test (Case_2_1_Test_pxCreate_937a51'Access);
+        6:   57:      Result.Add_Test (Case_3_1_Test_Plus_bd5b1d'Access);
+        6:   58:      Result.Add_Test (Case_4_1_Test_Minus_2f7442'Access);
+        6:   59:      Result.Add_Test (Case_5_1_Test_Multiply_cbc666'Access);
+        6:   60:      Result.Add_Test (Case_6_1_Test_Equal_079d85'Access);
+        6:   61:      Result.Add_Test (Case_7_1_Test_fGet_Dot_Product_be0506'Access);
+        -:   62:
+        6:   63:      return Result'Access;
+        -:   64:
+        -:   65:   end Suite;
+        -:   66:
+        6:   67:end Math.Quaternions.Test_Data.Tests.Suite;
+        -:   68:--  end read only

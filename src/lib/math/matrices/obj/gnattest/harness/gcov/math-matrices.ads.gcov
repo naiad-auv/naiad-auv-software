@@ -1,0 +1,61 @@
+        -:    0:Source:/home/evr/git/naiad-auv-software/src/lib/math/matrices/src/math-matrices.ads
+        -:    0:Programs:122
+        -:    1:with Math;
+        -:    2:with Math.Quaternions;
+        -:    3:with Math.Vectors;
+        -:    4:with Math.Planes;
+        -:    5:with System; -- use System;
+        -:    6:with Math.Angles;
+        -:    7:with Ada.Exceptions;
+        -:    8:with Ada.Numerics.Elementary_Functions;
+        -:    9:
+        -:   10:
+        4:   11:package Math.Matrices is
+    #####:   12:   type CMatrix is tagged private;
+        -:   13:   type pCMatrix is access CMatrix;
+        -:   14:
+    #####:   15:   type TMatrix is array(1 .. 3, 1 .. 3) of float;
+        -:   16:
+        -:   17:   function pxCreate_From_Quaternion (pxFromQuaternion : in Math.Quaternions.pCQuaternion) return pCMatrix;
+        -:   18:   function pxCreate_Rotation_Around_X_Axis (tfAngleInDegrees : in Math.Angles.TAngle) return pCMatrix;
+        -:   19:   function pxCreate_Rotation_Around_Y_Axis (tfAngleInDegrees : in Math.Angles.TAngle) return pCMatrix;
+        -:   20:   function pxCreate_Rotation_Around_Z_Axis (tfAngleInDegrees : in Math.Angles.TAngle) return pCMatrix;
+        -:   21:   function pxCreate_Identity return pCMatrix;
+        -:   22:   function pxCreate (tfMatrix : in TMatrix) return pCMatrix;
+        -:   23:
+        -:   24:   function "*" (pxLeftOperandMatrix : in pCMatrix; pxRightOperandMatrix : in pCMatrix) return pCMatrix;
+        -:   25:   function "*" (pxLeftOperandMatrix : in pCMatrix; pxRightOperandVector : in Math.Vectors.pCVector) return Math.Vectors.pCVector;
+        -:   26:   function "*" (pxLeftOperandMatrix : in pCMatrix; pxRightOperandPlane : in Math.Planes.pCPlane) return Math.Planes.pCPlane;
+        -:   27:   function "=" (pxLeftOperandMatrix : in pCMatrix; pxRightOperandMatrix : in pCMatrix) return boolean;
+        -:   28:
+        -:   29:   function pxGet_Inverse (this : in CMatrix) return pCMatrix;
+        -:   30:   function pxGet_Copy (this : in CMatrix) return pCMatrix;
+        -:   31:   function pxGet_Transpose (this : in CMatrix) return pCMatrix;
+        -:   32:   function tfGet_Raw_Matrix (this : in CMatrix) return TMatrix;
+        -:   33:   function fGet_Determinant (this : in CMatrix) return float;
+        -:   34:
+        -:   35:   function pxGet_X_Vector (this : in CMatrix) return Math.Vectors.pCVector;
+        -:   36:   function pxGet_Y_Vector (this : in CMatrix) return Math.Vectors.pCVector;
+        -:   37:   function pxGet_Z_Vector (this : in CMatrix) return Math.Vectors.pCVector;
+        -:   38:
+        -:   39:   procedure Copy_From(this : in out CMatrix; pxSourceMatrix : in pCMatrix);
+        -:   40:
+        -:   41:private
+    #####:   42:   type TExtendedMatrix is array(1 .. 3, 1 .. 6) of float;
+   747526:   43:   type CMatrix is tagged
+        -:   44:      record
+        -:   45:         tfMatrix : TMatrix;
+        -:   46:      end record;
+        -:   47:
+        -:   48:   procedure Swap_Values_In_Extended_Matrix(fValue1 : in out float; fValue2 : in out float);
+        -:   49:   procedure Swap_Rows_In_Extended_Matrix(tfExtendedMatrix : in out TExtendedMatrix; iRow1 : in integer; iRow2 : in integer);
+        -:   50:   procedure Scale_Row_In_Extended_Matrix(tfExtendedMatrix : in out TExtendedMatrix; iStartingColumn : in integer);
+        -:   51:   procedure Remove_Component_In_Following_Rows(tfExtendedMatrix : in out TExtendedMatrix; iRow : in integer);
+        -:   52:   procedure Remove_Component_In_Leading_Rows(tfExtendedMatrix : in out TExtendedMatrix; iRow : in integer);
+        -:   53:   function Find_Row_With_Highest_Component(tfExtendedMatrix : in TExtendedMatrix; iColumn : in integer) return integer;
+        -:   54:   procedure Perform_Gauss_Jordan_Elimination_On(tfExtendedMatrix : in out TExtendedMatrix);
+        -:   55:   function tfCreate_Extended_Matrix_From(tfMatrix : in TMatrix) return TExtendedMatrix;
+        -:   56:   function tfGet_Inverse_Part_From(tfExtendedMatrix : in TExtendedMatrix) return TMatrix;
+        -:   57:   function bMatrix_Has_No_Inverse(fValue : in float) return boolean;
+        -:   58:
+        2:   59:end Math.Matrices;

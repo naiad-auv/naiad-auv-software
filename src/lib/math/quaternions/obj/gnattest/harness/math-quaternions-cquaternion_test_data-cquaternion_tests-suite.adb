@@ -21,7 +21,7 @@ package body Math.Quaternions.CQuaternion_Test_Data.CQuaternion_Tests.Suite is
    Case_7_1_Test_fGet_Z_dfd5d9 : aliased Runner_1.Test_Case;
    Case_8_1_Test_fGet_W_90387e : aliased Runner_1.Test_Case;
    Case_9_1_Test_fGet_Axis_Vector_cd62fd : aliased Runner_1.Test_Case;
-   Case_10_1_Test_fGet_Angle_1301b6 : aliased Runner_1.Test_Case;
+   Case_10_1_Test_fGet_Angle_In_Degrees_ce63d3 : aliased Runner_1.Test_Case;
 
    function Suite return AUnit.Test_Suites.Access_Test_Suite is
    begin
@@ -63,9 +63,9 @@ package body Math.Quaternions.CQuaternion_Test_Data.CQuaternion_Tests.Suite is
          "math-quaternions.ads:29:4:",
          Test_fGet_Axis_Vector_cd62fd'Access);
       Runner_1.Create
-        (Case_10_1_Test_fGet_Angle_1301b6,
+        (Case_10_1_Test_fGet_Angle_In_Degrees_ce63d3,
          "math-quaternions.ads:30:4:",
-         Test_fGet_Angle_1301b6'Access);
+         Test_fGet_Angle_In_Degrees_ce63d3'Access);
 
       Result.Add_Test (Case_1_1_Test_pxGet_Copy_d4ad30'Access);
       Result.Add_Test (Case_2_1_Test_pxGet_Normalized_be75a2'Access);
@@ -76,7 +76,7 @@ package body Math.Quaternions.CQuaternion_Test_Data.CQuaternion_Tests.Suite is
       Result.Add_Test (Case_7_1_Test_fGet_Z_dfd5d9'Access);
       Result.Add_Test (Case_8_1_Test_fGet_W_90387e'Access);
       Result.Add_Test (Case_9_1_Test_fGet_Axis_Vector_cd62fd'Access);
-      Result.Add_Test (Case_10_1_Test_fGet_Angle_1301b6'Access);
+      Result.Add_Test (Case_10_1_Test_fGet_Angle_In_Degrees_ce63d3'Access);
 
       return Result'Access;
 

@@ -58,7 +58,6 @@ package body Math.Matrices is
 
 
       if 1.0 - pxFromQuaternion.fGet_Length_Squared > 0.0001 then
-         Ada.Text_IO.Put_Line("Length: " & float'Image(pxFromQuaternion.fGet_Length_Squared));
          raise Numeric_Error;
       end if;
 
@@ -205,8 +204,8 @@ package body Math.Matrices is
       end loop;
       return true;
 
-      exception
-         when CONSTRAINT_ERROR => return false;
+--        exception
+--           when CONSTRAINT_ERROR => return false;
    end "=";
 
 
@@ -336,9 +335,6 @@ package body Math.Matrices is
       loop
          tfExtendedMatrix(iY, iX) := tfExtendedMatrix(iY, iX) / tfExtendedMatrix(iY, iStartingColumn);
       end loop;
-      if tfExtendedMatrix(iY, iY) /= 1.0 then
-         raise Numeric_Error;
-      end if;
    end Scale_Row_In_Extended_Matrix;
 
    procedure Remove_Component_In_Following_Rows(tfExtendedMatrix : in out TExtendedMatrix; iRow : in integer) is

@@ -109,44 +109,44 @@ package body Math.Quaternions is
 
 
 
-   function pxGet_Spherical_Linear_Interpolation_Quaternion (pxFromQuaternion : in pCQuaternion; pxToQuaternion : in pCQuaternion; fInterpolationCoefficient : float) return pCQuaternion is
-      --pxInterpolatedQuaternion : pCQuaternion;
-      cosHalfTheta : float;
-      halfTheta : float;
-      sinHalfTheta : float;
-      --fInvSinAngle : float;
-      ratioA : float;
-      ratioB : float;
-   begin
-
-
-      cosHalfTheta := Math.Quaternions.fGet_Dot_Product(pxLeftOperandQuaternion  => pxFromQuaternion,
-                                                        pxRightOperandQuaternion => pxToQuaternion);
-
-      if abs(cosHalfTheta) >= 1.0 then
-         return pxFromQuaternion.pxGet_Copy;
-      end if;
-
-      halfTheta := Ada.Numerics.Elementary_Functions.Arccos(cosHalfTheta);
-      sinHalfTheta := Ada.Numerics.Elementary_Functions.Sqrt(1.0 - (cosHalfTheta * cosHalfTheta));
-
-      if abs(sinHalfTheta) < 0.001 then
-         return Math.Quaternions.pxCreate(fX => (pxFromQuaternion.fX * 0.5) + (pxToQuaternion.fX * 0.5),
-                                          fY => (pxFromQuaternion.fY * 0.5) + (pxToQuaternion.fY * 0.5),
-                                          fZ => (pxFromQuaternion.fZ * 0.5) + (pxToQuaternion.fZ * 0.5),
-                                          fW => (pxFromQuaternion.fW * 0.5) + (pxToQuaternion.fW * 0.5));
-      end if;
-
-      ratioA := Ada.Numerics.Elementary_Functions.Sin((1.0 - fInterpolationCoefficient) * halfTheta) / sinHalfTheta;
-      ratioB := Ada.Numerics.Elementary_Functions.Sin(fInterpolationCoefficient * halfTheta) / sinHalfTheta;
-
-      return Math.Quaternions.pxCreate(fX => (pxFromQuaternion.fX * ratioA) + (pxToQuaternion.fX * ratioB),
-                                          fY => (pxFromQuaternion.fY * ratioA) + (pxToQuaternion.fY * ratioB),
-                                          fZ => (pxFromQuaternion.fZ * ratioA) + (pxToQuaternion.fZ * ratioB),
-                                          fW => (pxFromQuaternion.fW * ratioA) + (pxToQuaternion.fW * ratioB));
-
-
-   end pxGet_Spherical_Linear_Interpolation_Quaternion;
+--     function pxGet_Spherical_Linear_Interpolation_Quaternion (pxFromQuaternion : in pCQuaternion; pxToQuaternion : in pCQuaternion; fInterpolationCoefficient : float) return pCQuaternion is
+--        --pxInterpolatedQuaternion : pCQuaternion;
+--        cosHalfTheta : float;
+--        halfTheta : float;
+--        sinHalfTheta : float;
+--        --fInvSinAngle : float;
+--        ratioA : float;
+--        ratioB : float;
+--     begin
+--
+--
+--        cosHalfTheta := Math.Quaternions.fGet_Dot_Product(pxLeftOperandQuaternion  => pxFromQuaternion,
+--                                                          pxRightOperandQuaternion => pxToQuaternion);
+--
+--        if abs(cosHalfTheta) >= 1.0 then
+--           return pxFromQuaternion.pxGet_Copy;
+--        end if;
+--
+--        halfTheta := Ada.Numerics.Elementary_Functions.Arccos(cosHalfTheta);
+--        sinHalfTheta := Ada.Numerics.Elementary_Functions.Sqrt(1.0 - (cosHalfTheta * cosHalfTheta));
+--
+--        if abs(sinHalfTheta) < 0.001 then
+--           return Math.Quaternions.pxCreate(fX => (pxFromQuaternion.fX * 0.5) + (pxToQuaternion.fX * 0.5),
+--                                            fY => (pxFromQuaternion.fY * 0.5) + (pxToQuaternion.fY * 0.5),
+--                                            fZ => (pxFromQuaternion.fZ * 0.5) + (pxToQuaternion.fZ * 0.5),
+--                                            fW => (pxFromQuaternion.fW * 0.5) + (pxToQuaternion.fW * 0.5));
+--        end if;
+--
+--        ratioA := Ada.Numerics.Elementary_Functions.Sin((1.0 - fInterpolationCoefficient) * halfTheta) / sinHalfTheta;
+--        ratioB := Ada.Numerics.Elementary_Functions.Sin(fInterpolationCoefficient * halfTheta) / sinHalfTheta;
+--
+--        return Math.Quaternions.pxCreate(fX => (pxFromQuaternion.fX * ratioA) + (pxToQuaternion.fX * ratioB),
+--                                            fY => (pxFromQuaternion.fY * ratioA) + (pxToQuaternion.fY * ratioB),
+--                                            fZ => (pxFromQuaternion.fZ * ratioA) + (pxToQuaternion.fZ * ratioB),
+--                                            fW => (pxFromQuaternion.fW * ratioA) + (pxToQuaternion.fW * ratioB));
+--
+--
+--     end pxGet_Spherical_Linear_Interpolation_Quaternion;
 
 
 
