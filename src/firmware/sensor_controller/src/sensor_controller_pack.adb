@@ -74,7 +74,7 @@ package body Sensor_Controller_pack is
 --        return;
       ----------------- FOR DEBUGGING PURPOSES!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-      i16Temp := Temp_Sensor.i16Get_Temp_Int(uTEMP_PIN);
+      i16Temp := Temp_Sensor.i16Get_Temp_Int;
       Temp_Sensor.i16ToStr(i16Temp, sTemp);
       Salinity_Sensor.Set_Temperature(sTemp);
       u8Salinity  := Salinity_Sensor.Get_Salinity;
@@ -101,7 +101,7 @@ package body Sensor_Controller_pack is
 
       --Start the salinity sensor:
       --The salinity sensor needs a temperature reading for accuracy
-      i16Temp := Temp_Sensor.i16Get_Temp_Int(uTEMP_PIN);
+      i16Temp := Temp_Sensor.i16Get_Temp_Int;
       Temp_Sensor.i16ToStr(i16Temp, sTemp);
       Salinity_Sensor.Initate_Salinity_Sensor (UARTPort, sTemp(3 .. 6));
    end Init;

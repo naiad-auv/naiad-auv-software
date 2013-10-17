@@ -5,14 +5,14 @@
 -- This way one can read only those channels one wants.
 
 -- Edits by Nils Brynedal Ignell for the Naiad AUV project
--- Last changed (yyyy-mm-dd): 2013-10-11
+-- Last changed (yyyy-mm-dd): 2013-10-17
 
 with System.Machine_Code;
 
 package body AVR.AT90CAN128.ADC is
    pragma suppress (All_Checks);
 
-   channelSelection : TChannelSelection;
+   channelSelection : TChannelSelection := (false, false, false, false, false, false, false, false);
 
    procedure ADC_Interrupt is
       use AVR.AT90CAN128;
@@ -50,9 +50,15 @@ package body AVR.AT90CAN128.ADC is
       return Result;
    end Get;
 
-   ---------------------------------------
-   --Initialization for ADC registers ----
-   ---------------------------------------
+   --------------------- Initialization for ADC registers -------------------------------------------
+
+   procedure ADC_Init(u8Pin : Interfaces.Unsigned_8) is
+      temp : TChannelSelection := channelSelection;
+   begin
+      temp(Integer(u8Pin)) := true;
+      ADC_Init(temp);
+   end ADC_Init;
+
 
    procedure ADC_Init(selection : TChannelSelection) is
       bStart : Boolean;
