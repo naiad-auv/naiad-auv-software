@@ -60,7 +60,7 @@ package body Math.Vectors is
    function "/" (pxLeftOperandVector : in pCVector; fRightOperand : in float) return pCVector is
       fScaleFactor : float;
    begin
-      if fRightOperand = 0.0 then
+      if abs(fRightOperand) = 0.0 then
          raise Numeric_Error;
       end if;
 
@@ -138,9 +138,8 @@ package body Math.Vectors is
       fDotProduct := Math.Vectors.fDot_Product(pxLeftOperandVector  => pxLeftOperandVector,
                                                pxRightOperandVector => pxRightOperandVector);
       fDotProduct := fDotProduct / (pxLeftOperandVector.fLength * pxRightOperandVector.fLength);
-      if fDotProduct > 1.0 then
-         fDotProduct := 1.0;
-      end if;
+
+      fDotProduct := float'Min(float'Max(fDotProduct,-1.0),1.0);
 
       return Ada.Numerics.Elementary_Functions.Arccos(fDotProduct);
    end fAngle_Between_In_Radians;
@@ -169,7 +168,7 @@ package body Math.Vectors is
 
    function "/" (xLeftOperandVector : in CVector; fRightOperand : in float) return pCVector is
    begin
-      if fRightOperand = 0.0 then
+      if abs(fRightOperand) = 0.0 then
          raise Numeric_Error;
       end if;
 

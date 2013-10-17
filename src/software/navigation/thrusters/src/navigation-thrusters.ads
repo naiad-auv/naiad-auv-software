@@ -7,7 +7,7 @@ package Navigation.Thrusters is
    type TThrusterEffectsMatrix is array (POSITIVE range <>) of TThrusterEffects;
    type TThrusterValuesArray is array (POSITIVE range <>) of float;
 
-   function pxCreate return pCThruster;
+   function pxCreate (tfThrusterEffects : in TThrusterEffects) return pCThruster;
 
    function iGet_Count (this : in CThruster) return integer;
    procedure Add_Thruster_With_Effects (this : in out CThruster; tfThrusterEffects : in TThrusterEffects);

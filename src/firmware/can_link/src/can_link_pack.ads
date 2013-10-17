@@ -17,10 +17,10 @@ with Interfaces;
 package CAN_Link_pack is
 
    -- USART0 is used for the communication between the CAN Router and Qseven
-   Q7USART       : constant AVR.AT90CAN128.USART.USARTID    := AVR.AT90CAN128.USART.USART0;
+   Q7USART       : constant AVR.AT90CAN128.USART.USARTID    := AVR.AT90CAN128.USART.USART1;
 
    -- USART1 is used for the communication between the CAN Router and the outside computer
-   xUSART        : constant AVR.AT90CAN128.USART.USARTID    := AVR.AT90CAN128.USART.USART1;
+ --  xUSART        : constant AVR.AT90CAN128.USART.USARTID    := AVR.AT90CAN128.USART.USART0;
 
    --the lenght of  the Header of the packet is 5
    HEADLEN       : constant integer    := 5;
@@ -61,7 +61,7 @@ package CAN_Link_pack is
 
    procedure Send_CanData_To_Can(ID : AVR.AT90CAN128.CAN.CAN_ID; Len : AVR.AT90CAN128.DLC_Type ; Data : String);
 
-   procedure Send_Serial_Data_Out(Data : String; Len : Interfaces.Unsigned_8);
+--   procedure Send_Serial_Data_Out(Data : String; Len : Interfaces.Unsigned_8);
 
    procedure CANBUS_Monitoring;
 

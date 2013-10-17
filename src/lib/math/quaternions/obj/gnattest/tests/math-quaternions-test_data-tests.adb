@@ -15,7 +15,7 @@ package body Math.Quaternions.Test_Data.Tests is
    procedure Test_pxCreate_fbac4b (Gnattest_T : in out Test) renames Test_1_pxCreate;
 --  id:2.1/fbac4bee6ca29f21/pxCreate/1/0/
    procedure Test_1_pxCreate (Gnattest_T : in out Test) is
-   --  math-quaternions.ads:10:4:pxCreate
+   --  math-quaternions.ads:14:4:pxCreate
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -52,7 +52,7 @@ package body Math.Quaternions.Test_Data.Tests is
    procedure Test_pxCreate_937a51 (Gnattest_T : in out Test) renames Test_2_pxCreate;
 --  id:2.1/937a5186dd726f3b/pxCreate/0/0/
    procedure Test_2_pxCreate (Gnattest_T : in out Test) is
-   --  math-quaternions.ads:11:4:pxCreate
+   --  math-quaternions.ads:21:4:pxCreate
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -76,7 +76,7 @@ package body Math.Quaternions.Test_Data.Tests is
       fExpectedYValue := pxTestVector.fGet_Y;
       fExpectedZValue := pxTestVector.fGet_Z;
 
-      pxTestVector := pxNewQuaternion.fGet_Axis_Vector;
+      pxTestVector := pxNewQuaternion.pxGet_Axis_Vector;
 
       AUnit.Assertions.Assert(Condition => abs(pxTestVector.fGet_X - fExpectedXValue) < 0.001,
                               Message   => "CQuaternion.pxCreate failed, fX got the wrong value.");
@@ -84,8 +84,8 @@ package body Math.Quaternions.Test_Data.Tests is
                               Message   => "CQuaternion.pxCreate failed, fY got the wrong value.");
       AUnit.Assertions.Assert(Condition => abs(pxTestVector.fGet_Z - fExpectedZValue) < 0.001,
                               Message   => "CQuaternion.pxCreate failed, fZ got the wrong value.");
-      AUnit.Assertions.Assert(Condition => abs(pxNewQuaternion.fGet_Angle - fAngle) < 0.001,
-                              Message   => "CQuaternion.pxCreate failed, fW got the wrong value. Angle: " & float'Image(pxNewQuaternion.fGet_Angle));
+      AUnit.Assertions.Assert(Condition => abs(pxNewQuaternion.fGet_Angle_In_Degrees - fAngle) < 0.001,
+                              Message   => "CQuaternion.pxCreate failed, fW got the wrong value. Angle: " & float'Image(pxNewQuaternion.fGet_Angle_In_Degrees));
 
 
 --  begin read only
@@ -98,7 +98,7 @@ package body Math.Quaternions.Test_Data.Tests is
    procedure Test_Plus_bd5b1d (Gnattest_T : in out Test) renames Test_Plus;
 --  id:2.1/bd5b1df12406b840/Plus/1/0/
    procedure Test_Plus (Gnattest_T : in out Test) is
-   --  math-quaternions.ads:14:4:"+"
+   --  math-quaternions.ads:30:4:"+"
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -142,7 +142,7 @@ package body Math.Quaternions.Test_Data.Tests is
    procedure Test_Minus_2f7442 (Gnattest_T : in out Test) renames Test_Minus;
 --  id:2.1/2f74421dfd689023/Minus/1/0/
    procedure Test_Minus (Gnattest_T : in out Test) is
-   --  math-quaternions.ads:15:4:"-"
+   --  math-quaternions.ads:35:4:"-"
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -186,7 +186,7 @@ package body Math.Quaternions.Test_Data.Tests is
    procedure Test_Multiply_cbc666 (Gnattest_T : in out Test) renames Test_Multiply;
 --  id:2.1/cbc66689b1a4c76f/Multiply/1/0/
    procedure Test_Multiply (Gnattest_T : in out Test) is
-   --  math-quaternions.ads:16:4:"*"
+   --  math-quaternions.ads:40:4:"*"
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -240,7 +240,7 @@ package body Math.Quaternions.Test_Data.Tests is
    procedure Test_Equal_079d85 (Gnattest_T : in out Test) renames Test_Equal;
 --  id:2.1/079d85964c7551a7/Equal/1/0/
    procedure Test_Equal (Gnattest_T : in out Test) is
-   --  math-quaternions.ads:17:4:"="
+   --  math-quaternions.ads:45:4:"="
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -260,6 +260,12 @@ package body Math.Quaternions.Test_Data.Tests is
       pxRightOperandQuaternion.fX := pxRightOperandQuaternion.fX + 0.01;
       AUnit.Assertions.Assert(Condition => not (pxLeftOperandQuaternion = pxRightOperandQuaternion),
                               Message   => "CQuaternion.=(binary) failed, left operand equals right operand.");
+      
+      
+      pxRightOperandQuaternion := null;
+      AUnit.Assertions.Assert(Condition => pxLeftOperandQuaternion /= pxRightOperandQuaternion,
+                              Message   => "CQuaternion.=(binary) failed, left operand equals right operand.");
+      
 
 --  begin read only
    end Test_Equal;
@@ -271,7 +277,7 @@ package body Math.Quaternions.Test_Data.Tests is
    procedure Test_fGet_Dot_Product_be0506 (Gnattest_T : in out Test) renames Test_fGet_Dot_Product;
 --  id:2.1/be0506155b2e61ac/fGet_Dot_Product/1/0/
    procedure Test_fGet_Dot_Product (Gnattest_T : in out Test) is
-   --  math-quaternions.ads:18:4:fGet_Dot_Product
+   --  math-quaternions.ads:50:4:fGet_Dot_Product
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -303,55 +309,5 @@ package body Math.Quaternions.Test_Data.Tests is
    end Test_fGet_Dot_Product;
 --  end read only
 
-
---  begin read only
-   procedure Test_pxGet_Spherical_Linear_Interpolation_Quaternion (Gnattest_T : in out Test);
-   procedure Test_pxGet_Spherical_Linear_Interpolation_Quaternion_ccc0de (Gnattest_T : in out Test) renames Test_pxGet_Spherical_Linear_Interpolation_Quaternion;
---  id:2.1/ccc0deca44691779/pxGet_Spherical_Linear_Interpolation_Quaternion/1/0/
-   procedure Test_pxGet_Spherical_Linear_Interpolation_Quaternion (Gnattest_T : in out Test) is
-   --  math-quaternions.ads:20:4:pxGet_Spherical_Linear_Interpolation_Quaternion
---  end read only
-
-      pragma Unreferenced (Gnattest_T);
-
-      pxFromQuaternion : pCQuaternion;
-      pxToQuaternion : pCQuaternion;
-      pxInterpolatedQuaternion : pCQuaternion;
-      pxLastInterpolatedQuaternion : pCQuaternion;
-      pxAxisVector : Math.Vectors.pCVector;
-      fCoefficient : float;
-   begin
-
-      pxAxisVector := Math.Vectors.pxCreate(fX => 1.0,
-                                            fY => 0.0,
-                                            fZ => 0.0);
-      pxFromQuaternion := Math.Quaternions.pxCreate(pxAxisVector    => pxAxisVector,
-                                                    fAngleInDegrees => 45.0);
-
-      pxAxisVector := Math.Vectors.pxCreate(fX => 1.0,
-                                            fY => 0.0,
-                                            fZ => 0.0);
-      pxToQuaternion := Math.Quaternions.pxCreate(pxAxisVector    => pxAxisVector,
-                                                  fAngleInDegrees => -45.0);
-
-
-      pxLastInterpolatedQuaternion := Math.Quaternions.pxGet_Spherical_Linear_Interpolation_Quaternion(pxFromQuaternion          => pxFromQuaternion,
-                                                                                                   pxToQuaternion            => pxToQuaternion,
-                                                                                                   fInterpolationCoefficient => 0.0);
-      for t in 1 .. 100 loop
-         fCoefficient := float(t) * 0.01;
-         pxInterpolatedQuaternion := Math.Quaternions.pxGet_Spherical_Linear_Interpolation_Quaternion(pxFromQuaternion          => pxFromQuaternion,
-                                                                                                      pxToQuaternion            => pxToQuaternion,
-                                                                                                      fInterpolationCoefficient => 0.5);
-       AUnit.Assertions.Assert(Condition => pxInterpolatedQuaternion.fGet_Axis_Vector = pxLastInterpolatedQuaternion.fGet_Axis_Vector,
-                              Message   => "CQuaternion.pxGet_Spherical_Linear_Interpolation_Quaternion failed, wrong axis vector in for loop.");
-       AUnit.Assertions.Assert(Condition => pxInterpolatedQuaternion.fGet_Angle < pxLastInterpolatedQuaternion.fGet_Angle,
-                              Message   => "CQuaternion.pxGet_Spherical_Linear_Interpolation_Quaternion failed, wrong angle in foor loop. Coefficient: " & float'Image(fCoefficient));
-
-      end loop;
-
---  begin read only
-   end Test_pxGet_Spherical_Linear_Interpolation_Quaternion;
---  end read only
 
 end Math.Quaternions.Test_Data.Tests;

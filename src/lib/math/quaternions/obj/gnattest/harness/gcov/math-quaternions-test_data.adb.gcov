@@ -1,0 +1,22 @@
+        -:    0:Source:/home/evr/git/naiad-auv-software/src/lib/math/quaternions/obj/gnattest/tests/math-quaternions-test_data.adb
+        -:    0:Programs:21
+        -:    1:--  This package is intended to set up and tear down  the test environment.
+        -:    2:--  Once created by GNATtest, this package will never be overwritten
+        -:    3:--  automatically. Contents of this package can be modified in any way
+        -:    4:--  except for sections surrounded by a 'read only' marker.
+        -:    5:
+        -:    6:package body Math.Quaternions.Test_Data is
+        -:    7:
+       14:    8:   procedure Set_Up (Gnattest_T : in out Test) is
+        -:    9:      pragma Unreferenced (Gnattest_T);
+        -:   10:   begin
+        -:   11:      null;
+       14:   12:   end Set_Up;
+        -:   13:
+       14:   14:   procedure Tear_Down (Gnattest_T : in out Test) is
+        -:   15:      pragma Unreferenced (Gnattest_T);
+        -:   16:   begin
+        -:   17:      null;
+       14:   18:   end Tear_Down;
+        -:   19:
+        -:   20:end Math.Quaternions.Test_Data;

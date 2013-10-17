@@ -1,6 +1,7 @@
 with Ada.Numerics;
 with Ada.Numerics.Elementary_Functions;
 
+-- Angles package for types and functionality regarding angles.
 package Math.Angles is
 
    type TAngle is new float range -180.0 .. 180.0;

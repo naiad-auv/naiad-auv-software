@@ -15,16 +15,16 @@ package body Math.Vectors.CVector_Test_Data.CVector_Tests is
    procedure Test_pxGet_Copy_4fdcfb (Gnattest_T : in out Test_CVector) renames Test_pxGet_Copy;
 --  id:2.1/4fdcfbc63674ebe3/pxGet_Copy/1/0/
    procedure Test_pxGet_Copy (Gnattest_T : in out Test_CVector) is
-   --  math-vectors.ads:14:4:pxGet_Copy
+   --  math-vectors.ads:13:4:pxGet_Copy
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
 
+      use System;
+
       pxTestVector : pCVector;
       pxCopiedVector : pCVector;
 
-      testAddress : Address;
-      copyAddress : Address;
    begin
 
       pxTestVector := Math.Vectors.pxCreate(fX => 5.2,
@@ -39,10 +39,8 @@ package body Math.Vectors.CVector_Test_Data.CVector_Tests is
       AUnit.Assertions.Assert(Condition => pxCopiedVector.fZ = 8.2,
                               Message   => "CVector.pxGetCopy failed, fZ got the wrong value");
 
-      testAddress := pxTestVector'Address;
-      copyAddress := pxCopiedVector'Address;
 
-      AUnit.Assertions.Assert(Condition => testAddress /= copyAddress,
+      AUnit.Assertions.Assert(Condition => pxTestVector.all'Address /= pxCopiedVector.all'Address,
                               Message => "CVector.pxGetCopy failed, pointers has the same address, not a deep copy");
 
 --  begin read only
@@ -55,17 +53,16 @@ package body Math.Vectors.CVector_Test_Data.CVector_Tests is
    procedure Test_pxGet_Normalized_a00a60 (Gnattest_T : in out Test_CVector) renames Test_pxGet_Normalized;
 --  id:2.1/a00a60382fe44b5d/pxGet_Normalized/1/0/
    procedure Test_pxGet_Normalized (Gnattest_T : in out Test_CVector) is
-   --  math-vectors.ads:15:4:pxGet_Normalized
+   --  math-vectors.ads:14:4:pxGet_Normalized
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
 
 
+      use System;
       pxTestVector : pCVector;
       pxNormalizedVector : pCVector;
 
-      testAddress : Address;
-      normalizedAddress : Address;
    begin
 
 
@@ -76,10 +73,9 @@ package body Math.Vectors.CVector_Test_Data.CVector_Tests is
       AUnit.Assertions.Assert(Condition => abs(pxNormalizedVector.fLength - 1.0) < 0.0001,
                               Message   => "CVector.pxGet_Normalized failed");
 
-      testAddress := pxTestVector'Address;
-      normalizedAddress := pxNormalizedVector'Address;
 
-      AUnit.Assertions.Assert(Condition => testAddress /= normalizedAddress,
+
+      AUnit.Assertions.Assert(Condition => pxTestVector.all'Address /= pxNormalizedVector.all'Address,
                               Message => "CVector.pxGet_Normalized failed, testVector and normalizedVector has the same address");
 
       -- test exceptions
@@ -106,7 +102,7 @@ package body Math.Vectors.CVector_Test_Data.CVector_Tests is
    procedure Test_fLength_Squared_cce6ee (Gnattest_T : in out Test_CVector) renames Test_fLength_Squared;
 --  id:2.1/cce6ee4164d3103e/fLength_Squared/1/0/
    procedure Test_fLength_Squared (Gnattest_T : in out Test_CVector) is
-   --  math-vectors.ads:17:4:fLength_Squared
+   --  math-vectors.ads:16:4:fLength_Squared
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -131,7 +127,7 @@ package body Math.Vectors.CVector_Test_Data.CVector_Tests is
    procedure Test_fLength_7b67f3 (Gnattest_T : in out Test_CVector) renames Test_fLength;
 --  id:2.1/7b67f3ae3f80f9b4/fLength/1/0/
    procedure Test_fLength (Gnattest_T : in out Test_CVector) is
-   --  math-vectors.ads:18:4:fLength
+   --  math-vectors.ads:17:4:fLength
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -168,7 +164,7 @@ package body Math.Vectors.CVector_Test_Data.CVector_Tests is
                                                   fY => 0.0,
                                                   fZ => 0.0);
 
-      AUnit.Assertions.Assert(Condition => pxTestVector.fX = 23.5,
+      AUnit.Assertions.Assert(Condition => pxTestVector.fGet_X = 23.5,
                               Message   => "CVector.fGet_X failed, expected 23.5 actual: " & float'Image(pxTestVector.fX));
 
 --  begin read only
@@ -193,7 +189,7 @@ package body Math.Vectors.CVector_Test_Data.CVector_Tests is
                                                   fY => 23.5,
                                                   fZ => 0.0);
 
-      AUnit.Assertions.Assert(Condition => pxTestVector.fY = 23.5,
+      AUnit.Assertions.Assert(Condition => pxTestVector.fGet_Y = 23.5,
                               Message   => "CVector.fGet_Y failed, expected 23.5, actual: " & float'Image(pxTestVector.fY));
 
 --  begin read only
@@ -218,7 +214,7 @@ package body Math.Vectors.CVector_Test_Data.CVector_Tests is
                                                   fY => 0.0,
                                                   fZ => 23.5);
 
-      AUnit.Assertions.Assert(Condition => pxTestVector.fZ = 23.5,
+      AUnit.Assertions.Assert(Condition => pxTestVector.fGet_Z = 23.5,
                               Message   => "CVector.fGet_Z failed, expected 23.5, actual: " & float'Image(pxTestVector.fZ));
 
 --  begin read only
@@ -227,24 +223,63 @@ package body Math.Vectors.CVector_Test_Data.CVector_Tests is
 
 
 --  begin read only
+   procedure Test_Copy_From (Gnattest_T : in out Test_CVector);
+   procedure Test_Copy_From_535aa7 (Gnattest_T : in out Test_CVector) renames Test_Copy_From;
+--  id:2.1/535aa7efaabab4a8/Copy_From/1/0/
+   procedure Test_Copy_From (Gnattest_T : in out Test_CVector) is
+   --  math-vectors.ads:38:4:Copy_From
+--  end read only
+
+      pragma Unreferenced (Gnattest_T);
+      use System;
+
+      pxOriginalVector : pCVector;
+      pxCopyVector : pCVector;
+      pxPointerCopyVector : pCVector;
+
+   begin
+
+      pxOriginalVector := Math.Vectors.pxCreate(fX => 4.0,
+                                                fY => 3.0,
+                                                fZ => -124.0);
+      pxCopyVector := Math.Vectors.pxCreate(fX => 233.0,
+                                            fY => -214.0,
+                                            fZ => 4.5);
+      pxPointerCopyVector := pxCopyVector;
+
+      pxCopyVector.Copy_From(pxOriginalVector);
+
+
+      AUnit.Assertions.Assert(Condition => pxPointerCopyVector = pxOriginalVector,
+                              Message   => "CVector.Copy_From failed, vectors are different.");
+      AUnit.Assertions.Assert(Condition => pxPointerCopyVector.all'Address = pxCopyVector.all'Address,
+                              Message   => "CVector.Copy_From failed, pointers address is not the same as copy vectors address.");
+
+
+--  begin read only
+   end Test_Copy_From;
+--  end read only
+
+
+--  begin read only
    procedure Test_1_Devide (Gnattest_T : in out Test_CVector);
    procedure Test_Devide_7a37a3 (Gnattest_T : in out Test_CVector) renames Test_1_Devide;
 --  id:2.1/7a37a3bfda72490e/Devide/1/0/
    procedure Test_1_Devide (Gnattest_T : in out Test_CVector) is
-   --  math-vectors.ads:47:4:"/"
+   --  math-vectors.ads:49:4:"/"
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
 
+      use System;
       pxDividedVector : Math.Vectors.pCVector;
-      xLeftOperandVector : Math.Vectors.CVector;
+      xLeftOperandVector : Math.Vectors.pCVector;
       fRightOperand : float;
 
-      dividedAddress, leftAddress : Address;
 
    begin
 
-      xLeftOperandVector := (fX => 2.0, fY => 5.0,fZ => 4.0);
+      xLeftOperandVector := Math.Vectors.pxCreate(fX => 2.0, fY => 5.0,fZ => 4.0);
       fRightOperand := 2.0;
 
       pxDividedVector := xLeftOperandVector / fRightOperand;
@@ -256,10 +291,7 @@ package body Math.Vectors.CVector_Test_Data.CVector_Tests is
       AUnit.Assertions.Assert(Condition => pxDividedVector.fZ = 2.0,
                               Message   => "CVector./(binary CVector / float) failed, fZ got the wrong value, expected 2.0, actual: " & float'Image(pxDividedVector.fZ));
 
-      dividedAddress := pxDividedVector'Address;
-      leftAddress := xLeftOperandVector'Address;
-
-      Aunit.Assertions.Assert(Condition => dividedAddress /= leftAddress,
+      Aunit.Assertions.Assert(Condition => pxDividedVector.all'Address /= xLeftOperandVector.all'Address,
                               Message => ("CVector./(binary CVector / float) failed, dividedVector is a shallow copy of one operand"));
 
 

@@ -1,0 +1,82 @@
+        -:    0:Source:/home/evr/git/naiad-auv-software/src/lib/math/vectors/obj/gnattest/harness/math-vectors-cvector_test_data-cvector_tests-suite.adb
+        -:    0:Programs:57
+        -:    1:--  This package has been generated automatically by GNATtest.
+        -:    2:--  Do not edit any part of it, see GNATtest documentation for more details.
+        -:    3:
+        -:    4:--  begin read only
+        -:    5:with AUnit.Test_Caller;
+        -:    6:with Gnattest_Generated;
+        -:    7:
+        6:    8:package body Math.Vectors.CVector_Test_Data.CVector_Tests.Suite is
+        -:    9:
+        -:   10:   package Runner_1 is new AUnit.Test_Caller
+        -:   11:     (GNATtest_Generated.GNATtest_Standard.Math.Vectors.CVector_Test_Data.CVector_Tests.Test_CVector);
+        -:   12:
+        2:   13:   Result : aliased AUnit.Test_Suites.Test_Suite;
+        -:   14:
+        2:   15:   Case_1_1_Test_pxGet_Copy_4fdcfb : aliased Runner_1.Test_Case;
+        2:   16:   Case_2_1_Test_pxGet_Normalized_a00a60 : aliased Runner_1.Test_Case;
+        2:   17:   Case_3_1_Test_fLength_Squared_cce6ee : aliased Runner_1.Test_Case;
+        2:   18:   Case_4_1_Test_fLength_7b67f3 : aliased Runner_1.Test_Case;
+        2:   19:   Case_5_1_Test_fGet_X_2bcacb : aliased Runner_1.Test_Case;
+        2:   20:   Case_6_1_Test_fGet_Y_5c8b74 : aliased Runner_1.Test_Case;
+        2:   21:   Case_7_1_Test_fGet_Z_6025cf : aliased Runner_1.Test_Case;
+        2:   22:   Case_8_1_Test_Copy_From_535aa7 : aliased Runner_1.Test_Case;
+        2:   23:   Case_9_1_Test_Devide_7a37a3 : aliased Runner_1.Test_Case;
+        -:   24:
+        2:   25:   function Suite return AUnit.Test_Suites.Access_Test_Suite is
+        -:   26:   begin
+        -:   27:
+        2:   28:      Runner_1.Create
+        -:   29:        (Case_1_1_Test_pxGet_Copy_4fdcfb,
+        -:   30:         "math-vectors.ads:13:4:",
+        -:   31:         Test_pxGet_Copy_4fdcfb'Access);
+        2:   32:      Runner_1.Create
+        -:   33:        (Case_2_1_Test_pxGet_Normalized_a00a60,
+        -:   34:         "math-vectors.ads:14:4:",
+        -:   35:         Test_pxGet_Normalized_a00a60'Access);
+        2:   36:      Runner_1.Create
+        -:   37:        (Case_3_1_Test_fLength_Squared_cce6ee,
+        -:   38:         "math-vectors.ads:16:4:",
+        -:   39:         Test_fLength_Squared_cce6ee'Access);
+        2:   40:      Runner_1.Create
+        -:   41:        (Case_4_1_Test_fLength_7b67f3,
+        -:   42:         "math-vectors.ads:17:4:",
+        -:   43:         Test_fLength_7b67f3'Access);
+        2:   44:      Runner_1.Create
+        -:   45:        (Case_5_1_Test_fGet_X_2bcacb,
+        -:   46:         "math-vectors.ads:34:4:",
+        -:   47:         Test_fGet_X_2bcacb'Access);
+        2:   48:      Runner_1.Create
+        -:   49:        (Case_6_1_Test_fGet_Y_5c8b74,
+        -:   50:         "math-vectors.ads:35:4:",
+        -:   51:         Test_fGet_Y_5c8b74'Access);
+        2:   52:      Runner_1.Create
+        -:   53:        (Case_7_1_Test_fGet_Z_6025cf,
+        -:   54:         "math-vectors.ads:36:4:",
+        -:   55:         Test_fGet_Z_6025cf'Access);
+        2:   56:      Runner_1.Create
+        -:   57:        (Case_8_1_Test_Copy_From_535aa7,
+        -:   58:         "math-vectors.ads:38:4:",
+        -:   59:         Test_Copy_From_535aa7'Access);
+        2:   60:      Runner_1.Create
+        -:   61:        (Case_9_1_Test_Devide_7a37a3,
+        -:   62:         "math-vectors.ads:49:4:",
+        -:   63:         Test_Devide_7a37a3'Access);
+        -:   64:
+        2:   65:      Result.Add_Test (Case_1_1_Test_pxGet_Copy_4fdcfb'Access);
+        2:   66:      Result.Add_Test (Case_2_1_Test_pxGet_Normalized_a00a60'Access);
+        2:   67:      Result.Add_Test (Case_3_1_Test_fLength_Squared_cce6ee'Access);
+        2:   68:      Result.Add_Test (Case_4_1_Test_fLength_7b67f3'Access);
+        2:   69:      Result.Add_Test (Case_5_1_Test_fGet_X_2bcacb'Access);
+        2:   70:      Result.Add_Test (Case_6_1_Test_fGet_Y_5c8b74'Access);
+        2:   71:      Result.Add_Test (Case_7_1_Test_fGet_Z_6025cf'Access);
+        2:   72:      Result.Add_Test (Case_8_1_Test_Copy_From_535aa7'Access);
+        2:   73:      Result.Add_Test (Case_9_1_Test_Devide_7a37a3'Access);
+        -:   74:
+        2:   75:      return Result'Access;
+        -:   76:
+        -:   77:   end Suite;
+        -:   78:
+        2:   79:end Math.Vectors.CVector_Test_Data.CVector_Tests.Suite;
+        -:   80:--  end read only

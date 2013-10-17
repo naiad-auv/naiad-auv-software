@@ -1,0 +1,21 @@
+        -:    0:Source:/home/evr/git/naiad-auv-software/src/lib/math/planes/obj/gnattest/tests/math-planes-cplane_test_data-cplane_tests.ads
+        -:    0:Programs:21
+        -:    1:--  This package has been generated automatically by GNATtest.
+        -:    2:--  Do not edit any part of it, see GNATtest documentation for more details.
+        -:    3:
+        -:    4:--  begin read only
+        -:    5:with GNATtest_Generated;
+        -:    6:
+        4:    7:package Math.Planes.CPlane_Test_Data.CPlane_Tests is
+        -:    8:
+        2:    9:   type Test_CPlane is new
+        -:   10:     GNATtest_Generated.GNATtest_Standard.Math.Planes.CPlane_Test_Data.Test_CPlane with null record;
+        -:   11:
+        -:   12:   procedure Test_pxGet_Normal_Vector_4c7399 (Gnattest_T : in out Test_CPlane);
+        -:   13:   --  math-planes.ads:11:4:pxGet_Normal_Vector
+        -:   14:
+        -:   15:   procedure Test_fGet_Distance_From_Origin_1b1e67 (Gnattest_T : in out Test_CPlane);
+        -:   16:   --  math-planes.ads:12:4:fGet_Distance_From_Origin
+        -:   17:
+        2:   18:end Math.Planes.CPlane_Test_Data.CPlane_Tests;
+        -:   19:--  end read only

@@ -9,12 +9,12 @@
 ---------------------------------------------------------------------------
 
 
-with AVR.AT90CAN128;
-with AVR.AT90CAN128.USART;
-with AVR.AT90CAN128.CAN;
-with Interfaces;
+--  with AVR.AT90CAN128;
+--  with AVR.AT90CAN128.USART;
+--  with AVR.AT90CAN128.CAN;
+--  with Interfaces;
 with CAN_Link_pack;
-with Text_IO;
+--  with Text_IO;
 
 procedure CAN_Link is
    pragma Suppress (All_Checks);
@@ -23,7 +23,7 @@ procedure CAN_Link is
 
 begin
    CAN_Link_pack.hardware_init;
-   Text_IO.Put_Line("main");
+ --  Text_IO.Put_Line("main");
    CAN_Link_pack.Main_Loop;
 
 end CAN_Link;
