@@ -192,6 +192,7 @@ package body Math.Matrices is
 
 
    function "=" (pxLeftOperandMatrix : in pCMatrix; pxRightOperandMatrix : in pCMatrix) return boolean is
+      use System;
    begin
       for iY in 1 .. 3
       loop
@@ -204,8 +205,9 @@ package body Math.Matrices is
       end loop;
       return true;
 
---        exception
---           when CONSTRAINT_ERROR => return false;
+   exception
+      when CONSTRAINT_ERROR =>
+         return false;
    end "=";
 
 
