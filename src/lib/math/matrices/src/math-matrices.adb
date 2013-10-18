@@ -193,6 +193,8 @@ package body Math.Matrices is
 
    function "=" (pxLeftOperandMatrix : in pCMatrix; pxRightOperandMatrix : in pCMatrix) return boolean is
 
+      use System;
+
       function CheckIfBothNull(pxLeftOperandMatrix : in pCMatrix; pxRightOperandMatrix : in pcMatrix) return boolean is
          f : float;
       begin
@@ -208,7 +210,6 @@ package body Math.Matrices is
                   return true;
             end;
       end;
-
    begin
 
       if CheckIfBothNull(pxLeftOperandMatrix, pxRightOperandMatrix) then
@@ -230,7 +231,6 @@ package body Math.Matrices is
    exception
       when CONSTRAINT_ERROR =>
          return false;
-
    end "=";
 
 
