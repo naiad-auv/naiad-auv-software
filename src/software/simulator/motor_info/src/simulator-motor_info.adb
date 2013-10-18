@@ -61,7 +61,27 @@ package body Simulator.Motor_Info is
 
    function "=" (pxLeftOperandVector : in pCMotorInfo; pxRightOperandVector : in pCMotorinfo) return boolean is
 
+      function CheckIfBothNull(pxLeftOperandVector : in pCMotorInfo; pxRightOperandVector : in pCMotorInfo) return boolean is
+         f : float;
+      begin
+         f := pxRightOperandVector.pxGet_Force_Vector.fGet_X;
+         return false;
+      exception
+            when CONSTRAINT_ERROR =>
+            begin
+               f :=  pxLeftOperandVector.pxGet_Force_Vector.fGet_X;
+               return false;
+            exception
+               when CONSTRAINT_ERROR =>
+                  return true;
+            end;
+      end;
+
    begin
+
+      if(CheckIfBothNull(pxLeftOperandVector,pxRightOperandVector)) then
+         return true;
+      end if;
       if((math.Vectors."="(pxLeftOperandVector.pxForceVector,pxRightOperandVector.pxForceVector)) = false) then
          return false;
       end if;
@@ -72,6 +92,10 @@ package body Simulator.Motor_Info is
          return false;
       end if;
       return True;
+
+   exception
+      when CONSTRAINT_ERROR =>
+         return False;
    end "=";
 
 
