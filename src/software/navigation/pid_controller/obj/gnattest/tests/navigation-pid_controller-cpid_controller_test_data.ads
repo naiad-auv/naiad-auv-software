@@ -9,7 +9,7 @@ with GNATtest_Generated;
 
 package Navigation.PID_Controller.CPID_Controller_Test_Data is
 
-   type CPID_Controller_Access is access all GNATtest_Generated.GNATtest_Standard.Navigation.PID_Controller.CPID_Controller'Class;
+   type CPID_Controller_Access is access all GNATtest_Generated.GNATtest_Standard.Navigation.PID_Controller.CPIDController'Class;
 
 --  begin read only
    type Test_CPID_Controller is new AUnit.Test_Fixtures.Test_Fixture
