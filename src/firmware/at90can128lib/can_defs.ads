@@ -12,7 +12,7 @@ package CAN_Defs is
 
    MSG_SIMULATION_MODE_ID		: constant AVR.AT90CAN128.CAN.CAN_ID := 11;
    SIMULATION_MODE_ACTIVE		: constant Interfaces.Unsigned_8 := 0;
-   SIMULATION_MODE_NOT_ACTIVE		: constant Interfaces.Unsigned_8 := 225;
+   SIMULATION_MODE_NOT_ACTIVE		: constant Interfaces.Unsigned_8 := 255;
    MSG_SIMULATION_MODE_ACTIVE		: constant AVR.AT90CAN128.CAN.CAN_Message := (ID => MSG_SIMULATION_MODE_ID, Len => 1, Data => (SIMULATION_MODE_ACTIVE, 	   others => 0) );
    MSG_SIMULATION_MODE_NOT_ACTIVE	: constant AVR.AT90CAN128.CAN.CAN_Message := (ID => MSG_SIMULATION_MODE_ID, Len => 1, Data => (SIMULATION_MODE_NOT_ACTIVE, others => 0) );
 
