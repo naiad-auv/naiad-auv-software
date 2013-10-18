@@ -223,7 +223,7 @@ void Processing_Wrap::Histogram(int src)
   	cv::split( img.at(src), bgr );	
 
 	int hbins=10, sbins=10;
-	int histSize[]={256};
+	int histSize=256;
 	
 	float hranges[]={0,180};
 	float sranges[]={0,256};
@@ -232,11 +232,11 @@ void Processing_Wrap::Histogram(int src)
 
 	int channels[]={0,1};
 	float range[]={0,256};
-	const float *histRange[]={range};
+	const float *histRange[]={0,256};
 	cv::Mat b_hist;
-	const int *histSize1[]={histSize};
+	const int *histSize1=&histSize;
 
-	calcHist( &bgr[0], 1, 0, cv::Mat(), b_hist, 1, &histSize1, &histRange, true, false );
+	calcHist( &bgr[0], 1, 0, cv::Mat(), b_hist, 1, &histSize, &histRange, true, false );
 //	cv::calcHist(&hsv,1,channels, cv::Mat(),hist,2,histSize,ranges,true,false);
 /*
 	double maxVal=0;
