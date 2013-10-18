@@ -30,7 +30,7 @@ void Core_Wrap::test_func()
   int bufSize=0;
   
 
-  std::string folderPath = "/home/vision/Documents/project/cdt508/Robosub2012_logging/Loggning/log 3/Bottom/";
+  std::string folderPath = "//home/bork/Data/naiad-auv-software/src/software/vision/testImages/Front/";
 
   std::string result;
   std::string imageType = ".jpg";
@@ -298,6 +298,31 @@ void Processing_Wrap::showGreenChannel()
 void Processing_Wrap::showRedChannel()
 {
 	std::cout<<channels[2];
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+
+int Processing_Wrap::thresh(int ch)
+{
+	if(ch == 0) //Do for Blue
+	{
+		// Do
+		return 1;
+	}
+	else 
+	{
+		if(ch == 1 //Do for Green
+		{
+			// Do
+			return 1;
+		}
+		else //Do for Red
+		{
+			// Do
+			return 1;
+		}
+	}
+	return 0;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
