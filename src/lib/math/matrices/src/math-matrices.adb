@@ -192,7 +192,30 @@ package body Math.Matrices is
 
 
    function "=" (pxLeftOperandMatrix : in pCMatrix; pxRightOperandMatrix : in pCMatrix) return boolean is
+
+      function CheckIfBothNull(pxLeftOperandMatrix : in pCMatrix; pxRightOperandMatrix : in pcMatrix) return boolean is
+         f : float;
+      begin
+         f := pxRightOperandMatrix.tfMatrix(1,1);
+         return false;
+      exception
+            when CONSTRAINT_ERROR =>
+            begin
+               f :=  pxLeftOperandMatrix.tfMatrix(1,1);
+               return false;
+            exception
+               when CONSTRAINT_ERROR =>
+                  return true;
+            end;
+      end;
+
    begin
+
+      if CheckIfBothNull(pxLeftOperandMatrix, pxRightOperandMatrix) then
+         return true;
+      end if;
+
+
       for iY in 1 .. 3
       loop
          for iX in 1 .. 3
@@ -204,8 +227,10 @@ package body Math.Matrices is
       end loop;
       return true;
 
---        exception
---           when CONSTRAINT_ERROR => return false;
+   exception
+      when CONSTRAINT_ERROR =>
+         return false;
+
    end "=";
 
 
