@@ -1,10 +1,11 @@
 -- This code contains the main functions of the Sensor controller firmware
 
 -- Written by: Nils Brynedal Ignell for the Naiad AUV project
--- Last changed (yyyy-mm-dd): 2013-10-11
+-- Last changed (yyyy-mm-dd): 2013-10-17
 
 --with Text_IO;  -- for debugging
 
+with CAN_Defs;
 with Temp_Sensor;
 with Pressure_Sensor;
 
@@ -46,10 +47,10 @@ package body Sensor_Controller_pack is
       AVR.AT90CAN128.CAN.Can_Get(received_message, bMessageReceived, 0);
       while bMessageReceived loop
          --  Handle the message
-         if received_message.ID = SIMULATION_MESSAGE_ID then
-            if received_message.Data(1) = SIMULATION_MODE_OFF then
+         if received_message.ID = CAN_Defs.MSG_SIMULATION_MODE_ID then
+              if received_message.Data(1) = CAN_Defs.SIMULATION_MODE_NOT_ACTIVE then
                bSimulate := false;
-            elsif received_message.Data(1) = SIMULATION_MODE_ON then
+            elsif received_message.Data(1) = CAN_Defs.SIMULATION_MODE_ACTIVE then
                bSimulate := true;
             end if;
          end if;
@@ -65,7 +66,7 @@ package body Sensor_Controller_pack is
       u8Salinity : Interfaces.Unsigned_8;
       sTemp : String := "+125.6";
    begin
-      send_message.ID := Sensor_Controller_pack.SEND_MESSAGE_ID;
+      send_message.ID := CAN_Defs.MSG_SENSOR_ID;
       send_message.Len := 5;
 
       ----------------- FOR DEBUGGING PURPOSES!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -74,7 +75,7 @@ package body Sensor_Controller_pack is
 --        return;
       ----------------- FOR DEBUGGING PURPOSES!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-      i16Temp := Temp_Sensor.i16Get_Temp_Int(uTEMP_PIN);
+      i16Temp := Temp_Sensor.i16Get_Temp_Int;
       Temp_Sensor.i16ToStr(i16Temp, sTemp);
       Salinity_Sensor.Set_Temperature(sTemp);
       u8Salinity  := Salinity_Sensor.Get_Salinity;
@@ -97,11 +98,11 @@ package body Sensor_Controller_pack is
       AVR.AT90CAN128.CAN.Can_Init (AVR.AT90CAN128.CAN.K250);
 
       --enable reception on only simulation messages:
-      AVR.AT90CAN128.CAN.Can_Set_All_MOB_ID_MASK(Sensor_Controller_pack.SIMULATION_MESSAGE_ID, 2047);
+      AVR.AT90CAN128.CAN.Can_Set_All_MOB_ID_MASK(CAN_Defs.MSG_SIMULATION_MODE_ID, 2047);
 
       --Start the salinity sensor:
       --The salinity sensor needs a temperature reading for accuracy
-      i16Temp := Temp_Sensor.i16Get_Temp_Int(uTEMP_PIN);
+      i16Temp := Temp_Sensor.i16Get_Temp_Int;
       Temp_Sensor.i16ToStr(i16Temp, sTemp);
       Salinity_Sensor.Initate_Salinity_Sensor (UARTPort, sTemp(3 .. 6));
    end Init;

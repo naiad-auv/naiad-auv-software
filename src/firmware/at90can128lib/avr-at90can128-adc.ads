@@ -5,7 +5,7 @@
 -- This way one can read only those channels one wants.
 
 -- Edits by Nils Brynedal Ignell for the Naiad AUV project
--- Last changed (yyyy-mm-dd): 2013-10-10
+-- Last changed (yyyy-mm-dd): 2013-10-17
 
 
 with AVR.AT90CAN128;
@@ -20,6 +20,8 @@ package AVR.AT90CAN128.ADC is
 
    procedure ADC_Init;  --activates all channels
    procedure ADC_Init(selection : TChannelSelection); --activates channels according to selection
+
+   procedure ADC_Init(u8Pin : Interfaces.Unsigned_8); --activates a channel according to u8Pin
 
    function Get (Ch : AVR.AT90CAN128.Channel_type) return interfaces.Unsigned_16;
 

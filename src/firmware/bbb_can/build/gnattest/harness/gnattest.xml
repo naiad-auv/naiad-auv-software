@@ -1,0 +1,37 @@
+<tests_mapping mode="monolith">
+   <unit source_file="bbb_can.ads">
+      <test_unit target_file="bbb_can-test_data-tests.ads">
+         <setup file="bbb_can-test_data.adb" line="3"  column="4"/>
+         <teardown file="bbb_can-test_data.adb" line="9"  column="4"/>
+         <tested name="Init" line="58" column="4">
+            <test file="bbb_can-test_data-tests.adb" line="13" column="1" timestamp="2013-10-17 06:07:59"/>
+         </tested>
+         <tested name="Handshake" line="62" column="4">
+            <test file="bbb_can-test_data-tests.adb" line="34" column="1" timestamp="2013-10-17 06:07:59"/>
+         </tested>
+         <tested name="Send" line="64" column="4">
+            <test file="bbb_can-test_data-tests.adb" line="55" column="1" timestamp="2013-10-17 06:07:59"/>
+         </tested>
+         <tested name="Get" line="66" column="4">
+            <test file="bbb_can-test_data-tests.adb" line="76" column="1" timestamp="2013-10-17 06:07:59"/>
+         </tested>
+         <tested name="Bytes_To_Message" line="71" column="4">
+            <test file="bbb_can-test_data-tests.adb" line="97" column="1" timestamp="2013-10-17 06:07:59"/>
+         </tested>
+         <tested name="Message_To_Bytes" line="73" column="4">
+            <test file="bbb_can-test_data-tests.adb" line="118" column="1" timestamp="2013-10-17 06:07:59"/>
+         </tested>
+         <tested name="Calculate_Checksum" line="75" column="4">
+            <test file="bbb_can-test_data-tests.adb" line="139" column="1" timestamp="2013-10-17 06:07:59"/>
+         </tested>
+         <tested name="Usart_Write" line="77" column="4">
+            <test file="bbb_can-test_data-tests.adb" line="160" column="1" timestamp="2013-10-17 06:07:59"/>
+         </tested>
+         <tested name="Usart_Read" line="79" column="4">
+            <test file="bbb_can-test_data-tests.adb" line="181" column="1" timestamp="2013-10-17 06:07:59"/>
+         </tested>
+         <dangling>
+         </dangling>
+      </test_unit>
+   </unit>
+</tests_mapping>
