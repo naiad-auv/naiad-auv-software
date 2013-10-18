@@ -106,7 +106,12 @@ void Processing_Wrap::Canny(int src, int dst, int lThresh, int hThresh, int kern
 // Takes in source image index, stores result in circles vector defined above
 void Processing_Wrap::HoughCircles(int src,int inverseRatioOfResolution,int minDistBetweenCenters,int cannyUpThres, int centerDetectionThreshold, int minRadius,int maxRadius )
 {
+int circCount;
+//cv::imshow("super circles",img.at(src));
+//	cv::waitKey(0);
   cv::HoughCircles( img.at(src), circles, CV_HOUGH_GRADIENT, inverseRatioOfResolution, minDistBetweenCenters, cannyUpThres, centerDetectionThreshold, minRadius, maxRadius );
+circCount=circles.size();
+std::cout<<"circles:\t"<<circCount<<std::endl;
 
 }
 
@@ -236,8 +241,8 @@ void Processing_Wrap::showContours(int contourOut, int contourId = -1, int thick
 //////////////////////////aprox poly //////////////////////////////////////////////////////
 void Processing_Wrap::approxPolyDP(double epsilon, bool closed)
 {
-   std::cout<<"in aprox poly \n";
-int count = 0;
+   //std::cout<<"in aprox poly \n";
+int count,triCount = 0;
    std::vector<cv::Point> polys;
    //std::vector<cv::Mat>fourPolys;
 
@@ -247,18 +252,23 @@ int count = 0;
 	if (polys.size()==4)
 	{
 	
-        std::cout<<"\n polys : "<<polys<<"\n";
+   //     std::cout<<"\n polys : "<<polys<<"\n";
 
-	count=count+1;
-	cv::waitKey(0);
+	count++;
+	//cv::waitKey(0);
 	}
-	else 
+	if (polys.size()==3)
 	{
-	std::cout<<"no square \n";	
-	}	
+	triCount++;
+	}
+//	else 
+//	{
+	//std::cout<<"no square \n";	
+//	}	
 	}
 	
-    std::cout<<"outside loop \n"<<"we found this many squares:"<<count;
+    std::cout<<"rectangles:\t"<<count;
+    std::cout<<"\ntriangles:\t"<<triCount<<std::endl;
   //cv::drawContours(img.at(0), fourPolys, -1, cv::Scalar(255,0,0), 3, CV_AA );
 cv::waitKey(0); 
 }
