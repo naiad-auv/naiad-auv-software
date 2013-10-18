@@ -476,6 +476,14 @@ package body Math.Matrices.Test_Data.Tests is
       AUnit.Assertions.Assert(Condition => pxRotMatrix1 /= pxCreate_Identity,
                               Message => "Matrices.=(binary equal) failed, equal. Values: " & float'Image(float(tfXRotAngle)) & float'Image(float(tfYRotAngle)) & float'Image(float(tfZRotAngle)));               
 
+      pxRotMatrix1 := null;
+      AUnit.Assertions.Assert(Condition => pxRotMatrix1 /= pxCreate_Identity,
+                              Message => "Matrices.=(binary equal) null-test failed, equal.");               
+
+--        pxRotMatrix2 := null;
+--        AUnit.Assertions.Assert(Condition => pxRotMatrix1 = pxRotMatrix2,
+--                                Message => "Matrices.=(binary equal) null-test failed, not equal.");               
+      
 
 --  begin read only
    end Test_Equal;
