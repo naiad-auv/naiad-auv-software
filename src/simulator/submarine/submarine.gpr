@@ -1,0 +1,15 @@
+with "../../math/angles/angles.gpr";
+with "../../math/quaternions/quaternions.gpr";
+with "../../math/vectors/vectors.gpr";
+with "../motor_info/motor_info.gpr";
+with "../../math/matrices/matrices.gpr";
+with "../simulator.gpr";
+
+project Submarine is
+
+   for Source_Dirs use ("src");
+   for Object_Dir use "obj";
+   for Main use ();
+
+end Submarine;
+
