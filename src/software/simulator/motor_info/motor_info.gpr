@@ -1,5 +1,5 @@
-with "../../math/vectors/vectors.gpr";
-with "../../math/matrices/matrices.gpr";
+with "../../../lib/math/vectors/vectors.gpr";
+with "../../../lib/math/matrices/matrices.gpr";
 with "../simulator.gpr";
 
 project Motor_Info is

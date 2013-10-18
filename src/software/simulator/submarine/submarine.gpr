@@ -1,8 +1,8 @@
-with "../../math/angles/angles.gpr";
-with "../../math/quaternions/quaternions.gpr";
-with "../../math/vectors/vectors.gpr";
+with "../../../lib/math/angles/angles.gpr";
+with "../../../lib/math/quaternions/quaternions.gpr";
+with "../../../lib/math/vectors/vectors.gpr";
+with "../../../lib/math/matrices/matrices.gpr";
 with "../motor_info/motor_info.gpr";
-with "../../math/matrices/matrices.gpr";
 with "../simulator.gpr";
 
 project Submarine is
