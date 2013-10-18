@@ -11,6 +11,7 @@
 ---------------------------------------------------------------------------
 
 
+
 with Interfaces;
 
 package BBB_CAN is
@@ -63,7 +64,9 @@ package BBB_CAN is
 
    procedure Send(msg : CAN_Message);
 
-   procedure Get(msg : out CAN_Message; bMsgReceived : out Boolean);
+   -- Tries to return a CAN message
+   -- bUARTChecksumOK returns false if there was an error in the data transfer over the UART
+   procedure Get(msg : out CAN_Message; bMsgReceived : out Boolean; bUARTChecksumOK : out Boolean);
 
 
 private
@@ -74,8 +77,9 @@ private
 
    function Calculate_Checksum(b8Data : Byte8; Len : DLC_Type) return Interfaces.Unsigned_8;
 
-   procedure Usart_Write(Buffer : String; iSize: Integer);
+   procedure Usart_Read(sBuffer : out String; iSize : Integer);
 
-   procedure Usart_Read(Buffer : out String; iSize : Integer);
+   procedure Usart_Write(sBuffer : String; iSize : Integer);
+
 
 end BBB_CAN;

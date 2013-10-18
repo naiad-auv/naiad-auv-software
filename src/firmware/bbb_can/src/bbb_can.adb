@@ -1,34 +1,42 @@
 
 ---------------------------------------------------------------------------
 -- This code handles communication between the BeagleBone Black (BBB) and
--- the CAN-link
+-- the CAN-link.
 -- This code is loosly based on the router.adb file from the Vasa project.
 
 -- Written by Nils Brynedal Ignell for the Naiad AUV project
--- Last changed (yyyy-mm-dd): 2013-10-17
+-- Last changed (yyyy-mm-dd): 2013-10-18
 
--- TODO: Unit testing, hardware testing
+-- TODO: hardware testing
 ---------------------------------------------------------------------------
+
+with UartWrapper;
+with GNAT.Serial_Communications;
 
 package body BBB_CAN is
    pragma Suppress (All_Checks);
 
+   pxUart : UartWrapper.pCUartHandler;
+
    procedure Init is
    begin
-      null;
+      --initiates UART commiunication:
+      pxUart := UartWrapper.pxCreate("/dev/ttyACM1", GNAT.Serial_Communications.B38400, 0.001, 100);
    end Init;
 
    function Handshake return Boolean is
-      sBuffer : String(1..HEADLEN);
+      sBuffer : String(1..5);
    begin
       sBuffer(1) := Character'Val(3);
       sBuffer(2) := Character'Val(0);
       sBuffer(3) := Character'Val(0);
       sBuffer(4) := Character'Val(0);
       sBuffer(5) := Character'Val(0);
-      Usart_Write(sBuffer, HEADLEN);   --sends handshake message
+      pxUart.Uart_Write(sBuffer, 5);   --sends handshake message
 
       --wait for bytes 3, 0, 0, 0, 0 while keeping a look at the clock
+
+      --pxUart.Uart_Read
 
       return false;
    end Handshake;
@@ -37,11 +45,11 @@ package body BBB_CAN is
       sBuffer : String(1..Integer(msg.Len)+HEADLEN);
    begin
       Message_To_Bytes(sBuffer, msg);
-
       Usart_Write(sBuffer, Integer(msg.Len));
    end Send;
 
-   procedure Get(msg : out CAN_Message; bMsgReceived : out Boolean) is
+   procedure Get(msg : out CAN_Message; bMsgReceived : out Boolean; bUARTChecksumOK : out Boolean) is
+
    begin
       null;
    end Get;
@@ -84,12 +92,14 @@ package body BBB_CAN is
 
    end Message_To_Bytes;
 
-   procedure Usart_Write(Buffer : String; iSize: Integer) is
+   procedure Usart_Write(sBuffer : String; iSize : Integer) is
    begin
-      null;
+      pxUart.Uart_Write(sBuffer, iSize);
    end Usart_Write;
 
-   procedure Usart_Read(Buffer : out String; iSize : Integer) is
+   procedure Usart_Read(sBuffer : out String; iSize : Integer) is
+      sRet : String(1..iSize);
+      iIndex : Integer := 1;
    begin
       null;
    end Usart_Read;
@@ -104,4 +114,4 @@ package body BBB_CAN is
       return Checksum;
    end Calculate_Checksum;
 
-   end BBB_CAN;
+end BBB_CAN;
