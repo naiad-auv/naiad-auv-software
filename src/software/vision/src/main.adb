@@ -17,13 +17,13 @@ procedure main is
 
    --hough cirlces variables
    --src use destination of canny as source for hough circles
-   inverseRatioOfResolution : integer;
-   minDistBetweenCenters : integer;
+   inverseRatioOfResolution : Interfaces.C.int;
+   minDistBetweenCenters : Interfaces.C.int;
    --cannyUpThres : integer; use canny high thres declared above
-   houghCannyUpThres : integer;
-   centerDetectionThreshold : integer;
-   minRadius : integer;
-   maxRadius : integer;
+   houghCannyUpThres : Interfaces.C.int;
+   centerDetectionThreshold : Interfaces.C.int;
+   minRadius : Interfaces.C.int;
+   maxRadius : Interfaces.C.int;
 
    CoreWrap : aliased Class_Core_Wrap.Core_Wrap;
    processingWrap : aliased Class_Processing_Wrap.Processing_Wrap;
@@ -63,13 +63,12 @@ begin
    --CoreWrap.push_back(New_String("circle3.jpg"));
    --CoreWrap.push_back(New_String("circle3.jpg"));
    --CoreWrap.waitKey(0);
-   
+  Endless_Loop:
+   loop
+   CoreWrap.test_func;--load image to img.at(0)
 
-  --Endless_Loop:
-   --loop
-   --CoreWrap.test_func;--load image to img.at(0)
    CoreWrap.imshow(New_String("Why so normal?"), 0);--show image for debug purposes
-   CoreWrap.waitKey(0);
+   --CoreWrap.waitKey(0);
 
 
 
@@ -77,14 +76,16 @@ begin
    --CONVERT IMAGE TO GREYSCALE 
    --call convertToGreyscale procedure
    Vision.Image_Processing.Convert_To_Greyscale(iImageSource,iImageDestination, iGreyFilter);
-   CoreWrap.imshow(New_String("why so grey?"), 1);--show image for debug purposes
-   CoreWrap.waitKey(0);
+   --CoreWrap.imshow(New_String("why so grey?"), 1);--show image for debug purposes
+   --CoreWrap.waitKey(0);
 
    --USE CANNY ON GREYSCALE IMAGE
-     Vision.Image_Processing.Canny(iImageDestination,iImageDestination, iCannyLowThres, iCannyHighThres, iCannyKernelSize);
-     CoreWrap.imshow(New_String("why so canny?"), 1);--show image for debug purposes
-     CoreWrap.waitKey(0);
-  -- end loop Endless_Loop;
+     --Vision.Image_Processing.Canny(iImageDestination,iImageDestination, iCannyLowThres, iCannyHighThres, iCannyKernelSize);
+     --CoreWrap.imshow(New_String("why so canny?"), 1);--show image for debug purposes
+     --CoreWrap.waitKey(0);
+  
+
+-- end loop Endless_Loop;
    
 
    Endless_Loop:
@@ -172,20 +173,28 @@ begin
       --               src  => 1);
    --CoreWrap.waitKey(0);
 
+   processingWrap.HoughCircles(Interfaces.C.int(1), inverseRatioOfResolution, minDistBetweenCenters, houghCannyUpThres, centerDetectionThreshold, minRadius, maxRadius);
+
+Vision.Image_Processing.Convert_To_Greyscale(iImageSource,iImageDestination, iGreyFilter);
+Vision.Image_Processing.Canny(iImageDestination,iImageDestination, iCannyLowThres, iCannyHighThres, iCannyKernelSize);
+     --CoreWrap.imshow(New_String("why so canny?"), 1);--show image for debug purposes
+     --CoreWrap.waitKey(0);
+
    processingWrap.Contours(src    => Interfaces.C.int(1));
    processingWrap.showContours(contourOut => Interfaces.C.int(0),
                                contourId  => -1 ,
                                thickness  => 3 );
-   CoreWrap.imshow(name => New_String("contour_out"),
+   CoreWrap.imshow(name => New_String("Whats with the contours?"),
                    src  => 0);
    CoreWrap.waitKey(0);
+   --processingWrap.HoughCircles(Interfaces.C.int(1), inverseRatioOfResolution, minDistBetweenCenters, houghCannyUpThres, centerDetectionThreshold, minRadius, maxRadius);
    --ret := CoreWrap.imwrite(name => New_String("Contours.jpg"),
             --               src  => 0);
  
    processingWrap.approxPolyDP(1.2, 1);
 
-  --end loop Endless_Loop;
-   CoreWrap.waitKey(0);
+  end loop Endless_Loop;
+   --CoreWrap.waitKey(0);
 end main;
 
 
