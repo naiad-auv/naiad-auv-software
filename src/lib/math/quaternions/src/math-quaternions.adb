@@ -86,7 +86,29 @@ package body Math.Quaternions is
    end "*";
 
    function "=" (pxLeftOperandQuaternion, pxRightOperandQuaternion : in pCQuaternion) return boolean is
+
+      function CheckIfBothNull(pxLeftOperandQuaternion : in pCQuaternion; pxRightOperandQuaternion : in pCQuaternion) return boolean is
+         f : float;
+      begin
+         f := pxRightOperandQuaternion.fX;
+         return false;
+      exception
+            when CONSTRAINT_ERROR =>
+            begin
+               f :=  pxLeftOperandQuaternion.fX;
+               return false;
+            exception
+               when CONSTRAINT_ERROR =>
+                  return true;
+            end;
+      end;
+
+
    begin
+      if (CheckIfBothNull(pxLeftOperandQuaternion,pxRightOperandQuaternion))then
+         return true;
+      end if;
+
       return (pxLeftOperandQuaternion.fX = pxRightOperandQuaternion.fX) and
         (pxLeftOperandQuaternion.fY = pxRightOperandQuaternion.fY) and
         (pxLeftOperandQuaternion.fZ = pxRightOperandQuaternion.fZ) and
