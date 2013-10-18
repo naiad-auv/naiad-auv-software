@@ -192,8 +192,8 @@ void Processing_Wrap::Contours(int src) // TO DO : include image-ROI
 	
 	cv::findContours( G, contours, CV_RETR_LIST, CV_CHAIN_APPROX_SIMPLE);
 	cv::waitKey(0);
-	char* name = "in contours";
-	cv::imshow(name, img.at(src)); //TO DO : REMOVE
+	//char* name = "in contours";
+	cv::imshow("in contours", img.at(src)); //TO DO : REMOVE
 	cv::waitKey(0);
 }
 
@@ -209,21 +209,58 @@ void Processing_Wrap::showContours(int contourOut, int contourId = -1, int thick
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////// HISTOGRAM ////////////////////////////////////////////
-/*
+
 void Processing_Wrap::Histogram(int src)
 {
-	cv::Mat G;
-	int channels[] = {0,1};
-	//std::vector<float> 
-	float hrange[] = {0,180};mgproc.hpp:655:17: note: void cv::calcHi
-	//std::vector<float> 
-	float srange[] = {0,256}; 
-	const float* ranges[] = {hrange, srange};
-	int histSize[] = {30,32};
-	cv::cvtColor(img.at(src), G, CV_BGR2HSV);
-	cv::calcHist(G, 1, &channels, NULL, hist, 2, histSize, ranges, true, false); //TO DO : ACCUMULATE flag : check to set this when working with multiple frames
+	//cv::Mat hsv;
+
+	//convert to hsv
+	//cv::cvtColor(img.at(src), hsv, 40);
+	//cv::imshow("HSV",hsv);
+	//cv::waitKey(0);
+
+	cv::vector<cv::Mat> bgr;
+  	cv::split( img.at(src), bgr );	
+
+	int hbins=10, sbins=10;
+	int histSize[]={256};
+	
+	float hranges[]={0,180};
+	float sranges[]={0,256};
+	
+	cv::MatND hist;
+
+	int channels[]={0,1};
+	float range[]={0,256};
+	const float *histRange[]={range};
+	cv::Mat b_hist;
+	const int *histSize1[]={histSize};
+
+	calcHist( &bgr[0], 1, 0, cv::Mat(), b_hist, 1, &histSize1, &histRange, true, false );
+//	cv::calcHist(&hsv,1,channels, cv::Mat(),hist,2,histSize,ranges,true,false);
+/*
+	double maxVal=0;
+	minMaxLoc(hist,0,&maxVal,0,0);
+
+	int scale=10;
+
+	 cv::Mat histImg = cv::Mat::zeros(sbins*scale, hbins*10, CV_8UC3);
+
+    for( int h = 0; h < hbins; h++ )
+        for( int s = 0; s < sbins; s++ )
+        {
+            float binVal = hist.at<float>(h, s);
+            int intensity = cvRound(binVal*255/maxVal);
+            rectangle( histImg, cv::Point(h*scale, s*scale),
+                        cv::Point( (h+1)*scale - 1, (s+1)*scale - 1),
+                        cv::Scalar::all(intensity),
+                        CV_FILLED );
+        }
+    
+    cv::imshow( "H-S Histogram", histImg );
+    cv::waitKey();*/
 }
-*/
+
 ///////////////////////////////////// display /////////////////////////////////////////////
 /*
 void Processing_Wrap::showHistogram()

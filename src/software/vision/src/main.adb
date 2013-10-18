@@ -56,22 +56,22 @@ begin
    --CHECK FOR INSTRUCTION--to be implemented, for now just working on default mode
 
    --GET IMAGE-- read from buffer, but for now just read in png
-   CoreWrap.push_back(New_String("lena.png"));
    CoreWrap.push_back(New_String("rosie.png"));
-   CoreWrap.push_back(New_String("circle3.jpg"));
-   CoreWrap.push_back(New_String("circle3.jpg"));
+   CoreWrap.push_back(New_String("rosie.png"));
+   CoreWrap.push_back(New_String("rosie.png"));
+   CoreWrap.push_back(New_String("rosie.png"));
    CoreWrap.waitKey(0);
    CoreWrap.imshow(New_String("Why so normal?"), 1);--show image for debug purposes
    CoreWrap.waitKey(0);
 
-
+   processingWrap.Histogram(0);
 
    --CLEAN IMAGE--to be implemented
    --CONVERT IMAGE TO GREYSCALE FOR CANNY
    --call convertToGreyscale procedure
    Vision.Image_Processing.Convert_To_Greyscale(iImageSource,iImageDestination, iGreyFilter);
-   CoreWrap.imshow(New_String("why so grey?"), 2);--show image for debug purposes
-   CoreWrap.waitKey(0);
+   --CoreWrap.imshow(New_String("why so grey?"), 2);--show image for debug purposes
+   --CoreWrap.waitKey(0);
 
    --USE CANNY ON GREYSCALE IMAGE
 --     Vision.Image_Processing.Canny(iImageDestination,iImageDestination, iCannyLowThres, iCannyHighThres, iCannyKernelSize);
@@ -132,19 +132,19 @@ begin
    --processingWrap.LabelPoints(Interfaces.C.int(4));
 
    --Contours
-     CoreWrap.imshow(name => New_String("test_disp"),
-                     src  => 1);
-   CoreWrap.waitKey(0);
+     --CoreWrap.imshow(name => New_String("test_disp"),
+       --              src  => 1);
+   --CoreWrap.waitKey(0);
 
    processingWrap.Contours(src    => Interfaces.C.int(1));
    processingWrap.showContours(contourOut => Interfaces.C.int(1),
                                contourId  => -1 ,
                                thickness  => 3 );
-   CoreWrap.imshow(name => New_String("contour_out"),
-                   src  => 1);
-   CoreWrap.waitKey(0);
-   ret := CoreWrap.imwrite(name => New_String("Contours.jpg"),
-                           src  => 1);
+   --CoreWrap.imshow(name => New_String("contour_out"),
+     --              src  => 1);
+   --CoreWrap.waitKey(0);
+   --ret := CoreWrap.imwrite(name => New_String("Contours.jpg"),
+     --                      src  => 1);
    CoreWrap.waitKey(0);
 end main;
 
