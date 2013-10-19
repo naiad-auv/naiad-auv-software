@@ -2,6 +2,8 @@
 #include <stdio.h>
 #include <string>
 
+#define IMAGE_STORE_SIZE 15
+
 class Core_Wrap{
 
 virtual void push_back(char * src);
@@ -16,12 +18,16 @@ virtual void waitKey(int time);
 
 virtual int size(void);
 
+virtual void imstore(int src, char * name);
+
 Core_Wrap();
 
 };
 
 
 class Processing_Wrap{
+virtual void split(int src);
+
 virtual void cvtColor(int src, int dst, int filter);
 
 virtual void Canny(int src, int dst, int lThresh, int hThresh, int kernelSize);
@@ -40,7 +46,8 @@ virtual void showContours(int contourOut, int contourId, int thickness);
 
 //Histogram
 
-virtual void Histogram(int src);
+virtual void BGRHistogram(int histSize, float rangeLower, float rangeHigher);
+virtual void showBGRHistogram(int histSize);
 //virtual void showHistogram();
 
 

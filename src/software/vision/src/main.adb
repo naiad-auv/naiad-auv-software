@@ -6,7 +6,7 @@ with Vision.Image_Preprocessing; use Vision.Image_Preprocessing;
 with Vision.Image_Processing;
 
 procedure main is
-   iImageSource : integer;
+   iImageSource : Interfaces.C.Int;
    iImageDestination : integer;
    iImageCannyOut : integer;
    iGreyFilter : integer;
@@ -25,18 +25,28 @@ procedure main is
    minRadius : integer;
    maxRadius : integer;
 
+   --histo stuff
+   rangeLower : Standard.Float;
+   rangeHigher : Standard.Float;
+   histSize : Interfaces.C.Int;
+
    CoreWrap : aliased Class_Core_Wrap.Core_Wrap;
    processingWrap : aliased Class_Processing_Wrap.Processing_Wrap;
    preprocessingWrap : aliased Class_Preprocessing_Wrap.Preprocessing_Wrap;
 begin
    --canny declarations
-   iImageSource := 1;
+   iImageSource := 0;
    iImageDestination := 2;
    iImageCannyOut := 4;
    iGreyFilter := 6;
    iCannyLowThres := 50;
    iCannyHighThres := 200;
    iCannyKernelSize := 3;
+  
+--histo
+   rangeLower := 0.0;
+   rangeHigher :=256.0;
+   histSize :=256;
 
    --hough circle declarations
    --src use destination of canny as source for hough circles
@@ -56,20 +66,20 @@ begin
    --CHECK FOR INSTRUCTION--to be implemented, for now just working on default mode
 
    --GET IMAGE-- read from buffer, but for now just read in png
-   CoreWrap.push_back(New_String("rosie.png"));
-   CoreWrap.push_back(New_String("rosie.png"));
-   CoreWrap.push_back(New_String("rosie.png"));
-   CoreWrap.push_back(New_String("rosie.png"));
+   CoreWrap.imstore(iImageSource,New_String("Red_Green_Blue.jpg"));
+
    CoreWrap.waitKey(0);
-   CoreWrap.imshow(New_String("Why so normal?"), 1);--show image for debug purposes
+   CoreWrap.imshow(New_String("Why so normal?"), iImageSource);--show image for debug purposes
    CoreWrap.waitKey(0);
 
-   processingWrap.Histogram(0);
+   processingWrap.split(iImageSource);
+   processingWrap.BGRHistogram(histSize, rangeLower, rangeHigher);
+   processingWrap.showBGRHistogram(histSize);
 
    --CLEAN IMAGE--to be implemented
    --CONVERT IMAGE TO GREYSCALE FOR CANNY
    --call convertToGreyscale procedure
-   Vision.Image_Processing.Convert_To_Greyscale(iImageSource,iImageDestination, iGreyFilter);
+   --Vision.Image_Processing.Convert_To_Greyscale(iImageSource,iImageDestination, iGreyFilter);
    --CoreWrap.imshow(New_String("why so grey?"), 2);--show image for debug purposes
    --CoreWrap.waitKey(0);
 
@@ -136,16 +146,16 @@ begin
        --              src  => 1);
    --CoreWrap.waitKey(0);
 
-   processingWrap.Contours(src    => Interfaces.C.int(1));
-   processingWrap.showContours(contourOut => Interfaces.C.int(1),
-                               contourId  => -1 ,
-                               thickness  => 3 );
+  -- processingWrap.Contours(src    => Interfaces.C.int(1));
+  -- processingWrap.showContours(contourOut => Interfaces.C.int(1),
+                           --    contourId  => -1 ,
+                            --   thickness  => 3 );
    --CoreWrap.imshow(name => New_String("contour_out"),
      --              src  => 1);
    --CoreWrap.waitKey(0);
    --ret := CoreWrap.imwrite(name => New_String("Contours.jpg"),
      --                      src  => 1);
-   CoreWrap.waitKey(0);
+   --CoreWrap.waitKey(0);
 end main;
 
 

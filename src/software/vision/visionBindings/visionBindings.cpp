@@ -6,12 +6,16 @@
 #include<iostream>
 #include<vector>
 
-std::vector<cv::Mat> img;
+std::vector<cv::Mat> img(IMAGE_STORE_SIZE);
 std::vector<cv::Vec3f> circles;
 std::vector<cv::Vec2f> lines;
 std::vector<cv::Mat> contours;
 std::vector<cv::MatND> hist;
 cv::VideoCapture cap;
+cv::vector<cv::Mat> BGR;
+cv::Mat blueHistVals;
+cv::Mat greenHistVals;
+cv::Mat redHistVals;
 
 //std::vector<float> hrange(0,180);
 //std::vector<float> srange(0,256);
@@ -25,6 +29,11 @@ void Core_Wrap::push_back(char * src)
 void Core_Wrap::imread(char * name)
 {
   cv::imread(name);
+}
+
+void Core_Wrap::imstore(int src, char * name)
+{
+  img.at(src)=cv::imread(name);
 }
 
 int Core_Wrap::imwrite(char * name, int src)
@@ -207,67 +216,64 @@ void Processing_Wrap::showContours(int contourOut, int contourId = -1, int thick
 	cv::waitKey(0);	
 }
 
+void Processing_Wrap::split(int src)
+{
+	cv::split(img.at(src),BGR);
+}
+
 ///////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////// HISTOGRAM ////////////////////////////////////////////
+//////////////////////////////////// BGR HISTOGRAM ////////////////////////////////////////////
+//void
+void Processing_Wrap::BGRHistogram(int histSize, float rangeLower, float rangeHigher)
+{	
+	float range[]={rangeLower,rangeHigher};
+	const float *histRange={range};
+	int numSourceArray=1;
+	const int channelToBeMeasured=0;//just intensity
+	int histDimensionality = 1;
+	bool uniform =true;
+	bool accumulate = false;
 
-void Processing_Wrap::Histogram(int src)
-{
-	//cv::Mat hsv;
+	cv::calcHist( &BGR[0], numSourceArray, channelToBeMeasured, cv::Mat(), blueHistVals, histDimensionality, &histSize, &histRange, uniform, accumulate );
+	cv::calcHist( &BGR[1], numSourceArray, channelToBeMeasured, cv::Mat(), greenHistVals, histDimensionality, &histSize, &histRange, uniform, accumulate );
+	cv::calcHist( &BGR[2], numSourceArray, channelToBeMeasured, cv::Mat(), redHistVals, histDimensionality, &histSize, &histRange, uniform, accumulate );
 
-	//convert to hsv
-	//cv::cvtColor(img.at(src), hsv, 40);
-	//cv::imshow("HSV",hsv);
-	//cv::waitKey(0);
-
-	cv::vector<cv::Mat> bgr;
-  	cv::split( img.at(src), bgr );	
-
-	int hbins=10, sbins=10;
-	int histSize=256;
-	
-	float hranges[]={0,180};
-	float sranges[]={0,256};
-	
-	cv::MatND hist;
-
-	int channels[]={0,1};
-	float range[]={0,256};
-	const float *histRange[]={0,256};
-	cv::Mat b_hist;
-	const int *histSize1=&histSize;
-
-	calcHist( &bgr[0], 1, 0, cv::Mat(), b_hist, 1, &histSize, &histRange, true, false );
-//	cv::calcHist(&hsv,1,channels, cv::Mat(),hist,2,histSize,ranges,true,false);
-/*
-	double maxVal=0;
-	minMaxLoc(hist,0,&maxVal,0,0);
-
-	int scale=10;
-
-	 cv::Mat histImg = cv::Mat::zeros(sbins*scale, hbins*10, CV_8UC3);
-
-    for( int h = 0; h < hbins; h++ )
-        for( int s = 0; s < sbins; s++ )
-        {
-            float binVal = hist.at<float>(h, s);
-            int intensity = cvRound(binVal*255/maxVal);
-            rectangle( histImg, cv::Point(h*scale, s*scale),
-                        cv::Point( (h+1)*scale - 1, (s+1)*scale - 1),
-                        cv::Scalar::all(intensity),
-                        CV_FILLED );
-        }
-    
-    cv::imshow( "H-S Histogram", histImg );
-    cv::waitKey();*/
 }
 
-///////////////////////////////////// display /////////////////////////////////////////////
-/*
-void Processing_Wrap::showHistogram()
+///////////////////////////////////// display BGR Histo/////////////////////////////////////////////
+// used to debug histo, check if it works
+void Processing_Wrap::showBGRHistogram(int histSize)
 {
-	std::cout<<"Histogram : "<< &hist;
+	int histWidth = 600; int histHeight =400;
+	int bin_w = cvRound( (double)histWidth/histSize);
+
+	cv::Mat histImage( histHeight, histWidth, CV_8UC3, cv::Scalar( 0,0,0) );
+
+	// Normalize:input,output,lower&upper limits of normal, type of normal,-1means o/p type same as i/p type, optional mask
+  	normalize(blueHistVals, blueHistVals, 0, histImage.rows, cv::NORM_MINMAX, -1, cv::Mat() );
+  	normalize(greenHistVals, greenHistVals, 0, histImage.rows, cv::NORM_MINMAX, -1, cv::Mat() );
+  	normalize(redHistVals, redHistVals, 0, histImage.rows, cv::NORM_MINMAX, -1, cv::Mat() );
+
+  	// Draw for each channel
+  	for( int i = 1; i < histSize; i++ )
+  	{
+      	cv::line( histImage, cv::Point( bin_w*(i-1), histHeight - cvRound(blueHistVals.at<float>(i-1)) ) ,
+                       cv::Point( bin_w*(i), histHeight - cvRound(blueHistVals.at<float>(i)) ),
+                       cv::Scalar( 255, 0, 0), 2, 8, 0  );//blue
+      	cv::line( histImage, cv::Point( bin_w*(i-1), histHeight - cvRound(greenHistVals.at<float>(i-1)) ) ,
+                       cv::Point( bin_w*(i), histHeight - cvRound(greenHistVals.at<float>(i)) ),
+                       cv::Scalar( 0, 255, 0), 2, 8, 0  );//green
+      	cv::line( histImage, cv::Point( bin_w*(i-1), histHeight - cvRound(redHistVals.at<float>(i-1)) ) ,
+                       cv::Point( bin_w*(i), histHeight - cvRound(redHistVals.at<float>(i)) ),
+                       cv::Scalar( 0, 0, 255), 2, 8, 0  );//red
+  	}
+
+  	cv::imshow("Histogram", histImage );
+
+  cv::waitKey(0);
+
 }
-*/
+
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
 
