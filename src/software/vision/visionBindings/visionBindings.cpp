@@ -8,15 +8,23 @@
 #include<string>
 #include<queue>
 
-std::vector<cv::Mat> img;
+std::vector<cv::Mat> img(IMAGE_STORE_SIZE);
 std::vector<cv::Vec3f> circles;
 std::vector<cv::Vec2f> lines;
 std::vector<cv::Mat> contours;
+std::vector<cv::MatND> hist;
 cv::VideoCapture cap;
 std::vector<cv::Mat> channels;
 
 std::queue <cv::Mat> imageBuf; // Declare a queue
 int imageName=31;
+
+cv::vector<cv::Mat> BGR;
+cv::Mat blueHistVals;
+cv::Mat greenHistVals;
+cv::Mat redHistVals;
+
+
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////    IMAGE BUFFER FUNC   ////////////////////////////////////////////////////////////////////////
@@ -24,7 +32,7 @@ int imageName=31;
 //It loads buffer and replaces the image at img.at(0)
 //NB takes images from a folder at the minute, this will need to be changed when the real input method for the system
 //becomes available. 
-void Core_Wrap::test_func()
+void Core_Wrap::img_buffer()
 {
   char strStorage[50]; // enough to hold all numbers up to 64-bits
   int bufSize=0;
@@ -58,6 +66,7 @@ void Core_Wrap::test_func()
    std::cout<<imageName;
 }
 
+
 void Core_Wrap::push_back(char * src)
 {
   img.push_back(cv::imread(src));
@@ -66,6 +75,11 @@ void Core_Wrap::push_back(char * src)
 void Core_Wrap::imread(char * name)
 {
   cv::imread(name);
+}
+
+void Core_Wrap::imstore(int src, char * name)
+{
+  img.at(src)=cv::imread(name);
 }
 
 int Core_Wrap::imwrite(char * name, int src)
@@ -164,9 +178,8 @@ cv::Scalar intensity;
 }
 
 
-
-////////////////////////////////////HOUGH LINES////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////HOUGH LINES////////////////////////////////////////////
 
 void Processing_Wrap::HoughLines(int src, int rho, float theta, int intersectionThreshold)
 {
@@ -277,7 +290,6 @@ int count,triCount = 0;
 cv::waitKey(0); 
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////// CHANNELS ////////////////////////////////////////////
 
 void Processing_Wrap::splitChannels(int src)
@@ -285,6 +297,60 @@ void Processing_Wrap::splitChannels(int src)
 	cv::split(img.at(src), channels);
 }
 
+
+//////////////////////////////////// BGR HISTOGRAM ////////////////////////////////////////////
+//void
+void Processing_Wrap::BGRHistogram(int histSize, float rangeLower, float rangeHigher)
+{	
+	float range[]={rangeLower,rangeHigher};
+	const float *histRange={range};
+	int numSourceArray=1;
+	const int channelToBeMeasured=0;//just intensity
+	int histDimensionality = 1;
+	bool uniform =true;
+	bool accumulate = false;
+
+	cv::calcHist( &channels[0], numSourceArray, channelToBeMeasured, cv::Mat(), blueHistVals, histDimensionality, &histSize, &histRange, uniform, accumulate );
+	cv::calcHist( &channels[1], numSourceArray, channelToBeMeasured, cv::Mat(), greenHistVals, histDimensionality, &histSize, &histRange, uniform, accumulate );
+	cv::calcHist( &channels[2], numSourceArray, channelToBeMeasured, cv::Mat(), redHistVals, histDimensionality, &histSize, &histRange, uniform, accumulate );
+
+}
+
+///////////////////////////////////// display BGR Histo/////////////////////////////////////////////
+// used to debug histo, check if it works
+void Processing_Wrap::showBGRHistogram(int histSize)
+{
+	int histWidth = 600; int histHeight =400;
+	int bin_w = cvRound( (double)histWidth/histSize);
+
+	cv::Mat histImage( histHeight, histWidth, CV_8UC3, cv::Scalar( 0,0,0) );
+
+	// Normalize:input,output,lower&upper limits of normal, type of normal,-1means o/p type same as i/p type, optional mask
+  	normalize(blueHistVals, blueHistVals, 0, histImage.rows, cv::NORM_MINMAX, -1, cv::Mat() );
+  	normalize(greenHistVals, greenHistVals, 0, histImage.rows, cv::NORM_MINMAX, -1, cv::Mat() );
+  	normalize(redHistVals, redHistVals, 0, histImage.rows, cv::NORM_MINMAX, -1, cv::Mat() );
+
+  	// Draw for each channel
+  	for( int i = 1; i < histSize; i++ )
+  	{
+      	cv::line( histImage, cv::Point( bin_w*(i-1), histHeight - cvRound(blueHistVals.at<float>(i-1)) ) ,
+                       cv::Point( bin_w*(i), histHeight - cvRound(blueHistVals.at<float>(i)) ),
+                       cv::Scalar( 255, 0, 0), 2, 8, 0  );//blue
+      	cv::line( histImage, cv::Point( bin_w*(i-1), histHeight - cvRound(greenHistVals.at<float>(i-1)) ) ,
+                       cv::Point( bin_w*(i), histHeight - cvRound(greenHistVals.at<float>(i)) ),
+                       cv::Scalar( 0, 255, 0), 2, 8, 0  );//green
+      	cv::line( histImage, cv::Point( bin_w*(i-1), histHeight - cvRound(redHistVals.at<float>(i-1)) ) ,
+                       cv::Point( bin_w*(i), histHeight - cvRound(redHistVals.at<float>(i)) ),
+                       cv::Scalar( 0, 0, 255), 2, 8, 0  );//red
+  	}
+
+  	cv::imshow("Histogram", histImage );
+
+  cv::waitKey(0);
+
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
 
 void Processing_Wrap::showBlueChannel()

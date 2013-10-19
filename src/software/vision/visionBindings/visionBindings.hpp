@@ -2,8 +2,10 @@
 #include <stdio.h>
 #include <string>
 
+
 //defines
 #define IMAGE_BUFFER_SIZE 10
+#define IMAGE_STORE_SIZE 30
 
 
 class Core_Wrap{
@@ -20,7 +22,9 @@ virtual void waitKey(int time);
 
 virtual int size(void);
 
-virtual void test_func(void);
+virtual void img_buffer(void);
+
+virtual void imstore(int src, char * name);
 
 Core_Wrap();
 
@@ -28,6 +32,7 @@ Core_Wrap();
 
 
 class Processing_Wrap{
+
 virtual void cvtColor(int src, int dst, int filter);
 
 virtual void Canny(int src, int dst, int lThresh, int hThresh, int kernelSize);
@@ -43,6 +48,12 @@ virtual void DrawHoughLines(int cdst);
 //Contours
 virtual void Contours(int src);
 virtual void showContours(int contourOut, int contourId, int thickness);
+
+//Histogram
+
+virtual void BGRHistogram(int histSize, float rangeLower, float rangeHigher);
+virtual void showBGRHistogram(int histSize);
+//virtual void showHistogram();
 
 
 virtual void approxPolyDP(double epsilon, bool closed);
