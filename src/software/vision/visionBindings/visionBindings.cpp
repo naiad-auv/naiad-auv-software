@@ -303,21 +303,61 @@ void Processing_Wrap::splitChannels(int src)
 void Processing_Wrap::BGRHistogram(int histSize, float rangeLower, float rangeHigher)
 {	
 	float range[]={rangeLower,rangeHigher};
-	const float *histRange={range};
+	const float *histRange[]={range};
 	int numSourceArray=1;
 	const int channelToBeMeasured=0;//just intensity
 	int histDimensionality = 1;
 	bool uniform =true;
 	bool accumulate = false;
 
-	cv::calcHist( &channels[0], numSourceArray, channelToBeMeasured, cv::Mat(), blueHistVals, histDimensionality, &histSize, &histRange, uniform, accumulate );
-	cv::calcHist( &channels[1], numSourceArray, channelToBeMeasured, cv::Mat(), greenHistVals, histDimensionality, &histSize, &histRange, uniform, accumulate );
-	cv::calcHist( &channels[2], numSourceArray, channelToBeMeasured, cv::Mat(), redHistVals, histDimensionality, &histSize, &histRange, uniform, accumulate );
+	cv::calcHist( &channels[0], numSourceArray, channelToBeMeasured, cv::Mat(), blueHistVals, histDimensionality, &histSize, histRange, uniform, accumulate );
+	cv::calcHist( &channels[1], numSourceArray, channelToBeMeasured, cv::Mat(), greenHistVals, histDimensionality, &histSize, histRange, uniform, accumulate );
+	cv::calcHist( &channels[2], numSourceArray, channelToBeMeasured, cv::Mat(), redHistVals, histDimensionality, &histSize, histRange, uniform, accumulate );
 
 }
 
+void Processing_Wrap::HSIHistogram(int src)
+{
+	float hrange[]={0,180};
+    	float srange[]={0,256};
+	const float *histRange[]={hrange,srange};
+	int histDimensionality =2;
+	bool uniform = true;
+	bool accumulate = false;
+
+     int hbins=30, sbins=32;
+    int histSize[]={hbins,sbins};
+  
+    int channels[]={0,1};
+  cv::MatND hist;
+    cv::calcHist(&img.at(src),1,channels, cv::Mat(),hist,histDimensionality, histSize,histRange,uniform,accumulate);
+     
+    double maxVal=0;
+    minMaxLoc(hist,0,&maxVal,0,0);
+
+    int scale=10;
+	
+
+     cv::Mat histImg = cv::Mat::zeros(sbins*scale, hbins*10, CV_8UC3);
+
+    for( int h = 0; h < hbins; h++ )
+        for( int s = 0; s < sbins; s++ )
+        {
+            float binVal = hist.at<float>(h, s);
+            int intensity = cvRound(binVal*255/maxVal);
+            rectangle( histImg, cv::Point(h*scale, s*scale),
+                        cv::Point( (h+1)*scale - 1, (s+1)*scale - 1),
+                        cv::Scalar::all(intensity),
+                        CV_FILLED );
+        }
+   
+    cv::imshow( "H-S Histogram", histImg );
+    cv::waitKey();
+}
+
+
 ///////////////////////////////////// display BGR Histo/////////////////////////////////////////////
-// used to debug histo, check if it works
+// used to debug bgr histo, check if it works
 void Processing_Wrap::showBGRHistogram(int histSize)
 {
 	int histWidth = 600; int histHeight =400;

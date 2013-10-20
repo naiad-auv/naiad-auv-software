@@ -120,31 +120,34 @@ package visionBindings_hpp is
          rangeHigher : float);  -- visionBindings.hpp:54
       pragma Import (CPP, BGRHistogram, "_ZN15Processing_Wrap12BGRHistogramEiff");
 
-      procedure showBGRHistogram (this : access Processing_Wrap; histSize : int);  -- visionBindings.hpp:55
+      procedure HSIHistogram (this : access Processing_Wrap; src : int);  -- visionBindings.hpp:56
+      pragma Import (CPP, HSIHistogram, "_ZN15Processing_Wrap12HSIHistogramEi");
+
+      procedure showBGRHistogram (this : access Processing_Wrap; histSize : int);  -- visionBindings.hpp:58
       pragma Import (CPP, showBGRHistogram, "_ZN15Processing_Wrap16showBGRHistogramEi");
 
       procedure approxPolyDP
         (this : access Processing_Wrap;
          epsilon : double;
-         closed : Extensions.bool);  -- visionBindings.hpp:59
+         closed : Extensions.bool);  -- visionBindings.hpp:62
       pragma Import (CPP, approxPolyDP, "_ZN15Processing_Wrap12approxPolyDPEdb");
 
-      procedure splitChannels (this : access Processing_Wrap; src : int);  -- visionBindings.hpp:62
+      procedure splitChannels (this : access Processing_Wrap; src : int);  -- visionBindings.hpp:65
       pragma Import (CPP, splitChannels, "_ZN15Processing_Wrap13splitChannelsEi");
 
-      procedure showBlueChannel (this : access Processing_Wrap);  -- visionBindings.hpp:63
+      procedure showBlueChannel (this : access Processing_Wrap);  -- visionBindings.hpp:66
       pragma Import (CPP, showBlueChannel, "_ZN15Processing_Wrap15showBlueChannelEv");
 
-      procedure showGreenChannel (this : access Processing_Wrap);  -- visionBindings.hpp:64
+      procedure showGreenChannel (this : access Processing_Wrap);  -- visionBindings.hpp:67
       pragma Import (CPP, showGreenChannel, "_ZN15Processing_Wrap16showGreenChannelEv");
 
-      procedure showRedChannel (this : access Processing_Wrap);  -- visionBindings.hpp:65
+      procedure showRedChannel (this : access Processing_Wrap);  -- visionBindings.hpp:68
       pragma Import (CPP, showRedChannel, "_ZN15Processing_Wrap14showRedChannelEv");
 
-      procedure LabelPoints (this : access Processing_Wrap; src : int);  -- visionBindings.hpp:68
+      procedure LabelPoints (this : access Processing_Wrap; src : int);  -- visionBindings.hpp:71
       pragma Import (CPP, LabelPoints, "_ZN15Processing_Wrap11LabelPointsEi");
 
-      function New_Processing_Wrap return Processing_Wrap;  -- visionBindings.hpp:70
+      function New_Processing_Wrap return Processing_Wrap;  -- visionBindings.hpp:73
       pragma CPP_Constructor (New_Processing_Wrap, "_ZN15Processing_WrapC1Ev");
 
 
@@ -156,19 +159,19 @@ package visionBindings_hpp is
       end record;
       pragma Import (CPP, Preprocessing_Wrap);
 
-      procedure VideoCaptureOpen (this : access Preprocessing_Wrap);  -- visionBindings.hpp:77
+      procedure VideoCaptureOpen (this : access Preprocessing_Wrap);  -- visionBindings.hpp:80
       pragma Import (CPP, VideoCaptureOpen, "_ZN18Preprocessing_Wrap16VideoCaptureOpenEv");
 
       procedure namedWindow
         (this : access Preprocessing_Wrap;
          name : Interfaces.C.Strings.chars_ptr;
-         num : int);  -- visionBindings.hpp:79
+         num : int);  -- visionBindings.hpp:82
       pragma Import (CPP, namedWindow, "_ZN18Preprocessing_Wrap11namedWindowEPci");
 
-      procedure nextFrame (this : access Preprocessing_Wrap; dst : int);  -- visionBindings.hpp:81
+      procedure nextFrame (this : access Preprocessing_Wrap; dst : int);  -- visionBindings.hpp:84
       pragma Import (CPP, nextFrame, "_ZN18Preprocessing_Wrap9nextFrameEi");
 
-      function New_Preprocessing_Wrap return Preprocessing_Wrap;  -- visionBindings.hpp:83
+      function New_Preprocessing_Wrap return Preprocessing_Wrap;  -- visionBindings.hpp:86
       pragma CPP_Constructor (New_Preprocessing_Wrap, "_ZN18Preprocessing_WrapC1Ev");
 
 

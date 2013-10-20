@@ -2,15 +2,21 @@ with visionBindings_hpp; use visionBindings_hpp;
 with interfaces.C.strings; use interfaces.C.strings;
 with interfaces.C; use interfaces.C;
 with Vision.Image_Processing;
+with Ada.Containers.Vectors; use Ada.Containers;
 
 procedure main is
+  -- package Number_Container is new vectors (Natural,Natural);
+  -- hsiSize :Number_Container.Vector;
+
    iImageSource : Interfaces.C.Int;
    iImageDestination : Interfaces.C.Int;
    iCannyLocation : Interfaces.C.Int;
    iGreyScaleLocation : Interfaces.C.Int;
+   iHSILocation : Interfaces.C.Int;
 
    iImageCannyOut : integer;
    iGreyFilter : Interfaces.C.Int;
+   iHSIFilter : Interfaces.C.Int;
    iCannyKernelSize :Interfaces.C.int;
    iCannyLowThres : Interfaces.C.int;
    iCannyHighThres : Interfaces.C.int;
@@ -28,24 +34,28 @@ procedure main is
    rangeLower : Standard.Float;
    rangeHigher : Standard.Float;
    histSize : Interfaces.C.Int;
+   --hsiSize : Vector;
 
    CoreWrap : aliased Class_Core_Wrap.Core_Wrap;
    processingWrap : aliased Class_Processing_Wrap.Processing_Wrap;
    preprocessingWrap : aliased Class_Preprocessing_Wrap.Preprocessing_Wrap;
 
 begin
+  -- hsiSize:=(30,32);
    --image index
    iImageSource := 0;
    iImageDestination := 1;
    iGreyScaleLocation :=20;
    iCannyLocation :=21;
+   iHSILocation := 22;
 
    iImageCannyOut := 4;
    iGreyFilter := 6;
+   iHSIFilter :=40;
    iCannyLowThres := 20;
    iCannyHighThres := 200;
    iCannyKernelSize := 3;
-  
+
 --histo
    rangeLower := 0.0;
    rangeHigher :=256.0;
@@ -61,15 +71,15 @@ begin
    maxRadius :=	 0;--zero used if unknown
 
    --CHECK FOR INSTRUCTION--to be implemented, for now just working on default mode
-  
+
 -----------------------------MAIN LOOP --------------------------------------------------------
  -- Endless_Loop:
   -- loop
    --GET IMAGE-- read from buffer
    CoreWrap.img_buffer;--load image to img.at(0)
-   
-   --, or just read in single image NEW, READS IN IMAGE AND STORES IN INDEX "IMAGESOURCE" OF "img.at()" 
-   CoreWrap.imstore(iImageSource,New_String("Red_Green_Blue.jpg"));   
+
+   --, or just read in single image NEW, READS IN IMAGE AND STORES IN INDEX "IMAGESOURCE" OF "img.at()"
+   CoreWrap.imstore(iImageSource,New_String("Red_Green_Blue.jpg"));
    CoreWrap.imshow(New_String("Why so normal?"), iImageSource);--show image for debug purposes
    CoreWrap.waitKey(0);
 
@@ -79,8 +89,16 @@ begin
    processingWrap.BGRHistogram(histSize, rangeLower, rangeHigher);
    processingWrap.showBGRHistogram(histSize);
 
+   --convert image to hsi
+   processingWrap.cvtColor(iImageSource, iHSILocation, iHSIFilter);
+   CoreWrap.imshow(New_String("Why so HSI?"),iHSILocation);
+   CoreWrap.waitKey(0);
+   --hsi histo
+
+   processingWrap.HSIHistogram(iHSILocation);
+
    --CLEAN IMAGE--to be implemented
-   --CONVERT IMAGE TO GREYSCALE 
+   --CONVERT IMAGE TO GREYSCALE
    processingWrap.cvtColor(iImageSource,iGreyScaleLocation, iGreyFilter);
    CoreWrap.imshow(New_String("why so grey?"), iGreyScaleLocation);--show image for debug purposes
    CoreWrap.waitKey(0);
@@ -91,9 +109,9 @@ begin
    CoreWrap.waitKey(0);
 
       --test Channels
-      processingWrap.splitChannels(iImageSource);
-      processingWrap.showRedChannel;
-      
+      --processingWrap.splitChannels(iImageSource);
+      --processingWrap.showRedChannel;
+
    --ret := CoreWrap.imwrite(name => New_String("CannyOut.jpg"),
    --                      src  => 2 );
    --CoreWrap.push_back(New_String("CannyOut.jpg"));
@@ -164,7 +182,7 @@ begin
    --processingWrap.HoughCircles(Interfaces.C.int(1), inverseRatioOfResolution, minDistBetweenCenters, houghCannyUpThres, centerDetectionThreshold, minRadius, maxRadius);
    --ret := CoreWrap.imwrite(name => New_String("Contours.jpg"),
             --               src  => 0);
- 
+
    processingWrap.approxPolyDP(1.2, 1);
 
   --end loop Endless_Loop;

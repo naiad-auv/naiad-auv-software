@@ -52,6 +52,9 @@ virtual void showContours(int contourOut, int contourId, int thickness);
 //Histogram
 
 virtual void BGRHistogram(int histSize, float rangeLower, float rangeHigher);
+
+virtual void HSIHistogram(int src);
+
 virtual void showBGRHistogram(int histSize);
 //virtual void showHistogram();
 
