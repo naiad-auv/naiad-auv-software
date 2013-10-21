@@ -1,11 +1,11 @@
 
 ---------------------------------------------------------------------------
--- This code is mainly based on the router.adb file from the Vasa project
+-- This code is mainly based on the router.adb file from the Vasa project.
+-- As of now it is not using any handshake at all.
+-- It has been tested in hardware and it works.
 
 -- Rewritten by Nils Brynedal Ignell for the Naiad AUV project
 -- Last changed (yyyy-mm-dd): 2013-10-18
-
--- TODO:
 
 ---------------------------------------------------------------------------
 
@@ -16,7 +16,7 @@ with Interfaces;
 
 package CAN_Link_pack is
 
-   -- USART0 is used for the communication between the CAN Router and BBB
+   -- USART1 is used for the communication between the CAN Router and BBB
    USART_PORT       : constant AVR.AT90CAN128.USART.USARTID    := AVR.AT90CAN128.USART.USART1;
 
    --the lenght of  the Header of the packet is 5
@@ -27,7 +27,7 @@ package CAN_Link_pack is
 
 
    -- Data type should be put in the 1st byte to indicate that
-   -- the data packet is CAN bus data, Servo command or Serial communication data
+   -- the data packet is CAN bus data or Serial communication data
    BUSTYPE_POS   : constant Integer    := 1;
 
    -- ID of data should be put in 2nd and 3rd byte
@@ -62,11 +62,11 @@ package CAN_Link_pack is
 
    procedure Cmd_Handler;
 
-   procedure Wait_For_Reply(Port : AVR.AT90CAN128.USART.USARTID := AVR.AT90CAN128.USART.Default_USART);
-
-   procedure Send_Reply(Port : AVR.AT90CAN128.USART.USARTID := AVR.AT90CAN128.USART.Default_USART);
-
-   procedure Handshake_With_BBB;
+--     procedure Wait_For_Reply(Port : AVR.AT90CAN128.USART.USARTID := AVR.AT90CAN128.USART.Default_USART);
+--
+--     procedure Send_Reply(Port : AVR.AT90CAN128.USART.USARTID := AVR.AT90CAN128.USART.Default_USART);
+--
+--     procedure Handshake_With_BBB;
 
    procedure Main_Loop;
 

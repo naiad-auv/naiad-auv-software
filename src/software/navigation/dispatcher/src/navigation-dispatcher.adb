@@ -24,6 +24,10 @@ package body Navigation.Dispatcher is
                                                                                           pxWantedAbsolutePosition     => pxNewDispatcher.pxWantedAbsolutePosition,
                                                                                           pxCurrentAbsoluteOrientation => pxNewDispatcher.pxCurrentAbsoluteOrientation);
 
+      --Ada.Text_IO.Put_Line("CAO: " & System.Address_Image(pxNewDispatcher.pxCurrentAbsoluteOrientation.all'Address));
+      --Ada.Text_IO.Put_Line("WAO: " & System.Address_Image(pxNewDispatcher.pxWantedAbsoluteOrientation.all'Address));
+      --Ada.Text_IO.Put_Line("CAP: " & System.Address_Image(pxNewDispatcher.pxCurrentAbsolutePosition.all'Address));
+      --Ada.Text_IO.Put_Line("WAP: " & System.Address_Image(pxNewDispatcher.pxWantedAbsolutePosition.all'Address));
       return pxNewDispatcher;
    end pxCreate;
 
@@ -49,7 +53,9 @@ package body Navigation.Dispatcher is
 
       tfCombinedValues := tfPositionalValues + tfOrientationalValues;
 
+
       tfThrusterValues := this.pxThrusterConfigurator.tfGet_Thruster_Values(tfComponentValues => tfCombinedValues);
+
 
       if bThruster_Values_Need_Scaling(tfThrusterValues) then
          tfThrusterValues := this.pxThrusterConfigurator.tfGet_Thruster_Values(tfComponentValues => tfPositionalValues);

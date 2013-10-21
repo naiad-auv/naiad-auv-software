@@ -20,11 +20,28 @@ package body Navigation.Dispatcher.Test_Data.Tests is
 
       pragma Unreferenced (Gnattest_T);
 
+      use System;
+      pxDispatcher : pCDispatcher;
    begin
 
-      AUnit.Assertions.Assert
-        (Gnattest_Generated.Default_Assert_Value,
-         "Test not implemented.");
+      --Ada.Text_IO.Put_Line("Create test START...");
+      pxDispatcher := Navigation.Dispatcher.pxCreate;
+      --Ada.Text_IO.Put_Line("Create test END!");
+
+      AUnit.Assertions.Assert        (Condition => pxDispatcher.pxThrusterConfigurator.all'Address /= System.Null_Address,
+                                      Message => "Dispatcher.pxCreate failed, no thruster configurator created.");
+      AUnit.Assertions.Assert        (Condition => pxDispatcher.pxOrientationalController.all'Address /= System.Null_Address,
+                                      Message => "Dispatcher.pxCreate failed, no orientational controller created.");
+      AUnit.Assertions.Assert        (Condition => pxDispatcher.pxPositionalController.all'Address /= System.Null_Address,
+                                      Message => "Dispatcher.pxCreate failed, no positional controller created.");
+      AUnit.Assertions.Assert        (Condition => pxDispatcher.pxCurrentAbsolutePosition.all'Address /= System.Null_Address,
+                                      Message => "Dispatcher.pxCreate failed, no current absolute position vector created.");
+      AUnit.Assertions.Assert        (Condition => pxDispatcher.pxWantedAbsolutePosition.all'Address /= System.Null_Address,
+                                      Message => "Dispatcher.pxCreate failed, no wanted absolute position vector created.");
+      AUnit.Assertions.Assert        (Condition => pxDispatcher.pxCurrentAbsoluteOrientation.all'Address /= System.Null_Address,
+                                      Message => "Dispatcher.pxCreate failed, no current absolute orientation matrix created.");
+      AUnit.Assertions.Assert        (Condition => pxDispatcher.pxWantedAbsoluteOrientation.all'Address /= System.Null_Address,
+                                      Message => "Dispatcher.pxCreate failed, no wanted absolute orientation matrix created.");
 
 --  begin read only
    end Test_pxCreate;
@@ -41,11 +58,29 @@ package body Navigation.Dispatcher.Test_Data.Tests is
 
       pragma Unreferenced (Gnattest_T);
 
+      tfThrusterValues : Navigation.Thrusters.TThrusterValuesArray(1 .. 6);
+      tfOldValues : Navigation.Thrusters.TThrusterValuesArray(1 .. 6);
+      fOldRatio : float;
+      fNewRatio : float;
    begin
 
-      AUnit.Assertions.Assert
-        (Gnattest_Generated.Default_Assert_Value,
-         "Test not implemented.");
+      tfThrusterValues := (1.0, 25.0, -330.0, 50.0, 80.0, 200.0);
+      tfOldValues := tfThrusterValues;
+
+      Navigation.Dispatcher.Scale_Thruster_Values(tfThrusterValues => tfThrusterValues);
+
+      for i in tfThrusterValues'Range
+      loop
+         fOldRatio := tfOldValues(i) / tfOldValues(tfOldValues'Last);
+         fNewRatio := tfThrusterValues(i) / tfThrusterValues(tfThrusterValues'Last);
+
+      AUnit.Assertions.Assert        (Condition => abs(fOldRatio - fNewRatio) < 0.000001,
+                                      Message => "Dispatcher.Scale_Thruster_Values failed, ratio was broken for index " & integer'Image(i) & ". Ratio: " & float'Image(fNewRatio) & ". Expected: " & float'Image(fOldRatio));
+      AUnit.Assertions.Assert        (Condition => abs(tfThrusterValues(i)) <= 100.0,
+                                      Message => "Dispatcher.Scale_Thruster_Values failed, value to high for index " & integer'Image(i) & ". Value: " & float'Image(tfThrusterValues(i)) & ". Expected: [-100.0, 100.0].");
+      end loop;
+
+
 
 --  begin read only
    end Test_Scale_Thruster_Values;
@@ -62,11 +97,29 @@ package body Navigation.Dispatcher.Test_Data.Tests is
 
       pragma Unreferenced (Gnattest_T);
 
+      tfV1 : Navigation.Thrusters.TThrusterValuesArray(1 .. 6);
+      tfV2 : Navigation.Thrusters.TThrusterValuesArray(1 .. 6);
+      tfV3 : Navigation.Thrusters.TThrusterValuesArray(1 .. 6);
+      tfV4 : Navigation.Thrusters.TThrusterValuesArray(1 .. 6);
+
    begin
 
-      AUnit.Assertions.Assert
-        (Gnattest_Generated.Default_Assert_Value,
-         "Test not implemented.");
+      tfV1 := (1.0, 25.0, -330.0, 50.0, 80.0, 200.0);
+      tfV2 := (1.0, 25.0, -30.0, 50.0, 80.0, 101.0);
+      tfV3 := (1.0, -101.0, -30.0, 50.0, 80.0, 20.0);
+      tfV4 := (1.0, 25.0, -30.0, 50.0, 80.0, 90.0);
+
+
+
+      AUnit.Assertions.Assert        (Condition => Navigation.Dispatcher.bThruster_Values_Need_Scaling(tfThrusterValues => tfV1) = True,
+                                      Message => "Dispatcher.bThruster_Values_Need_Scaling failed for 1st array.");
+      AUnit.Assertions.Assert        (Condition => Navigation.Dispatcher.bThruster_Values_Need_Scaling(tfThrusterValues => tfV2) = True,
+                                      Message => "Dispatcher.bThruster_Values_Need_Scaling failed for 2nd array.");
+      AUnit.Assertions.Assert        (Condition => Navigation.Dispatcher.bThruster_Values_Need_Scaling(tfThrusterValues => tfV3) = True,
+                                      Message => "Dispatcher.bThruster_Values_Need_Scaling failed for 3rd array.");
+      AUnit.Assertions.Assert        (Condition => Navigation.Dispatcher.bThruster_Values_Need_Scaling(tfThrusterValues => tfV4) = False,
+                                      Message => "Dispatcher.bThruster_Values_Need_Scaling failed for 4th array.");
+
 
 --  begin read only
    end Test_bThruster_Values_Need_Scaling;
