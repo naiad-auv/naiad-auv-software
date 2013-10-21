@@ -1,0 +1,56 @@
+        -:    0:Source:/home/emibe/skola/robgit/naiad-auv-software/src/lib/math/planes/src/math-planes.adb
+        -:    0:Programs:37
+        -:    1:with Math.Vectors;
+        -:    2:with Ada.Numerics;
+        -:    3:
+        -:    4:package body Math.Planes is
+        -:    5:
+    #####:    6:   function pxCreate (pxNormalVector : in Math.Vectors.pCVector; fDistanceFromOrigin : in float) return pCPlane is
+    #####:    7:      pxNewPlane : pCPlane;
+        -:    8:   begin
+    #####:    9:      pxNewPlane := new CPlane;
+    #####:   10:      pxNewPlane.pxNormalVector := pxNormalVector.pxGet_Normalized;
+    #####:   11:      pxNewPlane.fDistanceFromOrigin := fDistanceFromOrigin;
+    #####:   12:      return pxNewPlane;
+        -:   13:   end pxCreate;
+        -:   14:
+    #####:   15:   function pxGet_Normal_Vector (this : in CPlane) return Math.Vectors.pCVector is
+        -:   16:   begin
+    #####:   17:      return this.pxNormalVector.pxGet_Copy;
+        -:   18:   end pxGet_Normal_Vector;
+        -:   19:
+        -:   20:
+        -:   21:
+    #####:   22:   function fGet_Distance_From_Origin (this : in CPlane) return float is
+        -:   23:   begin
+    #####:   24:      return this.fDistanceFromOrigin;
+        -:   25:   end fGet_Distance_From_Origin;
+        -:   26:
+    #####:   27:   function fAngle_Between_In_Degrees (pxLeftOperandPlane : in pCPlane; pxRightOperandPlane : in pCPlane) return float is
+        -:   28:      fAngleInRadians : float;
+        -:   29:      fAngleInDegrees : float;
+        -:   30:   begin
+    #####:   31:      fAngleInRadians := Math.Vectors.fAngle_Between_In_Radians(pxLeftOperandVector  => pxLeftOperandPlane.pxGet_Normal_Vector,
+    #####:   32:                                                                pxRightOperandVector => pxRightOperandPlane.pxGet_Normal_Vector);
+    #####:   33:      fAngleInDegrees :=  fAngleInRadians * (180.0 / Ada.Numerics.Pi);
+    #####:   34:      return fAngleInDegrees;
+        -:   35:   end fAngle_Between_In_Degrees;
+        -:   36:
+        -:   37:
+    #####:   38:   function pxGet_Intersection_Vector_Between (pxLeftOperandPlane : in pCPlane; pxRightOperandPlane : in pCPlane) return Math.Vectors.pCVector is
+    #####:   39:      pxIntersectionVector : Math.Vectors.pCVector;
+        -:   40:   begin
+        -:   41:
+    #####:   42:      if abs(Math.Vectors.fDot_Product(pxLeftOperandPlane.pxNormalVector, pxRightOperandPlane.pxNormalVector)) = 1.0 then
+    #####:   43:         raise Numeric_Error;
+        -:   44:      end if;
+        -:   45:
+    #####:   46:      pxIntersectionVector := Math.Vectors.pxCross_Product(pxLeftOperandVector  => pxLeftOperandPlane.pxGet_Normal_Vector,
+    #####:   47:                                                           pxRightOperandVector => pxRightOperandPlane.pxGet_Normal_Vector);
+    #####:   48:      return pxIntersectionVector.pxGet_Normalized;
+        -:   49:   end pxGet_Intersection_Vector_Between;
+        -:   50:
+        -:   51:
+        -:   52:
+        -:   53:
+        -:   54:end Math.Planes;

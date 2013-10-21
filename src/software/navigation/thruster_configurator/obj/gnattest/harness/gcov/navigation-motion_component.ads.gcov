@@ -1,0 +1,68 @@
+        -:    0:Source:/home/emibe/skola/robgit/naiad-auv-software/src/software/navigation/motion_component/src/navigation-motion_component.ads
+        -:    0:Programs:37
+        -:    1:with Navigation;
+        -:    2:with Navigation.PID_Controller;
+        -:    3:
+        8:    4:package Navigation.Motion_Component is
+        -:    5:
+    #####:    6:   type CMotionComponent is tagged private;
+        -:    7:   type pCMotionComponent is access CMotionComponent;
+        -:    8:
+        -:    9:   type EMotionComponent is (Unknown, X, Y, Z, Direction, Plane, AllComponents);
+        -:   10:   --  <summary>EMotionComponent is an enum with the range [Unknown, X, Y, Z, Direction, Plane, AllComponents].</summary>
+        -:   11:
+    #####:   12:   type TComponentControlValue is
+        -:   13:      record
+        -:   14:         fValue : float;
+        -:   15:         xMotionComponent : EMotionComponent;
+        -:   16:      end record;
+        -:   17:   --  <summary>A PID Control value from the specified component.</summary>
+        -:   18:   --  <parameter name="fValue">The controle value.</parameter>
+        -:   19:   --  <parameter name="xMotionComponent">The component origin of the control value.</parameter>
+        -:   20:
+        -:   21:
+    #####:   22:   type TOrientationalControlValues is array (Direction .. Plane) of Navigation.Motion_Component.TComponentControlValue;
+        -:   23:   --  <summary>TOrientationalControlValues of type TComponentControlValue in range [Direction, Plane].</summary>
+        -:   24:
+    #####:   25:   type TPositionalControlValues is array (X .. Z) of Navigation.Motion_Component.TComponentControlValue;
+        -:   26:   --  <summary>TPositionalControlValues of type TComponentControlValue in range [X, Z].</summary>
+        -:   27:
+    #####:   28:   type TControlValues is array (X .. Plane) of Navigation.Motion_Component.TComponentControlValue;
+        -:   29:   --  <summary>TControlValues of type TComponentControlValue in range [X, Plane].</summary>
+        -:   30:
+        -:   31:   function pxCreate (eAxisIndex : EMotionComponent; xPIDScalings : Navigation.PID_Controller.TPIDComponentScalings) return pCMotionComponent;
+        -:   32:   --  <summary>Creates an object of type CMotionComponent and sets the scaling components for the object in question</summary>
+        -:   33:   --  <parameter name="xPIDScalings">The TPIDComponetScalings object to use as scaling components for the motion component.</parameter>
+        -:   34:--  <parameter name="eAxisIndex">The index of the axis.</parameter>
+        -:   35:
+        -:   36:   function xGet_New_Component_Control_Value(this : in out CMotionComponent; fDeltaTime : float) return TComponentControlValue;
+        -:   37:   --  <summary>Calculates a new control value for a CMotionComponent</summary>
+        -:   38:   --  <parameter name="this">The CMotionComponent to do the calculations upon.</parameter>
+        -:   39:   --  <parameter name="fDeltaTime">The time difference since the last calculation.</parameter>
+        -:   40:
+        -:   41:   procedure Set_New_PID_Component_Scalings(this : in out CMotionComponent; xNewScalings : Navigation.PID_Controller.TPIDComponentScalings);
+        -:   42:    --  <summary>Sets new component scalings on the CPIDcontroller in question</summary>
+        -:   43:   --  <parameter name="this">The CMotionComponent object to set new scaling components upon.</parameter>
+        -:   44:   --  <parameter name="xNewScalings">The TPIDComponetScalings object to set for the object.</parameter>
+        -:   45:
+        -:   46:   procedure Update_Current_Error(this : in out CMotionComponent; fNewErrorValue : float);
+        -:   47:   --  <summary>Updates the current error for the CMotionComponent in question.</summary>
+        -:   48:   --  <parameter name="this">The CMotionComponent to update.</parameter>
+        -:   49:   --  <parameter name="fNewErrorValue">The new error to set.</parameter>
+        -:   50:
+        -:   51:   procedure Reset_Component(this : in out CMotionComponent);
+        -:   52:   --  <summary>Resets a CMotionComponent to its initial values</summary>
+        -:   53:   --  <parameter name="this">The CMotionComponent to reset.</parameter>
+        -:   54:
+        -:   55:private
+        -:   56:
+        4:   57:   type CMotionComponent is tagged
+        -:   58:      record
+        -:   59:         eComponentIndex : EMotionComponent;
+        -:   60:
+        -:   61:         fCurrentError : float;
+        -:   62:
+        -:   63:         xComponentPIDController : Navigation.PID_Controller.pCPIDController;
+        -:   64:      end record;
+        -:   65:
+        4:   66:end Navigation.Motion_Component;

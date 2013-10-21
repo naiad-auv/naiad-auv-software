@@ -1,0 +1,131 @@
+        -:    0:Source:/home/emibe/skola/robgit/naiad-auv-software/src/lib/math/matrices/src/math-matrices.ads
+        -:    0:Programs:37
+        -:    1:with Math;
+        -:    2:with Math.Quaternions;
+        -:    3:with Math.Vectors;
+        -:    4:with Math.Planes;
+        -:    5:with System; -- use System;
+        -:    6:with System.Pool_Local;
+        -:    7:with Math.Angles;
+        -:    8:with Ada.Exceptions;
+        -:    9:with Ada.Numerics.Elementary_Functions;
+        -:   10:with GNAT.Debug_Pools;
+        -:   11:
+        -:   12:-- Matrices package for classes, types and functionality regarding 3x3 rotation matrices. A 3x3 rotation matrix object is stored in a pCMatrix variable and is created with the different pxCreate functions.
+       12:   13:package Math.Matrices is
+        -:   14:
+    #####:   15:   type CMatrix is tagged private;
+        -:   16:
+        -:   17:   --  <summary>Class for 3x3 rotation matrix.</summary>
+        -:   18:
+        -:   19:   type pCMatrix is access CMatrix;
+        -:   20:   --  <summary>Pointer type for object of type CMatrix. Objects of type CMatrix should always be stored in variables of this type.</summary>
+        -:   21:
+       12:   22:   xStoragePool : System.Pool_Local.Unbounded_Reclaim_Pool;
+        -:   23:   for pCMatrix'Storage_Pool use xStoragePool;
+        -:   24:
+    #####:   25:   type TMatrix is array(1 .. 3, 1 .. 3) of float;
+        -:   26:   --  <summary>Primitive type for a 3x3 rotation matrix. A CMatrix object can be created directly from a variable of this type using pxCreate.</summary>
+        -:   27:
+        -:   28:   function pxCreate_From_Quaternion (pxFromQuaternion : in Math.Quaternions.pCQuaternion) return pCMatrix;
+        -:   29:   --  <summary>Creates an object of type CMatrix based on a quaternion. Returns a pointer of type pCMatrix to the object created.</summary>
+        -:   30:   --  <parameter name="pxFromQuaternion">The quaternion used to create the rotation matrix.</parameter>
+        -:   31:   --  <exception>Numeric_Error if pxFromQuaternion is not a unit quaternion (length /= 1.0).</exception>
+        -:   32:
+        -:   33:   function pxCreate_Rotation_Around_X_Axis (tfAngleInDegrees : in Math.Angles.TAngle) return pCMatrix;
+        -:   34:   --  <summary>Creates an object of type CMatrix with tfAngleInDegrees rotation around the X-axis. Returns a pointer of type pCMatrix to the object created.</summary>
+        -:   35:   --  <parameter name="tfAngleInDegrees">The angle of rotation.</parameter>
+        -:   36:   --  <seealso>pxCreate_Rotation_Around_Y_Axis, pxCreate_Rotation_Around_Z_Axis</seealso>
+        -:   37:
+        -:   38:   function pxCreate_Rotation_Around_Y_Axis (tfAngleInDegrees : in Math.Angles.TAngle) return pCMatrix;
+        -:   39:   --  <summary>Creates an object of type CMatrix with tfAngleInDegrees rotation around the Y-axis. Returns a pointer of type pCMatrix to the object created.</summary>
+        -:   40:   --  <parameter name="tfAngleInDegrees">The angle of rotation.</parameter>
+        -:   41:   --  <seealso>pxCreate_Rotation_Around_X_Axis, pxCreate_Rotation_Around_Z_Axis</seealso>
+        -:   42:
+        -:   43:   function pxCreate_Rotation_Around_Z_Axis (tfAngleInDegrees : in Math.Angles.TAngle) return pCMatrix;
+        -:   44:   --  <summary>Creates an object of type CMatrix with tfAngleInDegrees rotation around the Z-axis. Returns a pointer of type pCMatrix to the object created.</summary>
+        -:   45:   --  <parameter name="tfAngleInDegrees">The angle of rotation.</parameter>
+        -:   46:   --  <seealso>pxCreate_Rotation_Around_X_Axis, pxCreate_Rotation_Around_Y_Axis</seealso>
+        -:   47:
+        -:   48:   function pxCreate_Identity return pCMatrix;
+        -:   49:   --  <summary>Creates an object of type CMatrix representing the identity matrix. Returns a pointer of type pCMatrix to the object created.</summary>
+        -:   50:
+        -:   51:   function pxCreate (tfMatrix : in TMatrix) return pCMatrix;
+        -:   52:   --  <summary>Creates an object of type CMatrix from tfMatrix. Returns a pointer of type pCMatrix to the object created. This can be used to specify each element in the matrix.</summary>
+        -:   53:   --  <parameter name="tfMatrix">The raw matrix.</parameter>
+        -:   54:
+        -:   55:   function "*" (pxLeftOperandMatrix : in pCMatrix; pxRightOperandMatrix : in pCMatrix) return pCMatrix;
+        -:   56:   --  <summary>Creates an object of type CMatrix with pxLeftOperandMatrix multiplied by pxRightOperandMatrix. Returns a pointer of type pCMatrix to the object created.</summary>
+        -:   57:   --  <parameter name="pxLeftOperandMatrix">Left operand matrix for operation.</parameter>
+        -:   58:   --  <parameter name="pxRightOperandMatrix">Right operand matrix for operation.</parameter>
+        -:   59:
+        -:   60:   function "*" (pxLeftOperandMatrix : in pCMatrix; pxRightOperandVector : in Math.Vectors.pCVector) return Math.Vectors.pCVector;
+        -:   61:   --  <summary>Creates an object of type CVector with pxRightOperandVector multiplied by pxLeftOperandMatrix. Returns a pointer of type pCVector to the object created.</summary>
+        -:   62:   --  <parameter name="pxLeftOperandMatrix">Left operand matrix for operation.</parameter>
+        -:   63:   --  <parameter name="pxRightOperandVector">Right operand vector for operation.</parameter>
+        -:   64:
+        -:   65:   function "*" (pxLeftOperandMatrix : in pCMatrix; pxRightOperandPlane : in Math.Planes.pCPlane) return Math.Planes.pCPlane;
+        -:   66:   --  <summary>Creates an object of type CPlane with pxRightOperandPlane multiplied by pxLeftOperandMatrix. Returns a pointer of type pCPlane to the object created.</summary>
+        -:   67:   --  <parameter name="pxLeftOperandMatrix">Left operand matrix for operation.</parameter>
+        -:   68:   --  <parameter name="pxRightOperandPlane">Right operand plane for operation.</parameter>
+        -:   69:
+        -:   70:   function "=" (pxLeftOperandMatrix : in pCMatrix; pxRightOperandMatrix : in pCMatrix) return boolean;
+        -:   71:   --  <summary>Returns true if pxLeftOperandMatrix's elements are equal to pxRightOperandMatrix's elements, otherwise returns false.</summary>
+        -:   72:   --  <parameter name="pxLeftOperandMatrix">Left operand matrix for operation.</parameter>
+        -:   73:   --  <parameter name="pxRightOperandMatrix">Right operand matrix for operation.</parameter>
+        -:   74:
+        -:   75:   function pxGet_Inverse (this : in CMatrix) return pCMatrix;
+        -:   76:   --  <summary>Creates an object of type CMatrix representing the inverse of the CMatrix called on. Returns a pointer of type pCMatrix to the object created.</summary>
+        -:   77:   --  <parameter name="this">The CMatrix object to get the inverse of.</parameter>
+        -:   78:   --  <exception>Numeric_Error if the object called on has no inverse (matrix is singular).</exception>
+        -:   79:
+        -:   80:   function pxGet_Copy (this : in CMatrix) return pCMatrix;
+        -:   81:   --  <summary>Creates an object of type CMatrix with the same elements as the object called on. Returns a pointer of type pCMatrix to the object created.</summary>
+        -:   82:   --  <parameter name="this">The CMatrix object to get a copy of.</parameter>
+        -:   83:
+        -:   84:   function pxGet_Transpose (this : in CMatrix) return pCMatrix;
+        -:   85:   --  <summary>Creates an object of type CMatrix with representing the transpose of the object called on. Returns a pointer of type pCMatrix to the object created.</summary>
+        -:   86:   --  <parameter name="this">The CMatrix object to get the transpose of.</parameter>
+        -:   87:
+        -:   88:   function tfGet_Raw_Matrix (this : in CMatrix) return TMatrix;
+        -:   89:   --  <summary>Creates and returns an object of type TMatrix containing the elements of the object called on.</summary>
+        -:   90:   --  <parameter name="this">The CMatrix object to get the elements of.</parameter>
+        -:   91:
+        -:   92:   function fGet_Determinant (this : in CMatrix) return float;
+        -:   93:   --  <summary>Calculates and returns the determinant of the matrix called on.</summary>
+        -:   94:
+        -:   95:   function pxGet_X_Vector (this : in CMatrix) return Math.Vectors.pCVector;
+        -:   96:   --  <summary>Creates an object of type CVector containing the X-vector of the matrix called on. Returns a pointer of type pCVector to the object created.</summary>
+        -:   97:
+        -:   98:   function pxGet_Y_Vector (this : in CMatrix) return Math.Vectors.pCVector;
+        -:   99:   --  <summary>Creates an object of type CVector containing the Y-vector of the matrix called on. Returns a pointer of type pCVector to the object created.</summary>
+        -:  100:
+        -:  101:   function pxGet_Z_Vector (this : in CMatrix) return Math.Vectors.pCVector;
+        -:  102:   --  <summary>Creates an object of type CVector containing the Z-vector of the matrix called on. Returns a pointer of type pCVector to the object created.</summary>
+        -:  103:
+        -:  104:   procedure Copy_From(this : in out CMatrix; pxSourceMatrix : in pCMatrix);
+        -:  105:   --  <summary>Copies the elements from pxSourceMatrix to the object called on.</summary>
+        -:  106:   --  <parameter name="this">The CMatrix object to copy the elements to.</parameter>
+        -:  107:   --  <parameter name="pxSourceMatrix">A pointer to the CMatrix object to copy the elements from.</parameter>
+        -:  108:
+        -:  109:
+        -:  110:private
+    #####:  111:   type TExtendedMatrix is array(1 .. 3, 1 .. 6) of float;
+        4:  112:   type CMatrix is tagged
+        -:  113:      record
+        -:  114:         tfMatrix : TMatrix;
+        -:  115:      end record;
+        -:  116:
+        -:  117:
+        -:  118:   procedure Swap_Values_In_Extended_Matrix(fValue1 : in out float; fValue2 : in out float);
+        -:  119:   procedure Swap_Rows_In_Extended_Matrix(tfExtendedMatrix : in out TExtendedMatrix; iRow1 : in integer; iRow2 : in integer);
+        -:  120:   procedure Scale_Row_In_Extended_Matrix(tfExtendedMatrix : in out TExtendedMatrix; iStartingColumn : in integer);
+        -:  121:   procedure Remove_Component_In_Following_Rows(tfExtendedMatrix : in out TExtendedMatrix; iRow : in integer);
+        -:  122:   procedure Remove_Component_In_Leading_Rows(tfExtendedMatrix : in out TExtendedMatrix; iRow : in integer);
+        -:  123:   function Find_Row_With_Highest_Component(tfExtendedMatrix : in TExtendedMatrix; iColumn : in integer) return integer;
+        -:  124:   procedure Perform_Gauss_Jordan_Elimination_On(tfExtendedMatrix : in out TExtendedMatrix);
+        -:  125:   function tfCreate_Extended_Matrix_From(tfMatrix : in TMatrix) return TExtendedMatrix;
+        -:  126:   function tfGet_Inverse_Part_From(tfExtendedMatrix : in TExtendedMatrix) return TMatrix;
+        -:  127:   function bMatrix_Has_No_Inverse(fValue : in float) return boolean;
+        -:  128:
+        4:  129:end Math.Matrices;
