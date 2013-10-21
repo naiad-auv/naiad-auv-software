@@ -1,11 +1,11 @@
 
 ---------------------------------------------------------------------------
--- This code is mainly based on the router.adb file from the Vasa project
+-- This code is mainly based on the router.adb file from the Vasa project.
+-- As of now it is not using any handshake at all.
+-- It has been tested in hardware and it works.
 
 -- Rewritten by Nils Brynedal Ignell for the Naiad AUV project
 -- Last changed (yyyy-mm-dd): 2013-10-18
-
--- TODO:
 
 ---------------------------------------------------------------------------
 
@@ -62,11 +62,11 @@ package CAN_Link_pack is
 
    procedure Cmd_Handler;
 
-   procedure Wait_For_Reply(Port : AVR.AT90CAN128.USART.USARTID := AVR.AT90CAN128.USART.Default_USART);
-
-   procedure Send_Reply(Port : AVR.AT90CAN128.USART.USARTID := AVR.AT90CAN128.USART.Default_USART);
-
-   procedure Handshake_With_BBB;
+--     procedure Wait_For_Reply(Port : AVR.AT90CAN128.USART.USARTID := AVR.AT90CAN128.USART.Default_USART);
+--
+--     procedure Send_Reply(Port : AVR.AT90CAN128.USART.USARTID := AVR.AT90CAN128.USART.Default_USART);
+--
+--     procedure Handshake_With_BBB;
 
    procedure Main_Loop;
 
