@@ -40,11 +40,11 @@ package body Navigation.Dispatcher.CDispatcher_Test_Data.CDispatcher_Tests is
       
       pxDispatcher.Set_New_Component_PID_Scalings(eComponentToChange => Navigation.Motion_Component.AllComponents,
                                                   xNewPIDSCalings    => Navigation.PID_Controller.TPIDComponentScalings'(fProportionalScale => 1.0, fIntegralScale => 1.0, fDerivativeScale => 1.0));
-      tfThrusterValues := pxDispatcher.tfGet_Thruster_Values(fDeltaTime => 0.25);
+      tfThrusterValues := pxDispatcher.tfGet_Thruster_Values(fDeltaTime => 1000.0);
       
       for i in tfZeroValues'Range
       loop
-         if tfThrusterValues(i) /= tfZeroValues(i) then
+         if abs(tfThrusterValues(i)) > 0.0001 then
             bLol := true;
             exit;
          end if;         

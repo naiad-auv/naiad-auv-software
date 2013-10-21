@@ -1,0 +1,245 @@
+        -:    0:Source:/home/emibe/skola/robgit/naiad-auv-software/src/lib/math/quaternions/src/math-quaternions.adb
+        -:    0:Programs:37
+        -:    1:with Math.Vectors;
+        -:    2:with Ada.Numerics.Elementary_Functions;
+        -:    3:with Ada.Numerics;
+        -:    4:
+        -:    5:
+        -:    6:package body Math.Quaternions is
+        -:    7:
+        -:    8:
+    #####:    9:   function pxCreate (fX, fY, fZ, fW : float) return pCQuaternion is
+    #####:   10:      pxNewQuaternion : pCQuaternion;
+        -:   11:   begin
+    #####:   12:      pxNewQuaternion := new CQuaternion;
+    #####:   13:      pxNewQuaternion.fX := fX;
+    #####:   14:      pxNewQuaternion.fY := fY;
+    #####:   15:      pxNewQuaternion.fZ := fZ;
+    #####:   16:      pxNewQuaternion.fW := fW;
+    #####:   17:      return pxNewQuaternion;
+        -:   18:   end pxCreate;
+        -:   19:
+    #####:   20:   function pxCreate (pxAxisVector : in Math.Vectors.pCVector; fAngleInDegrees : in float) return pCQuaternion is
+        -:   21:      fAngleInRadians : float;
+        -:   22:      fNorm : float;
+        -:   23:      fScale : float;
+    #####:   24:      pxNormalizedAxisVector : Math.Vectors.pCVector;
+        -:   25:   begin
+    #####:   26:      if pxAxisVector.fLength_Squared /= 1.0 then
+    #####:   27:         pxNormalizedAxisVector := pxAxisVector.pxGet_Normalized;
+        -:   28:      else
+    #####:   29:         pxNormalizedAxisVector := pxAxisVector;
+        -:   30:      end if;
+        -:   31:
+    #####:   32:        fAngleInRadians := fAngleInDegrees * (Ada.Numerics.Pi / 180.0);
+    #####:   33:      fNorm :=fAngleInRadians / 2.0;
+    #####:   34:      fScale := Ada.Numerics.Elementary_Functions.Sin(fNorm);
+        -:   35:
+    #####:   36:      return Math.Quaternions.pxCreate(fX => fScale * pxNormalizedAxisVector.fGet_X,
+    #####:   37:                                       fY => fScale * pxNormalizedAxisVector.fGet_Y,
+    #####:   38:                                       fZ => fScale * pxNormalizedAxisVector.fGet_Z,
+    #####:   39:                                       fW => Ada.Numerics.Elementary_Functions.Cos(fNorm));
+        -:   40:
+        -:   41:   end pxCreate;
+        -:   42:
+    #####:   43:   function pxGet_Copy (this : in CQuaternion) return pCQuaternion is
+    #####:   44:      pxNewQuaternion : pCQuaternion;
+        -:   45:   begin
+    #####:   46:      pxNewQuaternion := new CQuaternion;
+    #####:   47:      pxNewQuaternion.fX := this.fX;
+    #####:   48:      pxNewQuaternion.fY := this.fY;
+    #####:   49:      pxNewQuaternion.fZ := this.fZ;
+    #####:   50:      pxNewQuaternion.fW := this.fW;
+    #####:   51:      return pxNewQuaternion;
+        -:   52:   end pxGet_Copy;
+        -:   53:
+        -:   54:
+        -:   55:
+        -:   56:
+    #####:   57:   function "+" (pxLeftOperandQuaternion, pxRightOperandQuaternion : in pCQuaternion) return pCQuaternion is
+    #####:   58:      pxSumQuaternion : pCQuaternion;
+        -:   59:   begin
+    #####:   60:      pxSumQuaternion := Math.Quaternions.pxCreate(fX => pxLeftOperandQuaternion.fX + pxRightOperandQuaternion.fX,
+    #####:   61:                                                   fY => pxLeftOperandQuaternion.fY + pxRightOperandQuaternion.fY,
+    #####:   62:                                                   fZ => pxLeftOperandQuaternion.fZ + pxRightOperandQuaternion.fZ,
+    #####:   63:                                                   fW => pxLeftOperandQuaternion.fW + pxRightOperandQuaternion.fW);
+    #####:   64:      return pxSumQuaternion;
+        -:   65:
+        -:   66:   end "+";
+        -:   67:
+    #####:   68:   function "-" (pxLeftOperandQuaternion, pxRightOperandQuaternion : in pCQuaternion) return pCQuaternion is
+    #####:   69:      pxDifferenceQuaternion : pCQuaternion;
+        -:   70:   begin
+    #####:   71:      pxDifferenceQuaternion := Math.Quaternions.pxCreate(fX => pxLeftOperandQuaternion.fX - pxRightOperandQuaternion.fX,
+    #####:   72:                                                   fY => pxLeftOperandQuaternion.fY - pxRightOperandQuaternion.fY,
+    #####:   73:                                                   fZ => pxLeftOperandQuaternion.fZ - pxRightOperandQuaternion.fZ,
+    #####:   74:                                                   fW => pxLeftOperandQuaternion.fW - pxRightOperandQuaternion.fW);
+    #####:   75:      return pxDifferenceQuaternion;
+        -:   76:
+        -:   77:   end "-";
+        -:   78:
+    #####:   79:   function "*" (pxLeftOperandQuaternion, pxRightOperandQuaternion : in pCQuaternion) return pCQuaternion is
+        -:   80:   begin
+        -:   81:
+    #####:   82:      return Math.Quaternions.pxCreate(fX => ((pxLeftOperandQuaternion.fW*pxRightOperandQuaternion.fX)+(pxLeftOperandQuaternion.fX*pxRightOperandQuaternion.fW)+(pxLeftOperandQuaternion.fY*pxRightOperandQuaternion.fZ)-(pxLeftOperandQuaternion.fZ*pxRightOperandQuaternion.fY)),
+    #####:   83:                                       fY => ((pxLeftOperandQuaternion.fW*pxRightOperandQuaternion.fY)-(pxLeftOperandQuaternion.fX*pxRightOperandQuaternion.fZ)+(pxLeftOperandQuaternion.fY*pxRightOperandQuaternion.fW)+(pxLeftOperandQuaternion.fZ*pxRightOperandQuaternion.fX)),
+    #####:   84:                                       fZ => ((pxLeftOperandQuaternion.fW*pxRightOperandQuaternion.fZ)+(pxLeftOperandQuaternion.fX*pxRightOperandQuaternion.fY)-(pxLeftOperandQuaternion.fY*pxRightOperandQuaternion.fX)-(pxLeftOperandQuaternion.fZ*pxRightOperandQuaternion.fW)),
+    #####:   85:                                       fW => ((pxLeftOperandQuaternion.fW*pxRightOperandQuaternion.fW)-(pxLeftOperandQuaternion.fX*pxRightOperandQuaternion.fX)-(pxLeftOperandQuaternion.fY*pxRightOperandQuaternion.fY)-(pxLeftOperandQuaternion.fZ*pxRightOperandQuaternion.fZ)));
+        -:   86:   end "*";
+        -:   87:
+    #####:   88:   function "=" (pxLeftOperandQuaternion, pxRightOperandQuaternion : in pCQuaternion) return boolean is
+        -:   89:
+    #####:   90:      function CheckIfBothNull(pxLeftOperandQuaternion : in pCQuaternion; pxRightOperandQuaternion : in pCQuaternion) return boolean is
+        -:   91:         f : float;
+        -:   92:      begin
+    #####:   93:         f := pxRightOperandQuaternion.fX;
+    #####:   94:         return false;
+        -:   95:      exception
+    #####:   96:            when CONSTRAINT_ERROR =>
+        -:   97:            begin
+    #####:   98:               f :=  pxLeftOperandQuaternion.fX;
+    #####:   99:               return false;
+        -:  100:            exception
+    #####:  101:               when CONSTRAINT_ERROR =>
+    #####:  102:                  return true;
+    #####:  103:            end;
+    #####:  104:      end;
+        -:  105:
+        -:  106:
+        -:  107:   begin
+    #####:  108:      if (CheckIfBothNull(pxLeftOperandQuaternion,pxRightOperandQuaternion))then
+    #####:  109:         return true;
+        -:  110:      end if;
+        -:  111:
+    #####:  112:      return (pxLeftOperandQuaternion.fX = pxRightOperandQuaternion.fX) and
+    #####:  113:        (pxLeftOperandQuaternion.fY = pxRightOperandQuaternion.fY) and
+    #####:  114:        (pxLeftOperandQuaternion.fZ = pxRightOperandQuaternion.fZ) and
+    #####:  115:        (pxLeftOperandQuaternion.fW = pxRightOperandQuaternion.fW);
+        -:  116:
+        -:  117:      exception
+    #####:  118:         when CONSTRAINT_ERROR => return false;
+    #####:  119:   end "=";
+        -:  120:
+        -:  121:
+        -:  122:
+        -:  123:
+    #####:  124:   function fGet_Dot_Product (pxLeftOperandQuaternion, pxRightOperandQuaternion : in pCQuaternion) return float is
+        -:  125:   begin
+    #####:  126:      return (pxLeftOperandQuaternion.fX * pxRightOperandQuaternion.fX) +
+    #####:  127:        (pxLeftOperandQuaternion.fY * pxRightOperandQuaternion.fY) +
+    #####:  128:        (pxLeftOperandQuaternion.fZ * pxRightOperandQuaternion.fZ) +
+    #####:  129:        (pxLeftOperandQuaternion.fW * pxRightOperandQuaternion.fW);
+        -:  130:   end fGet_Dot_Product;
+        -:  131:
+        -:  132:
+        -:  133:
+        -:  134:--     function pxGet_Spherical_Linear_Interpolation_Quaternion (pxFromQuaternion : in pCQuaternion; pxToQuaternion : in pCQuaternion; fInterpolationCoefficient : float) return pCQuaternion is
+        -:  135:--        --pxInterpolatedQuaternion : pCQuaternion;
+        -:  136:--        cosHalfTheta : float;
+        -:  137:--        halfTheta : float;
+        -:  138:--        sinHalfTheta : float;
+        -:  139:--        --fInvSinAngle : float;
+        -:  140:--        ratioA : float;
+        -:  141:--        ratioB : float;
+        -:  142:--     begin
+        -:  143:--
+        -:  144:--
+        -:  145:--        cosHalfTheta := Math.Quaternions.fGet_Dot_Product(pxLeftOperandQuaternion  => pxFromQuaternion,
+        -:  146:--                                                          pxRightOperandQuaternion => pxToQuaternion);
+        -:  147:--
+        -:  148:--        if abs(cosHalfTheta) >= 1.0 then
+        -:  149:--           return pxFromQuaternion.pxGet_Copy;
+        -:  150:--        end if;
+        -:  151:--
+        -:  152:--        halfTheta := Ada.Numerics.Elementary_Functions.Arccos(cosHalfTheta);
+        -:  153:--        sinHalfTheta := Ada.Numerics.Elementary_Functions.Sqrt(1.0 - (cosHalfTheta * cosHalfTheta));
+        -:  154:--
+        -:  155:--        if abs(sinHalfTheta) < 0.001 then
+        -:  156:--           return Math.Quaternions.pxCreate(fX => (pxFromQuaternion.fX * 0.5) + (pxToQuaternion.fX * 0.5),
+        -:  157:--                                            fY => (pxFromQuaternion.fY * 0.5) + (pxToQuaternion.fY * 0.5),
+        -:  158:--                                            fZ => (pxFromQuaternion.fZ * 0.5) + (pxToQuaternion.fZ * 0.5),
+        -:  159:--                                            fW => (pxFromQuaternion.fW * 0.5) + (pxToQuaternion.fW * 0.5));
+        -:  160:--        end if;
+        -:  161:--
+        -:  162:--        ratioA := Ada.Numerics.Elementary_Functions.Sin((1.0 - fInterpolationCoefficient) * halfTheta) / sinHalfTheta;
+        -:  163:--        ratioB := Ada.Numerics.Elementary_Functions.Sin(fInterpolationCoefficient * halfTheta) / sinHalfTheta;
+        -:  164:--
+        -:  165:--        return Math.Quaternions.pxCreate(fX => (pxFromQuaternion.fX * ratioA) + (pxToQuaternion.fX * ratioB),
+        -:  166:--                                            fY => (pxFromQuaternion.fY * ratioA) + (pxToQuaternion.fY * ratioB),
+        -:  167:--                                            fZ => (pxFromQuaternion.fZ * ratioA) + (pxToQuaternion.fZ * ratioB),
+        -:  168:--                                            fW => (pxFromQuaternion.fW * ratioA) + (pxToQuaternion.fW * ratioB));
+        -:  169:--
+        -:  170:--
+        -:  171:--     end pxGet_Spherical_Linear_Interpolation_Quaternion;
+        -:  172:
+        -:  173:
+        -:  174:
+    #####:  175:   function pxGet_Normalized (this : in CQuaternion) return pCQuaternion is
+        -:  176:      fLength : float;
+        -:  177:   begin
+    #####:  178:      fLength := this.fGet_Length;
+    #####:  179:      if fLength = 0.0 then
+    #####:  180:         raise Numeric_Error;
+        -:  181:      end if;
+        -:  182:
+    #####:  183:      return Math.Quaternions.pxCreate(fX => this.fX / fLength,
+    #####:  184:                                       fY => this.fY / fLength,
+    #####:  185:                                       fZ => this.fZ / fLength,
+    #####:  186:                                       fW => this.fW / fLength);
+        -:  187:   end pxGet_Normalized;
+        -:  188:
+    #####:  189:   function fGet_Length (this : in CQuaternion) return float is
+        -:  190:   begin
+    #####:  191:      return Ada.Numerics.Elementary_Functions.Sqrt((this.fX*this.fX) + (this.fY*this.fY) + (this.fZ*this.fZ) + (this.fW*this.fW));
+        -:  192:   end fGet_Length;
+        -:  193:
+    #####:  194:   function fGet_Length_Squared (this : in CQuaternion) return float is
+        -:  195:   begin
+    #####:  196:      return (this.fX*this.fX) + (this.fY*this.fY) + (this.fZ*this.fZ) + (this.fW*this.fW);
+        -:  197:   end fGet_Length_Squared;
+        -:  198:
+        -:  199:
+        -:  200:
+        -:  201:
+    #####:  202:   function fGet_X ( this : in CQuaternion) return float is
+        -:  203:   begin
+    #####:  204:      return this.fX;
+        -:  205:   end fGet_X;
+        -:  206:
+    #####:  207:   function fGet_Y ( this : in CQuaternion) return float is
+        -:  208:   begin
+    #####:  209:      return this.fY;
+        -:  210:   end fGet_Y;
+        -:  211:
+    #####:  212:   function fGet_Z ( this : in CQuaternion) return float is
+        -:  213:   begin
+    #####:  214:      return this.fZ;
+        -:  215:   end fGet_Z;
+        -:  216:
+    #####:  217:   function fGet_W ( this : in CQuaternion) return float is
+        -:  218:   begin
+    #####:  219:      return this.fW;
+        -:  220:   end fGet_W;
+        -:  221:
+    #####:  222:   function pxGet_Axis_Vector ( this : in CQuaternion) return Math.Vectors.pCVector is
+        -:  223:      fScale : float;
+        -:  224:   begin
+    #####:  225:      fScale := Ada.Numerics.Elementary_Functions.Sqrt((this.fX*this.fX)+(this.fY*this.fY)+(this.fZ*this.fZ));
+    #####:  226:      if fScale = 0.0 then
+    #####:  227:         return Math.Vectors.pxCreate(fX => 1.0,
+        -:  228:                                   fY => 0.0,
+        -:  229:                                   fZ => 0.0);
+        -:  230:      end if;
+        -:  231:
+    #####:  232:      return Math.Vectors.pxCreate(fX => this.fX / fScale,
+    #####:  233:                                   fY => this.fY / fScale,
+    #####:  234:                                   fZ => this.fZ / fScale);
+        -:  235:   end pxGet_Axis_Vector;
+        -:  236:
+    #####:  237:   function fGet_Angle_In_Degrees (this : in CQuaternion) return float is
+        -:  238:   begin
+    #####:  239:      return ((2.0*180.0)/Ada.Numerics.Pi) * Ada.Numerics.Elementary_Functions.Arccos(this.fW);
+        -:  240:   end fGet_Angle_In_Degrees;
+        -:  241:
+        -:  242:
+        -:  243:end Math.Quaternions;

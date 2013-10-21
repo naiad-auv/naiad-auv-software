@@ -1,0 +1,130 @@
+        -:    0:Source:/home/emibe/skola/robgit/naiad-auv-software/src/software/navigation/thruster_configurator/obj/gnattest/tests/navigation-thruster_configurator-cthrusterconfigurator_test_data-cthrusterconfigurator_tests.adb
+        -:    0:Programs:37
+        -:    1:--  This package has been generated automatically by GNATtest.
+        -:    2:--  You are allowed to add your code to the bodies of test routines.
+        -:    3:--  Such changes will be kept during further regeneration of this file.
+        -:    4:--  All code placed outside of test routine bodies will be lost. The
+        -:    5:--  code intended to set up and tear down the test environment should be
+        -:    6:--  placed into Navigation.Thruster_Configurator.CThrusterConfigurator_Test_Data.
+        -:    7:
+        -:    8:with AUnit.Assertions; use AUnit.Assertions;
+        -:    9:
+        -:   10:package body Navigation.Thruster_Configurator.CThrusterConfigurator_Test_Data.CThrusterConfigurator_Tests is
+        -:   11:
+        -:   12:
+        -:   13:--  begin read only
+        -:   14:   procedure Test_iGet_Number_Of_Thrusters (Gnattest_T : in out Test_CThrusterConfigurator);
+        4:   15:   procedure Test_iGet_Number_Of_Thrusters_d77f18 (Gnattest_T : in out Test_CThrusterConfigurator) renames Test_iGet_Number_Of_Thrusters;
+        -:   16:--  id:2.1/d77f18df25a8a493/iGet_Number_Of_Thrusters/1/0/
+        4:   17:   procedure Test_iGet_Number_Of_Thrusters (Gnattest_T : in out Test_CThrusterConfigurator) is
+        -:   18:   --  navigation-thruster_configurator.ads:22:4:iGet_Number_Of_Thrusters
+        -:   19:--  end read only
+        -:   20:
+        -:   21:      pragma Unreferenced (Gnattest_T);
+        -:   22:
+        4:   23:      pxThrusterConfigurator : Navigation.Thruster_Configurator.pCThrusterConfigurator;
+        -:   24:
+        -:   25:   begin
+        -:   26:
+        4:   27:      pxThrusterConfigurator := Navigation.Thruster_Configurator.pxCreate;
+        -:   28:
+        4:   29:      AUnit.Assertions.Assert(Condition => pxThrusterConfigurator.iGet_Number_Of_Thrusters = 6,
+        -:   30:                              Message   => "Wrong number of thrusters returned");
+        -:   31:--  begin read only
+        4:   32:   end Test_iGet_Number_Of_Thrusters;
+        -:   33:--  end read only
+        -:   34:
+        -:   35:
+        -:   36:--  begin read only
+        -:   37:   procedure Test_tfGet_Thruster_Effects_Matrix (Gnattest_T : in out Test_CThrusterConfigurator);
+        4:   38:   procedure Test_tfGet_Thruster_Effects_Matrix_972577 (Gnattest_T : in out Test_CThrusterConfigurator) renames Test_tfGet_Thruster_Effects_Matrix;
+        -:   39:--  id:2.1/9725779a9fcce1b2/tfGet_Thruster_Effects_Matrix/1/0/
+        4:   40:   procedure Test_tfGet_Thruster_Effects_Matrix (Gnattest_T : in out Test_CThrusterConfigurator) is
+        -:   41:   --  navigation-thruster_configurator.ads:23:4:tfGet_Thruster_Effects_Matrix
+        -:   42:--  end read only
+        -:   43:
+        -:   44:      pragma Unreferenced (Gnattest_T);
+        -:   45:
+        4:   46:      pxThrusterConfigurator : Navigation.Thruster_Configurator.pCThrusterConfigurator;
+        -:   47:     --xThrusterEffectsMatrix : Navigation.Thrusters.TThrusterEffectsMatrix(1..6);
+        -:   48:   begin
+        -:   49:
+        4:   50:      pxThrusterConfigurator := Navigation.Thruster_Configurator.pxCreate;
+        -:   51:
+        -:   52:  --    xThrusterEffectsMatrix := pxThrusterConfigurator.tfGet_Thruster_Effects_Matrix;
+        -:   53:
+        -:   54:      --TODO hur fan ska jag testa detta
+        -:   55:
+        -:   56:--  begin read only
+        4:   57:   end Test_tfGet_Thruster_Effects_Matrix;
+        -:   58:--  end read only
+        -:   59:
+        -:   60:
+        -:   61:--  begin read only
+        -:   62:   procedure Test_tfGet_Thruster_Values (Gnattest_T : in out Test_CThrusterConfigurator);
+        4:   63:   procedure Test_tfGet_Thruster_Values_fd2a06 (Gnattest_T : in out Test_CThrusterConfigurator) renames Test_tfGet_Thruster_Values;
+        -:   64:--  id:2.1/fd2a061725e8db0d/tfGet_Thruster_Values/1/0/
+        8:   65:   procedure Test_tfGet_Thruster_Values (Gnattest_T : in out Test_CThrusterConfigurator) is
+        -:   66:   --  navigation-thruster_configurator.ads:25:4:tfGet_Thruster_Values
+        -:   67:--  end read only
+        -:   68:
+        -:   69:      pragma Unreferenced (Gnattest_T);
+        -:   70:
+        4:   71:      pxThrusterConfigurator : Navigation.Thruster_Configurator.pCThrusterConfigurator;
+        -:   72:      xThrusterValues : Navigation.Thrusters.TThrusterValuesArray(1..6);
+       24:   73:      xComponentValues : Navigation.Thrusters.TThrusterEffects := (others => 1.0);
+        -:   74:
+        4:   75:      allComponentsEqual : boolean := true;
+        4:   76:      allZero : boolean := true;
+        -:   77:   begin
+        -:   78:
+        4:   79:      pxThrusterConfigurator := Navigation.Thruster_Configurator.pxCreate;
+        -:   80:
+        4:   81:      xThrusterValues := pxThrusterConfigurator.tfGet_Thruster_Values(xComponentValues);
+        -:   82:
+       48:   83:        for i in xThrusterValues'Range loop
+       24:   84:          if xComponentValues(Navigation.Thrusters.EThrusterEffectsComponents'Val(i - 1)) /= xThrusterValues(Integer(i)) then
+       20:   85:             allComponentsEqual := false;
+        -:   86:           end if;
+        -:   87:        end loop;
+        -:   88:
+       48:   89:      for i in xThrusterValues'Range loop
+       24:   90:         if abs(xThrusterValues(i)) > 0.00001 then
+       20:   91:            allZero := false;
+        -:   92:         end if;
+        -:   93:      end loop;
+        -:   94:
+        4:   95:      AUnit.Assertions.Assert(Condition => not allComponentsEqual,
+        -:   96:                              Message   => "All components are equal");
+        4:   97:      AUnit.Assertions.Assert(Condition => not allZero,
+        -:   98:                              Message   => "All components are zero");
+        -:   99:--  begin read only
+        4:  100:   end Test_tfGet_Thruster_Values;
+        -:  101:--  end read only
+        -:  102:
+        -:  103:
+        -:  104:--  begin read only
+        -:  105:   procedure Test_tfCreate_Extended_Matrix (Gnattest_T : in out Test_CThrusterConfigurator);
+        4:  106:   procedure Test_tfCreate_Extended_Matrix_b5b96a (Gnattest_T : in out Test_CThrusterConfigurator) renames Test_tfCreate_Extended_Matrix;
+        -:  107:--  id:2.1/b5b96a17803e5ede/tfCreate_Extended_Matrix/1/0/
+        8:  108:   procedure Test_tfCreate_Extended_Matrix (Gnattest_T : in out Test_CThrusterConfigurator) is
+        -:  109:   --  navigation-thruster_configurator.ads:37:4:tfCreate_Extended_Matrix
+        -:  110:--  end read only
+        -:  111:
+        -:  112:      pragma Unreferenced (Gnattest_T);
+        -:  113:
+        4:  114:   pxThrusterConfigurator : Navigation.Thruster_Configurator.pCThrusterConfigurator;
+        -:  115:      extendedMatrix : Navigation.Thruster_Configurator.TExtendedMatrix(1..6, 1..7);
+        -:  116:   begin
+        -:  117:
+        4:  118:      pxThrusterConfigurator := Navigation.Thruster_Configurator.pxCreate;
+        -:  119:
+        4:  120:      extendedMatrix := pxThrusterConfigurator.tfCreate_Extended_Matrix;
+        -:  121:
+        -:  122:      --Vettefan hur jag ska testa detta
+        -:  123:
+        -:  124:--  begin read only
+        4:  125:   end Test_tfCreate_Extended_Matrix;
+        -:  126:--  end read only
+        -:  127:
+        -:  128:end Navigation.Thruster_Configurator.CThrusterConfigurator_Test_Data.CThrusterConfigurator_Tests;

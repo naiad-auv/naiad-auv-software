@@ -1,13 +1,19 @@
 <tests_mapping mode="monolith">
    <unit source_file="navigation-thruster_configurator.ads">
-      <test_unit target_file="navigation-thruster_configurator-cthruster_configurator_test_data-cthruster_configurator_tests.ads">
-         <setup file="navigation-thruster_configurator-cthruster_configurator_test_data.adb" line="4"  column="4"/>
-         <teardown file="navigation-thruster_configurator-cthruster_configurator_test_data.adb" line="8"  column="4"/>
-         <tested name="Configure_Thruster_Effects" line="22" column="4">
-            <test file="navigation-thruster_configurator-cthruster_configurator_test_data-cthruster_configurator_tests.adb" line="13" column="1" timestamp="2013-10-07 09:37:00"/>
+      <test_unit target_file="navigation-thruster_configurator-cthrusterconfigurator_test_data-cthrusterconfigurator_tests.ads">
+         <setup file="navigation-thruster_configurator-cthrusterconfigurator_test_data.adb" line="4"  column="4"/>
+         <teardown file="navigation-thruster_configurator-cthrusterconfigurator_test_data.adb" line="8"  column="4"/>
+         <tested name="iGet_Number_Of_Thrusters" line="22" column="4">
+            <test file="navigation-thruster_configurator-cthrusterconfigurator_test_data-cthrusterconfigurator_tests.adb" line="13" column="1" timestamp="modified"/>
          </tested>
-         <tested name="xGet_Final_Thruster_Power_Configuration" line="24" column="4">
-            <test file="navigation-thruster_configurator-cthruster_configurator_test_data-cthruster_configurator_tests.adb" line="34" column="1" timestamp="2013-10-07 09:37:00"/>
+         <tested name="tfGet_Thruster_Effects_Matrix" line="23" column="4">
+            <test file="navigation-thruster_configurator-cthrusterconfigurator_test_data-cthrusterconfigurator_tests.adb" line="36" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="tfGet_Thruster_Values" line="25" column="4">
+            <test file="navigation-thruster_configurator-cthrusterconfigurator_test_data-cthrusterconfigurator_tests.adb" line="61" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="tfCreate_Extended_Matrix" line="37" column="4">
+            <test file="navigation-thruster_configurator-cthrusterconfigurator_test_data-cthrusterconfigurator_tests.adb" line="104" column="1" timestamp="2013-10-21 12:15:55"/>
          </tested>
          <dangling>
          </dangling>
@@ -15,8 +21,38 @@
       <test_unit target_file="navigation-thruster_configurator-test_data-tests.ads">
          <setup file="navigation-thruster_configurator-test_data.adb" line="3"  column="4"/>
          <teardown file="navigation-thruster_configurator-test_data.adb" line="9"  column="4"/>
-         <tested name="pxCreate" line="19" column="4">
-            <test file="navigation-thruster_configurator-test_data-tests.adb" line="13" column="1" timestamp="2013-10-07 09:37:00"/>
+         <tested name="pxCreate" line="20" column="4">
+            <test file="navigation-thruster_configurator-test_data-tests.adb" line="13" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="tfGet_Results_Vector_From" line="29" column="4">
+            <test file="navigation-thruster_configurator-test_data-tests.adb" line="42" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="Remove_Component_In_Leading_Rows" line="30" column="4">
+            <test file="navigation-thruster_configurator-test_data-tests.adb" line="81" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="Remove_Component_In_Following_Rows" line="31" column="4">
+            <test file="navigation-thruster_configurator-test_data-tests.adb" line="106" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="Scale_Row_In_Extended_Matrix" line="32" column="4">
+            <test file="navigation-thruster_configurator-test_data-tests.adb" line="133" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="Swap_Values_In_Extended_Matrix" line="33" column="4">
+            <test file="navigation-thruster_configurator-test_data-tests.adb" line="159" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="Swap_Rows_In_Extended_Matrix" line="34" column="4">
+            <test file="navigation-thruster_configurator-test_data-tests.adb" line="186" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="bMatrix_Has_No_Inverse" line="35" column="4">
+            <test file="navigation-thruster_configurator-test_data-tests.adb" line="219" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="Find_Row_With_Highest_Component" line="36" column="4">
+            <test file="navigation-thruster_configurator-test_data-tests.adb" line="239" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="Insert_Component_Values_In_Extended_Matrix" line="38" column="4">
+            <test file="navigation-thruster_configurator-test_data-tests.adb" line="263" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="Perform_Gauss_Jordan_Elimination_On" line="39" column="4">
+            <test file="navigation-thruster_configurator-test_data-tests.adb" line="291" column="1" timestamp="modified"/>
          </tested>
          <dangling>
          </dangling>

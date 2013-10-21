@@ -1,0 +1,50 @@
+        -:    0:Source:/home/emibe/skola/robgit/naiad-auv-software/src/lib/math/planes/src/math-planes.ads
+        -:    0:Programs:37
+        -:    1:with Math;
+        -:    2:with Math.Vectors; use Math.Vectors;
+        -:    3:
+        -:    4:-- Planes package for classes and functionality regarding planes. A plane object is stored in a pCPlane variable and is created with the pxCreate function.
+        8:    5:package Math.Planes is
+        -:    6:
+    #####:    7:   type CPlane is tagged private;
+        -:    8:   --  <summary>Class for plane.</summary>
+        -:    9:
+        -:   10:   type pCPlane is access CPlane;
+        -:   11:   --  <summary>Pointer type for object of type CPlane. Objects of type CPlane should always be stored in variables of this type.</summary>
+        -:   12:
+        -:   13:   function pxCreate (pxNormalVector : in Math.Vectors.pCVector; fDistanceFromOrigin : in float) return pCPlane;
+        -:   14:   --  <summary>Creates an object of type CPlane. Returns a pointer of type pCPlane to the object created.</summary>
+        -:   15:   --  <parameter name="pxNormalVector">The normal vector of the plane to be created.</parameter>
+        -:   16:   --  <parameter name="fDistanceFromOrigin">The distance from origin to plane along the normal vector.</parameter>
+        -:   17:   --  <exception>Numeric_Error, if pxNormalVector vector length = 0.0.</exception>
+        -:   18:
+        -:   19:   function pxGet_Normal_Vector (this : in CPlane) return Math.Vectors.pCVector;
+        -:   20:   --  <summary>Returns a copy of the plane's normal vector.</summary>
+        -:   21:   --  <parameter name="this">Represents the plane which the normal vector will be copied from.</parameter>
+        -:   22:
+        -:   23:   function fGet_Distance_From_Origin (this : in CPlane) return float;
+        -:   24:   --  <summary>Returns the distance from origin to plane along the normal vector.</summary>
+        -:   25:   --  <parameter name="this">Represents the plane which the distance will be read from.</parameter>
+        -:   26:
+        -:   27:
+        -:   28:   function fAngle_Between_In_Degrees (pxLeftOperandPlane : in pCPlane; pxRightOperandPlane : in pCPlane) return float;
+        -:   29:   --  <summary>Returns the closest angle in degrees between the two planes.</summary>
+        -:   30:   --  <parameter name="pxLeftOperandPlane">Represents the left operand plane.</parameter>
+        -:   31:   --  <parameter name="pxRightOperandPlane">Represents the right operand plane.</parameter>
+        -:   32:
+        -:   33:   function pxGet_Intersection_Vector_Between (pxLeftOperandPlane : in pCPlane; pxRightOperandPlane : in pCPlane) return Math.Vectors.pCVector;
+        -:   34:   --  <summary>Creates an object of type CVector representing the vector defining the intersection line between the two planes.</summary>
+        -:   35:   --  <parameter name="pxLeftOperandPlane">Represents the left operand plane.</parameter>
+        -:   36:   --  <parameter name="pxRightOperandPlane">Represents the right operand plane.</parameter>
+        -:   37:   --  <exception>Numeric_Error, if the planes are parallel.</exception>
+        -:   38:
+        -:   39:
+        -:   40:
+        -:   41:private
+        4:   42:   type CPlane is tagged
+        -:   43:      record
+        -:   44:         pxNormalVector : Math.Vectors.pCVector;
+        -:   45:         fDistanceFromOrigin : float;
+        -:   46:      end record;
+        -:   47:
+        4:   48:end Math.Planes;

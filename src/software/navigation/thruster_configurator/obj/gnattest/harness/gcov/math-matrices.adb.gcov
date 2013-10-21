@@ -1,0 +1,543 @@
+        -:    0:Source:/home/emibe/skola/robgit/naiad-auv-software/src/lib/math/matrices/src/math-matrices.adb
+        -:    0:Programs:37
+        -:    1:with Ada.Numerics;
+        -:    2:with Ada.Numerics.Elementary_Functions;
+        -:    3:with Math.Angles;
+        -:    4:with Ada.Text_IO;
+        -:    5:
+        -:    6:
+        -:    7:package body Math.Matrices is
+        -:    8:
+        -:    9:
+    #####:   10:   function fGet_Determinant (this : in CMatrix) return float is
+    #####:   11:      pxXVector : Math.Vectors.pCVector;
+    #####:   12:      pxYVector : Math.Vectors.pCVector;
+    #####:   13:      pxZVector : Math.Vectors.pCVector;
+    #####:   14:      pxMatrix : pCMatrix;
+        -:   15:   begin
+    #####:   16:      pxXVector := Math.Vectors.pxCreate(1.0,0.0,0.0);
+    #####:   17:      pxYVector := Math.Vectors.pxCreate(0.0,1.0,0.0);
+    #####:   18:      pxZVector := Math.Vectors.pxCreate(0.0,0.0,1.0);
+    #####:   19:      pxMatrix := Math.Matrices.pxCreate(this.tfMatrix);
+        -:   20:
+    #####:   21:      pxXVector := pxMatrix * pxXVector;
+    #####:   22:      pxYVector := pxMatrix * pxYVector;
+    #####:   23:      pxZVector := pxMatrix * pxZVector;
+        -:   24:
+    #####:   25:      return Math.Vectors.fDot_Product(pxXVector, Math.Vectors.pxCross_Product(pxYVector, pxZVector));
+        -:   26:   end fGet_Determinant;
+        -:   27:
+    #####:   28:   procedure Copy_From(this : in out CMatrix; pxSourceMatrix : in pCMatrix) is
+        -:   29:   begin
+    #####:   30:      for i in 1 .. 3
+    #####:   31:      loop
+    #####:   32:         for j in 1 .. 3
+    #####:   33:         loop
+    #####:   34:            this.tfMatrix(i,j) := pxSourceMatrix.tfMatrix(i,j);
+    #####:   35:         end loop;
+    #####:   36:      end loop;
+    #####:   37:   end Copy_From;
+        -:   38:
+        -:   39:
+        -:   40:   ------------------------------
+        -:   41:   -- pxCreate_From_Quaternion --
+        -:   42:   ------------------------------
+    #####:   43:   function tfGet_Raw_Matrix (this : in CMatrix) return TMatrix is
+        -:   44:   begin
+    #####:   45:      return this.tfMatrix;
+        -:   46:   end tfGet_Raw_Matrix;
+        -:   47:
+    #####:   48:   function pxCreate_From_Quaternion
+        -:   49:     (pxFromQuaternion : in Math.Quaternions.pCQuaternion)
+        -:   50:      return pCMatrix
+        -:   51:   is
+        -:   52:      tfMatrix : TMatrix;
+        -:   53:      fA : float;
+        -:   54:      fB : float;
+        -:   55:      fC : float;
+        -:   56:      fD : float;
+        -:   57:   begin
+        -:   58:
+        -:   59:
+    #####:   60:      if 1.0 - pxFromQuaternion.fGet_Length_Squared > 0.0001 then
+    #####:   61:         raise Numeric_Error;
+        -:   62:      end if;
+        -:   63:
+    #####:   64:      fA := pxFromQuaternion.fGet_W;
+    #####:   65:      fB := pxFromQuaternion.fGet_X;
+    #####:   66:      fC := pxFromQuaternion.fGet_Y;
+    #####:   67:      fD := pxFromQuaternion.fGet_Z;
+        -:   68:
+        -:   69:--      1-2*(fC*fC+fD*fD), 2*(fB*fC-fA*fD),   2*(fB*fD+fA*fC),
+        -:   70:--  	2*(fB*fC+fA*fD),   1-2*(fB*fB+fD*fD), 2*(fC*fD-fA*fB),
+        -:   71:--  	2*(fB*fD-fA*fC),   2*(fC*fD+fA*fB),   1-2*(fB*fB+fC*fC));
+        -:   72:
+    #####:   73:      tfMatrix(1,1) := 1.0-2.0*(fC*fC+fD*fD);
+    #####:   74:      tfMatrix(1,2) := 2.0*(fB*fC-fA*fD);
+    #####:   75:      tfMatrix(1,3) := 2.0*(fB*fD+fA*fC);
+        -:   76:
+    #####:   77:      tfMatrix(2,1) := 2.0*(fB*fC+fA*fD);
+    #####:   78:      tfMatrix(2,2) := 1.0-2.0*(fB*fB+fD*fD);
+    #####:   79:      tfMatrix(2,3) := 2.0*(fC*fD-fA*fB);
+        -:   80:
+    #####:   81:      tfMatrix(3,1) := 2.0*(fB*fD-fA*fC);
+    #####:   82:      tfMatrix(3,2) := 2.0*(fC*fD+fA*fB);
+    #####:   83:      tfMatrix(3,3) := 1.0-2.0*(fB*fB+fC*fC);
+        -:   84:
+    #####:   85:      return Math.Matrices.pxCreate(tfMatrix);
+        -:   86:   end pxCreate_From_Quaternion;
+        -:   87:
+        -:   88:   -------------------------------------
+        -:   89:   -- pxCreate_Rotation_Around_X_Axis --
+        -:   90:   -------------------------------------
+        -:   91:
+    #####:   92:   function pxCreate_Rotation_Around_X_Axis
+        -:   93:     (tfAngleInDegrees : in Math.Angles.TAngle)
+        -:   94:      return pCMatrix
+        -:   95:   is
+    #####:   96:      pxNewMatrix : pCMatrix;
+        -:   97:      fCosAngle : float;
+        -:   98:      fSinAngle : float;
+        -:   99:      fAngleInRadians : float;
+        -:  100:   begin
+    #####:  101:      fAngleInRadians := Math.Angles.fDegrees_To_Radians(Math.Angles.fTAngle_To_FAngle(tfAngleInDegrees));
+    #####:  102:      fCosAngle := Ada.Numerics.Elementary_Functions.Cos(fAngleInRadians);
+    #####:  103:      fSinAngle := Ada.Numerics.Elementary_Functions.Sin(fAngleInRadians);
+        -:  104:
+    #####:  105:      pxNewMatrix := new CMatrix;
+        -:  106:
+    #####:  107:      pxNewMatrix.tfMatrix := ( (1.0, 0.0, 0.0),
+    #####:  108:                                (0.0, fCosAngle, -fSinAngle),
+        -:  109:                                (0.0, fSinAngle, fCosAngle));
+    #####:  110:      return pxNewMatrix;
+        -:  111:   end pxCreate_Rotation_Around_X_Axis;
+        -:  112:
+        -:  113:
+    #####:  114:   function pxCreate
+        -:  115:     (tfMatrix : in TMatrix)
+        -:  116:      return pCMatrix
+        -:  117:   is
+    #####:  118:      pxNewMatrix : pCMatrix;
+        -:  119:   begin
+    #####:  120:      pxNewMatrix := new CMatrix;
+    #####:  121:      pxNewMatrix.tfMatrix := tfMatrix;
+    #####:  122:      return pxNewMatrix;
+        -:  123:   end pxCreate;
+        -:  124:
+        -:  125:
+        -:  126:   -------------------------------------
+        -:  127:   -- pxCreate_Rotation_Around_Y_Axis --
+        -:  128:   -------------------------------------
+        -:  129:
+    #####:  130:   function pxCreate_Rotation_Around_Y_Axis
+        -:  131:     (tfAngleInDegrees : in Math.Angles.TAngle)
+        -:  132:      return pCMatrix
+        -:  133:   is
+    #####:  134:      pxNewMatrix : pCMatrix;
+        -:  135:      fCosAngle : float;
+        -:  136:      fSinAngle : float;
+        -:  137:      fAngleInRadians : float;
+        -:  138:   begin
+    #####:  139:      fAngleInRadians := Math.Angles.fDegrees_To_Radians(Math.Angles.fTAngle_To_FAngle(tfAngleInDegrees));
+    #####:  140:      fCosAngle := Ada.Numerics.Elementary_Functions.Cos(fAngleInRadians);
+    #####:  141:      fSinAngle := Ada.Numerics.Elementary_Functions.Sin(fAngleInRadians);
+        -:  142:
+    #####:  143:      pxNewMatrix := new CMatrix;
+        -:  144:
+    #####:  145:      pxNewMatrix.tfMatrix := ( (fCosAngle, 0.0, fSinAngle),
+        -:  146:                                (0.0, 1.0, 0.0),
+    #####:  147:                                (-fSinAngle, 0.0, fCosAngle));
+    #####:  148:      return pxNewMatrix;
+        -:  149:   end pxCreate_Rotation_Around_Y_Axis;
+        -:  150:
+        -:  151:
+        -:  152:   -------------------------------------
+        -:  153:   -- pxCreate_Rotation_Around_Z_Axis --
+        -:  154:   -------------------------------------
+        -:  155:
+    #####:  156:   function pxCreate_Rotation_Around_Z_Axis
+        -:  157:     (tfAngleInDegrees : in Math.Angles.TAngle)
+        -:  158:      return pCMatrix
+        -:  159:   is
+    #####:  160:      pxNewMatrix : pCMatrix;
+        -:  161:      fCosAngle : float;
+        -:  162:      fSinAngle : float;
+        -:  163:      fAngleInRadians : float;
+        -:  164:   begin
+    #####:  165:      fAngleInRadians := Math.Angles.fDegrees_To_Radians(Math.Angles.fTAngle_To_FAngle(tfAngleInDegrees));
+    #####:  166:      fCosAngle := Ada.Numerics.Elementary_Functions.Cos(fAngleInRadians);
+    #####:  167:      fSinAngle := Ada.Numerics.Elementary_Functions.Sin(fAngleInRadians);
+        -:  168:
+    #####:  169:      pxNewMatrix := new CMatrix;
+        -:  170:
+    #####:  171:      pxNewMatrix.tfMatrix := ( (fCosAngle, -fSinAngle, 0.0),
+        -:  172:                                (fSinAngle, fCosAngle, 0.0),
+        -:  173:                                (0.0, 0.0, 1.0));
+    #####:  174:      return pxNewMatrix;
+        -:  175:   end pxCreate_Rotation_Around_Z_Axis;
+        -:  176:
+        -:  177:
+        -:  178:
+        -:  179:   -----------------------
+        -:  180:   -- pxCreate_Identity --
+        -:  181:   -----------------------
+        -:  182:
+    #####:  183:   function pxCreate_Identity return pCMatrix is
+    #####:  184:      pxNewMatrix : pCMatrix;
+        -:  185:   begin
+    #####:  186:      pxNewMatrix := new CMatrix;
+    #####:  187:      pxNewMatrix.tfMatrix := ((1.0,0.0,0.0),(0.0,1.0,0.0),(0.0,0.0,1.0));
+    #####:  188:      return pxNewMatrix;
+        -:  189:   end pxCreate_Identity;
+        -:  190:
+        -:  191:
+        -:  192:
+        -:  193:
+    #####:  194:   function "=" (pxLeftOperandMatrix : in pCMatrix; pxRightOperandMatrix : in pCMatrix) return boolean is
+        -:  195:
+        -:  196:      use System;
+        -:  197:
+    #####:  198:      function CheckIfBothNull(pxLeftOperandMatrix : in pCMatrix; pxRightOperandMatrix : in pcMatrix) return boolean is
+        -:  199:         f : float;
+        -:  200:      begin
+    #####:  201:         f := pxRightOperandMatrix.tfMatrix(1,1);
+    #####:  202:         return false;
+        -:  203:      exception
+    #####:  204:            when CONSTRAINT_ERROR =>
+        -:  205:            begin
+    #####:  206:               f :=  pxLeftOperandMatrix.tfMatrix(1,1);
+    #####:  207:               return false;
+        -:  208:            exception
+    #####:  209:               when CONSTRAINT_ERROR =>
+    #####:  210:                  return true;
+    #####:  211:            end;
+    #####:  212:      end;
+        -:  213:   begin
+        -:  214:
+    #####:  215:      if CheckIfBothNull(pxLeftOperandMatrix, pxRightOperandMatrix) then
+    #####:  216:         return true;
+        -:  217:      end if;
+        -:  218:
+        -:  219:
+    #####:  220:      for iY in 1 .. 3
+    #####:  221:      loop
+    #####:  222:         for iX in 1 .. 3
+    #####:  223:         loop
+    #####:  224:            if abs(pxLeftOperandMatrix.tfMatrix(iY, iX) - pxRightOperandMatrix.tfMatrix(iY, iX)) > 0.000001 then
+    #####:  225:               return false;
+        -:  226:            end if;
+    #####:  227:         end loop;
+    #####:  228:      end loop;
+    #####:  229:      return true;
+        -:  230:
+        -:  231:   exception
+    #####:  232:      when CONSTRAINT_ERROR =>
+    #####:  233:         return false;
+    #####:  234:   end "=";
+        -:  235:
+        -:  236:
+        -:  237:
+        -:  238:   ---------
+        -:  239:   -- "*" --
+        -:  240:   ---------
+        -:  241:
+    #####:  242:   function "*"
+        -:  243:     (pxLeftOperandMatrix : in pCMatrix;
+        -:  244:      pxRightOperandMatrix : in pCMatrix)
+        -:  245:      return pCMatrix
+        -:  246:   is
+        -:  247:      tfMatrix : TMatrix;
+        -:  248:   begin
+    #####:  249:      tfMatrix := (( (pxLeftOperandMatrix.tfMatrix(1,1) * pxRightOperandMatrix.tfMatrix(1,1)) +
+    #####:  250:                   (pxLeftOperandMatrix.tfMatrix(1,2) * pxRightOperandMatrix.tfMatrix(2,1)) +
+    #####:  251:                   (pxLeftOperandMatrix.tfMatrix(1,3) * pxRightOperandMatrix.tfMatrix(3,1)),
+        -:  252:
+    #####:  253:                   (pxLeftOperandMatrix.tfMatrix(1,1) * pxRightOperandMatrix.tfMatrix(1,2)) +
+    #####:  254:                   (pxLeftOperandMatrix.tfMatrix(1,2) * pxRightOperandMatrix.tfMatrix(2,2)) +
+    #####:  255:                   (pxLeftOperandMatrix.tfMatrix(1,3) * pxRightOperandMatrix.tfMatrix(3,2)),
+        -:  256:
+    #####:  257:                   (pxLeftOperandMatrix.tfMatrix(1,1) * pxRightOperandMatrix.tfMatrix(1,3)) +
+    #####:  258:                   (pxLeftOperandMatrix.tfMatrix(1,2) * pxRightOperandMatrix.tfMatrix(2,3)) +
+    #####:  259:                   (pxLeftOperandMatrix.tfMatrix(1,3) * pxRightOperandMatrix.tfMatrix(3,3))),
+        -:  260:
+    #####:  261:                   ( (pxLeftOperandMatrix.tfMatrix(2,1) * pxRightOperandMatrix.tfMatrix(1,1)) +
+    #####:  262:                   (pxLeftOperandMatrix.tfMatrix(2,2) * pxRightOperandMatrix.tfMatrix(2,1)) +
+    #####:  263:                   (pxLeftOperandMatrix.tfMatrix(2,3) * pxRightOperandMatrix.tfMatrix(3,1)),
+        -:  264:
+    #####:  265:                   (pxLeftOperandMatrix.tfMatrix(2,1) * pxRightOperandMatrix.tfMatrix(1,2)) +
+    #####:  266:                   (pxLeftOperandMatrix.tfMatrix(2,2) * pxRightOperandMatrix.tfMatrix(2,2)) +
+    #####:  267:                   (pxLeftOperandMatrix.tfMatrix(2,3) * pxRightOperandMatrix.tfMatrix(3,2)),
+        -:  268:
+    #####:  269:                   (pxLeftOperandMatrix.tfMatrix(2,1) * pxRightOperandMatrix.tfMatrix(1,3)) +
+    #####:  270:                   (pxLeftOperandMatrix.tfMatrix(2,2) * pxRightOperandMatrix.tfMatrix(2,3)) +
+    #####:  271:                   (pxLeftOperandMatrix.tfMatrix(2,3) * pxRightOperandMatrix.tfMatrix(3,3))),
+        -:  272:
+    #####:  273:                  ( (pxLeftOperandMatrix.tfMatrix(3,1) * pxRightOperandMatrix.tfMatrix(1,1)) +
+    #####:  274:                   (pxLeftOperandMatrix.tfMatrix(3,2) * pxRightOperandMatrix.tfMatrix(2,1)) +
+    #####:  275:                   (pxLeftOperandMatrix.tfMatrix(3,3) * pxRightOperandMatrix.tfMatrix(3,1)),
+        -:  276:
+    #####:  277:                   (pxLeftOperandMatrix.tfMatrix(3,1) * pxRightOperandMatrix.tfMatrix(1,2)) +
+    #####:  278:                   (pxLeftOperandMatrix.tfMatrix(3,2) * pxRightOperandMatrix.tfMatrix(2,2)) +
+    #####:  279:                   (pxLeftOperandMatrix.tfMatrix(3,3) * pxRightOperandMatrix.tfMatrix(3,2)),
+        -:  280:
+    #####:  281:                   (pxLeftOperandMatrix.tfMatrix(3,1) * pxRightOperandMatrix.tfMatrix(1,3)) +
+    #####:  282:                   (pxLeftOperandMatrix.tfMatrix(3,2) * pxRightOperandMatrix.tfMatrix(2,3)) +
+    #####:  283:                   (pxLeftOperandMatrix.tfMatrix(3,3) * pxRightOperandMatrix.tfMatrix(3,3)))
+        -:  284:
+        -:  285:                  );
+    #####:  286:      return Math.Matrices.pxCreate(tfMatrix => tfMatrix);
+        -:  287:   end "*";
+        -:  288:
+        -:  289:   ---------
+        -:  290:   -- "*" --
+        -:  291:   ---------
+        -:  292:
+    #####:  293:   function "*"
+        -:  294:     (pxLeftOperandMatrix : in pCMatrix;
+        -:  295:      pxRightOperandVector : in Math.Vectors.pCVector)
+        -:  296:      return Math.Vectors.pCVector
+        -:  297:   is
+    #####:  298:      pxProductVector : Math.Vectors.pCVector;
+        -:  299:   begin
+    #####:  300:      pxProductVector := Math.Vectors.pxCreate(fX =>
+    #####:  301:                                                 ( (pxLeftOperandMatrix.tfMatrix(1,1) * pxRightOperandVector.fGet_X) +
+    #####:  302:                                                  (pxLeftOperandMatrix.tfMatrix(1,2) * pxRightOperandVector.fGet_Y) +
+    #####:  303:                                                  (pxLeftOperandMatrix.tfMatrix(1,3) * pxRightOperandVector.fGet_Z) ),
+        -:  304:
+        -:  305:                                               fY =>
+    #####:  306:                                                 ( (pxLeftOperandMatrix.tfMatrix(2,1) * pxRightOperandVector.fGet_X) +
+    #####:  307:                                                  (pxLeftOperandMatrix.tfMatrix(2,2) * pxRightOperandVector.fGet_Y) +
+    #####:  308:                                                  (pxLeftOperandMatrix.tfMatrix(2,3) * pxRightOperandVector.fGet_Z) ),
+        -:  309:
+        -:  310:                                               fZ =>
+    #####:  311:                                                 ( (pxLeftOperandMatrix.tfMatrix(3,1) * pxRightOperandVector.fGet_X) +
+    #####:  312:                                                  (pxLeftOperandMatrix.tfMatrix(3,2) * pxRightOperandVector.fGet_Y) +
+    #####:  313:                                                  (pxLeftOperandMatrix.tfMatrix(3,3) * pxRightOperandVector.fGet_Z) ));
+        -:  314:
+    #####:  315:      return pxProductVector;
+        -:  316:   end "*";
+        -:  317:
+        -:  318:
+        -:  319:   ---------
+        -:  320:   -- "*" --
+        -:  321:   ---------
+        -:  322:
+    #####:  323:   function "*"
+        -:  324:     (pxLeftOperandMatrix : in pCMatrix;
+        -:  325:      pxRightOperandPlane : in Math.Planes.pCPlane)
+        -:  326:      return Math.Planes.pCPlane
+        -:  327:   is
+    #####:  328:      pxNewNormal : Math.Vectors.pCVector;
+        -:  329:   begin
+    #####:  330:      pxNewNormal := pxLeftOperandMatrix * pxRightOperandPlane.pxGet_Normal_Vector;
+    #####:  331:      return Math.Planes.pxCreate(pxNormalVector      => pxNewNormal,
+    #####:  332:                                  fDistanceFromOrigin => pxRightOperandPlane.fGet_Distance_From_Origin);
+        -:  333:   end "*";
+        -:  334:
+        -:  335:   -------------------
+        -:  336:   -- pxGet_Inverse --
+        -:  337:   -------------------
+        -:  338:
+    #####:  339:   procedure Swap_Values_In_Extended_Matrix(fValue1 : in out float; fValue2 : in out float) is
+        -:  340:      fTemp : float;
+        -:  341:   begin
+    #####:  342:      fTemp := fValue1;
+    #####:  343:      fValue1 := fValue2;
+    #####:  344:      fValue2 := fTemp;
+    #####:  345:   end Swap_Values_In_Extended_Matrix;
+        -:  346:
+    #####:  347:   procedure Swap_Rows_In_Extended_Matrix(tfExtendedMatrix : in out TExtendedMatrix; iRow1 : in integer; iRow2 : in integer) is
+        -:  348:   begin
+    #####:  349:      for col in 1 .. 6
+    #####:  350:      loop
+    #####:  351:         Swap_Values_In_Extended_Matrix(fValue1 => tfExtendedMatrix(iRow1,col),
+    #####:  352:                                        fValue2 => tfExtendedMatrix(iRow2,col));
+    #####:  353:      end loop;
+    #####:  354:   end Swap_Rows_In_Extended_Matrix;
+        -:  355:
+    #####:  356:   procedure Scale_Row_In_Extended_Matrix(tfExtendedMatrix : in out TExtendedMatrix; iStartingColumn : in integer) is
+    #####:  357:      iY : integer := iStartingColumn;
+        -:  358:   begin
+    #####:  359:      for iX in reverse iStartingColumn .. 6
+    #####:  360:      loop
+    #####:  361:         tfExtendedMatrix(iY, iX) := tfExtendedMatrix(iY, iX) / tfExtendedMatrix(iY, iStartingColumn);
+    #####:  362:      end loop;
+    #####:  363:   end Scale_Row_In_Extended_Matrix;
+        -:  364:
+    #####:  365:   procedure Remove_Component_In_Following_Rows(tfExtendedMatrix : in out TExtendedMatrix; iRow : in integer) is
+        -:  366:   begin
+    #####:  367:      for iY in iRow+1 .. 3
+    #####:  368:      loop
+    #####:  369:         for iX in reverse iRow .. 6
+    #####:  370:         loop
+    #####:  371:            tfExtendedMatrix(iY, iX) := tfExtendedMatrix(iY, iX) - (tfExtendedMatrix(iRow, iX) * tfExtendedMatrix(iY, iRow));
+    #####:  372:         end loop;
+    #####:  373:      end loop;
+    #####:  374:   end Remove_Component_In_Following_Rows;
+        -:  375:
+        -:  376:
+    #####:  377:   procedure Remove_Component_In_Leading_Rows(tfExtendedMatrix : in out TExtendedMatrix; iRow : in integer) is
+        -:  378:   begin
+    #####:  379:      for iY in reverse 1 .. (iRow-1)
+    #####:  380:      loop
+    #####:  381:         for iX in reverse iRow .. 6
+    #####:  382:         loop
+    #####:  383:            tfExtendedMatrix(iY, iX) := tfExtendedMatrix(iY, iX) - (tfExtendedMatrix(iRow, iX) * tfExtendedMatrix(iY, iRow));
+    #####:  384:         end loop;
+    #####:  385:      end loop;
+    #####:  386:   end Remove_Component_In_Leading_Rows;
+        -:  387:
+    #####:  388:   function Find_Row_With_Highest_Component(tfExtendedMatrix : in TExtendedMatrix; iColumn : in integer) return integer is
+    #####:  389:      iMaxValueComponent : integer := iColumn;
+        -:  390:   begin
+    #####:  391:      for iRow in iColumn+1 .. 3
+    #####:  392:      loop
+    #####:  393:         if abs(tfExtendedMatrix(iRow, iColumn)) > abs(tfExtendedMatrix(iMaxValueComponent, iColumn)) then
+    #####:  394:            iMaxValueComponent := iRow;
+        -:  395:         end if;
+    #####:  396:      end loop;
+    #####:  397:      return iMaxValueComponent;
+        -:  398:   end Find_Row_With_Highest_Component;
+        -:  399:
+    #####:  400:   function bMatrix_Has_No_Inverse(fValue : in float) return boolean is
+        -:  401:   begin
+    #####:  402:      if abs(fValue) > 0.0 then
+    #####:  403:         return false;
+        -:  404:      end if;
+    #####:  405:      return true;
+        -:  406:   end bMatrix_Has_No_Inverse;
+        -:  407:
+        -:  408:
+    #####:  409:   procedure Perform_Gauss_Jordan_Elimination_On(tfExtendedMatrix : in out TExtendedMatrix) is
+        -:  410:      iRowWithMaxComponent : integer;
+        -:  411:   begin
+        -:  412:
+    #####:  413:      for iRowAndColumn in 1 .. 3
+    #####:  414:      loop
+    #####:  415:         iRowWithMaxComponent := Find_Row_With_Highest_Component(tfExtendedMatrix => tfExtendedMatrix,
+        -:  416:                                                                 iColumn          => iRowAndColumn);
+        -:  417:
+    #####:  418:         if bMatrix_Has_No_Inverse(tfExtendedMatrix(iRowWithMaxComponent, iRowAndColumn)) then
+    #####:  419:            raise Numeric_Error;
+        -:  420:         end if;
+        -:  421:
+    #####:  422:         if iRowWithMaxComponent /= iRowAndColumn then
+    #####:  423:            Swap_Rows_In_Extended_Matrix(tfExtendedMatrix => tfExtendedMatrix,
+        -:  424:                                         iRow1            => iRowAndColumn,
+        -:  425:                                         iRow2            => iRowWithMaxComponent);
+        -:  426:         end if;
+        -:  427:
+        -:  428:
+    #####:  429:         Scale_Row_In_Extended_Matrix(tfExtendedMatrix => tfExtendedMatrix,
+        -:  430:                                      iStartingColumn  => iRowAndColumn);
+        -:  431:
+        -:  432:
+        -:  433:
+    #####:  434:         Remove_Component_In_Following_Rows(tfExtendedMatrix => tfExtendedMatrix,
+        -:  435:                                            iRow             => iRowAndColumn);
+        -:  436:
+    #####:  437:         Remove_Component_In_Leading_Rows(tfExtendedMatrix => tfExtendedMatrix,
+        -:  438:                                          iRow             => iRowAndColumn);
+        -:  439:
+    #####:  440:      end loop;
+        -:  441:
+    #####:  442:   end Perform_Gauss_Jordan_Elimination_On;
+        -:  443:
+    #####:  444:   function tfGet_Inverse_Part_From(tfExtendedMatrix : in TExtendedMatrix) return TMatrix is
+        -:  445:      tfInverse : TMatrix;
+        -:  446:   begin
+    #####:  447:      for iY in 1 .. 3
+    #####:  448:      loop
+    #####:  449:         for iX in 1 .. 3
+    #####:  450:         loop
+    #####:  451:            tfInverse(iY, iX) := tfExtendedMatrix(iY, iX+3);
+    #####:  452:         end loop;
+    #####:  453:      end loop;
+        -:  454:
+    #####:  455:      return tfInverse;
+        -:  456:   end tfGet_Inverse_Part_From;
+        -:  457:
+        -:  458:
+    #####:  459:   function tfCreate_Extended_Matrix_From(tfMatrix : in TMatrix) return TExtendedMatrix is
+        -:  460:      tfExtendedMatrix : TExtendedMatrix;
+        -:  461:   begin
+    #####:  462:      for iY in 1 .. 3
+    #####:  463:      loop
+    #####:  464:         for iX in 1 .. 3
+    #####:  465:         loop
+    #####:  466:            tfExtendedMatrix(iY, iX) := tfMatrix(iY, iX);
+    #####:  467:            tfExtendedMatrix(iY, iX+3) := 0.0;
+    #####:  468:         end loop;
+    #####:  469:         tfExtendedMatrix(iY,iY+3) := 1.0;
+    #####:  470:      end loop;
+    #####:  471:      return tfExtendedMatrix;
+        -:  472:   end tfCreate_Extended_Matrix_From;
+        -:  473:
+        -:  474:
+    #####:  475:   function pxGet_Inverse (this : in CMatrix) return pCMatrix is
+        -:  476:      tfExtendedMatrix : TExtendedMatrix;
+        -:  477:   begin
+    #####:  478:      tfExtendedMatrix := tfCreate_Extended_Matrix_From(tfMatrix => this.tfMatrix);
+        -:  479:
+    #####:  480:      Perform_Gauss_Jordan_Elimination_On(tfExtendedMatrix => tfExtendedMatrix);
+        -:  481:
+    #####:  482:      return Math.Matrices.pxCreate(tfMatrix => tfGet_Inverse_Part_From(tfExtendedMatrix => tfExtendedMatrix));
+        -:  483:   end pxGet_Inverse;
+        -:  484:
+        -:  485:   ----------------
+        -:  486:   -- pxGet_Copy --
+        -:  487:   ----------------
+        -:  488:
+    #####:  489:   function pxGet_Copy (this : in CMatrix) return pCMatrix is
+        -:  490:   begin
+    #####:  491:      return Math.Matrices.pxCreate(tfMatrix => this.tfMatrix);
+        -:  492:   end pxGet_Copy;
+        -:  493:
+        -:  494:   ---------------------
+        -:  495:   -- pxGet_Transpose --
+        -:  496:   ---------------------
+        -:  497:
+    #####:  498:   function pxGet_Transpose (this : in CMatrix) return pCMatrix is
+        -:  499:      tfTranspose : TMatrix;
+        -:  500:   begin
+        -:  501:
+        -:  502:
+    #####:  503:      for i in 1 .. 3
+    #####:  504:      loop
+    #####:  505:         for j in 1 .. 3
+    #####:  506:         loop
+    #####:  507:            tfTranspose(i,j) := this.tfMatrix(j,i);
+    #####:  508:         end loop;
+    #####:  509:      end loop;
+        -:  510:
+    #####:  511:      return Math.Matrices.pxCreate(tfTranspose);
+        -:  512:   end pxGet_Transpose;
+        -:  513:
+        -:  514:
+    #####:  515:   function pxGet_X_Vector (this : in CMatrix) return Math.Vectors.pCVector is
+    #####:  516:      pxXVector : Math.Vectors.pCVector;
+        -:  517:   begin
+    #####:  518:      pxXVector := Math.Vectors.pxCreate(fX => this.tfMatrix(1,1),
+        -:  519:                                         fY => this.tfMatrix(1,2),
+        -:  520:                                         fZ => this.tfMatrix(1,3));
+    #####:  521:      return pxXVector;
+        -:  522:   end pxGet_X_Vector;
+        -:  523:
+    #####:  524:   function pxGet_Y_Vector (this : in CMatrix) return Math.Vectors.pCVector is
+    #####:  525:      pxYVector : Math.Vectors.pCVector;
+        -:  526:   begin
+    #####:  527:      pxYVector := Math.Vectors.pxCreate(fX => this.tfMatrix(2,1),
+        -:  528:                                         fY => this.tfMatrix(2,2),
+        -:  529:                                         fZ => this.tfMatrix(2,3));
+    #####:  530:      return pxYVector;
+        -:  531:   end pxGet_Y_Vector;
+        -:  532:
+    #####:  533:   function pxGet_Z_Vector (this : in CMatrix) return Math.Vectors.pCVector is
+    #####:  534:      pxZVector : Math.Vectors.pCVector;
+        -:  535:   begin
+    #####:  536:      pxZVector := Math.Vectors.pxCreate(fX => this.tfMatrix(3,1),
+        -:  537:                                         fY => this.tfMatrix(3,2),
+        -:  538:                                         fZ => this.tfMatrix(3,3));
+    #####:  539:      return pxZVector;
+        -:  540:   end pxGet_Z_Vector;
+        -:  541:end Math.Matrices;
