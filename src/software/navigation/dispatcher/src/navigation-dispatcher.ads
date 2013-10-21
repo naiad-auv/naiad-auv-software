@@ -6,11 +6,20 @@ with Math.Vectors;
 with Navigation.PID_Controller;
 with Math.Matrices;
 with Navigation.Thrusters;
+with System;
+with Ada.Text_IO;
+with System.Address_Image;
+with System.Pool_Local;
+with Math.Angles;
 
 package Navigation.Dispatcher is
 
    type CDispatcher is tagged private;
+
+
    type pCDispatcher is access CDispatcher;
+   xStoragePool : System.Pool_Local.Unbounded_Reclaim_Pool;
+   for pCDispatcher'Storage_Pool use xStoragePool;
 
    function pxCreate return pCDispatcher;
    --  <summary>Creates an object of type CDispatcher</summary>
