@@ -3,7 +3,7 @@
 -- This code is mainly based on the router.adb file from the Vasa project
 
 -- Rewritten by Nils Brynedal Ignell for the Naiad AUV project
--- Last changed (yyyy-mm-dd): 2013-10-03
+-- Last changed (yyyy-mm-dd): 2013-10-18
 
 -- TODO:
 
@@ -16,11 +16,8 @@ with Interfaces;
 
 package CAN_Link_pack is
 
-   -- USART0 is used for the communication between the CAN Router and Qseven
-   Q7USART       : constant AVR.AT90CAN128.USART.USARTID    := AVR.AT90CAN128.USART.USART1;
-
-   -- USART1 is used for the communication between the CAN Router and the outside computer
- --  xUSART        : constant AVR.AT90CAN128.USART.USARTID    := AVR.AT90CAN128.USART.USART0;
+   -- USART0 is used for the communication between the CAN Router and BBB
+   USART_PORT       : constant AVR.AT90CAN128.USART.USARTID    := AVR.AT90CAN128.USART.USART1;
 
    --the lenght of  the Header of the packet is 5
    HEADLEN       : constant integer    := 5;
@@ -45,36 +42,34 @@ package CAN_Link_pack is
    --Checksum should be put in the 5th byte
    Checksum_POS  : constant integer    := 5;
 
-   MIN_CANID     : constant AVR.AT90CAN128.CAN.CAN_ID     := 10;
-   CAN_DATA      : constant Interfaces.Unsigned_8 := 16#00#;
-   SERIAL_DATA   : constant Interfaces.Unsigned_8 := 16#02#;
+   MIN_CANID     : constant AVR.AT90CAN128.CAN.CAN_ID   := 10;
+   CAN_DATA      : constant Interfaces.Unsigned_8 	:= 16#00#;
    Head_Buf      : String(1..HEADLEN);
 
    function Calculate_Checksum(Data : String; Len : Integer) return Interfaces.Unsigned_8;
 
-   procedure usart_write(Buffer : String;   Port : AVR.AT90CAN128.USART.USARTID := AVR.AT90CAN128.USART.Default_USART; Size   : Positive);
+   procedure Usart_Write(sBuffer : String;   Port : AVR.AT90CAN128.USART.USARTID := AVR.AT90CAN128.USART.Default_USART;
+                         iSize   : Positive);
 
-   procedure usart_Read(Buffer : out String; Port : AVR.AT90CAN128.USART.USARTID := AVR.AT90CAN128.USART.Default_USART;
-                        Size   : Positive; Number : out integer);
+   procedure Usart_Read(sBuffer : out String; Port : AVR.AT90CAN128.USART.USARTID := AVR.AT90CAN128.USART.Default_USART;
+                        iSize   : Positive; iNumber : out integer);
 
-   procedure Send_CanData_To_Qseven(Msg : AVR.AT90CAN128.CAN.CAN_Message);
+   procedure Send_CanData_To_BBB(Msg : AVR.AT90CAN128.CAN.CAN_Message);
 
    procedure Send_CanData_To_Can(ID : AVR.AT90CAN128.CAN.CAN_ID; Len : AVR.AT90CAN128.DLC_Type ; Data : String);
 
---   procedure Send_Serial_Data_Out(Data : String; Len : Interfaces.Unsigned_8);
-
    procedure CANBUS_Monitoring;
 
-   procedure Qseven_Cmd_Handler;
+   procedure Cmd_Handler;
 
    procedure Wait_For_Reply(Port : AVR.AT90CAN128.USART.USARTID := AVR.AT90CAN128.USART.Default_USART);
 
    procedure Send_Reply(Port : AVR.AT90CAN128.USART.USARTID := AVR.AT90CAN128.USART.Default_USART);
 
-   procedure HandshakeWithQseven;
+   procedure Handshake_With_BBB;
 
    procedure Main_Loop;
 
-   procedure hardware_init;
+   procedure Hardware_Init;
 
 end CAN_Link_pack;

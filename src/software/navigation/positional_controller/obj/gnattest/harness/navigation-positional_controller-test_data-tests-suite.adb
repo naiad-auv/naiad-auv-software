@@ -12,17 +12,17 @@ package body Navigation.Positional_Controller.Test_Data.Tests.Suite is
 
    Result : aliased AUnit.Test_Suites.Test_Suite;
 
-   Case_1_1_Test_pxCreate_ccac1a : aliased Runner_1.Test_Case;
+   Case_1_1_Test_pxCreate_c4fe57 : aliased Runner_1.Test_Case;
 
    function Suite return AUnit.Test_Suites.Access_Test_Suite is
    begin
 
       Runner_1.Create
-        (Case_1_1_Test_pxCreate_ccac1a,
-         "navigation-positional_controller.ads:10:4:",
-         Test_pxCreate_ccac1a'Access);
+        (Case_1_1_Test_pxCreate_c4fe57,
+         "navigation-positional_controller.ads:12:4:",
+         Test_pxCreate_c4fe57'Access);
 
-      Result.Add_Test (Case_1_1_Test_pxCreate_ccac1a'Access);
+      Result.Add_Test (Case_1_1_Test_pxCreate_c4fe57'Access);
 
       return Result'Access;
 

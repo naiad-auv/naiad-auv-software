@@ -12,10 +12,10 @@ package body Navigation.Positional_Controller.Test_Data.Tests is
 
 --  begin read only
    procedure Test_pxCreate (Gnattest_T : in out Test);
-   procedure Test_pxCreate_ccac1a (Gnattest_T : in out Test) renames Test_pxCreate;
---  id:2.1/ccac1afaeb600e2c/pxCreate/1/0/
+   procedure Test_pxCreate_c4fe57 (Gnattest_T : in out Test) renames Test_pxCreate;
+--  id:2.1/c4fe576a4ccc7d87/pxCreate/1/0/
    procedure Test_pxCreate (Gnattest_T : in out Test) is
-   --  navigation-positional_controller.ads:10:4:pxCreate
+   --  navigation-positional_controller.ads:12:4:pxCreate
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -23,17 +23,26 @@ package body Navigation.Positional_Controller.Test_Data.Tests is
       use Math.Vectors;
       use Navigation.Motion_Component;
 
-      pxPositionalController : Navigation.Positional_Controller.pCPositional_Controller;
+      pxPositionalController : Navigation.Positional_Controller.pCPositionalController;
+
+      pxNewWanted : Math.Vectors.pCVector := Math.Vectors.pxCreate(5.0,5.0,5.0);
+
+      pxCurrentPosition : Math.Vectors.pCVector := Math.Vectors.pxCreate(0.0,0.0,0.0);
+      pxCurrentOrientation : Math.Matrices.pCMatrix := Math.Matrices.pxCreate_Identity;
+
+
 
    begin
 
-      pxPositionalController := Navigation.Positional_Controller.pxCreate;
+      pxPositionalController := Navigation.Positional_Controller.pxCreate(pxCurrentAbsolutePosition    => pxCurrentPosition,
+                                                                          pxWantedAbsolutePosition     => pxNewWanted,
+                                                                          pxCurrentAbsoluteOrientation => pxCurrentOrientation);
 
       AUnit.Assertions.Assert(Condition => pxPositionalController /= null,
                               Message => "pxPositionalController is not pointing towards on object");
 
 
-      AUnit.Assertions.Assert(Condition => pxPositionalController.pxWantedPosition /= null,
+      AUnit.Assertions.Assert(Condition => pxPositionalController.pxWantedAbsolutePosition /= null,
                               Message => "pxWantedPosition is null after construction");
 
       AUnit.Assertions.Assert(Condition => pxPositionalController.pxXMotionComponent /= null,

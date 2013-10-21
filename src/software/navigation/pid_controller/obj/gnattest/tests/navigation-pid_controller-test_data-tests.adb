@@ -20,7 +20,7 @@ package body Navigation.PID_Controller.Test_Data.Tests is
 
       pragma Unreferenced (Gnattest_T);
 
-      pxObject : pCPID_Controller := null;
+      pxObject : pCPIDController := null;
 
    begin
 
@@ -46,7 +46,7 @@ package body Navigation.PID_Controller.Test_Data.Tests is
 
       pragma Unreferenced (Gnattest_T);
 
-      pxObject : pCPID_Controller := null;
+      pxObject : pCPIDController := null;
 
    begin
 

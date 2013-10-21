@@ -1,35 +1,53 @@
 
 ---------------------------------------------------------------------------
 -- This code handles communication between the BeagleBone Black (BBB) and
--- the CAN-link
+-- the CAN-link.
 -- This code is loosly based on the router.adb file from the Vasa project.
 
 -- Written by Nils Brynedal Ignell for the Naiad AUV project
--- Last changed (yyyy-mm-dd): 2013-10-17
+-- Last changed (yyyy-mm-dd): 2013-10-18
 
--- TODO: Unit testing, hardware testing
+-- TODO: hardware testing
 ---------------------------------------------------------------------------
+
+with UartWrapper;
+with GNAT.Serial_Communications;
 
 package body BBB_CAN is
    pragma Suppress (All_Checks);
 
+   pxUart : UartWrapper.pCUartHandler;
+
    procedure Init is
    begin
-      null;
+      --initiates UART commiunication:
+      pxUart := UartWrapper.pxCreate("/dev/ttyACM1", GNAT.Serial_Communications.B38400, 0.001, 100);
    end Init;
 
    function Handshake return Boolean is
-      sBuffer : String(1..HEADLEN);
+      sSend : String(1..5);
+      sReceive : String(1..6);
+      iBytesRead : Integer := 0;
    begin
-      sBuffer(1) := Character'Val(3);
-      sBuffer(2) := Character'Val(0);
-      sBuffer(3) := Character'Val(0);
-      sBuffer(4) := Character'Val(0);
-      sBuffer(5) := Character'Val(0);
-      Usart_Write(sBuffer, HEADLEN);   --sends handshake message
+      -- handshake message:
+      sSend(1) := Character'Val(3);
+      sSend(2) := Character'Val(0);
+      sSend(3) := Character'Val(0);
+      sSend(4) := Character'Val(0);
+      sSend(5) := Character'Val(0);
 
-      --wait for bytes 3, 0, 0, 0, 0 while keeping a look at the clock
+      --send handshake message and wait for reply while keeping a look at the clock
+      sReceive := pxUart.sUartEcho(5, iBytesRead, sSend, Duration(iHANDSHAKE_WAIT_TIME_MS) / 1000);
 
+      if iBytesRead >= 5 then
+         if sReceive(1) = Character'Val(3) and
+           	sReceive(2) = Character'Val(0) and
+           	sReceive(3) = Character'Val(0) and
+           	sReceive(4) = Character'Val(0) and
+           	sReceive(5) = Character'Val(0) then
+            return true;
+         end if;
+      end if;
       return false;
    end Handshake;
 
@@ -37,13 +55,61 @@ package body BBB_CAN is
       sBuffer : String(1..Integer(msg.Len)+HEADLEN);
    begin
       Message_To_Bytes(sBuffer, msg);
-
       Usart_Write(sBuffer, Integer(msg.Len));
    end Send;
 
-   procedure Get(msg : out CAN_Message; bMsgReceived : out Boolean) is
+   procedure Get(msg : out CAN_Message; bMsgReceived : out Boolean; bUARTChecksumOK : out Boolean) is
+
+      use Interfaces;
+
+      sHeadBuf     : String(1..HEADLEN);
+      iRnum 	   : Integer;
+      iDataLen     : Integer;
+      iID	   : Integer;
+      u8Checksum   : Interfaces.Unsigned_8;
    begin
-      null;
+      Usart_Read(sHeadBuf, HEADLEN, iRnum);
+
+      if iRnum = HEADLEN then
+         iDataLen := Character'Pos(sHeadBuf(LEN_POS));
+         iID := Character'Pos(sHeadBuf(IDHIGH_POS)) * 256 + Character'Pos(sHeadBuf(IDLOW_POS));
+
+         msg.ID  := CAN_ID(iID);
+         msg.Len := DLC_Type(iDataLen);
+         bMsgReceived := true;
+
+         if iDataLen /= 0 then
+            declare
+               sData : String(1..iDataLen);
+               sBuffer : String(1..1);
+               iLeft : Integer := iDataLen;
+               iBytesRead : Integer;
+               iTotalBytes : Integer := 0;
+            begin
+               while iTotalBytes < iDataLen loop
+                  Usart_Read(sBuffer, 1, iBytesRead);
+                  iTotalBytes := iTotalBytes + 1;
+                  if iBytesRead = 1 then
+                     sData(iTotalBytes) := sBuffer(1);
+                  end if;
+               end loop;
+
+               for i in 1..iDataLen loop
+                  msg.Data(DLC_Type(i)) := Character'Pos(sData(i));
+               end loop;
+
+               u8Checksum := Calculate_Checksum(msg.Data, msg.Len);
+            end;
+            bUARTChecksumOK := (u8Checksum = Character'Pos(sHeadBuf(Checksum_POS)));
+         else
+            bUARTChecksumOK := true; --if there is no data in the message, the checksum is defined as ok
+         end if;
+
+
+      else
+         bMsgReceived 	 := false;
+         bUARTChecksumOK := false;
+      end if;
    end Get;
 
    --------- private functions -------------------------------------
@@ -84,14 +150,14 @@ package body BBB_CAN is
 
    end Message_To_Bytes;
 
-   procedure Usart_Write(Buffer : String; iSize: Integer) is
+   procedure Usart_Write(sBuffer : String; iSize : Integer) is
    begin
-      null;
+      pxUart.Uart_Write(sBuffer, iSize);
    end Usart_Write;
 
-   procedure Usart_Read(Buffer : out String; iSize : Integer) is
+   procedure Usart_Read(sBuffer : out String; iSize : Integer; iBytesRead : out Integer) is
    begin
-      null;
+      sBuffer := pxUart.sUartReadSpecificAmount(iSize, iBytesRead);
    end Usart_Read;
 
    function Calculate_Checksum(b8Data : Byte8; Len : DLC_Type) return Interfaces.Unsigned_8 is
@@ -104,4 +170,4 @@ package body BBB_CAN is
       return Checksum;
    end Calculate_Checksum;
 
-   end BBB_CAN;
+end BBB_CAN;

@@ -26,54 +26,32 @@ package body simulator.submarine.Test_Data.Tests is
       pxSubmarine : submarine.pCSubmarine;
    begin
       pxSubmarine := submarine.pxCreate_Naiad;
-      if pxSubmarine.pxPositionVector = null then
-              Aunit.Assertions.Assert(Condition => false,
-                                      Message   => "Simulator.Submarine.pxCreateNaiad failed, didn't set position");
-      end if;
-      if pxSubmarine.pxVelocityVector = null then
-              Aunit.Assertions.Assert(Condition => false,
-                                      Message   => "Simulator.Submarine.pxCreateNaiad failed, didn't set position");
-      end if;
-        if pxSubmarine.pxOrientationMatrix = null then
-                Aunit.Assertions.Assert(Condition => false,
-                                        Message   => "Simulator.Submarine.pxCreateNaiad failed, didn't set position");
-        end if;
-      if pxSubmarine.pxAngularVelocityVector = null then
-              Aunit.Assertions.Assert(Condition => false,
-                                      Message   => "Simulator.Submarine.pxCreateNaiad failed, didn't set position");
-      end if;
-      if pxSubmarine.pxInertiaMatrix = null then
-              Aunit.Assertions.Assert(Condition => false,
-                                      Message   => "Simulator.Submarine.pxCreateNaiad failed, didn't set position");
-      end if;
-      if pxSubmarine.txMotorInfo(1) = null then
-              Aunit.Assertions.Assert(Condition => false,
-                                      Message   => "Simulator.Submarine.pxCreateNaiad failed, didn't set position");
-      end if;
-      if pxSubmarine.txMotorForce(1) = 0.0 then
-              Aunit.Assertions.Assert(Condition => false,
-                                      Message   => "Simulator.Submarine.pxCreateNaiad failed, didn't set position");
-      end if;
-      if pxSubmarine.fWeight = 28.0 then
-              Aunit.Assertions.Assert(Condition => false,
-                                      Message   => "Simulator.Submarine.pxCreateNaiad failed, didn't set position");
-      end if;
-      if pxSubmarine.fBuoyancyForce = 30.0*9.82 then
-              Aunit.Assertions.Assert(Condition => false,
-                                      Message   => "Simulator.Submarine.pxCreateNaiad failed, didn't set position");
-      end if;
-      if pxSubmarine.pxBuoyancyForcePositionVector = null then
-              Aunit.Assertions.Assert(Condition => false,
-                                      Message   => "Simulator.Submarine.pxCreateNaiad failed, didn't set position");
-      end if;
-      if pxSubmarine.pxRotationFrictionVector = null then
-              Aunit.Assertions.Assert(Condition => false,
-                                      Message   => "Simulator.Submarine.pxCreateNaiad failed, didn't set position");
-      end if;
-      if pxSubmarine.pxVelocityFrictionVector = null then
-              Aunit.Assertions.Assert(Condition => false,
-                                      Message   => "Simulator.Submarine.pxCreateNaiad failed, didn't set position");
-      end if;
+      AUnit.Assertions.Assert(Condition => pxSubmarine.pxPositionVector /=null,
+                              Message   => "Simulator.Submarine.pxCreateNaiad failed, didn't set position");
+      AUnit.Assertions.Assert(Condition => pxSubmarine.pxVelocityVector /=null,
+                              Message   => "Simulator.Submarine.pxCreateNaiad failed, didn't set Velocity");
+      AUnit.Assertions.Assert(Condition => pxSubmarine.pxOrientationMatrix /=null,
+                              Message   => "Simulator.Submarine.pxCreateNaiad failed, didn't set Orientation");
+      AUnit.Assertions.Assert(Condition => pxSubmarine.pxAngularVelocityVector /=null,
+                              Message   => "Simulator.Submarine.pxCreateNaiad failed, didn't set AngularVelocity");
+      AUnit.Assertions.Assert(Condition => pxSubmarine.pxInertiaMatrix /=null,
+                              Message   => "Simulator.Submarine.pxCreateNaiad failed, didn't set InertiaMatrix");
+      AUnit.Assertions.Assert(Condition => pxSubmarine.txMotorInfo(1) /=null,
+                              Message   => "Simulator.Submarine.pxCreateNaiad failed, didn't set MotorInfo");
+      AUnit.Assertions.Assert(Condition => pxSubmarine.txMotorForce(1) = 0.0,
+                              Message   => "Simulator.Submarine.pxCreateNaiad failed, didn't set Motor Force");
+      AUnit.Assertions.Assert(Condition => pxSubmarine.fWeight = 28.0,
+                              Message   => "Simulator.Submarine.pxCreateNaiad failed, didn't set Weight");
+      Aunit.Assertions.Assert(Condition => pxSubmarine.fBuoyancyForce = 30.0*9.82,
+                              Message => "Simulator.Submarine.pxCreateNaiad failed, didn't set BouyancyForce");
+      AUnit.Assertions.Assert(Condition => pxSubmarine.pxBuoyancyForcePositionVector /=null,
+                              Message   => "Simulator.Submarine.pxCreateNaiad failed, didn't set Bouyancy Force Position Vector");
+      AUnit.Assertions.Assert(Condition => pxSubmarine.pxRotationFrictionVector /=null,
+                              Message   => "Simulator.Submarine.pxCreateNaiad failed, didn't set rotation friction");
+      AUnit.Assertions.Assert(Condition => pxSubmarine.pxVelocityFrictionVector /=null,
+                              Message   => "Simulator.Submarine.pxCreateNaiad failed, didn't set velocity friction");
+
+
 --  begin read only
    end Test_pxCreate_Naiad;
 --  end read only

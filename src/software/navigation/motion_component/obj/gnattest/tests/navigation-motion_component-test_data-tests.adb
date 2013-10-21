@@ -21,7 +21,7 @@ package body Navigation.Motion_Component.Test_Data.Tests is
       pragma Unreferenced (Gnattest_T);
 
       use Navigation.PID_Controller;
-      pxMotionComponent : Navigation.Motion_Component.pCMotion_Component;
+      pxMotionComponent : Navigation.Motion_Component.pCMotionComponent;
       xPidScalings : Navigation.PID_Controller.TPIDComponentScalings := (1.0, 2.0, 3.0);
       xComponentIndex : Navigation.Motion_Component.EMotionComponent := X;
 

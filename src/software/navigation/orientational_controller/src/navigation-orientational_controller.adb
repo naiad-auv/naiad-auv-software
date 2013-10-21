@@ -14,9 +14,9 @@ package body Navigation.Orientational_Controller is
       pxOrientationalController.pxWantedAbsoluteOrientation := pxWantedAbsoluteOrientation;
 
       pxOrientationalController.pxPlanalMotionComponent := Navigation.Motion_Component.pxCreate(eAxisIndex    => Navigation.Motion_Component.Plane,
-                                                                                                xPID_Scalings => (0.0,0.0,0.0));
+                                                                                                xPIDScalings => (0.0,0.0,0.0));
       pxOrientationalController.pxDirectionalMotionComponent := Navigation.Motion_Component.pxCreate(eAxisIndex    => Navigation.Motion_Component.Direction,
-                                                                                                     xPID_Scalings => (0.0,0.0,0.0));
+                                                                                                     xPIDScalings => (0.0,0.0,0.0));
 
       return pxOrientationalController;
    end pxCreate;
@@ -67,6 +67,7 @@ package body Navigation.Orientational_Controller is
    begin
       fControlValueScaling := this.pxPlanalMotionComponent.xGet_New_Component_Control_Value(fDeltaTime).fValue;
       pxRotationAxis := this.pxCurrentToWantedPlaneRotation.pxGet_Axis_Vector;
+
       return (Navigation.Thrusters.XRotation => pxRotationAxis.fGet_X * fControlValueScaling,
               Navigation.Thrusters.YRotation => pxRotationAxis.fGet_Y * fControlValueScaling,
               others => 0.0);

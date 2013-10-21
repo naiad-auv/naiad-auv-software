@@ -13,18 +13,40 @@ package Navigation.Dispatcher is
    type pCDispatcher is access CDispatcher;
 
    function pxCreate return pCDispatcher;
-
+   --  <summary>Creates an object of type CDispatcher</summary>
 
    function tfGet_Thruster_Values(this : in CDispatcher; fDeltaTime : in float) return Navigation.Thrusters.TThrusterValuesArray;
+   --  <summary>Calculates thruster control values for all thrusters and scales them accordingly</summary>
+   --  <parameter name="this">The CDispatcher to do the calculations upon.</parameter>
+   --  <parameter name="fDeltaTime">The time difference since the last calculation.</parameter>
 
 
    procedure Set_New_Component_PID_Scalings(this : in out CDispatcher; eComponentToChange : Navigation.Motion_Component.EMotionComponent;xNewPIDSCalings : in Navigation.PID_Controller.TPIDComponentScalings);
+   --  <summary>Sets new component scalings on the CPIDcontroller in question</summary>
+   --  <parameter name="this">The CDispatcher object that holds the PID controller to update.</parameter>
+   --  <parameter name="xNewPIDSCalings">The TPIDComponetScalings object to set for the object.</parameter>
+   --  <parameter name="eComponentToChange">The index of the component to change.</parameter>
 
    procedure Update_Current_Absolute_Position(this : in out CDispatcher; xNewCurrentAbsolutePosition : in Math.Vectors.pCVector);
+    --  <summary>Updates the current absolute position.</summary>
+   --  <parameter name="this">The CDispatcher to update.</parameter>
+   --  <parameter name="xNewCurrentAbsolutePosition">The new absolute position to set.</parameter>
+
+
    procedure Update_Wanted_Absolute_Position(this : in out CDispatcher; xNewWantedAbsolutePosition : in Math.Vectors.pCVector);
+   --  <summary>Updates the wanted absolute position.</summary>
+   --  <parameter name="this">The CDispatcher to update.</parameter>
+   --  <parameter name="xNewWantedAbsolutePosition">The new absolute position to set.</parameter>
 
    procedure Update_Current_Absolute_Orientation(this : in out CDispatcher; xNewCurrentAbsoluteOrientation : in Math.Matrices.pCMatrix);
+   --  <summary>Updates the current absolute orientation.</summary>
+   --  <parameter name="this">The CDispatcher to update.</parameter>
+   --  <parameter name="xNewCurrentAbsoluteOrientation">The new absolute orientation to set.</parameter>
+
    procedure Update_Wanted_Absolute_Orientation(this : in out CDispatcher; xNewWantedAbsoluteOrientation : in Math.Matrices.pCMatrix);
+   --  <summary>Updates the wanted absolute orientation.</summary>
+   --  <parameter name="this">The CDispatcher to update.</parameter>
+   --  <parameter name="xNewWantedAbsoluteOrientation">The new absolute orientation to set.</parameter>
 
 
 private

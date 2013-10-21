@@ -20,7 +20,7 @@ package body Navigation.PID_Controller.CPID_Controller_Test_Data.CPID_Controller
 
       pragma Unreferenced (Gnattest_T);
 
-      pxObject : pCPID_Controller;
+      pxObject : pCPIDController;
 
    begin
 
@@ -46,7 +46,7 @@ package body Navigation.PID_Controller.CPID_Controller_Test_Data.CPID_Controller
 
       pragma Unreferenced (Gnattest_T);
 
-      pxObject : pCPID_Controller;
+      pxObject : pCPIDController;
       xPIDScalings : Navigation.PID_Controller.TPIDComponentScalings := (1.0, -2.0, 0.0);
 
    begin
@@ -76,7 +76,7 @@ package body Navigation.PID_Controller.CPID_Controller_Test_Data.CPID_Controller
 
       pragma Unreferenced (Gnattest_T);
 
-      pxObject : pCPID_Controller;
+      pxObject : pCPIDController;
 
    begin
       pxObject := PID_Controller.pxCreate;
@@ -101,7 +101,7 @@ package body Navigation.PID_Controller.CPID_Controller_Test_Data.CPID_Controller
 
       pragma Unreferenced (Gnattest_T);
 
-      pxObject : pCPID_Controller;
+      pxObject : pCPIDController;
       value : float;
       xScalings : Navigation.PID_Controller.TPIDComponentScalings := (1.0, 2.0, 3.0);
 
@@ -148,7 +148,7 @@ package body Navigation.PID_Controller.CPID_Controller_Test_Data.CPID_Controller
 
       pragma Unreferenced (Gnattest_T);
 
-      pxObject : pCPID_Controller;
+      pxObject : pCPIDController;
       value : float;
       xScalings : Navigation.PID_Controller.TPIDComponentScalings := (0.001, 0.001, 0.001);
 
@@ -172,7 +172,7 @@ package body Navigation.PID_Controller.CPID_Controller_Test_Data.CPID_Controller
 
    procedure Test_xGet_New_Control_Value_Increasing_Since_No_Decrease_In_Error(Gnattest_T : in out Test_CPID_Controller) is
 
-      pxObject : pCPID_Controller;
+      pxObject : pCPIDController;
       value, lastValue : float := 0.0;
       xScalings : Navigation.PID_Controller.TPIDComponentScalings := (0.001, 0.001, 0.001);
 
@@ -194,7 +194,7 @@ package body Navigation.PID_Controller.CPID_Controller_Test_Data.CPID_Controller
 
 
    procedure Test_xGet_New_Control_Value_Decreasing_Since_Overshoot(Gnattest_T : in out Test_CPID_Controller) is
-      pxObject : pCPID_Controller;
+      pxObject : pCPIDController;
       value, lastValue : float := 0.0;
       xScalings : Navigation.PID_Controller.TPIDComponentScalings := (0.001, 0.001, 0.001);
 
@@ -235,7 +235,7 @@ package body Navigation.PID_Controller.CPID_Controller_Test_Data.CPID_Controller
 
       pragma Unreferenced (Gnattest_T);
 
-      pxObject : pCPID_Controller := null;
+      pxObject : pCPIDController := null;
 
    begin
 
@@ -258,7 +258,7 @@ package body Navigation.PID_Controller.CPID_Controller_Test_Data.CPID_Controller
 
       pragma Unreferenced (Gnattest_T);
 
-      pxObject : pCPID_Controller := null;
+      pxObject : pCPIDController := null;
 
    begin
 
@@ -281,7 +281,7 @@ package body Navigation.PID_Controller.CPID_Controller_Test_Data.CPID_Controller
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
-      pxObject : pCPID_Controller := null;
+      pxObject : pCPIDController := null;
 
    begin
 

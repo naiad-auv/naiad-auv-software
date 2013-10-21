@@ -2,7 +2,7 @@
 --  Do not edit any part of it, see GNATtest documentation for more details.
 
 --  begin read only
-with Navigation.Positional_Controller.CPositional_Controller_Test_Data.CPositional_Controller_Tests.Suite;
+with Navigation.Positional_Controller.CPositionalController_Test_Data.CPositionalController_Tests.Suite;
 with Navigation.Positional_Controller.Test_Data.Tests.Suite;
 
 package body Gnattest_Main_Suite is
@@ -12,7 +12,7 @@ package body Gnattest_Main_Suite is
    function Suite return AUnit.Test_Suites.Access_Test_Suite is
    begin
 
-      Result.Add_Test (Navigation.Positional_Controller.CPositional_Controller_Test_Data.CPositional_Controller_Tests.Suite.Suite);
+      Result.Add_Test (Navigation.Positional_Controller.CPositionalController_Test_Data.CPositionalController_Tests.Suite.Suite);
       Result.Add_Test (Navigation.Positional_Controller.Test_Data.Tests.Suite.Suite);
 
       return Result'Access;
