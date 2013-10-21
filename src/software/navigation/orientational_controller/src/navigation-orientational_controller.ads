@@ -49,8 +49,8 @@ private
          pxCurrentAbsoluteOrientation : Math.Matrices.pCMatrix;
          pxWantedAbsoluteOrientation : Math.Matrices.pCMatrix;
 
-         pxPlanalMotionComponent: Navigation.Motion_Component.pCMotion_Component;
-         pxDirectionalMotionComponent : Navigation.Motion_Component.pCMotion_Component;
+         pxPlanalMotionComponent: Navigation.Motion_Component.pCMotionComponent;
+         pxDirectionalMotionComponent : Navigation.Motion_Component.pCMotionComponent;
 
          pxCurrentToWantedPlaneRotation : Math.Quaternions.pCQuaternion;
       end record;
