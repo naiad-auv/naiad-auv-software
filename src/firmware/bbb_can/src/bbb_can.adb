@@ -32,7 +32,7 @@ package body BBB_CAN is
       sBuffer(3) := Character'Val(0);
       sBuffer(4) := Character'Val(0);
       sBuffer(5) := Character'Val(0);
-      pxUart.Uart_Write(sBuffer, 5);   --sends handshake message
+      Usart_Write(sBuffer, 5);   --sends handshake message
 
       --wait for bytes 3, 0, 0, 0, 0 while keeping a look at the clock
 
@@ -50,8 +50,45 @@ package body BBB_CAN is
 
    procedure Get(msg : out CAN_Message; bMsgReceived : out Boolean; bUARTChecksumOK : out Boolean) is
 
+      use Interfaces;
+
+      sHeadBuf     : String(1..HEADLEN);
+      iRnum 	   : Integer;
+      iDataLen     : Integer;
+      iID	   : Integer;
+      u8Checksum   : Interfaces.Unsigned_8;
    begin
-      null;
+      Usart_Read(sHeadBuf, HEADLEN, iRnum);
+
+      if iRnum = HEADLEN then
+         iDataLen := Character'Pos(sHeadBuf(LEN_POS));
+         iID := Character'Pos(sHeadBuf(IDHIGH_POS)) * 256 + Character'Pos(sHeadBuf(IDLOW_POS));
+
+         msg.ID  := CAN_ID(iID);
+         msg.Len := DLC_Type(iDataLen);
+         bMsgReceived := true;
+
+         if iDataLen /= 0 then
+            declare
+               sData : String(1..iDataLen);
+            begin
+               Usart_Read(sData, iDataLen);
+               for i in 1..iDataLen loop
+                  msg.Data(DLC_Type(i)) := Character'Pos(sData(i));
+               end loop;
+
+               u8Checksum := Calculate_Checksum(msg.Data, msg.Len);
+            end;
+            bUARTChecksumOK := (u8Checksum = Character'Pos(sHeadBuf(Checksum_POS)));
+         else
+            bUARTChecksumOK := true; --if there is no data in the message, the checksum is defined as ok
+         end if;
+
+
+      else
+         bMsgReceived 	 := false;
+         bUARTChecksumOK := false;
+      end if;
    end Get;
 
    --------- private functions -------------------------------------
@@ -97,7 +134,7 @@ package body BBB_CAN is
       pxUart.Uart_Write(sBuffer, iSize);
    end Usart_Write;
 
-   procedure Usart_Read(sBuffer : out String; iSize : Integer) is
+   procedure Usart_Read(sBuffer : out String; iSize : Integer; iBytesRead : out Integer) is
       sRet : String(1..iSize);
       iIndex : Integer := 1;
    begin

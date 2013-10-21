@@ -77,7 +77,7 @@ private
 
    function Calculate_Checksum(b8Data : Byte8; Len : DLC_Type) return Interfaces.Unsigned_8;
 
-   procedure Usart_Read(sBuffer : out String; iSize : Integer);
+   procedure Usart_Read(sBuffer : out String; iSize : Integer; iBytesRead : out Integer);
 
    procedure Usart_Write(sBuffer : String; iSize : Integer);
 
