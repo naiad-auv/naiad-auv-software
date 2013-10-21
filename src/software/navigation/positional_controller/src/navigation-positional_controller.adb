@@ -3,7 +3,9 @@ package body Navigation.Positional_Controller is
 
    function pxCreate (pxCurrentAbsolutePosition : in Math.Vectors.pCVector; pxWantedAbsolutePosition : in Math.Vectors.pCVector; pxCurrentAbsoluteOrientation : in Math.Matrices.pCMatrix) return pCPositionalController is
 
+      use System;
       xPositionalController : pCPositionalController;
+
 
    begin
 
@@ -22,6 +24,9 @@ package body Navigation.Positional_Controller is
       xPositionalController.pxZMotionComponent := Navigation.Motion_Component.pxCreate(eAxisIndex    => Navigation.Motion_Component.Z,
                                                                                        xPIDScalings => Navigation.PID_Controller.TPIDComponentScalings'(0.0,0.0,0.0));
 
+      --Ada.Text_IO.Put_Line("CAO: " & System.Address_Image(xPositionalController.pxCurrentAbsoluteOrientation.all'Address));
+      --Ada.Text_IO.Put_Line("CAP: " & System.Address_Image(xPositionalController.pxCurrentAbsolutePosition.all'Address));
+      --Ada.Text_IO.Put_Line("WAP: " & System.Address_Image(xPositionalController.pxWantedAbsolutePosition.all'Address));
       return xPositionalController;
 
    end pxCreate;

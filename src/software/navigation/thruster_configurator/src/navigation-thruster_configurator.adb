@@ -225,17 +225,17 @@ package body Navigation.Thruster_Configurator is
 
    function tfCreate_Extended_Matrix(this : in CThrusterConfigurator) return TExtendedMatrix is
       tfExtendedMatrix : TExtendedMatrix(1 .. this.iGet_Number_Of_Thrusters, 1 .. this.iGet_Number_Of_Thrusters + 1);
-      tfThrusterMatrix : Navigation.Thrusters.TThrusterEffectsMatrix(1 .. this.iGet_Number_Of_Thrusters);
+      tfThrusterMatrix : Navigation.Thrusters.TThrusterEffectsMatrix(1 .. this.iGet_Number_Of_Thrusters+1);
       iIterator : integer;
    begin
       tfThrusterMatrix := this.tfGet_Thruster_Effects_Matrix;
-      for iY in tfThrusterMatrix'Range
+      for iX in tfThrusterMatrix'Range
       loop
 
          iIterator := 1;
-         for iX in tfThrusterMatrix(iY)'Range
+         for iY in tfThrusterMatrix(iX)'Range
          loop
-            tfExtendedMatrix(iY, iIterator) := tfThrusterMatrix(iY)(iX);
+            tfExtendedMatrix(iIterator, iX) := tfThrusterMatrix(iX)(iY);
             iIterator := iIterator + 1;
          end loop;
       end loop;

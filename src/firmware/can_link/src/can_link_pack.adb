@@ -1,11 +1,11 @@
 
 ---------------------------------------------------------------------------
--- This code is mainly based on the router.adb file from the Vasa project
+-- This code is mainly based on the router.adb file from the Vasa project.
+-- As of now it is not using any handshake at all.
+-- It has been tested in hardware and it works.
 
 -- Rewritten by Nils Brynedal Ignell for the Naiad AUV project
--- Last changed (yyyy-mm-dd): 2013-10-18
-
--- TODO:
+-- Last changed (yyyy-mm-dd): 2013-10-21
 
 ---------------------------------------------------------------------------
 
@@ -92,13 +92,13 @@ package body CAN_Link_pack is
                Temp_Buf(I) := Character'Val(Msg.Data ( AVR.AT90CAN128.DLC_Type(I)));
             end loop;
             Len := Len + iDataLen;
-            --Calculate the checksum
+
             Checksum := Calculate_Checksum(Temp_Buf, iDataLen);
             Can_Buf(Checksum_POS) := Character'Val(Checksum);
          else
             Can_Buf(Checksum_POS) := Character'Val(0);
          end if;
-         --Send the data to QSEVEN
+         --Send the data to BBB
          Usart_Write(Can_Buf, USART_PORT, Len);
       end;
    end Send_CanData_To_BBB;
@@ -115,17 +115,15 @@ package body CAN_Link_pack is
    end Send_CanData_To_Can;
 
    procedure CANBUS_Monitoring is
+      Msg_In : AVR.AT90CAN128.CAN.CAN_Message;
+      Ret    : Boolean;
    begin
-      while AVR.AT90CAN128.CAN.Can_Valid_Message loop
-         declare
-            Msg_In : AVR.AT90CAN128.CAN.CAN_Message;
-            Ret    : Boolean;
-         begin
-            AVR.AT90CAN128.CAN.Can_Get(Msg_In, Ret, 0);
-            if Ret then
-               Send_CanData_To_BBB(Msg_In);
-            end if;
-         end;
+
+      AVR.AT90CAN128.CAN.Can_Get(Msg_In, Ret, 0);
+      while Ret loop
+         Send_CanData_To_BBB(Msg_In);
+
+         AVR.AT90CAN128.CAN.Can_Get(Msg_In, Ret, 0);
       end loop;
    end CANBUS_Monitoring;
 
@@ -154,6 +152,7 @@ package body CAN_Link_pack is
 
                while Data_Num = 0 loop
                   Usart_Read(Data_Buf, USART_PORT, Integer(iDataLen), Data_Num);
+
                end loop;
             end;
             u8Checksum := Calculate_Checksum(Data_Buf, Integer(iDataLen));
@@ -177,53 +176,60 @@ package body CAN_Link_pack is
       end if;
    end Cmd_Handler;
 
-   procedure Wait_For_Reply(Port : AVR.AT90CAN128.USART.USARTID := AVR.AT90CAN128.USART.Default_USART) is
-      Buffer : String(1..HEADLEN);
-      Num    : Integer := 0;
-   begin
-      loop
-         while Num = 0 loop
-            Usart_Read(Buffer, Port, HEADLEN, Num);
-         end loop;
-         if Character'Pos(buffer(1)) /= 3 or
-           Character'Pos(buffer(2)) /=  0 or
-           Character'Pos(buffer(3)) /=  0 or
-           Character'Pos(buffer(4)) /=  0 or
-           Character'Pos(buffer(5)) /=  0 then
-            AVR.AT90CAN128.USART.Flush_Receive_Buffer;
-         else
-            exit;
-         end if;
-      end loop;
-   end Wait_For_Reply;
-
-   procedure Send_Reply(Port : AVR.AT90CAN128.USART.USARTID := AVR.AT90CAN128.USART.Default_USART) is
-      sBuffer : String(1..HEADLEN);
-   begin
-      sBuffer(1) := Character'Val(3);
-      sBuffer(2) := Character'Val(0);
-      sBuffer(3) := Character'Val(0);
-      sBuffer(4) := Character'Val(0);
-      sBuffer(5) := Character'Val(0);
-      Usart_Write(sBuffer, Port, HEADLEN);
-   end Send_Reply;
+--     procedure Wait_For_Reply(Port : AVR.AT90CAN128.USART.USARTID := AVR.AT90CAN128.USART.Default_USART) is
+--        sBuffer : String(1..HEADLEN);
+--        Num    : Integer := 0;
+--        cChar : Character;
+--        bRet : Boolean;
+--
+--     begin
+--        loop
+--           while Num < 5 loop
+--              Avr.AT90CAN128.USART.Get_Char(Port, cChar, bRet);
+--              if bRet then
+--                 Num := Num + 1;
+--                 sBuffer(Num) := cChar;
+--              end if;
+--           end loop;
+--
+--           if Character'Pos(sBuffer(1)) /= 3 or
+--             Character'Pos(sBuffer(2)) /=  0 or
+--             Character'Pos(sBuffer(3)) /=  0 or
+--             Character'Pos(sBuffer(4)) /=  0 or
+--             Character'Pos(sBuffer(5)) /=  0 then
+--              AVR.AT90CAN128.USART.Flush_Receive_Buffer;
+--           else
+--              exit;
+--           end if;
+--        end loop;
+--     end Wait_For_Reply;
+--
+--     procedure Send_Reply(Port : AVR.AT90CAN128.USART.USARTID := AVR.AT90CAN128.USART.Default_USART) is
+--        sBuffer : String(1..5);
+--     begin
+--        sBuffer(1) := Character'Val(3);
+--        sBuffer(2) := Character'Val(0);
+--        sBuffer(3) := Character'Val(0);
+--        sBuffer(4) := Character'Val(0);
+--        sBuffer(5) := Character'Val(0);
+--        Usart_Write(sBuffer, Port, 5);
+--     end Send_Reply;
 
    --waiting for the BBB.
    --This application should start before BBB starts
-   procedure Handshake_With_BBB is
-   begin
-      AVR.AT90CAN128.WDTCR := (False, False, False, True, True, True, True, True);  -- enables watchdog timer, will resest the controller if no handshake successful
-      AVR.AT90CAN128.WDTCR := (False, False, False, True, True, True, True, True);
-      Wait_For_Reply(USART_PORT);
-      AVR.AT90CAN128.WDTCR := (False, False, False, True, True, True, True, True);
-      AVR.AT90CAN128.WDTCR := (False, False, False, True, False, True, True, True);
-      AVR.AT90CAN128.WDTCR := (False, False, False, False, False, False, False, False);
-      Send_Reply(USART_PORT);
-   end Handshake_With_BBB;
+--     procedure Handshake_With_BBB is
+--     begin
+--        AVR.AT90CAN128.WDTCR := (False, False, False, True, True, True, True, True);  -- enables watchdog timer, will resest the controller if no handshake successful
+--        AVR.AT90CAN128.WDTCR := (False, False, False, True, True, True, True, True);
+--        Wait_For_Reply(USART_PORT);
+--        AVR.AT90CAN128.WDTCR := (False, False, False, True, True, True, True, True);
+--        AVR.AT90CAN128.WDTCR := (False, False, False, True, False, True, True, True);
+--        AVR.AT90CAN128.WDTCR := (False, False, False, False, False, False, False, False);
+--        Send_Reply(USART_PORT);
+--     end Handshake_With_BBB;
 
    procedure Main_Loop is
    begin
-      Handshake_With_BBB;
 
       loop
          -- Handle the commands from the BBB
@@ -236,6 +242,9 @@ package body CAN_Link_pack is
    procedure Hardware_Init is
    begin
       AVR.AT90CAN128.USART.Init(USART_PORT,  AVR.AT90CAN128.USART.BAUD38400);
+
+   --   Handshake_With_BBB;
+
       AVR.AT90CAN128.CAN.Can_Init(AVR.AT90CAN128.CAN.K250);
       AVR.AT90CAN128.CAN.Can_Set_All_MOB_ID_MASK(0, 0);
    end Hardware_Init;
