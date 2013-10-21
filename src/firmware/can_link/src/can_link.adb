@@ -1,20 +1,16 @@
 ---------------------------------------------------------------------------
--- This code is mainly based on the router.adb file from the Vasa project
+-- This code implements the CAN-link. It communicates with a Beaglebone Black
+-- via UART to give the Beaglebone Black CAN capabiliies.
 
--- Rewritten by Nils Brynedal Ignell for the Naiad AUV project
+-- Written by Nils Brynedal Ignell for the Naiad AUV project
 -- Last changed (yyyy-mm-dd): 2013-10-05
 
--- TODO:
+-- TODO: Hardware testing
 
 ---------------------------------------------------------------------------
 
 
---  with AVR.AT90CAN128;
---  with AVR.AT90CAN128.USART;
---  with AVR.AT90CAN128.CAN;
---  with Interfaces;
 with CAN_Link_pack;
---  with Text_IO;
 
 procedure CAN_Link is
    pragma Suppress (All_Checks);
@@ -22,8 +18,7 @@ procedure CAN_Link is
 
 
 begin
-   CAN_Link_pack.hardware_init;
- --  Text_IO.Put_Line("main");
+   CAN_Link_pack.Hardware_Init;
    CAN_Link_pack.Main_Loop;
 
 end CAN_Link;

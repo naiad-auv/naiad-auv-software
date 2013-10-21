@@ -3,7 +3,7 @@
 -- This code is mainly based on the router.adb file from the Vasa project
 
 -- Rewritten by Nils Brynedal Ignell for the Naiad AUV project
--- Last changed (yyyy-mm-dd): 2013-10-16
+-- Last changed (yyyy-mm-dd): 2013-10-18
 
 -- TODO:
 
@@ -14,69 +14,70 @@ package body CAN_Link_pack is
 
    function Calculate_Checksum(Data : String; Len : Integer) return Interfaces.Unsigned_8 is
       Checksum : Interfaces.Unsigned_8 := 0;
+      use Interfaces;
    begin
       for I in 1..Len loop
-         Checksum := Interfaces."xor"(Checksum, Character'Pos(Data(I)));
+         Checksum := Checksum xor Character'Pos(Data(I));
       end loop;
       return Checksum;
    end;
 
-   procedure usart_write(Buffer : String;   Port : AVR.AT90CAN128.USART.USARTID := AVR.AT90CAN128.USART.Default_USART;
-                         Size   : Positive) is
-      Left  : Integer;
-      Pos   : Integer;
-      Temp : String(1..Size);
-      Num  : Integer;
+   procedure Usart_Write(sBuffer : String;   Port : AVR.AT90CAN128.USART.USARTID := AVR.AT90CAN128.USART.Default_USART;
+                         iSize   : Positive) is
+      iLeft  : Integer;
+      iPos   : Integer;
+      sTemp  : String(1..iSize);
+      iNum   : Integer;
    begin
-      Pos  := 0;
-      Left := Size;
-      -- This procedure will not return until if it has all data sent;
-      while Left > 0 loop
-         for I in 1..Left loop
-            Temp(I) := Buffer(Pos + I);
+      iPos  := 0;
+      iLeft := iSize;
+      -- This procedure will not return until if it has sent all data
+      while iLeft > 0 loop
+         for I in 1..iLeft loop
+            sTemp(I) := sBuffer(iPos + I);
          end loop;
-         num := AVR.AT90CAN128.USART.Write(Temp, Port, Left);
-         Left := Left - Num;
-         Pos  := Pos + Num;
+         iNum := AVR.AT90CAN128.USART.Write(sTemp, Port, iLeft);
+         iLeft := iLeft - iNum;
+         iPos  := iPos + iNum;
       end loop;
-   end  usart_write;
+   end  Usart_Write;
 
-   procedure usart_Read(Buffer : out String; Port : AVR.AT90CAN128.USART.USARTID := AVR.AT90CAN128.USART.Default_USART;
-                        Size   : Positive; Number : out integer) is
-      Pos      : Integer;
-      Left     : Integer;
-      Temp     : String(1..Size);
-      Num      : Integer;
+   procedure Usart_Read(sBuffer : out String; Port : AVR.AT90CAN128.USART.USARTID := AVR.AT90CAN128.USART.Default_USART;
+                        iSize   : Positive; iNumber : out integer) is
+      iPos      : Integer;
+      iLeft     : Integer;
+      iTemp     : String(1..iSize);
+      iNum      : Integer;
    begin
-      Left := Size;
-      Pos  := 0;
-      while Left > 0 loop
-         AVR.AT90CAN128.USART.Read(Temp, Port, Left, Num);
-         if Num /= 0 then
-            for I in 1..Num loop
-               Buffer(Pos + I) := Temp(I);
+      iLeft := iSize;
+      iPos  := 0;
+      while iLeft > 0 loop
+         AVR.AT90CAN128.USART.Read(iTemp, Port, iLeft, iNum);
+         if iNum /= 0 then
+            for I in 1..iNum loop
+               sBuffer(iPos + I) := iTemp(I);
             end loop;
-            Left := Left - Num;
-            Pos  := Pos + Num;
+            iLeft := iLeft - iNum;
+            iPos  := iPos + iNum;
          else
             --This procedure will return if it got nothning
-            if Pos = 0 then
-               Number := 0;
+            if iPos = 0 then
+               iNumber := 0;
                return;
             end if;
          end if;
       end loop;
-      Number := Pos;
-   end  usart_read;
+      iNumber := iPos;
+   end  Usart_Read;
 
 
-   procedure Send_CanData_To_Qseven(Msg : AVR.AT90CAN128.CAN.CAN_Message) is
-      DataLen  : Integer;
+   procedure Send_CanData_To_BBB(Msg : AVR.AT90CAN128.CAN.CAN_Message) is
+      iDataLen  : Integer;
    begin
-      DataLen := Integer(Msg.Len);
+      iDataLen := Integer(Msg.Len);
       declare
-         Can_Buf   : String(1..DataLen + HEADLEN);
-         Temp_Buf  : String(1..DataLen);
+         Can_Buf   : String(1..iDataLen + HEADLEN);
+         Temp_Buf  : String(1..iDataLen);
          Len       : Integer  := HEADLEN;
          Checksum  : Interfaces.Unsigned_8;
       begin
@@ -84,23 +85,23 @@ package body CAN_Link_pack is
          Can_Buf(BUSTYPE_POS) 	:= Character'Val(0);
          Can_Buf(IDHIGH_POS) 	:= Character'Val(Integer(Msg.ID) / 256);
          Can_Buf(IDLOW_POS) 	:= Character'Val(Integer(Msg.ID) Mod 256);
-         Can_Buf(LEN_POS) 	:= Character'Val(DataLen);
-         if DataLen /= 0 then
-            for I in 1..DataLen loop
+         Can_Buf(LEN_POS) 	:= Character'Val(iDataLen);
+         if iDataLen /= 0 then
+            for I in 1..iDataLen loop
                Can_Buf(HEADLEN + I) := Character'Val(Msg.Data ( AVR.AT90CAN128.DLC_Type(I)));
                Temp_Buf(I) := Character'Val(Msg.Data ( AVR.AT90CAN128.DLC_Type(I)));
             end loop;
-            Len := Len + DataLen;
+            Len := Len + iDataLen;
             --Calculate the checksum
-            Checksum := Calculate_Checksum(Temp_Buf, DataLen);
+            Checksum := Calculate_Checksum(Temp_Buf, iDataLen);
             Can_Buf(Checksum_POS) := Character'Val(Checksum);
          else
             Can_Buf(Checksum_POS) := Character'Val(0);
          end if;
          --Send the data to QSEVEN
-         usart_write(Can_Buf, Q7USART, Len);
+         Usart_Write(Can_Buf, USART_PORT, Len);
       end;
-   end Send_CanData_To_Qseven;
+   end Send_CanData_To_BBB;
 
    procedure Send_CanData_To_Can(ID : AVR.AT90CAN128.CAN.CAN_ID; Len : AVR.AT90CAN128.DLC_Type ; Data : String) is
       Msg : AVR.AT90CAN128.CAN.CAN_Message;
@@ -113,80 +114,68 @@ package body CAN_Link_pack is
       AVR.AT90CAN128.CAN.Can_Send (Msg);
    end Send_CanData_To_Can;
 
-
---     procedure Send_Serial_Data_Out(Data : String; Len : Interfaces.Unsigned_8) is
---     begin
---        usart_write(Data, xUSART, Integer(Len));
---     end Send_Serial_Data_Out;
-
    procedure CANBUS_Monitoring is
    begin
-      --AVR.AT90CAN128.CAN.Can_Enable_Reception(MIN_CANID, 16#7_00#, MAX_DATALEN); -- Messages 0..255
-
-
-
       while AVR.AT90CAN128.CAN.Can_Valid_Message loop
          declare
             Msg_In : AVR.AT90CAN128.CAN.CAN_Message;
-         Ret    : Boolean;
-      begin
-          AVR.AT90CAN128.CAN.Can_Get(Msg_In, Ret, 0);
-         if Ret then
-            Send_CanData_To_Qseven(Msg_In);
-         end if;
-      end;
-     end loop;
+            Ret    : Boolean;
+         begin
+            AVR.AT90CAN128.CAN.Can_Get(Msg_In, Ret, 0);
+            if Ret then
+               Send_CanData_To_BBB(Msg_In);
+            end if;
+         end;
+      end loop;
    end CANBUS_Monitoring;
 
 
-
-   procedure Qseven_Cmd_Handler is
+   procedure Cmd_Handler is
 
       use AVR.AT90CAN128.CAN;
+      use Interfaces;
 
-      Rnum      : Integer;
-      Datalen   : Interfaces.Unsigned_8;
-      Data_Type : Interfaces.Unsigned_8;
-      ID        : AVR.AT90CAN128.CAN.CAN_ID;
-      Data_Buf : String(1..Integer(MAX_DATALEN));
-      Checksum    : Interfaces.Unsigned_8;
+      iRnum        : Integer;
+      iDataLen     : Interfaces.Unsigned_8;
+      u8Data_Type  : Interfaces.Unsigned_8;
+      ID           : AVR.AT90CAN128.CAN.CAN_ID;
+      Data_Buf     : String(1..Integer(MAX_DATALEN));
+      u8Checksum   : Interfaces.Unsigned_8;
    begin
-      usart_Read(Head_Buf,Q7USART,HEADLEN, Rnum);
+      Usart_Read(Head_Buf, USART_PORT, HEADLEN, iRnum);
 
-      if Rnum = HEADLEN then
+      if iRnum = HEADLEN then
          --First get the size of the data
-         Datalen := Character'Pos(Head_Buf(LEN_POS));
-         if Interfaces."/="(DataLen, 0) then
+         iDataLen := Character'Pos(Head_Buf(LEN_POS));
+         if iDataLen /= 0 then
             declare
                Data_Num : Integer := 0;
             begin
 
                while Data_Num = 0 loop
-                  usart_Read(Data_Buf, Q7USART, Integer(Datalen), Data_Num);
+                  Usart_Read(Data_Buf, USART_PORT, Integer(iDataLen), Data_Num);
                end loop;
             end;
-            Checksum := Calculate_Checksum(Data_Buf, Integer(DataLen));
+            u8Checksum := Calculate_Checksum(Data_Buf, Integer(iDataLen));
+
             --At present, We just ignore this buffer if the checksum is wrong.
-            if Interfaces."/="(Checksum, Character'Pos(Head_Buf(Checksum_POS))) then
+            if u8Checksum /= Character'Pos(Head_Buf(Checksum_POS)) then
                return;
             end if;
          end if;
 
-         Data_Type := Character'Pos(Head_Buf(BUSTYPE_POS));
-         case Data_Type is
+         u8Data_Type := Character'Pos(Head_Buf(BUSTYPE_POS));
+         case u8Data_Type is
             -- Can bus data
-           when CAN_DATA =>
-           ID := Character'Pos(Head_Buf(IDHIGH_POS)) * 256 + Character'Pos(Head_Buf(IDLOW_POS));
+            when CAN_DATA =>
+               ID := Character'Pos(Head_Buf(IDHIGH_POS)) * 256 + Character'Pos(Head_Buf(IDLOW_POS));
 
-              Send_CanData_To_Can(ID, AVR.AT90CAN128.DLC_Type(Datalen), Data_Buf);
-               --Command for Servo
-            when Serial_Data =>
-               --  Send_Serial_Data_Out(Data_buf, DataLen);
-               null;
+               Send_CanData_To_Can(ID, AVR.AT90CAN128.DLC_Type(iDataLen), Data_Buf);
+
             when others => null;
          end case;
       end if;
-   end Qseven_Cmd_Handler;
+   end Cmd_Handler;
 
    procedure Wait_For_Reply(Port : AVR.AT90CAN128.USART.USARTID := AVR.AT90CAN128.USART.Default_USART) is
       Buffer : String(1..HEADLEN);
@@ -194,7 +183,7 @@ package body CAN_Link_pack is
    begin
       loop
          while Num = 0 loop
-            usart_Read(Buffer, Port, HEADLEN, Num);
+            Usart_Read(Buffer, Port, HEADLEN, Num);
          end loop;
          if Character'Pos(buffer(1)) /= 3 or
            Character'Pos(buffer(2)) /=  0 or
@@ -209,47 +198,46 @@ package body CAN_Link_pack is
    end Wait_For_Reply;
 
    procedure Send_Reply(Port : AVR.AT90CAN128.USART.USARTID := AVR.AT90CAN128.USART.Default_USART) is
-      Buffer : String(1..HEADLEN);
+      sBuffer : String(1..HEADLEN);
    begin
-      Buffer(1) := Character'Val(3);
-      Buffer(2) := Character'Val(0);
-      Buffer(3) := Character'Val(0);
-      Buffer(4) := Character'Val(0);
-      Buffer(5) := Character'Val(0);
-      usart_write(Buffer, Port, HEADLEN);
+      sBuffer(1) := Character'Val(3);
+      sBuffer(2) := Character'Val(0);
+      sBuffer(3) := Character'Val(0);
+      sBuffer(4) := Character'Val(0);
+      sBuffer(5) := Character'Val(0);
+      Usart_Write(sBuffer, Port, HEADLEN);
    end Send_Reply;
 
-   --waiting for the QSEVEN.
-   --This application should start before Qseven starts
-   procedure HandshakeWithQseven is
+   --waiting for the BBB.
+   --This application should start before BBB starts
+   procedure Handshake_With_BBB is
    begin
       AVR.AT90CAN128.WDTCR := (False, False, False, True, True, True, True, True);  -- enables watchdog timer, will resest the controller if no handshake successful
       AVR.AT90CAN128.WDTCR := (False, False, False, True, True, True, True, True);
-      Wait_For_Reply(Q7USART);
+      Wait_For_Reply(USART_PORT);
       AVR.AT90CAN128.WDTCR := (False, False, False, True, True, True, True, True);
       AVR.AT90CAN128.WDTCR := (False, False, False, True, False, True, True, True);
       AVR.AT90CAN128.WDTCR := (False, False, False, False, False, False, False, False);
-      Send_Reply(Q7USART);
-   end HandshakeWithQseven;
+      Send_Reply(USART_PORT);
+   end Handshake_With_BBB;
 
    procedure Main_Loop is
    begin
-      HandshakeWithQseven;
-
+      Handshake_With_BBB;
 
       loop
-         -- Handle the commands from Qseven
-         Qseven_Cmd_Handler;
+         -- Handle the commands from the BBB
+         Cmd_Handler;
          -- Deal with the data from the CAN bus.
          CANBUS_Monitoring;
       end loop;
    end Main_Loop;
 
-   procedure hardware_init is
+   procedure Hardware_Init is
    begin
-      AVR.AT90CAN128.USART.Init(Q7USART,  AVR.AT90CAN128.USART.BAUD38400);
+      AVR.AT90CAN128.USART.Init(USART_PORT,  AVR.AT90CAN128.USART.BAUD38400);
       AVR.AT90CAN128.CAN.Can_Init(AVR.AT90CAN128.CAN.K250);
       AVR.AT90CAN128.CAN.Can_Set_All_MOB_ID_MASK(0, 0);
-   end hardware_init;
+   end Hardware_Init;
 
 end CAN_Link_pack;
