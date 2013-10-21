@@ -47,7 +47,7 @@ package body UartWrapper is
    -- sUart_Read --
    ----------------
 
-   function sUart_Read (this : in out CUartHandler; numBytesRead : out Integer) return string is
+   function sUartRead (this : in out CUartHandler; numBytesRead : out Integer) return string is
       returnString : string(1.. this.bufferSize);
       buffer : Ada.Streams.Stream_Element_Array(1 .. Ada.Streams.Stream_Element_Offset(this.bufferSize));
       bytesRead : Ada.Streams.Stream_Element_Offset;
@@ -60,5 +60,37 @@ package body UartWrapper is
 
       numBytesRead := Integer(bytesRead);
       return returnString(1..numBytesRead);
-   end sUart_Read;
+   end sUartRead;
+
+
+   function sUartReadSpecificAmount (this : in out CUartHandler; bytesToRead : in Integer; numBytesRead : out Integer) return string is
+      returnString : string(1.. this.bufferSize);
+      buffer : Ada.Streams.Stream_Element_Array(1 .. Ada.Streams.Stream_Element_Offset(bytesToRead));
+      bytesRead : Ada.Streams.Stream_Element_Offset;
+   begin
+      Gnat.Serial_Communications.Read(this.serialHandler,buffer, bytesRead);
+
+      for i in 1 .. bytesRead loop
+      	returnString(Integer(i)) := Character'Val (Integer (Buffer (i)));
+      end loop;
+
+      numBytesRead := Integer(bytesRead);
+      return returnString(1..numBytesRead);
+   end sUartReadSpecificAmount;
+
+   function sUartEcho(this : in out CUartHandler; bytesToRead : in Integer; numBytesRead : out integer; stringToBeWritten : string; waitTime : Duration) return string is
+   begin
+      this.Uart_Write(stringToBeWritten => stringToBeWritten);
+
+       delay(waitTime);
+--
+--        return this.sUartReadSpecificAmount(bytesToRead  => bytesToRead,
+--                                            numBytesRead => numBytesRead);
+
+      return "hi";
+   end sUartEcho;
+
+
+
+
 end UartWrapper;

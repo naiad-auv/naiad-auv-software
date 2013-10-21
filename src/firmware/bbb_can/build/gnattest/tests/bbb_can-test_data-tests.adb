@@ -44,8 +44,8 @@ package body BBB_CAN.Test_Data.Tests is
    begin
 
       AUnit.Assertions.Assert
-        (Gnattest_Generated.Default_Assert_Value,
-         "Test not implemented.");
+        (Handshake = false,
+         "Error: Handshake returned true.");
 
 --  begin read only
    end Test_Handshake;
@@ -83,11 +83,20 @@ package body BBB_CAN.Test_Data.Tests is
 
       pragma Unreferenced (Gnattest_T);
 
+      msg : CAN_Message;
+      bMsgReceived : Boolean;
+      bUARTChecksumOK : Boolean;
    begin
 
+      Get(msg, bMsgReceived, bUARTChecksumOK);
+
       AUnit.Assertions.Assert
-        (Gnattest_Generated.Default_Assert_Value,
-         "Test not implemented.");
+        (not bMsgReceived,
+         "Function Get says it received a message.");
+
+      AUnit.Assertions.Assert
+        (not bUARTChecksumOK,
+         "Function Get returned bUARTChecksumOK = true.");
 
 --  begin read only
    end Test_Get;
