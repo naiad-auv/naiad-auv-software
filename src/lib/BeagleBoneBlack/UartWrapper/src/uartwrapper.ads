@@ -12,7 +12,11 @@ package UartWrapper is
 
    procedure Uart_Write(this : in out CUartHandler; stringToBeWritten : string);
 
-   function sUart_Read (this : in out CUartHandler; numBytesRead : out Integer) return string;
+   function sUartRead (this : in out CUartHandler; numBytesRead : out Integer) return string;
+
+   function sUartReadSpecificAmount (this : in out CUartHandler; bytesToRead : in Integer; numBytesRead : out Integer) return string;
+
+   function sUartEcho(this : in out CUartHandler; bytesToRead : in Integer; numBytesRead : out integer; stringToBeWritten : string; waitTime : Duration) return string;
 
 private
 
