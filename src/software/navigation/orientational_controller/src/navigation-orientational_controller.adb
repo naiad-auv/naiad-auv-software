@@ -5,7 +5,7 @@ package body Navigation.Orientational_Controller is
 
    function pxCreate (pxCurrentAbsoluteOrientation : in Math.Matrices.pCMatrix; pxWantedAbsoluteOrientation : in Math.Matrices.pCMatrix) return pCOrientationalController is
       pxOrientationalController : Navigation.Orientational_Controller.pCOrientationalController;
-
+      use System;
    begin
 
       pxOrientationalController := new Navigation.Orientational_Controller.COrientationalController;
@@ -18,6 +18,8 @@ package body Navigation.Orientational_Controller is
       pxOrientationalController.pxDirectionalMotionComponent := Navigation.Motion_Component.pxCreate(eAxisIndex    => Navigation.Motion_Component.Direction,
                                                                                                      xPIDScalings => (0.0,0.0,0.0));
 
+      --Ada.Text_IO.Put_Line("CAO: " & System.Address_Image(pxOrientationalController.pxCurrentAbsoluteOrientation.all'Address));
+      --Ada.Text_IO.Put_Line("WAO: " & System.Address_Image(pxOrientationalController.pxWantedAbsoluteOrientation.all'Address));
       return pxOrientationalController;
    end pxCreate;
 
