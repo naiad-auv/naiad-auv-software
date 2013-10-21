@@ -12,7 +12,6 @@ std::vector<cv::Mat> img(IMAGE_STORE_SIZE);
 std::vector<cv::Vec3f> circles;
 std::vector<cv::Vec2f> lines;
 std::vector<cv::Mat> contours;
-std::vector<cv::MatND> hist;
 cv::VideoCapture cap;
 std::vector<cv::Mat> channels;
 
@@ -24,14 +23,17 @@ cv::Mat blueHistVals;
 cv::Mat greenHistVals;
 cv::Mat redHistVals;
 
+cv::MatND hist;
 
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/*********************************************************************************************************************
+*               START CORE WRAP                                                                                        *
+*********************************************************************************************************************/
 //////////////////////////////////////    IMAGE BUFFER FUNC   ////////////////////////////////////////////////////////////////////////
 //func that loads in images in buffer of size IMAGE_BUFFER_SIZE(uses queue func from c++, and creates a queue of IMAGE_BUFFER_SIZE
 //It loads buffer and replaces the image at img.at(0)
 //NB takes images from a folder at the minute, this will need to be changed when the real input method for the system
 //becomes available. 
+
 void Core_Wrap::img_buffer()
 {
   char strStorage[50]; // enough to hold all numbers up to 64-bits
@@ -67,20 +69,39 @@ void Core_Wrap::img_buffer()
 }
 
 
+///////////////////////////////////// PRINT INTERFACES.C.INT ////////////////////////////////////////////
+
+void Core_Wrap::printNum(int num)
+{
+	std::cout<<"\n number entered is:\t"<<num;	
+}
+
+
+///////////////////////////////////// ADD IMAGE TO VECTOR img ////////////////////////////////////////////
+
 void Core_Wrap::push_back(char * src)
 {
   img.push_back(cv::imread(src));
 }
+
+
+///////////////////////////////////// READ IN IMAGE ////////////////////////////////////////////
 
 void Core_Wrap::imread(char * name)
 {
   cv::imread(name);
 }
 
+
+///////////////////////////////////// STORE IMAGE IN img AT src POSITION ////////////////////////////////////////////
+
 void Core_Wrap::imstore(int src, char * name)
 {
   img.at(src)=cv::imread(name);
 }
+
+
+///////////////////////////////////// WRITE IMAGE TO FILE ////////////////////////////////////////////
 
 int Core_Wrap::imwrite(char * name, int src)
 {
@@ -90,52 +111,75 @@ int Core_Wrap::imwrite(char * name, int src)
     return 0;
 }
 
+
+///////////////////////////////////// DISPLAY IMAGE ////////////////////////////////////////////
+
 void Core_Wrap::imshow(char * name, int src)
 {
   cv::imshow(name, img.at(src));
 }
+
+
+///////////////////////////////////// WAIT FOR KEY PRESS ////////////////////////////////////////////
 
 void Core_Wrap::waitKey(int time)
 {
   cv::waitKey(time);
 }
 
+
+///////////////////////////////////// FIND SIZE OF IMAGE AT img.at(src)  ////////////////////////////////////////////
+
 int Core_Wrap::size(void)
 {
    return img.size();
 }
 
+
 Core_Wrap::Core_Wrap(){}
+/*********************************************************************************************************************
+*               END CORE WRAP                                                                                        *
+*********************************************************************************************************************/
 
 
-//processing functions in openCV!!
+/*********************************************************************************************************************
+*               START PROCESSING WRAP                                                                                *
+*********************************************************************************************************************/
+
+////////////////////////////////////////  CONVERT FUNCTION /////////////////////////////////////////////////////
+
 void Processing_Wrap::cvtColor(int src, int dst, int filter)
 {
-  cv::cvtColor(img.at(src), img.at(dst), filter);
+	cv::cvtColor(img.at(src), img.at(dst), filter);
 }
-////////////////////////////////////////CANNY/////////////////////////////////////////////////////
+
+
+//////////////////////////////////////// CANNY  /////////////////////////////////////////////////////
 // NB Canny works on an input greyscale image
+
 void Processing_Wrap::Canny(int src, int dst, int lThresh, int hThresh, int kernelSize)
 {
- cv::Canny(img.at(src), img.at(dst), lThresh, hThresh, kernelSize);
+	cv::Canny(img.at(src), img.at(dst), lThresh, hThresh, kernelSize);
 }
+
 
 //////////////////////////////////////HOUGH CIRCLES//////////////////////////////////////////////////////////////
 // Takes in source image index, stores result in circles vector defined above
+
 void Processing_Wrap::HoughCircles(int src,int inverseRatioOfResolution,int minDistBetweenCenters,int cannyUpThres, int centerDetectionThreshold, int minRadius,int maxRadius )
 {
-int circCount;
-//cv::imshow("super circles",img.at(src));
-//	cv::waitKey(0);
-  cv::HoughCircles( img.at(src), circles, CV_HOUGH_GRADIENT, inverseRatioOfResolution, minDistBetweenCenters, cannyUpThres, centerDetectionThreshold, minRadius, maxRadius );
-circCount=circles.size();
-std::cout<<"circles:\t"<<circCount<<std::endl;
+	int circCount;
 
+	cv::HoughCircles( img.at(src), circles, CV_HOUGH_GRADIENT, inverseRatioOfResolution, minDistBetweenCenters, cannyUpThres, centerDetectionThreshold, minRadius, maxRadius );
+	circCount=circles.size();
+	std::cout<<"circles:\t"<<circCount<<std::endl;
 }
+
 
 ///////////////////////////////DRAW CIRCLES ///////////////////////////////////////////////
 // Draw the hough circles detected, Gets input from circles vector defined above, 
 // NB This function will be removed, only used for testing
+
 void Processing_Wrap::DrawHoughCircles(int src)
 {
   int i;
@@ -151,42 +195,40 @@ void Processing_Wrap::DrawHoughCircles(int src)
    }
 }
 
+
 /////////////////////////////// IMAGE INTENSITY FUNCTION////////////////////////////////////7
 // This function searches through an image at img.at(src) pixel by pixel and prints the intensity
 // value for each picture
 //NB "print" has to be changed to "add to a storage vector" if it is decided that this function
 //is needed. At the minute it is surplus to requirements but this will more than likely change
+
 void Processing_Wrap::LabelPoints(int src)
 {
-int x,y;
-x=y=0;
-cv::Size dim = img.at(src).size();
-cv::Mat F = img.at(src).clone();
-cv::Scalar intensity;
+	int x,y;
+	x=y=0;
+	cv::Size dim = img.at(src).size();
+	cv::Mat F = img.at(src).clone();
+	cv::Scalar intensity;
 
     for(int heightIndex=0;heightIndex<dim.height;++heightIndex)
     {
-	std::cout<<"change height";
-	for(int widthIndex=0;widthIndex<dim.width;++widthIndex)
-	{
-		intensity = F .at<uchar>(cv::Point(widthIndex,heightIndex));
-		std::cout<< intensity.val[0];
-	}
+		std::cout<<"change height";
+		for(int widthIndex=0;widthIndex<dim.width;++widthIndex)
+		{
+			intensity = F .at<uchar>(cv::Point(widthIndex,heightIndex));
+			std::cout<< intensity.val[0];
+		}
     }
 	std::cout<<"height"<<dim.height<<"width"<<dim.width;
 	cv::waitKey(0);
 }
 
 
-///////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////HOUGH LINES////////////////////////////////////////////
 
 void Processing_Wrap::HoughLines(int src, int rho, float theta, int intersectionThreshold)
 {
-  //std::vector<cv::Mat> cdst;
-  
-  cv::HoughLines( img.at(src), lines, rho, theta, intersectionThreshold, 0, 0 );	
- 
+	cv::HoughLines( img.at(src), lines, rho, theta, intersectionThreshold, 0, 0 );	 
 }
 
 
@@ -208,9 +250,7 @@ void Processing_Wrap::DrawHoughLines(int cdst)
 	pt2.x = cvRound(x0 + 1000*(-b));
 	pt2.y = cvRound(y0 + 1000*(a));
 	line( img.at(cdst), pt1, pt2, cv::Scalar(0,0,255), 10, CV_AA);
-	cv::imshow("liney", img.at(cdst));
-	
-      
+	cv::imshow("liney", img.at(cdst));      
    }
 }
 
@@ -245,52 +285,43 @@ void Processing_Wrap::Contours(int src) // TO DO : include image-ROI
 	//cv::waitKey(0);
 }
 
-/////////////////////////////////////// display ///////////////////////////////////////////
+
+/////////////////////////////////////// DISPLAY CONTOURS ///////////////////////////////////////////
 
 void Processing_Wrap::showContours(int contourOut, int contourId = -1, int thickness = 1)
 {
-	//std::cout<<"in show contour \n";
-	//cv::waitKey(0);
+	//cv::Mat F=img.at(src).clone();
+	img.at(contourOut)=img.at(0).clone();
 	cv::drawContours(img.at(contourOut), contours, contourId, cv::Scalar(0,0,255), thickness, CV_AA );
 	//cv::waitKey(0);	
 }
 
-//////////////////////////aprox poly //////////////////////////////////////////////////////
+
+////////////////////////// APPROX POLY //////////////////////////////////////////////////////
+
 void Processing_Wrap::approxPolyDP(double epsilon, bool closed)
 {
-   //std::cout<<"in aprox poly \n";
-int count,triCount = 0;
-   std::vector<cv::Point> polys;
-   //std::vector<cv::Mat>fourPolys;
+	int rectangleCount,triCount = 0;
+	std::vector<cv::Point> polys;
 
-   for (int i =0;i<contours.size();i++)
+	for (int i =0;i<contours.size();i++)
 	{
-	cv::approxPolyDP(contours[i], polys, arcLength(cv::Mat(contours[i]), true)*0.02,closed);
-	if (polys.size()==4)
-	{
-	
-   //     std::cout<<"\n polys : "<<polys<<"\n";
-
-	count++;
-	//cv::waitKey(0);
+		cv::approxPolyDP(contours[i], polys, arcLength(cv::Mat(contours[i]), true)*0.02,closed);
+		if (polys.size()==4)
+		{
+			rectangleCount++;
+		}
+		if (polys.size()==3)
+		{
+			triCount++;
+		}
 	}
-	if (polys.size()==3)
-	{
-	triCount++;
-	}
-//	else 
-//	{
-	//std::cout<<"no square \n";	
-//	}	
-	}
-	
-    std::cout<<"rectangles:\t"<<count;
+	std::cout<<"rectangles:\t"<<rectangleCount;
     std::cout<<"\ntriangles:\t"<<triCount<<std::endl;
-  //cv::drawContours(img.at(0), fourPolys, -1, cv::Scalar(255,0,0), 3, CV_AA );
-cv::waitKey(0); 
 }
 
-///////////////////////////////////// CHANNELS ////////////////////////////////////////////
+
+/////////////////////////////////////SPLIT CHANNELS ////////////////////////////////////////////
 
 void Processing_Wrap::splitChannels(int src)
 {
@@ -299,68 +330,21 @@ void Processing_Wrap::splitChannels(int src)
 
 
 //////////////////////////////////// BGR HISTOGRAM ////////////////////////////////////////////
-//void
-void Processing_Wrap::BGRHistogram(int histSize, float rangeLower, float rangeHigher)
+
+void Processing_Wrap::BGRHistogram(int numSourceArray, int histDimensionality, int histSize, float range[], bool uniform, bool accumulate)
 {	
-	float range[]={rangeLower,rangeHigher};
 	const float *histRange[]={range};
-	int numSourceArray=1;
-	const int channelToBeMeasured=0;//just intensity
-	int histDimensionality = 1;
-	bool uniform =true;
-	bool accumulate = false;
+	const int channelToBeMeasured=0;
 
 	cv::calcHist( &channels[0], numSourceArray, channelToBeMeasured, cv::Mat(), blueHistVals, histDimensionality, &histSize, histRange, uniform, accumulate );
 	cv::calcHist( &channels[1], numSourceArray, channelToBeMeasured, cv::Mat(), greenHistVals, histDimensionality, &histSize, histRange, uniform, accumulate );
 	cv::calcHist( &channels[2], numSourceArray, channelToBeMeasured, cv::Mat(), redHistVals, histDimensionality, &histSize, histRange, uniform, accumulate );
-
-}
-
-void Processing_Wrap::HSIHistogram(int src, int testArray[]	)
-{
-	float hrange[]={0,180};
-    float srange[]={0,256};
-	const float *histRange[]={hrange,srange};
-	int histDimensionality =2;
-	bool uniform = true;
-	bool accumulate = false;
-
-     int hbins=30, sbins=32;
-    int histSize[]={hbins,sbins};
-  
-    int channels[]={0,1};
-    
-    std::cout<<"\n array is: \t"<< (sizeof(*testArray));
-    //int arraySize=testArray.size;
-  cv::MatND hist;
-    cv::calcHist(&img.at(src),1,channels, cv::Mat(),hist,histDimensionality, histSize,histRange,uniform,accumulate);
-     
-    double maxVal=0;
-    minMaxLoc(hist,0,&maxVal,0,0);
-
-    int scale=10;
-	
-
-     cv::Mat histImg = cv::Mat::zeros(sbins*scale, hbins*10, CV_8UC3);
-
-    for( int h = 0; h < hbins; h++ )
-        for( int s = 0; s < sbins; s++ )
-        {
-            float binVal = hist.at<float>(h, s);
-            int intensity = cvRound(binVal*255/maxVal);
-            rectangle( histImg, cv::Point(h*scale, s*scale),
-                        cv::Point( (h+1)*scale - 1, (s+1)*scale - 1),
-                        cv::Scalar::all(intensity),
-                        CV_FILLED );
-        }
-   
-    cv::imshow( "H-S Histogram", histImg );
-    cv::waitKey();
 }
 
 
 ///////////////////////////////////// display BGR Histo/////////////////////////////////////////////
 // used to debug bgr histo, check if it works
+
 void Processing_Wrap::showBGRHistogram(int histSize)
 {
 	int histWidth = 600; int histHeight =400;
@@ -386,33 +370,85 @@ void Processing_Wrap::showBGRHistogram(int histSize)
                        cv::Point( bin_w*(i), histHeight - cvRound(redHistVals.at<float>(i)) ),
                        cv::Scalar( 0, 0, 255), 2, 8, 0  );//red
   	}
-
   	cv::imshow("Histogram", histImage );
-
-  cv::waitKey(0);
-
+	cv::waitKey(0);
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////
+
+//////////////////////////////////// HSI HISTOGRAM ////////////////////////////////////////////
+
+void Processing_Wrap::HSIHistogram(int src,int numSourceArray, int channels[], int histSize[],float hrange[],float srange[], int histDimensionality,bool uniform, bool accumulate)
+{
+	const float *histRange[]={hrange,srange};
+
+    cv::calcHist(&img.at(src),numSourceArray,channels, cv::Mat(),hist,histDimensionality, histSize,histRange,uniform,accumulate);
+}
+
+
+///////////////////////////////////// display HSI Histo/////////////////////////////////////////////
+// used to debug hsi histo, check if it works
+
+void Processing_Wrap::showHSIHistogram(int histSize[])    
+{    
+    int hbins=histSize[0], sbins=histSize[1]; 
+    double maxVal=0;
+    int scale=10;
+	
+	minMaxLoc(hist,0,&maxVal,0,0);
+    cv::Mat histImg = cv::Mat::zeros(sbins*scale, hbins*10, CV_8UC3);
+
+    for( int h = 0; h < hbins; h++ )
+    {
+        for( int s = 0; s < sbins; s++ )
+        {
+            float binVal = hist.at<float>(h, s);
+            int intensity = cvRound(binVal*255/maxVal);
+            rectangle( histImg, cv::Point(h*scale, s*scale),
+                        cv::Point( (h+1)*scale - 1, (s+1)*scale - 1),
+                        cv::Scalar::all(intensity),
+                        CV_FILLED );
+        }
+	}
+    cv::imshow( "H-S Histogram", histImg );
+    cv::waitKey();
+}
+
+
+///////////////////////  SHOW BLUE CHANNEL        ///////////////////////////////////////////
 
 void Processing_Wrap::showBlueChannel()
 {
 	std::cout<<channels[0];
 }
+
+
+///////////////////////  SHOW GREEN CHANNEL        ///////////////////////////////////////////
+
 void Processing_Wrap::showGreenChannel()
 {
 	std::cout<<channels[1];
 }
+
+
+///////////////////////  SHOW RED CHANNEL        ///////////////////////////////////////////
+
 void Processing_Wrap::showRedChannel()
 {
 	std::cout<<channels[2];
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////
+
 Processing_Wrap::Processing_Wrap(){}
-// VideoCapture test - Stream
+/*********************************************************************************************************************
+*               END PROCESSING WRAP                                                                                  *
+*********************************************************************************************************************/
+
+
+/*********************************************************************************************************************
+*               START PREPROCESSING WRAP                                                                             *
+*********************************************************************************************************************/
+
+///////////////////////  VIDEO CAPTURE        ///////////////////////////////////////////
 
 void Preprocessing_Wrap::VideoCaptureOpen(void)
 {
@@ -431,3 +467,6 @@ void Preprocessing_Wrap::nextFrame(int dst)
 
 Preprocessing_Wrap::Preprocessing_Wrap(){}
 
+/*********************************************************************************************************************
+*               END PREPROCESSING WRAP                                                                                        *
+*********************************************************************************************************************/

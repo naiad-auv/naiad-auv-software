@@ -2,20 +2,17 @@ with visionBindings_hpp; use visionBindings_hpp;
 with interfaces.C.strings; use interfaces.C.strings;
 with interfaces.C; use interfaces.C;
 with Ada.Text_IO; use Ada.Text_IO;
---with Vision.Image_Processing;
---with Ada.Containers.Vectors; use Ada.Containers;
+with Ada.Integer_Text_IO; use Ada.Integer_Text_IO;
+with Vision.Image_Processing;
 
 procedure main is
-   -- package Number_Container is new vectors (Natural,Natural);
-   -- hsiSize :Number_Container.Vector;
-
    iImageSource : Interfaces.C.Int;
    iImageDestination : Interfaces.C.Int;
    iCannyLocation : Interfaces.C.Int;
    iGreyScaleLocation : Interfaces.C.Int;
    iHSILocation : Interfaces.C.Int;
+   iContourLocation : Interfaces.C.Int;
 
-   iImageCannyOut : integer;
    iGreyFilter : Interfaces.C.Int;
    iHSIFilter : Interfaces.C.Int;
    iCannyKernelSize :Interfaces.C.int;
@@ -34,39 +31,61 @@ procedure main is
    --histo variables
    rangeLower : Standard.Float;
    rangeHigher : Standard.Float;
-   histSize : Interfaces.C.Int;
-   hsiSize : aliased array(integer range 1..10) of aliased Interfaces.C.int;
-   --hsiSize : array(integer range 1..10) of Interfaces.C.int;
+   bgrHistSize : Interfaces.C.Int;
+   bgrnumSourceArray: interfaces.C.int;
+   bgrChannelsToBeMeasured:interfaces.C.int;
+   bgrHistDimensionality:interfaces.C.int;
+   bgrRange : aliased array(integer range 1..2) of aliased standard.Float;
 
-   hsi: aliased Interfaces.C.int;
+   hsiNumSourceArray:interfaces.C.int;
+   hsiSize : aliased array(integer range 1..2) of aliased Interfaces.C.int;
+   channels : aliased array(integer range 1..2) of aliased Interfaces.C.int;
+   hrange : aliased array(integer range 1..2) of aliased standard.Float;
+   srange : aliased array(integer range 1..2) of aliased standard.Float;
+   histDimensionality : Interfaces.C.int;
+   uniform : interfaces.C.unsigned_char;
+   accumulate : interfaces.C.unsigned_char;
 
    CoreWrap : aliased Class_Core_Wrap.Core_Wrap;
    processingWrap : aliased Class_Processing_Wrap.Processing_Wrap;
    preprocessingWrap : aliased Class_Preprocessing_Wrap.Preprocessing_Wrap;
 
 begin
-   -- hsiSize:=(30,32);
-   --image index
    iImageSource := 0;
    iImageDestination := 1;
    iGreyScaleLocation :=20;
    iCannyLocation :=21;
    iHSILocation := 22;
+   iContourLocation := 23;
 
-   iImageCannyOut := 4;
    iGreyFilter := 6;
    iHSIFilter :=40;
    iCannyLowThres := 20;
    iCannyHighThres := 200;
    iCannyKernelSize := 3;
 
-   --histo
-   rangeLower := 0.0;
-   rangeHigher :=256.0;
-   histSize :=256;
+   --bgr histo
+   bgrNumSourceArray:=1;
+   bgrHistSize :=256;
+   bgrChannelsToBeMeasured :=0;
+   bgrHistDimensionality := 1;
+   bgrRange(1):= standard.Float(0.0);
+   bgrRange(2):= standard.Float(256.0);
+   uniform := 1;
+   accumulate := 0;
+    --hsi histo
+   histDimensionality := 2;
+   hsiNumSourceArray := 1;
+   hsiSize(1) := Interfaces.C.int(30);
+   hsiSize(2) := Interfaces.C.int(32);
+   channels(1) := Interfaces.C.int(0);
+   channels(2) := Interfaces.C.int(1);
+   hrange(1) := standard.Float(0.0);
+   hrange(2) := standard.Float(180.0);
+   srange(1) := standard.Float(0.0);
+   srange(2) := standard.Float(256.0);
 
    --hough circle declarations
-   --src use destination of canny as source for hough circles
    inverseRatioOfResolution := 1;
    minDistBetweenCenters := 10;
    houghCannyUpThres := 200;
@@ -77,35 +96,36 @@ begin
    --CHECK FOR INSTRUCTION--to be implemented, for now just working on default mode
 
    -----------------------------MAIN LOOP --------------------------------------------------------
-   -- Endless_Loop:
-   -- loop
+   Endless_Loop:
+   loop
    --GET IMAGE-- read from buffer
    CoreWrap.img_buffer;--load image to img.at(0)
 
    --, or just read in single image NEW, READS IN IMAGE AND STORES IN INDEX "IMAGESOURCE" OF "img.at()"
-   CoreWrap.imstore(iImageSource,New_String("Red_Green_Blue.jpg"));
+   --CoreWrap.imstore(iImageSource,New_String("Red_Green_Blue.jpg"));
+
+   --display image source
    CoreWrap.imshow(New_String("Why so normal?"), iImageSource);--show image for debug purposes
    CoreWrap.waitKey(0);
 
    --split channels of image
    processingWrap.splitChannels(iImageSource);
+
    --run bgr histo and show result
-   processingWrap.BGRHistogram(histSize, rangeLower, rangeHigher);
-   processingWrap.showBGRHistogram(histSize);
+   processingWrap.BGRHistogram(bgrNumSourceArray,bgrHistDimensionality,bgrHistSize, bgrRange(1)'Access,uniform,accumulate);
+   processingWrap.showBGRHistogram(bgrHistSize);
 
    --convert image to hsi
    processingWrap.cvtColor(iImageSource, iHSILocation, iHSIFilter);
    CoreWrap.imshow(New_String("Why so HSI?"),iHSILocation);
    CoreWrap.waitKey(0);
+
    --hsi histo
-   for Index in 1..10 loop
-      hsiSize(Index) := Interfaces.C.int(2);
-   end loop;
-   --hsi := hsiSize;
-   --Put(X => hsiSize'Access);
-   processingWrap.HSIHistogram(iHSILocation,hsiSize(1)'Access);
+   processingWrap.HSIHistogram(iHSILocation,hsiNumSourceArray,channels(1)'Access,hsiSize(1)'Access,hrange(1)'Access,srange(1)'Access,histDimensionality,uniform,accumulate);
+   processingWrap.showHSIHistogram(hsiSize(1)'Access);
 
    --CLEAN IMAGE--to be implemented
+
    --CONVERT IMAGE TO GREYSCALE
    processingWrap.cvtColor(iImageSource,iGreyScaleLocation, iGreyFilter);
    CoreWrap.imshow(New_String("why so grey?"), iGreyScaleLocation);--show image for debug purposes
@@ -120,32 +140,19 @@ begin
    --processingWrap.splitChannels(iImageSource);
    --processingWrap.showRedChannel;
 
-   --ret := CoreWrap.imwrite(name => New_String("CannyOut.jpg"),
-   --                      src  => 2 );
-   --CoreWrap.push_back(New_String("CannyOut.jpg"));
+   --write image to file
+   --ret := CoreWrap.imwrite(New_String("CannyOut.jpg"),2 );
 
    --HOUGH CIRCLES
+   processingWrap.HoughCircles(iGreyScaleLocation, inverseRatioOfResolution, minDistBetweenCenters, houghCannyUpThres, centerDetectionThreshold, minRadius, maxRadius);
+
    --     Vision.Image_Processing.Hough_Circles(iImageDestination, inverseRatioOfResolution, minDistBetweenCenters, houghCannyUpThres, centerDetectionThreshold, minRadius, maxRadius);
    --     Vision.Image_Processing.Draw_Hough_Circles(iImageSource);
    --     CoreWrap.imshow(New_String("why so circly?"), 1);--show image for debug purposes
    --     CoreWrap.waitKey(0);
-   --     ret := CoreWrap.imwrite(name => New_String("HoughOut.jpg"),
-   --                      src  => 1 );
-
-
-   --HOUGH CIRCLES
-   -- Vision.Image_Processing.Hough_Circles(iImageDestination, inverseRatioOfResolution, minDistBetweenCenters, houghCannyUpThres, centerDetectionThreshold, minRadius, maxRadius);
-   -- Vision.Image_Processing.Draw_Hough_Circles(iImageSource);
-   --CoreWrap.imshow(New_String("why so circly?"), 1);--show image for debug purposes
-   --CoreWrap.waitKey(0);
-   --Put("here now");
-   --CoreWrap.waitKey(0);
+   --     ret := CoreWrap.imwrite(New_String("HoughOut.jpg"), 1 );
 
    --HOUGH LINES
-   --Vision.Image_Processing.Convert_To_Greyscale(iImageDestination,iImageSource, 8);
-   --CoreWrap.imshow(New_String("back to BGR"), 1);--show image for debug purposes
-   --CoreWrap.waitKey(0);
-
    --processingWrap.HoughLines(src                   => Interfaces.C.int(iImageDestination),
    --                        rho                   => 1,
    --                      theta                 => Standard.Float(1),
@@ -154,46 +161,24 @@ begin
    --CoreWrap.imshow(name => New_String("Lines disp"),
    --              src  => Interfaces.C.int(iImageSource));
    --CoreWrap.waitKey(0);
+
    --processingWrap.LabelPoints(Interfaces.C.int(2));
-   --  Vision.Image_Processing.Convert_To_Greyscale(iImageDestination,iImageSource, 8);
-   --  CoreWrap.imshow(New_String("back to BGR"), 1);--show image for debug purposes
-   --  CoreWrap.waitKey(0);
 
-   --     processingWrap.HoughLines(src                   => Interfaces.C.int(iImageDestination),
-   --                               rho                   => 1,
-   --                               theta                 => Standard.Float(1),
-   --                               intersectionThreshold => 2);
-   --     processingWrap.DrawHoughLines(cdst => Interfaces.C.int(iImageSource));
-   --     CoreWrap.imshow(name => New_String("Lines disp"),
-   --                     src  => Interfaces.C.int(iImageSource));
-   --     CoreWrap.waitKey(0);
-
-   --lines
-   --processingWrap.LabelPoints(Interfaces.C.int(4));
-
-   --Contours
-
-   -- CoreWrap.imshow(name => New_String("test_disp"),
-   --               src  => 1);
-   --CoreWrap.waitKey(0);
-
-   processingWrap.HoughCircles(iGreyScaleLocation, inverseRatioOfResolution, minDistBetweenCenters, houghCannyUpThres, centerDetectionThreshold, minRadius, maxRadius);
-
-
+   --CONTOURS
    processingWrap.Contours(iCannyLocation);
-   processingWrap.showContours(contourOut => iImageSource,
+   processingWrap.showContours(contourOut => iContourLocation,
                                contourId  => -1 ,
                                thickness  => 3 );
-   CoreWrap.imshow(name => New_String("Whats with the contours?"),
-                   src  => 0);
+   CoreWrap.imshow(New_String("Whats with the contours?"),iContourLocation);
    CoreWrap.waitKey(0);
+
    --processingWrap.HoughCircles(Interfaces.C.int(1), inverseRatioOfResolution, minDistBetweenCenters, houghCannyUpThres, centerDetectionThreshold, minRadius, maxRadius);
    --ret := CoreWrap.imwrite(name => New_String("Contours.jpg"),
    --               src  => 0);
 
-   processingWrap.approxPolyDP(1.2, 1);
+   --processingWrap.approxPolyDP(1.2, 1);
 
-   --end loop Endless_Loop;
+   end loop Endless_Loop;
 
 end main;
 

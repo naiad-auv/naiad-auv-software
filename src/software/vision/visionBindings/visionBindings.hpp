@@ -1,4 +1,4 @@
-     #include <stdlib.h>
+#include <stdlib.h>
 #include <stdio.h>
 #include <string>
 
@@ -26,6 +26,8 @@ virtual void img_buffer(void);
 
 virtual void imstore(int src, char * name);
 
+virtual void printNum(int num);
+
 Core_Wrap();
 
 };
@@ -37,36 +39,35 @@ virtual void cvtColor(int src, int dst, int filter);
 
 virtual void Canny(int src, int dst, int lThresh, int hThresh, int kernelSize);
 
-//std::vector<cv::Vec3f*>&circles,
 virtual void HoughCircles(int src,int inverseRatioOfResolution,int minDistBetweenCenters,int cannyUpThres, int centerDetectionThreshold, int minRadius,int maxRadius );
+
 virtual void DrawHoughCircles(int src);
 
-//HoughLines
 virtual void HoughLines(int src, int rho, float theta, int intersectionThreshold);
+
 virtual void DrawHoughLines(int cdst);
 
-//Contours
 virtual void Contours(int src);
+
 virtual void showContours(int contourOut, int contourId, int thickness);
 
-//Histogram
+virtual void BGRHistogram(int numSourceArray, int histDimensionality, int histSize, float range[],bool uniform, bool accumulate);
 
-virtual void BGRHistogram(int histSize, float rangeLower, float rangeHigher);
-
-virtual void HSIHistogram(int src,int testArray[]);
+virtual void HSIHistogram(int src,int numSourceArray, int channels[], int histSize[],float hrange[],float srange[], int histDimensionality,bool uniform, bool accumulate);
 
 virtual void showBGRHistogram(int histSize);
-//virtual void showHistogram();
 
+virtual void showHSIHistogram(int histSize[]);
 
 virtual void approxPolyDP(double epsilon, bool closed);
 
-//Channels
 virtual void splitChannels(int src);
-virtual void showBlueChannel();
-virtual void showGreenChannel();
-virtual void showRedChannel();
 
+virtual void showBlueChannel();
+
+virtual void showGreenChannel();
+
+virtual void showRedChannel();
 
 virtual void LabelPoints(int src);
 
@@ -85,14 +86,3 @@ virtual void nextFrame(int dst);
 
 Preprocessing_Wrap();
 };
-
-/* mission wrap
-class Mission_Handler_Wrap{
-virtual void VideoCaptureOpen(void);
-
-virtual void namedWindow(char * name, int num);
-
-virtual void nextFrame(int dst);
-
-Highgui_Wrap();
-};*/
