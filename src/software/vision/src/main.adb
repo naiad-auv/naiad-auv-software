@@ -40,7 +40,7 @@ begin
 
    --hough circle declarations
    --src use destination of canny as source for hough circles
-     inverseRatioOfResolution := 1;
+   inverseRatioOfResolution := 1;
    minDistBetweenCenters := 10;
    houghCannyUpThres := 200;
    centerDetectionThreshold := 100;
@@ -63,29 +63,7 @@ begin
    --CoreWrap.push_back(New_String("circle3.jpg"));
    --CoreWrap.push_back(New_String("circle3.jpg"));
    --CoreWrap.waitKey(0);
-  Endless_Loop:
-   loop
-   CoreWrap.test_func;--load image to img.at(0)
-
-   CoreWrap.imshow(New_String("Why so normal?"), 0);--show image for debug purposes
-   --CoreWrap.waitKey(0);
-
-
-
-   --CLEAN IMAGE--to be implemented
-   --CONVERT IMAGE TO GREYSCALE 
-   --call convertToGreyscale procedure
-   Vision.Image_Processing.Convert_To_Greyscale(iImageSource,iImageDestination, iGreyFilter);
-   --CoreWrap.imshow(New_String("why so grey?"), 1);--show image for debug purposes
-   --CoreWrap.waitKey(0);
-
-   --USE CANNY ON GREYSCALE IMAGE
-     --Vision.Image_Processing.Canny(iImageDestination,iImageDestination, iCannyLowThres, iCannyHighThres, iCannyKernelSize);
-     --CoreWrap.imshow(New_String("why so canny?"), 1);--show image for debug purposes
-     --CoreWrap.waitKey(0);
   
-
--- end loop Endless_Loop;
    
 
    Endless_Loop:
@@ -96,8 +74,12 @@ begin
    
       --test Channels
       processingWrap.splitChannels(src => Interfaces.C.int(0));
-      processingWrap.showRedChannel;
+      --processingWrap.showRedChannel;
       
+      --test thresh
+      --        ret := processingWrap.thresh(src => Interfaces.C.int(0),
+      --                                     ch  => 0);
+      --        
 
 
 
@@ -113,6 +95,7 @@ begin
       --       CoreWrap.imshow(New_String("why so canny Sir star fish?"), 0);--show image for debug purposes
       --       CoreWrap.waitKey(0);
    end loop Endless_Loop;
+   
    --Vision.Image_Processing.Canny(iImageDestination,iImageDestination, iCannyLowThres, iCannyHighThres, iCannyKernelSize);
    --CoreWrap.imshow(New_String("why so canny Sir star fish?"), 2);--show image for debug purposes
    --CoreWrap.waitKey(0);
@@ -169,31 +152,31 @@ begin
    --processingWrap.LabelPoints(Interfaces.C.int(4));
 
    --Contours
-    -- CoreWrap.imshow(name => New_String("test_disp"),
-      --               src  => 1);
+   -- CoreWrap.imshow(name => New_String("test_disp"),
+   --               src  => 1);
    --CoreWrap.waitKey(0);
 
-   processingWrap.HoughCircles(Interfaces.C.int(1), inverseRatioOfResolution, minDistBetweenCenters, houghCannyUpThres, centerDetectionThreshold, minRadius, maxRadius);
+   --     processingWrap.HoughCircles(Interfaces.C.int(1), inverseRatioOfResolution, minDistBetweenCenters, houghCannyUpThres, centerDetectionThreshold, minRadius, maxRadius);
+   --  
+   --     Vision.Image_Processing.Convert_To_Greyscale(iImageSource,iImageDestination, iGreyFilter);
+   --     Vision.Image_Processing.Canny(iImageDestination,iImageDestination, iCannyLowThres, iCannyHighThres, iCannyKernelSize);
+   --CoreWrap.imshow(New_String("why so canny?"), 1);--show image for debug purposes
+   --CoreWrap.waitKey(0);
 
-Vision.Image_Processing.Convert_To_Greyscale(iImageSource,iImageDestination, iGreyFilter);
-Vision.Image_Processing.Canny(iImageDestination,iImageDestination, iCannyLowThres, iCannyHighThres, iCannyKernelSize);
-     --CoreWrap.imshow(New_String("why so canny?"), 1);--show image for debug purposes
-     --CoreWrap.waitKey(0);
-
-   processingWrap.Contours(src    => Interfaces.C.int(1));
-   processingWrap.showContours(contourOut => Interfaces.C.int(0),
-                               contourId  => -1 ,
-                               thickness  => 3 );
-   CoreWrap.imshow(name => New_String("Whats with the contours?"),
-                   src  => 0);
-   CoreWrap.waitKey(0);
+   --     processingWrap.Contours(src    => Interfaces.C.int(1));
+   --     processingWrap.showContours(contourOut => Interfaces.C.int(0),
+   --                                 contourId  => -1 ,
+   --                                 thickness  => 3 );
+   --     CoreWrap.imshow(name => New_String("Whats with the contours?"),
+   --                     src  => 0);
+   --     CoreWrap.waitKey(0);
    --processingWrap.HoughCircles(Interfaces.C.int(1), inverseRatioOfResolution, minDistBetweenCenters, houghCannyUpThres, centerDetectionThreshold, minRadius, maxRadius);
    --ret := CoreWrap.imwrite(name => New_String("Contours.jpg"),
-            --               src  => 0);
+   --               src  => 0);
  
-   processingWrap.approxPolyDP(1.2, 1);
+   --     processingWrap.approxPolyDP(1.2, 1);
 
-  end loop Endless_Loop;
+
    --CoreWrap.waitKey(0);
 end main;
 

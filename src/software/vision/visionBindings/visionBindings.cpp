@@ -283,6 +283,7 @@ cv::waitKey(0);
 void Processing_Wrap::splitChannels(int src)
 {
 	cv::split(img.at(src), channels);
+	std::cout<<"\n Image split completed. \n";
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -302,16 +303,33 @@ void Processing_Wrap::showRedChannel()
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 
-int Processing_Wrap::thresh(int ch)
+int Processing_Wrap::thresh(int src, int ch)
 {
+	cv::Scalar lowBound = 0,upBound = 255;
+	//std::Vector dst;
+	cv::Mat mask,threshOut;
+	int i;
+	//cv::inRange(img.at(src), lowBound, upBound, mask);
+	//cv::merge(channels[2], mask);
+	std::cout<<mask<<"\n";
+	//cv::accumulateProduct(img.at(src), img.at(channels[2]), threshOut);
+	cv::Size s = mask.size();
+	std::cout<<s.height<<"\t"<<s.width<<"\n";
+	for(i = 0; i< s.height; i++)
+	{
+		std::cout<<mask.col(i) <<"\n";
+		cv::waitKey(0);
+	}
+	/*
 	if(ch == 0) //Do for Blue
 	{
 		// Do
+		cv::inRangeS(channels[0], lowBound, upBound, dst);
 		return 1;
 	}
 	else 
 	{
-		if(ch == 1 //Do for Green
+		if(ch == 1 )//Do for Green
 		{
 			// Do
 			return 1;
@@ -323,6 +341,8 @@ int Processing_Wrap::thresh(int ch)
 		}
 	}
 	return 0;
+	*/
+	return 1;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////

@@ -53,6 +53,8 @@ virtual void showBlueChannel();
 virtual void showGreenChannel();
 virtual void showRedChannel();
 
+//Thresh
+virtual int thresh(int src, int ch);
 
 virtual void LabelPoints(int src);
 
