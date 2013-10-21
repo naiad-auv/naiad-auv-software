@@ -1,25 +1,24 @@
 <tests_mapping mode="monolith">
    <unit source_file="navigation-positional_controller.ads">
-      <test_unit target_file="navigation-positional_controller-cpositional_controller_test_data-cpositional_controller_tests.ads">
-         <setup file="navigation-positional_controller-cpositional_controller_test_data.adb" line="4"  column="4"/>
-         <teardown file="navigation-positional_controller-cpositional_controller_test_data.adb" line="8"  column="4"/>
-         <tested name="xGet_Positional_Thruster_Control_Values" line="12" column="4">
-            <test file="navigation-positional_controller-cpositional_controller_test_data-cpositional_controller_tests.adb" line="13" column="1" timestamp="modified"/>
+      <test_unit target_file="navigation-positional_controller-cpositionalcontroller_test_data-cpositionalcontroller_tests.ads">
+         <setup file="navigation-positional_controller-cpositionalcontroller_test_data.adb" line="4"  column="4"/>
+         <teardown file="navigation-positional_controller-cpositionalcontroller_test_data.adb" line="8"  column="4"/>
+         <tested name="xGet_Positional_Thruster_Control_Values" line="14" column="4">
+            <test file="navigation-positional_controller-cpositionalcontroller_test_data-cpositionalcontroller_tests.adb" line="13" column="1" timestamp="2013-10-18 09:40:56"/>
          </tested>
-         <tested name="Update_Wanted_Position" line="14" column="4">
-            <test file="navigation-positional_controller-cpositional_controller_test_data-cpositional_controller_tests.adb" line="65" column="1" timestamp="modified"/>
+         <tested name="Update_Current_Errors" line="16" column="4">
+            <test file="navigation-positional_controller-cpositionalcontroller_test_data-cpositionalcontroller_tests.adb" line="34" column="1" timestamp="2013-10-18 09:40:56"/>
          </tested>
-         <tested name="Set_New_PID_Component_Scalings" line="16" column="4">
-            <test file="navigation-positional_controller-cpositional_controller_test_data-cpositional_controller_tests.adb" line="94" column="1" timestamp="modified"/>
+         <tested name="Set_New_PID_Component_Scalings" line="19" column="4">
+            <test file="navigation-positional_controller-cpositionalcontroller_test_data-cpositionalcontroller_tests.adb" line="55" column="1" timestamp="2013-10-18 09:40:56"/>
          </tested>
          <dangling>
-            <test file="navigation-positional_controller-cpositional_controller_test_data-cpositional_controller_tests.adb" line="114" column="1"/>
          </dangling>
       </test_unit>
       <test_unit target_file="navigation-positional_controller-test_data-tests.ads">
          <setup file="navigation-positional_controller-test_data.adb" line="3"  column="4"/>
          <teardown file="navigation-positional_controller-test_data.adb" line="9"  column="4"/>
-         <tested name="pxCreate" line="10" column="4">
+         <tested name="pxCreate" line="12" column="4">
             <test file="navigation-positional_controller-test_data-tests.adb" line="13" column="1" timestamp="modified"/>
          </tested>
          <dangling>

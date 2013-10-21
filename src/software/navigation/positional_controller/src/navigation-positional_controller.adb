@@ -14,13 +14,13 @@ package body Navigation.Positional_Controller is
       xPositionalController.pxCurrentAbsoluteOrientation := pxCurrentAbsoluteOrientation;
 
       xPositionalController.pxXMotionComponent := Navigation.Motion_Component.pxCreate(eAxisIndex    => Navigation.Motion_Component.X,
-                                                                                       xPID_Scalings => Navigation.PID_Controller.TPIDComponentScalings'(0.0,0.0,0.0));
+                                                                                       xPIDScalings => Navigation.PID_Controller.TPIDComponentScalings'(0.0,0.0,0.0));
 
       xPositionalController.pxYMotionComponent := Navigation.Motion_Component.pxCreate(eAxisIndex    => Navigation.Motion_Component.Y,
-                                                                                       xPID_Scalings => Navigation.PID_Controller.TPIDComponentScalings'(0.0,0.0,0.0));
+                                                                                       xPIDScalings => Navigation.PID_Controller.TPIDComponentScalings'(0.0,0.0,0.0));
 
       xPositionalController.pxZMotionComponent := Navigation.Motion_Component.pxCreate(eAxisIndex    => Navigation.Motion_Component.Z,
-                                                                                       xPID_Scalings => Navigation.PID_Controller.TPIDComponentScalings'(0.0,0.0,0.0));
+                                                                                       xPIDScalings => Navigation.PID_Controller.TPIDComponentScalings'(0.0,0.0,0.0));
 
       return xPositionalController;
 

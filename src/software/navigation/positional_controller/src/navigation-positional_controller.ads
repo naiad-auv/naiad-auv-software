@@ -27,9 +27,9 @@ private
 
          pxCurrentAbsoluteOrientation : Math.Matrices.pCMatrix;
 
-         pxXMotionComponent : Navigation.Motion_Component.pCMotion_Component;
-         pxYMotionComponent : Navigation.Motion_Component.pCMotion_Component;
-         pxZMotionComponent : Navigation.Motion_Component.pCMotion_Component;
+         pxXMotionComponent : Navigation.Motion_Component.pCMotionComponent;
+         pxYMotionComponent : Navigation.Motion_Component.pCMotionComponent;
+         pxZMotionComponent : Navigation.Motion_Component.pCMotionComponent;
       end record;
 
 end Navigation.Positional_Controller;
