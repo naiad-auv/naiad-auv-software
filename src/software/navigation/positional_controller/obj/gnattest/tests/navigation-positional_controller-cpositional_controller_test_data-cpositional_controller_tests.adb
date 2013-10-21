@@ -25,14 +25,19 @@ package body Navigation.Positional_Controller.CPositional_Controller_Test_Data.C
       pxPositionalController : Navigation.Positional_Controller.pCPositionalController;
 
       pxNewWanted : Math.Vectors.pCVector := Math.Vectors.pxCreate(5.0,5.0,5.0);
+      
+      pxCurrentPosition : Math.Vectors.pCVector := Math.Vectors.pxCreate(0.0,0.0,0.0);
+      pxCurrentOrientation : Math.Matrices.pCMatrix := Math.Matrices.pxCreate_Identity;
+      
       pxPositionalScalings : Navigation.PID_Controller.TPIDComponentScalings := (1.0,1.0,1.0);
+      
 
-      xPositionalControlValues : Navigation.Motion_Component.TPositionalControlValues;
+      xPositionalControlValues : Navigation.Thrusters.TThrusterEffects;
    begin
 
-      pxPositionalController := Navigation.Positional_Controller.pxCreate;
-
-      pxPositionalController.Update_Wanted_Position(pxNewWanted);
+      pxPositionalController := Navigation.Positional_Controller.pxCreate(pxCurrentAbsolutePosition    => pxCurrentPosition,
+                                                                          pxWantedAbsolutePosition     => pxNewWanted,
+                                                                          pxCurrentAbsoluteOrientation => pxCurrentOrientation);
 
       pxPositionalController.Set_New_PID_Component_Scalings(Navigation.Motion_Component.AllComponents, pxPositionalScalings);
 
@@ -76,7 +81,7 @@ package body Navigation.Positional_Controller.CPositional_Controller_Test_Data.C
       
       use Math.Vectors;
 
-      pxPositionalController : Navigation.Positional_Controller.pCPositional_Controller;
+      pxPositionalController : Navigation.Positional_Controller.pCPositionalController;
 
       pxNewWanted : Math.Vectors.pCVector := Math.Vectors.pxCreate(1.0,2.0,3.0);
 

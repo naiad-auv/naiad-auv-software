@@ -2,11 +2,17 @@ with Navigation.Motion_Component;
 with Math.Matrices;
 with Math.Vectors;
 with Navigation.Thrusters;
+with System.Pool_Local;
 
 package Navigation.Thruster_Configurator is
 
    type CThrusterConfigurator is tagged private;
+
+
    type pCThrusterConfigurator is access CThrusterConfigurator;
+
+   xStoragePool : System.Pool_Local.Unbounded_Reclaim_Pool;
+   for pCThrusterConfigurator'Storage_Pool use xStoragePool;
 
    type TExtendedMatrix is array(POSITIVE range <>, POSITIVE range <>) of float;
 

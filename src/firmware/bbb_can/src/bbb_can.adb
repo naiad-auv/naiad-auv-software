@@ -25,19 +25,29 @@ package body BBB_CAN is
    end Init;
 
    function Handshake return Boolean is
-      sBuffer : String(1..5);
+      sSend : String(1..5);
+      sReceive : String(1..6);
+      iBytesRead : Integer := 0;
    begin
-      sBuffer(1) := Character'Val(3);
-      sBuffer(2) := Character'Val(0);
-      sBuffer(3) := Character'Val(0);
-      sBuffer(4) := Character'Val(0);
-      sBuffer(5) := Character'Val(0);
-      Usart_Write(sBuffer, 5);   --sends handshake message
+      -- handshake message:
+      sSend(1) := Character'Val(3);
+      sSend(2) := Character'Val(0);
+      sSend(3) := Character'Val(0);
+      sSend(4) := Character'Val(0);
+      sSend(5) := Character'Val(0);
 
-      --wait for bytes 3, 0, 0, 0, 0 while keeping a look at the clock
+      --send handshake message and wait for reply while keeping a look at the clock
+      sReceive := pxUart.sUartEcho(5, iBytesRead, sSend, Duration(iHANDSHAKE_WAIT_TIME_MS) / 1000);
 
-      --pxUart.Uart_Read
-
+      if iBytesRead >= 5 then
+         if sReceive(1) = Character'Val(3) and
+           	sReceive(2) = Character'Val(0) and
+           	sReceive(3) = Character'Val(0) and
+           	sReceive(4) = Character'Val(0) and
+           	sReceive(5) = Character'Val(0) then
+            return true;
+         end if;
+      end if;
       return false;
    end Handshake;
 
@@ -71,8 +81,19 @@ package body BBB_CAN is
          if iDataLen /= 0 then
             declare
                sData : String(1..iDataLen);
+               sBuffer : String(1..1);
+               iLeft : Integer := iDataLen;
+               iBytesRead : Integer;
+               iTotalBytes : Integer := 0;
             begin
-               Usart_Read(sData, iDataLen);
+               while iTotalBytes < iDataLen loop
+                  Usart_Read(sBuffer, 1, iBytesRead);
+                  iTotalBytes := iTotalBytes + 1;
+                  if iBytesRead = 1 then
+                     sData(iTotalBytes) := sBuffer(1);
+                  end if;
+               end loop;
+
                for i in 1..iDataLen loop
                   msg.Data(DLC_Type(i)) := Character'Pos(sData(i));
                end loop;
@@ -135,10 +156,8 @@ package body BBB_CAN is
    end Usart_Write;
 
    procedure Usart_Read(sBuffer : out String; iSize : Integer; iBytesRead : out Integer) is
-      sRet : String(1..iSize);
-      iIndex : Integer := 1;
    begin
-      null;
+      sBuffer := pxUart.sUartReadSpecificAmount(iSize, iBytesRead);
    end Usart_Read;
 
    function Calculate_Checksum(b8Data : Byte8; Len : DLC_Type) return Interfaces.Unsigned_8 is

@@ -2,12 +2,12 @@ with Navigation;
 
 package body Navigation.PID_Controller is
 
-   procedure Update_Derivative_Part_Based_On_Tick(this : in out CPID_Controller; fDeltaTime : in float) is
+   procedure Update_Derivative_Part_Based_On_Tick(this : in out CPIDController; fDeltaTime : in float) is
    begin
       this.fCurrentDerivativePart := (this.fCurrentProportionalPart - this.fLastProportionalPart) / fDeltaTime;
    end Update_Derivative_Part_Based_On_Tick;
 
-   procedure Update_Derivative_Part(this : in out CPID_Controller; fNewDerivativePart : in float) is
+   procedure Update_Derivative_Part(this : in out CPIDController; fNewDerivativePart : in float) is
    begin
       this.fCurrentDerivativePart := fNewDerivativePart;
    end Update_Derivative_Part;
@@ -17,26 +17,26 @@ package body Navigation.PID_Controller is
       return float'Min(float'Max(fvalue, -1.0), 1.0);
    end fNormalize_Float_Value;
 
-   function pxCreate return pCPID_Controller is
+   function pxCreate return pCPIDController is
    begin
-      return new CPID_Controller;
+      return new CPIDController;
    end pxCreate;
 
-   function pxCreate(xPIDComponentScalings : TPIDComponentScalings) return pCPID_Controller is
-      pCurrentController : pCPID_Controller;
+   function pxCreate(xPIDComponentScalings : TPIDComponentScalings) return pCPIDController is
+      pCurrentController : pCPIDController;
    begin
-      pCurrentController := PID_Controller.pxCreate;
+      pCurrentController := new CPIDController;
       pCurrentController.Set_New_PID_Component_Scalings(xPIDComponentScalings);
       return pCurrentController;
    end pxCreate;
 
 
-   procedure Set_New_Set_Point(this : in out CPID_Controller; fNewSetPoint : in float) is
+   procedure Set_New_Set_Point(this : in out CPIDController; fNewSetPoint : in float) is
    begin
       this.fCurrentSetPoint := fNewSetPoint;
    end Set_New_Set_Point;
 
-   procedure Set_New_PID_Component_Scalings(this : in out CPID_Controller; xNewScalings : TPIDComponentScalings) is
+   procedure Set_New_PID_Component_Scalings(this : in out CPIDController; xNewScalings : TPIDComponentScalings) is
    begin
       this.fProportionalScale := xNewScalings.fProportionalScale;
       this.fIntegralScale := xNewScalings.fIntegralScale;
@@ -45,12 +45,12 @@ package body Navigation.PID_Controller is
 
 
 
-   procedure Update_Current_Value_From_External_Source(this : in out CPID_Controller; fValue : float) is
+   procedure Update_Current_Value_From_External_Source(this : in out CPIDController; fValue : float) is
    begin
       this.fCurrentValue := fValue;
    end Update_Current_Value_From_External_Source;
 
-   procedure Reset_Controller(this : in out CPID_Controller) is
+   procedure Reset_Controller(this : in out CPIDController) is
    begin
       this.fCurrentValue := 0.0;
       this.fCurrentSetPoint := 0.0;
@@ -66,7 +66,7 @@ package body Navigation.PID_Controller is
       this.fProportionalScale := 0.0;
    end Reset_Controller;
 
-   function xGet_New_Control_Value(this : in out CPID_Controller; fDeltaTime : float) return float is
+   function xGet_New_Control_Value (this : in out CPIDController; fDeltaTime : float) return float is
       fLastError : float := this.fCurrentProportionalPart;
       output : float;
    begin
@@ -82,17 +82,17 @@ package body Navigation.PID_Controller is
    end xGet_New_Control_Value;
 
 
-   function fGetIntergralScale(this : in out CPID_Controller) return float is
+   function fGetIntergralScale (this : in out CPIDController) return float is
    begin
       return this.fIntegralScale;
    end fGetIntergralScale;
 
-   function fGetDerivativeScale(this : in out CPID_Controller) return float is
+   function fGetDerivativeScale (this : in out CPIDController) return float is
    begin
       return this.fDerivativeScale;
    end fGetDerivativeScale;
 
-   function fGetProportionalScale(this : in out CPID_Controller) return float is
+   function fGetProportionalScale (this : in out CPIDController) return float is
    begin
       return this.fProportionalScale;
    end fGetProportionalScale;

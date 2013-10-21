@@ -5,7 +5,7 @@
 
 package body Navigation.Motion_Component.CMotion_Component_Test_Data is
 
-   Local_CMotion_Component : aliased GNATtest_Generated.GNATtest_Standard.Navigation.Motion_Component.CMotion_Component;
+   Local_CMotion_Component : aliased GNATtest_Generated.GNATtest_Standard.Navigation.Motion_Component.CMotionComponent;
    procedure Set_Up (Gnattest_T : in out Test_CMotion_Component) is
    begin
       Gnattest_T.Fixture := Local_CMotion_Component'Access;

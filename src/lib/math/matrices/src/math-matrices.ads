@@ -3,18 +3,24 @@ with Math.Quaternions;
 with Math.Vectors;
 with Math.Planes;
 with System; -- use System;
+with System.Pool_Local;
 with Math.Angles;
 with Ada.Exceptions;
 with Ada.Numerics.Elementary_Functions;
+with GNAT.Debug_Pools;
 
 -- Matrices package for classes, types and functionality regarding 3x3 rotation matrices. A 3x3 rotation matrix object is stored in a pCMatrix variable and is created with the different pxCreate functions.
 package Math.Matrices is
 
    type CMatrix is tagged private;
+
    --  <summary>Class for 3x3 rotation matrix.</summary>
 
    type pCMatrix is access CMatrix;
    --  <summary>Pointer type for object of type CMatrix. Objects of type CMatrix should always be stored in variables of this type.</summary>
+
+   xStoragePool : System.Pool_Local.Unbounded_Reclaim_Pool;
+   for pCMatrix'Storage_Pool use xStoragePool;
 
    type TMatrix is array(1 .. 3, 1 .. 3) of float;
    --  <summary>Primitive type for a 3x3 rotation matrix. A CMatrix object can be created directly from a variable of this type using pxCreate.</summary>
@@ -107,6 +113,7 @@ private
       record
          tfMatrix : TMatrix;
       end record;
+
 
    procedure Swap_Values_In_Extended_Matrix(fValue1 : in out float; fValue2 : in out float);
    procedure Swap_Rows_In_Extended_Matrix(tfExtendedMatrix : in out TExtendedMatrix; iRow1 : in integer; iRow2 : in integer);
