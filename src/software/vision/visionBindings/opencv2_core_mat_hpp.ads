@@ -200,6 +200,9 @@ package opencv2_core_mat_hpp is
       end record;
       pragma Import (CPP, MatExpr);
 
+      procedure Delete_MatExpr (this : access MatExpr);  -- /usr/include/opencv2/core/mat.hpp:1167
+      pragma Import (CPP, Delete_MatExpr, "_ZN2cv7MatExprD1Ev");
+
       function New_MatExpr return MatExpr;  -- /usr/include/opencv2/core/mat.hpp:1170
       pragma CPP_Constructor (New_MatExpr, "_ZN2cv7MatExprC1Ev");
 

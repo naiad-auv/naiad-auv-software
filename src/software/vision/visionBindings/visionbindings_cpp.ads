@@ -5,6 +5,7 @@ with Interfaces.C; use Interfaces.C;
 with cpp_4_7_4_bits_stl_vector_h;
 with opencv2_highgui_highgui_hpp;
 with cpp_4_7_4_bits_stl_queue_h;
+with opencv2_core_core_hpp;
 
 package visionBindings_cpp is
 
@@ -31,5 +32,20 @@ package visionBindings_cpp is
 
    imageName : aliased int;  -- visionBindings.cpp:19
    pragma Import (C, imageName, "imageName");
+
+   BGR : aliased cpp_4_7_4_bits_stl_vector_h.Class_vector.vector;  -- visionBindings.cpp:21
+   pragma Import (C, BGR, "BGR");
+
+   blueHistVals : aliased opencv2_core_core_hpp.Class_Mat.Mat;  -- visionBindings.cpp:22
+   pragma Import (C, blueHistVals, "blueHistVals");
+
+   greenHistVals : aliased opencv2_core_core_hpp.Class_Mat.Mat;  -- visionBindings.cpp:23
+   pragma Import (C, greenHistVals, "greenHistVals");
+
+   redHistVals : aliased opencv2_core_core_hpp.Class_Mat.Mat;  -- visionBindings.cpp:24
+   pragma Import (C, redHistVals, "redHistVals");
+
+   hist : aliased opencv2_core_core_hpp.Class_MatND.MatND;  -- visionBindings.cpp:26
+   pragma Import (C, hist, "hist");
 
 end visionBindings_cpp;
