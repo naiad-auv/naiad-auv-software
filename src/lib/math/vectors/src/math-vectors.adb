@@ -10,8 +10,11 @@ with Ada.Text_IO;
 package body Math.Vectors is
 
    function pxCreate (fX, fY, fZ : float) return pCVector is
-      pxNew_Vector : pCVector := new CVector;
+      pxNew_Vector : pCVector;
    begin
+
+      pxNew_Vector := new CVector;
+
       pxNew_Vector.fX := fX;
       pxNew_Vector.fY := fY;
       pxNew_Vector.fZ := fZ;
@@ -193,6 +196,8 @@ package body Math.Vectors is
       this.fY := pxSourceVector.fY;
       this.fZ := pxSourceVector.fZ;
    end Copy_From;
+
+
 
 
 end Math.Vectors;

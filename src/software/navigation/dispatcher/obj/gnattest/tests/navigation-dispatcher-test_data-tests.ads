@@ -10,7 +10,13 @@ package Navigation.Dispatcher.Test_Data.Tests is
    with null record;
 
    procedure Test_pxCreate_63d5f9 (Gnattest_T : in out Test);
-   --  navigation-dispatcher.ads:14:4:pxCreate
+   --  navigation-dispatcher.ads:15:4:pxCreate
+
+   procedure Test_Scale_Thruster_Values_6606ca (Gnattest_T : in out Test);
+   --  navigation-dispatcher.ads:32:4:Scale_Thruster_Values
+
+   procedure Test_bThruster_Values_Need_Scaling_46c697 (Gnattest_T : in out Test);
+   --  navigation-dispatcher.ads:33:4:bThruster_Values_Need_Scaling
 
 end Navigation.Dispatcher.Test_Data.Tests;
 --  end read only

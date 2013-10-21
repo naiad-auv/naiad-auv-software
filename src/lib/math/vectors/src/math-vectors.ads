@@ -4,14 +4,17 @@ with Math;
 with Ada.Numerics;
 with Ada.Exceptions;
 with System;
+with Ada.Finalization;
 
 -- Vectors package for classes, types and functionality regarding vectors. A vector object is stored in a pCVector variable and is created with the pxCreate function.
 package Math.Vectors is
-   type CVector is tagged private;
+   type CVector is new Ada.Finalization.Controlled with private;
    --  <summary>Class for vector.</summary>
 
    type pCVector is access CVector;
    --  <summary>Pointer type for object of type CVector. Objects of type CVector should always be stored in variables of this type.</summary>
+
+   --type gpCVector is access all CVector;
 
    function pxCreate (fX, fY, fZ : float) return pCVector;
    --  <summary>Creates an object of type CVector. Returns a pointer of type pCVector to the object created.</summary>
@@ -111,14 +114,20 @@ package Math.Vectors is
    --  <parameter name="pxSourceVector">The CVector object to copy the component values from.</parameter>
 
 private
-   type CVector is tagged
+   type CVector is new Ada.Finalization.Controlled with
       record
          fX : float;
          fY : float;
          fZ : float;
+         pxNextStorageUnit : pCVector;
+         bReusable : boolean := false;
       end record;
+
+   pxStorageList : pCVector := null;
+   iCount : integer := 0;
 
    -- used in pxGet_Normalized to allow division by a vector's length without pointer
    function "/" (xLeftOperandVector : in CVector; fRightOperand : in float) return pCVector;
+
 
 end Math.Vectors;
