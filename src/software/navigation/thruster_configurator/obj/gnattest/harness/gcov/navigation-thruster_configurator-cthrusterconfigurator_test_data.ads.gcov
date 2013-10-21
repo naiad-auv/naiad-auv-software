@@ -1,0 +1,26 @@
+        -:    0:Source:/home/emibe/skola/robgit/naiad-auv-software/src/software/navigation/thruster_configurator/obj/gnattest/tests/navigation-thruster_configurator-cthrusterconfigurator_test_data.ads
+        -:    0:Programs:37
+        -:    1:--  This package is intended to set up and tear down  the test environment.
+        -:    2:--  Once created by GNATtest, this package will never be overwritten
+        -:    3:--  automatically. Contents of this package can be modified in any way
+        -:    4:--  except for sections surrounded by a 'read only' marker.
+        -:    5:
+        -:    6:with AUnit.Test_Fixtures;
+        -:    7:
+        -:    8:with GNATtest_Generated;
+        -:    9:
+       12:   10:package Navigation.Thruster_Configurator.CThrusterConfigurator_Test_Data is
+        -:   11:
+        8:   12:   type CThrusterConfigurator_Access is access all GNATtest_Generated.GNATtest_Standard.Navigation.Thruster_Configurator.CThrusterConfigurator'Class;
+        -:   13:
+        -:   14:--  begin read only
+        4:   15:   type Test_CThrusterConfigurator is new AUnit.Test_Fixtures.Test_Fixture
+        -:   16:--  end read only
+        -:   17:   with record
+        -:   18:      Fixture : CThrusterConfigurator_Access;
+        -:   19:   end record;
+        -:   20:
+        -:   21:   procedure Set_Up (Gnattest_T : in out Test_CThrusterConfigurator);
+        -:   22:   procedure Tear_Down (Gnattest_T : in out Test_CThrusterConfigurator);
+        -:   23:
+        4:   24:end Navigation.Thruster_Configurator.CThrusterConfigurator_Test_Data;

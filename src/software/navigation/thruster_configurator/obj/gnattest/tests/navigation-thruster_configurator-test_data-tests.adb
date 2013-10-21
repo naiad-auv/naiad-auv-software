@@ -166,11 +166,17 @@ package body Navigation.Thruster_Configurator.Test_Data.Tests is
 
       pragma Unreferenced (Gnattest_T);
 
+      a : float := 1.0;
+      b : float := 2.0;
+
    begin
 
-      AUnit.Assertions.Assert
-        (Gnattest_Generated.Default_Assert_Value,
-         "Test not implemented.");
+      Navigation.Thruster_Configurator.Swap_Values_In_Extended_Matrix(a,b);
+
+      AUnit.Assertions.Assert(Condition => abs(a - 2.0) < 0.0001,
+                              Message   => "swap does not work");
+      AUnit.Assertions.Assert(Condition => abs(b - 1.0) < 0.0001,
+                              Message   => "swap does not work");
 
 --  begin read only
    end Test_Swap_Values_In_Extended_Matrix;
@@ -187,11 +193,23 @@ package body Navigation.Thruster_Configurator.Test_Data.Tests is
 
       pragma Unreferenced (Gnattest_T);
 
+	xfExtendedMatrix : Navigation.Thruster_Configurator.TExtendedMatrix(1..6, 1..7) := (others => (others => 3.0));
    begin
 
-      AUnit.Assertions.Assert
-        (Gnattest_Generated.Default_Assert_Value,
-         "Test not implemented.");
+      for i in xfExtendedMatrix'Range(2)
+      loop
+      	xfExtendedMatrix(1,i) := 1.0;
+      	xfExtendedMatrix(3,i) := 4.0;
+      end loop;
+
+      Navigation.Thruster_Configurator.Swap_Rows_In_Extended_Matrix(xfExtendedMatrix,1,3);
+
+      for i in xfExtendedMatrix'Range(2)
+      loop
+         AUnit.Assertions.Assert(Condition => (abs(xfExtendedMatrix(1,i) - 4.0) < 0.00001) and (abs(xfExtendedMatrix(3,i) - 1.0) < 0.00001),
+                                 Message   => "Row swapping does not work");
+      end loop;
+
 
 --  begin read only
    end Test_Swap_Rows_In_Extended_Matrix;
@@ -210,9 +228,8 @@ package body Navigation.Thruster_Configurator.Test_Data.Tests is
 
    begin
 
-      AUnit.Assertions.Assert
-        (Gnattest_Generated.Default_Assert_Value,
-         "Test not implemented.");
+      AUnit.Assertions.Assert(Condition => Navigation.Thruster_Configurator.bMatrix_Has_No_Inverse(0.0),
+                              Message   => "ABO!");
 
 --  begin read only
    end Test_bMatrix_Has_No_Inverse;
@@ -229,11 +246,14 @@ package body Navigation.Thruster_Configurator.Test_Data.Tests is
 
       pragma Unreferenced (Gnattest_T);
 
+   	xfExtendedMatrix : Navigation.Thruster_Configurator.TExtendedMatrix(1..6, 1..7) := (others => (others => 3.0));
    begin
 
-      AUnit.Assertions.Assert
-        (Gnattest_Generated.Default_Assert_Value,
-         "Test not implemented.");
+
+      xfExtendedMatrix(4,3) := 20.0;
+
+      Aunit.Assertions.Assert(Condition => Navigation.Thruster_Configurator.Find_Row_With_Highest_Component(xfExtendedMatrix, 3) = 4,
+                              Message   => "Unable to find row with highest component");
 
 --  begin read only
    end Test_Find_Row_With_Highest_Component;
@@ -250,11 +270,18 @@ package body Navigation.Thruster_Configurator.Test_Data.Tests is
 
       pragma Unreferenced (Gnattest_T);
 
+      xfExtendedMatrix : Navigation.Thruster_Configurator.TExtendedMatrix(1..6, 1..7) := (others => (others => 3.0));
+      xThrusterEffects : Navigation.Thrusters.TThrusterEffects := (others => 1.0);
    begin
 
-      AUnit.Assertions.Assert
-        (Gnattest_Generated.Default_Assert_Value,
-         "Test not implemented.");
+      Navigation.Thruster_Configurator.Insert_Component_Values_In_Extended_Matrix(xfExtendedMatrix,xThrusterEffects);
+
+      for i in xfExtendedMatrix'Range(1)
+      loop
+         Aunit.Assertions.Assert(Condition => abs(xfExtendedMatrix(i, xfExtendedMatrix'Length(2)) - 1.0) < 0.00001,
+                                 Message => "Unable to insert thruster effects in extended matrix");
+      end loop;
+
 
 --  begin read only
    end Test_Insert_Component_Values_In_Extended_Matrix;
@@ -271,11 +298,34 @@ package body Navigation.Thruster_Configurator.Test_Data.Tests is
 
       pragma Unreferenced (Gnattest_T);
 
+      notZeroCount : integer := 0;
+
+      xfExtendedMatrix : Navigation.Thruster_Configurator.TExtendedMatrix(1..3, 1..3) := ((1.0,2.0,3.0),(0.0,1.0,4.0),(5.0,6.0,0.0));
    begin
 
-      AUnit.Assertions.Assert
-        (Gnattest_Generated.Default_Assert_Value,
-         "Test not implemented.");
+      Navigation.Thruster_Configurator.Perform_Gauss_Jordan_Elimination_On(xfExtendedMatrix);
+
+      AUnit.Assertions.Assert(Condition => xfExtendedMatrix(1,1) = 1.0,
+                              Message   => "(1,1) /= 1.0");
+      AUnit.Assertions.Assert(Condition => xfExtendedMatrix(2,2) = 1.0,
+                              Message   => "(2,2) /= 1.0");
+      AUnit.Assertions.Assert(Condition => xfExtendedMatrix(3,3) = 1.0,
+                              Message   => "(3,3) /= 1.0");
+
+
+      for i in xfExtendedMatrix'Range(1) loop
+      	 for j in xfExtendedMatrix'Range(2) loop
+            if(abs(xfExtendedMatrix(i,j)) > 0.00001)
+            then
+               notZeroCount := notZeroCount + 1;
+            end if;
+         end loop;
+         AUnit.Assertions.Assert(Condition => notZeroCount =1,
+                                 Message   => "more then 1 zero in a row");
+         notZeroCount := 0;
+      end loop;
+
+
 
 --  begin read only
    end Test_Perform_Gauss_Jordan_Elimination_On;

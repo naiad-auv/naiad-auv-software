@@ -60,7 +60,7 @@ package BBB_CAN is
 
    -- Tries a handshake, if no answer is received after iHANDSHAKE_WAIT_TIME_MS it returns false
    -- if handshake was successful, true is returned
-   function Handshake return Boolean;
+ --  function Handshake return Boolean;
 
    procedure Send(msg : CAN_Message);
 
@@ -75,7 +75,7 @@ private
 
    procedure Message_To_Bytes(sBuffer : out String; msg : CAN_Message);
 
-   function Calculate_Checksum(b8Data : Byte8; Len : DLC_Type) return Interfaces.Unsigned_8;
+   function  Calculate_Checksum(b8Data : Byte8; Len : DLC_Type) return Interfaces.Unsigned_8;
 
    procedure Usart_Read(sBuffer : out String; iSize : Integer; iBytesRead : out Integer);
 

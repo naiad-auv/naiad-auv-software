@@ -1,0 +1,130 @@
+        -:    0:Source:/home/emibe/skola/robgit/naiad-auv-software/src/software/navigation/thrusters/src/navigation-thrusters.adb
+        -:    0:Programs:37
+        -:    1:package body Navigation.Thrusters is
+        -:    2:
+        -:    3:   --------------
+        -:    4:   -- pxCreate --
+        -:    5:   --------------
+        -:    6:
+      144:    7:   function pxCreate (tfThrusterEffects : in TThrusterEffects) return pCThruster is
+      144:    8:      pxNewThruster : pCThruster;
+        -:    9:   begin
+      144:   10:      pxNewThruster := new CThruster;
+      144:   11:      pxNewThruster.pxNextThruster := null;
+      144:   12:      pxNewThruster.tfThrusterEffects := tfThrusterEffects;
+      144:   13:      return pxNewThruster;
+        -:   14:   end pxCreate;
+        -:   15:
+        -:   16:   ----------------
+        -:   17:   -- iGet_Count --
+        -:   18:   ----------------
+        -:   19:
+      264:   20:   function iGet_Count (this : in CThruster) return integer is
+        -:   21:   begin
+      264:   22:      if this.pxNextThruster /= null then
+      220:   23:         return this.pxNextThruster.iGet_Count + 1;
+        -:   24:      end if;
+       44:   25:      return 1;
+        -:   26:   end iGet_Count;
+        -:   27:
+        -:   28:   -------------------------------
+        -:   29:   -- Add_Thruster_With_Effects --
+        -:   30:   -------------------------------
+        -:   31:
+      360:   32:   procedure Add_Thruster_With_Effects
+        -:   33:     (this : in out CThruster;
+        -:   34:      tfThrusterEffects : in TThrusterEffects)
+        -:   35:   is
+        -:   36:   begin
+      360:   37:      if this.pxNextThruster = null then
+      120:   38:         this.pxNextThruster := pxCreate(tfThrusterEffects);
+        -:   39:      else
+      240:   40:         this.pxNextThruster.Add_Thruster_With_Effects(tfThrusterEffects);
+        -:   41:      end if;
+      360:   42:   end Add_Thruster_With_Effects;
+        -:   43:
+        -:   44:
+    #####:   45:   procedure Change_Thruster_Effects
+        -:   46:     (this : in out CThruster;
+        -:   47:      iThrusterIndex : in integer;
+        -:   48:      tfThrusterEffects : in TThrusterEffects)
+        -:   49:   is
+        -:   50:   begin
+    #####:   51:      if iThrusterIndex - 1 = 0 then
+    #####:   52:         this.tfThrusterEffects := tfThrusterEffects;
+        -:   53:      else
+    #####:   54:         if this.pxNextThruster /= null then
+    #####:   55:            this.pxNextThruster.Change_Thruster_Effects(iThrusterIndex - 1, tfThrusterEffects);
+        -:   56:         else
+    #####:   57:            raise Numeric_Error; -- index out of range
+        -:   58:         end if;
+        -:   59:      end if;
+    #####:   60:   end;
+        -:   61:
+        -:   62:   -----------------------------------
+        -:   63:   -- txGet_Thruster_Effects_Matrix --
+        -:   64:   -----------------------------------
+        -:   65:
+       16:   66:   function txGet_Thruster_Effects_Matrix
+        -:   67:     (this : in CThruster)
+        -:   68:      return TThrusterEffectsMatrix
+        -:   69:   is
+        8:   70:      txThrusterEffectsMatrix : TThrusterEffectsMatrix(1 .. this.iGet_Count+1);
+        -:   71:   begin
+        8:   72:      txThrusterEffectsMatrix := (others => (others => 0.0));
+        8:   73:      this.Put_Thruster_Effects_Into_Matrix(txThrusterEffectsMatrix, 1);
+       16:   74:      return txThrusterEffectsMatrix;
+        8:   75:   end txGet_Thruster_Effects_Matrix;
+        -:   76:
+        -:   77:   -----------------------------
+        -:   78:   -- tfMake_Thruster_Effects --
+        -:   79:   -----------------------------
+        -:   80:
+      144:   81:   function tfMake_Thruster_Effects
+        -:   82:     (fXPosition, fYPosition, FZPosition, fXRotation, fYRotation, fZRotation : in float)
+        -:   83:      return TThrusterEffects
+        -:   84:   is
+        -:   85:      tfNewThrusterEffects : TThrusterEffects;
+        -:   86:   begin
+      144:   87:      tfNewThrusterEffects(XPosition) := fXPosition;
+      144:   88:      tfNewThrusterEffects(YPosition) := fYPosition;
+      144:   89:      tfNewThrusterEffects(ZPosition) := fZPosition;
+      144:   90:      tfNewThrusterEffects(XRotation) := fXRotation;
+      144:   91:      tfNewThrusterEffects(YRotation) := fYRotation;
+      144:   92:      tfNewThrusterEffects(ZRotation) := fZRotation;
+      144:   93:      return tfNewThrusterEffects;
+        -:   94:   end tfMake_Thruster_Effects;
+        -:   95:
+        -:   96:   --------------------------------------
+        -:   97:   -- Put_Thruster_Effects_Into_Matrix --
+        -:   98:   --------------------------------------
+        -:   99:
+       48:  100:   procedure Put_Thruster_Effects_Into_Matrix
+        -:  101:     (this : in CThruster;
+        -:  102:      txThrusterEffectsMatrix : in out TThrusterEffectsMatrix;
+        -:  103:      iThrusterIndex : in integer)
+        -:  104:   is
+        -:  105:   begin
+      288:  106:      for i in XPosition .. ZRotation
+      288:  107:      loop
+      288:  108:         txThrusterEffectsMatrix(iThrusterIndex)(i) := this.tfThrusterEffects(i);
+      240:  109:      end loop;
+       48:  110:      if this.pxNextThruster /= null then
+       40:  111:         this.pxNextThruster.Put_Thruster_Effects_Into_Matrix(txThrusterEffectsMatrix, iThrusterIndex + 1);
+        -:  112:      end if;
+       48:  113:   end Put_Thruster_Effects_Into_Matrix;
+        -:  114:
+    #####:  115:   function "+" (tfLeftOperand : in TThrusterEffects; tfRightOperand : in TThrusterEffects) return TThrusterEffects is
+        -:  116:   begin
+    #####:  117:      return TThrusterEffects'(tfLeftOperand(XPosition) + tfRightOperand(XPosition),
+    #####:  118:                               tfLeftOperand(YPosition) + tfRightOperand(YPosition),
+    #####:  119:                               tfLeftOperand(ZPosition) + tfRightOperand(ZPosition),
+    #####:  120:                               tfLeftOperand(XRotation) + tfRightOperand(XRotation),
+    #####:  121:                               tfLeftOperand(YRotation) + tfRightOperand(YRotation),
+    #####:  122:                               tfLeftOperand(ZRotation) + tfRightOperand(ZRotation));
+        -:  123:
+        -:  124:   end "+";
+        -:  125:
+        -:  126:
+        -:  127:
+        -:  128:end Navigation.Thrusters;

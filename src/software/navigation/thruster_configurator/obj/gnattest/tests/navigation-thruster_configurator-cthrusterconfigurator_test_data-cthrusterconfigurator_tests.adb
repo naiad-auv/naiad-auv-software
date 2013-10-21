@@ -20,12 +20,14 @@ package body Navigation.Thruster_Configurator.CThrusterConfigurator_Test_Data.CT
 
       pragma Unreferenced (Gnattest_T);
 
+      pxThrusterConfigurator : Navigation.Thruster_Configurator.pCThrusterConfigurator;
+
    begin
 
-      AUnit.Assertions.Assert
-        (Gnattest_Generated.Default_Assert_Value,
-         "Test not implemented.");
+      pxThrusterConfigurator := Navigation.Thruster_Configurator.pxCreate;
 
+      AUnit.Assertions.Assert(Condition => pxThrusterConfigurator.iGet_Number_Of_Thrusters = 6,
+                              Message   => "Wrong number of thrusters returned");
 --  begin read only
    end Test_iGet_Number_Of_Thrusters;
 --  end read only
@@ -41,11 +43,15 @@ package body Navigation.Thruster_Configurator.CThrusterConfigurator_Test_Data.CT
 
       pragma Unreferenced (Gnattest_T);
 
+      pxThrusterConfigurator : Navigation.Thruster_Configurator.pCThrusterConfigurator;
+     --xThrusterEffectsMatrix : Navigation.Thrusters.TThrusterEffectsMatrix(1..6);
    begin
 
-      AUnit.Assertions.Assert
-        (Gnattest_Generated.Default_Assert_Value,
-         "Test not implemented.");
+      pxThrusterConfigurator := Navigation.Thruster_Configurator.pxCreate;
+
+  --    xThrusterEffectsMatrix := pxThrusterConfigurator.tfGet_Thruster_Effects_Matrix;
+
+      --TODO hur fan ska jag testa detta
 
 --  begin read only
    end Test_tfGet_Thruster_Effects_Matrix;
@@ -62,12 +68,34 @@ package body Navigation.Thruster_Configurator.CThrusterConfigurator_Test_Data.CT
 
       pragma Unreferenced (Gnattest_T);
 
+      pxThrusterConfigurator : Navigation.Thruster_Configurator.pCThrusterConfigurator;
+      xThrusterValues : Navigation.Thrusters.TThrusterValuesArray(1..6);
+      xComponentValues : Navigation.Thrusters.TThrusterEffects := (others => 1.0);
+
+      allComponentsEqual : boolean := true;
+      allZero : boolean := true;
    begin
 
-      AUnit.Assertions.Assert
-        (Gnattest_Generated.Default_Assert_Value,
-         "Test not implemented.");
+      pxThrusterConfigurator := Navigation.Thruster_Configurator.pxCreate;
 
+      xThrusterValues := pxThrusterConfigurator.tfGet_Thruster_Values(xComponentValues);
+
+        for i in xThrusterValues'Range loop
+          if xComponentValues(Navigation.Thrusters.EThrusterEffectsComponents'Val(i - 1)) /= xThrusterValues(Integer(i)) then
+             allComponentsEqual := false;
+           end if;
+        end loop;
+
+      for i in xThrusterValues'Range loop
+         if abs(xThrusterValues(i)) > 0.00001 then
+            allZero := false;
+         end if;
+      end loop;
+
+      AUnit.Assertions.Assert(Condition => not allComponentsEqual,
+                              Message   => "All components are equal");
+      AUnit.Assertions.Assert(Condition => not allZero,
+                              Message   => "All components are zero");
 --  begin read only
    end Test_tfGet_Thruster_Values;
 --  end read only
@@ -83,11 +111,15 @@ package body Navigation.Thruster_Configurator.CThrusterConfigurator_Test_Data.CT
 
       pragma Unreferenced (Gnattest_T);
 
+   pxThrusterConfigurator : Navigation.Thruster_Configurator.pCThrusterConfigurator;
+      extendedMatrix : Navigation.Thruster_Configurator.TExtendedMatrix(1..6, 1..7);
    begin
 
-      AUnit.Assertions.Assert
-        (Gnattest_Generated.Default_Assert_Value,
-         "Test not implemented.");
+      pxThrusterConfigurator := Navigation.Thruster_Configurator.pxCreate;
+
+      extendedMatrix := pxThrusterConfigurator.tfCreate_Extended_Matrix;
+
+      --Vettefan hur jag ska testa detta
 
 --  begin read only
    end Test_tfCreate_Extended_Matrix;

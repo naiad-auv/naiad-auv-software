@@ -1,0 +1,27 @@
+        -:    0:Source:/home/emibe/skola/robgit/naiad-auv-software/src/software/navigation/thruster_configurator/obj/gnattest/tests/navigation-thruster_configurator-cthrusterconfigurator_test_data-cthrusterconfigurator_tests.ads
+        -:    0:Programs:37
+        -:    1:--  This package has been generated automatically by GNATtest.
+        -:    2:--  Do not edit any part of it, see GNATtest documentation for more details.
+        -:    3:
+        -:    4:--  begin read only
+        -:    5:with GNATtest_Generated;
+        -:    6:
+        8:    7:package Navigation.Thruster_Configurator.CThrusterConfigurator_Test_Data.CThrusterConfigurator_Tests is
+        -:    8:
+        4:    9:   type Test_CThrusterConfigurator is new
+        -:   10:     GNATtest_Generated.GNATtest_Standard.Navigation.Thruster_Configurator.CThrusterConfigurator_Test_Data.Test_CThrusterConfigurator with null record;
+        -:   11:
+        -:   12:   procedure Test_iGet_Number_Of_Thrusters_d77f18 (Gnattest_T : in out Test_CThrusterConfigurator);
+        -:   13:   --  navigation-thruster_configurator.ads:22:4:iGet_Number_Of_Thrusters
+        -:   14:
+        -:   15:   procedure Test_tfGet_Thruster_Effects_Matrix_972577 (Gnattest_T : in out Test_CThrusterConfigurator);
+        -:   16:   --  navigation-thruster_configurator.ads:23:4:tfGet_Thruster_Effects_Matrix
+        -:   17:
+        -:   18:   procedure Test_tfGet_Thruster_Values_fd2a06 (Gnattest_T : in out Test_CThrusterConfigurator);
+        -:   19:   --  navigation-thruster_configurator.ads:25:4:tfGet_Thruster_Values
+        -:   20:
+        -:   21:   procedure Test_tfCreate_Extended_Matrix_b5b96a (Gnattest_T : in out Test_CThrusterConfigurator);
+        -:   22:   --  navigation-thruster_configurator.ads:37:4:tfCreate_Extended_Matrix
+        -:   23:
+        4:   24:end Navigation.Thruster_Configurator.CThrusterConfigurator_Test_Data.CThrusterConfigurator_Tests;
+        -:   25:--  end read only
