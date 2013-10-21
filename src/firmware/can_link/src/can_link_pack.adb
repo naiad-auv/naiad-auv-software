@@ -92,13 +92,13 @@ package body CAN_Link_pack is
                Temp_Buf(I) := Character'Val(Msg.Data ( AVR.AT90CAN128.DLC_Type(I)));
             end loop;
             Len := Len + iDataLen;
-            --Calculate the checksum
+
             Checksum := Calculate_Checksum(Temp_Buf, iDataLen);
             Can_Buf(Checksum_POS) := Character'Val(Checksum);
          else
             Can_Buf(Checksum_POS) := Character'Val(0);
          end if;
-         --Send the data to QSEVEN
+         --Send the data to BBB
          Usart_Write(Can_Buf, USART_PORT, Len);
       end;
    end Send_CanData_To_BBB;
@@ -115,17 +115,14 @@ package body CAN_Link_pack is
    end Send_CanData_To_Can;
 
    procedure CANBUS_Monitoring is
+      Msg_In : AVR.AT90CAN128.CAN.CAN_Message;
+      Ret    : Boolean;
    begin
-      while AVR.AT90CAN128.CAN.Can_Valid_Message loop
-         declare
-            Msg_In : AVR.AT90CAN128.CAN.CAN_Message;
-            Ret    : Boolean;
-         begin
-            AVR.AT90CAN128.CAN.Can_Get(Msg_In, Ret, 0);
-            if Ret then
-               Send_CanData_To_BBB(Msg_In);
-            end if;
-         end;
+
+      AVR.AT90CAN128.CAN.Can_Get(Msg_In, Ret, 0);
+      while Ret loop
+         Send_CanData_To_BBB(Msg_In);
+         AVR.AT90CAN128.CAN.Can_Get(Msg_In, Ret, 0);
       end loop;
    end CANBUS_Monitoring;
 
@@ -223,7 +220,6 @@ package body CAN_Link_pack is
 
    procedure Main_Loop is
    begin
-      Handshake_With_BBB;
 
       loop
          -- Handle the commands from the BBB
@@ -236,6 +232,9 @@ package body CAN_Link_pack is
    procedure Hardware_Init is
    begin
       AVR.AT90CAN128.USART.Init(USART_PORT,  AVR.AT90CAN128.USART.BAUD38400);
+
+      Handshake_With_BBB;
+
       AVR.AT90CAN128.CAN.Can_Init(AVR.AT90CAN128.CAN.K250);
       AVR.AT90CAN128.CAN.Can_Set_All_MOB_ID_MASK(0, 0);
    end Hardware_Init;

@@ -16,7 +16,7 @@ with Interfaces;
 
 package CAN_Link_pack is
 
-   -- USART0 is used for the communication between the CAN Router and BBB
+   -- USART1 is used for the communication between the CAN Router and BBB
    USART_PORT       : constant AVR.AT90CAN128.USART.USARTID    := AVR.AT90CAN128.USART.USART1;
 
    --the lenght of  the Header of the packet is 5
@@ -27,7 +27,7 @@ package CAN_Link_pack is
 
 
    -- Data type should be put in the 1st byte to indicate that
-   -- the data packet is CAN bus data, Servo command or Serial communication data
+   -- the data packet is CAN bus data or Serial communication data
    BUSTYPE_POS   : constant Integer    := 1;
 
    -- ID of data should be put in 2nd and 3rd byte
