@@ -1,12 +1,13 @@
 with visionBindings_hpp; use visionBindings_hpp;
 with interfaces.C.strings; use interfaces.C.strings;
 with interfaces.C; use interfaces.C;
-with Vision.Image_Processing;
-with Ada.Containers.Vectors; use Ada.Containers;
+with Ada.Text_IO; use Ada.Text_IO;
+--with Vision.Image_Processing;
+--with Ada.Containers.Vectors; use Ada.Containers;
 
 procedure main is
-  -- package Number_Container is new vectors (Natural,Natural);
-  -- hsiSize :Number_Container.Vector;
+   -- package Number_Container is new vectors (Natural,Natural);
+   -- hsiSize :Number_Container.Vector;
 
    iImageSource : Interfaces.C.Int;
    iImageDestination : Interfaces.C.Int;
@@ -34,14 +35,17 @@ procedure main is
    rangeLower : Standard.Float;
    rangeHigher : Standard.Float;
    histSize : Interfaces.C.Int;
-   --hsiSize : Vector;
+   hsiSize : aliased array(integer range 1..10) of aliased Interfaces.C.int;
+   --hsiSize : array(integer range 1..10) of Interfaces.C.int;
+
+   hsi: aliased Interfaces.C.int;
 
    CoreWrap : aliased Class_Core_Wrap.Core_Wrap;
    processingWrap : aliased Class_Processing_Wrap.Processing_Wrap;
    preprocessingWrap : aliased Class_Preprocessing_Wrap.Preprocessing_Wrap;
 
 begin
-  -- hsiSize:=(30,32);
+   -- hsiSize:=(30,32);
    --image index
    iImageSource := 0;
    iImageDestination := 1;
@@ -56,14 +60,14 @@ begin
    iCannyHighThres := 200;
    iCannyKernelSize := 3;
 
---histo
+   --histo
    rangeLower := 0.0;
    rangeHigher :=256.0;
    histSize :=256;
 
    --hough circle declarations
    --src use destination of canny as source for hough circles
-     inverseRatioOfResolution := 1;
+   inverseRatioOfResolution := 1;
    minDistBetweenCenters := 10;
    houghCannyUpThres := 200;
    centerDetectionThreshold := 100;
@@ -72,9 +76,9 @@ begin
 
    --CHECK FOR INSTRUCTION--to be implemented, for now just working on default mode
 
------------------------------MAIN LOOP --------------------------------------------------------
- -- Endless_Loop:
-  -- loop
+   -----------------------------MAIN LOOP --------------------------------------------------------
+   -- Endless_Loop:
+   -- loop
    --GET IMAGE-- read from buffer
    CoreWrap.img_buffer;--load image to img.at(0)
 
@@ -94,8 +98,12 @@ begin
    CoreWrap.imshow(New_String("Why so HSI?"),iHSILocation);
    CoreWrap.waitKey(0);
    --hsi histo
-
-   processingWrap.HSIHistogram(iHSILocation);
+   for Index in 1..10 loop
+      hsiSize(Index) := Interfaces.C.int(2);
+   end loop;
+   --hsi := hsiSize;
+   --Put(X => hsiSize'Access);
+   processingWrap.HSIHistogram(iHSILocation,hsiSize(1)'Access);
 
    --CLEAN IMAGE--to be implemented
    --CONVERT IMAGE TO GREYSCALE
@@ -108,9 +116,9 @@ begin
    CoreWrap.imshow(New_String("why so canny?"), iCannyLocation);--show image for debug purposes
    CoreWrap.waitKey(0);
 
-      --test Channels
-      --processingWrap.splitChannels(iImageSource);
-      --processingWrap.showRedChannel;
+   --test Channels
+   --processingWrap.splitChannels(iImageSource);
+   --processingWrap.showRedChannel;
 
    --ret := CoreWrap.imwrite(name => New_String("CannyOut.jpg"),
    --                      src  => 2 );
@@ -165,8 +173,8 @@ begin
 
    --Contours
 
-    -- CoreWrap.imshow(name => New_String("test_disp"),
-      --               src  => 1);
+   -- CoreWrap.imshow(name => New_String("test_disp"),
+   --               src  => 1);
    --CoreWrap.waitKey(0);
 
    processingWrap.HoughCircles(iGreyScaleLocation, inverseRatioOfResolution, minDistBetweenCenters, houghCannyUpThres, centerDetectionThreshold, minRadius, maxRadius);
@@ -181,11 +189,11 @@ begin
    CoreWrap.waitKey(0);
    --processingWrap.HoughCircles(Interfaces.C.int(1), inverseRatioOfResolution, minDistBetweenCenters, houghCannyUpThres, centerDetectionThreshold, minRadius, maxRadius);
    --ret := CoreWrap.imwrite(name => New_String("Contours.jpg"),
-            --               src  => 0);
+   --               src  => 0);
 
    processingWrap.approxPolyDP(1.2, 1);
 
-  --end loop Endless_Loop;
+   --end loop Endless_Loop;
 
 end main;
 

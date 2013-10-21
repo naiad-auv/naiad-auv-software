@@ -117,7 +117,7 @@ void Processing_Wrap::cvtColor(int src, int dst, int filter)
 // NB Canny works on an input greyscale image
 void Processing_Wrap::Canny(int src, int dst, int lThresh, int hThresh, int kernelSize)
 {
-  cv::Canny(img.at(src), img.at(dst), lThresh, hThresh, kernelSize);
+ cv::Canny(img.at(src), img.at(dst), lThresh, hThresh, kernelSize);
 }
 
 //////////////////////////////////////HOUGH CIRCLES//////////////////////////////////////////////////////////////
@@ -316,10 +316,10 @@ void Processing_Wrap::BGRHistogram(int histSize, float rangeLower, float rangeHi
 
 }
 
-void Processing_Wrap::HSIHistogram(int src)
+void Processing_Wrap::HSIHistogram(int src, int testArray[]	)
 {
 	float hrange[]={0,180};
-    	float srange[]={0,256};
+    float srange[]={0,256};
 	const float *histRange[]={hrange,srange};
 	int histDimensionality =2;
 	bool uniform = true;
@@ -329,6 +329,9 @@ void Processing_Wrap::HSIHistogram(int src)
     int histSize[]={hbins,sbins};
   
     int channels[]={0,1};
+    
+    std::cout<<"\n array is: \t"<< (sizeof(*testArray));
+    //int arraySize=testArray.size;
   cv::MatND hist;
     cv::calcHist(&img.at(src),1,channels, cv::Mat(),hist,histDimensionality, histSize,histRange,uniform,accumulate);
      

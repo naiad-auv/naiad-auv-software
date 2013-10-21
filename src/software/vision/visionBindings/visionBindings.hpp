@@ -1,4 +1,4 @@
-#include <stdlib.h>
+     #include <stdlib.h>
 #include <stdio.h>
 #include <string>
 
@@ -53,7 +53,7 @@ virtual void showContours(int contourOut, int contourId, int thickness);
 
 virtual void BGRHistogram(int histSize, float rangeLower, float rangeHigher);
 
-virtual void HSIHistogram(int src);
+virtual void HSIHistogram(int src,int testArray[]);
 
 virtual void showBGRHistogram(int histSize);
 //virtual void showHistogram();
