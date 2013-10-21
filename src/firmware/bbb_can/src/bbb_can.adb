@@ -24,38 +24,39 @@ package body BBB_CAN is
       pxUart := UartWrapper.pxCreate("/dev/ttyACM1", GNAT.Serial_Communications.B38400, 0.001, 100);
    end Init;
 
-   function Handshake return Boolean is
-      sSend : String(1..5);
-      sReceive : String(1..6);
-      iBytesRead : Integer := 0;
-   begin
-      -- handshake message:
-      sSend(1) := Character'Val(3);
-      sSend(2) := Character'Val(0);
-      sSend(3) := Character'Val(0);
-      sSend(4) := Character'Val(0);
-      sSend(5) := Character'Val(0);
-
-      --send handshake message and wait for reply while keeping a look at the clock
-      sReceive := pxUart.sUartEcho(5, iBytesRead, sSend, Duration(iHANDSHAKE_WAIT_TIME_MS) / 1000);
-
-      if iBytesRead >= 5 then
-         if sReceive(1) = Character'Val(3) and
-           	sReceive(2) = Character'Val(0) and
-           	sReceive(3) = Character'Val(0) and
-           	sReceive(4) = Character'Val(0) and
-           	sReceive(5) = Character'Val(0) then
-            return true;
-         end if;
-      end if;
-      return false;
-   end Handshake;
+--     function Handshake return Boolean is
+--        sSend : String(1..5);
+--        sReceive : String(1..6);
+--        iBytesRead : Integer := 0;
+--     begin
+--        -- handshake message:
+--        sSend(1) := Character'Val(3);
+--        sSend(2) := Character'Val(0);
+--        sSend(3) := Character'Val(0);
+--        sSend(4) := Character'Val(0);
+--        sSend(5) := Character'Val(0);
+--
+--        --send handshake message and wait for reply while keeping a look at the clock
+--        sReceive := pxUart.sUartEcho(5, iBytesRead, sSend, Duration(iHANDSHAKE_WAIT_TIME_MS) / 1000);
+--
+--        if iBytesRead >= 5 then
+--           if sReceive(1) = Character'Val(3) and
+--             	sReceive(2) = Character'Val(0) and
+--             	sReceive(3) = Character'Val(0) and
+--             	sReceive(4) = Character'Val(0) and
+--             	sReceive(5) = Character'Val(0) then
+--              return true;
+--           end if;
+--        end if;
+--        return false;
+--     end Handshake;
 
    procedure Send(msg : CAN_Message) is
-      sBuffer : String(1..Integer(msg.Len)+HEADLEN);
+      sBuffer : String(1 .. (Integer(msg.Len) + HEADLEN + 1));
    begin
-      Message_To_Bytes(sBuffer, msg);
-      Usart_Write(sBuffer, Integer(msg.Len));
+    --  Message_To_Bytes(sBuffer, msg);
+   --   Usart_Write(sBuffer, Integer(msg.Len) + HEADLEN + 1);
+            null;
    end Send;
 
    procedure Get(msg : out CAN_Message; bMsgReceived : out Boolean; bUARTChecksumOK : out Boolean) is
@@ -147,7 +148,6 @@ package body BBB_CAN is
       end if;
 
       sBuffer(CHECKSUM_POS) := Character'Val(Integer(Calculate_Checksum(Msg.Data, msg.Len)));
-
    end Message_To_Bytes;
 
    procedure Usart_Write(sBuffer : String; iSize : Integer) is
