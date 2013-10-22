@@ -104,14 +104,14 @@ begin
    upLimit := 250;
 
    -----------------------------MAIN LOOP --------------------------------------------------------
-   --Endless_Loop:
-   --loop
+   Endless_Loop:
+   loop
       --GET IMAGE-- read from buffer
-      --CoreWrap.img_buffer;--load image to img.at(0)
+      CoreWrap.img_buffer;--load image to img.at(0)
 
 
       --, or just read in single image NEW, READS IN IMAGE AND STORES IN INDEX "IMAGESOURCE" OF "img.at()"
-      CoreWrap.imstore(iImageSource,New_String("rosie.png"));
+      --CoreWrap.imstore(iImageSource,New_String("rosie.png"));
    	--split channels of image
    	processingWrap.splitChannels(iImageSource);
 
@@ -197,7 +197,7 @@ begin
 
       --processingWrap.approxPolyDP(1.2, 1);
 
-   --end loop Endless_Loop;
+   end loop Endless_Loop;
 end main;
 
 

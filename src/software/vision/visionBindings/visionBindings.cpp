@@ -16,7 +16,7 @@ cv::VideoCapture cap;
 std::vector<cv::Mat> channels;
 
 std::queue <cv::Mat> imageBuf; // Declare a queue
-int imageName=31;
+int imageName=0;
 
 cv::vector<cv::Mat> BGR;
 cv::Mat blueHistVals;
@@ -40,7 +40,8 @@ void Core_Wrap::img_buffer()
   int bufSize=0;
   
 
-  std::string folderPath = "//home/bork/Data/naiad-auv-software/src/software/vision/testImages/Front/";
+  std::string folderPath = "/home/vision/Documents/project/cdt508/Robosub2012_logging/Loggning/log 3/Bottom/";
+  //std::string folderPath = "//home/bork/Data/naiad-auv-software/src/software/vision/testImages/Front/";
 
   std::string result;
   std::string imageType = ".jpg";
