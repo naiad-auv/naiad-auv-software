@@ -1,0 +1,102 @@
+        -:    0:Source:/home/emibe/skola/robgit/naiad-auv-software/src/software/navigation/pid_controller/src/navigation-pid_controller.adb
+        -:    0:Programs:37
+        -:    1:with Navigation;
+        -:    2:
+        -:    3:package body Navigation.PID_Controller is
+        -:    4:
+    #####:    5:   procedure Update_Derivative_Part_Based_On_Tick(this : in out CPIDController; fDeltaTime : in float) is
+        -:    6:   begin
+    #####:    7:      this.fCurrentDerivativePart := (this.fCurrentProportionalPart - this.fLastProportionalPart) / fDeltaTime;
+    #####:    8:   end Update_Derivative_Part_Based_On_Tick;
+        -:    9:
+    #####:   10:   procedure Update_Derivative_Part(this : in out CPIDController; fNewDerivativePart : in float) is
+        -:   11:   begin
+    #####:   12:      this.fCurrentDerivativePart := fNewDerivativePart;
+    #####:   13:   end Update_Derivative_Part;
+        -:   14:
+    #####:   15:   function fNormalize_Float_Value(fValue : float) return float is
+        -:   16:   begin
+    #####:   17:      return float'Min(float'Max(fvalue, -1.0), 1.0);
+        -:   18:   end fNormalize_Float_Value;
+        -:   19:
+    #####:   20:   function pxCreate return pCPIDController is
+        -:   21:   begin
+    #####:   22:      return new CPIDController;
+        -:   23:   end pxCreate;
+        -:   24:
+    #####:   25:   function pxCreate(xPIDComponentScalings : TPIDComponentScalings) return pCPIDController is
+    #####:   26:      pCurrentController : pCPIDController;
+        -:   27:   begin
+    #####:   28:      pCurrentController := new CPIDController;
+    #####:   29:      pCurrentController.Set_New_PID_Component_Scalings(xPIDComponentScalings);
+    #####:   30:      return pCurrentController;
+        -:   31:   end pxCreate;
+        -:   32:
+        -:   33:
+    #####:   34:   procedure Set_New_Set_Point(this : in out CPIDController; fNewSetPoint : in float) is
+        -:   35:   begin
+    #####:   36:      this.fCurrentSetPoint := fNewSetPoint;
+    #####:   37:   end Set_New_Set_Point;
+        -:   38:
+    #####:   39:   procedure Set_New_PID_Component_Scalings(this : in out CPIDController; xNewScalings : TPIDComponentScalings) is
+        -:   40:   begin
+    #####:   41:      this.fProportionalScale := xNewScalings.fProportionalScale;
+    #####:   42:      this.fIntegralScale := xNewScalings.fIntegralScale;
+    #####:   43:      this.fDerivativeScale := xNewScalings.fDerivativeScale;
+    #####:   44:   end Set_New_PID_Component_Scalings;
+        -:   45:
+        -:   46:
+        -:   47:
+    #####:   48:   procedure Update_Current_Value_From_External_Source(this : in out CPIDController; fValue : float) is
+        -:   49:   begin
+    #####:   50:      this.fCurrentValue := fValue;
+    #####:   51:   end Update_Current_Value_From_External_Source;
+        -:   52:
+    #####:   53:   procedure Reset_Controller(this : in out CPIDController) is
+        -:   54:   begin
+    #####:   55:      this.fCurrentValue := 0.0;
+    #####:   56:      this.fCurrentSetPoint := 0.0;
+        -:   57:
+    #####:   58:      this.fCurrentProportionalPart := 0.0;
+    #####:   59:      this.fCurrentIntegralPart := 0.0;
+    #####:   60:      this.fCurrentDerivativePart := 0.0;
+        -:   61:
+    #####:   62:      this.fLastProportionalPart := 0.0;
+        -:   63:
+    #####:   64:      this.fDerivativeScale := 0.0;
+    #####:   65:      this.fIntegralScale := 0.0;
+    #####:   66:      this.fProportionalScale := 0.0;
+    #####:   67:   end Reset_Controller;
+        -:   68:
+    #####:   69:   function xGet_New_Control_Value (this : in out CPIDController; fDeltaTime : float) return float is
+    #####:   70:      fLastError : float := this.fCurrentProportionalPart;
+        -:   71:      output : float;
+        -:   72:   begin
+    #####:   73:      this.fCurrentProportionalPart := this.fCurrentSetPoint - this.fCurrentValue;
+        -:   74:
+    #####:   75:      Update_Derivative_Part_Based_On_Tick(this, fDeltaTime);
+        -:   76:
+    #####:   77:      this.fCurrentIntegralPart := this.fCurrentIntegralPart + this.fCurrentProportionalPart;
+        -:   78:
+    #####:   79:      output := this.fCurrentIntegralPart * this.fIntegralScale + this.fCurrentDerivativePart * this.fDerivativeScale + this.fCurrentProportionalPart * this.fProportionalScale;
+        -:   80:
+    #####:   81:      return output;
+        -:   82:   end xGet_New_Control_Value;
+        -:   83:
+        -:   84:
+    #####:   85:   function fGetIntergralScale (this : in out CPIDController) return float is
+        -:   86:   begin
+    #####:   87:      return this.fIntegralScale;
+        -:   88:   end fGetIntergralScale;
+        -:   89:
+    #####:   90:   function fGetDerivativeScale (this : in out CPIDController) return float is
+        -:   91:   begin
+    #####:   92:      return this.fDerivativeScale;
+        -:   93:   end fGetDerivativeScale;
+        -:   94:
+    #####:   95:   function fGetProportionalScale (this : in out CPIDController) return float is
+        -:   96:   begin
+    #####:   97:      return this.fProportionalScale;
+        -:   98:   end fGetProportionalScale;
+        -:   99:
+        -:  100:end Navigation.PID_Controller;

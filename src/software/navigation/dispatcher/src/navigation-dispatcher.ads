@@ -36,23 +36,23 @@ package Navigation.Dispatcher is
    --  <parameter name="xNewPIDSCalings">The TPIDComponetScalings object to set for the object.</parameter>
    --  <parameter name="eComponentToChange">The index of the component to change.</parameter>
 
-   procedure Update_Current_Absolute_Position(this : in out CDispatcher; xNewCurrentAbsolutePosition : in Math.Vectors.pCVector);
+   procedure Update_Current_Absolute_Position(this : in out CDispatcher; xpNewCurrentAbsolutePosition : in Math.Vectors.pCVector);
     --  <summary>Updates the current absolute position.</summary>
    --  <parameter name="this">The CDispatcher to update.</parameter>
    --  <parameter name="xNewCurrentAbsolutePosition">The new absolute position to set.</parameter>
 
 
-   procedure Update_Wanted_Absolute_Position(this : in out CDispatcher; xNewWantedAbsolutePosition : in Math.Vectors.pCVector);
+   procedure Update_Wanted_Absolute_Position(this : in out CDispatcher; xpNewWantedAbsolutePosition : in Math.Vectors.pCVector);
    --  <summary>Updates the wanted absolute position.</summary>
    --  <parameter name="this">The CDispatcher to update.</parameter>
    --  <parameter name="xNewWantedAbsolutePosition">The new absolute position to set.</parameter>
 
-   procedure Update_Current_Absolute_Orientation(this : in out CDispatcher; xNewCurrentAbsoluteOrientation : in Math.Matrices.pCMatrix);
+   procedure Update_Current_Absolute_Orientation(this : in out CDispatcher; xpNewCurrentAbsoluteOrientation : in Math.Matrices.pCMatrix);
    --  <summary>Updates the current absolute orientation.</summary>
    --  <parameter name="this">The CDispatcher to update.</parameter>
    --  <parameter name="xNewCurrentAbsoluteOrientation">The new absolute orientation to set.</parameter>
 
-   procedure Update_Wanted_Absolute_Orientation(this : in out CDispatcher; xNewWantedAbsoluteOrientation : in Math.Matrices.pCMatrix);
+   procedure Update_Wanted_Absolute_Orientation(this : in out CDispatcher; xpNewWantedAbsoluteOrientation : in Math.Matrices.pCMatrix);
    --  <summary>Updates the wanted absolute orientation.</summary>
    --  <parameter name="this">The CDispatcher to update.</parameter>
    --  <parameter name="xNewWantedAbsoluteOrientation">The new absolute orientation to set.</parameter>

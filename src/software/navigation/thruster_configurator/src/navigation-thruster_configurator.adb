@@ -1,5 +1,6 @@
 with Ada.Numerics.Elementary_Functions;
 with Ada.Numerics;
+with Ada.Text_IO;
 
 package body Navigation.Thruster_Configurator is
 
@@ -82,6 +83,7 @@ package body Navigation.Thruster_Configurator is
    begin
       tfExtendedMatrix := this.tfCreate_Extended_Matrix;
 
+      Insert_Component_Values_In_Extended_Matrix(tfExtendedMatrix, tfComponentValues);
 
       Perform_Gauss_Jordan_Elimination_On(tfExtendedMatrix);
 
@@ -96,7 +98,7 @@ package body Navigation.Thruster_Configurator is
       iIterator := 1;
       for n in tfComponentValues'Range
       loop
-         tfExtendedMatrix(tfExtendedMatrix'Last(1),iIterator) := tfComponentValues(n);
+         tfExtendedMatrix(iIterator, tfExtendedMatrix'Last(2)) := tfComponentValues(n);
          iIterator := iIterator + 1;
       end loop;
 

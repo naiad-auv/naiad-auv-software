@@ -1,0 +1,249 @@
+        -:    0:Source:/home/emibe/skola/robgit/naiad-auv-software/src/software/navigation/thruster_configurator/src/navigation-thruster_configurator.adb
+        -:    0:Programs:37
+        -:    1:with Ada.Numerics.Elementary_Functions;
+        -:    2:with Ada.Numerics;
+        -:    3:with Ada.Text_IO;
+        -:    4:
+        -:    5:package body Navigation.Thruster_Configurator is
+        -:    6:
+        -:    7:
+       24:    8:   function pxCreate return pCThrusterConfigurator is
+        -:    9:      use Ada.Numerics.Elementary_Functions;
+        -:   10:      use Ada.Numerics;
+        -:   11:
+       24:   12:      pxNewThrusterConfigurator : pCThrusterConfigurator;
+        -:   13:      tfThrusterEffects : Navigation.Thrusters.TThrusterEffects;
+        -:   14:   begin
+       24:   15:      pxNewThrusterConfigurator := new CThrusterConfigurator;
+        -:   16:
+        -:   17:
+       24:   18:      tfThrusterEffects := Navigation.Thrusters.tfMake_Thruster_Effects(fXPosition => -Sin(Pi/4.0),
+       24:   19:                                                                        fYPosition => -Sin(Pi/4.0),
+        -:   20:                                                                        FZPosition => 0.0,
+        -:   21:                                                                        fXRotation => 1.0,
+        -:   22:                                                                        fYRotation => 0.0,
+        -:   23:                                                                        fZRotation => 0.0);
+       24:   24:      pxNewThrusterConfigurator.pxThrusterList := Navigation.Thrusters.pxCreate(tfThrusterEffects);
+        -:   25:
+       24:   26:      tfThrusterEffects := Navigation.Thrusters.tfMake_Thruster_Effects(fXPosition => 1.0,
+        -:   27:                                                                        fYPosition => 0.0,
+        -:   28:                                                                        FZPosition => 0.0,
+        -:   29:                                                                        fXRotation => 1.0,
+        -:   30:                                                                        fYRotation => 0.0,
+        -:   31:                                                                        fZRotation => 0.0);
+       24:   32:      pxNewThrusterConfigurator.pxThrusterList.Add_Thruster_With_Effects(tfThrusterEffects);
+        -:   33:
+       24:   34:      tfThrusterEffects := Navigation.Thrusters.tfMake_Thruster_Effects(fXPosition => -Sin(Pi/4.0),
+       24:   35:                                                                        fYPosition => Sin(Pi/4.0),
+        -:   36:                                                                        FZPosition => 0.0,
+        -:   37:                                                                        fXRotation => 1.0,
+        -:   38:                                                                        fYRotation => 0.0,
+        -:   39:                                                                        fZRotation => 0.0);
+       24:   40:      pxNewThrusterConfigurator.pxThrusterList.Add_Thruster_With_Effects(tfThrusterEffects);
+        -:   41:
+       24:   42:      tfThrusterEffects := Navigation.Thrusters.tfMake_Thruster_Effects(fXPosition => 0.0,
+        -:   43:                                                                        fYPosition => 0.0,
+        -:   44:                                                                        FZPosition => 1.0,
+        -:   45:                                                                        fXRotation => 0.0,
+       24:   46:                                                                        fYRotation => Sin(Pi/4.0),
+       24:   47:                                                                        fZRotation => Sin(Pi/4.0));
+       24:   48:      pxNewThrusterConfigurator.pxThrusterList.Add_Thruster_With_Effects(tfThrusterEffects);
+        -:   49:
+       24:   50:      tfThrusterEffects := Navigation.Thrusters.tfMake_Thruster_Effects(fXPosition => 0.0,
+        -:   51:                                                                        fYPosition => 0.0,
+        -:   52:                                                                        FZPosition => 1.0,
+        -:   53:                                                                        fXRotation => 0.0,
+        -:   54:                                                                        fYRotation => -1.0,
+        -:   55:                                                                        fZRotation => 0.0);
+       24:   56:      pxNewThrusterConfigurator.pxThrusterList.Add_Thruster_With_Effects(tfThrusterEffects);
+        -:   57:
+       24:   58:      tfThrusterEffects := Navigation.Thrusters.tfMake_Thruster_Effects(fXPosition => 0.0,
+        -:   59:                                                                        fYPosition => 0.0,
+        -:   60:                                                                        FZPosition => 1.0,
+        -:   61:                                                                        fXRotation => 0.0,
+       24:   62:                                                                        fYRotation => -Sin(Pi/4.0),
+       24:   63:                                                                        fZRotation => -Sin(Pi/4.0));
+       24:   64:      pxNewThrusterConfigurator.pxThrusterList.Add_Thruster_With_Effects(tfThrusterEffects);
+        -:   65:
+       24:   66:      return pxNewThrusterConfigurator;
+        -:   67:   end pxCreate;
+        -:   68:
+        -:   69:
+       36:   70:   function iGet_Number_Of_Thrusters (this : in CThrusterConfigurator) return integer is
+        -:   71:   begin
+       36:   72:      return this.pxThrusterList.iGet_Count;
+        -:   73:   end iGet_Number_Of_Thrusters;
+        -:   74:
+        8:   75:   function tfGet_Thruster_Effects_Matrix (this : in CThrusterConfigurator) return Navigation.Thrusters.TThrusterEffectsMatrix is
+        -:   76:   begin
+        8:   77:      return this.pxThrusterList.txGet_Thruster_Effects_Matrix;
+        -:   78:   end tfGet_Thruster_Effects_Matrix;
+        -:   79:
+        -:   80:
+        4:   81:   function tfGet_Thruster_Values(this : in CThrusterConfigurator; tfComponentValues : in Navigation.Thrusters.TThrusterEffects) return Navigation.Thrusters.TThrusterValuesArray is
+        4:   82:      tfExtendedMatrix : TExtendedMatrix(1 .. this.iGet_Number_Of_Thrusters, 1 .. this.iGet_Number_Of_Thrusters + 1);
+        -:   83:   begin
+        4:   84:      tfExtendedMatrix := this.tfCreate_Extended_Matrix;
+        -:   85:
+        4:   86:      Insert_Component_Values_In_Extended_Matrix(tfExtendedMatrix, tfComponentValues);
+        -:   87:
+        4:   88:      Perform_Gauss_Jordan_Elimination_On(tfExtendedMatrix);
+        -:   89:
+        8:   90:      return tfGet_Results_Vector_From(tfExtendedMatrix);
+        -:   91:
+        4:   92:   end tfGet_Thruster_Values;
+        -:   93:
+        -:   94:
+        8:   95:   procedure Insert_Component_Values_In_Extended_Matrix(tfExtendedMatrix : in out TExtendedMatrix; tfComponentValues : in Navigation.Thrusters.TThrusterEffects) is
+        -:   96:      iIterator : integer;
+        -:   97:   begin
+        8:   98:      iIterator := 1;
+       48:   99:      for n in tfComponentValues'Range
+       48:  100:      loop
+       48:  101:         tfExtendedMatrix(iIterator, tfExtendedMatrix'Last(2)) := tfComponentValues(n);
+       48:  102:         iIterator := iIterator + 1;
+       40:  103:      end loop;
+        -:  104:
+        8:  105:   end Insert_Component_Values_In_Extended_Matrix;
+        -:  106:
+        -:  107:
+      128:  108:   procedure Swap_Values_In_Extended_Matrix(fValue1 : in out float; fValue2 : in out float) is
+        -:  109:      fTemp : float;
+        -:  110:   begin
+      128:  111:      fTemp := fValue1;
+      128:  112:      fValue1 := fValue2;
+      128:  113:      fValue2 := fTemp;
+      128:  114:   end Swap_Values_In_Extended_Matrix;
+        -:  115:
+       20:  116:   procedure Swap_Rows_In_Extended_Matrix(tfExtendedMatrix : in out TExtendedMatrix; iRow1 : in integer; iRow2 : in integer) is
+        -:  117:   begin
+      124:  118:      for col in tfExtendedMatrix'Range(2)
+      124:  119:      loop
+      248:  120:         Swap_Values_In_Extended_Matrix(fValue1 => tfExtendedMatrix(iRow1,col),
+      124:  121:                                        fValue2 => tfExtendedMatrix(iRow2,col));
+      104:  122:      end loop;
+       20:  123:   end Swap_Rows_In_Extended_Matrix;
+        -:  124:
+       40:  125:   procedure Scale_Row_In_Extended_Matrix(tfExtendedMatrix : in out TExtendedMatrix; iStartingColumn : in integer) is
+       40:  126:      iY : integer := iStartingColumn;
+        -:  127:   begin
+      152:  128:      for iX in reverse iStartingColumn .. tfExtendedMatrix'Last(2)
+      152:  129:      loop
+      152:  130:         tfExtendedMatrix(iY, iX) := tfExtendedMatrix(iY, iX) / tfExtendedMatrix(iY, iStartingColumn);
+      112:  131:      end loop;
+       40:  132:      if tfExtendedMatrix(iY, iY) /= 1.0 then
+    #####:  133:         raise Numeric_Error;
+        -:  134:      end if;
+       40:  135:   end Scale_Row_In_Extended_Matrix;
+        -:  136:
+       44:  137:   procedure Remove_Component_In_Following_Rows(tfExtendedMatrix : in out TExtendedMatrix; iRow : in integer) is
+        -:  138:   begin
+      104:  139:      for iY in iRow+1 .. tfExtendedMatrix'Last(1)
+       96:  140:      loop
+      492:  141:         for iX in reverse iRow .. tfExtendedMatrix'Last(2)
+      492:  142:         loop
+      492:  143:            tfExtendedMatrix(iY, iX) := tfExtendedMatrix(iY, iX) - (tfExtendedMatrix(iRow, iX) * tfExtendedMatrix(iY, iRow));
+      396:  144:         end loop;
+       60:  145:      end loop;
+       44:  146:   end Remove_Component_In_Following_Rows;
+        -:  147:
+        -:  148:
+       40:  149:   procedure Remove_Component_In_Leading_Rows(tfExtendedMatrix : in out TExtendedMatrix; iRow : in integer) is
+        -:  150:   begin
+       88:  151:      for iY in reverse tfExtendedMatrix'First(1) .. (iRow-1)
+       80:  152:      loop
+      256:  153:         for iX in reverse iRow .. tfExtendedMatrix'Last(2)
+      256:  154:         loop
+      256:  155:            tfExtendedMatrix(iY, iX) := tfExtendedMatrix(iY, iX) - (tfExtendedMatrix(iRow, iX) * tfExtendedMatrix(iY, iRow));
+      176:  156:         end loop;
+       48:  157:      end loop;
+       40:  158:   end Remove_Component_In_Leading_Rows;
+        -:  159:
+       40:  160:   function Find_Row_With_Highest_Component(tfExtendedMatrix : in TExtendedMatrix; iColumn : in integer) return integer is
+       40:  161:      iMaxValueComponent : integer := iColumn;
+        -:  162:   begin
+       92:  163:      for iRow in iColumn+1 .. tfExtendedMatrix'Last(1)
+       84:  164:      loop
+       84:  165:         if abs(tfExtendedMatrix(iRow, iColumn)) > abs(tfExtendedMatrix(iMaxValueComponent, iColumn)) then
+       20:  166:            iMaxValueComponent := iRow;
+        -:  167:         end if;
+       52:  168:      end loop;
+       40:  169:      return iMaxValueComponent;
+        -:  170:   end Find_Row_With_Highest_Component;
+        -:  171:
+       40:  172:   function bMatrix_Has_No_Inverse(fValue : in float) return boolean is
+        -:  173:   begin
+       40:  174:      if abs(fValue) > 0.0 then
+       36:  175:         return false;
+        -:  176:      end if;
+        4:  177:      return true;
+        -:  178:   end bMatrix_Has_No_Inverse;
+        -:  179:
+        -:  180:
+        8:  181:   procedure Perform_Gauss_Jordan_Elimination_On(tfExtendedMatrix : in out TExtendedMatrix) is
+        -:  182:      iRowWithMaxComponent : integer;
+        -:  183:   begin
+        -:  184:
+       36:  185:      for iRowAndColumn in tfExtendedMatrix'Range(1)
+       36:  186:      loop
+       36:  187:         iRowWithMaxComponent := Find_Row_With_Highest_Component(tfExtendedMatrix => tfExtendedMatrix,
+        -:  188:                                                                 iColumn          => iRowAndColumn);
+        -:  189:
+       36:  190:         if bMatrix_Has_No_Inverse(tfExtendedMatrix(iRowWithMaxComponent, iRowAndColumn)) then
+    #####:  191:            raise Numeric_Error;
+        -:  192:         end if;
+        -:  193:
+       36:  194:         if iRowWithMaxComponent /= iRowAndColumn then
+       16:  195:            Swap_Rows_In_Extended_Matrix(tfExtendedMatrix => tfExtendedMatrix,
+        -:  196:                                         iRow1            => iRowAndColumn,
+        -:  197:                                         iRow2            => iRowWithMaxComponent);
+        -:  198:         end if;
+        -:  199:
+        -:  200:
+       36:  201:         Scale_Row_In_Extended_Matrix(tfExtendedMatrix => tfExtendedMatrix,
+        -:  202:                                      iStartingColumn  => iRowAndColumn);
+        -:  203:
+        -:  204:
+        -:  205:
+       36:  206:         Remove_Component_In_Following_Rows(tfExtendedMatrix => tfExtendedMatrix,
+        -:  207:                                            iRow             => iRowAndColumn);
+        -:  208:
+       36:  209:         Remove_Component_In_Leading_Rows(tfExtendedMatrix => tfExtendedMatrix,
+        -:  210:                                          iRow             => iRowAndColumn);
+        -:  211:
+       28:  212:      end loop;
+        -:  213:
+        8:  214:   end Perform_Gauss_Jordan_Elimination_On;
+        -:  215:
+       16:  216:   function tfGet_Results_Vector_From(tfExtendedMatrix : in TExtendedMatrix) return Navigation.Thrusters.TThrusterValuesArray is
+        8:  217:      tfResults : Navigation.Thrusters.TThrusterValuesArray(1 .. tfExtendedMatrix'Last(1));
+        -:  218:   begin
+       48:  219:      for iY in tfExtendedMatrix'Range(1)
+       48:  220:      loop
+       48:  221:            tfResults(iY) := tfExtendedMatrix(iY, tfExtendedMatrix'Last(2));
+       40:  222:      end loop;
+        -:  223:
+        8:  224:      return tfResults;
+        -:  225:   end tfGet_Results_Vector_From;
+        -:  226:
+        -:  227:
+       16:  228:   function tfCreate_Extended_Matrix(this : in CThrusterConfigurator) return TExtendedMatrix is
+        8:  229:      tfExtendedMatrix : TExtendedMatrix(1 .. this.iGet_Number_Of_Thrusters, 1 .. this.iGet_Number_Of_Thrusters + 1);
+        8:  230:      tfThrusterMatrix : Navigation.Thrusters.TThrusterEffectsMatrix(1 .. this.iGet_Number_Of_Thrusters+1);
+        -:  231:      iIterator : integer;
+        -:  232:   begin
+        8:  233:      tfThrusterMatrix := this.tfGet_Thruster_Effects_Matrix;
+       56:  234:      for iX in tfThrusterMatrix'Range
+       56:  235:      loop
+        -:  236:
+       56:  237:         iIterator := 1;
+      336:  238:         for iY in tfThrusterMatrix(iX)'Range
+      336:  239:         loop
+      336:  240:            tfExtendedMatrix(iIterator, iX) := tfThrusterMatrix(iX)(iY);
+      336:  241:            iIterator := iIterator + 1;
+      280:  242:         end loop;
+       48:  243:      end loop;
+       16:  244:      return tfExtendedMatrix;
+        8:  245:   end tfCreate_Extended_Matrix;
+        -:  246:
+        -:  247:end Navigation.Thruster_Configurator;

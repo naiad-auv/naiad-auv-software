@@ -1,4 +1,5 @@
 
+
 with BBB_CAN;
 
 
@@ -14,6 +15,11 @@ procedure BBB_CAN_main is
 begin
 
    BBB_CAN.Init;
+
+   msg.ID := 10;
+   msg.Len := 3;
+   msg.Data := (1, 1, 1, 1, 1, 1, 1, 1);
+   BBB_CAN.Send(msg);
 
    loop
       BBB_CAN.Get(msg, bMsg, bOk);
