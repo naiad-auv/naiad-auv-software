@@ -492,10 +492,15 @@ int Processing_Wrap::thresh(int src, int lowLimit, int upLimit, int ch)
 	return 1;
 }
 
-///////////////////////// COLOR DETECTION FUNCTION     ///////////////////////////////////////////////
+///////////////////////// GAUSIAN BLUR FILTER     ///////////////////////////////////////////////
 
-//int Processing_Wrap::thresh(int src, int lowLimit, int upLimit, int ch)
-//{
+void Processing_Wrap::gaussianBlur(int src, int dest, int kersize, double sigmaX, double sigmaY)
+{
+	for ( int i = 1; i < kersize; i = i + 2 )
+	{ 
+      cv::GaussianBlur(img.at(src),img.at(dest),cv::Size(i,i),sigmaX,sigmaY,cv::BORDER_DEFAULT);
+    }
+}
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////

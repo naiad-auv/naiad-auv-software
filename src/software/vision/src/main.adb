@@ -13,6 +13,7 @@ procedure main is
    iHSILocation : Interfaces.C.Int;
    iContourLocation : Interfaces.C.Int;
    iCirclesLocation : Interfaces.C.Int;
+   iGaussianBlurLocation : Interfaces.C.int;
 
    iGreyFilter : Interfaces.C.Int;
    iHSIFilter : Interfaces.C.Int;
@@ -52,6 +53,11 @@ procedure main is
    lowLimit :interfaces.C.int;
    upLimit :interfaces.C.int;
 
+   --Gaussian
+   GaussianKerSize : interfaces.c.int;
+   GaussianSigmaX : interfaces.c.double;
+   GaussianSigmaY : interfaces.c.double;
+
    CoreWrap : aliased Class_Core_Wrap.Core_Wrap;
    processingWrap : aliased Class_Processing_Wrap.Processing_Wrap;
    preprocessingWrap : aliased Class_Preprocessing_Wrap.Preprocessing_Wrap;
@@ -64,6 +70,7 @@ begin
    iHSILocation := 22;
    iContourLocation := 23;
    iCirclesLocation := 24;
+   iGaussianBlurLocation :=25;
 
    iGreyFilter := 6;
    iHSIFilter :=40;
@@ -105,6 +112,11 @@ begin
    lowLimit := 200;
    upLimit := 250;
 
+   --Gaussian
+   GaussianKerSize := 31;
+   GaussianSigmaX := 0.0;
+   GaussianSigmaY := 0.0;
+
    -----------------------------MAIN LOOP --------------------------------------------------------
    --Endless_Loop:
    --loop
@@ -124,6 +136,10 @@ begin
 
       --display image source
       CoreWrap.imshow(New_String("Why so normal?"), iImageSource);--show image for debug purposes
+      CoreWrap.waitKey(0);
+
+   processingWrap.gaussianBlur(iImageSource, iGaussianBlurLocation, GaussianKerSize, GaussianSigmaX, GaussianSigmaY);
+CoreWrap.imshow(New_String("Why so Gaussian?"), iGaussianBlurLocation);--show image for debug purposes
       CoreWrap.waitKey(0);
 
       --test thresh

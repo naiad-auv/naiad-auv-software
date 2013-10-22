@@ -75,6 +75,8 @@ virtual void showRedChannel();
 
 virtual void LabelPoints(int src);
 
+virtual void gaussianBlur(int src, int dest, int kersize, double sigmaX, double sigmaY);
+
 Processing_Wrap();
 };
 
