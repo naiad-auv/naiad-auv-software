@@ -9,9 +9,16 @@ package body simulator.submarine is
    function pxCreate_Naiad return pCSubmarine is
       pxSubmarine : pCSubmarine;
       txMotorInfo : simulator.submarine.TMotors;
+      tfRawMatrix : Math.Matrices.TMatrix;
    begin
-
       pxSubmarine := simulator.submarine.pxCreate;
+
+      tfRawMatrix := ((0.36,0.001,0.037),
+                      (0.001,0.9,0.0003),
+                      (0.037,0.0003,1.094));
+      pxSubmarine.pxOrientationMatrix := Math.Matrices.pxCreate(tfMatrix => tfRawMatrix);
+
+
       txMotorInfo(1) := simulator.Motor_Info.pxCreate(math.Vectors.pxCreate(-0.70710678118,0.70710678118,0.0),math.Vectors.pxCreate(-0.70710678118,-0.70710678118,0.0));
       txMotorInfo(2) := simulator.Motor_Info.pxCreate(math.Vectors.pxCreate(0.0,-1.0,0.0),math.Vectors.pxCreate(1.0,0.0,0.0));
       txMotorInfo(3) := simulator.Motor_Info.pxCreate(math.Vectors.pxCreate(0.70710678118,0.70710678118,0.0),math.Vectors.pxCreate(-0.70710678118,0.70710678118,0.0));
@@ -24,7 +31,6 @@ package body simulator.submarine is
       pxSubmarine.pxVelocityVector := math.Vectors.pxCreate(0.0 , 0.0 , 0.0);
       pxSubmarine.pxOrientationMatrix := math.Matrices.pxCreate_Identity;
       pxSubmarine.pxAngularVelocityVector := math.Vectors.pxCreate(0.0 , 0.0 , 0.0);
-      pxSubmarine.pxInertiaMatrix:= math.Matrices.pxCreate_Identity; --find out
       pxSubmarine.txMotorInfo:=txMotorInfo;
       pxSubmarine.txMotorForce := (0.0,0.0,0.0,0.0,0.0,0.0);
       pxSubmarine.fWeight:=28.0;
@@ -73,6 +79,13 @@ package body simulator.submarine is
       return this.pxAngularVelocityVector.pxGet_Copy;
 
    end pxGet_Angular_Velocity_Vector;
+
+   function pxGet_Motor_Values(this : in CSubmarine) return TMotorForce is
+
+   begin
+      return this.txMotorForce;
+   end pxGet_Motor_Values;
+
 
    -------------------------
    -- Set_Position_Vector --
@@ -268,5 +281,82 @@ package body simulator.submarine is
       end if;
 
    end Integrate_Submarine_Variables;
+
+   procedure Time_Step_Motor_Force_To_Integrate(this : in out CSubmarine ; txMotorForce : in TmotorForce) is
+
+   begin
+      this.Set_Motor_Force(txMotorForce);
+      for i in 1..10 loop
+         this.Calculate_Acceleration;
+         this.Calculate_Angular_Acceleration;
+         this.Integrate_Submarine_Variables(fTimeDuration => 0.01);
+      end loop;
+
+   end Time_Step_Motor_Force_To_Integrate;
+
+   procedure Set_Gripper_Left_Status(this : in out CSubmarine ; bGripperLeft : boolean) is
+
+   begin
+      this.bGripperLeft := bGripperLeft;
+   end Set_Gripper_Left_Status;
+
+   procedure Set_Gripper_Right_Status(this : in out CSubmarine ; bGripperRight : boolean) is
+
+   begin
+      this.bGripperRight := bGripperRight;
+   end Set_Gripper_Right_Status;
+
+   procedure Set_Dropper_Left_Status(this : in out CSubmarine ; bDropperLeft : boolean) is
+
+   begin
+      this.bDropperLeft := bDropperLeft;
+   end Set_Dropper_Left_Status;
+
+   procedure Set_Dropper_Right_Status(this : in out CSubmarine ; bDropperRight : boolean) is
+
+   begin
+      this.bDropperRight := bDropperRight;
+   end Set_Dropper_Right_Status;
+
+
+   procedure Set_Depth(this : in out CSubmarine; fDepth : float) is
+
+   begin
+      this.fDepth := fDepth;
+   end Set_Depth;
+
+
+   function bGet_Gripper_Left_Status(this : in CSubmarine) return boolean is
+
+   begin
+      return this.bGripperLeft;
+   end bGet_Gripper_Left_Status;
+
+   function bGet_Gripper_Right_Status(this : in CSubmarine) return boolean is
+
+   begin
+      return this.bGripperRight;
+   end bGet_Gripper_Right_Status;
+
+   function bGet_Dropper_Left_Status(this : in CSubmarine) return boolean is
+
+   begin
+      return this.bDropperLeft;
+   end bGet_Dropper_Left_Status;
+
+   function bGet_Dropper_Right_Status(this : in CSubmarine) return boolean is
+
+   begin
+      return this.bDropperRight;
+   end bGet_Dropper_Right_Status;
+
+   function fGet_Depth(this : in Csubmarine) return float is
+
+   begin
+      return this.fDepth;
+   end fGet_Depth;
+
+
+
 
 end simulator.submarine;

@@ -13,11 +13,15 @@ package simulator.submarine is
    type TMotorForce is array (1..6) of Float;
 
    function pxCreate_Naiad return pCSubmarine;
+
    function pxCreate return pCSubmarine;
+
    function pxGet_Position_Vector(this : in CSubmarine) return math.Vectors.pCVector;
    function pxGet_Velocity_Vector(this : in CSubmarine) return math.Vectors.pCVector;
    function pxGet_Orientation_Matrix(this : in CSubmarine) return math.Matrices.pCMatrix;
    function pxGet_Angular_Velocity_Vector(this : in CSubmarine) return math.Vectors.pCVector;
+   function pxGet_Motor_Values(this : in CSubmarine) return TMotorForce;
+
    procedure Set_Position_Vector(this : in out CSubmarine ; pxPositionVector : in math.Vectors.pCVector);
    procedure Set_Orientation_Matrix(this : in out CSubmarine; pxOrientationMatrix : in Math.Matrices.pCMatrix);
    procedure Set_Velocity_Vector(this : in out CSubmarine; pxVelocityVector : in Math.Vectors.pCVector);
@@ -38,6 +42,20 @@ package simulator.submarine is
    procedure Calculate_Angular_Acceleration(this : in out CSubmarine);
    procedure Integrate_Submarine_Variables(this : in out CSubmarine; fTimeDuration : in float);
 
+   procedure Time_Step_Motor_Force_To_Integrate(this : in out CSubmarine ; txMotorForce : in TmotorForce);
+
+   procedure Set_Gripper_Left_Status(this : in out CSubmarine ; bGripperLeft : boolean);
+   procedure Set_Gripper_Right_Status(this : in out CSubmarine ; bGripperRight : boolean);
+   procedure Set_Dropper_Left_Status(this : in out CSubmarine ; bDropperLeft : boolean);
+   procedure Set_Dropper_Right_Status(this : in out CSubmarine ; bDropperRight : boolean);
+   procedure Set_Depth(this : in out CSubmarine; fDepth : float);
+
+   function bGet_Gripper_Left_Status(this : in CSubmarine) return boolean;
+   function bGet_Gripper_Right_Status(this : in CSubmarine) return boolean;
+   function bGet_Dropper_Left_Status(this : in CSubmarine) return boolean;
+   function bGet_Dropper_Right_Status(this : in CSubmarine) return boolean;
+   function fGet_Depth(this : in Csubmarine) return float;
+
 private
       type CSubmarine is tagged
       record
@@ -57,5 +75,11 @@ private
 
          pxAccelerationVector : Math.Vectors.pCVector;
          pxAngularAccelerationVector : Math.Vectors.pCVector;
+
+         bGripperLeft : Boolean;
+         bGripperRight : Boolean;
+         bDropperLeft : Boolean;
+         bDropperRight : Boolean;
+         fDepth : Float;
       end record;
 end simulator.submarine;
