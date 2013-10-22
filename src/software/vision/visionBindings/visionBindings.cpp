@@ -16,7 +16,9 @@ cv::VideoCapture cap;
 std::vector<cv::Mat> channels;
 
 std::queue <cv::Mat> imageBuf; // Declare a queue
-int imageName=0;
+//int imageName=0;
+int imageName=31;
+
 
 cv::vector<cv::Mat> BGR;
 cv::Mat blueHistVals;
@@ -40,8 +42,8 @@ void Core_Wrap::img_buffer()
   int bufSize=0;
   
 
-  std::string folderPath = "/home/vision/Documents/project/cdt508/Robosub2012_logging/Loggning/log 3/Bottom/";
-  //std::string folderPath = "//home/bork/Data/naiad-auv-software/src/software/vision/testImages/Front/";
+  //std::string folderPath = "/home/vision/Documents/project/cdt508/Robosub2012_logging/Loggning/log 3/Bottom/";
+  std::string folderPath = "//home/bork/Data/cdt508/Robosub2012_logging/Loggning/log 3/Bottom/";
 
   std::string result;
   std::string imageType = ".jpg";
@@ -445,7 +447,7 @@ void Processing_Wrap::showRedChannel()
 int Processing_Wrap::thresh(int src, int lowLimit, int upLimit, int ch)
 {
 	cv::Scalar lowBound = lowLimit,upBound = upLimit;
-	cv::Mat mask,threshOut;
+	cv::Mat mask,threshOut = img.at(src).clone(), outPic;
 	int i;
 	cv::inRange(img.at(src), cv::Scalar(10, 50, 50), cv::Scalar(70, 255, 255), mask);
 	
@@ -454,10 +456,10 @@ int Processing_Wrap::thresh(int src, int lowLimit, int upLimit, int ch)
 	//cv::imshow("channels",channels);
 	cv::waitKey(0);
 	//std::cout<<"channel 3"<<channels[0];
-	//cv::accumulateProduct(mask, channels[2], threshOut,cv::Mat());
-	//channels[2].copyTo(img.at(24),mask);
-	//cv::imshow("after accumulate",img.at(24));
-	//cv::waitKey(0);
+	//cv::accumulateProduct(mask, img.at(src), threshOut,cv::Mat());
+	threshOut.copyTo(outPic,mask);
+	cv::imshow("after accumulate",outPic);
+	cv::waitKey(0);
 	//std::cout<<"after accumulate product"<<"\n";
 	cv::Size s = mask.size();
 	std::cout<<s.height<<"\t"<<s.width<<"\n";
