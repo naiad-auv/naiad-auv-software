@@ -439,18 +439,29 @@ void Processing_Wrap::showRedChannel()
 }
 
 
-///////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////// THRESHOLD FUNCTION     ///////////////////////////////////////////////
 
 int Processing_Wrap::thresh(int src, int ch)
 {
-	cv::Scalar lowBound = 0,upBound = 255;
+	std::cout<<"in thres func";
+	cv::waitKey(0);
+	cv::Scalar lowBound = 240,upBound = 255;
 	//std::Vector dst;
 	cv::Mat mask,threshOut;
 	int i;
-	//cv::inRange(img.at(src), lowBound, upBound, mask);
+	cv::inRange(channels[0], lowBound, upBound, mask);
+	
 	//cv::merge(channels[2], mask);
-	std::cout<<mask<<"\n";
-	//cv::accumulateProduct(img.at(src), img.at(channels[2]), threshOut);
+	std::cout<<"before accumulate product"<<"\n";
+	cv::imshow("mask",mask);
+	//cv::imshow("channels",channels);
+	cv::waitKey(0);
+	//std::cout<<"channel 3"<<channels[0];
+	//cv::accumulateProduct(mask, channels[2], threshOut,cv::Mat());
+	channels[2].copyTo(img.at(24),mask);
+	cv::imshow("after accumulate",img.at(24));
+	cv::waitKey(0);
+	//std::cout<<"after accumulate product"<<"\n";
 	cv::Size s = mask.size();
 	std::cout<<s.height<<"\t"<<s.width<<"\n";
 	for(i = 0; i< s.height; i++)
@@ -458,28 +469,6 @@ int Processing_Wrap::thresh(int src, int ch)
 		std::cout<<mask.col(i) <<"\n";
 		cv::waitKey(0);
 	}
-	/*
-	if(ch == 0) //Do for Blue
-	{
-		// Do
-		cv::inRangeS(channels[0], lowBound, upBound, dst);
-		return 1;
-	}
-	else 
-	{
-		if(ch == 1 )//Do for Green
-		{
-			// Do
-			return 1;
-		}
-		else //Do for Red
-		{
-			// Do
-			return 1;
-		}
-	}
-	return 0;
-	*/
 	return 1;
 }
 

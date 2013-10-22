@@ -172,7 +172,7 @@ package visionBindings_hpp is
       procedure LabelPoints (this : access Processing_Wrap; src : int);  -- visionBindings.cpp:205
       pragma Import (CPP, LabelPoints, "_ZN15Processing_Wrap11LabelPointsEi");
 
-      function New_Processing_Wrap return Processing_Wrap;  -- visionBindings.cpp:490
+      function New_Processing_Wrap return Processing_Wrap;  -- visionBindings.cpp:479
       pragma CPP_Constructor (New_Processing_Wrap, "_ZN15Processing_WrapC1Ev");
 
 
@@ -184,19 +184,19 @@ package visionBindings_hpp is
       end record;
       pragma Import (CPP, Preprocessing_Wrap);
 
-      procedure VideoCaptureOpen (this : access Preprocessing_Wrap);  -- visionBindings.cpp:502
+      procedure VideoCaptureOpen (this : access Preprocessing_Wrap);  -- visionBindings.cpp:491
       pragma Import (CPP, VideoCaptureOpen, "_ZN18Preprocessing_Wrap16VideoCaptureOpenEv");
 
       procedure namedWindow
         (this : access Preprocessing_Wrap;
          name : Interfaces.C.Strings.chars_ptr;
-         num : int);  -- visionBindings.cpp:507
+         num : int);  -- visionBindings.cpp:496
       pragma Import (CPP, namedWindow, "_ZN18Preprocessing_Wrap11namedWindowEPci");
 
-      procedure nextFrame (this : access Preprocessing_Wrap; dst : int);  -- visionBindings.cpp:512
+      procedure nextFrame (this : access Preprocessing_Wrap; dst : int);  -- visionBindings.cpp:501
       pragma Import (CPP, nextFrame, "_ZN18Preprocessing_Wrap9nextFrameEi");
 
-      function New_Preprocessing_Wrap return Preprocessing_Wrap;  -- visionBindings.cpp:517
+      function New_Preprocessing_Wrap return Preprocessing_Wrap;  -- visionBindings.cpp:506
       pragma CPP_Constructor (New_Preprocessing_Wrap, "_ZN18Preprocessing_WrapC1Ev");
 
 
