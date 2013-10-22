@@ -46,9 +46,9 @@ package body AVR.AT90CAN128.CAN is
          CANMSG := Msg.Data (I);
       end loop;
       if Msg.ID.isExtended then
-         CANIDT := Shift_Left(Unsigned_32(Msg.ID.ID),3);
+         CANIDT := Shift_Left(Unsigned_32(Msg.ID.Identifier),3);
       else
-         CANIDT := Shift_Left(Unsigned_32(Msg.ID.ID),21);
+         CANIDT := Shift_Left(Unsigned_32(Msg.ID.Identifier),21);
       end if;
       CANCDMOB := (Enable_Transmission, False, Msg.ID.isExtended , Msg.Len);
    end CanWriteTXMOB;
@@ -110,9 +110,9 @@ package body AVR.AT90CAN128.CAN is
                Msg : CAN_Message;
             begin
                if CANCDMOB.Extended_ID then
-                  Msg.ID.ID := CAN_ID_Range (Shift_Right (CANIDT,3));
+                  Msg.ID.Identifier := CAN_Identifier (Shift_Right (CANIDT,3));
                else
-                  Msg.ID.ID := CAN_ID_Range (Shift_Right (CANIDT,21));
+                  Msg.ID.Identifier := CAN_Identifier (Shift_Right (CANIDT,21));
                end if;
                Msg.ID.isExtended := CANCDMOB.Extended_ID;
                Msg.Len := CANCDMOB.DLC;
@@ -128,11 +128,11 @@ package body AVR.AT90CAN128.CAN is
             end;
             Temp.RXOK := False;
             if ID_Tag_array(CANHPMOB.MOB).isExtended then
-               CANIDT := Shift_Left(Unsigned_32(ID_Tag_array(CANHPMOB.MOB).ID),3);
-               CANIDM := Shift_Left(Unsigned_32(ID_Mask_array(CANHPMOB.MOB).ID),3);
+               CANIDT := Shift_Left(Unsigned_32(ID_Tag_array(CANHPMOB.MOB).Identifier),3);
+               CANIDM := Shift_Left(Unsigned_32(ID_Mask_array(CANHPMOB.MOB).Identifier),3);
             else
-               CANIDT := Shift_Left(Unsigned_32(ID_Tag_array(CANHPMOB.MOB).ID),21);
-               CANIDM := Shift_Left(Unsigned_32(ID_Mask_array(CANHPMOB.MOB).ID),21);
+               CANIDT := Shift_Left(Unsigned_32(ID_Tag_array(CANHPMOB.MOB).Identifier),21);
+               CANIDM := Shift_Left(Unsigned_32(ID_Mask_array(CANHPMOB.MOB).Identifier),21);
             end if;
             CANCDMOB := (Enable_Reception, False, ID_Tag_array(CANHPMOB.MOB).isExtended, 8);
          end if;
@@ -165,13 +165,13 @@ package body AVR.AT90CAN128.CAN is
 
    function findHighestPriorityMessage( buffer : in Can_Buffer_Array ; pRead, pWrite : in Buffer_pointer) return Buffer_pointer is
       ret : Buffer_pointer := pRead;
-      prio : CAN_ID_Range := CAN_ID_Range'Last;
+      prio : CAN_Identifier := CAN_Identifier'Last;
       counter : Buffer_pointer;
    begin
       counter := pRead;
       while counter /= pWrite loop
-         if buffer(counter mod Buffer_Size).ID.ID < prio then
-            prio := buffer(counter mod Buffer_Size).ID.ID;
+         if buffer(counter mod Buffer_Size).ID.Identifier < prio then
+            prio := buffer(counter mod Buffer_Size).ID.Identifier;
             ret := counter;
          end if;
          counter := counter + 1;
@@ -288,11 +288,11 @@ package body AVR.AT90CAN128.CAN is
       if not CANEN (MOB) then
          CANPAGE := (MOB, True, 0);
          if ID.isExtended then
-               CANIDT := Shift_Left(Unsigned_32(ID.ID),3);
-               CANIDM := Shift_Left(Unsigned_32(Mask.ID),3);
+               CANIDT := Shift_Left(Unsigned_32(ID.Identifier),3);
+               CANIDM := Shift_Left(Unsigned_32(Mask.Identifier),3);
             else
-               CANIDT := Shift_Left(Unsigned_32(ID.ID),21);
-               CANIDM := Shift_Left(Unsigned_32(Mask.ID),21);
+               CANIDT := Shift_Left(Unsigned_32(ID.Identifier),21);
+               CANIDM := Shift_Left(Unsigned_32(Mask.Identifier),21);
             end if;
          CANCDMOB := (Enable_Reception, False, ID.isExtended, 8);
 

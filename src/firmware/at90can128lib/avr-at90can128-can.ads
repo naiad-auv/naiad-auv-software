@@ -6,10 +6,11 @@ package AVR.AT90CAN128.CAN is
 
    Default_Speed : constant Baud_Rate := K100;
 
-   type CAN_ID_Range is range 0..536870911;
+   type CAN_Identifier is range 0..536870911;
+
    type CAN_ID is record
+      Identifier : CAN_Identifier;
       isExtended : Boolean := False;
-      ID : CAN_ID_Range;
    end record;
 
    type Byte8 is array (DLC_Type range 1..8) of Unsigned_8;
