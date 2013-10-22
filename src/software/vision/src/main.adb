@@ -48,6 +48,8 @@ procedure main is
 
    --thres
    confirmThres : integer;
+   lowLimit :interfaces.C.int;
+   upLimit :interfaces.C.int;
 
    CoreWrap : aliased Class_Core_Wrap.Core_Wrap;
    processingWrap : aliased Class_Processing_Wrap.Processing_Wrap;
@@ -98,6 +100,8 @@ begin
 
    --thres
    confirmThres := 0;
+   lowLimit := 200;
+   upLimit := 250;
 
    -----------------------------MAIN LOOP --------------------------------------------------------
    --Endless_Loop:
@@ -107,18 +111,21 @@ begin
 
 
       --, or just read in single image NEW, READS IN IMAGE AND STORES IN INDEX "IMAGESOURCE" OF "img.at()"
-      CoreWrap.imstore(iImageSource,New_String("parachute.jpg"));
+      CoreWrap.imstore(iImageSource,New_String("rosie.png"));
    	--split channels of image
    	processingWrap.splitChannels(iImageSource);
 
-      --CLEAN IMAGE (TODO)
+   --CLEAN IMAGE (TODO)
+   processingWrap.cvtColor(iImageSource, iHSILocation, iHSIFilter);
+      CoreWrap.imshow(New_String("Why so HSI?"),iHSILocation);
+      CoreWrap.waitKey(0);
 
       --display image source
       CoreWrap.imshow(New_String("Why so normal?"), iImageSource);--show image for debug purposes
       CoreWrap.waitKey(0);
 
       --test thresh
-      ret := processingWrap.thresh(iImageSource, 0);
+      ret := processingWrap.thresh(iHSILocation, lowLimit, upLimit, 0);
       --
 
       --split channels of image

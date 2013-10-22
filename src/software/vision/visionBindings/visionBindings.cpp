@@ -441,18 +441,14 @@ void Processing_Wrap::showRedChannel()
 
 ///////////////////////// THRESHOLD FUNCTION     ///////////////////////////////////////////////
 
-int Processing_Wrap::thresh(int src, int ch)
+int Processing_Wrap::thresh(int src, int lowLimit, int upLimit, int ch)
 {
-	std::cout<<"in thres func";
-	cv::waitKey(0);
-	cv::Scalar lowBound = 240,upBound = 255;
-	//std::Vector dst;
+	cv::Scalar lowBound = lowLimit,upBound = upLimit;
 	cv::Mat mask,threshOut;
 	int i;
-	cv::inRange(channels[0], lowBound, upBound, mask);
+	cv::inRange(img.at(src), cv::Scalar(20, 100, 100), cv::Scalar(30, 255, 255), mask);
 	
 	//cv::merge(channels[2], mask);
-	std::cout<<"before accumulate product"<<"\n";
 	cv::imshow("mask",mask);
 	//cv::imshow("channels",channels);
 	cv::waitKey(0);
@@ -464,13 +460,19 @@ int Processing_Wrap::thresh(int src, int ch)
 	//std::cout<<"after accumulate product"<<"\n";
 	cv::Size s = mask.size();
 	std::cout<<s.height<<"\t"<<s.width<<"\n";
-	for(i = 0; i< s.height; i++)
+	/*for(i = 0; i< s.height; i++)
 	{
 		std::cout<<mask.col(i) <<"\n";
 		cv::waitKey(0);
-	}
+	}*/
 	return 1;
 }
+
+///////////////////////// COLOR DETECTION FUNCTION     ///////////////////////////////////////////////
+
+//int Processing_Wrap::thresh(int src, int lowLimit, int upLimit, int ch)
+//{
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////

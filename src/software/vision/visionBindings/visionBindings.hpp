@@ -67,7 +67,7 @@ virtual void showBlueChannel();
 
 virtual void showGreenChannel();
 
-virtual int thresh(int src, int ch);
+virtual int thresh(int src, int lowLimit, int upLimit, int ch);
 
 virtual void showRedChannel();
 
