@@ -14,32 +14,33 @@ procedure ADC_test is
    pragma Suppress (All_Checks);
 
    PORT : Constant AVR.AT90CAN128.USART.USARTID := AVR.AT90CAN128.USART.USART1;
-   iTemp : Integer;
+   bTemp : Boolean;
    u16Value : Interfaces.Unsigned_16;
 
-   sBuffer : String(1..5);
+   -- sBuffer : String(1..5);
+   u8 : Interfaces.Unsigned_8;
 
-   procedure u16ToStr(u16 : Interfaces.Unsigned_16; sRet : out String) is
-      use Interfaces;
-      iDigit : Integer;
-      iLeft : Integer := Integer(u16);
-      iValue : Integer := 1000;
-   begin
-
-      for i in reverse 1..4 loop
-         iDigit := iLeft / iValue;
-         iLeft := iLeft - (iDigit * iValue);
-
-         if iDigit = 0 then
-            sRet(5-i) := ' ';
-         else
-            sRet(5-i) := Character'Val(iDigit + Character'Pos('0'));
-         end if;
-         iValue := iValue / 10;
-      end loop;
-     sRet(5) := Character'Val(0);
-
-   end u16ToStr;
+--     procedure u16ToStr(u16 : Interfaces.Unsigned_16; sRet : out String) is
+--        use Interfaces;
+--        iDigit : Integer;
+--        iLeft : Integer := Integer(u16);
+--        iValue : Integer := 1000;
+--     begin
+--
+--        for i in reverse 1..4 loop
+--           iDigit := iLeft / iValue;
+--           iLeft := iLeft - (iDigit * iValue);
+--
+--           if iDigit = 0 then
+--              sRet(5-i) := ' ';
+--           else
+--              sRet(5-i) := Character'Val(iDigit + Character'Pos('0'));
+--           end if;
+--           iValue := iValue / 10;
+--        end loop;
+--       sRet(5) := Character'Val(0);
+--
+--     end u16ToStr;
 
 begin
    AVR.AT90CAN128.USART.Init(PORT, AVR.AT90CAN128.USART.BAUD38400);
@@ -49,27 +50,17 @@ begin
    end loop;
 
    loop
-      AVR.AT90CAN128.CLOCK.Delay_ms(500);
+      AVR.AT90CAN128.CLOCK.Delay_ms(1000);
 
       for i in 0..7 loop
          u16Value := AVR.AT90CAN128.ADC.Get(AVR.AT90CAN128.Channel_Type(i));
 
-         u16ToStr(u16Value, sBuffer);
+         u16Value := Interfaces.Shift_Right(u16Value, 2);
 
-         iTemp := AVR.AT90CAN128.USART.Write(sBuffer, PORT, sBuffer'Size);
-
-         declare
-            bTemp : Boolean;
-         begin
-            bTemp := AVR.AT90CAN128.USART.Put(Character'Val(13), PORT);
-         end;
+         bTemp := AVR.AT90CAN128.USART.Put(Character'Val(Interfaces.Unsigned_8(u16Value)), PORT);
       end loop;
 
-      declare
-         bTemp : Boolean;
-      begin
-         bTemp := AVR.AT90CAN128.USART.Put(Character'Val(13), PORT);
-      end;
+
    end loop;
 end ADC_test;
 
