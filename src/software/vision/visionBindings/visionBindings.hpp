@@ -43,6 +43,8 @@ virtual void HoughCircles(int src,int inverseRatioOfResolution,int minDistBetwee
 
 virtual void DrawHoughCircles(int src);
 
+virtual void FindCircleCenters(void);
+
 virtual void HoughLines(int src, int rho, float theta, int intersectionThreshold);
 
 virtual void DrawHoughLines(int cdst);

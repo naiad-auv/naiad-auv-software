@@ -22,8 +22,11 @@ cv::vector<cv::Mat> BGR;
 cv::Mat blueHistVals;
 cv::Mat greenHistVals;
 cv::Mat redHistVals;
-
 cv::MatND hist;
+
+std::vector<cv::Point> circleCenters;
+std::vector<cv::Point> rectangleCenters;
+std::vector<cv::Point> triangleCenters;
 
 /*********************************************************************************************************************
 *               START CORE WRAP                                                                                        *
@@ -173,7 +176,7 @@ void Processing_Wrap::HoughCircles(int src,int inverseRatioOfResolution,int minD
 
 	cv::HoughCircles( img.at(src), circles, CV_HOUGH_GRADIENT, inverseRatioOfResolution, minDistBetweenCenters, cannyUpThres, centerDetectionThreshold, minRadius, maxRadius );
 	circCount=circles.size();
-	std::cout<<"circles:\t"<<circCount<<std::endl;
+	std::cout<<"circles:\t\t"<<circCount<<std::endl;
 }
 
 
@@ -184,19 +187,29 @@ void Processing_Wrap::HoughCircles(int src,int inverseRatioOfResolution,int minD
 void Processing_Wrap::DrawHoughCircles(int src)
 {
   int i;
-
+  //cv::Mat F=img.at(src).clone();
+  img.at(24)=img.at(src).clone();
+  
   for( size_t i = 0; i < circles.size(); i++ )
   {
       cv::Point center(cvRound(circles[i][0]), cvRound(circles[i][1]));
       int radius = cvRound(circles[i][2]);
       // circle center im source, center of circle, radius, color, thickness, linetype, shift
-      cv::circle( img.at(src), center, 3, cv::Scalar(0,255,0), -1, 8, 0 );
+      cv::circle( img.at(24), center, 3, cv::Scalar(0,255,0), -1, 8, 0 );
       // circle outline
-      cv::circle( img.at(src), center, radius, cv::Scalar(0,0,255), 3, 8, 0 );
+      cv::circle( img.at(24), center, radius, cv::Scalar(0,0,255), 3, 8, 0 );
    }
 }
 
-
+void Processing_Wrap::FindCircleCenters(void)
+{
+	for(int i=0; i<circles.size();i++)
+	{
+		cv::Point center(cvRound(circles[i][0]), cvRound(circles[i][1]));
+		circleCenters.push_back(center);	
+	}
+	std::cout<<"centers are \t\t"<<circleCenters;
+}
 /////////////////////////////// IMAGE INTENSITY FUNCTION////////////////////////////////////7
 // This function searches through an image at img.at(src) pixel by pixel and prints the intensity
 // value for each picture
@@ -310,15 +323,25 @@ void Processing_Wrap::approxPolyDP(double epsilon, bool closed)
 		cv::approxPolyDP(contours[i], polys, arcLength(cv::Mat(contours[i]), true)*0.02,closed);
 		if (polys.size()==4)
 		{
+			//std::cout<<"poly points"<<polys;
+			//std::cout<<"poly point"<<polys.at(0);
+			//std::cout<<"poly x"<<polys.at(0).x;
+			//point1=polys.at(0);
+			//point2=polys.at(2);
+			rectangleCenters.push_back(cv::Point(((polys.at(0).x + polys.at(2).x)/2),((polys.at(0).y + polys.at(2).y)/2)));
 			rectangleCount++;
+			
 		}
 		if (polys.size()==3)
 		{
 			triCount++;
+			triangleCenters.push_back(cv::Point((polys.at(0).x + ((2/3)*(polys.at(1).x - polys.at(0).x))),(polys.at(0).y + (2/3)*(polys.at(1).y - polys.at(0).y))));
 		}
 	}
-	std::cout<<"rectangles:\t"<<rectangleCount;
-    std::cout<<"\ntriangles:\t"<<triCount<<std::endl;
+	std::cout<<"\n rectangles:\t\t"<<rectangleCount;
+	std::cout<<"\n rect centers:\t\t"<<rectangleCenters;
+    std::cout<<"\n triangles:\t\t"<<triCount<<std::endl;
+    std::cout<<"triangle centers:\t"<<triangleCenters<<std::endl;
 }
 
 
