@@ -10,6 +10,9 @@ b__test_runner.ads
 test_runner
 
 /build
+# When we restructure our testing structure obj/ can be added to ignore file.
+# The problem now is that the test projects are put in the obj/ folder.
+# obj/
 /tests
 /build_logs
 /xml_results/*.xml
