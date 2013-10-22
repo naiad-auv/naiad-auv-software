@@ -447,7 +447,7 @@ int Processing_Wrap::thresh(int src, int lowLimit, int upLimit, int ch)
 	cv::Scalar lowBound = lowLimit,upBound = upLimit;
 	cv::Mat mask,threshOut;
 	int i;
-	cv::inRange(img.at(src), cv::Scalar(20, 100, 100), cv::Scalar(30, 255, 255), mask);
+	cv::inRange(img.at(src), cv::Scalar(10, 50, 50), cv::Scalar(70, 255, 255), mask);
 	
 	//cv::merge(channels[2], mask);
 	cv::imshow("mask",mask);
@@ -455,9 +455,9 @@ int Processing_Wrap::thresh(int src, int lowLimit, int upLimit, int ch)
 	cv::waitKey(0);
 	//std::cout<<"channel 3"<<channels[0];
 	//cv::accumulateProduct(mask, channels[2], threshOut,cv::Mat());
-	channels[2].copyTo(img.at(24),mask);
-	cv::imshow("after accumulate",img.at(24));
-	cv::waitKey(0);
+	//channels[2].copyTo(img.at(24),mask);
+	//cv::imshow("after accumulate",img.at(24));
+	//cv::waitKey(0);
 	//std::cout<<"after accumulate product"<<"\n";
 	cv::Size s = mask.size();
 	std::cout<<s.height<<"\t"<<s.width<<"\n";
