@@ -45,8 +45,12 @@ package body AVR.AT90CAN128.CAN is
       for I in 1..Msg.Len loop
          CANMSG := Msg.Data (I);
       end loop;
-      CANIDT   := Shift_Left(Unsigned_16(Msg.ID),5);
-      CANCDMOB := (Enable_Transmission, False, False, Msg.Len);
+      if Msg.ID.isExtended then
+         CANIDT := Shift_Left(Unsigned_32(Msg.ID.Identifier),3);
+      else
+         CANIDT := Shift_Left(Unsigned_32(Msg.ID.Identifier),21);
+      end if;
+      CANCDMOB := (Enable_Transmission, False, Msg.ID.isExtended , Msg.Len);
    end CanWriteTXMOB;
 
    -- Can_Enable: Enable the CAN bus
@@ -105,7 +109,12 @@ package body AVR.AT90CAN128.CAN is
             declare
                Msg : CAN_Message;
             begin
-               Msg.ID := CAN_ID (Shift_Right (CANIDT,5));
+               if CANCDMOB.Extended_ID then
+                  Msg.ID.Identifier := CAN_Identifier (Shift_Right (CANIDT,3));
+               else
+                  Msg.ID.Identifier := CAN_Identifier (Shift_Right (CANIDT,21));
+               end if;
+               Msg.ID.isExtended := CANCDMOB.Extended_ID;
                Msg.Len := CANCDMOB.DLC;
                for I in 1..Msg.Len loop
                   Msg.Data (I) := CANMSG;
@@ -118,9 +127,14 @@ package body AVR.AT90CAN128.CAN is
                end if;
             end;
             Temp.RXOK := False;
-            CANIDT   := Shift_Left(Unsigned_16(ID_Tag_array(CANHPMOB.MOB)),5);
-            CANCDMOB := (Enable_Reception, False, False, 8);
-            CANIDM := Shift_Left(Unsigned_16(ID_Mask_array(CANHPMOB.MOB)),5);
+            if ID_Tag_array(CANHPMOB.MOB).isExtended then
+               CANIDT := Shift_Left(Unsigned_32(ID_Tag_array(CANHPMOB.MOB).Identifier),3);
+               CANIDM := Shift_Left(Unsigned_32(ID_Mask_array(CANHPMOB.MOB).Identifier),3);
+            else
+               CANIDT := Shift_Left(Unsigned_32(ID_Tag_array(CANHPMOB.MOB).Identifier),21);
+               CANIDM := Shift_Left(Unsigned_32(ID_Mask_array(CANHPMOB.MOB).Identifier),21);
+            end if;
+            CANCDMOB := (Enable_Reception, False, ID_Tag_array(CANHPMOB.MOB).isExtended, 8);
          end if;
 	 if Temp.TXOK then
             CANCDMOB.State := Disable;
@@ -151,13 +165,13 @@ package body AVR.AT90CAN128.CAN is
 
    function findHighestPriorityMessage( buffer : in Can_Buffer_Array ; pRead, pWrite : in Buffer_pointer) return Buffer_pointer is
       ret : Buffer_pointer := pRead;
-      prio : CAN_ID := CAN_ID'Last;
+      prio : CAN_Identifier := CAN_Identifier'Last;
       counter : Buffer_pointer;
    begin
       counter := pRead;
       while counter /= pWrite loop
-         if buffer(counter mod Buffer_Size).ID < prio then
-            prio := buffer(counter mod Buffer_Size).ID;
+         if buffer(counter mod Buffer_Size).ID.Identifier < prio then
+            prio := buffer(counter mod Buffer_Size).ID.Identifier;
             ret := counter;
          end if;
          counter := counter + 1;
@@ -257,9 +271,9 @@ package body AVR.AT90CAN128.CAN is
          CANSTMOB :=  (others => False);
          CANCDMOB := (Disable, False, False, 0);
          CANIDT   := 0;
-         CANIDTX  := 0;
+         --CANIDTX  := 0;
          CANIDM   := 0;
-         CANIDMX  := 0;
+         --CANIDMX  := 0;
       end loop;
       -- Can_enable
       CANGCON.ENASTB := True; -- Enable
@@ -272,10 +286,19 @@ package body AVR.AT90CAN128.CAN is
    procedure Can_Set_Mob_ID_MASK (MOB : READ_MOB_ID;  ID, Mask : CAN_ID) is
    begin
       if not CANEN (MOB) then
-        CANPAGE := (MOB, True, 0);
-      	CANIDT   := Shift_Left(Unsigned_16(ID),5);
-      	CANCDMOB := (Enable_Reception, False, False, 8);
-        CANIDM := Shift_Left(Unsigned_16(Mask),5);
+         CANPAGE := (MOB, True, 0);
+         if ID.isExtended then
+               CANIDT := Shift_Left(Unsigned_32(ID.Identifier),3);
+               CANIDM := Shift_Left(Unsigned_32(Mask.Identifier),3);
+            else
+               CANIDT := Shift_Left(Unsigned_32(ID.Identifier),21);
+               CANIDM := Shift_Left(Unsigned_32(Mask.Identifier),21);
+            end if;
+         CANCDMOB := (Enable_Reception, False, ID.isExtended, 8);
+
+--        	CANIDT   := Shift_Left(Unsigned_16(ID),5);
+--        	CANCDMOB := (Enable_Reception, False, False, 8);
+--          CANIDM := Shift_Left(Unsigned_16(Mask),5);
         ID_Mask_array(MOB) := Mask;
         ID_Tag_array(MOB) := ID;
       end if;
