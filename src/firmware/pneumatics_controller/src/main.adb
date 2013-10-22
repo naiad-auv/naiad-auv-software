@@ -12,16 +12,23 @@ procedure Main is
    msgReceived	: Boolean;
    myResult : Pneumatics.Controller_Response;
 
+   use type AVR.AT90CAN128.CAN.CAN_ID_Range;
+
 begin
 
    AVR.AT90CAN128.CAN.Can_Init(AVR.AT90CAN128.CAN.K250);
    AVR.AT90CAN128.CAN.Can_Enable;
 
    --AVR.AT90CAN128.CAN.Can_Set_All_MOB_ID_MASK(16#000#, 16#7e0#);
-   AVR.AT90CAN128.CAN.Can_Set_MOB_ID_MASK(1, 16#00A#, 16#7FF#);
-   AVR.AT90CAN128.CAN.Can_Set_MOB_ID_MASK(2, 16#00B#, 16#7FF#);
-   AVR.AT90CAN128.CAN.Can_Set_MOB_ID_MASK(3, 16#010#, 16#7FF#);
-   AVR.AT90CAN128.CAN.Can_Set_MOB_ID_MASK(4, 16#011#, 16#7FF#);
+   AVR.AT90CAN128.CAN.Can_Set_MOB_ID_MASK(1, (False, 16#00A#), (False, 16#7FF#));
+   AVR.AT90CAN128.CAN.Can_Set_MOB_ID_MASK(2, (False, 16#00B#), (False, 16#7FF#));
+   AVR.AT90CAN128.CAN.Can_Set_MOB_ID_MASK(3, (False, 16#010#), (False, 16#7FF#));
+
+   AVR.AT90CAN128.CAN.Can_Set_MOB_ID_MASK(4, (True, 2048), (True, 16#1FFFFFFF#));
+   AVR.AT90CAN128.CAN.Can_Set_MOB_ID_MASK(5, (True, 3000), (True, 16#1FFFFFFF#));
+   AVR.AT90CAN128.CAN.Can_Set_MOB_ID_MASK(6, (True, 3000), (True, 16#0#));
+
+   --AVR.AT90CAN128.CAN.Can_Set_MOB_ID_MASK(4, 16#011#, 16#7FF#);
 
    Pneumatics.Init_Pins;
 
@@ -30,34 +37,44 @@ begin
 
       if msgReceived then
 
-         if AVR.AT90CAN128.CAN."="(canReceivedMsg.ID, CAN_Defs.MSG_KILL_SWITCH_ID) then
-            Pneumatics.Dispatch_Kill_Msg(canReceivedMsg, myResult);
-         elsif AVR.AT90CAN128.CAN."="(canReceivedMsg.ID, CAN_Defs.MSG_SIMULATION_MODE_ID) then
-            Pneumatics.Dispatch_Sim_Msg(canReceivedMsg, myResult);
-         elsif AVR.AT90CAN128.CAN."="(canReceivedMsg.ID, CAN_Defs.MSG_PNEUMATICS_ID) then
-            if Pneumatics.bKillSwitchFlag = False then
-               Pneumatics.Dispatch_Actuation_msg(canReceivedMsg, myResult);
-            else
-               --Debug: Kill Switch is active
-               myResult.success := True;
-               myResult.canMsgOut := (ID => 255, Len => 1, Data => (101, others => 0) );
+         if canReceivedMsg.ID.isExtended then
+            if canReceivedMsg.ID.ID = 2048 then
+               canReceivedMsg.ID.ID := 2047;
+            elsif canReceivedMsg.ID.ID = 3000 then
+               canReceivedMsg.ID.ID := 3001;
             end if;
-         else
-            --myResult.success := False;
-
-            --Debug unknown ID
-            myResult.success := True;
-            myResult.canMsgOut := (ID => 255, Len => 1, Data => (111, others => 0) );
-         end if;
-
-         if myResult.success then
-            myResult.success := False;
-            AVR.AT90CAN128.CAN.Can_Send(myResult.canMsgOut);
-         else
-            -- Debug success is false
-            --myResult.canMsgOut := (ID => 255, Len => 1, Data => (121, others => 0) );
             AVR.AT90CAN128.CAN.Can_Send(canReceivedMsg);
+
          end if;
+
+--           if AVR.AT90CAN128.CAN."="(canReceivedMsg.ID.ID, CAN_Defs.MSG_KILL_SWITCH_ID.ID) then
+--              Pneumatics.Dispatch_Kill_Msg(canReceivedMsg, myResult);
+--           elsif AVR.AT90CAN128.CAN."="(canReceivedMsg.ID.ID, CAN_Defs.MSG_SIMULATION_MODE_ID.ID) then
+--              Pneumatics.Dispatch_Sim_Msg(canReceivedMsg, myResult);
+--           elsif AVR.AT90CAN128.CAN."="(canReceivedMsg.ID.ID, CAN_Defs.MSG_PNEUMATICS_ID.ID) then
+--              if Pneumatics.bKillSwitchFlag = False then
+--                 Pneumatics.Dispatch_Actuation_msg(canReceivedMsg, myResult);
+--              else
+--                 --Debug: Kill Switch is active
+--                 myResult.success := True;
+--                 myResult.canMsgOut := (ID =>(ID => 255,isExtended => False), Len => 1, Data => (101, others => 0) );
+--              end if;
+--           else
+--              --myResult.success := False;
+--
+--              --Debug unknown ID
+--              myResult.success := True;
+--              myResult.canMsgOut := (ID =>(ID => 255,isExtended => False), Len => 1, Data => (111, others => 0) );
+--           end if;
+--
+--           if myResult.success then
+--              myResult.success := False;
+--              AVR.AT90CAN128.CAN.Can_Send(myResult.canMsgOut);
+--           else
+--              -- Debug success is false
+--              --myResult.canMsgOut := (ID => 255, Len => 1, Data => (121, others => 0) );
+--              AVR.AT90CAN128.CAN.Can_Send(canReceivedMsg);
+--           end if;
 
       end if;
 

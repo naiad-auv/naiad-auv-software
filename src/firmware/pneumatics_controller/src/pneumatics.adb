@@ -32,7 +32,7 @@ package body Pneumatics is
 
          -- Debug
          response.success := True;
-         response.canMsgOut := (ID => 255, Len => 1, Data => (131, others => 0) );
+         response.canMsgOut := (ID =>(ID => 255,isExtended => False), Len => 1, Data => (131, others => 0) );
       end if;
    end Dispatch_Kill_Msg;
 
@@ -51,7 +51,7 @@ package body Pneumatics is
 
          -- Debug
          response.success := True;
-         response.canMsgOut := (ID => 255, Len => 1, Data => (141, others => 0) );
+         response.canMsgOut := (ID =>(ID => 255,isExtended => False), Len => 1, Data => (141, others => 0) );
       end if;
    end Dispatch_Sim_Msg;
 
@@ -96,7 +96,7 @@ package body Pneumatics is
 
          -- Debug
          response.success := True;
-         response.canMsgOut := (ID => 255, Len => 1, Data => (151, others => 0) );
+         response.canMsgOut := (ID =>(ID => 255,isExtended => False), Len => 1, Data => (151, others => 0) );
       end if;
    end Dispatch_Actuation_Msg;
 

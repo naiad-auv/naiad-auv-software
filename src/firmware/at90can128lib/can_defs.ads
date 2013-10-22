@@ -5,15 +5,15 @@ with Interfaces;
 with AVR.AT90CAN128.CAN;
 
 package CAN_Defs is
-   MSG_KILL_SWITCH_ID			: constant AVR.AT90CAN128.CAN.CAN_ID := 10;
-   MSG_KILL_SWITCH_CONFIRM_ID		: constant AVR.AT90CAN128.CAN.CAN_ID := 88;
+   MSG_KILL_SWITCH_ID			: constant AVR.AT90CAN128.CAN.CAN_ID := (False,10);
+   MSG_KILL_SWITCH_CONFIRM_ID		: constant AVR.AT90CAN128.CAN.CAN_ID := (False,88);
    MSG_KILL_SWITCH_ACTIVE		: constant AVR.AT90CAN128.CAN.CAN_Message := (ID => MSG_KILL_SWITCH_ID, Len => 1, Data => (0, others => 0) );
    MSG_KILL_SWITCH_ACTIVE_CONFIRM	: constant AVR.AT90CAN128.CAN.CAN_Message := (ID => MSG_KILL_SWITCH_CONFIRM_ID, Len => 1, Data => (0, others => 0) );
    MSG_KILL_SWITCH_NOT_ACTIVE 		: constant AVR.AT90CAN128.CAN.CAN_Message := (ID => MSG_KILL_SWITCH_ID, Len => 1, Data => (255, others => 0) );
    MSG_KILL_SWITCH_NOT_ACTIVE_CONFIRM	: constant AVR.AT90CAN128.CAN.CAN_Message := (ID => MSG_KILL_SWITCH_CONFIRM_ID, Len => 1, Data => (255, others => 0) );
 
-   MSG_SIMULATION_MODE_ID		: constant AVR.AT90CAN128.CAN.CAN_ID := 11;
-   MSG_SIMULATION_MODE_CONFIRM_ID	: constant AVR.AT90CAN128.CAN.CAN_ID := 89;
+   MSG_SIMULATION_MODE_ID		: constant AVR.AT90CAN128.CAN.CAN_ID := (False,11);
+   MSG_SIMULATION_MODE_CONFIRM_ID	: constant AVR.AT90CAN128.CAN.CAN_ID := (False,89);
    SIMULATION_MODE_ACTIVE		: constant Interfaces.Unsigned_8 := 0;
    SIMULATION_MODE_NOT_ACTIVE		: constant Interfaces.Unsigned_8 := 255;
    MSG_SIMULATION_MODE_ACTIVE		: constant AVR.AT90CAN128.CAN.CAN_Message := (ID => MSG_SIMULATION_MODE_ID, Len => 1, Data => (SIMULATION_MODE_ACTIVE, others => 0) );
@@ -21,10 +21,10 @@ package CAN_Defs is
    MSG_SIMULATION_MODE_NOT_ACTIVE	: constant AVR.AT90CAN128.CAN.CAN_Message := (ID => MSG_SIMULATION_MODE_ID, Len => 1, Data => (SIMULATION_MODE_NOT_ACTIVE, others => 0) );
    MSG_SIMULATION_MODE_NOT_ACTIVE_CONFIRM : constant AVR.AT90CAN128.CAN.CAN_Message := (ID => MSG_SIMULATION_MODE_CONFIRM_ID, Len => 1, Data => (SIMULATION_MODE_NOT_ACTIVE, others => 0) );
 
-   MSG_SENSOR_ID			: constant AVR.AT90CAN128.CAN.CAN_ID := 18;
+   MSG_SENSOR_ID			: constant AVR.AT90CAN128.CAN.CAN_ID := (False,18);
 
-   MSG_PNEUMATICS_ID			: constant AVR.AT90CAN128.CAN.CAN_ID := 16;
-   MSG_PNEUMATICS_CONFIRM_ID		: constant AVR.AT90CAN128.CAN.CAN_ID := 17;
+   MSG_PNEUMATICS_ID			: constant AVR.AT90CAN128.CAN.CAN_ID := (False,16);
+   MSG_PNEUMATICS_CONFIRM_ID		: constant AVR.AT90CAN128.CAN.CAN_ID := (False,17);
    MSG_TORPEDO_LEFT			: constant AVR.AT90CAN128.CAN.CAN_Message := (ID => MSG_PNEUMATICS_ID, 		Len => 1, Data => (1, others => 0) );
    MSG_TORPEDO_LEFT_CONFIRM 		: constant AVR.AT90CAN128.CAN.CAN_Message := (ID => MSG_PNEUMATICS_CONFIRM_ID, 	Len => 1, Data => (1, others => 0) );
    MSG_TORPEDO_RIGHT			: constant AVR.AT90CAN128.CAN.CAN_Message := (ID => MSG_PNEUMATICS_ID, 		Len => 1, Data => (2, others => 0) );
