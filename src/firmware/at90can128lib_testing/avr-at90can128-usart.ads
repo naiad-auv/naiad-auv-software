@@ -18,7 +18,7 @@ package AVR.AT90CAN128.USART is
 
    function Data_Available
      (Port : USARTID := Default_USART)
-   return Boolean;
+   return Integer;
 
    procedure Get_Char (Port : USARTID; Ch : out Character; Ret : out Boolean);
 

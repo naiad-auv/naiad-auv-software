@@ -107,22 +107,24 @@ package body CAN_Link_pack is
       Identifier   : AVR.AT90CAN128.CAN.CAN_Identifier;
 
       Head_Buf     : String(1..CAN_Link_Utils.HEADLEN);
-      bChecksum    : Boolean;
+     -- bChecksum    : Boolean;
+      u8ActualChecksum    : Interfaces.Unsigned_8;
+      u8ReceivedChecksum  : Interfaces.Unsigned_8;
       bIsExtended  : Boolean;
 
       msg : AVR.AT90CAN128.CAN.CAN_Message;
    begin
 
-      if AVR.AT90CAN128.USART.iNumBytesLeft < CAN_Link_Utils.HEADLEN  then
+      if AVR.AT90CAN128.USART.Data_Available < CAN_Link_Utils.HEADLEN  then
          return;
       end if;
 
       Usart_Read(Head_Buf, USART_PORT, CAN_Link_Utils.HEADLEN, iRnum);
 
-      CAN_Link_Utils.Bytes_To_Message_Header(Head_Buf, msg);
+      CAN_Link_Utils.Bytes_To_Message_Header(Head_Buf, msg, u8ReceivedChecksum);
 
       if Integer(msg.Len) /= 0 then
-         while AVR.AT90CAN128.USART.iNumBytesLeft < Integer(msg.Len) loop
+         while AVR.AT90CAN128.USART.Data_Available < Integer(msg.Len) loop
             null;
          end loop;
 
@@ -131,11 +133,11 @@ package body CAN_Link_pack is
             iData_Num  : Integer;
          begin
             Usart_Read(Data_Buf, USART_PORT, Integer(msg.Len), iData_Num);
-            CAN_Link_Utils.Bytes_To_Message_Data(Data_Buf, msg, bChecksum);
+            CAN_Link_Utils.Bytes_To_Message_Data(Data_Buf, msg, u8ActualChecksum);
          end;
 
          --At present, we just ignore this message if the checksum is wrong.
-         if not bChecksum then
+         if u8ReceivedChecksum /= u8ActualChecksum then
             return;
          else
             AVR.AT90CAN128.CAN.Can_Send(msg);
