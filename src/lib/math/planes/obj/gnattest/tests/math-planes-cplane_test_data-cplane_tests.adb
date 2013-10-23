@@ -22,6 +22,7 @@ package body Math.Planes.CPlane_Test_Data.CPlane_Tests is
 
       pxTestPlane : pCPlane;
       pxTestNormal : Math.Vectors.pCVector;
+
 --      fExpectedAX : float := 0.980581;
 --      fExpectedBY : float := 0.0;
 --      fExpectedCZ : float := -0.196116;
@@ -33,10 +34,13 @@ package body Math.Planes.CPlane_Test_Data.CPlane_Tests is
                                             fZ => -1.0);
       pxTestPlane := Math.Planes.pxCreate(pxNormalVector      => pxTestNormal,
                                           fDistanceFromOrigin => 0.0);
-      pxTestNormal := pxTestNormal.pxGet_Normalized;
+      pxTestNormal.Copy_From(xSourceVector => pxTestNormal.xGet_Normalized);
 
-      AUnit.Assertions.Assert(Condition => pxTestNormal = pxTestPlane.pxGet_Normal_Vector,
-                              Message   => "CPlane.pxGet_Normal_Vector failed.");
+      AUnit.Assertions.Assert(Condition => pxTestNormal.all = pxTestPlane.xGet_Normal_Vector,
+                              Message   => "CPlane.pxGet_Normal_Vector failed. Value: " & float'image(pxTestPlane.xGet_Normal_Vector.fGet_X) & float'image(pxTestPlane.xGet_Normal_Vector.fGet_Y) & float'image(pxTestPlane.xGet_Normal_Vector.fGet_Z) & ". Expected: " & float'image(pxTestNormal.fGet_X) & float'image(pxTestNormal.fGet_Y) & float'image(pxTestNormal.fGet_Z) );
+
+      Math.Vectors.Free(pxVectorToDeallocate => pxTestNormal);
+      Math.Planes.Free(pxPlaneToDeallocate => pxTestPlane);
 
 
 --  begin read only
@@ -56,7 +60,7 @@ package body Math.Planes.CPlane_Test_Data.CPlane_Tests is
 
       pxTestPlane : pCPlane;
       pxTestNormal : Math.Vectors.pCVector;
-      fExpectedD : float := 0.0;
+      fExpectedD : float := 2.0;
    begin
 
 
@@ -64,10 +68,13 @@ package body Math.Planes.CPlane_Test_Data.CPlane_Tests is
                                             fY => 0.0,
                                             fZ => -1.0);
       pxTestPlane := Math.Planes.pxCreate(pxNormalVector      => pxTestNormal,
-                                          fDistanceFromOrigin => 0.0);
+                                          fDistanceFromOrigin => fExpectedD);
 
-      AUnit.Assertions.Assert(Condition => pxTestPlane.fGet_Distance_From_Origin = pxTestPlane.fDistanceFromOrigin,
+      AUnit.Assertions.Assert(Condition => pxTestPlane.fGet_Distance_From_Origin = fExpectedD,
                               Message   => "CPlane.fGet_Distance_From_Origin failed.");
+
+      Math.Vectors.Free(pxVectorToDeallocate => pxTestNormal);
+      Math.Planes.Free(pxPlaneToDeallocate => pxTestPlane);
 
 --  begin read only
    end Test_fGet_Distance_From_Origin;
