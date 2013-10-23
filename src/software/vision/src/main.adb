@@ -127,6 +127,7 @@ begin
       --, or just read in single image NEW, READS IN IMAGE AND STORES IN INDEX "IMAGESOURCE" OF "img.at()"
       --CoreWrap.imstore(iImageSource,New_String("62.jpg"));
 
+
    	--split channels of image
    	--processingWrap.splitChannels(iImageSource);
 
@@ -134,6 +135,13 @@ begin
    processingWrap.cvtColor(iImageSource, iHSILocation, iHSIFilter);
       --CoreWrap.imshow(New_String("Why so HSI?"),iHSILocation);
       --CoreWrap.waitKey(0);
+      --split channels of image
+      --processingWrap.splitChannels(iImageSource);
+
+      --CLEAN IMAGE (TODO)
+      processingWrap.cvtColor(iImageSource, iHSILocation, iHSIFilter);
+      CoreWrap.imshow(New_String("Why so HSI?"),iHSILocation);
+      CoreWrap.waitKey(0);
 
       --display image source
       CoreWrap.imshow(New_String("Why so normal?"), iImageSource);--show image for debug purposes
@@ -144,7 +152,7 @@ begin
      -- CoreWrap.waitKey(0);
 
       --test thresh
-      ret := processingWrap.thresh(iHSILocation, lowLimit, upLimit, 0);
+      ret := processingWrap.thresh(iHSILocation, 10, 70, 50, 255, 50, 255);
       --
 
       --split channels of image
@@ -183,7 +191,7 @@ begin
       --ret := CoreWrap.imwrite(New_String("CannyOut.jpg"),2 );
 
       --HOUGH CIRCLES
-        --processingWrap.HoughCircles(iGreyScaleLocation, inverseRatioOfResolution, minDistBetweenCenters, houghCannyUpThres, centerDetectionThreshold, minRadius, maxRadius);
+      --processingWrap.HoughCircles(iGreyScaleLocation, inverseRatioOfResolution, minDistBetweenCenters, houghCannyUpThres, centerDetectionThreshold, minRadius, maxRadius);
 
       --     Vision.Image_Processing.Hough_Circles(iImageDestination, inverseRatioOfResolution, minDistBetweenCenters, houghCannyUpThres, centerDetectionThreshold, minRadius, maxRadius);
        --    processingWrap.DrawHoughCircles(iImageSource);
@@ -206,10 +214,11 @@ begin
       --processingWrap.LabelPoints(Interfaces.C.int(4));
 
       --CONTOURS
-     --   processingWrap.Contours(iCannyLocation);
-     -- processingWrap.showContours(contourOut => iContourLocation,contourId  => -1 ,thickness  => 3 );
+
+      -- processingWrap.Contours(iCannyLocation);
+      -- processingWrap.showContours(contourOut => iContourLocation,contourId  => -1 ,thickness  => 3 );
       --CoreWrap.imshow(New_String("Whats with the contours?"),iContourLocation);
-      --CoreWrap.waitKey(0);
+      -- CoreWrap.waitKey(0);
 
       --processingWrap.HoughCircles(Interfaces.C.int(1), inverseRatioOfResolution, minDistBetweenCenters, houghCannyUpThres, centerDetectionThreshold, minRadius, maxRadius);
       --ret := CoreWrap.imwrite(name => New_String("Contours.jpg"),

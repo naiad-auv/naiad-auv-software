@@ -467,14 +467,12 @@ void Processing_Wrap::showRedChannel()
 
 ///////////////////////// THRESHOLD FUNCTION     ///////////////////////////////////////////////
 
-int Processing_Wrap::thresh(int src, int lowLimit, int upLimit, int ch)
+int Processing_Wrap::thresh(int src, int blueLow, int blueUp, int greenLow, int greenUp, int redLow, int redUp)
 {
-	cv::Scalar lowBound = lowLimit,upBound = upLimit;
 	cv::Mat mask,threshOut = img.at(src).clone(), outPic;
 	int i;
 
-	cv::inRange(img.at(src), cv::Scalar(10, 50, 50), cv::Scalar(70, 255, 255), mask);
-
+	cv::inRange(img.at(src), cv::Scalar(blueLow, greenLow, redLow), cv::Scalar(blueUp, greenUp, redUp), mask);
 	
 	//cv::merge(channels[2], mask);
 	cv::imshow("mask",mask);
