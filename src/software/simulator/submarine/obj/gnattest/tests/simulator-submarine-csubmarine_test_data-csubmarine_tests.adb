@@ -666,6 +666,8 @@ package body simulator.submarine.CSubmarine_Test_Data.CSubmarine_Tests is
       pxSubmarine.Time_Step_Motor_Force_To_Integrate(txMotorForce);
       Aunit.Assertions.Assert(Condition => pxSubmarine.pxPositionVector /= math.Vectors.pxCreate(0.0,0.0,0.0),
                               Message   => "Test_Time_Step_Motor_Force_To_Integrate failed, no change in positionw with motor calues");
+      pxSubmarine.Time_Step_Motor_Force_To_Integrate(txMotorForce);
+      pxSubmarine.Time_Step_Motor_Force_To_Integrate(txMotorForce);
 
 
 --  begin read only

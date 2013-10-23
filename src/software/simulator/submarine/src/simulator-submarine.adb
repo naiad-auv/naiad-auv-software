@@ -16,7 +16,7 @@ package body simulator.submarine is
       tfRawMatrix := ((0.36,0.001,0.037),
                       (0.001,0.9,0.0003),
                       (0.037,0.0003,1.094));
-      pxSubmarine.pxOrientationMatrix := Math.Matrices.pxCreate(tfMatrix => tfRawMatrix);
+      pxSubmarine.pxInertiaMatrix := Math.Matrices.pxCreate(tfMatrix => tfRawMatrix);
 
 
       txMotorInfo(1) := simulator.Motor_Info.pxCreate(math.Vectors.pxCreate(-0.70710678118,0.70710678118,0.0),math.Vectors.pxCreate(-0.70710678118,-0.70710678118,0.0));
