@@ -88,26 +88,26 @@ package body Navigation.Dispatcher is
    end Set_New_Component_PID_Scalings;
 
 
-   procedure Update_Current_Absolute_Position (this : in out CDispatcher; xpNewCurrentAbsolutePosition : in Math.Vectors.pCVector) is
+   procedure Update_Current_Absolute_Position (this : in out CDispatcher; pxNewCurrentAbsolutePosition : in Math.Vectors.pCVector) is
    begin
-      this.pxCurrentAbsolutePosition.Copy_From(xpNewCurrentAbsolutePosition);
+      this.pxCurrentAbsolutePosition.Copy_From(pxNewCurrentAbsolutePosition);
    end Update_Current_Absolute_Position;
 
 
-   procedure Update_Wanted_Absolute_Position (this : in out CDispatcher; xpNewWantedAbsolutePosition : in Math.Vectors.pCVector) is
+   procedure Update_Wanted_Absolute_Position (this : in out CDispatcher; pxNewWantedAbsolutePosition : in Math.Vectors.pCVector) is
    begin
-      this.pxWantedAbsolutePosition.Copy_From(xpNewWantedAbsolutePosition);
+      this.pxWantedAbsolutePosition.Copy_From(pxNewWantedAbsolutePosition);
    end Update_Wanted_Absolute_Position;
 
 
-   procedure Update_Current_Absolute_Orientation (this : in out CDispatcher; xpNewCurrentAbsoluteOrientation : in Math.Matrices.pCMatrix) is
+   procedure Update_Current_Absolute_Orientation (this : in out CDispatcher; pxNewCurrentAbsoluteOrientation : in Math.Matrices.pCMatrix) is
    begin
-      this.pxCurrentAbsoluteOrientation.Copy_From(xpNewCurrentAbsoluteOrientation);
+      this.pxCurrentAbsoluteOrientation.Copy_From(pxNewCurrentAbsoluteOrientation);
    end Update_Current_Absolute_Orientation;
 
-   procedure Update_Wanted_Absolute_Orientation (this : in out CDispatcher; xpNewWantedAbsoluteOrientation : in Math.Matrices.pCMatrix) is
+   procedure Update_Wanted_Absolute_Orientation (this : in out CDispatcher; pxNewWantedAbsoluteOrientation : in Math.Matrices.pCMatrix) is
    begin
-      this.pxWantedAbsoluteOrientation.Copy_From(xpNewWantedAbsoluteOrientation);
+      this.pxWantedAbsoluteOrientation.Copy_From(pxNewWantedAbsoluteOrientation);
    end Update_Wanted_Absolute_Orientation;
 
 

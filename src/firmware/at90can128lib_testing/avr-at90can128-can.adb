@@ -1,25 +1,14 @@
-with AVR.AT90CAN128 ; use AVR.AT90CAN128;
---with System	    ; use System;
+with AVR.AT90CAN128 ;
 
 package body AVR.AT90CAN128.CAN is
    pragma Suppress (All_Checks);
 
    Buffer_Size : constant := 16;
    type Buffer_pointer is mod 2 ** 5;
-   --     type Can_Buffer;
    type Can_Buffer_Array is array (Buffer_pointer range 0..15) of CAN_Message;
-
-   --     type Can_Buffer is record
-   --        Write : Buffer_pointer := 0;
-   --        Read : Buffer_pointer := 0;
-   --        Buffer : Can_Buffer_Array;
-   --     end record;
 
    ID_Tag_array : array (READ_MOB_ID) of CAN_ID;
    ID_Mask_array : array (READ_MOB_ID) of CAN_ID;
-
-   --     RX_Buffer : Can_Buffer;
-   --     TX_Buffer : Can_Buffer;
 
    pRXWrite   : Buffer_pointer := 0;
    pRXRead	: Buffer_pointer := 0;
@@ -39,7 +28,7 @@ package body AVR.AT90CAN128.CAN is
 
 
    function iGetBufferSize (write : in Buffer_pointer; read : in Buffer_pointer ) return Integer is
-      Result : Integer;
+   	Result : Integer;
    begin
       Result := abs(Integer(write - read));
       return Result;
@@ -48,28 +37,21 @@ package body AVR.AT90CAN128.CAN is
    procedure CanWriteTXMOB is
       Msg : CAN_Message;
    begin
---        Msg := TX_buffer(pTXRead mod Buffer_Size);
---        CANPAGE := (TX_MOB_ID, False, 0);
---        for I in 1..Msg.Len loop
---           CANMSG := Msg.Data (I);
---        end loop;
---        CANIDT   := Shift_Left(Unsigned_16(Msg.ID),5);
---        CANCDMOB := (Enable_Transmission, False, False, Msg.Len);
-      null;
-   end CanWriteTXMOB;
-
-   -- Find_Free_MOB : Find a free MOB.
-   -- Parameter:
-   --           MOB_ID : the ID of a free MOB.
-   function Find_Free_MOB return MOB_ID is
-   begin
-      for M in MOB_ID loop
-         if not CANEN (M) then
-            return M;
-         end if;
+      if pTXRead = pTXWrite then
+         return;
+      end if;
+      Msg := TX_buffer(pTXRead mod Buffer_Size);
+      CANPAGE := (TX_MOB_ID, False, 0);
+      for I in 1..Msg.Len loop
+         CANMSG := Msg.Data (I);
       end loop;
-      return 14; --No MOB available;
-   end Find_Free_MOB;
+      if Msg.ID.isExtended then
+         CANIDT := Shift_Left(Unsigned_32(Msg.ID.Identifier),3);
+      else
+         CANIDT := Shift_Left(Unsigned_32(Msg.ID.Identifier),21);
+      end if;
+      CANCDMOB := (Enable_Transmission, False, Msg.ID.isExtended , Msg.Len);
+   end CanWriteTXMOB;
 
    -- Can_Enable: Enable the CAN bus
    procedure Can_Enable is
@@ -79,27 +61,13 @@ package body AVR.AT90CAN128.CAN is
       CANGIE.ENTX := True; -- Enable Transmit Interrupt
    end Can_Enable;
 
-   -- Can_Disable: Disable the CAN bus
+    -- Can_Disable: Disable the CAN bus
    procedure Can_Disable is
    begin
       CANGIE.ENIT := False; -- Disable all Interrupt
       CANGIE.ENRX := False; -- Disable Receive Interrup
       CANGIE.ENTX := False; -- Disable Transmit Interrupt
    end Can_Disable;
-
-   -- Can_Enable_Reception: Initialize MOBs and prepare to receive messages
-   --  Parameters: ID   : ID of the CAN message.
-   --		   MASK : this paremeter define a scope of IDs which CAN controller
-   --                     should read from CAN bus.
-   --              DLC  : the length of the DATA of CAN message
-   procedure Can_Enable_Reception (ID, Mask : CAN_ID; DLC : DLC_Type) is
-   begin
-      CANPAGE := (Find_Free_MOB, True, 0); -- (Full_MOB_ID, Auto_Increment, Data Index)
-      CANIDT   := Shift_Left(Unsigned_16(ID),5);
-      CANCDMOB := (Enable_Reception, False, False, DLC);
-      CANIDM := Shift_Left(Unsigned_16(Mask),5);
-   end Can_Enable_Reception;
-
 
    -- Can_Send  : Send out a CAN messaage
    -- Parameter :
@@ -108,14 +76,14 @@ package body AVR.AT90CAN128.CAN is
       tmp : Buffer_pointer;
    begin
       if iGetBufferSize(pTXWrite,pTXRead) = Buffer_Size then
-         return;
+      	return;
       end if;
       TX_buffer(pTXWrite mod Buffer_Size) := Msg;
       tmp := pTXWrite;
       tmp := tmp + 1;
       pTXWrite := tmp;
       if iGetBufferSize(pTXWrite,pTXRead) = 1 then
-         CanWriteTXMOB;
+        CanWriteTXMOB;
       end if;
    end Can_Send;
 
@@ -137,16 +105,21 @@ package body AVR.AT90CAN128.CAN is
       while CANHPMOB.MOB /= 15 loop
          CANPAGE := CANHPMOB;
          Temp := CANSTMOB;
-         if Temp.RXOK then
+	 if Temp.RXOK then
             declare
                Msg : CAN_Message;
             begin
-               Msg.ID := CAN_ID (Shift_Right (CANIDT,5));
+               if CANCDMOB.Extended_ID then
+                  Msg.ID.Identifier := CAN_Identifier (Shift_Right (CANIDT,3));
+               else
+                  Msg.ID.Identifier := CAN_Identifier (Shift_Right (CANIDT,21));
+               end if;
+               Msg.ID.isExtended := CANCDMOB.Extended_ID;
                Msg.Len := CANCDMOB.DLC;
                for I in 1..Msg.Len loop
                   Msg.Data (I) := CANMSG;
                end loop;
-               if iGetBufferSize(pRXWrite,pRXRead) /= Buffer_Size then
+               if iGetBufferSize(pRXWrite,pRXRead) < Buffer_Size then
                   Pos := pRXWrite;
                   RX_buffer(Pos mod Buffer_Size) := Msg;
                   Pos := Pos + 1;
@@ -154,17 +127,22 @@ package body AVR.AT90CAN128.CAN is
                end if;
             end;
             Temp.RXOK := False;
-            CANIDT   := Shift_Left(Unsigned_16(ID_Tag_array(CANHPMOB.MOB)),5);
-            CANCDMOB := (Enable_Reception, False, False, 8);
-            CANIDM := Shift_Left(Unsigned_16(ID_Mask_array(CANHPMOB.MOB)),5);
+            if ID_Tag_array(CANHPMOB.MOB).isExtended then
+               CANIDT := Shift_Left(Unsigned_32(ID_Tag_array(CANHPMOB.MOB).Identifier),3);
+               CANIDM := Shift_Left(Unsigned_32(ID_Mask_array(CANHPMOB.MOB).Identifier),3);
+            else
+               CANIDT := Shift_Left(Unsigned_32(ID_Tag_array(CANHPMOB.MOB).Identifier),21);
+               CANIDM := Shift_Left(Unsigned_32(ID_Mask_array(CANHPMOB.MOB).Identifier),21);
+            end if;
+            CANCDMOB := (Enable_Reception, False, ID_Tag_array(CANHPMOB.MOB).isExtended, 8);
          end if;
-         if Temp.TXOK then
+	 if Temp.TXOK then
             CANCDMOB.State := Disable;
             Temp.TXOK := False;
             Pos := pTXRead;
             Pos := Pos + 1;
             pTXRead := Pos;
-            CanWriteTXMOB;
+	    CanWriteTXMOB;
          end if;
          --CANSTMOB :=  (others => False);
          CANSTMOB := TEMP;
@@ -186,17 +164,17 @@ package body AVR.AT90CAN128.CAN is
 
 
    function findHighestPriorityMessage( buffer : in Can_Buffer_Array ; pRead, pWrite : in Buffer_pointer) return Buffer_pointer is
-      ret : Buffer_pointer;
-      prio : CAN_ID := CAN_ID'Last;
+      ret : Buffer_pointer := pRead;
+      prio : CAN_Identifier := CAN_Identifier'Last;
       counter : Buffer_pointer;
    begin
       counter := pRead;
       while counter /= pWrite loop
-         if buffer(counter).ID < prio then
-            prio := buffer(counter mod Buffer_Size).ID;
+         if buffer(counter mod Buffer_Size).ID.Identifier < prio then
+            prio := buffer(counter mod Buffer_Size).ID.Identifier;
             ret := counter;
-            counter := counter + 1;
          end if;
+         counter := counter + 1;
       end loop;
       return ret;
    end findHighestPriorityMessage;
@@ -210,7 +188,8 @@ package body AVR.AT90CAN128.CAN is
    --           Ret (out): this parameter will be False if there is
    --                      no message is available. Otherwise it will
    --                      be True.
-   Procedure Can_Get(Msg : out CAN_Message; Ret : out Boolean; Wait : Time_Duration) is
+   Procedure Can_Get(Msg : out CAN_Message; Ret : out Boolean; Wait : AVR.AT90CAN128.CLOCK.Time_Duration) is
+      use AVR.AT90CAN128.CLOCK;
       timer : Time;
       curr : Time;
       inf : Boolean := False;
@@ -238,8 +217,8 @@ package body AVR.AT90CAN128.CAN is
             exit;
          end if;
          if (inf = False) and (getClockTime > timer) then
-            Ret := False;
-            exit;
+               Ret := False;
+               exit;
          end if;
       end loop;
    end Can_Get;
@@ -284,46 +263,56 @@ package body AVR.AT90CAN128.CAN is
    --           Rate : baud rate.
    procedure Can_Init(Rate : Baud_Rate) is
    begin
-      --        Can_SetBaudRate(Rate);
-      --        -- can_clear_all_mob
-      --        for P in MOB_ID loop
-      --           CANPAGE.MOB := P;
-      --           -- can_clear_mob
-      --           CANSTMOB :=  (others => False);
-      --           CANCDMOB := (Disable, False, False, 0);
-      --           CANIDT   := 0;
-      --           CANIDTX  := 0;
-      --           CANIDM   := 0;
-      --           CANIDMX  := 0;
-      --        end loop;
-      --        -- Can_enable
-      --        CANGCON.ENASTB := True; -- Enable
-      --        AVR.AT90CAN128.DDRD.Bit_5 := True; -- CAN_Tx is PortD.5
-      --        CANIE := (others => True);
-      --        -- Interrupt Enable
-      --        Can_Enable;
+--        Can_SetBaudRate(Rate);
+--        -- can_clear_all_mob
+--        for P in MOB_ID loop
+--           CANPAGE.MOB := P;
+--           -- can_clear_mob
+--           CANSTMOB :=  (others => False);
+--           CANCDMOB := (Disable, False, False, 0);
+--           CANIDT   := 0;
+--           --CANIDTX  := 0;
+--           CANIDM   := 0;
+--           --CANIDMX  := 0;
+--        end loop;
+--        -- Can_enable
+--        CANGCON.ENASTB := True; -- Enable
+--        AVR.AT90CAN128.DDRD.Bit_5 := True; -- CAN_Tx is PortD.5
+--        CANIE := (others => True);
+--        -- Interrupt Enable
+--        Can_Enable;
       null;
-
    end Can_Init;
 
    procedure Can_Set_Mob_ID_MASK (MOB : READ_MOB_ID;  ID, Mask : CAN_ID) is
    begin
-      --        if not CANEN (MOB) then
-      --          CANPAGE := (MOB, True, 0);
-      --        	CANIDT   := Shift_Left(Unsigned_16(ID),5);
-      --        	CANCDMOB := (Enable_Reception, False, False, 8);
-      --          CANIDM := Shift_Left(Unsigned_16(Mask),5);
-      --          ID_Mask_array(MOB) := Mask;
-      --          ID_Tag_array(MOB) := ID;
-      --        end if;
+--        if not CANEN (MOB) then
+--           CANPAGE := (MOB, True, 0);
+--           if ID.isExtended then
+--                 CANIDT := Shift_Left(Unsigned_32(ID.Identifier),3);
+--                 CANIDM := Shift_Left(Unsigned_32(Mask.Identifier),3);
+--              else
+--                 CANIDT := Shift_Left(Unsigned_32(ID.Identifier),21);
+--                 CANIDM := Shift_Left(Unsigned_32(Mask.Identifier),21);
+--              end if;
+--           CANCDMOB := (Enable_Reception, False, ID.isExtended, 8);
+--
+--  --        	CANIDT   := Shift_Left(Unsigned_16(ID),5);
+--  --        	CANCDMOB := (Enable_Reception, False, False, 8);
+--  --          CANIDM := Shift_Left(Unsigned_16(Mask),5);
+--          ID_Mask_array(MOB) := Mask;
+--          ID_Tag_array(MOB) := ID;
+--        end if;
+
       null;
    end Can_Set_Mob_ID_MASK;
 
    procedure Can_Set_All_MOB_ID_MASK (ID, Mask : CAN_ID) is
    begin
-      for M in READ_MOB_ID loop
-         Can_Set_Mob_ID_MASK (M ,ID ,Mask);
-      end loop;
+--        for M in READ_MOB_ID loop
+--           Can_Set_Mob_ID_MASK (M ,ID ,Mask);
+--        end loop;
+      null;
    end Can_Set_All_MOB_ID_MASK;
 
 end AVR.AT90CAN128.CAN;

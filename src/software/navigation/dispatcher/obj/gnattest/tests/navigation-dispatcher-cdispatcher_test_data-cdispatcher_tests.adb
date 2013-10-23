@@ -29,14 +29,14 @@ package body Navigation.Dispatcher.CDispatcher_Test_Data.CDispatcher_Tests is
    begin
 
       pxDispatcher := Navigation.Dispatcher.pxCreate;
-      pxDispatcher.Update_Current_Absolute_Position(xpNewCurrentAbsolutePosition => Math.Vectors.pxCreate(fX => 4.0,
+      pxDispatcher.Update_Current_Absolute_Position(pxNewCurrentAbsolutePosition => Math.Vectors.pxCreate(fX => 4.0,
                                                                                                          fY => 2.0,
                                                                                                          fZ => -6.0));
-      pxDispatcher.Update_Wanted_Absolute_Position(xpNewWantedAbsolutePosition => Math.Vectors.pxCreate(fX => -3.0,
+      pxDispatcher.Update_Wanted_Absolute_Position(pxNewWantedAbsolutePosition => Math.Vectors.pxCreate(fX => -3.0,
                                                                                                        fY => 6.0,
                                                                                                        fZ => 2.0));
-      pxDispatcher.Update_Current_Absolute_Orientation(xpNewCurrentAbsoluteOrientation => Math.Matrices.pxCreate_Rotation_Around_X_Axis(tfAngleInDegrees => Math.Angles.TAngle(45.0)));
-      pxDispatcher.Update_Wanted_Absolute_Orientation(xpNewWantedAbsoluteOrientation => Math.Matrices.pxCreate_Rotation_Around_Y_Axis(tfAngleInDegrees => Math.Angles.TAngle(45.0)));
+      pxDispatcher.Update_Current_Absolute_Orientation(pxNewCurrentAbsoluteOrientation => Math.Matrices.pxCreate_Rotation_Around_X_Axis(tfAngleInDegrees => Math.Angles.TAngle(45.0)));
+      pxDispatcher.Update_Wanted_Absolute_Orientation(pxNewWantedAbsoluteOrientation => Math.Matrices.pxCreate_Rotation_Around_Y_Axis(tfAngleInDegrees => Math.Angles.TAngle(45.0)));
       
       pxDispatcher.Set_New_Component_PID_Scalings(eComponentToChange => Navigation.Motion_Component.AllComponents,
                                                   xNewPIDSCalings    => Navigation.PID_Controller.TPIDComponentScalings'(fProportionalScale => 1.0, fIntegralScale => 1.0, fDerivativeScale => 1.0));
@@ -103,7 +103,7 @@ package body Navigation.Dispatcher.CDispatcher_Test_Data.CDispatcher_Tests is
       pxPosition := Math.Vectors.pxCreate(fX => 1.4,
                                           fY => 7.4,
                                           fZ => 2.3);
-      pxDispatcher.Update_Current_Absolute_Position(xpNewCurrentAbsolutePosition => pxPosition);
+      pxDispatcher.Update_Current_Absolute_Position(pxNewCurrentAbsolutePosition => pxPosition);
 
       AUnit.Assertions.Assert        (Condition => pxPosition.all'Address /= pxDispatcher.pxCurrentAbsolutePosition.all'Address,
                                       Message => "CDispatcher.Update_Current_Absolute_Position failed, addresses the same.");
@@ -135,7 +135,7 @@ package body Navigation.Dispatcher.CDispatcher_Test_Data.CDispatcher_Tests is
       pxPosition := Math.Vectors.pxCreate(fX => 1.4,
                                           fY => 7.4,
                                           fZ => 2.3);
-      pxDispatcher.Update_Wanted_Absolute_Position(xpNewWantedAbsolutePosition => pxPosition);
+      pxDispatcher.Update_Wanted_Absolute_Position(pxNewWantedAbsolutePosition => pxPosition);
 
       AUnit.Assertions.Assert        (Condition => pxPosition.all'Address /= pxDispatcher.pxWantedAbsolutePosition.all'Address,
                                       Message => "CDispatcher.Update_Wanted_Absolute_Position failed, addresses the same.");
@@ -167,7 +167,7 @@ package body Navigation.Dispatcher.CDispatcher_Test_Data.CDispatcher_Tests is
       pxDispatcher := Navigation.Dispatcher.pxCreate;
       pxOrientation := Math.Matrices.pxCreate_Rotation_Around_X_Axis(Math.Angles.TAngle(45.0));
       
-      pxDispatcher.Update_Current_Absolute_Orientation(xpNewCurrentAbsoluteOrientation => pxOrientation);
+      pxDispatcher.Update_Current_Absolute_Orientation(pxNewCurrentAbsoluteOrientation => pxOrientation);
 
       AUnit.Assertions.Assert        (Condition => pxOrientation.all'Address /= pxDispatcher.pxCurrentAbsoluteOrientation.all'Address,
                                       Message => "CDispatcher.Update_Current_Absolute_Orientation failed, addresses the same.");
@@ -199,7 +199,7 @@ package body Navigation.Dispatcher.CDispatcher_Test_Data.CDispatcher_Tests is
       pxDispatcher := Navigation.Dispatcher.pxCreate;
       pxOrientation := Math.Matrices.pxCreate_Rotation_Around_X_Axis(Math.Angles.TAngle(45.0));
       
-      pxDispatcher.Update_Wanted_Absolute_Orientation(xpNewWantedAbsoluteOrientation => pxOrientation);
+      pxDispatcher.Update_Wanted_Absolute_Orientation(pxNewWantedAbsoluteOrientation => pxOrientation);
 
       AUnit.Assertions.Assert        (Condition => pxOrientation.all'Address /= pxDispatcher.pxWantedAbsoluteOrientation.all'Address,
                                       Message => "CDispatcher.Update_Wanted_Absolute_Orientation failed, addresses the same.");

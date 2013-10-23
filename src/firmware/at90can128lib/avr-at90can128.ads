@@ -351,8 +351,6 @@ package AVR.AT90CAN128 is
    UBRR0L : Unsigned_8;
    for UBRR0L'Address use System'To_Address (16#C4#);
 
-
-
    UCSR1B : USARTB;
    for UCSR1B'Address use System'To_Address (16#C9#);
 
@@ -364,25 +362,6 @@ package AVR.AT90CAN128 is
 
    UBRR1L : Unsigned_8;
    for UBRR1L'Address use System'To_Address (16#CC#);
-
-
-   -------------------------
---     UBRR1H : Unsigned_8; --added
---     for UBRR1H'Address use System'To_Address (16#CD#);
---     UBRR0H : Unsigned_8; --added
---     for UBRR0H'Address use System'To_Address (16#C5#);
---
---     UCSZ0 : Unsigned_8; --added
---     for UCSZ0'Address use System'To_Address (16#CD#);
---
---     UCSR0C : General_Register; --added
---     for UCSR0C'Address use System'To_Address (16#C2#);
---
---     UCSR1C : General_Register; --added
---     for UCSR1C'Address use System'To_Address (16#CA#);
-
-   ---------------------------
-
 
    --- ADC
    type Channel_Type is range 0 .. 31;
@@ -724,18 +703,18 @@ package AVR.AT90CAN128 is
    CANCDMOB  : CAN_MOB_Control;
    for CANCDMOB'Address use System'To_Address (16#EF#);
 
-   CANIDTX  : Unsigned_16;
-   for CANIDTX'Address use System'To_Address (16#F0#);
+   CANIDT  : Unsigned_32;
+   for CANIDT'Address use System'To_Address (16#F0#);
 
-   CANIDT  : Unsigned_16;
-   for CANIDT'Address use System'To_Address (16#F2#);
+--     CANIDT  : Unsigned_16;
+--     for CANIDT'Address use System'To_Address (16#F2#);
 
 
-   CANIDMX  : Unsigned_16;
-   for CANIDMX'Address use System'To_Address (16#F4#);
+   CANIDM  : Unsigned_32;
+   for CANIDM'Address use System'To_Address (16#F4#);
 
-   CANIDM  : Unsigned_16;
-   for CANIDM'Address use System'To_Address (16#F6#);
+--     CANIDM  : Unsigned_16;
+--     for CANIDM'Address use System'To_Address (16#F6#);
 
 
    CANSTM  : Unsigned_16;
