@@ -1,0 +1,51 @@
+        -:    0:Source:/home/emibe/skola/robgit/naiad-auv-software/src/software/navigation/motion_component/src/navigation-motion_component.adb
+        -:    0:Programs:37
+        -:    1:with Navigation.PID_Controller;
+        -:    2:
+        -:    3:package body Navigation.Motion_Component is
+        -:    4:
+    #####:    5:   function pxCreate (eAxisIndex : EMotionComponent; xPIDScalings : Navigation.PID_Controller.TPIDComponentScalings) return pCMotionComponent is 
+    #####:    6:   	pxMotionComponent : pCMotionComponent := new CMotionComponent;   
+        -:    7:   begin
+        -:    8:      
+    #####:    9:      pxMotionComponent.eComponentIndex := eAxisIndex;
+        -:   10:      
+    #####:   11:      pxMotionComponent.xComponentPIDController := Navigation.PID_Controller.pxCreate(xPIDScalings);
+        -:   12:      
+    #####:   13:      return pxMotionComponent;
+        -:   14:   end pxCreate;
+        -:   15:
+    #####:   16:   function xGet_New_Component_Control_Value (this : in out CMotionComponent; fDeltaTime : float) return TComponentControlValue is
+        -:   17:   	fNewControlValue : float;
+        -:   18:   begin
+        -:   19:      
+    #####:   20:      fNewControlValue := this.xComponentPIDController.xGet_New_Control_Value(fDeltaTime);
+        -:   21: 
+    #####:   22:      return TComponentControlValue'(fNewControlValue, this.eComponentIndex);
+        -:   23:      
+        -:   24:   end xGet_New_Component_Control_Value;
+        -:   25:
+    #####:   26:   procedure Set_New_PID_Component_Scalings (this : in out CMotionComponent; xNewScalings : Navigation.PID_Controller.TPIDComponentScalings) is
+        -:   27:   begin
+    #####:   28:	this.xComponentPIDController.Set_New_PID_Component_Scalings(xNewScalings);
+    #####:   29:   end Set_New_PID_Component_Scalings;
+        -:   30:
+        -:   31:
+    #####:   32:   procedure Update_Current_Error (this : in out CMotionComponent; fNewErrorValue : float) is
+        -:   33:   begin
+    #####:   34:      this.fCurrentError := fNewErrorValue;
+    #####:   35:      this.xComponentPIDController.Set_New_Set_Point(0.0);
+    #####:   36:      this.xComponentPIDController.Update_Current_Value_From_External_Source(this.fCurrentError);
+    #####:   37:   end Update_Current_Error;
+        -:   38:
+        -:   39:
+        -:   40:
+    #####:   41:   procedure Reset_Component (this : in out CMotionComponent) is
+        -:   42:   begin
+    #####:   43:      this.fCurrentError := 0.0;
+        -:   44:      
+    #####:   45:      this.xComponentPIDController.Reset_Controller;
+    #####:   46:   end Reset_Component;
+        -:   47:
+        -:   48:
+        -:   49:end Navigation.Motion_Component;

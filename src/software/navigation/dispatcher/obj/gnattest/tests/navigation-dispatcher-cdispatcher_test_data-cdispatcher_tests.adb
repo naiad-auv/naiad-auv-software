@@ -19,12 +19,39 @@ package body Navigation.Dispatcher.CDispatcher_Test_Data.CDispatcher_Tests is
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
-
+      
+      use Navigation.Thrusters;
+      
+      pxDispatcher : pCDispatcher;
+      tfThrusterValues : Navigation.Thrusters.TThrusterValuesArray(1 .. 6);
+      tfZeroValues : Navigation.Thrusters.TThrusterValuesArray(1 .. 6) := (others => 0.0);
+      bLol : boolean := false;
    begin
 
-      AUnit.Assertions.Assert
-        (Gnattest_Generated.Default_Assert_Value,
-         "Test not implemented.");
+      pxDispatcher := Navigation.Dispatcher.pxCreate;
+      pxDispatcher.Update_Current_Absolute_Position(pxNewCurrentAbsolutePosition => Math.Vectors.pxCreate(fX => 4.0,
+                                                                                                         fY => 2.0,
+                                                                                                         fZ => -6.0));
+      pxDispatcher.Update_Wanted_Absolute_Position(pxNewWantedAbsolutePosition => Math.Vectors.pxCreate(fX => -3.0,
+                                                                                                       fY => 6.0,
+                                                                                                       fZ => 2.0));
+      pxDispatcher.Update_Current_Absolute_Orientation(pxNewCurrentAbsoluteOrientation => Math.Matrices.pxCreate_Rotation_Around_X_Axis(tfAngleInDegrees => Math.Angles.TAngle(45.0)));
+      pxDispatcher.Update_Wanted_Absolute_Orientation(pxNewWantedAbsoluteOrientation => Math.Matrices.pxCreate_Rotation_Around_Y_Axis(tfAngleInDegrees => Math.Angles.TAngle(45.0)));
+      
+      pxDispatcher.Set_New_Component_PID_Scalings(eComponentToChange => Navigation.Motion_Component.AllComponents,
+                                                  xNewPIDSCalings    => Navigation.PID_Controller.TPIDComponentScalings'(fProportionalScale => 1.0, fIntegralScale => 1.0, fDerivativeScale => 1.0));
+      tfThrusterValues := pxDispatcher.tfGet_Thruster_Values(fDeltaTime => 1000.0);
+      
+      for i in tfZeroValues'Range
+      loop
+         if abs(tfThrusterValues(i)) > 0.0001 then
+            bLol := true;
+            exit;
+         end if;         
+      end loop;
+            
+      AUnit.Assertions.Assert        (Condition => bLol,
+                                      Message => "CDispatcher.tfGet_Thruster_Values failed, no values assigned.");
 
 --  begin read only
    end Test_tfGet_Thruster_Values;
@@ -43,9 +70,12 @@ package body Navigation.Dispatcher.CDispatcher_Test_Data.CDispatcher_Tests is
 
    begin
 
-      AUnit.Assertions.Assert
-        (Gnattest_Generated.Default_Assert_Value,
-         "Test not implemented.");
+      AUnit.Assertions.Assert        (Condition => True,
+                                      Message => "TODO: Needs mocking");
+      
+
+      -- TODO: MOCK
+        
 
 --  begin read only
    end Test_Set_New_Component_PID_Scalings;
@@ -62,12 +92,23 @@ package body Navigation.Dispatcher.CDispatcher_Test_Data.CDispatcher_Tests is
 
       pragma Unreferenced (Gnattest_T);
 
+      use System;
+      use Math.Vectors;
+      
+      pxPosition : Math.Vectors.pCVector;
+      pxDispatcher : pCDispatcher;
    begin
+      
+      pxDispatcher := Navigation.Dispatcher.pxCreate;
+      pxPosition := Math.Vectors.pxCreate(fX => 1.4,
+                                          fY => 7.4,
+                                          fZ => 2.3);
+      pxDispatcher.Update_Current_Absolute_Position(pxNewCurrentAbsolutePosition => pxPosition);
 
-      AUnit.Assertions.Assert
-        (Gnattest_Generated.Default_Assert_Value,
-         "Test not implemented.");
-
+      AUnit.Assertions.Assert        (Condition => pxPosition.all'Address /= pxDispatcher.pxCurrentAbsolutePosition.all'Address,
+                                      Message => "CDispatcher.Update_Current_Absolute_Position failed, addresses the same.");
+      AUnit.Assertions.Assert        (Condition => pxPosition = pxDispatcher.pxCurrentAbsolutePosition,
+                                      Message => "CDispatcher.Update_Current_Absolute_Position failed, vectors have different values.");
 --  begin read only
    end Test_Update_Current_Absolute_Position;
 --  end read only
@@ -83,11 +124,23 @@ package body Navigation.Dispatcher.CDispatcher_Test_Data.CDispatcher_Tests is
 
       pragma Unreferenced (Gnattest_T);
 
+      use System;
+      use Math.Vectors;
+      
+      pxPosition : Math.Vectors.pCVector;
+      pxDispatcher : pCDispatcher;
    begin
+      
+      pxDispatcher := Navigation.Dispatcher.pxCreate;
+      pxPosition := Math.Vectors.pxCreate(fX => 1.4,
+                                          fY => 7.4,
+                                          fZ => 2.3);
+      pxDispatcher.Update_Wanted_Absolute_Position(pxNewWantedAbsolutePosition => pxPosition);
 
-      AUnit.Assertions.Assert
-        (Gnattest_Generated.Default_Assert_Value,
-         "Test not implemented.");
+      AUnit.Assertions.Assert        (Condition => pxPosition.all'Address /= pxDispatcher.pxWantedAbsolutePosition.all'Address,
+                                      Message => "CDispatcher.Update_Wanted_Absolute_Position failed, addresses the same.");
+      AUnit.Assertions.Assert        (Condition => pxPosition = pxDispatcher.pxWantedAbsolutePosition,
+                                      Message => "CDispatcher.Update_Wanted_Absolute_Position failed, vectors have different values.");
 
 --  begin read only
    end Test_Update_Wanted_Absolute_Position;
@@ -104,11 +157,22 @@ package body Navigation.Dispatcher.CDispatcher_Test_Data.CDispatcher_Tests is
 
       pragma Unreferenced (Gnattest_T);
 
+      use System;
+      use Math.Matrices;
+      
+      pxOrientation : Math.Matrices.pCMatrix;
+      pxDispatcher : pCDispatcher;
    begin
+      
+      pxDispatcher := Navigation.Dispatcher.pxCreate;
+      pxOrientation := Math.Matrices.pxCreate_Rotation_Around_X_Axis(Math.Angles.TAngle(45.0));
+      
+      pxDispatcher.Update_Current_Absolute_Orientation(pxNewCurrentAbsoluteOrientation => pxOrientation);
 
-      AUnit.Assertions.Assert
-        (Gnattest_Generated.Default_Assert_Value,
-         "Test not implemented.");
+      AUnit.Assertions.Assert        (Condition => pxOrientation.all'Address /= pxDispatcher.pxCurrentAbsoluteOrientation.all'Address,
+                                      Message => "CDispatcher.Update_Current_Absolute_Orientation failed, addresses the same.");
+      AUnit.Assertions.Assert        (Condition => pxOrientation = pxDispatcher.pxCurrentAbsoluteOrientation,
+                                      Message => "CDispatcher.Update_Current_Absolute_Orientation failed, matrices have different values.");
 
 --  begin read only
    end Test_Update_Current_Absolute_Orientation;
@@ -125,114 +189,27 @@ package body Navigation.Dispatcher.CDispatcher_Test_Data.CDispatcher_Tests is
 
       pragma Unreferenced (Gnattest_T);
 
+      use System;
+      use Math.Matrices;
+      
+      pxOrientation : Math.Matrices.pCMatrix;
+      pxDispatcher : pCDispatcher;
    begin
+      
+      pxDispatcher := Navigation.Dispatcher.pxCreate;
+      pxOrientation := Math.Matrices.pxCreate_Rotation_Around_X_Axis(Math.Angles.TAngle(45.0));
+      
+      pxDispatcher.Update_Wanted_Absolute_Orientation(pxNewWantedAbsoluteOrientation => pxOrientation);
 
-      AUnit.Assertions.Assert
-        (Gnattest_Generated.Default_Assert_Value,
-         "Test not implemented.");
+      AUnit.Assertions.Assert        (Condition => pxOrientation.all'Address /= pxDispatcher.pxWantedAbsoluteOrientation.all'Address,
+                                      Message => "CDispatcher.Update_Wanted_Absolute_Orientation failed, addresses the same.");
+      AUnit.Assertions.Assert        (Condition => pxOrientation = pxDispatcher.pxWantedAbsoluteOrientation,
+                                      Message => "CDispatcher.Update_Wanted_Absolute_Orientation failed, matrices have different values.");
+
 
 --  begin read only
    end Test_Update_Wanted_Absolute_Orientation;
 --  end read only
 
-
---  begin read only
-   --  procedure Test_Update_Current_Position (Gnattest_T : in out Test);
-   --  procedure Test_Update_Current_Position_86c018 (Gnattest_T : in out Test) renames Test_Update_Current_Position;
---  id:2.1/86c0183100f70a5a/Update_Current_Position/0/1/
-   --  procedure Test_Update_Current_Position (Gnattest_T : in out Test) is
---  end read only
---  
---        pragma Unreferenced (Gnattest_T);
---  
---     begin
---  
---        AUnit.Assertions.Assert
---          (Gnattest_Generated.Default_Assert_Value,
---           "Test not implemented.");
---  
---  begin read only
-   --  end Test_Update_Current_Position;
---  end read only
-
-
---  begin read only
-   --  procedure Test_Update_Current_Orientation (Gnattest_T : in out Test);
-   --  procedure Test_Update_Current_Orientation_89e55b (Gnattest_T : in out Test) renames Test_Update_Current_Orientation;
---  id:2.1/89e55b4b35736e99/Update_Current_Orientation/0/1/
-   --  procedure Test_Update_Current_Orientation (Gnattest_T : in out Test) is
---  end read only
---  
---        pragma Unreferenced (Gnattest_T);
---  
---     begin
---  
---        AUnit.Assertions.Assert
---          (Gnattest_Generated.Default_Assert_Value,
---           "Test not implemented.");
---  
---  begin read only
-   --  end Test_Update_Current_Orientation;
---  end read only
-
-
---  begin read only
-   --  procedure Test_Update_Wanted_Orientation (Gnattest_T : in out Test);
-   --  procedure Test_Update_Wanted_Orientation_924aa7 (Gnattest_T : in out Test) renames Test_Update_Wanted_Orientation;
---  id:2.1/924aa78b7cd27628/Update_Wanted_Orientation/0/1/
-   --  procedure Test_Update_Wanted_Orientation (Gnattest_T : in out Test) is
---  end read only
---  
---        pragma Unreferenced (Gnattest_T);
---  
---     begin
---  
---        AUnit.Assertions.Assert
---          (Gnattest_Generated.Default_Assert_Value,
---           "Test not implemented.");
---  
---  begin read only
-   --  end Test_Update_Wanted_Orientation;
---  end read only
-
-
---  begin read only
-   --  procedure Test_pxGet_New_Thruster_Control_Values (Gnattest_T : in out Test);
-   --  procedure Test_pxGet_New_Thruster_Control_Values_a7395a (Gnattest_T : in out Test) renames Test_pxGet_New_Thruster_Control_Values;
---  id:2.1/a7395a77333821a2/pxGet_New_Thruster_Control_Values/0/1/
-   --  procedure Test_pxGet_New_Thruster_Control_Values (Gnattest_T : in out Test) is
---  end read only
---  
---        pragma Unreferenced (Gnattest_T);
---  
---     begin
---  
---        AUnit.Assertions.Assert
---          (Gnattest_Generated.Default_Assert_Value,
---           "Test not implemented.");
---  
---  begin read only
-   --  end Test_pxGet_New_Thruster_Control_Values;
---  end read only
-
-
---  begin read only
-   --  procedure Test_Update_Wanted_Position (Gnattest_T : in out Test);
-   --  procedure Test_Update_Wanted_Position_eaf0c9 (Gnattest_T : in out Test) renames Test_Update_Wanted_Position;
---  id:2.1/eaf0c9793da961db/Update_Wanted_Position/0/1/
-   --  procedure Test_Update_Wanted_Position (Gnattest_T : in out Test) is
---  end read only
---  
---        pragma Unreferenced (Gnattest_T);
---  
---     begin
---  
---        AUnit.Assertions.Assert
---          (Gnattest_Generated.Default_Assert_Value,
---           "Test not implemented.");
---  
---  begin read only
-   --  end Test_Update_Wanted_Position;
---  end read only
 
 end Navigation.Dispatcher.CDispatcher_Test_Data.CDispatcher_Tests;

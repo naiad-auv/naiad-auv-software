@@ -24,6 +24,10 @@ package body Navigation.Dispatcher is
                                                                                           pxWantedAbsolutePosition     => pxNewDispatcher.pxWantedAbsolutePosition,
                                                                                           pxCurrentAbsoluteOrientation => pxNewDispatcher.pxCurrentAbsoluteOrientation);
 
+      --Ada.Text_IO.Put_Line("CAO: " & System.Address_Image(pxNewDispatcher.pxCurrentAbsoluteOrientation.all'Address));
+      --Ada.Text_IO.Put_Line("WAO: " & System.Address_Image(pxNewDispatcher.pxWantedAbsoluteOrientation.all'Address));
+      --Ada.Text_IO.Put_Line("CAP: " & System.Address_Image(pxNewDispatcher.pxCurrentAbsolutePosition.all'Address));
+      --Ada.Text_IO.Put_Line("WAP: " & System.Address_Image(pxNewDispatcher.pxWantedAbsolutePosition.all'Address));
       return pxNewDispatcher;
    end pxCreate;
 
@@ -49,7 +53,9 @@ package body Navigation.Dispatcher is
 
       tfCombinedValues := tfPositionalValues + tfOrientationalValues;
 
+
       tfThrusterValues := this.pxThrusterConfigurator.tfGet_Thruster_Values(tfComponentValues => tfCombinedValues);
+
 
       if bThruster_Values_Need_Scaling(tfThrusterValues) then
          tfThrusterValues := this.pxThrusterConfigurator.tfGet_Thruster_Values(tfComponentValues => tfPositionalValues);
@@ -82,26 +88,26 @@ package body Navigation.Dispatcher is
    end Set_New_Component_PID_Scalings;
 
 
-   procedure Update_Current_Absolute_Position(this : in out CDispatcher; xNewCurrentAbsolutePosition : in Math.Vectors.pCVector) is
+   procedure Update_Current_Absolute_Position (this : in out CDispatcher; pxNewCurrentAbsolutePosition : in Math.Vectors.pCVector) is
    begin
-      this.pxCurrentAbsolutePosition.Copy_From(xNewCurrentAbsolutePosition);
+      this.pxCurrentAbsolutePosition.Copy_From(pxNewCurrentAbsolutePosition);
    end Update_Current_Absolute_Position;
 
 
-   procedure Update_Wanted_Absolute_Position(this : in out CDispatcher; xNewWantedAbsolutePosition : in Math.Vectors.pCVector) is
+   procedure Update_Wanted_Absolute_Position (this : in out CDispatcher; pxNewWantedAbsolutePosition : in Math.Vectors.pCVector) is
    begin
-      this.pxWantedAbsolutePosition.Copy_From(xNewWantedAbsolutePosition);
+      this.pxWantedAbsolutePosition.Copy_From(pxNewWantedAbsolutePosition);
    end Update_Wanted_Absolute_Position;
 
 
-   procedure Update_Current_Absolute_Orientation(this : in out CDispatcher; xNewCurrentAbsoluteOrientation : in Math.Matrices.pCMatrix) is
+   procedure Update_Current_Absolute_Orientation (this : in out CDispatcher; pxNewCurrentAbsoluteOrientation : in Math.Matrices.pCMatrix) is
    begin
-      this.pxCurrentAbsoluteOrientation.Copy_From(xNewCurrentAbsoluteOrientation);
+      this.pxCurrentAbsoluteOrientation.Copy_From(pxNewCurrentAbsoluteOrientation);
    end Update_Current_Absolute_Orientation;
 
-   procedure Update_Wanted_Absolute_Orientation(this : in out CDispatcher; xNewWantedAbsoluteOrientation : in Math.Matrices.pCMatrix) is
+   procedure Update_Wanted_Absolute_Orientation (this : in out CDispatcher; pxNewWantedAbsoluteOrientation : in Math.Matrices.pCMatrix) is
    begin
-      this.pxWantedAbsoluteOrientation.Copy_From(xNewWantedAbsoluteOrientation);
+      this.pxWantedAbsoluteOrientation.Copy_From(pxNewWantedAbsoluteOrientation);
    end Update_Wanted_Absolute_Orientation;
 
 

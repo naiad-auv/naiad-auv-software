@@ -24,41 +24,41 @@ package body BBB_CAN is
       pxUart := UartWrapper.pxCreate("/dev/ttyACM1", GNAT.Serial_Communications.B38400, 0.001, 100);
    end Init;
 
-   function Handshake return Boolean is
-      sSend : String(1..5);
-      sReceive : String(1..6);
-      iBytesRead : Integer := 0;
-   begin
-      -- handshake message:
-      sSend(1) := Character'Val(3);
-      sSend(2) := Character'Val(0);
-      sSend(3) := Character'Val(0);
-      sSend(4) := Character'Val(0);
-      sSend(5) := Character'Val(0);
+--     function Handshake return Boolean is
+--        sSend : String(1..5);
+--        sReceive : String(1..6);
+--        iBytesRead : Integer := 0;
+--     begin
+--        -- handshake message:
+--        sSend(1) := Character'Val(3);
+--        sSend(2) := Character'Val(0);
+--        sSend(3) := Character'Val(0);
+--        sSend(4) := Character'Val(0);
+--        sSend(5) := Character'Val(0);
+--
+--        --send handshake message and wait for reply while keeping a look at the clock
+--        sReceive := pxUart.sUartEcho(5, iBytesRead, sSend, Duration(iHANDSHAKE_WAIT_TIME_MS) / 1000);
+--
+--        if iBytesRead >= 5 then
+--           if sReceive(1) = Character'Val(3) and
+--             	sReceive(2) = Character'Val(0) and
+--             	sReceive(3) = Character'Val(0) and
+--             	sReceive(4) = Character'Val(0) and
+--             	sReceive(5) = Character'Val(0) then
+--              return true;
+--           end if;
+--        end if;
+--        return false;
+--     end Handshake;
 
-      --send handshake message and wait for reply while keeping a look at the clock
-      sReceive := pxUart.sUartEcho(5, iBytesRead, sSend, Duration(iHANDSHAKE_WAIT_TIME_MS) / 1000);
-
-      if iBytesRead >= 5 then
-         if sReceive(1) = Character'Val(3) and
-           	sReceive(2) = Character'Val(0) and
-           	sReceive(3) = Character'Val(0) and
-           	sReceive(4) = Character'Val(0) and
-           	sReceive(5) = Character'Val(0) then
-            return true;
-         end if;
-      end if;
-      return false;
-   end Handshake;
-
-   procedure Send(msg : CAN_Message) is
-      sBuffer : String(1..Integer(msg.Len)+HEADLEN);
+   procedure Send(msg : AVR.AT90CAN128.CAN.CAN_Message) is
+      sBuffer : String(1 .. (Integer(msg.Len) + HEADLEN));
    begin
       Message_To_Bytes(sBuffer, msg);
-      Usart_Write(sBuffer, Integer(msg.Len));
+      Usart_Write(sBuffer, Integer(msg.Len) + HEADLEN);
    end Send;
 
-   procedure Get(msg : out CAN_Message; bMsgReceived : out Boolean; bUARTChecksumOK : out Boolean) is
+   procedure Get(msg : out AVR.AT90CAN128.CAN.CAN_Message; bMsgReceived : out Boolean; bUARTChecksumOK : out Boolean) is
 
       use Interfaces;
 
@@ -74,8 +74,11 @@ package body BBB_CAN is
          iDataLen := Character'Pos(sHeadBuf(LEN_POS));
          iID := Character'Pos(sHeadBuf(IDHIGH_POS)) * 256 + Character'Pos(sHeadBuf(IDLOW_POS));
 
-         msg.ID  := CAN_ID(iID);
-         msg.Len := DLC_Type(iDataLen);
+         msg.ID.Identifier  := AVR.AT90CAN128.CAN.CAN_Identifier(iID);
+
+         msg.ID.isExtended
+
+         msg.Len := AVR.AT90CAN128.DLC_Type(iDataLen);
          bMsgReceived := true;
 
          if iDataLen /= 0 then
@@ -95,7 +98,7 @@ package body BBB_CAN is
                end loop;
 
                for i in 1..iDataLen loop
-                  msg.Data(DLC_Type(i)) := Character'Pos(sData(i));
+                  msg.Data(AVR.AT90CAN128.DLC_Type(i)) := Character'Pos(sData(i));
                end loop;
 
                u8Checksum := Calculate_Checksum(msg.Data, msg.Len);
@@ -114,11 +117,11 @@ package body BBB_CAN is
 
    --------- private functions -------------------------------------
 
-   procedure Bytes_To_Message(sBuffer : String; msg : out CAN_Message; bCheckSumCorrect : out Boolean) is
+   procedure Bytes_To_Message(sBuffer : String; msg : out AVR.AT90CAN128.CAN.CAN_Message; bCheckSumCorrect : out Boolean) is
    begin
-      msg.ID := CAN_ID(
-                       (Character'Pos(sBuffer(IDHIGH_POS)) * 256)
-                       + Character'Pos(sBuffer(IDLOW_POS)));
+      msg.ID.Identifier := AVR.AT90CAN128.CAN.CAN_Identifier(
+                      				 (Character'Pos(sBuffer(IDHIGH_POS)) * 256)
+                       			          + Character'Pos(sBuffer(IDLOW_POS)));
 
       msg.Len := Character'Pos(sBuffer(LEN_POS));
 
@@ -132,22 +135,24 @@ package body BBB_CAN is
 
    end Bytes_To_Message;
 
-   procedure Message_To_Bytes(sBuffer : out String; msg : CAN_Message) is
+   procedure Message_To_Bytes(sBuffer : out String; msg : AVR.AT90CAN128.CAN.CAN_Message) is
       iDataLength : Integer := Integer(msg.Len);
    begin
       sBuffer(BUSTYPE_POS) := Character'Val(0);
-      sBuffer(IDHIGH_POS)  := Character'Val(Integer(msg.ID) / 256);
-      sBuffer(IDLOW_POS)   := Character'Val(Integer(Msg.ID) Mod 256);
+
+      sBuffer(IDHIGH_POS)  := Character'Val(Integer(msg.ID.Identifier) / 256);
+      sBuffer(IDLOW_POS)   := Character'Val(Integer(Msg.ID.Identifier) Mod 256);
+
+
       sBuffer(LEN_POS) 	   := Character'Val(Integer(msg.Len));
 
       if Integer(msg.Len) > 0 then
          for I in 1..Integer(msg.Len) loop
-            sBuffer(HEADLEN + I) := Character'Val(Msg.Data ( DLC_Type(I)));
+            sBuffer(HEADLEN + I) := Character'Val(Msg.Data ( AVR.AT90CAN128.DLC_Type(I)));
          end loop;
       end if;
 
       sBuffer(CHECKSUM_POS) := Character'Val(Integer(Calculate_Checksum(Msg.Data, msg.Len)));
-
    end Message_To_Bytes;
 
    procedure Usart_Write(sBuffer : String; iSize : Integer) is
@@ -160,7 +165,7 @@ package body BBB_CAN is
       sBuffer := pxUart.sUartReadSpecificAmount(iSize, iBytesRead);
    end Usart_Read;
 
-   function Calculate_Checksum(b8Data : Byte8; Len : DLC_Type) return Interfaces.Unsigned_8 is
+   function Calculate_Checksum(b8Data : AVR.AT90CAN128.CAN.Byte8; Len : AVR.AT90CAN128.DLC_Type) return Interfaces.Unsigned_8 is
       Checksum : Interfaces.Unsigned_8 := 0;
       use Interfaces;
    begin

@@ -1,0 +1,336 @@
+        -:    0:Source:/home/emibe/skola/robgit/naiad-auv-software/src/software/navigation/thruster_configurator/obj/gnattest/tests/navigation-thruster_configurator-test_data-tests.adb
+        -:    0:Programs:37
+        -:    1:--  This package has been generated automatically by GNATtest.
+        -:    2:--  You are allowed to add your code to the bodies of test routines.
+        -:    3:--  Such changes will be kept during further regeneration of this file.
+        -:    4:--  All code placed outside of test routine bodies will be lost. The
+        -:    5:--  code intended to set up and tear down the test environment should be
+        -:    6:--  placed into Navigation.Thruster_Configurator.Test_Data.
+        -:    7:
+        -:    8:with AUnit.Assertions; use AUnit.Assertions;
+        -:    9:
+        -:   10:package body Navigation.Thruster_Configurator.Test_Data.Tests is
+        -:   11:
+        -:   12:
+        -:   13:--  begin read only
+        -:   14:   procedure Test_pxCreate (Gnattest_T : in out Test);
+        4:   15:   procedure Test_pxCreate_bfc2d4 (Gnattest_T : in out Test) renames Test_pxCreate;
+        -:   16:--  id:2.1/bfc2d418a36b7dea/pxCreate/1/0/
+        4:   17:   procedure Test_pxCreate (Gnattest_T : in out Test) is
+        -:   18:   --  navigation-thruster_configurator.ads:20:4:pxCreate
+        -:   19:--  end read only
+        -:   20:
+        -:   21:      pragma Unreferenced (Gnattest_T);
+        -:   22:
+        -:   23:      use Navigation.Thrusters;
+        -:   24:
+        4:   25:      pxThrusterConfigurator : Navigation.Thruster_Configurator.pCThrusterConfigurator;
+        -:   26:
+        -:   27:   begin
+        -:   28:
+        4:   29:      pxThrusterConfigurator := Navigation.Thruster_Configurator.pxCreate;
+        -:   30:
+        4:   31:      AUnit.Assertions.Assert(Condition => pxThrusterConfigurator /= null,
+        -:   32:                              Message   => "pxThrusterConfigurator is null after construction");
+        -:   33:
+        4:   34:      AUnit.Assertions.Assert(Condition => pxThrusterConfigurator.pxThrusterList /= null,
+        -:   35:                              Message   => "pxThrusterList is null after construction");
+        -:   36:
+        -:   37:--  begin read only
+        4:   38:   end Test_pxCreate;
+        -:   39:--  end read only
+        -:   40:
+        -:   41:
+        -:   42:--  begin read only
+        -:   43:   procedure Test_tfGet_Results_Vector_From (Gnattest_T : in out Test);
+        4:   44:   procedure Test_tfGet_Results_Vector_From_7b9cdd (Gnattest_T : in out Test) renames Test_tfGet_Results_Vector_From;
+        -:   45:--  id:2.1/7b9cddf36c4a3eac/tfGet_Results_Vector_From/1/0/
+        8:   46:   procedure Test_tfGet_Results_Vector_From (Gnattest_T : in out Test) is
+        -:   47:   --  navigation-thruster_configurator.ads:29:4:tfGet_Results_Vector_From
+        -:   48:--  end read only
+        -:   49:
+        -:   50:      pragma Unreferenced (Gnattest_T);
+        -:   51:
+        4:   52:      pxThrusterConfigurator : Navigation.Thruster_Configurator.pCThrusterConfigurator;
+        -:   53:
+       24:   54:      xfExtendedMatrix : Navigation.Thruster_Configurator.TExtendedMatrix(1..6, 1..7) := (others => (others => 0.0));
+        -:   55:      xThrusterValuesArray : Navigation.Thrusters.TThrusterValuesArray(1 .. 6);
+        -:   56:   begin
+        -:   57:
+        4:   58:      pxThrusterConfigurator := Navigation.Thruster_Configurator.pxCreate;
+        -:   59:
+        4:   60:      xfExtendedMatrix(1,7) := 10.0;
+        4:   61:      xfExtendedMatrix(2,7) := 20.0;
+        4:   62:      xfExtendedMatrix(3,7) := 30.0;
+        4:   63:      xfExtendedMatrix(4,7) := 40.0;
+        4:   64:      xfExtendedMatrix(5,7) := 50.0;
+        4:   65:      xfExtendedMatrix(6,7) := 60.0;
+        -:   66:
+        4:   67:      xThrusterValuesArray := Navigation.Thruster_Configurator.tfGet_Results_Vector_From(xfExtendedMatrix);
+        -:   68:
+       48:   69:      for i in 1 .. 6 loop
+       24:   70:         AUnit.Assertions.Assert(Condition => abs(xfExtendedMatrix(i, 7) - (float(i) * 10.0)) < 0.0001,
+       24:   71:                                 Message   => "thruster value for index (7, " & integer'Image(i) & ") expected: " & float'Image(float(i) * 10.0) & "actual " & float'Image(xfExtendedMatrix(i,7)));
+        -:   72:
+        -:   73:      end loop;
+        -:   74:
+        -:   75:
+        -:   76:--  begin read only
+        4:   77:   end Test_tfGet_Results_Vector_From;
+        -:   78:--  end read only
+        -:   79:
+        -:   80:
+        -:   81:--  begin read only
+        -:   82:   procedure Test_Remove_Component_In_Leading_Rows (Gnattest_T : in out Test);
+        4:   83:   procedure Test_Remove_Component_In_Leading_Rows_54f89d (Gnattest_T : in out Test) renames Test_Remove_Component_In_Leading_Rows;
+        -:   84:--  id:2.1/54f89ddbb8251b89/Remove_Component_In_Leading_Rows/1/0/
+        4:   85:   procedure Test_Remove_Component_In_Leading_Rows (Gnattest_T : in out Test) is
+        -:   86:   --  navigation-thruster_configurator.ads:30:4:Remove_Component_In_Leading_Rows
+        -:   87:--  end read only
+        -:   88:
+        -:   89:      pragma Unreferenced (Gnattest_T);
+        -:   90:
+       24:   91:      xfExtendedMatrix : Navigation.Thruster_Configurator.TExtendedMatrix(1..6, 1..7) := (others => (others => 1.0));
+        -:   92:   begin
+        -:   93:
+        4:   94:      Navigation.Thruster_Configurator.Remove_Component_In_Leading_Rows(tfExtendedMatrix => xfExtendedMatrix,iRow => 3);
+        -:   95:
+        4:   96:      AUnit.Assertions.Assert(Condition => abs(xfExtendedMatrix(2,3)) < 0.0001,
+        -:   97:                              Message   => "(3,2) didnt get set to 0.0");
+        4:   98:      AUnit.Assertions.Assert(Condition => abs(xfExtendedMatrix(1,3)) < 0.0001,
+        -:   99:                              Message   => "(3,1) didnt get set to 0.0");
+        -:  100:
+        -:  101:--  begin read only
+        4:  102:   end Test_Remove_Component_In_Leading_Rows;
+        -:  103:--  end read only
+        -:  104:
+        -:  105:
+        -:  106:--  begin read only
+        -:  107:   procedure Test_Remove_Component_In_Following_Rows (Gnattest_T : in out Test);
+        4:  108:   procedure Test_Remove_Component_In_Following_Rows_aa8b1c (Gnattest_T : in out Test) renames Test_Remove_Component_In_Following_Rows;
+        -:  109:--  id:2.1/aa8b1c90afdcfb23/Remove_Component_In_Following_Rows/1/0/
+        4:  110:   procedure Test_Remove_Component_In_Following_Rows (Gnattest_T : in out Test) is
+        -:  111:   --  navigation-thruster_configurator.ads:31:4:Remove_Component_In_Following_Rows
+        -:  112:--  end read only
+        -:  113:
+        -:  114:      pragma Unreferenced (Gnattest_T);
+        -:  115:
+       24:  116:      xfExtendedMatrix : Navigation.Thruster_Configurator.TExtendedMatrix(1..6, 1..7) := (others => (others => 1.0));
+        -:  117:   begin
+        -:  118:
+        4:  119:      Navigation.Thruster_Configurator.Remove_Component_In_Following_Rows(tfExtendedMatrix => xfExtendedMatrix,iRow => 3);
+        -:  120:
+        4:  121:      AUnit.Assertions.Assert(Condition => abs(xfExtendedMatrix(4,3)) < 0.0001,
+        -:  122:                              Message   => "(4,3) didnt get set to 0.0");
+        4:  123:      AUnit.Assertions.Assert(Condition => abs(xfExtendedMatrix(5,3)) < 0.0001,
+        -:  124:                              Message   => "(5,3) didnt get set to 0.0");
+        4:  125:      AUnit.Assertions.Assert(Condition => abs(xfExtendedMatrix(6,3)) < 0.0001,
+        -:  126:                              Message   => "(6,3) didnt get set to 0.0");
+        -:  127:
+        -:  128:--  begin read only
+        4:  129:   end Test_Remove_Component_In_Following_Rows;
+        -:  130:--  end read only
+        -:  131:
+        -:  132:
+        -:  133:--  begin read only
+        -:  134:   procedure Test_Scale_Row_In_Extended_Matrix (Gnattest_T : in out Test);
+        4:  135:   procedure Test_Scale_Row_In_Extended_Matrix_fd23ee (Gnattest_T : in out Test) renames Test_Scale_Row_In_Extended_Matrix;
+        -:  136:--  id:2.1/fd23ee6cd6bcde9e/Scale_Row_In_Extended_Matrix/1/0/
+        4:  137:   procedure Test_Scale_Row_In_Extended_Matrix (Gnattest_T : in out Test) is
+        -:  138:   --  navigation-thruster_configurator.ads:32:4:Scale_Row_In_Extended_Matrix
+        -:  139:--  end read only
+        -:  140:
+        -:  141:      pragma Unreferenced (Gnattest_T);
+        -:  142:
+       24:  143: 	xfExtendedMatrix : Navigation.Thruster_Configurator.TExtendedMatrix(1..6, 1..7) := (others => (others => 3.0));
+        -:  144:   begin
+        -:  145:
+        4:  146:      	Navigation.Thruster_Configurator.Remove_Component_In_Following_Rows(tfExtendedMatrix => xfExtendedMatrix,iRow => 3);
+        -:  147:
+        4:  148:      Navigation.Thruster_Configurator.Scale_Row_In_Extended_Matrix(xfExtendedMatrix, 3);
+        -:  149:
+        4:  150:            AUnit.Assertions.Assert(Condition => abs(xfExtendedMatrix(3,3) - 1.0) < 0.0001,
+        -:  151:                              Message   => "(3,3) didnt get set to scaled 1.0");
+        -:  152:
+        -:  153:
+        -:  154:--  begin read only
+        4:  155:   end Test_Scale_Row_In_Extended_Matrix;
+        -:  156:--  end read only
+        -:  157:
+        -:  158:
+        -:  159:--  begin read only
+        -:  160:   procedure Test_Swap_Values_In_Extended_Matrix (Gnattest_T : in out Test);
+        4:  161:   procedure Test_Swap_Values_In_Extended_Matrix_d790ab (Gnattest_T : in out Test) renames Test_Swap_Values_In_Extended_Matrix;
+        -:  162:--  id:2.1/d790ab373c6b2b67/Swap_Values_In_Extended_Matrix/1/0/
+        4:  163:   procedure Test_Swap_Values_In_Extended_Matrix (Gnattest_T : in out Test) is
+        -:  164:   --  navigation-thruster_configurator.ads:33:4:Swap_Values_In_Extended_Matrix
+        -:  165:--  end read only
+        -:  166:
+        -:  167:      pragma Unreferenced (Gnattest_T);
+        -:  168:
+        4:  169:      a : float := 1.0;
+        4:  170:      b : float := 2.0;
+        -:  171:
+        -:  172:   begin
+        -:  173:
+        4:  174:      Navigation.Thruster_Configurator.Swap_Values_In_Extended_Matrix(a,b);
+        -:  175:
+        4:  176:      AUnit.Assertions.Assert(Condition => abs(a - 2.0) < 0.0001,
+        -:  177:                              Message   => "swap does not work");
+        4:  178:      AUnit.Assertions.Assert(Condition => abs(b - 1.0) < 0.0001,
+        -:  179:                              Message   => "swap does not work");
+        -:  180:
+        -:  181:--  begin read only
+        4:  182:   end Test_Swap_Values_In_Extended_Matrix;
+        -:  183:--  end read only
+        -:  184:
+        -:  185:
+        -:  186:--  begin read only
+        -:  187:   procedure Test_Swap_Rows_In_Extended_Matrix (Gnattest_T : in out Test);
+        4:  188:   procedure Test_Swap_Rows_In_Extended_Matrix_a9e2bf (Gnattest_T : in out Test) renames Test_Swap_Rows_In_Extended_Matrix;
+        -:  189:--  id:2.1/a9e2bf8627567a6f/Swap_Rows_In_Extended_Matrix/1/0/
+        4:  190:   procedure Test_Swap_Rows_In_Extended_Matrix (Gnattest_T : in out Test) is
+        -:  191:   --  navigation-thruster_configurator.ads:34:4:Swap_Rows_In_Extended_Matrix
+        -:  192:--  end read only
+        -:  193:
+        -:  194:      pragma Unreferenced (Gnattest_T);
+        -:  195:
+       24:  196:	xfExtendedMatrix : Navigation.Thruster_Configurator.TExtendedMatrix(1..6, 1..7) := (others => (others => 3.0));
+        -:  197:   begin
+        -:  198:
+       28:  199:      for i in xfExtendedMatrix'Range(2)
+       28:  200:      loop
+       28:  201:      	xfExtendedMatrix(1,i) := 1.0;
+       28:  202:      	xfExtendedMatrix(3,i) := 4.0;
+        -:  203:      end loop;
+        -:  204:
+        4:  205:      Navigation.Thruster_Configurator.Swap_Rows_In_Extended_Matrix(xfExtendedMatrix,1,3);
+        -:  206:
+        4:  207:      for i in xfExtendedMatrix'Range(2)
+       28:  208:      loop
+       28:  209:         AUnit.Assertions.Assert(Condition => (abs(xfExtendedMatrix(1,i) - 4.0) < 0.00001) and (abs(xfExtendedMatrix(3,i) - 1.0) < 0.00001),
+        -:  210:                                 Message   => "Row swapping does not work");
+        -:  211:      end loop;
+        -:  212:
+        -:  213:
+        -:  214:--  begin read only
+        4:  215:   end Test_Swap_Rows_In_Extended_Matrix;
+        -:  216:--  end read only
+        -:  217:
+        -:  218:
+        -:  219:--  begin read only
+        -:  220:   procedure Test_bMatrix_Has_No_Inverse (Gnattest_T : in out Test);
+        4:  221:   procedure Test_bMatrix_Has_No_Inverse_8de23e (Gnattest_T : in out Test) renames Test_bMatrix_Has_No_Inverse;
+        -:  222:--  id:2.1/8de23e19802d9aa9/bMatrix_Has_No_Inverse/1/0/
+        4:  223:   procedure Test_bMatrix_Has_No_Inverse (Gnattest_T : in out Test) is
+        -:  224:   --  navigation-thruster_configurator.ads:35:4:bMatrix_Has_No_Inverse
+        -:  225:--  end read only
+        -:  226:
+        -:  227:      pragma Unreferenced (Gnattest_T);
+        -:  228:
+        -:  229:   begin
+        -:  230:
+        4:  231:      AUnit.Assertions.Assert(Condition => Navigation.Thruster_Configurator.bMatrix_Has_No_Inverse(0.0),
+        -:  232:                              Message   => "ABO!");
+        -:  233:
+        -:  234:--  begin read only
+        4:  235:   end Test_bMatrix_Has_No_Inverse;
+        -:  236:--  end read only
+        -:  237:
+        -:  238:
+        -:  239:--  begin read only
+        -:  240:   procedure Test_Find_Row_With_Highest_Component (Gnattest_T : in out Test);
+        4:  241:   procedure Test_Find_Row_With_Highest_Component_f24b48 (Gnattest_T : in out Test) renames Test_Find_Row_With_Highest_Component;
+        -:  242:--  id:2.1/f24b4888b4c28a71/Find_Row_With_Highest_Component/1/0/
+        4:  243:   procedure Test_Find_Row_With_Highest_Component (Gnattest_T : in out Test) is
+        -:  244:   --  navigation-thruster_configurator.ads:36:4:Find_Row_With_Highest_Component
+        -:  245:--  end read only
+        -:  246:
+        -:  247:      pragma Unreferenced (Gnattest_T);
+        -:  248:
+       24:  249:   	xfExtendedMatrix : Navigation.Thruster_Configurator.TExtendedMatrix(1..6, 1..7) := (others => (others => 3.0));
+        -:  250:   begin
+        -:  251:
+        -:  252:
+        4:  253:      xfExtendedMatrix(4,3) := 20.0;
+        -:  254:
+        4:  255:      Aunit.Assertions.Assert(Condition => Navigation.Thruster_Configurator.Find_Row_With_Highest_Component(xfExtendedMatrix, 3) = 4,
+        -:  256:                              Message   => "Unable to find row with highest component");
+        -:  257:
+        -:  258:--  begin read only
+        4:  259:   end Test_Find_Row_With_Highest_Component;
+        -:  260:--  end read only
+        -:  261:
+        -:  262:
+        -:  263:--  begin read only
+        -:  264:   procedure Test_Insert_Component_Values_In_Extended_Matrix (Gnattest_T : in out Test);
+        4:  265:   procedure Test_Insert_Component_Values_In_Extended_Matrix_4b91cc (Gnattest_T : in out Test) renames Test_Insert_Component_Values_In_Extended_Matrix;
+        -:  266:--  id:2.1/4b91ccd7fcb041bc/Insert_Component_Values_In_Extended_Matrix/1/0/
+        4:  267:   procedure Test_Insert_Component_Values_In_Extended_Matrix (Gnattest_T : in out Test) is
+        -:  268:   --  navigation-thruster_configurator.ads:38:4:Insert_Component_Values_In_Extended_Matrix
+        -:  269:--  end read only
+        -:  270:
+        -:  271:      pragma Unreferenced (Gnattest_T);
+        -:  272:
+       24:  273:      xfExtendedMatrix : Navigation.Thruster_Configurator.TExtendedMatrix(1..6, 1..7) := (others => (others => 3.0));
+       24:  274:      xThrusterEffects : Navigation.Thrusters.TThrusterEffects := (others => 1.0);
+        -:  275:   begin
+        -:  276:
+        4:  277:      Navigation.Thruster_Configurator.Insert_Component_Values_In_Extended_Matrix(xfExtendedMatrix,xThrusterEffects);
+        -:  278:
+        4:  279:      for i in xfExtendedMatrix'Range(1)
+       24:  280:      loop
+       24:  281:         Aunit.Assertions.Assert(Condition => abs(xfExtendedMatrix(i, xfExtendedMatrix'Length(2)) - 1.0) < 0.00001,
+        -:  282:                                 Message => "Unable to insert thruster effects in extended matrix");
+        -:  283:      end loop;
+        -:  284:
+        -:  285:
+        -:  286:--  begin read only
+        4:  287:   end Test_Insert_Component_Values_In_Extended_Matrix;
+        -:  288:--  end read only
+        -:  289:
+        -:  290:
+        -:  291:--  begin read only
+        -:  292:   procedure Test_Perform_Gauss_Jordan_Elimination_On (Gnattest_T : in out Test);
+        4:  293:   procedure Test_Perform_Gauss_Jordan_Elimination_On_b05c93 (Gnattest_T : in out Test) renames Test_Perform_Gauss_Jordan_Elimination_On;
+        -:  294:--  id:2.1/b05c934d559f5fd0/Perform_Gauss_Jordan_Elimination_On/1/0/
+        4:  295:   procedure Test_Perform_Gauss_Jordan_Elimination_On (Gnattest_T : in out Test) is
+        -:  296:   --  navigation-thruster_configurator.ads:39:4:Perform_Gauss_Jordan_Elimination_On
+        -:  297:--  end read only
+        -:  298:
+        -:  299:      pragma Unreferenced (Gnattest_T);
+        -:  300:
+        4:  301:      notZeroCount : integer := 0;
+        -:  302:
+        4:  303:      xfExtendedMatrix : Navigation.Thruster_Configurator.TExtendedMatrix(1..3, 1..3) := ((1.0,2.0,3.0),(0.0,1.0,4.0),(5.0,6.0,0.0));
+        -:  304:   begin
+        -:  305:
+        4:  306:      Navigation.Thruster_Configurator.Perform_Gauss_Jordan_Elimination_On(xfExtendedMatrix);
+        -:  307:
+        4:  308:      AUnit.Assertions.Assert(Condition => xfExtendedMatrix(1,1) = 1.0,
+        -:  309:                              Message   => "(1,1) /= 1.0");
+        4:  310:      AUnit.Assertions.Assert(Condition => xfExtendedMatrix(2,2) = 1.0,
+        -:  311:                              Message   => "(2,2) /= 1.0");
+        4:  312:      AUnit.Assertions.Assert(Condition => xfExtendedMatrix(3,3) = 1.0,
+        -:  313:                              Message   => "(3,3) /= 1.0");
+        -:  314:
+        -:  315:
+       16:  316:      for i in xfExtendedMatrix'Range(1) loop
+       48:  317:      	 for j in xfExtendedMatrix'Range(2) loop
+       36:  318:            if(abs(xfExtendedMatrix(i,j)) > 0.00001)
+        -:  319:            then
+       12:  320:               notZeroCount := notZeroCount + 1;
+        -:  321:            end if;
+        -:  322:         end loop;
+       12:  323:         AUnit.Assertions.Assert(Condition => notZeroCount =1,
+        -:  324:                                 Message   => "more then 1 zero in a row");
+       12:  325:         notZeroCount := 0;
+        -:  326:      end loop;
+        -:  327:
+        -:  328:
+        -:  329:
+        -:  330:--  begin read only
+        4:  331:   end Test_Perform_Gauss_Jordan_Elimination_On;
+        -:  332:--  end read only
+        -:  333:
+        -:  334:end Navigation.Thruster_Configurator.Test_Data.Tests;

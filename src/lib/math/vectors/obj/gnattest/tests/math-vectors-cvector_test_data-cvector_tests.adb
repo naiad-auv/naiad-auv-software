@@ -40,8 +40,12 @@ package body Math.Vectors.CVector_Test_Data.CVector_Tests is
                               Message   => "CVector.pxGetCopy failed, fZ got the wrong value");
 
 
---        AUnit.Assertions.Assert(Condition => pxTestVector.all'Address /= pxCopiedVector.all'Address,
---                                Message => "CVector.pxGetCopy failed, pointers has the same address, not a deep copy");
+      AUnit.Assertions.Assert(Condition => pxTestVector.all'Address /= pxCopiedVector.all'Address,
+                              Message => "CVector.pxGetCopy failed, pointers has the same address, not a deep copy");
+
+      Math.Vectors.Free(pxVectorToDeallocate => pxTestVector);
+      Math.Vectors.Free(pxVectorToDeallocate => pxCopiedVector);
+
 
 --  begin read only
    end Test_pxGet_Copy;
@@ -69,7 +73,7 @@ package body Math.Vectors.CVector_Test_Data.CVector_Tests is
       pxTestVector := Math.Vectors.pxCreate(fX => 14.2,
                                                   fY => -64.2,
                                                   fZ => 0.2);
-      pxNormalizedVector := pxTestVector.pxGet_Normalized;
+      pxNormalizedVector := pxTestVector.xGet_Normalized.pxGet_Copy;
       AUnit.Assertions.Assert(Condition => abs(pxNormalizedVector.fLength - 1.0) < 0.0001,
                               Message   => "CVector.pxGet_Normalized failed");
 
@@ -79,16 +83,26 @@ package body Math.Vectors.CVector_Test_Data.CVector_Tests is
                               Message => "CVector.pxGet_Normalized failed, testVector and normalizedVector has the same address");
 
       -- test exceptions
+      Math.Vectors.Free(pxVectorToDeallocate => pxTestVector);
       pxTestVector := Math.Vectors.pxCreate(fX => 0.0,
-                                                  fY => 0.0,
-                                                  fZ => 0.0);
-      pxNormalizedVector := pxTestVector.pxGet_Normalized;
+                                            fY => 0.0,
+                                            fZ => 0.0);
+      Math.Vectors.Free(pxVectorToDeallocate => pxNormalizedVector);
+      pxNormalizedVector := pxTestVector.xGet_Normalized.pxGet_Copy;
+
       AUnit.Assertions.Assert(Condition => False,
                               Message   => "CVector.pxGet_Normalized division by zero failed, should have raised exception");
+--        Math.Vectors.Free(pxVectorToDeallocate => pxTestVector);
+--        Math.Vectors.Free(pxVectorToDeallocate => pxNormalizedVector);
    exception
       when Numeric_Error =>
-         null; -- Test passed
+--           Math.Vectors.Free(pxVectorToDeallocate => pxTestVector);
+--           Math.Vectors.Free(pxVectorToDeallocate => pxNormalizedVector);
+         null;
+
       when E : others =>
+--           Math.Vectors.Free(pxVectorToDeallocate => pxTestVector);
+--           Math.Vectors.Free(pxVectorToDeallocate => pxNormalizedVector);
          AUnit.Assertions.Assert(Condition => False,
                                  Message   =>"CVector.pxGet_Normalized division by zero failed, wrong exception raised: " & Ada.Exceptions.Exception_Name (E) & ". Expected: NUMERIC_ERROR.");
 
@@ -116,7 +130,7 @@ package body Math.Vectors.CVector_Test_Data.CVector_Tests is
                                                   fZ => 2.0);
       AUnit.Assertions.Assert(Condition => pxTestVector.fLength_Squared = 129.0,
                               Message   => "CVector.fLength_Squared failed, expected 129.0, actual: " & float'Image(pxTestVector.fLength_Squared));
-
+      Math.Vectors.Free(pxVectorToDeallocate => pxTestVector);
 --  begin read only
    end Test_fLength_Squared;
 --  end read only
@@ -141,6 +155,7 @@ package body Math.Vectors.CVector_Test_Data.CVector_Tests is
 
       AUnit.Assertions.Assert(Condition => abs(pxTestVector.fLength - 8.06226) < 0.0001,
                               Message   => "CVector.fLength failed, expected 8.06226, actual: " & float'Image(pxTestVector.fLength));
+      Math.Vectors.Free(pxVectorToDeallocate => pxTestVector);
 
 --  begin read only
    end Test_fLength;
@@ -166,6 +181,7 @@ package body Math.Vectors.CVector_Test_Data.CVector_Tests is
 
       AUnit.Assertions.Assert(Condition => pxTestVector.fGet_X = 23.5,
                               Message   => "CVector.fGet_X failed, expected 23.5 actual: " & float'Image(pxTestVector.fX));
+      Math.Vectors.Free(pxVectorToDeallocate => pxTestVector);
 
 --  begin read only
    end Test_fGet_X;
@@ -191,6 +207,7 @@ package body Math.Vectors.CVector_Test_Data.CVector_Tests is
 
       AUnit.Assertions.Assert(Condition => pxTestVector.fGet_Y = 23.5,
                               Message   => "CVector.fGet_Y failed, expected 23.5, actual: " & float'Image(pxTestVector.fY));
+      Math.Vectors.Free(pxVectorToDeallocate => pxTestVector);
 
 --  begin read only
    end Test_fGet_Y;
@@ -216,6 +233,7 @@ package body Math.Vectors.CVector_Test_Data.CVector_Tests is
 
       AUnit.Assertions.Assert(Condition => pxTestVector.fGet_Z = 23.5,
                               Message   => "CVector.fGet_Z failed, expected 23.5, actual: " & float'Image(pxTestVector.fZ));
+      Math.Vectors.Free(pxVectorToDeallocate => pxTestVector);
 
 --  begin read only
    end Test_fGet_Z;
@@ -247,14 +265,16 @@ package body Math.Vectors.CVector_Test_Data.CVector_Tests is
                                             fZ => 4.5);
       pxPointerCopyVector := pxCopyVector;
 
-      pxCopyVector.Copy_From(pxOriginalVector);
+      pxCopyVector.Copy_From(pxOriginalVector.all);
 
 
-      AUnit.Assertions.Assert(Condition => pxPointerCopyVector = pxOriginalVector,
+      AUnit.Assertions.Assert(Condition => pxPointerCopyVector.all = pxOriginalVector.all,
                               Message   => "CVector.Copy_From failed, vectors are different.");
       AUnit.Assertions.Assert(Condition => pxPointerCopyVector.all'Address = pxCopyVector.all'Address,
                               Message   => "CVector.Copy_From failed, pointers address is not the same as copy vectors address.");
 
+      Math.Vectors.Free(pxVectorToDeallocate => pxOriginalVector);
+      Math.Vectors.Free(pxVectorToDeallocate => pxCopyVector);
 
 --  begin read only
    end Test_Copy_From;
@@ -273,16 +293,16 @@ package body Math.Vectors.CVector_Test_Data.CVector_Tests is
 
       use System;
       pxDividedVector : Math.Vectors.pCVector;
-      xLeftOperandVector : Math.Vectors.pCVector;
+      pxLeftOperandVector : Math.Vectors.pCVector;
       fRightOperand : float;
 
 
    begin
 
-      xLeftOperandVector := Math.Vectors.pxCreate(fX => 2.0, fY => 5.0,fZ => 4.0);
+      pxLeftOperandVector := Math.Vectors.pxCreate(fX => 2.0, fY => 5.0,fZ => 4.0);
       fRightOperand := 2.0;
 
-      pxDividedVector := xLeftOperandVector / fRightOperand;
+      pxDividedVector := CVector(pxLeftOperandVector / fRightOperand).pxGet_Copy;
 
       AUnit.Assertions.Assert(Condition => pxDividedVector.fX = 1.0,
                               Message   => "CVector./(binary CVector / float) failed, fX got the wrong value, expected 1.0, actual: " & float'Image(pxDividedVector.fX));
@@ -291,19 +311,26 @@ package body Math.Vectors.CVector_Test_Data.CVector_Tests is
       AUnit.Assertions.Assert(Condition => pxDividedVector.fZ = 2.0,
                               Message   => "CVector./(binary CVector / float) failed, fZ got the wrong value, expected 2.0, actual: " & float'Image(pxDividedVector.fZ));
 
-      Aunit.Assertions.Assert(Condition => pxDividedVector.all'Address /= xLeftOperandVector.all'Address,
+      Aunit.Assertions.Assert(Condition => pxDividedVector.all'Address /= pxLeftOperandVector.all'Address,
                               Message => ("CVector./(binary CVector / float) failed, dividedVector is a shallow copy of one operand"));
 
 
       -- test exceptions
       fRightOperand := 0.0;
-      pxDividedVector := xLeftOperandVector / fRightOperand;
+      Math.Vectors.Free(pxVectorToDeallocate => pxDividedVector);
+      pxDividedVector := CVector(pxLeftOperandVector / fRightOperand).pxGet_Copy;
       AUnit.Assertions.Assert(Condition => False,
                               Message   => "CVector./(binary CVector / float) division by zero failed, should have raised exception");
+--           Math.Vectors.Free(pxVectorToDeallocate => pxDividedVector);
+--           Math.Vectors.Free(pxVectorToDeallocate => pxLeftOperandVector);
    exception
       when Numeric_Error =>
+--           Math.Vectors.Free(pxVectorToDeallocate => pxDividedVector);
+--           Math.Vectors.Free(pxVectorToDeallocate => pxLeftOperandVector);
          null; -- Test passed
       when E : others =>
+--           Math.Vectors.Free(pxVectorToDeallocate => pxDividedVector);
+--           Math.Vectors.Free(pxVectorToDeallocate => pxLeftOperandVector);
          AUnit.Assertions.Assert(Condition => False,
                            Message   =>"CVector./(binary CVector / float) division by zero failed, wrong exception raised: " & Ada.Exceptions.Exception_Name (E) & ". Expected: NUMERIC_ERROR.");
 

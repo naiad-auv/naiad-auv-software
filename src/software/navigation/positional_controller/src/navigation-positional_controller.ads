@@ -3,6 +3,9 @@ with Navigation.PID_Controller;
 with Math.Vectors;
 with Math.Matrices;
 with Navigation.Thrusters;
+with System;
+with Ada.Text_IO;
+with System.Address_Image;
 
 package Navigation.Positional_Controller is
 

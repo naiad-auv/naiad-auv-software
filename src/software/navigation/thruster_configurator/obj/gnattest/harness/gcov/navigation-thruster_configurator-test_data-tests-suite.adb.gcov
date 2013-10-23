@@ -1,0 +1,94 @@
+        -:    0:Source:/home/emibe/skola/robgit/naiad-auv-software/src/software/navigation/thruster_configurator/obj/gnattest/harness/navigation-thruster_configurator-test_data-tests-suite.adb
+        -:    0:Programs:37
+        -:    1:--  This package has been generated automatically by GNATtest.
+        -:    2:--  Do not edit any part of it, see GNATtest documentation for more details.
+        -:    3:
+        -:    4:--  begin read only
+        -:    5:with AUnit.Test_Caller;
+        -:    6:with Gnattest_Generated;
+        -:    7:
+       12:    8:package body Navigation.Thruster_Configurator.Test_Data.Tests.Suite is
+        -:    9:
+        -:   10:   package Runner_1 is new AUnit.Test_Caller
+        -:   11:     (GNATtest_Generated.GNATtest_Standard.Navigation.Thruster_Configurator.Test_Data.Tests.Test);
+        -:   12:
+        4:   13:   Result : aliased AUnit.Test_Suites.Test_Suite;
+        -:   14:
+        4:   15:   Case_1_1_Test_pxCreate_bfc2d4 : aliased Runner_1.Test_Case;
+        4:   16:   Case_2_1_Test_tfGet_Results_Vector_From_7b9cdd : aliased Runner_1.Test_Case;
+        4:   17:   Case_3_1_Test_Remove_Component_In_Leading_Rows_54f89d : aliased Runner_1.Test_Case;
+        4:   18:   Case_4_1_Test_Remove_Component_In_Following_Rows_aa8b1c : aliased Runner_1.Test_Case;
+        4:   19:   Case_5_1_Test_Scale_Row_In_Extended_Matrix_fd23ee : aliased Runner_1.Test_Case;
+        4:   20:   Case_6_1_Test_Swap_Values_In_Extended_Matrix_d790ab : aliased Runner_1.Test_Case;
+        4:   21:   Case_7_1_Test_Swap_Rows_In_Extended_Matrix_a9e2bf : aliased Runner_1.Test_Case;
+        4:   22:   Case_8_1_Test_bMatrix_Has_No_Inverse_8de23e : aliased Runner_1.Test_Case;
+        4:   23:   Case_9_1_Test_Find_Row_With_Highest_Component_f24b48 : aliased Runner_1.Test_Case;
+        4:   24:   Case_10_1_Test_Insert_Component_Values_In_Extended_Matrix_4b91cc : aliased Runner_1.Test_Case;
+        4:   25:   Case_11_1_Test_Perform_Gauss_Jordan_Elimination_On_b05c93 : aliased Runner_1.Test_Case;
+        -:   26:
+        4:   27:   function Suite return AUnit.Test_Suites.Access_Test_Suite is
+        -:   28:   begin
+        -:   29:
+        4:   30:      Runner_1.Create
+        -:   31:        (Case_1_1_Test_pxCreate_bfc2d4,
+        -:   32:         "navigation-thruster_configurator.ads:20:4:",
+        -:   33:         Test_pxCreate_bfc2d4'Access);
+        4:   34:      Runner_1.Create
+        -:   35:        (Case_2_1_Test_tfGet_Results_Vector_From_7b9cdd,
+        -:   36:         "navigation-thruster_configurator.ads:29:4:",
+        -:   37:         Test_tfGet_Results_Vector_From_7b9cdd'Access);
+        4:   38:      Runner_1.Create
+        -:   39:        (Case_3_1_Test_Remove_Component_In_Leading_Rows_54f89d,
+        -:   40:         "navigation-thruster_configurator.ads:30:4:",
+        -:   41:         Test_Remove_Component_In_Leading_Rows_54f89d'Access);
+        4:   42:      Runner_1.Create
+        -:   43:        (Case_4_1_Test_Remove_Component_In_Following_Rows_aa8b1c,
+        -:   44:         "navigation-thruster_configurator.ads:31:4:",
+        -:   45:         Test_Remove_Component_In_Following_Rows_aa8b1c'Access);
+        4:   46:      Runner_1.Create
+        -:   47:        (Case_5_1_Test_Scale_Row_In_Extended_Matrix_fd23ee,
+        -:   48:         "navigation-thruster_configurator.ads:32:4:",
+        -:   49:         Test_Scale_Row_In_Extended_Matrix_fd23ee'Access);
+        4:   50:      Runner_1.Create
+        -:   51:        (Case_6_1_Test_Swap_Values_In_Extended_Matrix_d790ab,
+        -:   52:         "navigation-thruster_configurator.ads:33:4:",
+        -:   53:         Test_Swap_Values_In_Extended_Matrix_d790ab'Access);
+        4:   54:      Runner_1.Create
+        -:   55:        (Case_7_1_Test_Swap_Rows_In_Extended_Matrix_a9e2bf,
+        -:   56:         "navigation-thruster_configurator.ads:34:4:",
+        -:   57:         Test_Swap_Rows_In_Extended_Matrix_a9e2bf'Access);
+        4:   58:      Runner_1.Create
+        -:   59:        (Case_8_1_Test_bMatrix_Has_No_Inverse_8de23e,
+        -:   60:         "navigation-thruster_configurator.ads:35:4:",
+        -:   61:         Test_bMatrix_Has_No_Inverse_8de23e'Access);
+        4:   62:      Runner_1.Create
+        -:   63:        (Case_9_1_Test_Find_Row_With_Highest_Component_f24b48,
+        -:   64:         "navigation-thruster_configurator.ads:36:4:",
+        -:   65:         Test_Find_Row_With_Highest_Component_f24b48'Access);
+        4:   66:      Runner_1.Create
+        -:   67:        (Case_10_1_Test_Insert_Component_Values_In_Extended_Matrix_4b91cc,
+        -:   68:         "navigation-thruster_configurator.ads:38:4:",
+        -:   69:         Test_Insert_Component_Values_In_Extended_Matrix_4b91cc'Access);
+        4:   70:      Runner_1.Create
+        -:   71:        (Case_11_1_Test_Perform_Gauss_Jordan_Elimination_On_b05c93,
+        -:   72:         "navigation-thruster_configurator.ads:39:4:",
+        -:   73:         Test_Perform_Gauss_Jordan_Elimination_On_b05c93'Access);
+        -:   74:
+        4:   75:      Result.Add_Test (Case_1_1_Test_pxCreate_bfc2d4'Access);
+        4:   76:      Result.Add_Test (Case_2_1_Test_tfGet_Results_Vector_From_7b9cdd'Access);
+        4:   77:      Result.Add_Test (Case_3_1_Test_Remove_Component_In_Leading_Rows_54f89d'Access);
+        4:   78:      Result.Add_Test (Case_4_1_Test_Remove_Component_In_Following_Rows_aa8b1c'Access);
+        4:   79:      Result.Add_Test (Case_5_1_Test_Scale_Row_In_Extended_Matrix_fd23ee'Access);
+        4:   80:      Result.Add_Test (Case_6_1_Test_Swap_Values_In_Extended_Matrix_d790ab'Access);
+        4:   81:      Result.Add_Test (Case_7_1_Test_Swap_Rows_In_Extended_Matrix_a9e2bf'Access);
+        4:   82:      Result.Add_Test (Case_8_1_Test_bMatrix_Has_No_Inverse_8de23e'Access);
+        4:   83:      Result.Add_Test (Case_9_1_Test_Find_Row_With_Highest_Component_f24b48'Access);
+        4:   84:      Result.Add_Test (Case_10_1_Test_Insert_Component_Values_In_Extended_Matrix_4b91cc'Access);
+        4:   85:      Result.Add_Test (Case_11_1_Test_Perform_Gauss_Jordan_Elimination_On_b05c93'Access);
+        -:   86:
+        4:   87:      return Result'Access;
+        -:   88:
+        -:   89:   end Suite;
+        -:   90:
+        4:   91:end Navigation.Thruster_Configurator.Test_Data.Tests.Suite;
+        -:   92:--  end read only
