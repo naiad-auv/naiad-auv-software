@@ -470,7 +470,7 @@ int Processing_Wrap::thresh(int src, int lowLimit, int upLimit, int ch)
 	cv::Scalar lowBound = lowLimit,upBound = upLimit;
 	cv::Mat mask,threshOut;
 	int i;
-	cv::inRange(img.at(src), cv::Scalar(20, 100, 100), cv::Scalar(30, 255, 255), mask);
+	cv::inRange(img.at(src), cv::Scalar(10, 100, 100), cv::Scalar(60, 255, 255), mask);
 	
 	//cv::merge(channels[2], mask);
 	cv::imshow("mask",mask);
