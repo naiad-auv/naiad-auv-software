@@ -14,8 +14,6 @@ package Sockets is
             Port : Port_Type;
         end record;
 
---    function Read_Request (From : GNAT.Sockets.Socket_Type) return String;
-
     procedure Send_UDP_Message;
     procedure Listen_On_Socket;
 end Sockets;
