@@ -30,22 +30,22 @@ package visionBindings_cpp is
    imageBuf : aliased cpp_4_7_4_bits_stl_queue_h.Class_queue.queue;  -- visionBindings.cpp:18
    pragma Import (C, imageBuf, "imageBuf");
 
-   imageName : aliased int;  -- visionBindings.cpp:19
+   imageName : aliased int;  -- visionBindings.cpp:20
    pragma Import (C, imageName, "imageName");
 
-   BGR : aliased cpp_4_7_4_bits_stl_vector_h.Class_vector.vector;  -- visionBindings.cpp:21
+   BGR : aliased cpp_4_7_4_bits_stl_vector_h.Class_vector.vector;  -- visionBindings.cpp:23
    pragma Import (C, BGR, "BGR");
 
-   blueHistVals : aliased opencv2_core_core_hpp.Class_Mat.Mat;  -- visionBindings.cpp:22
+   blueHistVals : aliased opencv2_core_core_hpp.Class_Mat.Mat;  -- visionBindings.cpp:24
    pragma Import (C, blueHistVals, "blueHistVals");
 
-   greenHistVals : aliased opencv2_core_core_hpp.Class_Mat.Mat;  -- visionBindings.cpp:23
+   greenHistVals : aliased opencv2_core_core_hpp.Class_Mat.Mat;  -- visionBindings.cpp:25
    pragma Import (C, greenHistVals, "greenHistVals");
 
-   redHistVals : aliased opencv2_core_core_hpp.Class_Mat.Mat;  -- visionBindings.cpp:24
+   redHistVals : aliased opencv2_core_core_hpp.Class_Mat.Mat;  -- visionBindings.cpp:26
    pragma Import (C, redHistVals, "redHistVals");
 
-   hist : aliased opencv2_core_core_hpp.Class_MatND.MatND;  -- visionBindings.cpp:26
+   hist : aliased opencv2_core_core_hpp.Class_MatND.MatND;  -- visionBindings.cpp:28
    pragma Import (C, hist, "hist");
 
 end visionBindings_cpp;
