@@ -14,6 +14,7 @@ procedure main is
    iContourLocation : Interfaces.C.Int;
    iCirclesLocation : Interfaces.C.Int;
    iGaussianBlurLocation : Interfaces.C.int;
+   iThreshedImageLocation : Interfaces.C.int;
 
    iGreyFilter : Interfaces.C.Int;
    iHSIFilter : Interfaces.C.Int;
@@ -71,6 +72,7 @@ begin
    iContourLocation := 23;
    iCirclesLocation := 24;
    iGaussianBlurLocation :=25;
+   iThreshedImageLocation := 26;
 
    iGreyFilter := 6;
    iHSIFilter :=40;
@@ -139,20 +141,20 @@ begin
       CoreWrap.imshow(New_String("Why so normal?"), iImageSource);--show image for debug purposes
       CoreWrap.waitKey(0);
 
-   --processingWrap.gaussianBlur(iImageSource, iGaussianBlurLocation, GaussianKerSize, GaussianSigmaX, GaussianSigmaY);
+  -- processingWrap.gaussianBlur(iImageSource, iGaussianBlurLocation, GaussianKerSize, GaussianSigmaX, GaussianSigmaY);
 --CoreWrap.imshow(New_String("Why so Gaussian?"), iGaussianBlurLocation);--show image for debug purposes
-     -- CoreWrap.waitKey(0);
+   --  CoreWrap.waitKey(0);
 
       --test thresh
       ret := processingWrap.thresh(iHSILocation, lowLimit, upLimit, 0);
-      --
+      CoreWrap.imshow(New_String("why so after mask?"),iThreshedImageLocation);
 
       --split channels of image
       processingWrap.splitChannels(iImageSource);
 
       --run bgr histo and show result
-      --processingWrap.BGRHistogram(bgrNumSourceArray,bgrHistDimensionality,bgrHistSize, bgrRange(1)'Access,uniform,accumulate);
-      --processingWrap.showBGRHistogram(bgrHistSize);
+      processingWrap.BGRHistogram(bgrNumSourceArray,bgrHistDimensionality,bgrHistSize, bgrRange(1)'Access,uniform,accumulate);
+      processingWrap.showBGRHistogram(bgrHistSize);
 
       --convert image to hsi
       --processingWrap.cvtColor(iImageSource, iHSILocation, iHSIFilter);
