@@ -351,7 +351,6 @@ package body Math.Matrices is
       pxNewPlane : Math.Planes.pCPlane;
       xNewPlane : Math.Planes.CPlane;
    begin
-      Ada.Text_IO.Put_Line("Go!");
       pxNewPlane := Math.Planes.pxCreate(xNormalVector      => Math.Vectors.CVector(xLeftOperandMatrix * xRightOperandPlane.xGet_Normal_Vector),
                                          fDistanceFromOrigin => xRightOperandPlane.fGet_Distance_From_Origin);
       xNewPlane.Copy_From(xSourcePlane => pxNewPlane.all);

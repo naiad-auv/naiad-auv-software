@@ -26,8 +26,8 @@ package body Navigation.Orientational_Controller.Test_Data.Tests is
 
       pxOrientationalController : Navigation.Orientational_Controller.pCOrientationalController;
 
-      pxCurrentOrientation : Math.Matrices.pCMatrix := Math.Matrices.pxCreate_Identity;
-      pxWantedOrientation : Math.Matrices.pCMatrix := Math.Matrices.pxCreate_Rotation_Around_X_Axis(50.0) * Math.Matrices.pxCreate_Rotation_Around_Y_Axis(50.0) * Math.Matrices.pxCreate_Rotation_Around_Z_Axis(50.0);
+      pxCurrentOrientation : Math.Matrices.pCMatrix := Math.Matrices.xCreate_Identity.pxGet_Copy;
+      pxWantedOrientation : Math.Matrices.pCMatrix := Math.Matrices.CMatrix(Math.Matrices.xCreate_Rotation_Around_X_Axis(50.0) * Math.Matrices.xCreate_Rotation_Around_Y_Axis(50.0) * Math.Matrices.xCreate_Rotation_Around_Z_Axis(50.0)).pxGet_Copy;
 
    begin
 
@@ -48,6 +48,9 @@ package body Navigation.Orientational_Controller.Test_Data.Tests is
       Aunit.Assertions.Assert(Condition => pxOrientationalController.pxDirectionalMotionComponent /= null,
                               Message   => "pxDirectionalMotionComponent is null after construction");
 
+      Navigation.Orientational_Controller.Free(pxOrientationalControllerToDeallocate => pxOrientationalController);
+      Math.Matrices.Free(pxMatrixToDeallocate => pxCurrentOrientation);
+      Math.Matrices.Free(pxMatrixToDeallocate => pxWantedOrientation);
 
 --  begin read only
    end Test_pxCreate;

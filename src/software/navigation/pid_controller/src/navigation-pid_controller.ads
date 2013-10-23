@@ -1,10 +1,13 @@
 with Navigation;
+with Ada.Unchecked_Deallocation;
+
 
 package Navigation.PID_Controller is
 
    type CPIDController is tagged private;
    type pCPIDController is access CPIDController;
 
+   procedure Free(pxPIDControllerToDeallocate : in out pCPIDController);
 
    type TPIDComponentScalings is
 	record

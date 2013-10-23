@@ -29,6 +29,7 @@ package body Navigation.PID_Controller.Test_Data.Tests is
       AUnit.Assertions.Assert(Condition => (pxObject /= null),
                               Message => "PID_Controller.pxCreate does not return an instance to an object");
 
+      Navigation.PID_Controller.Free(pxPIDControllerToDeallocate => pxObject);
       null;
 
 --  begin read only
@@ -62,6 +63,7 @@ package body Navigation.PID_Controller.Test_Data.Tests is
                               Message   => "integral scale is incorrect after construction");
       AUnit.Assertions.Assert(Condition => pxObject.fGetDerivativeScale = 3.0,
                               Message   => "derivative scale is incorrect after construction");
+      Navigation.PID_Controller.Free(pxPIDControllerToDeallocate => pxObject);
 
 --  begin read only
    end Test_2_pxCreate;

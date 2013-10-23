@@ -97,4 +97,10 @@ package body Navigation.PID_Controller is
       return this.fProportionalScale;
    end fGetProportionalScale;
 
+   procedure Free(pxPIDControllerToDeallocate : in out pCPIDController) is
+      procedure Dealloc is new Ada.Unchecked_Deallocation(CPIDController, pCPIDController);
+   begin
+      Dealloc(pxPIDControllerToDeallocate);
+   end Free;
+
 end Navigation.PID_Controller;
