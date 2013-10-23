@@ -7,8 +7,8 @@ package body Navigation.Dispatcher is
 
       pxNewDispatcher.pxThrusterConfigurator := Navigation.Thruster_Configurator.pxCreate;
 
-      pxNewDispatcher.pxCurrentAbsoluteOrientation := Math.Matrices.pxCreate_Identity;
-      pxNewDispatcher.pxWantedAbsoluteOrientation := Math.Matrices.pxCreate_Identity;
+      pxNewDispatcher.pxCurrentAbsoluteOrientation := Math.Matrices.xCreate_Identity.pxGet_Copy;
+      pxNewDispatcher.pxWantedAbsoluteOrientation := Math.Matrices.xCreate_Identity.pxGet_Copy;
 
       pxNewDispatcher.pxCurrentAbsolutePosition := Math.Vectors.pxCreate(fX => 0.0,
                                                                          fY => 0.0,
@@ -88,26 +88,26 @@ package body Navigation.Dispatcher is
    end Set_New_Component_PID_Scalings;
 
 
-   procedure Update_Current_Absolute_Position (this : in out CDispatcher; pxNewCurrentAbsolutePosition : in Math.Vectors.pCVector) is
+   procedure Update_Current_Absolute_Position (this : in out CDispatcher; xNewCurrentAbsolutePosition : in Math.Vectors.CVector) is
    begin
-      this.pxCurrentAbsolutePosition.Copy_From(pxNewCurrentAbsolutePosition);
+      this.pxCurrentAbsolutePosition.Copy_From(xNewCurrentAbsolutePosition);
    end Update_Current_Absolute_Position;
 
 
-   procedure Update_Wanted_Absolute_Position (this : in out CDispatcher; pxNewWantedAbsolutePosition : in Math.Vectors.pCVector) is
+   procedure Update_Wanted_Absolute_Position (this : in out CDispatcher; xNewWantedAbsolutePosition : in Math.Vectors.CVector) is
    begin
-      this.pxWantedAbsolutePosition.Copy_From(pxNewWantedAbsolutePosition);
+      this.pxWantedAbsolutePosition.Copy_From(xNewWantedAbsolutePosition);
    end Update_Wanted_Absolute_Position;
 
 
-   procedure Update_Current_Absolute_Orientation (this : in out CDispatcher; pxNewCurrentAbsoluteOrientation : in Math.Matrices.pCMatrix) is
+   procedure Update_Current_Absolute_Orientation (this : in out CDispatcher; xNewCurrentAbsoluteOrientation : in Math.Matrices.CMatrix) is
    begin
-      this.pxCurrentAbsoluteOrientation.Copy_From(pxNewCurrentAbsoluteOrientation);
+      this.pxCurrentAbsoluteOrientation.Copy_From(xNewCurrentAbsoluteOrientation);
    end Update_Current_Absolute_Orientation;
 
-   procedure Update_Wanted_Absolute_Orientation (this : in out CDispatcher; pxNewWantedAbsoluteOrientation : in Math.Matrices.pCMatrix) is
+   procedure Update_Wanted_Absolute_Orientation (this : in out CDispatcher; xNewWantedAbsoluteOrientation : in Math.Matrices.CMatrix) is
    begin
-      this.pxWantedAbsoluteOrientation.Copy_From(pxNewWantedAbsoluteOrientation);
+      this.pxWantedAbsoluteOrientation.Copy_From(xNewWantedAbsoluteOrientation);
    end Update_Wanted_Absolute_Orientation;
 
 
@@ -141,5 +141,43 @@ package body Navigation.Dispatcher is
       end loop;
       return false;
    end bThruster_Values_Need_Scaling;
+
+   procedure Free(pxDispatcherToDeallocate : in out pCDispatcher) is
+      procedure Dealloc is new Ada.Unchecked_Deallocation(CDispatcher, pCDispatcher);
+   begin
+      Dealloc(pxDispatcherToDeallocate);
+   end Free;
+
+   procedure Finalize (this : in out CDispatcher) is
+      use Navigation.Thruster_Configurator;
+      use Navigation.Orientational_Controller;
+      use Navigation.Positional_Controller;
+      use Math.Vectors;
+      use Math.Matrices;
+   begin
+      if this.pxThrusterConfigurator /= null then
+         Navigation.Thruster_Configurator.Free(pxThrusterConfiguratorToDeallocate => this.pxThrusterConfigurator);
+      end if;
+      if this.pxOrientationalController /= null then
+         Navigation.Orientational_Controller.Free(pxOrientationalControllerToDeallocate => this.pxOrientationalController);
+      end if;
+      if this.pxPositionalController /= null then
+         Navigation.Positional_Controller.Free(pxPositionalControllerToDeallocate => this.pxPositionalController);
+      end if;
+      if this.pxCurrentAbsolutePosition /= null then
+         Math.Vectors.Free(pxVectorToDeallocate => this.pxCurrentAbsolutePosition);
+      end if;
+      if this.pxWantedAbsolutePosition /= null then
+         Math.Vectors.Free(pxVectorToDeallocate => this.pxWantedAbsolutePosition);
+      end if;
+      if this.pxCurrentAbsoluteOrientation /= null then
+         Math.Matrices.Free(pxMatrixToDeallocate => this.pxCurrentAbsoluteOrientation);
+      end if;
+      if this.pxWantedAbsoluteOrientation /= null then
+         Math.Matrices.Free(pxMatrixToDeallocate => this.pxWantedAbsoluteOrientation);
+      end if;
+   end Finalize;
+
+
 
 end Navigation.Dispatcher;

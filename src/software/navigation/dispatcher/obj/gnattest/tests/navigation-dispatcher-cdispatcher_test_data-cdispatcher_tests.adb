@@ -23,20 +23,26 @@ package body Navigation.Dispatcher.CDispatcher_Test_Data.CDispatcher_Tests is
       use Navigation.Thrusters;
       
       pxDispatcher : pCDispatcher;
+      pxVector : Math.Vectors.pCVector;
       tfThrusterValues : Navigation.Thrusters.TThrusterValuesArray(1 .. 6);
       tfZeroValues : Navigation.Thrusters.TThrusterValuesArray(1 .. 6) := (others => 0.0);
       bLol : boolean := false;
    begin
 
       pxDispatcher := Navigation.Dispatcher.pxCreate;
-      pxDispatcher.Update_Current_Absolute_Position(pxNewCurrentAbsolutePosition => Math.Vectors.pxCreate(fX => 4.0,
-                                                                                                         fY => 2.0,
-                                                                                                         fZ => -6.0));
-      pxDispatcher.Update_Wanted_Absolute_Position(pxNewWantedAbsolutePosition => Math.Vectors.pxCreate(fX => -3.0,
-                                                                                                       fY => 6.0,
-                                                                                                       fZ => 2.0));
-      pxDispatcher.Update_Current_Absolute_Orientation(pxNewCurrentAbsoluteOrientation => Math.Matrices.pxCreate_Rotation_Around_X_Axis(tfAngleInDegrees => Math.Angles.TAngle(45.0)));
-      pxDispatcher.Update_Wanted_Absolute_Orientation(pxNewWantedAbsoluteOrientation => Math.Matrices.pxCreate_Rotation_Around_Y_Axis(tfAngleInDegrees => Math.Angles.TAngle(45.0)));
+      pxVector := Math.Vectors.pxCreate(fX => 4.0,
+                                        fY => 2.0,
+                                        fZ => -6.0);
+      pxDispatcher.Update_Current_Absolute_Position(xNewCurrentAbsolutePosition => pxVector.all);
+      Math.Vectors.Free(pxVectorToDeallocate => pxVector);
+      pxVector := Math.Vectors.pxCreate(fX => -3.0,
+                                        fY => 6.0,
+                                        fZ => 2.0);
+      pxDispatcher.Update_Wanted_Absolute_Position(xNewWantedAbsolutePosition => pxVector.all);
+      Math.Vectors.Free(pxVectorToDeallocate => pxVector);
+      
+      pxDispatcher.Update_Current_Absolute_Orientation(xNewCurrentAbsoluteOrientation => Math.Matrices.xCreate_Rotation_Around_X_Axis(tfAngleInDegrees => Math.Angles.TAngle(45.0)));
+      pxDispatcher.Update_Wanted_Absolute_Orientation(xNewWantedAbsoluteOrientation => Math.Matrices.xCreate_Rotation_Around_Y_Axis(tfAngleInDegrees => Math.Angles.TAngle(45.0)));
       
       pxDispatcher.Set_New_Component_PID_Scalings(eComponentToChange => Navigation.Motion_Component.AllComponents,
                                                   xNewPIDSCalings    => Navigation.PID_Controller.TPIDComponentScalings'(fProportionalScale => 1.0, fIntegralScale => 1.0, fDerivativeScale => 1.0));
@@ -53,6 +59,8 @@ package body Navigation.Dispatcher.CDispatcher_Test_Data.CDispatcher_Tests is
       AUnit.Assertions.Assert        (Condition => bLol,
                                       Message => "CDispatcher.tfGet_Thruster_Values failed, no values assigned.");
 
+      Navigation.Dispatcher.Free(pxDispatcherToDeallocate => pxDispatcher);
+                                 
 --  begin read only
    end Test_tfGet_Thruster_Values;
 --  end read only
@@ -103,12 +111,14 @@ package body Navigation.Dispatcher.CDispatcher_Test_Data.CDispatcher_Tests is
       pxPosition := Math.Vectors.pxCreate(fX => 1.4,
                                           fY => 7.4,
                                           fZ => 2.3);
-      pxDispatcher.Update_Current_Absolute_Position(pxNewCurrentAbsolutePosition => pxPosition);
+      pxDispatcher.Update_Current_Absolute_Position(xNewCurrentAbsolutePosition => pxPosition.all);
 
       AUnit.Assertions.Assert        (Condition => pxPosition.all'Address /= pxDispatcher.pxCurrentAbsolutePosition.all'Address,
                                       Message => "CDispatcher.Update_Current_Absolute_Position failed, addresses the same.");
-      AUnit.Assertions.Assert        (Condition => pxPosition = pxDispatcher.pxCurrentAbsolutePosition,
+      AUnit.Assertions.Assert        (Condition => pxPosition.all = pxDispatcher.pxCurrentAbsolutePosition.all,
                                       Message => "CDispatcher.Update_Current_Absolute_Position failed, vectors have different values.");
+      Math.Vectors.Free(pxVectorToDeallocate => pxPosition);
+      Navigation.Dispatcher.Free(pxDispatcherToDeallocate => pxDispatcher);
 --  begin read only
    end Test_Update_Current_Absolute_Position;
 --  end read only
@@ -135,13 +145,14 @@ package body Navigation.Dispatcher.CDispatcher_Test_Data.CDispatcher_Tests is
       pxPosition := Math.Vectors.pxCreate(fX => 1.4,
                                           fY => 7.4,
                                           fZ => 2.3);
-      pxDispatcher.Update_Wanted_Absolute_Position(pxNewWantedAbsolutePosition => pxPosition);
+      pxDispatcher.Update_Wanted_Absolute_Position(xNewWantedAbsolutePosition => pxPosition.all);
 
       AUnit.Assertions.Assert        (Condition => pxPosition.all'Address /= pxDispatcher.pxWantedAbsolutePosition.all'Address,
                                       Message => "CDispatcher.Update_Wanted_Absolute_Position failed, addresses the same.");
-      AUnit.Assertions.Assert        (Condition => pxPosition = pxDispatcher.pxWantedAbsolutePosition,
+      AUnit.Assertions.Assert        (Condition => pxPosition.all = pxDispatcher.pxWantedAbsolutePosition.all,
                                       Message => "CDispatcher.Update_Wanted_Absolute_Position failed, vectors have different values.");
-
+      Math.Vectors.Free(pxVectorToDeallocate => pxPosition);
+      Navigation.Dispatcher.Free(pxDispatcherToDeallocate => pxDispatcher);
 --  begin read only
    end Test_Update_Wanted_Absolute_Position;
 --  end read only
@@ -165,15 +176,16 @@ package body Navigation.Dispatcher.CDispatcher_Test_Data.CDispatcher_Tests is
    begin
       
       pxDispatcher := Navigation.Dispatcher.pxCreate;
-      pxOrientation := Math.Matrices.pxCreate_Rotation_Around_X_Axis(Math.Angles.TAngle(45.0));
+      pxOrientation := Math.Matrices.xCreate_Rotation_Around_X_Axis(Math.Angles.TAngle(45.0)).pxGet_Copy;
       
-      pxDispatcher.Update_Current_Absolute_Orientation(pxNewCurrentAbsoluteOrientation => pxOrientation);
+      pxDispatcher.Update_Current_Absolute_Orientation(xNewCurrentAbsoluteOrientation => pxOrientation.all);
 
       AUnit.Assertions.Assert        (Condition => pxOrientation.all'Address /= pxDispatcher.pxCurrentAbsoluteOrientation.all'Address,
                                       Message => "CDispatcher.Update_Current_Absolute_Orientation failed, addresses the same.");
-      AUnit.Assertions.Assert        (Condition => pxOrientation = pxDispatcher.pxCurrentAbsoluteOrientation,
+      AUnit.Assertions.Assert        (Condition => pxOrientation.all = pxDispatcher.pxCurrentAbsoluteOrientation.all,
                                       Message => "CDispatcher.Update_Current_Absolute_Orientation failed, matrices have different values.");
-
+      Math.Matrices.Free(pxMatrixToDeallocate => pxOrientation);
+      Navigation.Dispatcher.Free(pxDispatcherToDeallocate => pxDispatcher);
 --  begin read only
    end Test_Update_Current_Absolute_Orientation;
 --  end read only
@@ -197,16 +209,17 @@ package body Navigation.Dispatcher.CDispatcher_Test_Data.CDispatcher_Tests is
    begin
       
       pxDispatcher := Navigation.Dispatcher.pxCreate;
-      pxOrientation := Math.Matrices.pxCreate_Rotation_Around_X_Axis(Math.Angles.TAngle(45.0));
+      pxOrientation := Math.Matrices.xCreate_Rotation_Around_X_Axis(Math.Angles.TAngle(45.0)).pxGet_Copy;
       
-      pxDispatcher.Update_Wanted_Absolute_Orientation(pxNewWantedAbsoluteOrientation => pxOrientation);
+      pxDispatcher.Update_Wanted_Absolute_Orientation(xNewWantedAbsoluteOrientation => pxOrientation.all);
 
       AUnit.Assertions.Assert        (Condition => pxOrientation.all'Address /= pxDispatcher.pxWantedAbsoluteOrientation.all'Address,
                                       Message => "CDispatcher.Update_Wanted_Absolute_Orientation failed, addresses the same.");
-      AUnit.Assertions.Assert        (Condition => pxOrientation = pxDispatcher.pxWantedAbsoluteOrientation,
+      AUnit.Assertions.Assert        (Condition => pxOrientation.all = pxDispatcher.pxWantedAbsoluteOrientation.all,
                                       Message => "CDispatcher.Update_Wanted_Absolute_Orientation failed, matrices have different values.");
 
-
+      Math.Matrices.Free(pxMatrixToDeallocate => pxOrientation);
+      Navigation.Dispatcher.Free(pxDispatcherToDeallocate => pxDispatcher);
 --  begin read only
    end Test_Update_Wanted_Absolute_Orientation;
 --  end read only

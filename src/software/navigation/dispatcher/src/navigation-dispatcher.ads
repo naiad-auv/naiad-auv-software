@@ -11,15 +11,16 @@ with Ada.Text_IO;
 with System.Address_Image;
 with System.Pool_Local;
 with Math.Angles;
+with Ada.Finalization;
+with Ada.Unchecked_Deallocation;
 
 package Navigation.Dispatcher is
 
-   type CDispatcher is tagged private;
-
-
+   type CDispatcher is new Ada.Finalization.Controlled with private;
    type pCDispatcher is access CDispatcher;
-   xStoragePool : System.Pool_Local.Unbounded_Reclaim_Pool;
-   for pCDispatcher'Storage_Pool use xStoragePool;
+
+   procedure Free(pxDispatcherToDeallocate : in out pCDispatcher);
+
 
    function pxCreate return pCDispatcher;
    --  <summary>Creates an object of type CDispatcher</summary>
@@ -36,23 +37,23 @@ package Navigation.Dispatcher is
    --  <parameter name="xNewPIDSCalings">The TPIDComponetScalings object to set for the object.</parameter>
    --  <parameter name="eComponentToChange">The index of the component to change.</parameter>
 
-   procedure Update_Current_Absolute_Position(this : in out CDispatcher; pxNewCurrentAbsolutePosition : in Math.Vectors.pCVector);
+   procedure Update_Current_Absolute_Position(this : in out CDispatcher; xNewCurrentAbsolutePosition : in Math.Vectors.CVector);
     --  <summary>Updates the current absolute position.</summary>
    --  <parameter name="this">The CDispatcher to update.</parameter>
    --  <parameter name="xNewCurrentAbsolutePosition">The new absolute position to set.</parameter>
 
 
-   procedure Update_Wanted_Absolute_Position(this : in out CDispatcher; pxNewWantedAbsolutePosition : in Math.Vectors.pCVector);
+   procedure Update_Wanted_Absolute_Position(this : in out CDispatcher; xNewWantedAbsolutePosition : in Math.Vectors.CVector);
    --  <summary>Updates the wanted absolute position.</summary>
    --  <parameter name="this">The CDispatcher to update.</parameter>
    --  <parameter name="xNewWantedAbsolutePosition">The new absolute position to set.</parameter>
 
-   procedure Update_Current_Absolute_Orientation(this : in out CDispatcher; pxNewCurrentAbsoluteOrientation : in Math.Matrices.pCMatrix);
+   procedure Update_Current_Absolute_Orientation(this : in out CDispatcher; xNewCurrentAbsoluteOrientation : in Math.Matrices.CMatrix);
    --  <summary>Updates the current absolute orientation.</summary>
    --  <parameter name="this">The CDispatcher to update.</parameter>
    --  <parameter name="xNewCurrentAbsoluteOrientation">The new absolute orientation to set.</parameter>
 
-   procedure Update_Wanted_Absolute_Orientation(this : in out CDispatcher; pxNewWantedAbsoluteOrientation : in Math.Matrices.pCMatrix);
+   procedure Update_Wanted_Absolute_Orientation(this : in out CDispatcher; xNewWantedAbsoluteOrientation : in Math.Matrices.CMatrix);
    --  <summary>Updates the wanted absolute orientation.</summary>
    --  <parameter name="this">The CDispatcher to update.</parameter>
    --  <parameter name="xNewWantedAbsoluteOrientation">The new absolute orientation to set.</parameter>
@@ -62,7 +63,7 @@ private
 
    procedure Scale_Thruster_Values (tfThrusterValues : in out Navigation.Thrusters.TThrusterValuesArray);
    function bThruster_Values_Need_Scaling (tfThrusterValues : in Navigation.Thrusters.TThrusterValuesArray) return boolean;
-   type CDispatcher is tagged
+   type CDispatcher is new Ada.Finalization.Controlled with
       record
 
          pxThrusterConfigurator : Navigation.Thruster_Configurator.pCThrusterConfigurator;
@@ -77,5 +78,7 @@ private
          pxCurrentAbsoluteOrientation : Math.Matrices.pCMatrix;
          pxWantedAbsoluteOrientation : Math.Matrices.pCMatrix;
       end record;
+
+   procedure Finalize (this : in out CDispatcher);
 
 end Navigation.Dispatcher;
