@@ -473,28 +473,21 @@ int Processing_Wrap::thresh(int src, int blueLow, int blueUp, int greenLow, int 
 	int i;
 
 	cv::inRange(img.at(src), cv::Scalar(blueLow, greenLow, redLow), cv::Scalar(blueUp, greenUp, redUp), mask);
-	
-	//cv::merge(channels[2], mask);
 	cv::imshow("mask",mask);
-	//cv::imshow("channels",channels);
 	cv::waitKey(0);
-	//std::cout<<"channel 3"<<channels[0];
-	//cv::accumulateProduct(mask, img.at(src), threshOut,cv::Mat());
 	threshOut.copyTo(outPic,mask);
-	cv::imshow("after accumulate",outPic);
-	cv::waitKey(0);
-	//std::cout<<"after accumulate product"<<"\n";
+
+	img.at(26)=outPic.clone();
+	
 	cv::Size s = mask.size();
 	std::cout<<s.height<<"\t"<<s.width<<"\n";
-	/*for(i = 0; i< s.height; i++)
-	{
-		std::cout<<mask.col(i) <<"\n";
-		cv::waitKey(0);
-	}*/
+	
 	return 1;
 }
 
-
+void Processing_Wrap::objectTracking(void)
+{
+}
 ///////////////////////// GAUSIAN BLUR FILTER     ///////////////////////////////////////////////
 
 void Processing_Wrap::gaussianBlur(int src, int dest, int kersize, double sigmaX, double sigmaY)
