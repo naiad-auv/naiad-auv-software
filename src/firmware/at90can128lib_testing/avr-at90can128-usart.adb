@@ -50,7 +50,7 @@ package body AVR.AT90CAN128.USART is
    --           Rate : baud rate of the usart.
    procedure Init (Port : USARTID := Default_USART; Baud : BAUDTYPE) is
    begin
-      --Asm ("sei", Volatile => True);
+   --   Asm ("sei", Volatile => True);
       case Port is
       when USART0 =>
          -- Enable receiver and transmitter and the interrupt for receive
@@ -70,7 +70,15 @@ package body AVR.AT90CAN128.USART is
                UBRR0L := 8;   -- 16 Mhz Osc.  115200 Baud
          end case;
 
-         --UBRR0H := 0;
+--           UBRR0H := 0;
+--
+--           UCSR0C := (false, -- reserved
+--                      false, -- asynchronous mode
+--                      false, false, -- no parity
+--                      false, -- one stop bit
+--                      true, true, --8-bit Character Size
+--                      false); --Clock Polarity
+
 
       when USART1 =>
          -- Enable receiver and transmitter and the interrupt for receive
@@ -88,7 +96,14 @@ package body AVR.AT90CAN128.USART is
             when BAUD115200 =>
                UBRR1L := 8;   -- 16 Mhz Osc.  115200 Baud
          end case;
-         --UBRR1H := 0;
+--           UBRR1H := 0;
+--
+--           UCSR1C := (false, -- reserved
+--                      false, -- asynchronous mode
+--                      false, false, -- no parity
+--                      false, -- one stop bit
+--                      true, true, --8-bit Character Size
+--                      false); --Clock Polarity
       end case;
    end Init;
 
@@ -179,7 +194,7 @@ package body AVR.AT90CAN128.USART is
       Asm ("Cli", Volatile => True);
       Uart0_In_R := 0;
       Uart0_Out_R := 0;
-     -- Asm ("Sei", Volatile => True);
+    --  Asm ("Sei", Volatile => True);
    end Flush_Receive_Buffer;
 
 
@@ -195,15 +210,15 @@ package body AVR.AT90CAN128.USART is
    -- Return value:
    --               This function will return false if there is no
    --               valid data, otherwise it will return True.
-   function Data_Available (Port : USARTID := Default_USART) return Boolean is
-      Result : Boolean;
+   function Data_Available (Port : USARTID := Default_USART) return Integer is
+      Result : Integer;
    begin
       case Port is
          when USART0 =>
-            Result := Uart0_In_R /= Uart0_Out_R;
+            Result := (Uart0_In_R - Uart0_Out_R) mod Uart_Buffer_Size;
             return Result;
          when USART1 =>
-            Result := Uart1_In_R /= Uart1_Out_R;
+            Result := (Uart1_In_R - Uart1_Out_R) mod Uart_Buffer_Size;
             return Result;
       end case;
    end Data_Available;
