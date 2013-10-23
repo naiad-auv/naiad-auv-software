@@ -125,9 +125,10 @@ begin
 
 
       --, or just read in single image NEW, READS IN IMAGE AND STORES IN INDEX "IMAGESOURCE" OF "img.at()"
-      --CoreWrap.imstore(iImageSource,New_String("46.jpg"));
+      --CoreWrap.imstore(iImageSource,New_String("62.jpg"));
+
    	--split channels of image
-   	processingWrap.splitChannels(iImageSource);
+   	--processingWrap.splitChannels(iImageSource);
 
    --CLEAN IMAGE (TODO)
    processingWrap.cvtColor(iImageSource, iHSILocation, iHSIFilter);
