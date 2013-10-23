@@ -186,13 +186,13 @@ package visionBindings_hpp is
          dest : int;
          kersize : int;
          sigmaX : double;
-         sigmaY : double);  -- visionBindings.cpp:493
+         sigmaY : double);  -- visionBindings.cpp:494
       pragma Import (CPP, gaussianBlur, "_ZN15Processing_Wrap12gaussianBlurEiiidd");
 
-      procedure objectTracking (this : access Processing_Wrap);  -- visionBindings.cpp:488
+      procedure objectTracking (this : access Processing_Wrap);  -- visionBindings.cpp:489
       pragma Import (CPP, objectTracking, "_ZN15Processing_Wrap14objectTrackingEv");
 
-      function New_Processing_Wrap return Processing_Wrap;  -- visionBindings.cpp:505
+      function New_Processing_Wrap return Processing_Wrap;  -- visionBindings.cpp:506
       pragma CPP_Constructor (New_Processing_Wrap, "_ZN15Processing_WrapC1Ev");
 
 
@@ -204,19 +204,19 @@ package visionBindings_hpp is
       end record;
       pragma Import (CPP, Preprocessing_Wrap);
 
-      procedure VideoCaptureOpen (this : access Preprocessing_Wrap);  -- visionBindings.cpp:517
+      procedure VideoCaptureOpen (this : access Preprocessing_Wrap);  -- visionBindings.cpp:518
       pragma Import (CPP, VideoCaptureOpen, "_ZN18Preprocessing_Wrap16VideoCaptureOpenEv");
 
       procedure namedWindow
         (this : access Preprocessing_Wrap;
          name : Interfaces.C.Strings.chars_ptr;
-         num : int);  -- visionBindings.cpp:522
+         num : int);  -- visionBindings.cpp:523
       pragma Import (CPP, namedWindow, "_ZN18Preprocessing_Wrap11namedWindowEPci");
 
-      procedure nextFrame (this : access Preprocessing_Wrap; dst : int);  -- visionBindings.cpp:527
+      procedure nextFrame (this : access Preprocessing_Wrap; dst : int);  -- visionBindings.cpp:528
       pragma Import (CPP, nextFrame, "_ZN18Preprocessing_Wrap9nextFrameEi");
 
-      function New_Preprocessing_Wrap return Preprocessing_Wrap;  -- visionBindings.cpp:532
+      function New_Preprocessing_Wrap return Preprocessing_Wrap;  -- visionBindings.cpp:533
       pragma CPP_Constructor (New_Preprocessing_Wrap, "_ZN18Preprocessing_WrapC1Ev");
 
 

@@ -130,11 +130,11 @@ begin
       --CoreWrap.imstore(iImageSource,New_String("62.jpg"));
 
 
-   	--split channels of image
-   	--processingWrap.splitChannels(iImageSource);
+      --split channels of image
+      --processingWrap.splitChannels(iImageSource);
 
-   --CLEAN IMAGE (TODO)
-   processingWrap.cvtColor(iImageSource, iHSILocation, iHSIFilter);
+      --CLEAN IMAGE (TODO)
+      processingWrap.cvtColor(iImageSource, iHSILocation, iHSIFilter);
       --CoreWrap.imshow(New_String("Why so HSI?"),iHSILocation);
       --CoreWrap.waitKey(0);
       --split channels of image
@@ -149,9 +149,9 @@ begin
       CoreWrap.imshow(New_String("Why so normal?"), iImageSource);--show image for debug purposes
       CoreWrap.waitKey(0);
 
-  -- processingWrap.gaussianBlur(iImageSource, iGaussianBlurLocation, GaussianKerSize, GaussianSigmaX, GaussianSigmaY);
---CoreWrap.imshow(New_String("Why so Gaussian?"), iGaussianBlurLocation);--show image for debug purposes
-   --  CoreWrap.waitKey(0);
+      -- processingWrap.gaussianBlur(iImageSource, iGaussianBlurLocation, GaussianKerSize, GaussianSigmaX, GaussianSigmaY);
+      --CoreWrap.imshow(New_String("Why so Gaussian?"), iGaussianBlurLocation);--show image for debug purposes
+      --  CoreWrap.waitKey(0);
 
       --test thresh
 
@@ -198,10 +198,10 @@ begin
       --processingWrap.HoughCircles(iGreyScaleLocation, inverseRatioOfResolution, minDistBetweenCenters, houghCannyUpThres, centerDetectionThreshold, minRadius, maxRadius);
 
       --     Vision.Image_Processing.Hough_Circles(iImageDestination, inverseRatioOfResolution, minDistBetweenCenters, houghCannyUpThres, centerDetectionThreshold, minRadius, maxRadius);
-       --    processingWrap.DrawHoughCircles(iImageSource);
-           --CoreWrap.imshow(New_String("why so circly?"), iCirclesLocation);--show image for debug purposes
-         --  processingWrap.FindCircleCenters;
-   --CoreWrap.waitKey(0);
+      --    processingWrap.DrawHoughCircles(iImageSource);
+      --CoreWrap.imshow(New_String("why so circly?"), iCirclesLocation);--show image for debug purposes
+      --  processingWrap.FindCircleCenters;
+      --CoreWrap.waitKey(0);
       --     ret := CoreWrap.imwrite(New_String("HoughOut.jpg"), 1 );
 
       --HOUGH LINES

@@ -470,9 +470,10 @@ void Processing_Wrap::showRedChannel()
 int Processing_Wrap::thresh(int src, int blueLow, int blueUp, int greenLow, int greenUp, int redLow, int redUp)
 {
 	cv::Mat mask,threshOut = img.at(src).clone(), outPic;
+	int tolerance = 0.05;
 	int i;
 
-	cv::inRange(img.at(src), cv::Scalar(blueLow, greenLow, redLow), cv::Scalar(blueUp, greenUp, redUp), mask);
+	cv::inRange(img.at(src), cv::Scalar(blueLow+(tolerance*blueLow), greenLow+(tolerance*greenLow), redLow+(tolerance*redLow)), cv::Scalar(blueUp+(tolerance*blueUp), greenUp+(tolerance*greenUp), redUp+(tolerance*redUp)), mask);
 	cv::imshow("mask",mask);
 	cv::waitKey(0);
 	threshOut.copyTo(outPic,mask);
