@@ -51,15 +51,14 @@ package body BBB_CAN is
 --        return false;
 --     end Handshake;
 
-   procedure Send(msg : CAN_Message) is
-      sBuffer : String(1 .. (Integer(msg.Len) + HEADLEN + 1));
+   procedure Send(msg : AVR.AT90CAN128.CAN.CAN_Message) is
+      sBuffer : String(1 .. (Integer(msg.Len) + HEADLEN));
    begin
-    --  Message_To_Bytes(sBuffer, msg);
-   --   Usart_Write(sBuffer, Integer(msg.Len) + HEADLEN + 1);
-            null;
+      Message_To_Bytes(sBuffer, msg);
+      Usart_Write(sBuffer, Integer(msg.Len) + HEADLEN);
    end Send;
 
-   procedure Get(msg : out CAN_Message; bMsgReceived : out Boolean; bUARTChecksumOK : out Boolean) is
+   procedure Get(msg : out AVR.AT90CAN128.CAN.CAN_Message; bMsgReceived : out Boolean; bUARTChecksumOK : out Boolean) is
 
       use Interfaces;
 
@@ -75,8 +74,11 @@ package body BBB_CAN is
          iDataLen := Character'Pos(sHeadBuf(LEN_POS));
          iID := Character'Pos(sHeadBuf(IDHIGH_POS)) * 256 + Character'Pos(sHeadBuf(IDLOW_POS));
 
-         msg.ID  := CAN_ID(iID);
-         msg.Len := DLC_Type(iDataLen);
+         msg.ID.Identifier  := AVR.AT90CAN128.CAN.CAN_Identifier(iID);
+
+         msg.ID.isExtended
+
+         msg.Len := AVR.AT90CAN128.DLC_Type(iDataLen);
          bMsgReceived := true;
 
          if iDataLen /= 0 then
@@ -96,7 +98,7 @@ package body BBB_CAN is
                end loop;
 
                for i in 1..iDataLen loop
-                  msg.Data(DLC_Type(i)) := Character'Pos(sData(i));
+                  msg.Data(AVR.AT90CAN128.DLC_Type(i)) := Character'Pos(sData(i));
                end loop;
 
                u8Checksum := Calculate_Checksum(msg.Data, msg.Len);
@@ -115,11 +117,11 @@ package body BBB_CAN is
 
    --------- private functions -------------------------------------
 
-   procedure Bytes_To_Message(sBuffer : String; msg : out CAN_Message; bCheckSumCorrect : out Boolean) is
+   procedure Bytes_To_Message(sBuffer : String; msg : out AVR.AT90CAN128.CAN.CAN_Message; bCheckSumCorrect : out Boolean) is
    begin
-      msg.ID := CAN_ID(
-                       (Character'Pos(sBuffer(IDHIGH_POS)) * 256)
-                       + Character'Pos(sBuffer(IDLOW_POS)));
+      msg.ID.Identifier := AVR.AT90CAN128.CAN.CAN_Identifier(
+                      				 (Character'Pos(sBuffer(IDHIGH_POS)) * 256)
+                       			          + Character'Pos(sBuffer(IDLOW_POS)));
 
       msg.Len := Character'Pos(sBuffer(LEN_POS));
 
@@ -133,17 +135,20 @@ package body BBB_CAN is
 
    end Bytes_To_Message;
 
-   procedure Message_To_Bytes(sBuffer : out String; msg : CAN_Message) is
+   procedure Message_To_Bytes(sBuffer : out String; msg : AVR.AT90CAN128.CAN.CAN_Message) is
       iDataLength : Integer := Integer(msg.Len);
    begin
       sBuffer(BUSTYPE_POS) := Character'Val(0);
-      sBuffer(IDHIGH_POS)  := Character'Val(Integer(msg.ID) / 256);
-      sBuffer(IDLOW_POS)   := Character'Val(Integer(Msg.ID) Mod 256);
+
+      sBuffer(IDHIGH_POS)  := Character'Val(Integer(msg.ID.Identifier) / 256);
+      sBuffer(IDLOW_POS)   := Character'Val(Integer(Msg.ID.Identifier) Mod 256);
+
+
       sBuffer(LEN_POS) 	   := Character'Val(Integer(msg.Len));
 
       if Integer(msg.Len) > 0 then
          for I in 1..Integer(msg.Len) loop
-            sBuffer(HEADLEN + I) := Character'Val(Msg.Data ( DLC_Type(I)));
+            sBuffer(HEADLEN + I) := Character'Val(Msg.Data ( AVR.AT90CAN128.DLC_Type(I)));
          end loop;
       end if;
 
@@ -160,7 +165,7 @@ package body BBB_CAN is
       sBuffer := pxUart.sUartReadSpecificAmount(iSize, iBytesRead);
    end Usart_Read;
 
-   function Calculate_Checksum(b8Data : Byte8; Len : DLC_Type) return Interfaces.Unsigned_8 is
+   function Calculate_Checksum(b8Data : AVR.AT90CAN128.CAN.Byte8; Len : AVR.AT90CAN128.DLC_Type) return Interfaces.Unsigned_8 is
       Checksum : Interfaces.Unsigned_8 := 0;
       use Interfaces;
    begin
