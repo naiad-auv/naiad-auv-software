@@ -22,8 +22,10 @@ procedure main is
    iDoHoughCircles : Integer;
    iDoContours : Integer;
    iDoApproxPoly : Integer;
+   iDoObjectTracking : Integer;
 
    iImageSource : Interfaces.C.Int;
+   iPreviousImageLocation : Interfaces.C.int;
    iImageDestination : Interfaces.C.Int;
    iCannyLocation : Interfaces.C.Int;
    iGreyScaleLocation : Interfaces.C.Int;
@@ -82,7 +84,7 @@ procedure main is
 
 begin
    iImageSource := 0;
-   iImageDestination := 1;
+   iPreviousImageLocation := 1;
    iGreyScaleLocation :=20;
    iCannyLocation :=21;
    iHSILocation := 22;
@@ -152,6 +154,7 @@ begin
    iDoHoughCircles := 0;
    iDoContours := 0;
    iDoApproxPoly := 0;
+   iDoObjectTracking := 1;
 
 
 
@@ -183,23 +186,18 @@ begin
          CoreWrap.waitKey(0);
       end if;
 
-
       --Gaussian Blur
-
       if (iDoGaussian = 1) then
          processingWrap.gaussianBlur(iImageSource, iGaussianBlurLocation, GaussianKerSize, GaussianSigmaX, GaussianSigmaY);
          CoreWrap.imshow(New_String("Why so Gaussian?"), iGaussianBlurLocation);--show image for debug purposes
          CoreWrap.waitKey(0);
       end if;
 
-
       --test thresh
       if (iDoThresh = 1) then
          ret := processingWrap.thresh(iHSILocation, 10, 70, 50, 255, 50, 255);
          CoreWrap.imshow(New_String("why so after mask?"),iThreshedImageLocation);
       end if;
-
-
 
       --split channels of image
       if (iDoSplit = 1) then
@@ -212,13 +210,11 @@ begin
          processingWrap.showBGRHistogram(bgrHistSize);
       end if;
 
-
       --hsi histo
       if (iDoHistoHSI = 1) then
          processingWrap.HSIHistogram(iHSILocation,hsiNumSourceArray,channels(1)'Access,hsiSize(1)'Access,hrange(1)'Access,srange(1)'Access,histDimensionality,uniform,accumulate);
          processingWrap.showHSIHistogram(hsiSize(1)'Access);
       end if;
-
 
       --CLEAN IMAGE--to be implemented
 
@@ -229,7 +225,6 @@ begin
          CoreWrap.waitKey(0);
       end if;
 
-
       --USE CANNY ON GREYSCALE IMAGE
       if (iDoCanny = 1) then
          processingWrap.cvtColor(iImageSource,iGreyScaleLocation, iGreyFilter);
@@ -238,6 +233,34 @@ begin
          CoreWrap.waitKey(0);
       end if;
 
+      --USE OBJECT TRACKING
+      if(iDoObjectTracking = 1) then
+         processingWrap.cvtColor(iImageSource, iHSILocation, iHSIFilter);
+         ret := processingWrap.thresh(iHSILocation, 10, 70, 50, 255, 50, 255);
+          CoreWrap.imshow(New_String("why so y?"), iThreshedImageLocation);
+         CoreWrap.waitKey(0);
+
+         processingWrap.cvtColor(iThreshedImageLocation,iGreyScaleLocation, iGreyFilter);
+         CoreWrap.imshow(New_String("grey thresed?"), iGreyScaleLocation);
+         CoreWrap.waitKey(0);
+
+         processingWrap.Canny(iGreyScaleLocation,iCannyLocation, iCannyLowThres, iCannyHighThres, iCannyKernelSize);
+         CoreWrap.imshow(New_String("cannyied grey thres?"), iCannyLocation);
+         CoreWrap.waitKey(0);
+
+         processingWrap.Contours(iCannyLocation);
+         processingWrap.showContours(contourOut => iContourLocation,contourId  => -1 ,thickness  => 3 );
+         CoreWrap.imshow(New_String("contored canny?"), iContourLocation);
+         CoreWrap.waitKey(0);
+
+
+         processingWrap.cvtColor(iContourLocation,iGreyScaleLocation, iGreyFilter);
+         CoreWrap.imshow(New_String("sending this to tracking?"), iGreyScaleLocation);
+         CoreWrap.waitKey(0);
+
+         processingWrap.goodFeatures(iGreyScaleLocation);
+         processingWrap.objectTracking;
+      end if;
 
       --write image to file
       --ret := CoreWrap.imwrite(New_String("CannyOut.jpg"),2 );
@@ -252,7 +275,6 @@ begin
          ret := CoreWrap.imwrite(New_String("HoughOut.jpg"), 1 );
       end if;
 
-
       --CONTOURS
       if (iDoContours = 1) then
          processingWrap.Contours(iCannyLocation);
@@ -260,7 +282,6 @@ begin
          CoreWrap.imshow(New_String("Whats with the contours?"),iContourLocation);
          CoreWrap.waitKey(0);
       end if;
-
 
       ---Approx Poly
       if (iDoApproxPoly = 1) then

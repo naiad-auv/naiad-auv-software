@@ -81,6 +81,8 @@ virtual void objectTracking(void);
 
 virtual void roi(int src, int dst);
 
+virtual void goodFeatures(int src);
+
 Processing_Wrap();
 };
 

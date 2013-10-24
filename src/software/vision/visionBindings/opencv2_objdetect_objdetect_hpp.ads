@@ -617,7 +617,7 @@ package opencv2_objdetect_objdetect_hpp is
         (this : access constant PlanarObjectDetector'Class;
          image : access constant opencv2_core_core_hpp.Class_Mat.Mat;
          H : access opencv2_core_core_hpp.Class_Mat.Mat;
-         corners : System.Address) return Extensions.bool;  -- /usr/include/opencv2/objdetect/objdetect.hpp:570
+         corners : access cpp_4_7_4_bits_stl_vector_h.Class_vector.vector) return Extensions.bool;  -- /usr/include/opencv2/objdetect/objdetect.hpp:570
       pragma Import (CPP, operator_op, "_ZNK2cv20PlanarObjectDetectorclERKNS_3MatERS1_RSt6vectorINS_6Point_IfEESaIS7_EE");
 
       function operator_op
@@ -625,7 +625,7 @@ package opencv2_objdetect_objdetect_hpp is
          pyr : access constant cpp_4_7_4_bits_stl_vector_h.Class_vector.vector;
          keypoints : access constant cpp_4_7_4_bits_stl_vector_h.Class_vector.vector;
          H : access opencv2_core_core_hpp.Class_Mat.Mat;
-         corners : System.Address;
+         corners : access cpp_4_7_4_bits_stl_vector_h.Class_vector.vector;
          pairs : access cpp_4_7_4_bits_stl_vector_h.Class_vector.vector) return Extensions.bool;  -- /usr/include/opencv2/objdetect/objdetect.hpp:571
       pragma Import (CPP, operator_op, "_ZNK2cv20PlanarObjectDetectorclERKSt6vectorINS_3MatESaIS2_EERKS1_INS_8KeyPointESaIS7_EERS2_RS1_INS_6Point_IfEESaISE_EEPS1_IiSaIiEE");
    end;
