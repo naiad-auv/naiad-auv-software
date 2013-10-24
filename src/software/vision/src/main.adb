@@ -7,6 +7,7 @@ with Vision.Image_Processing;
 
 procedure main is
    iImageSource : Interfaces.C.Int;
+   iPreviousImageLocation : Interfaces.C.int;
    iImageDestination : Interfaces.C.Int;
    iCannyLocation : Interfaces.C.Int;
    iGreyScaleLocation : Interfaces.C.Int;
@@ -65,7 +66,7 @@ procedure main is
 
 begin
    iImageSource := 0;
-   iImageDestination := 1;
+   iPreviousImageLocation := 1;
    iGreyScaleLocation :=20;
    iCannyLocation :=21;
    iHSILocation := 22;
@@ -141,6 +142,10 @@ begin
       CoreWrap.imshow(New_String("Why so normal?"), iImageSource);--show image for debug purposes
       CoreWrap.waitKey(0);
 
+      --display previous image source
+      CoreWrap.imshow(New_String("Why so previous?"), iPreviousImageLocation);--show image for debug purposes
+      CoreWrap.waitKey(0);
+
   -- processingWrap.gaussianBlur(iImageSource, iGaussianBlurLocation, GaussianKerSize, GaussianSigmaX, GaussianSigmaY);
 --CoreWrap.imshow(New_String("Why so Gaussian?"), iGaussianBlurLocation);--show image for debug purposes
    --  CoreWrap.waitKey(0);
@@ -153,8 +158,8 @@ begin
       processingWrap.splitChannels(iImageSource);
 
       --run bgr histo and show result
-      processingWrap.BGRHistogram(bgrNumSourceArray,bgrHistDimensionality,bgrHistSize, bgrRange(1)'Access,uniform,accumulate);
-      processingWrap.showBGRHistogram(bgrHistSize);
+      --processingWrap.BGRHistogram(bgrNumSourceArray,bgrHistDimensionality,bgrHistSize, bgrRange(1)'Access,uniform,accumulate);
+      --processingWrap.showBGRHistogram(bgrHistSize);
 
       --convert image to hsi
       --processingWrap.cvtColor(iImageSource, iHSILocation, iHSIFilter);
@@ -168,12 +173,12 @@ begin
       --CLEAN IMAGE--to be implemented
 
       --CONVERT IMAGE TO GREYSCALE
-      --processingWrap.cvtColor(iImageSource,iGreyScaleLocation, iGreyFilter);
+      processingWrap.cvtColor(iThreshedImageLocation,iGreyScaleLocation, iGreyFilter);
       --CoreWrap.imshow(New_String("why so grey?"), iGreyScaleLocation);--show image for debug purposes
       --CoreWrap.waitKey(0);
 
       --USE CANNY ON GREYSCALE IMAGE
-      --processingWrap.Canny(iGreyScaleLocation,iCannyLocation, iCannyLowThres, iCannyHighThres, iCannyKernelSize);
+      processingWrap.Canny(iGreyScaleLocation,iCannyLocation, iCannyLowThres, iCannyHighThres, iCannyKernelSize);
       --CoreWrap.imshow(New_String("why so canny?"), iCannyLocation);--show image for debug purposes
       --CoreWrap.waitKey(0);
 
@@ -208,16 +213,19 @@ begin
       --processingWrap.LabelPoints(Interfaces.C.int(4));
 
       --CONTOURS
-     --   processingWrap.Contours(iCannyLocation);
-     -- processingWrap.showContours(contourOut => iContourLocation,contourId  => -1 ,thickness  => 3 );
-      --CoreWrap.imshow(New_String("Whats with the contours?"),iContourLocation);
-      --CoreWrap.waitKey(0);
+        processingWrap.Contours(iCannyLocation);
+      processingWrap.showContours(contourOut => iContourLocation,contourId  => -1 ,thickness  => 3 );
+      CoreWrap.imshow(New_String("Whats with the contours?"),iContourLocation);
+      CoreWrap.waitKey(0);
 
       --processingWrap.HoughCircles(Interfaces.C.int(1), inverseRatioOfResolution, minDistBetweenCenters, houghCannyUpThres, centerDetectionThreshold, minRadius, maxRadius);
       --ret := CoreWrap.imwrite(name => New_String("Contours.jpg"),
       --               src  => 0);
 
-      --processingWrap.approxPolyDP(1.2, 1);
+      processingWrap.approxPolyDP(1.2, 1);
+      processingWrap.cvtColor(iThreshedImageLocation,iGreyScaleLocation, iGreyFilter);
+      processingWrap.goodFeatures(iGreyScaleLocation);
+      processingWrap.objectTracking;
 
    end loop Endless_Loop;
 end main;

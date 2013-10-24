@@ -77,7 +77,9 @@ virtual void LabelPoints(int src);
 
 virtual void gaussianBlur(int src, int dest, int kersize, double sigmaX, double sigmaY);
 
-virtual void objectTracking(void)
+virtual void objectTracking(void);
+
+virtual void goodFeatures(int src);
 
 Processing_Wrap();
 };

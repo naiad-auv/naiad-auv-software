@@ -1155,7 +1155,7 @@ package opencv2_imgproc_imgproc_hpp is
       function insert (this : access Subdiv2D; pt : opencv2_core_core_hpp.Class_Point2f.Point2f) return int;  -- /usr/include/opencv2/imgproc/imgproc.hpp:1049
       pragma Import (CPP, insert, "_ZN2cv8Subdiv2D6insertENS_6Point_IfEE");
 
-      procedure insert (this : access Subdiv2D; ptvec : System.Address);  -- /usr/include/opencv2/imgproc/imgproc.hpp:1050
+      procedure insert (this : access Subdiv2D; ptvec : access constant cpp_4_7_4_bits_stl_vector_h.Class_vector.vector);  -- /usr/include/opencv2/imgproc/imgproc.hpp:1050
       pragma Import (CPP, insert, "_ZN2cv8Subdiv2D6insertERKSt6vectorINS_6Point_IfEESaIS3_EE");
 
       function locate
@@ -1181,7 +1181,7 @@ package opencv2_imgproc_imgproc_hpp is
         (this : access Subdiv2D;
          idx : access constant cpp_4_7_4_bits_stl_vector_h.Class_vector.vector;
          facetList : System.Address;
-         facetCenters : System.Address);  -- /usr/include/opencv2/imgproc/imgproc.hpp:1056
+         facetCenters : access cpp_4_7_4_bits_stl_vector_h.Class_vector.vector);  -- /usr/include/opencv2/imgproc/imgproc.hpp:1056
       pragma Import (CPP, getVoronoiFacetList, "_ZN2cv8Subdiv2D19getVoronoiFacetListERKSt6vectorIiSaIiEERS1_IS1_INS_6Point_IfEESaIS7_EESaIS9_EERS9_");
 
       function getVertex
