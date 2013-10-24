@@ -5,6 +5,7 @@ with Math.Matrices;
 with Navigation.Thrusters;
 with Ada.Finalization;
 with Ada.Unchecked_Deallocation;
+with Exception_Handling;
 
 package Navigation.Drift_Controller is
 

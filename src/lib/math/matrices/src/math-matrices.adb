@@ -2,6 +2,7 @@ with Ada.Numerics;
 with Ada.Numerics.Elementary_Functions;
 with Math.Angles;
 with Ada.Text_IO;
+with Exception_Handling;
 
 
 package body Math.Matrices is
@@ -66,17 +67,13 @@ package body Math.Matrices is
 
 
       if 1.0 - xFromQuaternion.fGet_Length_Squared > 0.0001 then
-         raise Numeric_Error;
+         raise Exception_Handling.NotUnitQuaternion;
       end if;
 
       fA := xFromQuaternion.fGet_W;
       fB := xFromQuaternion.fGet_X;
       fC := xFromQuaternion.fGet_Y;
       fD := xFromQuaternion.fGet_Z;
-
---      1-2*(fC*fC+fD*fD), 2*(fB*fC-fA*fD),   2*(fB*fD+fA*fC),
---  	2*(fB*fC+fA*fD),   1-2*(fB*fB+fD*fD), 2*(fC*fD-fA*fB),
---  	2*(fB*fD-fA*fC),   2*(fC*fD+fA*fB),   1-2*(fB*fB+fC*fC));
 
       tfMatrix(1,1) := 1.0-2.0*(fC*fC+fD*fD);
       tfMatrix(1,2) := 2.0*(fB*fC-fA*fD);
@@ -99,7 +96,7 @@ package body Math.Matrices is
       if pxFromQuaternion /= null then
          return xCreate_From_Quaternion(xFromQuaternion => pxFromQuaternion.all);
       end if;
-      raise Constraint_Error;
+      raise Exception_Handling.NullPointer;
    end xCreate_From_Quaternion;
 
 
@@ -264,21 +261,21 @@ package body Math.Matrices is
       if pxLeftOperandMatrix /= null then
          return pxLeftOperandMatrix.all * xRightOperandMatrix;
       end if;
-      raise Constraint_Error;
+      raise Exception_Handling.NullPointer;
    end "*";
    function "*" (xLeftOperandMatrix : in CMatrix; pxRightOperandMatrix : in pCMatrix) return CMatrix is
    begin
       if pxRightOperandMatrix /= null then
          return xLeftOperandMatrix * pxRightOperandMatrix.all;
       end if;
-      raise Constraint_Error;
+      raise Exception_Handling.NullPointer;
    end "*";
    function "*" (pxLeftOperandMatrix : in pCMatrix; pxRightOperandMatrix : in pCMatrix) return CMatrix is
    begin
       if pxLeftOperandMatrix /= null and then pxRightOperandMatrix /= null then
          return pxLeftOperandMatrix.all * pxRightOperandMatrix.all;
       end if;
-      raise Constraint_Error;
+      raise Exception_Handling.NullPointer;
    end "*";
 
 
@@ -317,7 +314,7 @@ package body Math.Matrices is
       if pxLeftOperandMatrix /= null then
          return pxLeftOperandMatrix.all * xRightOperandVector;
       end if;
-      raise Constraint_Error;
+      raise Exception_Handling.NullPointer;
    end "*";
 
    function "*" (xLeftOperandMatrix : in CMatrix; pxRightOperandVector : in Math.Vectors.pCVector) return Math.Vectors.CVector is
@@ -326,7 +323,7 @@ package body Math.Matrices is
       if pxRightOperandVector /= null then
          return xLeftOperandMatrix * pxRightOperandVector.all;
       end if;
-      raise Constraint_Error;
+      raise Exception_Handling.NullPointer;
    end "*";
 
    function "*" (pxLeftOperandMatrix : in pCMatrix; pxRightOperandVector : in Math.Vectors.pCVector) return Math.Vectors.CVector is
@@ -335,7 +332,7 @@ package body Math.Matrices is
       if pxLeftOperandMatrix /= null and then pxRightOperandVector /= null then
          return pxLeftOperandMatrix.all * pxRightOperandVector.all;
       end if;
-      raise Constraint_Error;
+      raise Exception_Handling.NullPointer;
    end "*";
 
 
@@ -364,7 +361,7 @@ package body Math.Matrices is
       if pxLeftOperandMatrix /= null and then pxRightOperandPlane /= null then
          return pxLeftOperandMatrix.all * pxRightOperandPlane.all;
       end if;
-      raise Constraint_Error;
+      raise Exception_Handling.NullPointer;
    end "*";
 
    function "*" (xLeftOperandMatrix : in CMatrix; pxRightOperandPlane : in Math.Planes.pCPlane) return Math.Planes.CPlane is
@@ -373,7 +370,7 @@ package body Math.Matrices is
       if pxRightOperandPlane /= null then
          return xLeftOperandMatrix * pxRightOperandPlane.all;
       end if;
-      raise Constraint_Error;
+      raise Exception_Handling.NullPointer;
    end "*";
 
    function "*" (pxLeftOperandMatrix : in pCMatrix; xRightOperandPlane : in Math.Planes.CPlane) return Math.Planes.CPlane is
@@ -381,7 +378,7 @@ package body Math.Matrices is
       if pxLeftOperandMatrix /= null then
          return pxLeftOperandMatrix.all * xRightOperandPlane;
       end if;
-      raise Constraint_Error;
+      raise Exception_Handling.NullPointer;
    end "*";
 
 
@@ -470,7 +467,7 @@ package body Math.Matrices is
                                                                  iColumn          => iRowAndColumn);
 
          if bMatrix_Has_No_Inverse(tfExtendedMatrix(iRowWithMaxComponent, iRowAndColumn)) then
-            raise Numeric_Error;
+            raise Exception_Handling.SingularMatrix;
          end if;
 
          if iRowWithMaxComponent /= iRowAndColumn then

@@ -94,7 +94,7 @@ package body Navigation.Dispatcher is
             this.pxOrientationalController.Set_New_PID_Component_Scalings(eComponentToUpdate => eComponentToChange,
                                                                           xNewPIDScaling     => xNewPIDSCalings);
          when Navigation.Motion_Component.Unknown =>
-            raise Numeric_Error;
+            raise Exception_Handling.UnknownMotionComponent;
       end case;
 
    end Set_New_Component_PID_Scalings;

@@ -1,6 +1,7 @@
 with Ada.Numerics.Elementary_Functions;
 with Ada.Numerics;
 with Ada.Text_IO;
+with Exception_Handling;
 
 package body Navigation.Thruster_Configurator is
 
@@ -129,9 +130,6 @@ package body Navigation.Thruster_Configurator is
       loop
          tfExtendedMatrix(iY, iX) := tfExtendedMatrix(iY, iX) / tfExtendedMatrix(iY, iStartingColumn);
       end loop;
-      if tfExtendedMatrix(iY, iY) /= 1.0 then
-         raise Numeric_Error;
-      end if;
    end Scale_Row_In_Extended_Matrix;
 
    procedure Remove_Component_In_Following_Rows(tfExtendedMatrix : in out TExtendedMatrix; iRow : in integer) is
@@ -188,7 +186,7 @@ package body Navigation.Thruster_Configurator is
                                                                  iColumn          => iRowAndColumn);
 
          if bMatrix_Has_No_Inverse(tfExtendedMatrix(iRowWithMaxComponent, iRowAndColumn)) then
-            raise Numeric_Error;
+            raise Exception_Handling.SingularMatrix;
          end if;
 
          if iRowWithMaxComponent /= iRowAndColumn then
