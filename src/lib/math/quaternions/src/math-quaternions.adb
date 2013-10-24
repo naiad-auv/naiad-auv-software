@@ -6,14 +6,7 @@ with Ada.Numerics;
 package body Math.Quaternions is
 
 
-   -- TODO: Maybe remove? Should never be used outside of this package.
-   function pxCreate (fX, fY, fZ, fW : float) return pCQuaternion is
-   begin
-      return new CQuaternion'(fX => fX,
-                              fY => fY,
-                              fZ => fZ,
-                              fW => fW);
-   end pxCreate;
+
 
    function pxCreate (xAxisVector : in Math.Vectors.CVector; fAngleInDegrees : in float) return pCQuaternion is
       fAngleInRadians : float;
@@ -38,10 +31,10 @@ package body Math.Quaternions is
       fW := Ada.Numerics.Elementary_Functions.Cos(fNorm);
       Math.Vectors.Free(pxVectorToDeallocate => pxNormalizedAxisVector);
 
-      return Math.Quaternions.pxCreate(fX => fX,
-                                       fY => fY,
-                                       fZ => fZ,
-                                       fW => fW);
+      return new CQuaternion'(fX => fX,
+                              fY => fY,
+                              fZ => fZ,
+                              fW => fW);
    end pxCreate;
 
    function pxCreate (pxAxisVector : in Math.Vectors.pCVector; fAngleInDegrees : in float) return pCQuaternion is
@@ -65,63 +58,6 @@ package body Math.Quaternions is
 
 
 
-   function "+" (xLeftOperandQuaternion, xRightOperandQuaternion : in CQuaternion) return CQuaternion is
-   begin
-      return CQuaternion'(fX => xLeftOperandQuaternion.fX + xRightOperandQuaternion.fX,
-                          fY => xLeftOperandQuaternion.fY + xRightOperandQuaternion.fY,
-                          fZ => xLeftOperandQuaternion.fZ + xRightOperandQuaternion.fZ,
-                          fW => xLeftOperandQuaternion.fW + xRightOperandQuaternion.fW);
-   end "+";
-   function "+" (pxLeftOperandQuaternion : in pCQuaternion; xRightOperandQuaternion : in CQuaternion) return CQuaternion is
-   begin
-      if pxLeftOperandQuaternion /= null then
-         return pxLeftOperandQuaternion.all + xRightOperandQuaternion;
-      end if;
-      raise Constraint_Error;
-   end "+";
-   function "+" (xLeftOperandQuaternion : in CQuaternion; pxRightOperandQuaternion : in pCQuaternion) return CQuaternion is
-   begin
-      if pxRightOperandQuaternion /= null then
-         return xLeftOperandQuaternion + pxRightOperandQuaternion.all;
-      end if;
-      raise Constraint_Error;
-   end "+";
-   function "+" (pxLeftOperandQuaternion : in pCQuaternion; pxRightOperandQuaternion : in pCQuaternion) return CQuaternion is
-   begin
-      if pxLeftOperandQuaternion /= null and then pxRightOperandQuaternion /= null then
-         return pxLeftOperandQuaternion.all + pxRightOperandQuaternion.all;
-      end if;
-      raise Constraint_Error;
-   end "+";
-
-   function "-" (xLeftOperandQuaternion, xRightOperandQuaternion : in CQuaternion) return CQuaternion is
-   begin
-      return CQuaternion'(fX => xLeftOperandQuaternion.fX - xRightOperandQuaternion.fX,
-                          fY => xLeftOperandQuaternion.fY - xRightOperandQuaternion.fY,
-                          fZ => xLeftOperandQuaternion.fZ - xRightOperandQuaternion.fZ,
-                          fW => xLeftOperandQuaternion.fW - xRightOperandQuaternion.fW);
-   end "-";
-   function "-" (pxLeftOperandQuaternion : in pCQuaternion; xRightOperandQuaternion : in CQuaternion) return CQuaternion is
-   begin
-      if pxLeftOperandQuaternion /= null then
-         return pxLeftOperandQuaternion.all - xRightOperandQuaternion;
-      end if;
-      raise Constraint_Error;
-   end "-";
-   function "-" (xLeftOperandQuaternion : in CQuaternion; pxRightOperandQuaternion : in pCQuaternion) return CQuaternion is
-   begin
-      if pxRightOperandQuaternion /= null then
-         return xLeftOperandQuaternion - pxRightOperandQuaternion.all;
-      end if;
-      raise Constraint_Error;
-   end "-";
-   function "-" (pxLeftOperandQuaternion : in pCQuaternion; pxRightOperandQuaternion : in pCQuaternion) return CQuaternion is
-   begin
-      if pxLeftOperandQuaternion /= null and then pxRightOperandQuaternion /= null then
-         return pxLeftOperandQuaternion.all - pxRightOperandQuaternion.all;
-      end if;
-      raise Constraint_Error;
-   end "-";
 
 
 

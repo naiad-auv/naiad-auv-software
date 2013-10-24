@@ -1,0 +1,6 @@
+with Ada.Exceptions;
+package Exceptions is
+
+   type  is new Exception;
+
+end Exceptions;
