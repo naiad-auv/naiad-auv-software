@@ -1,3 +1,5 @@
+with Exceptions;
+
 procedure Main is
 
 begin
