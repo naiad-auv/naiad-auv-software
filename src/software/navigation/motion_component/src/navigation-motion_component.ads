@@ -1,10 +1,15 @@
 with Navigation;
 with Navigation.PID_Controller;
+with Ada.Finalization;
+with Ada.Unchecked_Deallocation;
 
 package Navigation.Motion_Component is
 
-   type CMotionComponent is tagged private;
+   type CMotionComponent is new Ada.Finalization.Controlled with private;
    type pCMotionComponent is access CMotionComponent;
+
+   procedure Free(pxMotionComponentToDeallocate : in out pCMotionComponent);
+
 
    type EMotionComponent is (Unknown, X, Y, Z, Direction, Plane, AllComponents);
    --  <summary>EMotionComponent is an enum with the range [Unknown, X, Y, Z, Direction, Plane, AllComponents].</summary>
@@ -54,13 +59,15 @@ package Navigation.Motion_Component is
 
 private
 
-   type CMotionComponent is tagged
+   type CMotionComponent is new Ada.Finalization.Controlled with
       record
          eComponentIndex : EMotionComponent;
 
          fCurrentError : float;
 
-         xComponentPIDController : Navigation.PID_Controller.pCPIDController;
+         pxComponentPIDController : Navigation.PID_Controller.pCPIDController;
       end record;
+
+   procedure Finalize(this : in out CMotionComponent);
 
 end Navigation.Motion_Component;

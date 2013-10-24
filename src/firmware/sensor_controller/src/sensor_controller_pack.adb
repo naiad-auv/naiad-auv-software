@@ -98,10 +98,19 @@ package body Sensor_Controller_pack is
       AVR.AT90CAN128.CAN.Can_Init (AVR.AT90CAN128.CAN.K250);
 
       --enable reception on only simulation messages:
-      AVR.AT90CAN128.CAN.Can_Set_All_MOB_ID_MASK(CAN_Defs.MSG_SIMULATION_MODE_ID, 2047);
+      declare
+         mask : AVR.AT90CAN128.CAN.CAN_ID;
+      begin
+         if CAN_Defs.IS_EXTENDED_MSG then
+            mask := (536870911, true);
+         else
+            mask := (2047, false);
+         end if;
+         AVR.AT90CAN128.CAN.Can_Set_All_MOB_ID_MASK(CAN_Defs.MSG_SIMULATION_MODE_ID, mask);
+      end;
 
-      --Start the salinity sensor:
-      --The salinity sensor needs a temperature reading for accuracy
+         --Start the salinity sensor:
+         --The salinity sensor needs a temperature reading for accuracy
       i16Temp := Temp_Sensor.i16Get_Temp_Int;
       Temp_Sensor.i16ToStr(i16Temp, sTemp);
       Salinity_Sensor.Initate_Salinity_Sensor (UARTPort, sTemp(3 .. 6));

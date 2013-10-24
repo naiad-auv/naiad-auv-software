@@ -2,6 +2,7 @@ with Math;
 with Math.Vectors; use Math.Vectors;
 with System; use System;
 with Ada.Exceptions;
+with Ada.Unchecked_Deallocation;
 
 -- Quaternions package for classes and functionality regarding quaternions. A quaternion object is stored in a pCQuaternion variable and is created with the pxCreate functions.
 package Math.Quaternions is
@@ -11,6 +12,8 @@ package Math.Quaternions is
    type pCQuaternion is access CQuaternion;
    --  <summary>Pointer type for object of type CQuaternion. Objects of type CQuaternion should always be stored in variables of this type.</summary>
 
+   procedure Free(pxQuaternionToDeallocate : in out pCQuaternion);
+
    function pxCreate (fX, fY, fZ, fW : in float) return pCQuaternion;
    --  <summary>Creates an object of type CQuaternion. Returns a pointer of type pCQuaternion to the object created.</summary>
    --  <parameter name="fX">The value of the quaternion's X-component.</parameter>
@@ -18,6 +21,7 @@ package Math.Quaternions is
    --  <parameter name="fZ">The value of the quaternion's Z-component.</parameter>
    --  <parameter name="fW">The value of the quaternion's W-component.</parameter>
 
+   function pxCreate (xAxisVector : in Math.Vectors.CVector; fAngleInDegrees : in float) return pCQuaternion;
    function pxCreate (pxAxisVector : in Math.Vectors.pCVector; fAngleInDegrees : in float) return pCQuaternion;
    --  <summary>Creates an object of type CQuaternion defining it with an axis vector and an angle in degrees of rotation around that axis. Returns a pointer of type pCQuaternion to the object created.</summary>
    --  <parameter name="pxAxisVector">The axis vector of the quaternion.</parameter>
@@ -27,33 +31,45 @@ package Math.Quaternions is
    --  <summary>Creates an object of type CQuaternion with all components copied from the object called on. Returns a pointer of type pCQuaternion to the object created.</summary>
    --  <parameter name="this">The quaternion to copy the components from.</parameter>
 
-   function "+" (pxLeftOperandQuaternion, pxRightOperandQuaternion : in pCQuaternion) return pCQuaternion;
+   function "+" (xLeftOperandQuaternion, xRightOperandQuaternion : in CQuaternion) return CQuaternion;
+   function "+" (pxLeftOperandQuaternion, pxRightOperandQuaternion : in pCQuaternion) return CQuaternion;
+   function "+" (xLeftOperandQuaternion : in CQuaternion; pxRightOperandQuaternion : in pCQuaternion) return CQuaternion;
+   function "+" (pxLeftOperandQuaternion : in pCQuaternion; xRightOperandQuaternion : in CQuaternion) return CQuaternion;
    --  <summary>Creates an object of type CQuaternion with each component the sum of the two operand quaternions' components. Returns a pointer of type pCQuaternion to the object created.</summary>
    --  <parameter name="pxLeftOperandQuaternion">The CQuaternion object representing the left operand.</parameter>
    --  <parameter name="pxRightOperandQuaternion">The CQuaternion object representing the right operand.</parameter>
 
-   function "-" (pxLeftOperandQuaternion, pxRightOperandQuaternion : in pCQuaternion) return pCQuaternion;
+   function "-" (xLeftOperandQuaternion, xRightOperandQuaternion : in CQuaternion) return CQuaternion;
+   function "-" (pxLeftOperandQuaternion, pxRightOperandQuaternion : in pCQuaternion) return CQuaternion;
+   function "-" (xLeftOperandQuaternion : in CQuaternion; pxRightOperandQuaternion : in pCQuaternion) return CQuaternion;
+   function "-" (pxLeftOperandQuaternion : in pCQuaternion; xRightOperandQuaternion : in CQuaternion) return CQuaternion;
    --  <summary>Creates an object of type CQuaternion with each component the difference of the two operand quaternions' components. Returns a pointer of type pCQuaternion to the object created.</summary>
    --  <parameter name="pxLeftOperandQuaternion">The CQuaternion object representing the left operand.</parameter>
    --  <parameter name="pxRightOperandQuaternion">The CQuaternion object representing the right operand.</parameter>
 
-   function "*" (pxLeftOperandQuaternion, pxRightOperandQuaternion : in pCQuaternion) return pCQuaternion;
+   function "*" (pxLeftOperandQuaternion, pxRightOperandQuaternion : in pCQuaternion) return CQuaternion;
+   function "*" (pxLeftOperandQuaternion : in pCQuaternion; xRightOperandQuaternion : in CQuaternion) return CQuaternion;
+   function "*" (xLeftOperandQuaternion : in CQuaternion; pxRightOperandQuaternion : in pCQuaternion) return CQuaternion;
+   function "*" (xLeftOperandQuaternion, xRightOperandQuaternion : in CQuaternion) return CQuaternion;
    --  <summary>Creates an object of type CQuaternion with each component the product of the two operand quaternions' components. Returns a pointer of type pCQuaternion to the object created.</summary>
    --  <parameter name="pxLeftOperandQuaternion">The CQuaternion object representing the left operand.</parameter>
    --  <parameter name="pxRightOperandQuaternion">The CQuaternion object representing the right operand.</parameter>
 
-   function "=" (pxLeftOperandQuaternion, pxRightOperandQuaternion : in pCQuaternion) return boolean;
+   function "=" (xLeftOperandQuaternion, xRightOperandQuaternion : in CQuaternion) return boolean;
    --  <summary>Returns true if the two quaternions are equal, false otherwise.</summary>
    --  <parameter name="pxLeftOperandQuaternion">The CQuaternion object representing the left operand.</parameter>
    --  <parameter name="pxRightOperandQuaternion">The CQuaternion object representing the right operand.</parameter>
 
+   function fGet_Dot_Product (xLeftOperandQuaternion, xRightOperandQuaternion : in CQuaternion) return float;
+   function fGet_Dot_Product (pxLeftOperandQuaternion : in pCQuaternion; xRightOperandQuaternion : in CQuaternion) return float;
+   function fGet_Dot_Product (xLeftOperandQuaternion : in CQuaternion; pxRightOperandQuaternion : in pCQuaternion) return float;
    function fGet_Dot_Product (pxLeftOperandQuaternion, pxRightOperandQuaternion : in pCQuaternion) return float;
    --  <summary>Returns the dot product of the two quaternions.</summary>
    --  <parameter name="pxLeftOperandQuaternion">The CQuaternion object representing the left operand.</parameter>
    --  <parameter name="pxRightOperandQuaternion">The CQuaternion object representing the right operand.</parameter>
 
 --   function pxGet_Spherical_Linear_Interpolation_Quaternion (pxFromQuaternion : in pCQuaternion; pxToQuaternion : in pCQuaternion; fInterpolationCoefficient : float) return pCQuaternion;
-   function pxGet_Normalized (this : in CQuaternion) return pCQuaternion;
+   function xGet_Normalized (this : in CQuaternion) return CQuaternion;
    --  <summary>Creates an object of type CQuaternion which is a normalized copy of the object called on. Returns a pointer of type pCQuaternion to the object created.</summary>
    --  <parameter name="this">The quaternion to normalize.</parameter>
 
@@ -82,7 +98,7 @@ package Math.Quaternions is
    --  <parameter name="this">The quaternion holding the wanted W-component.</parameter>
 
 
-   function pxGet_Axis_Vector ( this : in CQuaternion) return Math.Vectors.pCVector;
+   function xGet_Axis_Vector ( this : in CQuaternion) return Math.Vectors.CVector;
     --  <summary>Returns a copy of the quaternion's axis vector.</summary>
    --  <parameter name="this">The quaternion holding the wanted axis vector.</parameter>
 
@@ -90,6 +106,7 @@ package Math.Quaternions is
    --  <summary>Returns the quaternion's angle of rotation. (in degrees)</summary>
    --  <parameter name="this">The quaternion holding the wanted angle of rotation.</parameter>
 
+   procedure Copy_From(this : in out CQuaternion; xSourceQuaternion : in CQuaternion);
 
 private
    type CQuaternion is tagged

@@ -124,5 +124,17 @@ package body Navigation.Thrusters is
    end "+";
 
 
+   procedure Free(pxThrusterToDeallocate : in out pCThruster) is
+      procedure Dealloc is new Ada.Unchecked_Deallocation(CThruster, pCThruster);
+   begin
+      Dealloc(pxThrusterToDeallocate);
+   end Free;
+
+   procedure Finalize(this : in out CThruster) is
+   begin
+      if this.pxNextThruster /= null then
+         Free(this.pxNextThruster);
+      end if;
+   end Finalize;
 
 end Navigation.Thrusters;

@@ -31,6 +31,8 @@ package body Navigation.PID_Controller.CPID_Controller_Test_Data.CPID_Controller
       AUnit.Assertions.Assert(Condition => (abs(pxObject.fCurrentSetPoint - 123.65) < 0.0001), Message => ("Setpoint set incorrectly, expected: 123.65 actual: "
                                                                                                            & float'Image(pxObject.fCurrentSetPoint)));
 
+      Navigation.PID_Controller.Free(pxPIDControllerToDeallocate => pxObject);
+
 --  begin read only
    end Test_Set_New_Set_Point;
 --  end read only
@@ -60,6 +62,7 @@ package body Navigation.PID_Controller.CPID_Controller_Test_Data.CPID_Controller
                                                                                                       & Float'Image(pxObject.fIntegralScale)));
       AUnit.Assertions.Assert(Condition => (abs(pxObject.fDerivativeScale - 0.0) < 0.0001), Message => ("Derivative part set incorrectly, expected: 1.0 actual: "
                                                                                                         & float'Image(pxObject.fDerivativeScale)));
+      Navigation.PID_Controller.Free(pxPIDControllerToDeallocate => pxObject);
 
 --  begin read only
    end Test_Set_New_PID_Component_Scalings;
@@ -85,6 +88,7 @@ package body Navigation.PID_Controller.CPID_Controller_Test_Data.CPID_Controller
 
       AUnit.Assertions.Assert(Condition => pxObject.fCurrentValue = 100.0,
                               Message   => "fCurrentValue is not updated as it should");
+      Navigation.PID_Controller.Free(pxPIDControllerToDeallocate => pxObject);
 
 --  begin read only
    end Test_Update_Current_Value_From_External_Source;
@@ -132,6 +136,7 @@ package body Navigation.PID_Controller.CPID_Controller_Test_Data.CPID_Controller
                               Message => "Integral scale did not reset");
       AUnit.Assertions.Assert(Condition => pxObject.fProportionalScale = 0.0,
                               Message => "Proportional scale did not reset");
+      Navigation.PID_Controller.Free(pxPIDControllerToDeallocate => pxObject);
 
 --  begin read only
    end Test_Reset_Controller;
@@ -164,6 +169,7 @@ package body Navigation.PID_Controller.CPID_Controller_Test_Data.CPID_Controller
          AUnit.Assertions.Assert(Condition => Value /= 0.0,
                                  Message   => "Zero returned as a control value");
       end loop;
+      Navigation.PID_Controller.Free(pxPIDControllerToDeallocate => pxObject);
 
 --  begin read only
    end Test_xGet_New_Control_Value;
@@ -189,6 +195,7 @@ package body Navigation.PID_Controller.CPID_Controller_Test_Data.CPID_Controller
                                  Message   => "Zero returned as a control value");
          lastValue := value;
       end loop;
+      Navigation.PID_Controller.Free(pxPIDControllerToDeallocate => pxObject);
 
    end Test_xGet_New_Control_Value_Increasing_Since_No_Decrease_In_Error;
 
@@ -220,6 +227,7 @@ package body Navigation.PID_Controller.CPID_Controller_Test_Data.CPID_Controller
                                  Message   => "Control value not decreasing when at setpoint");
          lastValue := value;
       end loop;
+      Navigation.PID_Controller.Free(pxPIDControllerToDeallocate => pxObject);
 
    end Test_xGet_New_Control_Value_Decreasing_Since_Overshoot;
 
@@ -243,6 +251,8 @@ package body Navigation.PID_Controller.CPID_Controller_Test_Data.CPID_Controller
 
       AUnit.Assertions.Assert(Condition => pxObject.fGetIntergralScale = 2.0,
                               Message   => "fGetIntegralScale does not return 2.0");
+      Navigation.PID_Controller.Free(pxPIDControllerToDeallocate => pxObject);
+
 --  begin read only
    end Test_fGetIntergralScale;
 --  end read only
@@ -266,6 +276,8 @@ package body Navigation.PID_Controller.CPID_Controller_Test_Data.CPID_Controller
 
       AUnit.Assertions.Assert(Condition => pxObject.fGetDerivativeScale = 3.0,
                               Message   => "fGetDerivativeScale does not return 3.0");
+      Navigation.PID_Controller.Free(pxPIDControllerToDeallocate => pxObject);
+
 
 --  begin read only
    end Test_fGetDerivativeScale;
@@ -289,6 +301,7 @@ package body Navigation.PID_Controller.CPID_Controller_Test_Data.CPID_Controller
 
       Aunit.Assertions.Assert(Condition => pxObject.fGetProportionalScale = 1.0,
                               Message   => "fGetProportionalScale did not return 1.0");
+      Navigation.PID_Controller.Free(pxPIDControllerToDeallocate => pxObject);
 --  begin read only
    end Test_fGetProportionalScale;
 --  end read only

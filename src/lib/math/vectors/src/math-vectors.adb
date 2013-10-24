@@ -1,7 +1,6 @@
--- Vector package for Project Naiad
--- Written by Per-Erik Måhl, 2013
 
 with Ada.Numerics.Elementary_Functions;
+with Ada.Unchecked_Deallocation;
 
 with System;
 
@@ -10,21 +9,19 @@ with Ada.Text_IO;
 package body Math.Vectors is
 
    function pxCreate (fX, fY, fZ : float) return pCVector is
-      pxNew_Vector : pCVector;
    begin
 
-      pxNew_Vector := new CVector;
-
-      pxNew_Vector.fX := fX;
-      pxNew_Vector.fY := fY;
-      pxNew_Vector.fZ := fZ;
-      return pxNew_Vector;
+      return new CVector'(fX => fX,
+                          fY => fY,
+                          fZ => fZ);
    end pxCreate;
 
 
    function fLength_Squared (this : in CVector) return float is
    begin
-      return (this.fX**2) + (this.fY**2) + (this.fZ**2);
+      return (this.fX**2) +
+        (this.fY**2) +
+        (this.fZ**2);
    end fLength_Squared;
 
    function fLength (this : in CVector) return float is
@@ -33,34 +30,131 @@ package body Math.Vectors is
    end fLength;
 
 
-   function "*" (pxLeftOperandVector, pxRightOperandVector : in pCVector) return pCVector is
-      pxProductVector : pCVector;
+   function "+" (xLeftOperandVector, xRightOperandVector : in CVector) return CVector is
    begin
-      pxProductVector := pxCreate(fX => pxLeftOperandVector.fX * pxRightOperandVector.fX,
-                                  fY => pxLeftOperandVector.fY * pxRightOperandVector.fY,
-                                  fZ => pxLeftOperandVector.fZ * pxRightOperandVector.fZ);
-      return pxProductVector;
+      return CVector'(fX => xLeftOperandVector.fX + xRightOperandVector.fX,
+                      fY => xLeftOperandVector.fY + xRightOperandVector.fY,
+                      fZ => xLeftOperandVector.fZ + xRightOperandVector.fZ);
+   end "+";
+   function "+" (pxLeftOperandVector : in pCVector; xRightOperandVector : in CVector) return CVector is
+   begin
+      if pxLeftOperandVector /= null then
+         return pxLeftOperandVector.all + xRightOperandVector;
+      end if;
+      raise Constraint_Error;
+   end "+";
+   function "+" (xLeftOperandVector : in CVector; pxRightOperandVector : in pCVector) return CVector is
+   begin
+      if pxRightOperandVector /= null then
+         return xLeftOperandVector + pxRightOperandVector.all;
+      end if;
+      raise Constraint_Error;
+   end "+";
+   function "+" (pxLeftOperandVector, pxRightOperandVector : in pCVector) return CVector is
+   begin
+      if pxLeftOperandVector /= null and then pxRightOperandVector /= null then
+         return pxLeftOperandVector.all + pxRightOperandVector.all;
+      end if;
+      raise Constraint_Error;
+   end "+";
+
+
+   function "-" (xOperandVector : in CVector) return CVector is
+   begin
+      return CVector'(fX => -xOperandVector.fX,
+                      fY => -xOperandVector.fY,
+                      fZ => -xOperandVector.fZ);
+   end "-";
+   function "-" (pxOperandVector : in pCVector) return CVector is
+   begin
+      if pxOperandVector /= null then
+         return -pxOperandVector.all;
+      end if;
+      raise Constraint_Error;
+   end "-";
+
+
+
+   function "-" (xLeftOperandVector, xRightOperandVector : in CVector) return CVector is
+   begin
+      return xLeftOperandVector + (-xRightOperandVector);
+   end "-";
+   function "-" (pxLeftOperandVector : in pCVector; xRightOperandVector : in CVector) return CVector is
+   begin
+      if pxLeftOperandVector /= null then
+         return pxLeftOperandVector.all - xRightOperandVector;
+      end if;
+      raise Constraint_Error;
+   end "-";
+   function "-" (xLeftOperandVector : in CVector; pxRightOperandVector : in pCVector) return CVector is
+   begin
+      if pxRightOperandVector /= null then
+         return xLeftOperandVector - pxRightOperandVector.all;
+      end if;
+      raise Constraint_Error;
+   end "-";
+   function "-" (pxLeftOperandVector, pxRightOperandVector : in pCVector) return CVector is
+   begin
+      if pxLeftOperandVector /= null and then pxRightOperandVector /= null then
+         return pxLeftOperandVector.all - pxRightOperandVector.all;
+      end if;
+      raise Constraint_Error;
+   end "-";
+
+   function "*" (xLeftOperandVector, xRightOperandVector : in CVector) return CVector is
+   begin
+      return CVector'(fX => xLeftOperandVector.fX * xRightOperandVector.fX,
+                      fY => xLeftOperandVector.fY * xRightOperandVector.fY,
+                      fZ => xLeftOperandVector.fZ * xRightOperandVector.fZ);
+   end "*";
+   function "*" (pxLeftOperandVector : in pCVector; xRightOperandVector : in CVector) return CVector is
+   begin
+      if pxLeftOperandVector /= null then
+         return pxLeftOperandVector.all * xRightOperandVector;
+      end if;
+      raise Constraint_Error;
+   end "*";
+   function "*" (xLeftOperandVector : in CVector; pxRightOperandVector : in pCVector) return CVector is
+   begin
+      if pxRightOperandVector /= null then
+         return xLeftOperandVector * pxRightOperandVector.all;
+      end if;
+      raise Constraint_Error;
+   end "*";
+   function "*" (pxLeftOperandVector, pxRightOperandVector : in pCVector) return CVector is
+   begin
+      if pxLeftOperandVector /= null and then pxRightOperandVector /= null then
+         return pxLeftOperandVector.all * pxRightOperandVector.all;
+      end if;
+      raise Constraint_Error;
    end "*";
 
-   function "*" (pxLeftOperandVector : in pCVector; fRightOperand : in float) return pCVector is
-      pxScaledVector : pCVector;
+
+   function "*" (xLeftOperandVector : in CVector; fRightOperand : in float) return CVector is
    begin
-      pxScaledVector := pxCreate(fX => pxLeftOperandVector.fX * fRightOperand,
-                                 fY => pxLeftOperandVector.fY * fRightOperand,
-                                 fZ => pxLeftOperandVector.fZ * fRightOperand);
-      return pxScaledVector;
+
+      return CVector'(fX => xLeftOperandVector.fX * fRightOperand,
+                      fY => xLeftOperandVector.fY * fRightOperand,
+                      fZ => xLeftOperandVector.fZ * fRightOperand);
+   end "*";
+   function "*" (pxLeftOperandVector : in pCVector; fRightOperand : in float) return CVector is
+   begin
+      if pxLeftOperandVector /= null then
+         return pxLeftOperandVector.all * fRightOperand;
+      end if;
+      raise Constraint_Error;
+   end "*";
+   function "*" (fLeftOperand : in float; xRightOperandVector : in CVector) return CVector is
+   begin
+      return xRightOperandVector * fLeftOperand;
+   end "*";
+   function "*" (fLeftOperand : in float; pxRightOperandVector : in pCVector) return CVector is
+   begin
+      return pxRightOperandVector * fLeftOperand;
    end "*";
 
-   function "*" (fLeftOperand : in float; pxRightOperandVector : in pCVector) return pCVector is
-      pxScaledVector : pCVector;
-   begin
-      pxScaledVector := pxCreate(fX => pxRightOperandVector.fX * fLeftOperand,
-                                 fY => pxRightOperandVector.fY * fLeftOperand,
-                                 fZ => pxRightOperandVector.fZ * fLeftOperand);
-      return pxScaledVector;
-   end "*";
 
-   function "/" (pxLeftOperandVector : in pCVector; fRightOperand : in float) return pCVector is
+   function "/" (xLeftOperandVector : in CVector; fRightOperand : in float) return CVector is
       fScaleFactor : float;
    begin
       if abs(fRightOperand) = 0.0 then
@@ -68,42 +162,21 @@ package body Math.Vectors is
       end if;
 
       fScaleFactor := 1.0 / fRightOperand;
-      return pxLeftOperandVector * fScaleFactor;
+      return xLeftOperandVector * fScaleFactor;
+   end "/";
+   function "/" (pxLeftOperandVector : in pCVector; fRightOperand : in float) return CVector is
+   begin
+      if pxLeftOperandVector /= null then
+         return pxLeftOperandVector.all / fRightOperand;
+      end if;
+      raise Constraint_Error;
    end "/";
 
-   function "=" (pxLeftOperandVector : in pCVector; pxRightOperandVector : in pCVector) return boolean is
-      use System;
-
-
-      function CheckIfBothNull(pxLeftOperandVector : in pCVector; pxRightOperandVector : in pCVector) return boolean is
-         f : float;
-      begin
-         f := pxRightOperandVector.fX;
-         return false;
-      exception
-            when CONSTRAINT_ERROR =>
-            begin
-               f :=  pxLeftOperandVector.fX;
-               return false;
-            exception
-               when CONSTRAINT_ERROR =>
-                  return true;
-            end;
-      end;
-
-
+   function "=" (xLeftOperandVector : in CVector; xRightOperandVector : in CVector) return boolean is
    begin
-      if (CheckIfBothNull(pxLeftOperandVector,pxRightOperandVector)) then
-         return true;
-      end if;
-
-
-      return abs(pxLeftOperandVector.fX - pxRightOperandVector.fX) < 0.0001 and
-        abs(pxLeftOperandVector.fY - pxRightOperandVector.fY) < 0.0001 and
-        abs(pxLeftOperandVector.fZ - pxRightOperandVector.fZ) < 0.0001;
-
-   exception
-         when CONSTRAINT_ERROR => return false;
+      return abs(xLeftOperandVector.fX - xRightOperandVector.fX) < fVECTOR_PRECISION and
+      abs(xLeftOperandVector.fY - xRightOperandVector.fY) < fVECTOR_PRECISION and
+      abs(xLeftOperandVector.fZ - xRightOperandVector.fZ) < fVECTOR_PRECISION;
    end "=";
 
    function fGet_X (this : in CVector) return float is
@@ -122,106 +195,130 @@ package body Math.Vectors is
    end fGet_Z;
 
 
-
-
-
-
-   function "+" (pxLeftOperandVector, pxRightOperandVector : in pCVector) return pCVector is
-      pxSumVector : pCVector;
+   function fDot_Product (xLeftOperandVector : in CVector; xRightOperandVector : in CVector) return float is
    begin
-      pxSumVector := pxCreate(fX => pxLeftOperandVector.fX + pxRightOperandVector.fX,
-                              fY => pxLeftOperandVector.fY + pxRightOperandVector.fY,
-                              fZ => pxLeftOperandVector.fZ + pxRightOperandVector.fZ);
-      return pxSumVector;
-   end "+";
-
-   function "-" (pxOperandVector : in pCVector) return pCVector is
-      pxNegatedVector : pCVector;
+      return (xLeftOperandVector.fX * xRightOperandVector.fX)
+        + (xLeftOperandVector.fY * xRightOperandVector.fY)
+        + (xLeftOperandVector.fZ * xRightOperandVector.fZ);
+   end fDot_Product;
+   function fDot_Product (pxLeftOperandVector : in pCVector; xRightOperandVector : in CVector) return float is
    begin
-      pxNegatedVector := pxCreate(fX => -pxOperandVector.fX,
-                                  fY => -pxOperandVector.fY,
-                                  fZ => -pxOperandVector.fZ);
-      return pxNegatedVector;
-   end "-";
-
-   function "-" (pxLeftOperandVector, pxRightOperandVector : in pCVector) return pCVector is
+      if pxLeftOperandVector /= null then
+         return fDot_Product(pxLeftOperandVector.all, xRightOperandVector);
+      end if;
+      raise Constraint_Error;
+   end fDot_Product;
+   function fDot_Product (xLeftOperandVector : in CVector; pxRightOperandVector : in pCVector) return float is
    begin
-      return pxLeftOperandVector + (-pxRightOperandVector);
-   end "-";
-
+      if pxRightOperandVector /= null then
+         return fDot_Product(xLeftOperandVector, pxRightOperandVector.all);
+      end if;
+      raise Constraint_Error;
+   end fDot_Product;
    function fDot_Product (pxLeftOperandVector : in pCVector; pxRightOperandVector : in pCVector) return float is
-      fDotProduct : float;
    begin
-      fDotProduct := (pxLeftOperandVector.fX * pxRightOperandVector.fX)
-        + (pxLeftOperandVector.fY * pxRightOperandVector.fY)
-        + (pxLeftOperandVector.fZ * pxRightOperandVector.fZ);
-      return fDotProduct;
+      if pxLeftOperandVector /= null and then pxRightOperandVector /= null then
+         return fDot_Product(pxLeftOperandVector.all, pxRightOperandVector.all);
+      end if;
+      raise Constraint_Error;
    end fDot_Product;
 
-
-   function fAngle_Between_In_Radians (pxLeftOperandVector, pxRightOperandVector : in pCVector) return float is
+   function fAngle_Between_In_Radians (xLeftOperandVector, xRightOperandVector : in CVector) return float is
       fDotProduct : float;
    begin
-      fDotProduct := Math.Vectors.fDot_Product(pxLeftOperandVector  => pxLeftOperandVector,
-                                               pxRightOperandVector => pxRightOperandVector);
-      fDotProduct := fDotProduct / (pxLeftOperandVector.fLength * pxRightOperandVector.fLength);
+      fDotProduct := Math.Vectors.fDot_Product(xLeftOperandVector, xRightOperandVector);
+
+      if abs(xLeftOperandVector.fLength_Squared) = 0.0 or abs(xRightOperandVector.fLength_Squared) = 0.0 then
+         raise Numeric_Error;
+      end if;
+
+      fDotProduct := fDotProduct / (xLeftOperandVector.fLength * xRightOperandVector.fLength);
 
       fDotProduct := float'Min(float'Max(fDotProduct,-1.0),1.0);
 
       return Ada.Numerics.Elementary_Functions.Arccos(fDotProduct);
    end fAngle_Between_In_Radians;
+   function fAngle_Between_In_Radians (xLeftOperandVector : in CVector; pxRightOperandVector : in pCVector) return float is
+   begin
+      if pxRightOperandVector /= null then
+         return fAngle_Between_In_Radians(xLeftOperandVector, pxRightOperandVector.all);
+      end if;
+      raise Constraint_Error;
+   end fAngle_Between_In_Radians;
+   function fAngle_Between_In_Radians (pxLeftOperandVector : in pCVector; xRightOperandVector : in CVector) return float is
+   begin
+      if pxLeftOperandVector /= null then
+         return fAngle_Between_In_Radians(pxLeftOperandVector.all, xRightOperandVector);
+      end if;
+      raise Constraint_Error;
+   end fAngle_Between_In_Radians;
+   function fAngle_Between_In_Radians (pxLeftOperandVector, pxRightOperandVector : in pCVector) return float is
+   begin
+      if pxLeftOperandVector /= null and then pxRightOperandVector /= null then
+         return fAngle_Between_In_Radians(pxLeftOperandVector.all, pxRightOperandVector.all);
+      end if;
+      raise Constraint_Error;
+   end fAngle_Between_In_Radians;
 
 
-   function pxGet_Normalized (this : in CVector) return pCVector is
-      pxNormalizedVector : pCVector;
+
+
+   function xGet_Normalized (this : in CVector) return CVector is
    begin
       if this.fLength_Squared = 0.0 then
          raise Numeric_Error;
       end if;
 
-      pxNormalizedVector := this / this.fLength;
-      return pxNormalizedVector;
-   end pxGet_Normalized;
+      return this / this.fLength;
+   end xGet_Normalized;
 
-   function pxCross_Product (pxLeftOperandVector : in pCVector; pxRightOperandVector : in pCVector) return pCVector is
-      pxCrossProductVector : pCVector;
+
+   function xCross_Product (xLeftOperandVector : in CVector; xRightOperandVector : in CVector) return CVector is
    begin
-      pxCrossProductVector := Math.Vectors.pxCreate(fX => (pxLeftOperandVector.fY * pxRightOperandVector.fZ) - (pxLeftOperandVector.fZ * pxRightOperandVector.fY),
-                                                          fY => (pxLeftOperandVector.fZ * pxRightOperandVector.fX) - (pxLeftOperandVector.fX * pxRightOperandVector.fZ),
-                                                          fZ => (pxLeftOperandVector.fX * pxRightOperandVector.fY) - (pxLeftOperandVector.fY * pxRightOperandVector.fX));
-      return pxCrossProductVector;
-   end pxCross_Product;
-
-
-   function "/" (xLeftOperandVector : in CVector; fRightOperand : in float) return pCVector is
+      return CVector'(fX => (xLeftOperandVector.fY * xRightOperandVector.fZ) - (xLeftOperandVector.fZ * xRightOperandVector.fY),
+                      fY => (xLeftOperandVector.fZ * xRightOperandVector.fX) - (xLeftOperandVector.fX * xRightOperandVector.fZ),
+                      fZ => (xLeftOperandVector.fX * xRightOperandVector.fY) - (xLeftOperandVector.fY * xRightOperandVector.fX));
+   end xCross_Product;
+   function xCross_Product (pxLeftOperandVector : in pCVector; pxRightOperandVector : in pCVector) return CVector is
    begin
-      if abs(fRightOperand) = 0.0 then
-         raise Numeric_Error;
+      if pxLeftOperandVector /= null and then pxRightOperandVector /= null then
+         return xCross_Product(pxLeftOperandVector.all, pxRightOperandVector.all);
       end if;
-
-      return Math.Vectors.pxCreate(fX => xLeftOperandVector.fX / fRightOperand,
-                                         fY => xLeftOperandVector.fY / fRightOperand,
-                                         fZ => xLeftOperandVector.fZ / fRightOperand);
-   end "/";
+      raise Constraint_Error;
+   end xCross_Product;
+   function xCross_Product (pxLeftOperandVector : in pCVector; xRightOperandVector : in CVector) return CVector is
+   begin
+      if pxLeftOperandVector /= null then
+         return xCross_Product(pxLeftOperandVector.all, xRightOperandVector);
+      end if;
+      raise Constraint_Error;
+   end xCross_Product;
+   function xCross_Product (xLeftOperandVector : in CVector; pxRightOperandVector : in pCVector) return CVector is
+   begin
+      if pxRightOperandVector /= null then
+         return xCross_Product(xLeftOperandVector, pxRightOperandVector);
+      end if;
+      raise Constraint_Error;
+   end xCross_Product;
 
    function pxGet_Copy (this : in CVector) return pCVector is
-      pxCopy : pCVector;
    begin
-      pxCopy := Math.Vectors.pxCreate(fX => this.fX,
-                                            fY => this.fY,
-                                            fZ => this.fZ);
-      return pxCopy;
+      return Math.Vectors.pxCreate(fX => this.fX,
+                                   fY => this.fY,
+                                   fZ => this.fZ);
    end pxGet_Copy;
 
-
-   procedure Copy_From(this : in out CVector; pxSourceVector : in pCVector) is
+   procedure Copy_From (this : in out CVector; xSourceVector : in CVector) is
    begin
-      this.fX := pxSourceVector.fX;
-      this.fY := pxSourceVector.fY;
-      this.fZ := pxSourceVector.fZ;
+      this.fX := xSourceVector.fX;
+      this.fY := xSourceVector.fY;
+      this.fZ := xSourceVector.fZ;
    end Copy_From;
 
-
-
+   procedure Free(pxVectorToDeallocate : in out pCVector) is
+      procedure Dealloc is new Ada.Unchecked_Deallocation(CVector, pCVector);
+   begin
+      Dealloc(pxVectorToDeallocate);
+   end Free;
 
 end Math.Vectors;

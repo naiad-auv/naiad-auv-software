@@ -210,15 +210,15 @@ package body AVR.AT90CAN128.USART is
    -- Return value:
    --               This function will return false if there is no
    --               valid data, otherwise it will return True.
-   function Data_Available (Port : USARTID := Default_USART) return Boolean is
-      Result : Boolean;
+   function Data_Available (Port : USARTID := Default_USART) return Integer is
+      Result : Integer;
    begin
       case Port is
          when USART0 =>
-            Result := Uart0_In_R /= Uart0_Out_R;
+            Result := (Uart0_In_R - Uart0_Out_R) mod Uart_Buffer_Size;
             return Result;
          when USART1 =>
-            Result := Uart1_In_R /= Uart1_Out_R;
+            Result := (Uart1_In_R - Uart1_Out_R) mod Uart_Buffer_Size;
             return Result;
       end case;
    end Data_Available;

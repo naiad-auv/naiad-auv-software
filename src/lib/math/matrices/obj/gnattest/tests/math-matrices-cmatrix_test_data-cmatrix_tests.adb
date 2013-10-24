@@ -28,7 +28,7 @@ package body Math.Matrices.CMatrix_Test_Data.CMatrix_Tests is
       tfZRotAngle : Math.Angles.TAngle;
    begin
 
-      pxIdentityMatrix := pxCreate_Identity;
+      pxIdentityMatrix := xCreate_Identity.pxGet_Copy;
       for iXRot in 1 .. 10
       loop
          tfXRotAngle := Math.Angles.TAngle(float(36 * iXRot - 180) );
@@ -38,26 +38,30 @@ package body Math.Matrices.CMatrix_Test_Data.CMatrix_Tests is
             for iZRot in 1 .. 10
             loop
                tfZRotAngle := Math.Angles.TAngle(float(36 * iZRot - 180));
-               pxOriginalMatrix := pxCreate_Rotation_Around_Z_Axis(tfZRotAngle) *
-                 pxCreate_Rotation_Around_Y_Axis(tfYRotAngle) *
-                 pxCreate_Rotation_Around_X_Axis(tfXRotAngle);
+               pxOriginalMatrix := CMatrix(xCreate_Rotation_Around_Z_Axis(tfZRotAngle) *
+                 xCreate_Rotation_Around_Y_Axis(tfYRotAngle) *
+                 xCreate_Rotation_Around_X_Axis(tfXRotAngle)).pxGet_Copy;
 
                if abs(pxOriginalMatrix.fGet_Determinant) = 0.0 then
                   -- raise expection
                   null;
                else
-                  pxInverseMatrix := pxOriginalMatrix.pxGet_Inverse;
+                  pxInverseMatrix := pxOriginalMatrix.xGet_Inverse.pxGet_Copy;
 
-                  AUnit.Assertions.Assert(Condition => pxOriginalMatrix * pxInverseMatrix = pxIdentityMatrix,
+                  AUnit.Assertions.Assert(Condition => CMatrix(pxOriginalMatrix * pxInverseMatrix) = pxIdentityMatrix.all,
                                           Message => "CMatrix.pxGet_Inverse failed, M * M-1 != I. Values: " & float'Image(float(tfXRotAngle)) & float'Image(float(tfYRotAngle)) & float'Image(float(tfZRotAngle)));
-                  AUnit.Assertions.Assert(Condition => pxInverseMatrix * pxOriginalMatrix = pxIdentityMatrix,
+                  AUnit.Assertions.Assert(Condition => CMatrix(pxInverseMatrix * pxOriginalMatrix) = pxIdentityMatrix.all,
                                           Message => "CMatrix.pxGet_Inverse failed, M-1 * M != I. Values: " & float'Image(float(tfXRotAngle)) & float'Image(float(tfYRotAngle)) & float'Image(float(tfZRotAngle)));
+                  Math.Matrices.Free(pxMatrixToDeallocate => pxInverseMatrix);
                end if;
+
+               Math.Matrices.Free(pxMatrixToDeallocate => pxOriginalMatrix);
 
             end loop;
 
          end loop;
       end loop;
+      Math.Matrices.Free(pxMatrixToDeallocate => pxIdentityMatrix);
 
 
 
@@ -94,14 +98,16 @@ package body Math.Matrices.CMatrix_Test_Data.CMatrix_Tests is
             for iZRot in 1 .. 10
             loop
                tfZRotAngle := Math.Angles.TAngle(float(36 * iZRot - 180));
-               pxOriginalMatrix := pxCreate_Rotation_Around_Z_Axis(tfZRotAngle) *
-                 pxCreate_Rotation_Around_Y_Axis(tfYRotAngle) *
-                 pxCreate_Rotation_Around_X_Axis(tfXRotAngle);
+               pxOriginalMatrix := CMatrix(xCreate_Rotation_Around_Z_Axis(tfZRotAngle) *
+                                             xCreate_Rotation_Around_Y_Axis(tfYRotAngle) *
+                                             xCreate_Rotation_Around_X_Axis(tfXRotAngle)).pxGet_Copy;
 
-              pxCopyMatrix := pxOriginalMatrix.pxGet_Copy;
+               pxCopyMatrix := pxOriginalMatrix.pxGet_Copy;
 
-                  AUnit.Assertions.Assert(Condition => pxOriginalMatrix = pxCopyMatrix,
-                                          Message => "CMatrix.pxGet_Copy failed, Values: " & float'Image(float(tfXRotAngle)) & float'Image(float(tfYRotAngle)) & float'Image(float(tfZRotAngle)));
+               AUnit.Assertions.Assert(Condition => pxOriginalMatrix.all = pxCopyMatrix.all,
+                                       Message => "CMatrix.pxGet_Copy failed, Values: " & float'Image(float(tfXRotAngle)) & float'Image(float(tfYRotAngle)) & float'Image(float(tfZRotAngle)));
+               Math.Matrices.Free(pxMatrixToDeallocate => pxOriginalMatrix);
+               Math.Matrices.Free(pxMatrixToDeallocate => pxCopyMatrix);
             end loop;
 
          end loop;
@@ -138,11 +144,11 @@ package body Math.Matrices.CMatrix_Test_Data.CMatrix_Tests is
             for iZRot in 1 .. 10
             loop
                tfZRotAngle := Math.Angles.TAngle(float(36 * iZRot - 180));
-                 pxOriginalMatrix := pxCreate_Rotation_Around_Z_Axis(tfZRotAngle) *
-                   pxCreate_Rotation_Around_Y_Axis(tfYRotAngle) *
-                   pxCreate_Rotation_Around_X_Axis(tfXRotAngle);
+               pxOriginalMatrix := CMatrix(xCreate_Rotation_Around_Z_Axis(tfZRotAngle) *
+                                             xCreate_Rotation_Around_Y_Axis(tfYRotAngle) *
+                                             xCreate_Rotation_Around_X_Axis(tfXRotAngle)).pxGet_Copy;
 
-               pxTransposeMatrix := pxOriginalMatrix.pxGet_Transpose;
+               pxTransposeMatrix := pxOriginalMatrix.xGet_Transpose.pxGet_Copy;
 
                for i in 1 ..3
                loop
@@ -153,6 +159,8 @@ package body Math.Matrices.CMatrix_Test_Data.CMatrix_Tests is
                   end loop;
                end loop;
 
+               Math.Matrices.Free(pxMatrixToDeallocate => pxOriginalMatrix);
+               Math.Matrices.Free(pxMatrixToDeallocate => pxTransposeMatrix);
             end loop;
 
          end loop;
@@ -190,9 +198,9 @@ package body Math.Matrices.CMatrix_Test_Data.CMatrix_Tests is
             for iZRot in 1 .. 10
             loop
                tfZRotAngle := Math.Angles.TAngle(float(36 * iZRot - 180));
-                 pxMatrix := pxCreate_Rotation_Around_Z_Axis(tfZRotAngle) *
-                   pxCreate_Rotation_Around_Y_Axis(tfYRotAngle) *
-                   pxCreate_Rotation_Around_X_Axis(tfXRotAngle);
+               pxMatrix := CMatrix(xCreate_Rotation_Around_Z_Axis(tfZRotAngle) *
+                                     xCreate_Rotation_Around_Y_Axis(tfYRotAngle) *
+                                     xCreate_Rotation_Around_X_Axis(tfXRotAngle)).pxGet_Copy;
 
                tfMatrix := pxMatrix.tfGet_Raw_Matrix;
 
@@ -204,6 +212,8 @@ package body Math.Matrices.CMatrix_Test_Data.CMatrix_Tests is
                                              Message => "CMatrix.tfGet_Raw_Matrix failed, wrong value in (" & integer'Image(i) & "," & integer'Image(j) & "). Value: " & float'Image(float(tfMatrix(i,j))) & ". Expected: " & float'Image(float(pxMatrix.tfMatrix(i,j))) & ".");
                   end loop;
                end loop;
+
+               Math.Matrices.Free(pxMatrixToDeallocate => pxMatrix);
 
             end loop;
 
@@ -240,13 +250,14 @@ package body Math.Matrices.CMatrix_Test_Data.CMatrix_Tests is
             for iZRot in 1 .. 10
             loop
                tfZRotAngle := Math.Angles.TAngle(float(36 * iZRot - 180));
-                 pxMatrix := pxCreate_Rotation_Around_Z_Axis(tfZRotAngle) *
-                   pxCreate_Rotation_Around_Y_Axis(tfYRotAngle) *
-                   pxCreate_Rotation_Around_X_Axis(tfXRotAngle);
+               pxMatrix := CMatrix(xCreate_Rotation_Around_Z_Axis(tfZRotAngle) *
+                                     xCreate_Rotation_Around_Y_Axis(tfYRotAngle) *
+                                     xCreate_Rotation_Around_X_Axis(tfXRotAngle)).pxGet_Copy;
 
 
-                   AUnit.Assertions.Assert(Condition => pxMatrix.fGet_Determinant - 1.0 < 0.00001,
-                                             Message => "CMatrix.pxGet_Determinant failed, wrong value for (" & integer'Image(iXRot) & "," & integer'Image(iYRot) & "," & integer'Image(iZRot) & "). Value: " & float'Image(pxMatrix.fGet_Determinant) & ". Expected: " & float'Image(1.0) & ".");
+               AUnit.Assertions.Assert(Condition => pxMatrix.fGet_Determinant - 1.0 < 0.00001,
+                                       Message => "CMatrix.pxGet_Determinant failed, wrong value for (" & integer'Image(iXRot) & "," & integer'Image(iYRot) & "," & integer'Image(iZRot) & "). Value: " & float'Image(pxMatrix.fGet_Determinant) & ". Expected: " & float'Image(1.0) & ".");
+               Math.Matrices.Free(pxMatrixToDeallocate => pxMatrix);
             end loop;
 
          end loop;
@@ -275,10 +286,13 @@ package body Math.Matrices.CMatrix_Test_Data.CMatrix_Tests is
       pxTestVector := Math.Vectors.pxCreate(fX => 1.0,
                                             fY => 0.0,
                                             fZ => 0.0);
-      pxXVector := Math.Matrices.pxCreate_Identity.pxGet_X_Vector;
+      pxXVector := Math.Matrices.xCreate_Identity.xGet_X_Vector.pxGet_Copy;
 
-      AUnit.Assertions.Assert(Condition => pxTestVector = pxXVector,
+      AUnit.Assertions.Assert(Condition => pxTestVector.all = pxXVector.all,
                               Message   => "CMatrix.pxGet_X_Vector failed.");
+      Math.Vectors.Free(pxVectorToDeallocate => pxTestVector);
+      Math.Vectors.Free(pxVectorToDeallocate => pxXVector);
+
 
 --  begin read only
    end Test_pxGet_X_Vector;
@@ -303,10 +317,13 @@ package body Math.Matrices.CMatrix_Test_Data.CMatrix_Tests is
       pxTestVector := Math.Vectors.pxCreate(fX => 0.0,
                                             fY => 1.0,
                                             fZ => 0.0);
-      pxYVector := Math.Matrices.pxCreate_Identity.pxGet_Y_Vector;
+      pxYVector := Math.Matrices.xCreate_Identity.xGet_Y_Vector.pxGet_Copy;
 
-      AUnit.Assertions.Assert(Condition => pxTestVector = pxYVector,
+      AUnit.Assertions.Assert(Condition => pxTestVector.all = pxYVector.all,
                               Message   => "CMatrix.pxGet_Y_Vector failed.");
+      Math.Vectors.Free(pxVectorToDeallocate => pxTestVector);
+      Math.Vectors.Free(pxVectorToDeallocate => pxYVector);
+
 --  begin read only
    end Test_pxGet_Y_Vector;
 --  end read only
@@ -329,10 +346,13 @@ package body Math.Matrices.CMatrix_Test_Data.CMatrix_Tests is
       pxTestVector := Math.Vectors.pxCreate(fX => 0.0,
                                             fY => 0.0,
                                             fZ => 1.0);
-      pxZVector := Math.Matrices.pxCreate_Identity.pxGet_Z_Vector;
+      pxZVector := Math.Matrices.xCreate_Identity.xGet_Z_Vector.pxGet_Copy;
 
-      AUnit.Assertions.Assert(Condition => pxTestVector = pxZVector,
+      AUnit.Assertions.Assert(Condition => pxTestVector.all = pxZVector.all,
                               Message   => "CMatrix.pxGet_Z_Vector failed.");
+      Math.Vectors.Free(pxVectorToDeallocate => pxTestVector);
+      Math.Vectors.Free(pxVectorToDeallocate => pxZVector);
+
 
 --  begin read only
    end Test_pxGet_Z_Vector;
@@ -356,18 +376,22 @@ package body Math.Matrices.CMatrix_Test_Data.CMatrix_Tests is
 
    begin
 
-      pxTestMatrix := Math.Matrices.pxCreate_Rotation_Around_Z_Axis(Math.Angles.TAngle(25.0)) *
-        Math.Matrices.pxCreate_Rotation_Around_Z_Axis(Math.Angles.TAngle(-25.0)) *
-        Math.Matrices.pxCreate_Rotation_Around_Z_Axis(Math.Angles.TAngle(50.0));
+      pxTestMatrix := CMatrix(Math.Matrices.xCreate_Rotation_Around_Z_Axis(Math.Angles.TAngle(25.0)) *
+        Math.Matrices.xCreate_Rotation_Around_Z_Axis(Math.Angles.TAngle(-25.0)) *
+        Math.Matrices.xCreate_Rotation_Around_Z_Axis(Math.Angles.TAngle(50.0))).pxGet_Copy;
 
-      pxCopyMatrix := Math.Matrices.pxCreate_Identity;
+      pxCopyMatrix := Math.Matrices.xCreate_Identity.pxGet_Copy;
       pxCopyPointerMatrix := pxCopyMatrix;
-      pxCopyMatrix.Copy_From(pxTestMatrix);
+      pxCopyMatrix.Copy_From(pxTestMatrix.all);
 
-      AUnit.Assertions.Assert(Condition => pxTestMatrix = pxCopyPointerMatrix,
+      AUnit.Assertions.Assert(Condition => pxTestMatrix.all = pxCopyPointerMatrix.all,
                               Message   => "CMatrix.Copy_From failed, matrices do not match.");
         AUnit.Assertions.Assert(Condition => pxCopyPointerMatrix.all'Address = pxCopyMatrix.all'Address,
-                               Message   => "CMatrix.Copy_From failed, addresses do not match.");
+                                Message   => "CMatrix.Copy_From failed, addresses do not match.");
+
+      Math.Matrices.Free(pxMatrixToDeallocate => pxTestMatrix);
+      Math.Matrices.Free(pxMatrixToDeallocate => pxCopyMatrix);
+
 
 --  begin read only
    end Test_Copy_From;

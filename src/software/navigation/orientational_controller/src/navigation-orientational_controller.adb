@@ -10,6 +10,11 @@ package body Navigation.Orientational_Controller is
 
       pxOrientationalController := new Navigation.Orientational_Controller.COrientationalController;
 
+      pxOrientationalController.pxCurrentToWantedPlaneRotation := Math.Quaternions.pxCreate(fX => 1.0,
+                                                                                            fY => 0.0,
+                                                                                            fZ => 0.0,
+                                                                                            fW => 0.0);
+
       pxOrientationalController.pxCurrentAbsoluteOrientation := pxCurrentAbsoluteOrientation;
       pxOrientationalController.pxWantedAbsoluteOrientation := pxWantedAbsoluteOrientation;
 
@@ -53,25 +58,25 @@ package body Navigation.Orientational_Controller is
    end Set_New_PID_Component_Scalings;
 
 
-   function fGet_Directional_Error (pxCurrentRelativeDirectionVector : in Math.Vectors.pCVector; pxWantedRelativeDirectionVector : in Math.Vectors.pCVector) return float is
+   function fGet_Directional_Error (xCurrentRelativeDirectionVector : in Math.Vectors.CVector; xWantedRelativeDirectionVector : in Math.Vectors.CVector) return float is
    begin
-      return Math.Vectors.fAngle_Between_In_Radians(pxWantedRelativeDirectionVector, pxCurrentRelativeDirectionVector);
+      return Math.Vectors.fAngle_Between_In_Radians(xWantedRelativeDirectionVector, xCurrentRelativeDirectionVector);
    end fGet_Directional_Error;
 
-   function fGet_Planal_Error (pxCurrentRelativePlane : in Math.Planes.pCPlane; pxWantedRelativePlane : in Math.Planes.pCPlane) return float is
+   function fGet_Planal_Error (xCurrentRelativePlane : in Math.Planes.CPlane; xWantedRelativePlane : in Math.Planes.CPlane) return float is
    begin
-      return Math.Angles.fDegrees_To_Radians(Math.Planes.fAngle_Between_In_Degrees(pxCurrentRelativePlane, pxWantedRelativePlane));
+      return Math.Angles.fDegrees_To_Radians(Math.Planes.fAngle_Between_In_Degrees(xCurrentRelativePlane, xWantedRelativePlane));
    end fGet_Planal_Error;
 
    function xGet_Planal_Thruster_Control_Value (this : in COrientationalController; fDeltaTime : in float) return Navigation.Thrusters.TThrusterEffects is
-      pxRotationAxis : Math.Vectors.pCVector;
+      xRotationAxis : Math.Vectors.CVector;
       fControlValueScaling : float;
    begin
       fControlValueScaling := this.pxPlanalMotionComponent.xGet_New_Component_Control_Value(fDeltaTime).fValue;
-      pxRotationAxis := this.pxCurrentToWantedPlaneRotation.pxGet_Axis_Vector;
+      xRotationAxis := this.pxCurrentToWantedPlaneRotation.xGet_Axis_Vector;
 
-      return (Navigation.Thrusters.XRotation => pxRotationAxis.fGet_X * fControlValueScaling,
-              Navigation.Thrusters.YRotation => pxRotationAxis.fGet_Y * fControlValueScaling,
+      return (Navigation.Thrusters.XRotation => xRotationAxis.fGet_X * fControlValueScaling,
+              Navigation.Thrusters.YRotation => xRotationAxis.fGet_Y * fControlValueScaling,
               others => 0.0);
    end xGet_Planal_Thruster_Control_Value;
 
@@ -83,41 +88,74 @@ package body Navigation.Orientational_Controller is
 
    procedure Update_Current_Planal_Error (this : in out COrientationalController) is
       use Math.Matrices;
-      pxWantedRelativeOrientation : Math.Matrices.pCMatrix;
-      pxCurrentRelativeOrientation : Math.Matrices.pCMatrix;
+      xWantedRelativeOrientation : Math.Matrices.CMatrix;
+      xCurrentRelativeOrientation : Math.Matrices.CMatrix;
 
-      pxWantedRelativePlane : Math.Planes.pCPlane;
+      xWantedRelativePlane : Math.Planes.CPlane;
       pxCurrentRelativePlane : Math.Planes.pCPlane;
 
+      pxNewCurrentToWantedPlaneRotation : Math.Quaternions.pCQuaternion;
+
    begin
-      pxCurrentRelativeOrientation := Math.Matrices.pxCreate_Identity;
-      pxWantedRelativeOrientation := this.pxCurrentAbsoluteOrientation.pxGet_Inverse * this.pxWantedAbsoluteOrientation;
+      xCurrentRelativeOrientation := Math.Matrices.xCreate_Identity;
+      xWantedRelativeOrientation := this.pxCurrentAbsoluteOrientation.xGet_Inverse * this.pxWantedAbsoluteOrientation;
 
-      pxCurrentRelativePlane := Math.Planes.pxCreate(pxNormalVector      => Math.Vectors.pxCross_Product(pxCurrentRelativeOrientation.pxGet_Y_Vector, pxCurrentRelativeOrientation.pxGet_Z_Vector),
+      pxCurrentRelativePlane := Math.Planes.pxCreate(xNormalVector      => Math.Vectors.xCross_Product(xCurrentRelativeOrientation.xGet_Y_Vector, xCurrentRelativeOrientation.xGet_Z_Vector),
                                                      fDistanceFromOrigin => 0.0);
-      pxWantedRelativePlane := pxWantedRelativeOrientation * pxCurrentRelativePlane;
+      xWantedRelativePlane := xWantedRelativeOrientation * pxCurrentRelativePlane;
 
 
-      this.pxCurrentToWantedPlaneRotation := Math.Quaternions.pxCreate(pxAxisVector => Math.Planes.pxGet_Intersection_Vector_Between(pxCurrentRelativePlane, pxWantedRelativePlane),
-                                                                       fAngleInDegrees => Math.Planes.fAngle_Between_In_Degrees(pxCurrentRelativePlane, pxWantedRelativePlane));
 
+      if Math.Planes.fAngle_Between_In_Degrees(pxCurrentRelativePlane.all, xWantedRelativePlane) > 0.0 then
+         pxNewCurrentToWantedPlaneRotation := Math.Quaternions.pxCreate(xAxisVector => Math.Planes.xGet_Intersection_Vector_Between(pxCurrentRelativePlane.all, xWantedRelativePlane),
+                                                                          fAngleInDegrees => Math.Planes.fAngle_Between_In_Degrees(pxCurrentRelativePlane.all, xWantedRelativePlane));
 
-      this.pxPlanalMotionComponent.Update_Current_Error(fGet_Planal_Error(pxCurrentRelativePlane, pxWantedRelativePlane));
+      else
+         pxNewCurrentToWantedPlaneRotation := Math.Quaternions.pxCreate(xAxisVector     => Math.Matrices.xCreate_Identity.xGet_X_Vector,
+                                                                          fAngleInDegrees => 0.0);
+      end if;
+      this.pxCurrentToWantedPlaneRotation.Copy_From(xSourceQuaternion => pxNewCurrentToWantedPlaneRotation.all);
+      Math.Quaternions.Free(pxQuaternionToDeallocate => pxNewCurrentToWantedPlaneRotation);
+
+      this.pxPlanalMotionComponent.Update_Current_Error(fGet_Planal_Error(pxCurrentRelativePlane.all, xWantedRelativePlane));
+      Math.Planes.Free(pxPlaneToDeallocate => pxCurrentRelativePlane);
+
    end Update_Current_Planal_Error;
 
    procedure Update_Current_Directional_Error (this : in COrientationalController) is
       use Math.Matrices;
-      pxWantedRelativeOrientation : Math.Matrices.pCMatrix;
-      pxCurrentRelativeOrientation : Math.Matrices.pCMatrix;
-      pxCurrentDirectionVectorOnWantedPlane : Math.Vectors.pCVector;
+      xWantedRelativeOrientation : Math.Matrices.CMatrix;
+      xCurrentRelativeOrientation : Math.Matrices.CMatrix;
+      xCurrentDirectionVectorOnWantedPlane : Math.Vectors.CVector;
 
    begin
-      pxCurrentRelativeOrientation := Math.Matrices.pxCreate_Identity;
-      pxWantedRelativeOrientation := this.pxCurrentAbsoluteOrientation.pxGet_Inverse * this.pxWantedAbsoluteOrientation;
+      xCurrentRelativeOrientation := Math.Matrices.xCreate_Identity;
+      xWantedRelativeOrientation := this.pxCurrentAbsoluteOrientation.xGet_Inverse * this.pxWantedAbsoluteOrientation;
 
-      pxCurrentDirectionVectorOnWantedPlane := Math.Matrices.pxCreate_From_Quaternion(this.pxCurrentToWantedPlaneRotation) * pxCurrentRelativeOrientation.pxGet_X_Vector;
-      this.pxDirectionalMotionComponent.Update_Current_Error(fGet_Directional_Error(pxCurrentDirectionVectorOnWantedPlane, pxWantedRelativeOrientation.pxGet_X_Vector));
+      xCurrentDirectionVectorOnWantedPlane := Math.Matrices.xCreate_From_Quaternion(this.pxCurrentToWantedPlaneRotation) * xCurrentRelativeOrientation.xGet_X_Vector;
+      this.pxDirectionalMotionComponent.Update_Current_Error(fGet_Directional_Error(xCurrentDirectionVectorOnWantedPlane, xWantedRelativeOrientation.xGet_X_Vector));
    end Update_Current_Directional_Error;
+
+   procedure Free(pxOrientationalControllerToDeallocate : in out pCOrientationalController) is
+      procedure Dealloc is new Ada.Unchecked_Deallocation(COrientationalController, pCOrientationalController);
+   begin
+      Dealloc(pxOrientationalControllerToDeallocate);
+   end Free;
+
+   procedure Finalize(this : in out COrientationalController) is
+      use Navigation.Motion_Component;
+      use Math.Quaternions;
+   begin
+      if this.pxPlanalMotionComponent /= null then
+         Navigation.Motion_Component.Free(pxMotionComponentToDeallocate => this.pxPlanalMotionComponent);
+      end if;
+      if this.pxDirectionalMotionComponent /= null then
+         Navigation.Motion_Component.Free(pxMotionComponentToDeallocate => this.pxDirectionalMotionComponent);
+      end if;
+      if this.pxCurrentToWantedPlaneRotation /= null then
+         Math.Quaternions.Free(pxQuaternionToDeallocate => this.pxCurrentToWantedPlaneRotation);
+      end if;
+   end Finalize;
 
 
 

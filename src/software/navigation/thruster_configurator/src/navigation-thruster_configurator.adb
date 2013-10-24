@@ -244,4 +244,19 @@ package body Navigation.Thruster_Configurator is
       return tfExtendedMatrix;
    end tfCreate_Extended_Matrix;
 
+   procedure Free(pxThrusterConfiguratorToDeallocate : in out pCThrusterConfigurator) is
+      procedure Dealloc is new Ada.Unchecked_Deallocation(CThrusterConfigurator, pCThrusterConfigurator);
+   begin
+      Dealloc(pxThrusterConfiguratorToDeallocate);
+   end Free;
+
+   procedure Finalize(this : in out CThrusterConfigurator) is
+      use Navigation.Thrusters;
+   begin
+      if this.pxThrusterList /= null then
+         Free(this.pxThrusterList);
+      end if;
+   end Finalize;
+
+
 end Navigation.Thruster_Configurator;

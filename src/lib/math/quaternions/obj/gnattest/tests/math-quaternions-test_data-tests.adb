@@ -42,6 +42,8 @@ package body Math.Quaternions.Test_Data.Tests is
       AUnit.Assertions.Assert(Condition => pxNewQuaternion.fW = fExpectedWValue,
                               Message   => "CQuaternion.pxCreate failed, fW got the wrong value. Value:" & float'Image(pxNewQuaternion.fW) & ". Expected:" & float'Image(fExpectedWValue) & ".");
 
+      Math.Quaternions.Free(pxQuaternionToDeallocate => pxNewQuaternion);
+      
 --  begin read only
    end Test_1_pxCreate;
 --  end read only
@@ -71,12 +73,12 @@ package body Math.Quaternions.Test_Data.Tests is
       pxNewQuaternion := Math.Quaternions.pxCreate(pxAxisVector    => pxTestVector,
                                                    fAngleInDegrees => fAngle);
 
-      pxTestVector := pxTestVector.pxGet_Normalized;
+      pxTestVector.Copy_From(pxTestVector.xGet_Normalized);
       fExpectedXValue := pxTestVector.fGet_X;
       fExpectedYValue := pxTestVector.fGet_Y;
       fExpectedZValue := pxTestVector.fGet_Z;
 
-      pxTestVector := pxNewQuaternion.pxGet_Axis_Vector;
+      pxTestVector.Copy_From(pxNewQuaternion.xGet_Axis_Vector);
 
       AUnit.Assertions.Assert(Condition => abs(pxTestVector.fGet_X - fExpectedXValue) < 0.001,
                               Message   => "CQuaternion.pxCreate failed, fX got the wrong value.");
@@ -87,6 +89,9 @@ package body Math.Quaternions.Test_Data.Tests is
       AUnit.Assertions.Assert(Condition => abs(pxNewQuaternion.fGet_Angle_In_Degrees - fAngle) < 0.001,
                               Message   => "CQuaternion.pxCreate failed, fW got the wrong value. Angle: " & float'Image(pxNewQuaternion.fGet_Angle_In_Degrees));
 
+
+      Math.Vectors.Free(pxVectorToDeallocate => pxTestVector);
+      Math.Quaternions.Free(pxQuaternionToDeallocate => pxNewQuaternion);
 
 --  begin read only
    end Test_2_pxCreate;
@@ -116,11 +121,11 @@ package body Math.Quaternions.Test_Data.Tests is
                                                             fY => 60.2,
                                                             fZ => -523.0,
                                                             fW => 23.0);
-      pxSumQuaternion := pxLeftOperandQuaternion + pxRightOperandQuaternion;
+      pxSumQuaternion := CQuaternion(pxLeftOperandQuaternion + pxRightOperandQuaternion).pxGet_Copy;
 
-      AUnit.Assertions.Assert(Condition => pxSumQuaternion'Address /= pxLeftOperandQuaternion'Address,
+      AUnit.Assertions.Assert(Condition => pxSumQuaternion.all'Address /= pxLeftOperandQuaternion.all'Address,
                               Message   => "CQuaternion.+(binary) failed, pointer to sum is the same as pointer to left operand.");
-      AUnit.Assertions.Assert(Condition => pxSumQuaternion'Address /= pxRightOperandQuaternion'Address,
+      AUnit.Assertions.Assert(Condition => pxSumQuaternion.all'Address /= pxRightOperandQuaternion.all'Address,
                               Message   => "CQuaternion.+(binary) failed, pointer to sum is the same as pointer to right operand.");
 
       AUnit.Assertions.Assert(Condition => pxSumQuaternion.fX = (pxLeftOperandQuaternion.fX + pxRightOperandQuaternion.fX),
@@ -132,6 +137,9 @@ package body Math.Quaternions.Test_Data.Tests is
       AUnit.Assertions.Assert(Condition => pxSumQuaternion.fW = (pxLeftOperandQuaternion.fW + pxRightOperandQuaternion.fW),
                               Message   => "CQuaternion.+(binary) failed, wrong result in W component. Value: " & float'Image(pxSumQuaternion.fW) & ". Expected: " & float'Image(pxLeftOperandQuaternion.fW + pxRightOperandQuaternion.fW) & ".");
 
+      Math.Quaternions.Free(pxQuaternionToDeallocate => pxLeftOperandQuaternion);
+      Math.Quaternions.Free(pxQuaternionToDeallocate => pxRightOperandQuaternion);
+      Math.Quaternions.Free(pxQuaternionToDeallocate => pxSumQuaternion);
 --  begin read only
    end Test_Plus;
 --  end read only
@@ -160,11 +168,11 @@ package body Math.Quaternions.Test_Data.Tests is
                                                             fY => 60.2,
                                                             fZ => -523.0,
                                                             fW => 23.0);
-      pxDifferenceQuaternion := pxLeftOperandQuaternion - pxRightOperandQuaternion;
+      pxDifferenceQuaternion := CQuaternion(pxLeftOperandQuaternion - pxRightOperandQuaternion).pxGet_Copy;
 
-      AUnit.Assertions.Assert(Condition => pxDifferenceQuaternion'Address /= pxLeftOperandQuaternion'Address,
+      AUnit.Assertions.Assert(Condition => pxDifferenceQuaternion.all'Address /= pxLeftOperandQuaternion.all'Address,
                               Message   => "CQuaternion.-(binary) failed, pointer to difference is the same as pointer to left operand.");
-      AUnit.Assertions.Assert(Condition => pxDifferenceQuaternion'Address /= pxRightOperandQuaternion'Address,
+      AUnit.Assertions.Assert(Condition => pxDifferenceQuaternion.all'Address /= pxRightOperandQuaternion.all'Address,
                               Message   => "CQuaternion.-(binary) failed, pointer to difference is the same as pointer to right operand.");
 
       AUnit.Assertions.Assert(Condition => pxDifferenceQuaternion.fX = (pxLeftOperandQuaternion.fX - pxRightOperandQuaternion.fX),
@@ -175,7 +183,10 @@ package body Math.Quaternions.Test_Data.Tests is
                               Message   => "CQuaternion.-(binary) failed, wrong result in Z component. Value: " & float'Image(pxDifferenceQuaternion.fZ) & ". Expected: " & float'Image(pxLeftOperandQuaternion.fZ - pxRightOperandQuaternion.fZ) & ".");
       AUnit.Assertions.Assert(Condition => pxDifferenceQuaternion.fW = (pxLeftOperandQuaternion.fW - pxRightOperandQuaternion.fW),
                               Message   => "CQuaternion.-(binary) failed, wrong result in W component. Value: " & float'Image(pxDifferenceQuaternion.fW) & ". Expected: " & float'Image(pxLeftOperandQuaternion.fW - pxRightOperandQuaternion.fW) & ".");
-
+   
+      Math.Quaternions.Free(pxQuaternionToDeallocate => pxLeftOperandQuaternion);
+      Math.Quaternions.Free(pxQuaternionToDeallocate => pxRightOperandQuaternion);
+      Math.Quaternions.Free(pxQuaternionToDeallocate => pxDifferenceQuaternion);
 --  begin read only
    end Test_Minus;
 --  end read only
@@ -207,16 +218,16 @@ package body Math.Quaternions.Test_Data.Tests is
                                                             fY => 60.2,
                                                             fZ => -523.0,
                                                             fW => 23.0);
-      pxProductQuaternion := pxLeftOperandQuaternion * pxRightOperandQuaternion;
+      pxProductQuaternion := CQuaternion(pxLeftOperandQuaternion * pxRightOperandQuaternion).pxGet_Copy;
 
       fExpectedX := ((pxLeftOperandQuaternion.fW*pxRightOperandQuaternion.fX)+(pxLeftOperandQuaternion.fX*pxRightOperandQuaternion.fW)+(pxLeftOperandQuaternion.fY*pxRightOperandQuaternion.fZ)-(pxLeftOperandQuaternion.fZ*pxRightOperandQuaternion.fY));
       fExpectedY := ((pxLeftOperandQuaternion.fW*pxRightOperandQuaternion.fY)-(pxLeftOperandQuaternion.fX*pxRightOperandQuaternion.fZ)+(pxLeftOperandQuaternion.fY*pxRightOperandQuaternion.fW)+(pxLeftOperandQuaternion.fZ*pxRightOperandQuaternion.fX));
       fExpectedZ := ((pxLeftOperandQuaternion.fW*pxRightOperandQuaternion.fZ)+(pxLeftOperandQuaternion.fX*pxRightOperandQuaternion.fY)-(pxLeftOperandQuaternion.fY*pxRightOperandQuaternion.fX)-(pxLeftOperandQuaternion.fZ*pxRightOperandQuaternion.fW));
       fExpectedW := ((pxLeftOperandQuaternion.fW*pxRightOperandQuaternion.fW)-(pxLeftOperandQuaternion.fX*pxRightOperandQuaternion.fX)-(pxLeftOperandQuaternion.fY*pxRightOperandQuaternion.fY)-(pxLeftOperandQuaternion.fZ*pxRightOperandQuaternion.fZ));
 
-      AUnit.Assertions.Assert(Condition => pxProductQuaternion'Address /= pxLeftOperandQuaternion'Address,
+      AUnit.Assertions.Assert(Condition => pxProductQuaternion.all'Address /= pxLeftOperandQuaternion.all'Address,
                               Message   => "CQuaternion.*(binary) failed, pointer to product is the same as pointer to left operand.");
-      AUnit.Assertions.Assert(Condition => pxProductQuaternion'Address /= pxRightOperandQuaternion'Address,
+      AUnit.Assertions.Assert(Condition => pxProductQuaternion.all'Address /= pxRightOperandQuaternion.all'Address,
                               Message   => "CQuaternion.*(binary) failed, pointer to product is the same as pointer to right operand.");
 
       AUnit.Assertions.Assert(Condition => pxProductQuaternion.fX = fExpectedX,
@@ -228,7 +239,10 @@ package body Math.Quaternions.Test_Data.Tests is
       AUnit.Assertions.Assert(Condition => pxProductQuaternion.fW = fExpectedW,
                               Message   => "CQuaternion.*(binary) failed, wrong result in W component. Value: " & float'Image(pxProductQuaternion.fW) & ". Expected: " & float'Image(fExpectedW) & ".");
 
-
+   
+      Math.Quaternions.Free(pxQuaternionToDeallocate => pxLeftOperandQuaternion);
+      Math.Quaternions.Free(pxQuaternionToDeallocate => pxRightOperandQuaternion);
+      Math.Quaternions.Free(pxQuaternionToDeallocate => pxProductQuaternion);
 
 --  begin read only
    end Test_Multiply;
@@ -254,18 +268,20 @@ package body Math.Quaternions.Test_Data.Tests is
                                                            fW => 6.0);
       pxRightOperandQuaternion := pxLeftOperandQuaternion.pxGet_Copy;
 
-      AUnit.Assertions.Assert(Condition => pxLeftOperandQuaternion = pxRightOperandQuaternion,
+      AUnit.Assertions.Assert(Condition => pxLeftOperandQuaternion.all = pxRightOperandQuaternion.all,
                               Message   => "CQuaternion.=(binary) failed, left operand does not equal right operand.");
 
       pxRightOperandQuaternion.fX := pxRightOperandQuaternion.fX + 0.01;
-      AUnit.Assertions.Assert(Condition => not (pxLeftOperandQuaternion = pxRightOperandQuaternion),
+      AUnit.Assertions.Assert(Condition => not (pxLeftOperandQuaternion.all = pxRightOperandQuaternion.all),
                               Message   => "CQuaternion.=(binary) failed, left operand equals right operand.");
-      
-      
-      pxRightOperandQuaternion := null;
-      AUnit.Assertions.Assert(Condition => pxLeftOperandQuaternion /= pxRightOperandQuaternion,
-                              Message   => "CQuaternion.=(binary) failed, left operand equals right operand.");
-      
+
+      Math.Quaternions.Free(pxQuaternionToDeallocate => pxLeftOperandQuaternion);
+      Math.Quaternions.Free(pxQuaternionToDeallocate => pxRightOperandQuaternion);      
+--        
+--        pxRightOperandQuaternion := null;
+--        AUnit.Assertions.Assert(Condition => pxLeftOperandQuaternion /= pxRightOperandQuaternion,
+--                                Message   => "CQuaternion.=(binary) failed, left operand equals right operand.");
+--        
 
 --  begin read only
    end Test_Equal;
@@ -302,6 +318,8 @@ package body Math.Quaternions.Test_Data.Tests is
       AUnit.Assertions.Assert(Condition => abs(fDotProduct - (-487.7)) < 0.001,
                               Message   => "CQuaternion.fGet_Dot_Product failed, wrong value. Value: " & float'Image(fDotProduct) & ". Expected: " & float'Image(-487.7) & ".");
 
+      Math.Quaternions.Free(pxQuaternionToDeallocate => pxLeftOperandQuaternion);
+      Math.Quaternions.Free(pxQuaternionToDeallocate => pxRightOperandQuaternion);      
 
 
 
