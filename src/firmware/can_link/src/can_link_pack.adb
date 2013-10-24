@@ -134,10 +134,9 @@ package body CAN_Link_pack is
          --At present, we just ignore this message if the checksum is wrong.
          if u8ReceivedChecksum /= u8ActualChecksum then
             return;
-         else
-            AVR.AT90CAN128.CAN.Can_Send(msg);
          end if;
       end if;
+      AVR.AT90CAN128.CAN.Can_Send(msg);
 
    end Cmd_Handler;
 
