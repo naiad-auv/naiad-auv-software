@@ -1,0 +1,196 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html><head>
+  <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript"/>
+
+  <title>
+    Package: Orientational_Controller
+  </title>
+  <link rel='stylesheet' href='support/docgen.css' type='text/css'/>
+  <link rel='stylesheet' href='support/tags.css' type='text/css'/>
+  <script src='support/docgen.js' type='text/javascript' charset='utf-8'></script>
+</head>
+<body onload="onloadDoc();">
+
+<div id='leftSide'>
+  <div id='leftSideInside'>
+  <div id='header'>
+    <h2 class="button">Documentation</h2>
+    <a href='toc.html'><div class="button2">Table of Contents</div></a>
+
+    <a href='tree.html'><div class="button2">Class Inheritance Tree</div></a>
+
+  </div>
+
+  <div id='navigation'>
+    <h2 class="button">Navigation</h2>
+    <a href='#Description'><div class="button2">Description</div></a>
+    <a href='#Classes'><div class="button2">Classes</div></a>
+    <a href='#Types'><div class="button2">Types</div></a>
+    <a href='#Methods'><div class="button2">Subprograms &amp; Entries</div></a>
+  </div><!-- navigation -->
+  </div>
+</div> <!-- leftSide -->
+
+<div class='default' id='rightSide'>
+ <div id='rightSideInside'>
+ <div id='Index'>
+  <h2>Index</h2>
+  <script type="text/javascript">
+    var names = new Array (
+new Array ('COrientationalController', 'navigation-orientational_controller.ads:17:9', 'class-spec'),
+new Array ('pCOrientationalController', 'navigation-orientational_controller.ads:18:9', 'type-spec'),
+new Array ('Free', 'navigation-orientational_controller.ads:20:14', 'subp-spec'),
+new Array ('pxCreate', 'navigation-orientational_controller.ads:22:13', 'subp-spec'),
+new Array ('xGet_<wbr/>Orientational_<wbr/>Thruster_<wbr/>Control_<wbr/>Values', 'navigation-orientational_controller.ads:27:13', 'subp-spec'),
+new Array ('Update_<wbr/>Current_<wbr/>Errors', 'navigation-orientational_controller.ads:33:14', 'subp-spec'),
+new Array ('Set_<wbr/>New_<wbr/>PID_<wbr/>Component_<wbr/>Scalings', 'navigation-orientational_controller.ads:37:14', 'subp-spec'),
+      new Array ('dummy', '', ''));
+    printIndexList (names);
+  </script>
+  <noscript>
+    <ul>
+      <li class='class-spec'><a href="#navigation-orientational_controller.ads:17:9">COrientationalController</a></li>
+      <li class='type-spec'><a href="#navigation-orientational_controller.ads:18:9">pCOrientationalController</a></li>
+      <li class='subp-spec'><a href="#navigation-orientational_controller.ads:20:14">Free</a></li>
+      <li class='subp-spec'><a href="#navigation-orientational_controller.ads:22:13">pxCreate</a></li>
+      <li class='subp-spec'><a href="#navigation-orientational_controller.ads:27:13">xGet_<wbr/>Orientational_<wbr/>Thruster_<wbr/>Control_<wbr/>Values</a></li>
+      <li class='subp-spec'><a href="#navigation-orientational_controller.ads:33:14">Update_<wbr/>Current_<wbr/>Errors</a></li>
+      <li class='subp-spec'><a href="#navigation-orientational_controller.ads:37:14">Set_<wbr/>New_<wbr/>PID_<wbr/>Component_<wbr/>Scalings</a></li>
+    </ul>
+  </noscript>
+ </div>
+ </div>
+</div>
+
+<div class='default' id='documentation'>
+  <div class='title'>
+    Package:
+<span class="droplink"><i>Orientational_Controller</i><ul>
+  <li><a href="src_navigation-orientational_controller.ads.html">Goto spec source</a></li>
+</ul></span>
+  </div>
+  <div class='subprograms'>
+    <h1><a name='Description' id='Description'></a>Description</h1>
+    <div class="class">
+    <div class='details'><pre><span class="keyword">package</span> <span class="name_emphasis">Navigation.Orientational_Controller</span> <span class="keyword">is</span></pre></div>
+    </div>
+  </div>
+
+
+  <div class='subprograms'>
+    <h1><a name='Classes' id='Classes'></a>Classes</h1>
+    <div class="class">
+      <h3><a name='navigation-orientational_controller.ads:17:9' id='navigation-orientational_controller.ads:17:9'></a>
+<span class="droplink">COrientationalController<ul>
+  <li><a href="src_navigation-orientational_controller.ads.html#l17">Goto declaration in source</a></li>
+  <li><a href="src_navigation-orientational_controller.ads.html#l54">Goto full declaration in source</a></li>
+</ul></span>
+      </h3>
+      <div class='details'><pre><span class="keyword">type</span> <span class="name_emphasis">COrientationalController</span> <span class="keyword">is</span> <span class="keyword">new</span> Ada.Finalization.Controlled <span class="keyword">with</span> <span class="keyword">private</span>;</pre></div>
+      <div class='profile'>
+        <div>
+          <h4>Ancestors:</h4>
+            <div>Ada.Finalization.Controlled</div>
+        </div>
+        <div>
+          <h4>Primitive operations:</h4>
+              <div><i>Ada.Finalization.Adjust (Inherited)</i></div>
+              <div><i>Ada.Finalization.Initialize (Inherited)</i></div>
+              <div>Finalize <i>(overriding Ada.Finalization.Finalize)</i></div>
+              <div><span class="droplink">Set_New_PID_Component_Scalings<ul><li><a href="navigation-orientational_controller.ads.html#navigation-orientational_controller.ads:37:14" title="To API doc">To API doc</a></li><li><a href="src_navigation-orientational_controller.ads.html#l37" title="To spec">To spec</a></li></ul></span></div>
+              <div>Update_Current_Directional_Error</div>
+              <div><span class="droplink">Update_Current_Errors<ul><li><a href="navigation-orientational_controller.ads.html#navigation-orientational_controller.ads:33:14" title="To API doc">To API doc</a></li><li><a href="src_navigation-orientational_controller.ads.html#l33" title="To spec">To spec</a></li></ul></span></div>
+              <div>Update_Current_Planal_Error</div>
+              <div>xGet_Directional_Thruster_Control_Value</div>
+              <div><span class="droplink">xGet_Orientational_Thruster_Control_Values<ul><li><a href="navigation-orientational_controller.ads.html#navigation-orientational_controller.ads:27:13" title="To API doc">To API doc</a></li><li><a href="src_navigation-orientational_controller.ads.html#l27" title="To spec">To spec</a></li></ul></span></div>
+              <div>xGet_Planal_Thruster_Control_Value</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class='subprograms'>
+    <h1><a name='Types' id='Types'></a>Types</h1>
+    <div class="class">
+      <h3>
+        <a name='navigation-orientational_controller.ads:18:9' id='navigation-orientational_controller.ads:18:9'></a>
+<span class="droplink">pCOrientationalController<ul>
+  <li><a href="src_navigation-orientational_controller.ads.html#l18">Goto declaration in source</a></li>
+</ul></span>
+      </h3>
+      <div class='details'><pre><span class="keyword">type</span> <span class="name_emphasis">pCOrientationalController</span> <span class="keyword">is</span> <span class="keyword">access</span> <a href="navigation-orientational_controller.ads.html#navigation-orientational_controller.ads:17:9" title="defined at navigation-orientational_controller.ads:17:9">COrientationalController</a>;</pre></div>
+    </div>
+  </div>
+
+
+    <div class='subprograms'>
+      <h1><a name='Methods' id='Methods'></a>Subprograms &amp; Entries</h1>
+      <div class="class">
+        <h3>
+          <a name='navigation-orientational_controller.ads:20:14' id='navigation-orientational_controller.ads:20:14'></a>
+<span class="droplink">Free<ul>
+  <li><a href="src_navigation-orientational_controller.ads.html#l20">Goto spec in source</a></li>
+</ul></span>
+        </h3>
+        <div class='details'><pre><span class="keyword">procedure</span> <span class="name_emphasis">Free</span><table><tr><td>(</td><td><span class="name"><a name="navigation-orientational_controller.ads:20:19"></a>pxOrientationalControllerToDeallocate</span></td><td>: <span class="keyword">in</span> <span class="keyword">out</span> <a href="navigation-orientational_controller.ads.html#navigation-orientational_controller.ads:18:9" title="defined at navigation-orientational_controller.ads:18:9">pCOrientationalController</a>);</td></tr></table></pre></div>
+      </div>
+      <div class="class">
+        <h3>
+          <a name='navigation-orientational_controller.ads:22:13' id='navigation-orientational_controller.ads:22:13'></a>
+<span class="droplink">pxCreate<ul>
+  <li><a href="src_navigation-orientational_controller.ads.html#l22">Goto spec in source</a></li>
+</ul></span>
+        </h3>
+        <div class='details'><pre><span class="keyword">function</span> <span class="name_emphasis">pxCreate</span> <table><tr><td>(</td><td><span class="name"><a name="navigation-orientational_controller.ads:22:23"></a>pxCurrentAbsoluteOrientation</span></td><td>: <span class="keyword">in</span> <a href="math-matrices.ads.html#math-matrices.ads:21:9" title="defined at math-matrices.ads:21:9">Math.Matrices.pCMatrix</a>;</td></tr><tr><td></td><td><span class="name"><a name="navigation-orientational_controller.ads:22:81"></a>pxWantedAbsoluteOrientation</span></td><td>: <span class="keyword">in</span> <a href="math-matrices.ads.html#math-matrices.ads:21:9" title="defined at math-matrices.ads:21:9">Math.Matrices.pCMatrix</a>) <span class="keyword">return</span> <a href="navigation-orientational_controller.ads.html#navigation-orientational_controller.ads:18:9" title="defined at navigation-orientational_controller.ads:18:9">pCOrientationalController</a>;</td></tr></table></pre></div>
+        <div class='comment'><div class="summary" >Creates an object of type <a href="navigation-orientational_controller.ads.html#navigation-orientational_controller.ads:17:9" title="COrientationalController">COrientationalController</a> and sets references to the current and wanted orientation</div>
+<div class="parameter"><span class="name">pxCurrentAbsoluteOrientation:</span> A reference to the current absolute orientation</div>
+<div class="parameter"><span class="name">pxWantedAbsoluteOrientation:</span> A reference to the wanted absolute orientation</div>
+</div>
+      </div>
+      <div class="class">
+        <h3>
+          <a name='navigation-orientational_controller.ads:27:13' id='navigation-orientational_controller.ads:27:13'></a>
+<span class="droplink">xGet_Orientational_Thruster_Control_Values<ul>
+  <li><a href="src_navigation-orientational_controller.ads.html#l27">Goto spec in source</a></li>
+</ul></span>
+        </h3>
+        <div class='details'><pre><span class="keyword">function</span> <span class="name_emphasis">xGet_Orientational_Thruster_Control_Values</span> <table><tr><td>(</td><td><span class="name"><a name="navigation-orientational_controller.ads:27:57"></a>this</span></td><td>: <span class="keyword">in</span> <span class="keyword">out</span> <a href="navigation-orientational_controller.ads.html#navigation-orientational_controller.ads:17:9" title="defined at navigation-orientational_controller.ads:17:9">COrientationalController</a>;</td></tr><tr><td></td><td><span class="name"><a name="navigation-orientational_controller.ads:27:97"></a>fDeltaTime</span></td><td>: <span class="keyword">in</span> float) <span class="keyword">return</span> <a href="navigation-thrusters.ads.html#navigation-thrusters.ads:11:9" title="defined at navigation-thrusters.ads:11:9">Navigation.Thrusters.TThrusterEffects</a>;</td></tr></table></pre></div>
+        <div class='comment'><div class="summary" >Calculates thruster control values for all thrusters and scales them accordingly</div>
+<div class="parameter"><span class="name">this:</span> The <a href="navigation-orientational_controller.ads.html#navigation-orientational_controller.ads:17:9" title="COrientationalController">COrientationalController</a> to do the calculations upon.</div>
+<div class="parameter"><span class="name">fDeltaTime:</span> The time difference since the last calculation.</div>
+</div>
+      </div>
+      <div class="class">
+        <h3>
+          <a name='navigation-orientational_controller.ads:33:14' id='navigation-orientational_controller.ads:33:14'></a>
+<span class="droplink">Update_Current_Errors<ul>
+  <li><a href="src_navigation-orientational_controller.ads.html#l33">Goto spec in source</a></li>
+</ul></span>
+        </h3>
+        <div class='details'><pre><span class="keyword">procedure</span> <span class="name_emphasis">Update_Current_Errors</span> <table><tr><td>(</td><td><span class="name"><a name="navigation-orientational_controller.ads:33:37"></a>this</span></td><td>: <span class="keyword">in</span> <span class="keyword">out</span> <a href="navigation-orientational_controller.ads.html#navigation-orientational_controller.ads:17:9" title="defined at navigation-orientational_controller.ads:17:9">COrientationalController</a>);</td></tr></table></pre></div>
+        <div class='comment'><div class="summary" >Cascades the difference between the current orientation and the wanted orientation to all motion components</div>
+<div class="parameter"><span class="name">this:</span> The <a href="navigation-orientational_controller.ads.html#navigation-orientational_controller.ads:17:9" title="COrientationalController">COrientationalController</a> object that holds the objects that needs to be updated</div>
+</div>
+      </div>
+      <div class="class">
+        <h3>
+          <a name='navigation-orientational_controller.ads:37:14' id='navigation-orientational_controller.ads:37:14'></a>
+<span class="droplink">Set_New_PID_Component_Scalings<ul>
+  <li><a href="src_navigation-orientational_controller.ads.html#l37">Goto spec in source</a></li>
+</ul></span>
+        </h3>
+        <div class='details'><pre><span class="keyword">procedure</span> <span class="name_emphasis">Set_New_PID_Component_Scalings</span><table><tr><td>(</td><td><span class="name"><a name="navigation-orientational_controller.ads:37:45"></a>this</span></td><td>: <span class="keyword">in</span> <a href="navigation-orientational_controller.ads.html#navigation-orientational_controller.ads:17:9" title="defined at navigation-orientational_controller.ads:17:9">COrientationalController</a>;</td></tr><tr><td></td><td><span class="name"><a name="navigation-orientational_controller.ads:37:81"></a>eComponentToUpdate</span></td><td>: <a href="navigation-motion_component.ads.html#navigation-motion_component.ads:14:9" title="defined at navigation-motion_component.ads:14:9">Navigation.Motion_Component.EMotionComponent</a>;</td></tr><tr><td></td><td><span class="name"><a name="navigation-orientational_controller.ads:37:148"></a>xNewPIDScaling</span></td><td>: <a href="navigation-pid_controller.ads.html#navigation-pid_controller.ads:12:9" title="defined at navigation-pid_controller.ads:12:9">Navigation.PID_Controller.TPIDComponentScalings</a>);</td></tr></table></pre></div>
+        <div class='comment'><div class="summary" >Sets new component scalings on a PID controller held by the <a href="navigation-orientational_controller.ads.html#navigation-orientational_controller.ads:17:9" title="COrientationalController">COrientationalController</a> in question</div>
+<div class="parameter"><span class="name">this:</span> The <a href="navigation-orientational_controller.ads.html#navigation-orientational_controller.ads:17:9" title="COrientationalController">COrientationalController</a> object that holds the PID controller to update.</div>
+<div class="parameter"><span class="name">xNewPIDSCalings:</span> The TPIDComponetScalings object to set for the object.</div>
+<div class="parameter"><span class="name">eComponentToChange:</span> The index of the component to change.</div>
+</div>
+      </div>
+    </div>
+</div> <!-- documentation -->
+
+</body>
+</html>
