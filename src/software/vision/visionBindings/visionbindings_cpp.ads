@@ -33,28 +33,34 @@ package visionBindings_cpp is
    imageName : aliased int;  -- visionBindings.cpp:20
    pragma Import (C, imageName, "imageName");
 
-   BGR : aliased cpp_4_7_4_bits_stl_vector_h.Class_vector.vector;  -- visionBindings.cpp:23
+   BGR : aliased cpp_4_7_4_bits_stl_vector_h.Class_vector.vector;  -- visionBindings.cpp:22
    pragma Import (C, BGR, "BGR");
 
-   blueHistVals : aliased opencv2_core_core_hpp.Class_Mat.Mat;  -- visionBindings.cpp:24
+   blueHistVals : aliased opencv2_core_core_hpp.Class_Mat.Mat;  -- visionBindings.cpp:23
    pragma Import (C, blueHistVals, "blueHistVals");
 
-   greenHistVals : aliased opencv2_core_core_hpp.Class_Mat.Mat;  -- visionBindings.cpp:25
+   greenHistVals : aliased opencv2_core_core_hpp.Class_Mat.Mat;  -- visionBindings.cpp:24
    pragma Import (C, greenHistVals, "greenHistVals");
 
-   redHistVals : aliased opencv2_core_core_hpp.Class_Mat.Mat;  -- visionBindings.cpp:26
+   redHistVals : aliased opencv2_core_core_hpp.Class_Mat.Mat;  -- visionBindings.cpp:25
    pragma Import (C, redHistVals, "redHistVals");
 
-   hist : aliased opencv2_core_core_hpp.Class_MatND.MatND;  -- visionBindings.cpp:27
+   hist : aliased opencv2_core_core_hpp.Class_MatND.MatND;  -- visionBindings.cpp:26
    pragma Import (C, hist, "hist");
 
-   circleCenters : aliased cpp_4_7_4_bits_stl_vector_h.Class_vector.vector;  -- visionBindings.cpp:29
+   circleCenters : aliased cpp_4_7_4_bits_stl_vector_h.Class_vector.vector;  -- visionBindings.cpp:28
    pragma Import (C, circleCenters, "circleCenters");
 
-   rectangleCenters : aliased cpp_4_7_4_bits_stl_vector_h.Class_vector.vector;  -- visionBindings.cpp:30
+   rectangleCenters : aliased cpp_4_7_4_bits_stl_vector_h.Class_vector.vector;  -- visionBindings.cpp:29
    pragma Import (C, rectangleCenters, "rectangleCenters");
 
-   triangleCenters : aliased cpp_4_7_4_bits_stl_vector_h.Class_vector.vector;  -- visionBindings.cpp:31
+   triangleCenters : aliased cpp_4_7_4_bits_stl_vector_h.Class_vector.vector;  -- visionBindings.cpp:30
    pragma Import (C, triangleCenters, "triangleCenters");
+
+   features_prev : aliased cpp_4_7_4_bits_stl_vector_h.Class_vector.vector;  -- visionBindings.cpp:32
+   pragma Import (C, features_prev, "features_prev");
+
+   features_next : aliased cpp_4_7_4_bits_stl_vector_h.Class_vector.vector;  -- visionBindings.cpp:32
+   pragma Import (C, features_next, "features_next");
 
 end visionBindings_cpp;

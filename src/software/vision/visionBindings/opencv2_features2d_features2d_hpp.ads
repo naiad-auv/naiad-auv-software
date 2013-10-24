@@ -209,12 +209,12 @@ package opencv2_features2d_features2d_hpp is
 
       procedure convert
         (keypoints : access constant cpp_4_7_4_bits_stl_vector_h.Class_vector.vector;
-         points2f : System.Address;
+         points2f : access cpp_4_7_4_bits_stl_vector_h.Class_vector.vector;
          keypointIndexes : access constant cpp_4_7_4_bits_stl_vector_h.Class_vector.vector);  -- /usr/include/opencv2/features2d/features2d.hpp:244
       pragma Import (CPP, convert, "_ZN2cv8KeyPoint7convertERKSt6vectorIS0_SaIS0_EERS1_INS_6Point_IfEESaIS7_EERKS1_IiSaIiEE");
 
       procedure convert
-        (points2f : System.Address;
+        (points2f : access constant cpp_4_7_4_bits_stl_vector_h.Class_vector.vector;
          keypoints : access cpp_4_7_4_bits_stl_vector_h.Class_vector.vector;
          size : float;
          response : float;
@@ -3370,13 +3370,13 @@ package opencv2_features2d_features2d_hpp is
    procedure computeRecallPrecisionCurve
      (matches1to2 : access constant cpp_4_7_4_bits_stl_vector_h.Class_vector.vector;
       correctMatches1to2Mask : System.Address;
-      recallPrecisionCurve : System.Address);  -- /usr/include/opencv2/features2d/features2d.hpp:2987
+      recallPrecisionCurve : access cpp_4_7_4_bits_stl_vector_h.Class_vector.vector);  -- /usr/include/opencv2/features2d/features2d.hpp:2987
    pragma Import (CPP, computeRecallPrecisionCurve, "_ZN2cv27computeRecallPrecisionCurveERKSt6vectorIS0_INS_6DMatchESaIS1_EESaIS3_EERKS0_IS0_IhSaIhEESaIS9_EERS0_INS_6Point_IfEESaISF_EE");
 
-   function getRecall (recallPrecisionCurve : System.Address; l_precision : float) return float;  -- /usr/include/opencv2/features2d/features2d.hpp:2991
+   function getRecall (recallPrecisionCurve : access constant cpp_4_7_4_bits_stl_vector_h.Class_vector.vector; l_precision : float) return float;  -- /usr/include/opencv2/features2d/features2d.hpp:2991
    pragma Import (CPP, getRecall, "_ZN2cv9getRecallERKSt6vectorINS_6Point_IfEESaIS2_EEf");
 
-   function getNearestPoint (recallPrecisionCurve : System.Address; l_precision : float) return int;  -- /usr/include/opencv2/features2d/features2d.hpp:2992
+   function getNearestPoint (recallPrecisionCurve : access constant cpp_4_7_4_bits_stl_vector_h.Class_vector.vector; l_precision : float) return int;  -- /usr/include/opencv2/features2d/features2d.hpp:2992
    pragma Import (CPP, getNearestPoint, "_ZN2cv15getNearestPointERKSt6vectorINS_6Point_IfEESaIS2_EEf");
 
    procedure evaluateGenericDescriptorMatcher
@@ -3387,7 +3387,7 @@ package opencv2_features2d_features2d_hpp is
       keypoints2 : access cpp_4_7_4_bits_stl_vector_h.Class_vector.vector;
       matches1to2 : access cpp_4_7_4_bits_stl_vector_h.Class_vector.vector;
       correctMatches1to2Mask : System.Address;
-      recallPrecisionCurve : System.Address;
+      recallPrecisionCurve : access cpp_4_7_4_bits_stl_vector_h.Class_vector.vector;
       dmatch : access constant opencv2_core_core_hpp.Class_Ptr.Ptr);  -- /usr/include/opencv2/features2d/features2d.hpp:2994
    pragma Import (CPP, evaluateGenericDescriptorMatcher, "_ZN2cv32evaluateGenericDescriptorMatcherERKNS_3MatES2_S2_RSt6vectorINS_8KeyPointESaIS4_EES7_PS3_IS3_INS_6DMatchESaIS8_EESaISA_EEPS3_IS3_IhSaIhEESaISF_EERS3_INS_6Point_IfEESaISK_EERKNS_3PtrINS_24GenericDescriptorMatcherEEE");
 
