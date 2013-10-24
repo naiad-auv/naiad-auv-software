@@ -79,6 +79,8 @@ virtual void gaussianBlur(int src, int dest, int kersize, double sigmaX, double 
 
 virtual void objectTracking(void);
 
+virtual void roi(int src, int dst);
+
 Processing_Wrap();
 };
 

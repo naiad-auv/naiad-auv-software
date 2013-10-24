@@ -6,6 +6,23 @@ with Ada.Integer_Text_IO; use Ada.Integer_Text_IO;
 with Vision.Image_Processing;
 
 procedure main is
+
+   --user decisions
+   iUseBuffer : Integer;
+   iUseStatic : Integer;
+   iShowOriginal : Integer;
+   iDoGaussian : Integer;
+   iDoSplit : Integer;
+   iDoCvtGrey : Integer;
+   iDoCvtHSI : Integer;
+   iDoHistoBGR : Integer;
+   iDoHistoHSI : Integer;
+   iDoCanny : Integer;
+   iDoThresh : Integer;
+   iDoHoughCircles : Integer;
+   iDoContours : Integer;
+   iDoApproxPoly : Integer;
+
    iImageSource : Interfaces.C.Int;
    iImageDestination : Interfaces.C.Int;
    iCannyLocation : Interfaces.C.Int;
@@ -89,6 +106,7 @@ begin
    bgrRange(2):= standard.Float(256.0);
    uniform := 1;
    accumulate := 0;
+
    --hsi histo
    histDimensionality := 2;
    hsiNumSourceArray := 1;
@@ -119,116 +137,134 @@ begin
    GaussianSigmaX := 0.0;
    GaussianSigmaY := 0.0;
 
+   --user decisions
+   iUseBuffer := 1;
+   iUseStatic := 0;
+   iShowOriginal := 1;
+   iDoGaussian := 0;
+   iDoSplit := 0;
+   iDoCvtGrey := 0;
+   iDoCvtHSI := 0;
+   iDoHistoBGR := 0;
+   iDoHistoHSI := 0;
+   iDoCanny := 0;
+   iDoThresh := 0;
+   iDoHoughCircles := 0;
+   iDoContours := 0;
+   iDoApproxPoly := 0;
+
+
+
+
    -----------------------------MAIN LOOP --------------------------------------------------------
    Endless_Loop:
    loop
       --GET IMAGE-- read from buffer
-      CoreWrap.img_buffer;--load image to img.at(0)
+      if (iUseBuffer = 1) then
+         CoreWrap.img_buffer; --load image to img.at(0)
+      elsif iUseStatic =1 then
+         --, or just read in single image NEW, READS IN IMAGE AND STORES IN INDEX "IMAGESOURCE" OF "img.at()
+         CoreWrap.imstore(iImageSource,New_String("62.jpg"));
+      end if;
 
-
-      --, or just read in single image NEW, READS IN IMAGE AND STORES IN INDEX "IMAGESOURCE" OF "img.at()"
-      --CoreWrap.imstore(iImageSource,New_String("62.jpg"));
-
-
-      --split channels of image
-      --processingWrap.splitChannels(iImageSource);
 
       --CLEAN IMAGE (TODO)
-      processingWrap.cvtColor(iImageSource, iHSILocation, iHSIFilter);
-      --CoreWrap.imshow(New_String("Why so HSI?"),iHSILocation);
-      --CoreWrap.waitKey(0);
-      --split channels of image
-      --processingWrap.splitChannels(iImageSource);
-
-      --CLEAN IMAGE (TODO)
-      processingWrap.cvtColor(iImageSource, iHSILocation, iHSIFilter);
-      CoreWrap.imshow(New_String("Why so HSI?"),iHSILocation);
-      CoreWrap.waitKey(0);
-
-      --display image source
-      CoreWrap.imshow(New_String("Why so normal?"), iImageSource);--show image for debug purposes
-      CoreWrap.waitKey(0);
-
-      -- processingWrap.gaussianBlur(iImageSource, iGaussianBlurLocation, GaussianKerSize, GaussianSigmaX, GaussianSigmaY);
-      --CoreWrap.imshow(New_String("Why so Gaussian?"), iGaussianBlurLocation);--show image for debug purposes
-      --  CoreWrap.waitKey(0);
-
-      --test thresh
-
-      ret := processingWrap.thresh(iHSILocation, 10, 70, 50, 255, 50, 255);
-      CoreWrap.imshow(New_String("why so after mask?"),iThreshedImageLocation);
-
-
-      --split channels of image
-      processingWrap.splitChannels(iImageSource);
-
-      --run bgr histo and show result
-      processingWrap.BGRHistogram(bgrNumSourceArray,bgrHistDimensionality,bgrHistSize, bgrRange(1)'Access,uniform,accumulate);
-      processingWrap.showBGRHistogram(bgrHistSize);
 
       --convert image to hsi
-      --processingWrap.cvtColor(iImageSource, iHSILocation, iHSIFilter);
-      --CoreWrap.imshow(New_String("Why so HSI?"),iHSILocation);
-      --CoreWrap.waitKey(0);
+      if (iDoCvtHSI = 1) then
+         processingWrap.cvtColor(iImageSource, iHSILocation, iHSIFilter);
+         CoreWrap.imshow(New_String("Why so HSI?"),iHSILocation);
+         CoreWrap.waitKey(0);
+      end if;
+
+      --display image source
+      if (iShowOriginal = 1) then
+         CoreWrap.imshow(New_String("Why so normal?"), iImageSource);--show image for debug purposes
+         CoreWrap.waitKey(0);
+      end if;
+
+
+      --Gaussian Blur
+
+      if (iDoGaussian = 1) then
+         processingWrap.gaussianBlur(iImageSource, iGaussianBlurLocation, GaussianKerSize, GaussianSigmaX, GaussianSigmaY);
+         CoreWrap.imshow(New_String("Why so Gaussian?"), iGaussianBlurLocation);--show image for debug purposes
+         CoreWrap.waitKey(0);
+      end if;
+
+
+      --test thresh
+      if (iDoThresh = 1) then
+         ret := processingWrap.thresh(iHSILocation, 10, 70, 50, 255, 50, 255);
+         CoreWrap.imshow(New_String("why so after mask?"),iThreshedImageLocation);
+      end if;
+
+
+
+      --split channels of image
+      if (iDoSplit = 1) then
+         processingWrap.splitChannels(iImageSource);
+      end if;
+
+      --run bgr histo and show result
+      if (iDoHistoBGR = 1) then
+         processingWrap.BGRHistogram(bgrNumSourceArray,bgrHistDimensionality,bgrHistSize, bgrRange(1)'Access,uniform,accumulate);
+         processingWrap.showBGRHistogram(bgrHistSize);
+      end if;
+
 
       --hsi histo
-      --processingWrap.HSIHistogram(iHSILocation,hsiNumSourceArray,channels(1)'Access,hsiSize(1)'Access,hrange(1)'Access,srange(1)'Access,histDimensionality,uniform,accumulate);
-      --processingWrap.showHSIHistogram(hsiSize(1)'Access);
+      if (iDoHistoHSI = 1) then
+         processingWrap.HSIHistogram(iHSILocation,hsiNumSourceArray,channels(1)'Access,hsiSize(1)'Access,hrange(1)'Access,srange(1)'Access,histDimensionality,uniform,accumulate);
+         processingWrap.showHSIHistogram(hsiSize(1)'Access);
+      end if;
+
 
       --CLEAN IMAGE--to be implemented
 
       --CONVERT IMAGE TO GREYSCALE
-      --processingWrap.cvtColor(iImageSource,iGreyScaleLocation, iGreyFilter);
-      --CoreWrap.imshow(New_String("why so grey?"), iGreyScaleLocation);--show image for debug purposes
-      --CoreWrap.waitKey(0);
+      if (iDoCvtGrey = 1) then
+         processingWrap.cvtColor(iImageSource,iGreyScaleLocation, iGreyFilter);
+         CoreWrap.imshow(New_String("why so grey?"), iGreyScaleLocation);--show image for debug purposes
+         CoreWrap.waitKey(0);
+      end if;
+
 
       --USE CANNY ON GREYSCALE IMAGE
-      --processingWrap.Canny(iGreyScaleLocation,iCannyLocation, iCannyLowThres, iCannyHighThres, iCannyKernelSize);
-      --CoreWrap.imshow(New_String("why so canny?"), iCannyLocation);--show image for debug purposes
-      --CoreWrap.waitKey(0);
+      if (iDoCanny = 1) then
+         processingWrap.Canny(iGreyScaleLocation,iCannyLocation, iCannyLowThres, iCannyHighThres, iCannyKernelSize);
+         CoreWrap.imshow(New_String("why so canny?"), iCannyLocation);--show image for debug purposes
+         CoreWrap.waitKey(0);
+      end if;
 
-      --test Channels
-      --processingWrap.splitChannels(iImageSource);
-      --processingWrap.showRedChannel;
 
       --write image to file
       --ret := CoreWrap.imwrite(New_String("CannyOut.jpg"),2 );
 
       --HOUGH CIRCLES
-      --processingWrap.HoughCircles(iGreyScaleLocation, inverseRatioOfResolution, minDistBetweenCenters, houghCannyUpThres, centerDetectionThreshold, minRadius, maxRadius);
+      if (iDoHoughCircles = 1) then
+         processingWrap.HoughCircles(iGreyScaleLocation, inverseRatioOfResolution, minDistBetweenCenters, houghCannyUpThres, centerDetectionThreshold, minRadius, maxRadius);
+         processingWrap.DrawHoughCircles(iImageSource);
+         CoreWrap.imshow(New_String("why so circly?"), iCirclesLocation);--show image for debug purposes
+         processingWrap.FindCircleCenters;
+         CoreWrap.waitKey(0);
+         ret := CoreWrap.imwrite(New_String("HoughOut.jpg"), 1 );
+      end if;
 
-      --     Vision.Image_Processing.Hough_Circles(iImageDestination, inverseRatioOfResolution, minDistBetweenCenters, houghCannyUpThres, centerDetectionThreshold, minRadius, maxRadius);
-      --    processingWrap.DrawHoughCircles(iImageSource);
-      --CoreWrap.imshow(New_String("why so circly?"), iCirclesLocation);--show image for debug purposes
-      --  processingWrap.FindCircleCenters;
-      --CoreWrap.waitKey(0);
-      --     ret := CoreWrap.imwrite(New_String("HoughOut.jpg"), 1 );
-
-      --HOUGH LINES
-      --processingWrap.HoughLines(src                   => Interfaces.C.int(iImageDestination),
-      --                        rho                   => 1,
-      --                      theta                 => Standard.Float(1),
-      --                    intersectionThreshold => 100);
-      --processingWrap.DrawHoughLines(cdst => Interfaces.C.int(iImageSource));
-      --CoreWrap.imshow(name => New_String("Lines disp"),
-      --              src  => Interfaces.C.int(iImageSource));
-      --CoreWrap.waitKey(0);
-
-      --lines
-      --processingWrap.LabelPoints(Interfaces.C.int(4));
 
       --CONTOURS
+      if (iDoContours = 1) then
+         processingWrap.Contours(iCannyLocation);
+         processingWrap.showContours(contourOut => iContourLocation,contourId  => -1 ,thickness  => 3 );
+         CoreWrap.imshow(New_String("Whats with the contours?"),iContourLocation);
+         CoreWrap.waitKey(0);
+      end if;
 
-      -- processingWrap.Contours(iCannyLocation);
-      -- processingWrap.showContours(contourOut => iContourLocation,contourId  => -1 ,thickness  => 3 );
-      --CoreWrap.imshow(New_String("Whats with the contours?"),iContourLocation);
-      -- CoreWrap.waitKey(0);
 
-      --processingWrap.HoughCircles(Interfaces.C.int(1), inverseRatioOfResolution, minDistBetweenCenters, houghCannyUpThres, centerDetectionThreshold, minRadius, maxRadius);
-      --ret := CoreWrap.imwrite(name => New_String("Contours.jpg"),
-      --               src  => 0);
-
-      --processingWrap.approxPolyDP(1.2, 1);
+      ---Approx Poly
+      if (iDoApproxPoly = 1) then
+         processingWrap.approxPolyDP(1.2, 1);
+      end if;
 
    end loop Endless_Loop;
 end main;
