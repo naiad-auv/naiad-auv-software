@@ -5,8 +5,9 @@
 -- This code is loosly based on the router.adb file from the Vasa project.
 
 -- Written by Nils Brynedal Ignell for the Naiad AUV project
--- Last changed (yyyy-mm-dd): 2013-10-21
+-- Last changed (yyyy-mm-dd): 2013-10-24
 
+-- TODO: Needs iDataAvailable function from pxUart (Emil's code)
 -- TODO: Unit testing, hardware testing
 ---------------------------------------------------------------------------
 
@@ -76,12 +77,6 @@ package BBB_CAN is
 
 
 private
-
-   procedure Bytes_To_Message(sBuffer : String; msg : out AVR.AT90CAN128.CAN.CAN_Message; bCheckSumCorrect : out Boolean);
-
-   procedure Message_To_Bytes(sBuffer : out String; msg : AVR.AT90CAN128.CAN.CAN_Message);
-
-   function  Calculate_Checksum(b8Data : AVR.AT90CAN128.CAN.Byte8; Len : AVR.AT90CAN128.DLC_Type) return Interfaces.Unsigned_8;
 
    procedure Usart_Read(sBuffer : out String; iSize : Integer; iBytesRead : out Integer);
 

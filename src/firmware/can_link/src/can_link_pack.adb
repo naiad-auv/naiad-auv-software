@@ -119,7 +119,7 @@ package body CAN_Link_pack is
       CAN_Link_Utils.Bytes_To_Message_Header(Head_Buf, msg, u8ReceivedChecksum);
 
       if Integer(msg.Len) /= 0 then
-         while AVR.AT90CAN128.USART.Data_Available < Integer(msg.Len) loop
+         while AVR.AT90CAN128.USART.Data_Available(USART_PORT) < Integer(msg.Len) loop
             null;
          end loop;
 
@@ -134,10 +134,9 @@ package body CAN_Link_pack is
          --At present, we just ignore this message if the checksum is wrong.
          if u8ReceivedChecksum /= u8ActualChecksum then
             return;
-         else
-            AVR.AT90CAN128.CAN.Can_Send(msg);
          end if;
       end if;
+      AVR.AT90CAN128.CAN.Can_Send(msg);
 
    end Cmd_Handler;
 
