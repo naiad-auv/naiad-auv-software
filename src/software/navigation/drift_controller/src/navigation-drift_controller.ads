@@ -43,9 +43,9 @@ private
 
          pxCurrentAbsoluteOrientation : Math.Matrices.pCMatrix;
 
-         pxXMotionComponent : Navigation.Motion_Component.pCMotionComponent;
-         pxYMotionComponent : Navigation.Motion_Component.pCMotionComponent;
-         pxZMotionComponent : Navigation.Motion_Component.pCMotionComponent;
+         pxXDriftMotionComponent : Navigation.Motion_Component.pCMotionComponent;
+         pxYDriftMotionComponent : Navigation.Motion_Component.pCMotionComponent;
+         pxZDriftMotionComponent : Navigation.Motion_Component.pCMotionComponent;
       end record;
 
    procedure Finalize(this : in out CDriftController);

@@ -1,3 +1,4 @@
+with "../drift_controller/drift_controller.gpr";
 with "../thrusters/thrusters.gpr";
 with "../../../lib/math/matrices/matrices.gpr";
 with "../motion_component/motion_component.gpr";
