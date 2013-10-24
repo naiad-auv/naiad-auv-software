@@ -423,7 +423,7 @@ package ada_main is
    pragma Export (C, u00193, "navigationB");
    u00194 : constant Version_32 := 16#afdfd964#;
    pragma Export (C, u00194, "navigationS");
-   u00195 : constant Version_32 := 16#033b0873#;
+   u00195 : constant Version_32 := 16#27028065#;
    pragma Export (C, u00195, "navigation__pid_controllerB");
    u00196 : constant Version_32 := 16#173d1906#;
    pragma Export (C, u00196, "navigation__pid_controllerS");
@@ -435,7 +435,7 @@ package ada_main is
    pragma Export (C, u00199, "aunit__test_fixturesB");
    u00200 : constant Version_32 := 16#3b99f1a5#;
    pragma Export (C, u00200, "aunit__test_fixturesS");
-   u00201 : constant Version_32 := 16#5a67e3c3#;
+   u00201 : constant Version_32 := 16#e7d90413#;
    pragma Export (C, u00201, "navigation__pid_controller__cpid_controller_test_data__cpid_controller_testsB");
    u00202 : constant Version_32 := 16#0fe64ed7#;
    pragma Export (C, u00202, "navigation__pid_controller__cpid_controller_test_data__cpid_controller_testsS");

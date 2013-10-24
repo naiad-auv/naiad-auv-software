@@ -1,5 +1,6 @@
 with Ada.Finalization;
 with Ada.Unchecked_Deallocation;
+with Exception_Handling;
 
 package Navigation.Thrusters is
    type CThruster is new Ada.Finalization.Controlled with private;

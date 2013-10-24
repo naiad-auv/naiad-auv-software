@@ -1,3 +1,5 @@
+with Exception_Handling;
+
 package body Navigation.Thrusters is
 
    --------------
@@ -47,6 +49,7 @@ package body Navigation.Thrusters is
       iThrusterIndex : in integer;
       tfThrusterEffects : in TThrusterEffects)
    is
+
    begin
       if iThrusterIndex - 1 = 0 then
          this.tfThrusterEffects := tfThrusterEffects;
@@ -54,7 +57,7 @@ package body Navigation.Thrusters is
          if this.pxNextThruster /= null then
             this.pxNextThruster.Change_Thruster_Effects(iThrusterIndex - 1, tfThrusterEffects);
          else
-            raise Numeric_Error; -- index out of range
+            raise Exception_Handling.IndexOutOfBounds;
          end if;
       end if;
    end;

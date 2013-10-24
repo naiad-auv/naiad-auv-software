@@ -14,6 +14,7 @@ with Math.Angles;
 with Navigation.Drift_Controller;
 with Ada.Finalization;
 with Ada.Unchecked_Deallocation;
+with Exception_Handling;
 
 package Navigation.Dispatcher is
 

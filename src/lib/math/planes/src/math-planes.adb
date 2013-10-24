@@ -1,5 +1,6 @@
 with Math.Vectors;
 with Ada.Numerics;
+with Exception_Handling;
 
 package body Math.Planes is
 
@@ -18,7 +19,7 @@ package body Math.Planes is
          return Math.Planes.pxCreate(xNormalVector       => pxNormalVector.all,
                                      fDistanceFromOrigin => fDistanceFromOrigin);
       end if;
-      raise Constraint_Error;
+      raise Exception_Handling.NullPointer;
    end pxCreate;
 
    function pxGet_Copy(this : in CPlane) return pCPlane is
@@ -70,21 +71,21 @@ package body Math.Planes is
       if pxLeftOperandPlane /= null and then pxRightOperandPlane /= null then
          return fAngle_Between_In_Degrees(pxLeftOperandPlane.all, pxRightOperandPlane.all);
       end if;
-      raise Constraint_Error;
+      raise Exception_Handling.NullPointer;
    end fAngle_Between_In_Degrees;
    function fAngle_Between_In_Degrees (pxLeftOperandPlane : in pCPlane; xRightOperandPlane : in CPlane) return float is
    begin
       if pxLeftOperandPlane /= null then
          return fAngle_Between_In_Degrees(pxLeftOperandPlane.all, xRightOperandPlane);
       end if;
-      raise Constraint_Error;
+      raise Exception_Handling.NullPointer;
    end fAngle_Between_In_Degrees;
    function fAngle_Between_In_Degrees (xLeftOperandPlane : in CPlane; pxRightOperandPlane : in pCPlane) return float is
    begin
       if pxRightOperandPlane /= null then
          return fAngle_Between_In_Degrees(xLeftOperandPlane, pxRightOperandPlane.all);
       end if;
-      raise Constraint_Error;
+      raise Exception_Handling.NullPointer;
    end fAngle_Between_In_Degrees;
 
 
@@ -92,7 +93,7 @@ package body Math.Planes is
    begin
 
       if abs(Math.Vectors.fDot_Product(xLeftOperandPlane.xGet_Normal_Vector, xRightOperandPlane.xGet_Normal_Vector)) = 1.0 then
-         raise Numeric_Error;
+         raise Exception_Handling.ParallelPlanes;
       end if;
 
       return Math.Vectors.xCross_Product(xLeftOperandPlane.xGet_Normal_Vector, xRightOperandPlane.xGet_Normal_Vector).xGet_Normalized;
@@ -102,21 +103,21 @@ package body Math.Planes is
       if pxLeftOperandPlane /= null and then pxRightOperandPlane /= null then
          return xGet_Intersection_Vector_Between(pxLeftOperandPlane.all, pxRightOperandPlane.all);
       end if;
-      raise Constraint_Error;
+      raise Exception_Handling.NullPointer;
    end xGet_Intersection_Vector_Between;
    function xGet_Intersection_Vector_Between (pxLeftOperandPlane : in pCPlane; xRightOperandPlane : in CPlane) return Math.Vectors.CVector is
    begin
       if pxLeftOperandPlane /= null then
          return xGet_Intersection_Vector_Between(pxLeftOperandPlane.all, xRightOperandPlane);
       end if;
-      raise Constraint_Error;
+      raise Exception_Handling.NullPointer;
    end xGet_Intersection_Vector_Between;
    function xGet_Intersection_Vector_Between (xLeftOperandPlane : in CPlane; pxRightOperandPlane : in pCPlane) return Math.Vectors.CVector is
    begin
       if pxRightOperandPlane /= null then
          return xGet_Intersection_Vector_Between(xLeftOperandPlane, pxRightOperandPlane.all);
       end if;
-      raise Constraint_Error;
+      raise Exception_Handling.NullPointer;
    end xGet_Intersection_Vector_Between;
 
    procedure Copy_From(this : in out CPlane; xSourcePlane : in CPlane) is

@@ -10,6 +10,7 @@ package Exception_Handling is
    ParallelPlanes : exception;
    DivisionByZero : exception;
    IndexOutOfBounds : exception;
+   UnknownMotionComponent : exception;
 
 
    procedure Unhandled_Exception (E : in Ada.Exceptions.Exception_Occurrence);
