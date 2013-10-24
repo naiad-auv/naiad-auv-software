@@ -2,19 +2,19 @@ with Ada.Exceptions;
 
 package Exception_Handling is
 
-   type E
-   type TException;
-   Unhandled_Exception : TException;
-   Null_Pointer : TException;
-   Not_Unit_Quaternion : TException;
-   Singular_Matrix : TException;
-   Parallel_Planes : TException;
-   Division_By_Zero : TException;
-   Index_Out_Of_Bounds : TException;
+   type EExceptions is (Unhandled_Exception,
+                        Null_Pointer,
+                        Not_Unit_Quaternion,
+                        Singular_Matrix,
+                        Parallel_Planes,
+                        Division_By_Zero,
+                        Index_Out_Of_Bounds);
+
+   type TException is new EExceptions;
 
 
 
-   function Get_Name(E : exception) return string;
-   procedure Unhandled_Exception (E : in exception);
+   function Get_Name(E : in TException) return string;
+   procedure Unhandled_Exception (E : in TException);
 
 end Exception_Handling;
