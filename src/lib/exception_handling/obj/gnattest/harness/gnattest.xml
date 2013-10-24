@@ -1,0 +1,13 @@
+<tests_mapping mode="monolith">
+   <unit source_file="exception_handling.ads">
+      <test_unit target_file="exception_handling-test_data-tests.ads">
+         <setup file="exception_handling-test_data.adb" line="3"  column="4"/>
+         <teardown file="exception_handling-test_data.adb" line="9"  column="4"/>
+         <tested name="Unhandled_Exception" line="15" column="4">
+            <test file="exception_handling-test_data-tests.adb" line="13" column="1" timestamp="2013-10-24 09:03:16"/>
+         </tested>
+         <dangling>
+         </dangling>
+      </test_unit>
+   </unit>
+</tests_mapping>
