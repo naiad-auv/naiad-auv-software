@@ -162,8 +162,8 @@ begin
       --GET IMAGE-- read from buffer
       if (iUseBuffer = 1) then
          CoreWrap.img_buffer; --load image to img.at(0)
-      elsif iUseStatic =1 then
-         --, or just read in single image NEW, READS IN IMAGE AND STORES IN INDEX "IMAGESOURCE" OF "img.at()
+      elsif (iUseStatic =1) then
+         --, or just read in single image NEW, READS IN IMAGE AND STORES IN INDEX "IMAGESOURCE" OF "img.at()"
          CoreWrap.imstore(iImageSource,New_String("62.jpg"));
       end if;
 
@@ -232,6 +232,7 @@ begin
 
       --USE CANNY ON GREYSCALE IMAGE
       if (iDoCanny = 1) then
+         processingWrap.cvtColor(iImageSource,iGreyScaleLocation, iGreyFilter);
          processingWrap.Canny(iGreyScaleLocation,iCannyLocation, iCannyLowThres, iCannyHighThres, iCannyKernelSize);
          CoreWrap.imshow(New_String("why so canny?"), iCannyLocation);--show image for debug purposes
          CoreWrap.waitKey(0);
