@@ -119,7 +119,7 @@ package body CAN_Link_pack is
       CAN_Link_Utils.Bytes_To_Message_Header(Head_Buf, msg, u8ReceivedChecksum);
 
       if Integer(msg.Len) /= 0 then
-         while AVR.AT90CAN128.USART.Data_Available < Integer(msg.Len) loop
+         while AVR.AT90CAN128.USART.Data_Available(USART_PORT) < Integer(msg.Len) loop
             null;
          end loop;
 
