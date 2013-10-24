@@ -5,7 +5,9 @@
 -- It has been tested in hardware and it works.
 
 -- Rewritten by Nils Brynedal Ignell for the Naiad AUV project
--- Last changed (yyyy-mm-dd): 2013-10-23
+-- Last changed (yyyy-mm-dd): 2013-10-24
+
+-- To do: Hardware testing.
 
 ---------------------------------------------------------------------------
 
@@ -101,21 +103,14 @@ package body CAN_Link_pack is
       use AVR.AT90CAN128.CAN;
       use Interfaces;
 
-      iRnum        : Integer;
-      iDataLen     : Interfaces.Unsigned_8;
-      u8Data_Type  : Interfaces.Unsigned_8;
-      Identifier   : AVR.AT90CAN128.CAN.CAN_Identifier;
-
-      Head_Buf     : String(1..CAN_Link_Utils.HEADLEN);
-     -- bChecksum    : Boolean;
+      iRnum        	  : Integer;
+      Head_Buf     	  : String(1..CAN_Link_Utils.HEADLEN);
       u8ActualChecksum    : Interfaces.Unsigned_8;
       u8ReceivedChecksum  : Interfaces.Unsigned_8;
-      bIsExtended  : Boolean;
-
-      msg : AVR.AT90CAN128.CAN.CAN_Message;
+      msg 		  : AVR.AT90CAN128.CAN.CAN_Message;
    begin
 
-      if AVR.AT90CAN128.USART.Data_Available < CAN_Link_Utils.HEADLEN  then
+      if AVR.AT90CAN128.USART.Data_Available(USART_PORT) < CAN_Link_Utils.HEADLEN  then
          return;
       end if;
 

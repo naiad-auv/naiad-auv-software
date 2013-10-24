@@ -7,7 +7,7 @@
 -- Written by Nils Brynedal Ignell for the Naiad AUV project
 -- Last changed (yyyy-mm-dd): 2013-10-23
 
--- To do: Hardware testing, both on the CAN-link and the BBB.
+-- To do: Hardware testing with the BBB.
 ---------------------------------------------------------------------------
 
 with Interfaces;
