@@ -44,6 +44,7 @@ package body Math.Quaternions is
    end pxCreate;
 
    function pxCreate (pxAxisVector : in Math.Vectors.pCVector; fAngleInDegrees : in float) return pCQuaternion is
+      use Math.Vectors;
    begin
       if pxAxisVector /= null then
          return Math.Quaternions.pxCreate(xAxisVector    => pxAxisVector.all,

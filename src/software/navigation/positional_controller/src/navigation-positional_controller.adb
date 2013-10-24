@@ -49,7 +49,7 @@ package body Navigation.Positional_Controller is
       xRelativeWantedPositionVector : Math.Vectors.CVector;
       xAbsoluteDifferenceVector : Math.Vectors.CVector;
    begin
-      xAbsoluteDifferenceVector := this.pxWantedAbsolutePosition - this.pxCurrentAbsolutePosition;
+      xAbsoluteDifferenceVector := this.pxWantedAbsolutePosition.all - this.pxCurrentAbsolutePosition.all;
       xRelativeWantedPositionVector := this.pxCurrentAbsoluteOrientation.xGet_Inverse * xAbsoluteDifferenceVector;
 
       this.pxXMotionComponent.Update_Current_Error(xRelativeWantedPositionVector.fGet_X);

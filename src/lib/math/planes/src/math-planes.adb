@@ -13,6 +13,7 @@ package body Math.Planes is
    end pxCreate;
 
    function pxCreate (pxNormalVector : in Math.Vectors.pCVector; fDistanceFromOrigin : in float) return pCPlane is
+      use Math.Vectors;
    begin
       if pxNormalVector /= null then
          return Math.Planes.pxCreate(xNormalVector       => pxNormalVector.all,

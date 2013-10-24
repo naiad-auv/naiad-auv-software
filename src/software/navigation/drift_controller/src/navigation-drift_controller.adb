@@ -73,8 +73,8 @@ package body Navigation.Drift_Controller is
       xAbsoluteDriftVelocityVector : Math.Vectors.CVector;
       fDriftComponent : float;
    begin
-      xAbsoluteDirectionVector := Math.Vectors.CVector(this.pxWantedAbsolutePosition - this.pxCurrentAbsolutePosition).xGet_Normalized;
-      xAbsoluteVelocityVector := this.pxCurrentAbsolutePosition - this.pxLastAbsolutePosition;
+      xAbsoluteDirectionVector := Math.Vectors.CVector(this.pxWantedAbsolutePosition.all - this.pxCurrentAbsolutePosition.all).xGet_Normalized;
+      xAbsoluteVelocityVector := this.pxCurrentAbsolutePosition.all - this.pxLastAbsolutePosition.all;
 
       fDriftComponent := Math.Vectors.fDot_Product(xAbsoluteVelocityVector, xAbsoluteDirectionVector);
 
