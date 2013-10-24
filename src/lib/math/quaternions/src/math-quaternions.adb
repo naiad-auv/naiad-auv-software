@@ -3,8 +3,16 @@ with Ada.Numerics.Elementary_Functions;
 with Ada.Numerics;
 with Exception_Handling;
 
-
 package body Math.Quaternions is
+
+   function pxCreate (fX : in float; fY : in float; fZ : in float; fW : in float) return pCQuaternion is
+   begin
+      return new CQuaternion'(fX => fX,
+                              fY => fY,
+                              fZ => fZ,
+                              fW => fW);
+   end pxCreate;
+
 
    function pxCreate (xAxisVector : in Math.Vectors.CVector; fAngleInDegrees : in float) return pCQuaternion is
       fAngleInRadians : float;
@@ -90,9 +98,9 @@ package body Math.Quaternions is
 
    function "=" (xLeftOperandQuaternion, xRightOperandQuaternion : in CQuaternion) return boolean is
    begin
-      return (xLeftOperandQuaternion.fX = xRightOperandQuaternion.fX) and
-        (xLeftOperandQuaternion.fY = xRightOperandQuaternion.fY) and
-        (xLeftOperandQuaternion.fZ = xRightOperandQuaternion.fZ) and
+      return (xLeftOperandQuaternion.fX = xRightOperandQuaternion.fX) and then
+        (xLeftOperandQuaternion.fY = xRightOperandQuaternion.fY) and then
+        (xLeftOperandQuaternion.fZ = xRightOperandQuaternion.fZ) and then
         (xLeftOperandQuaternion.fW = xRightOperandQuaternion.fW);
    end "=";
 

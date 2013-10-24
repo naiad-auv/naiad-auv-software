@@ -85,8 +85,14 @@ package Math.Quaternions is
    --  <parameter name="this">The quaternion holding the wanted angle of rotation.</parameter>
 
    procedure Copy_From(this : in out CQuaternion; xSourceQuaternion : in CQuaternion);
+   --  <summary>Copys the xSourceQuaternion over to the this object</summary>
+   --  <parameter name="this">The quaternion to be overwritten.</parameter>
+   --  <parameter name="xSourceQuaternion">The quaternion to be to copy values from.</parameter>
 
 private
+
+   function pxCreate (fX : in float; fY : in float; fZ : in float; fW : in float) return pCQuaternion;
+
    type CQuaternion is tagged
       record
          fX : float;
