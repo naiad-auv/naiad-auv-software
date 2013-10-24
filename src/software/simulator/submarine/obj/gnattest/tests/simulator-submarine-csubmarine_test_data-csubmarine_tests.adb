@@ -35,7 +35,7 @@ package body simulator.submarine.CSubmarine_Test_Data.CSubmarine_Tests is
       pxPositionReturned := pxSubmarine.pxGet_Position_Vector;
       AUnit.Assertions.Assert(Condition => pxPositionReturned'Address /= pxPositionVector'Address,
                               Message   => "pxGet_Position_Vector failed, mathing pointers to object");
-            AUnit.Assertions.Assert(Condition => pxPositionReturned = pxPositionVector,
+            AUnit.Assertions.Assert(Condition => pxPositionReturned.all = pxPositionVector.all,
                               Message   => "pxGet_Position_Vector failed, faulty value");
 
 
@@ -62,7 +62,7 @@ package body simulator.submarine.CSubmarine_Test_Data.CSubmarine_Tests is
       pxVelocityReturned := pxSubmarine.pxGet_Velocity_Vector;
       AUnit.Assertions.Assert(Condition => pxVelocityReturned'Address /= pxVelocityVector'Address,
                               Message   => "pxGet_Velocity_Vector failed, mathing pointers to object");
-            AUnit.Assertions.Assert(Condition => pxVelocityReturned = pxVelocityVector,
+            AUnit.Assertions.Assert(Condition => pxVelocityReturned.all = pxVelocityVector.all,
                               Message   => "pxGet_Velocity_Vector failed, faulty value");
 
 --  begin read only
@@ -83,12 +83,12 @@ package body simulator.submarine.CSubmarine_Test_Data.CSubmarine_Tests is
       pxOrinetationReturned : math.Matrices.pCMatrix;
    begin
       pxSubmarine := simulator.submarine.pxCreate;
-      pxOrientationMatrix := math.Matrices.pxCreate_Rotation_Around_X_Axis((39.0));
+      pxOrientationMatrix := math.Matrices.pxGet_Copy(math.Matrices.xCreate_Rotation_Around_X_Axis((39.0)));
       pxSubmarine.pxOrientationMatrix := pxOrientationMatrix;
       pxOrinetationReturned := pxSubmarine.pxGet_Orientation_Matrix;
       AUnit.Assertions.Assert(Condition => pxOrientationMatrix'Address /= pxOrinetationReturned'Address,
                               Message   => "pxGet_Orientation_Matrix failed, mathing pointers to object");
-            AUnit.Assertions.Assert(Condition => pxOrientationMatrix = pxOrinetationReturned,
+            AUnit.Assertions.Assert(Condition => pxOrientationMatrix.all = pxOrinetationReturned.all,
                               Message   => "pxGet_Orientation_Matrix failed, faulty value");
 
 
@@ -116,7 +116,7 @@ package body simulator.submarine.CSubmarine_Test_Data.CSubmarine_Tests is
       pxAngularVelocityReturned := pxSubmarine.pxGet_Angular_Velocity_Vector;
       AUnit.Assertions.Assert(Condition => pxAngularVelocityReturned'Address /= pxAngularVelocityVector'Address,
                               Message   => "pxGet_Angular_Velocity failed, mathing pointers to object");
-            AUnit.Assertions.Assert(Condition => pxAngularVelocityReturned = pxAngularVelocityVector,
+            AUnit.Assertions.Assert(Condition => pxAngularVelocityReturned.all = pxAngularVelocityVector.all,
                               Message   => "pxGet_Angular_Velocity failed, faulty value");
 
 --  begin read only
@@ -172,7 +172,7 @@ package body simulator.submarine.CSubmarine_Test_Data.CSubmarine_Tests is
       pxSubmarine.Set_Position_Vector(pxPositionVector => pxPositionVector);
       AUnit.Assertions.Assert(Condition => pxSubmarine.pxPositionVector'Address /= pxPositionVector'Address,
                               Message   => "Simulator.Submarine.Set_Position_Vector failed, matching addresses");
-      AUnit.Assertions.Assert(Condition => math.Vectors."="(pxSubmarine.pxPositionVector,pxPositionVector),
+      AUnit.Assertions.Assert(Condition => pxSubmarine.pxPositionVector.all=pxPositionVector.all,
                               Message   => "Simulator.Submarine.Set_Position_Vector failed, faulty value");
 --  begin read only
    end Test_Set_Position_Vector;
@@ -192,11 +192,11 @@ package body simulator.submarine.CSubmarine_Test_Data.CSubmarine_Tests is
       pxOrientationMatrix : math.Matrices.pCMatrix;
    begin
       pxSubmarine := Submarine.pxCreate;
-      pxOrientationMatrix := math.Matrices.pxCreate_Rotation_Around_X_Axis(15.0);
+      pxOrientationMatrix := math.Matrices.pxGet_Copy(math.Matrices.xCreate_Rotation_Around_X_Axis(15.0));
       pxSubmarine.Set_Orientation_Matrix(pxOrientationMatrix);
       AUnit.Assertions.Assert(Condition => pxSubmarine.pxOrientationMatrix'Address /= pxOrientationMatrix'Address,
                               Message   => "Simulator.Submarine.Orientation_Matrix failed, matching addresses");
-      AUnit.Assertions.Assert(Condition => math.Matrices."="(pxSubmarine.pxOrientationMatrix,pxOrientationMatrix),
+      AUnit.Assertions.Assert(Condition => pxSubmarine.pxOrientationMatrix.all = pxOrientationMatrix.all,
                               Message   => "Simulator.Submarine.Orientation_Matrix failed, faulty value");
 --  begin read only
    end Test_Set_Orientation_Matrix;
@@ -220,7 +220,7 @@ package body simulator.submarine.CSubmarine_Test_Data.CSubmarine_Tests is
       pxSubmarine.Set_Velocity_Vector(pxVelocityVector);
       AUnit.Assertions.Assert(Condition => pxSubmarine.pxVelocityVector'Address /= pxVelocityVector'Address,
                               Message   => "Simulator.Submarine.Set_Position_Vector failed, matching addresses");
-      AUnit.Assertions.Assert(Condition => math.Vectors."="(pxSubmarine.pxVelocityVector,pxVelocityVector),
+      AUnit.Assertions.Assert(Condition => pxSubmarine.pxVelocityVector.all=pxVelocityVector.all,
                               Message   => "Simulator.Submarine.Set_Position_Vector failed, faulty value");
 --  begin read only
    end Test_Set_Velocity_Vector;
@@ -244,7 +244,7 @@ package body simulator.submarine.CSubmarine_Test_Data.CSubmarine_Tests is
       pxSubmarine.Set_Angular_Velocity_Vector(pxAngularVelocityVector => pxAngularVelocityVector);
       AUnit.Assertions.Assert(Condition => pxSubmarine.pxAngularVelocityVector'Address /= pxAngularVelocityVector'Address,
                               Message   => "Simulator.Submarine.Set_Position_Vector failed, matching addresses");
-      AUnit.Assertions.Assert(Condition => math.Vectors."="(pxSubmarine.pxAngularVelocityVector,pxAngularVelocityVector),
+      AUnit.Assertions.Assert(Condition => pxSubmarine.pxAngularVelocityVector.all=pxAngularVelocityVector.all,
                               Message   => "Simulator.Submarine.Set_Position_Vector failed, faulty value");
 --  begin read only
    end Test_Set_Angular_Velocity_Vector;
@@ -256,6 +256,7 @@ package body simulator.submarine.CSubmarine_Test_Data.CSubmarine_Tests is
    procedure Test_Set_Motor_Info_ae0f8d (Gnattest_T : in out Test_CSubmarine) renames Test_Set_Motor_Info;
 --  id:2.1/ae0f8d45af54da56/Set_Motor_Info/1/0/
    procedure Test_Set_Motor_Info (Gnattest_T : in out Test_CSubmarine) is
+      use simulator.Motor_Info;
    --  simulator-submarine.ads:30:4:Set_Motor_Info
 --  end read only
 
@@ -271,7 +272,7 @@ package body simulator.submarine.CSubmarine_Test_Data.CSubmarine_Tests is
       end loop;
       for iLoopThroughMotors in txMotors'Range loop
          pxSubmarine.Set_Motor_Info(txMotorInfo => txMotors);
-         Aunit.Assertions.Assert(Condition => simulator.Motor_Info."="(pxSubmarine.txMotorInfo(iLoopThroughMotors),txMotors(ILoopThroughMotors)),
+         Aunit.Assertions.Assert(Condition => pxSubmarine.txMotorInfo(iLoopThroughMotors).all=txMotors(ILoopThroughMotors).all,
                                  Message   => "Simulator.submarine.Set_Motor_Info failed, faulty values");
          Aunit.Assertions.Assert(Condition => pxSubmarine.txMotorInfo(iLoopThroughMotors)'Address /= txMotors(iLoopThroughMotors)'Address,
                                  Message   => "Simulator.submarine.Set_Motor_Info failed, matching pointers");
@@ -370,7 +371,7 @@ package body simulator.submarine.CSubmarine_Test_Data.CSubmarine_Tests is
       pxSubmarine.Set_Buoyancy_Force_Position_Vector(pxBuoyancyForcePositionVector);
       AUnit.Assertions.Assert(Condition => pxSubmarine.pxBuoyancyForcePositionVector'Address /= pxBuoyancyForcePositionVector'Address,
                               Message   => "Simulator.Submarine.Set_Buoyancy_Force_Position_Vector failed, matching addresses");
-      AUnit.Assertions.Assert(Condition => math.Vectors."="(pxSubmarine.pxBuoyancyForcePositionVector,pxBuoyancyForcePositionVector),
+      AUnit.Assertions.Assert(Condition => math.Vectors."="(pxSubmarine.pxBuoyancyForcePositionVector.all,pxBuoyancyForcePositionVector.all),
                               Message   => "Simulator.Submarine.Set_Buoyancy_Force_Position_Vector failed, faulty value");
 --  begin read only
    end Test_Set_Buoyancy_Force_Position_Vector;
@@ -394,7 +395,7 @@ package body simulator.submarine.CSubmarine_Test_Data.CSubmarine_Tests is
       pxSubmarine.Set_Rotation_Friction_Vector(pxRotationFrictionVector);
       AUnit.Assertions.Assert(Condition => pxSubmarine.pxRotationFrictionVector'Address /= pxRotationFrictionVector'Address,
                               Message   => "Simulator.Submarine.Set_Buoyancy_Force_Position_Vector failed, matching addresses");
-      AUnit.Assertions.Assert(Condition => math.Vectors."="(pxSubmarine.pxRotationFrictionVector,pxRotationFrictionVector),
+      AUnit.Assertions.Assert(Condition => math.Vectors."="(pxSubmarine.pxRotationFrictionVector.all,pxRotationFrictionVector.all),
                               Message   => "Simulator.Submarine.Set_Rotation_Friction_Vector failed, faulty value");
 --  begin read only
    end Test_Set_Rotation_Friction_Vector;
@@ -418,7 +419,7 @@ package body simulator.submarine.CSubmarine_Test_Data.CSubmarine_Tests is
       pxSubmarine.Set_Veclocity_Friction_Vector(pxVelocityFrictionVector);
       AUnit.Assertions.Assert(Condition => pxSubmarine.pxVelocityFrictionVector'Address /= pxVelocityFrictionVector'Address,
                               Message   => "Simulator.Submarine.Set_Buoyancy_Force_Position_Vector failed, matching addresses");
-      AUnit.Assertions.Assert(Condition => math.Vectors."="(pxSubmarine.pxVelocityFrictionVector,pxVelocityFrictionVector),
+      AUnit.Assertions.Assert(Condition => math.Vectors."="(pxSubmarine.pxVelocityFrictionVector.all,pxVelocityFrictionVector.all),
                               Message   => "Simulator.Submarine.Set_Rotation_Friction_Vector failed, faulty value");
 --  begin read only
    end Test_Set_Veclocity_Friction_Vector;
@@ -439,11 +440,11 @@ package body simulator.submarine.CSubmarine_Test_Data.CSubmarine_Tests is
       pxInertiaMatrix : math.Matrices.pCMatrix;
    begin
       pxSubmarine := Submarine.pxCreate;
-      pxInertiaMatrix := math.Matrices.pxCreate_Rotation_Around_X_Axis(32.1);
+      pxInertiaMatrix := math.Matrices.pxGet_Copy(math.Matrices.xCreate_Rotation_Around_X_Axis(32.1));
       pxSubmarine.Set_Inertia_Matrix(pxInertiaMatrix);
       AUnit.Assertions.Assert(Condition => pxSubmarine.pxInertiaMatrix'Address /= pxInertiaMatrix'Address,
                               Message   => "Simulator.Submarine.Set_Buoyancy_Force_Position_Vector failed, matching addresses");
-      AUnit.Assertions.Assert(Condition => pxSubmarine.pxInertiaMatrix = pxInertiaMatrix,
+      AUnit.Assertions.Assert(Condition => pxSubmarine.pxInertiaMatrix.all = pxInertiaMatrix.all,
                               Message   => "Simulator.Submarine.Set_Rotation_Friction_Vector failed, faulty value");
 
 --  begin read only
@@ -480,7 +481,7 @@ package body simulator.submarine.CSubmarine_Test_Data.CSubmarine_Tests is
       end loop;
       pxSubmarine := submarine.pxCreate;
       pxSubmarine.Set_Position_Vector(math.Vectors.pxCreate(0.0,0.0,0.0));
-      pxSubmarine.Set_Orientation_Matrix(math.Matrices.pxCreate_Identity);
+      pxSubmarine.Set_Orientation_Matrix(math.Matrices.pxGet_Copy(math.Matrices.xCreate_Identity));
       pxSubmarine.Set_Velocity_Vector(math.Vectors.pxCreate(0.0,0.0,0.0));
       pxSubmarine.Set_Angular_Velocity_Vector(math.Vectors.pxCreate(0.0,0.0,0.0));
       pxSubmarine.Set_Motor_Info(txMotorInfo);
@@ -495,10 +496,10 @@ package body simulator.submarine.CSubmarine_Test_Data.CSubmarine_Tests is
       pxUnitTestForce := math.Vectors.pxCreate(0.0,0.0,pxSubmarine.fBuoyancyForce-pxSubmarine.fWeight*9.82);
 
       for i in 1..6 loop
-         pxUnitTestForce := pxUnitTestForce + (pxSubmarine.txMotorInfo(i).pxGet_Force_Vector * pxSubmarine.txMotorForce(i));
+         pxUnitTestForce := math.Vectors.pxGet_Copy(pxUnitTestForce + (pxSubmarine.txMotorInfo(i).pxGet_Force_Vector * pxSubmarine.txMotorForce(i)));
       end loop;
-      pxUnitTestAcceleration := pxUnitTestForce/pxSubmarine.fWeight;
-      AUnit.Assertions.Assert(Condition => pxSubmarine.pxAccelerationVector = pxUnitTestAcceleration,
+      pxUnitTestAcceleration := math.Vectors.pxGet_Copy(pxUnitTestForce/pxSubmarine.fWeight);
+      AUnit.Assertions.Assert(Condition => pxSubmarine.pxAccelerationVector.all = pxUnitTestAcceleration.all,
                               Message   => "Calculate_Acceleration failed, Faulty Values");
 
 
@@ -534,8 +535,8 @@ package body simulator.submarine.CSubmarine_Test_Data.CSubmarine_Tests is
       end loop;
       pxSubmarine := submarine.pxCreate;
       pxSubmarine.Set_Position_Vector(math.Vectors.pxCreate(0.0,0.0,0.0));
-      pxSubmarine.Set_Orientation_Matrix(math.Matrices.pxCreate_Identity);
-      pxSubmarine.pxInertiaMatrix := math.Matrices.pxCreate_Identity;
+      pxSubmarine.Set_Orientation_Matrix(math.Matrices.pxGet_Copy(math.Matrices.xCreate_Identity));
+      pxSubmarine.pxInertiaMatrix := math.Matrices.pxGet_Copy(math.Matrices.xCreate_Identity);
       pxSubmarine.Set_Velocity_Vector(math.Vectors.pxCreate(0.0,0.0,0.0));
       pxSubmarine.Set_Angular_Velocity_Vector(math.Vectors.pxCreate(0.0,0.0,0.0));
       pxSubmarine.Set_Motor_Info(txMotorInfo);
@@ -550,10 +551,10 @@ package body simulator.submarine.CSubmarine_Test_Data.CSubmarine_Tests is
       pxUnitTestTorque := math.Vectors.pxCreate(0.0,0.0,0.0);
 
       for i in 1..6 loop
-         pxUnitTestTorque := pxUnitTestTorque + (pxSubmarine.txMotorInfo(i).pxGet_Torque_Vector * pxSubmarine.txMotorForce(i));
+         pxUnitTestTorque := math.Vectors.pxGet_Copy(pxUnitTestTorque + (pxSubmarine.txMotorInfo(i).pxGet_Torque_Vector * pxSubmarine.txMotorForce(i)));
       end loop;
-      pxUnitTestAngularAcceleration := pxSubmarine.pxInertiaMatrix.pxGet_Inverse * pxUnitTestTorque;
-      AUnit.Assertions.Assert(Condition => pxSubmarine.pxAngularAccelerationVector = pxUnitTestAngularAcceleration,
+      pxUnitTestAngularAcceleration := math.Vectors.pxGet_Copy(pxSubmarine.pxInertiaMatrix.xGet_Inverse * pxUnitTestTorque);
+      AUnit.Assertions.Assert(Condition => pxSubmarine.pxAngularAccelerationVector.all = pxUnitTestAngularAcceleration.all,
                               Message   => "Calculate_Angular_Acceleration failed, Faulty Values");
 
 --  begin read only
@@ -590,17 +591,17 @@ package body simulator.submarine.CSubmarine_Test_Data.CSubmarine_Tests is
       pxSubmarine := simulator.submarine.pxCreate;
       pxSubmarine.pxPositionVector := math.Vectors.pxCreate(0.0 , 0.0 , 0.0);
       pxSubmarine.pxVelocityVector := math.Vectors.pxCreate(0.0 , 0.0 , 0.0);
-      pxSubmarine.pxOrientationMatrix := math.Matrices.pxCreate_Identity;
+      pxSubmarine.pxOrientationMatrix := math.Matrices.pxGet_Copy(math.Matrices.xCreate_Identity);
       pxSubmarine.pxAngularVelocityVector := math.Vectors.pxCreate(0.0 , 0.0 , 0.0);
       for i in 1..10000 loop
          pxSubmarine.pxAccelerationVector := math.Vectors.pxCreate(1.0 , 0.0 , 0.0);
          pxSubmarine.pxAngularAccelerationVector := math.Vectors.pxCreate(1.0 , 1.0 , 1.0);
          pxSubmarine.Integrate_Submarine_Variables(0.0001);
       end loop;
-      pxCalculateOrientationMatrix:=math.Matrices.pxCreate_From_Quaternion(math.Quaternions.pxCreate(pxAxisVector    => Math.Vectors.pxCreate(fX => 1.0,
+      pxCalculateOrientationMatrix:=math.Matrices.pxGet_Copy(math.Matrices.xCreate_From_Quaternion(math.Quaternions.pxCreate(pxAxisVector    => Math.Vectors.pxCreate(fX => 1.0,
                                                                                                                                              fY => 1.0,
                                                                                                                                              fZ => 1.0),
-                                                                                                    fAngleInDegrees => Math.Angles.fRadians_To_Degrees(0.5*1.73205080757)));
+                                                                                                    fAngleInDegrees => Math.Angles.fRadians_To_Degrees(0.5*1.73205080757))));
 
 
       for i in 1..3 loop
@@ -620,19 +621,19 @@ package body simulator.submarine.CSubmarine_Test_Data.CSubmarine_Tests is
 
       pxCalculatedPositionVector := math.Vectors.pxCreate(0.5 , 0.0 , 0.0);
 
-      pxDifferentialPositionVector := pxCalculatedPositionVector-pxSubmarine.pxPositionVector;
+      pxDifferentialPositionVector := math.Vectors.pxGet_Copy(pxCalculatedPositionVector-pxSubmarine.pxPositionVector);
 
-      pxTestOrientationXVector := pxCalculateOrientationMatrix * math.Vectors.pxCreate(1.0 , 0.0 , 0.0);
-      pxTestOrientationYVector := pxCalculateOrientationMatrix * math.Vectors.pxCreate(0.0 , 1.0 , 0.0);
-      pxTestOrientationZVector := pxCalculateOrientationMatrix * math.Vectors.pxCreate(0.0 , 0.0 , 1.0);
-      pxSimOrientationXVector := pxSubmarine.pxOrientationMatrix * math.Vectors.pxCreate(1.0 , 0.0 , 0.0);
-      pxSimOrientationYVector := pxSubmarine.pxOrientationMatrix * math.Vectors.pxCreate(0.0 , 1.0 , 0.0);
-      pxSimOrientationZVector := pxSubmarine.pxOrientationMatrix * math.Vectors.pxCreate(0.0 , 0.0 , 1.0);
+      pxTestOrientationXVector := math.Vectors.pxGet_Copy(pxCalculateOrientationMatrix * math.Vectors.pxCreate(1.0 , 0.0 , 0.0));
+      pxTestOrientationYVector := math.Vectors.pxGet_Copy(pxCalculateOrientationMatrix * math.Vectors.pxCreate(0.0 , 1.0 , 0.0));
+      pxTestOrientationZVector := math.Vectors.pxGet_Copy(pxCalculateOrientationMatrix * math.Vectors.pxCreate(0.0 , 0.0 , 1.0));
+      pxSimOrientationXVector := math.Vectors.pxGet_Copy(pxSubmarine.pxOrientationMatrix * math.Vectors.pxCreate(1.0 , 0.0 , 0.0));
+      pxSimOrientationYVector := math.Vectors.pxGet_Copy(pxSubmarine.pxOrientationMatrix * math.Vectors.pxCreate(0.0 , 1.0 , 0.0));
+      pxSimOrientationZVector := math.Vectors.pxGet_Copy(pxSubmarine.pxOrientationMatrix * math.Vectors.pxCreate(0.0 , 0.0 , 1.0));
 
-      pxDifferentialXVector := pxTestOrientationXVector-pxSimOrientationXVector;
-      pxDifferentialYVector := pxTestOrientationYVector-pxSimOrientationYVector;
-      pxDifferentialZVector := pxTestOrientationZVector-pxSimOrientationZVector;
-      pxDifferentialPositionVector := pxCalculatedPositionVector - pxSubmarine.pxPositionVector;
+      pxDifferentialXVector := math.Vectors.pxGet_Copy(pxTestOrientationXVector-pxSimOrientationXVector);
+      pxDifferentialYVector := math.Vectors.pxGet_Copy(pxTestOrientationYVector-pxSimOrientationYVector);
+      pxDifferentialZVector := math.Vectors.pxGet_Copy(pxTestOrientationZVector-pxSimOrientationZVector);
+      pxDifferentialPositionVector := math.Vectors.pxGet_Copy(pxCalculatedPositionVector - pxSubmarine.pxPositionVector);
       AUnit.Assertions.Assert(Condition => pxDifferentialXVector.fLength<0.1,
                               Message   => "Simulator.Submarine.Integrate_Submarine_Values failed, faulty orientation matrix");
       AUnit.Assertions.Assert(Condition => pxDifferentialYVector.fLength<0.1,
@@ -663,11 +664,11 @@ package body simulator.submarine.CSubmarine_Test_Data.CSubmarine_Tests is
    begin
       txMotorForce := (0.1,0.4,0.21,0.123,0.145,1.5);
       pxSubmarine := submarine.pxCreate_Naiad;
-      pxSubmarine.Time_Step_Motor_Force_To_Integrate(txMotorForce);
+      pxSubmarine.Time_Step_Motor_Force_To_Integrate(txMotorForce,0.1);
       Aunit.Assertions.Assert(Condition => pxSubmarine.pxPositionVector /= math.Vectors.pxCreate(0.0,0.0,0.0),
                               Message   => "Test_Time_Step_Motor_Force_To_Integrate failed, no change in positionw with motor calues");
-      pxSubmarine.Time_Step_Motor_Force_To_Integrate(txMotorForce);
-      pxSubmarine.Time_Step_Motor_Force_To_Integrate(txMotorForce);
+      pxSubmarine.Time_Step_Motor_Force_To_Integrate(txMotorForce,0.1);
+      pxSubmarine.Time_Step_Motor_Force_To_Integrate(txMotorForce,0.1);
 
 
 --  begin read only

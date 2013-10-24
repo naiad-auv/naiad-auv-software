@@ -42,8 +42,7 @@ package body simulator.Motion_Control_Wrapper is
    begin
       this.pxDispatcher.Update_Current_Absolute_Position(pxNewCurrentAbsolutePosition.pxGet_Copy);
       this.pxDispatcher.Update_Current_Absolute_Orientation(pxNewCurrentOrientation.pxGet_Copy);
-      tfMotorValuesTThrustesValuesArray := this.pxDispatcher.tfGet_Thruster_Values(fDeltaTime => 1.0);
-
+      tfMotorValuesTThrustesValuesArray := this.pxDispatcher.tfGet_Thruster_Values(fDeltaTime => fDeltaTime);
       tfMotorValuesSubmarine(1) := tfMotorValuesTThrustesValuesArray(1);
       tfMotorValuesSubmarine(2) := tfMotorValuesTThrustesValuesArray(2);
       tfMotorValuesSubmarine(3) := tfMotorValuesTThrustesValuesArray(3);

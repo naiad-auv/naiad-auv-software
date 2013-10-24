@@ -1,3 +1,4 @@
+with "../../navigation/thruster_configurator/thruster_configurator.gpr";
 with "../../../lib/math/angles/angles.gpr";
 with "../../../lib/math/quaternions/quaternions.gpr";
 with "../../../lib/math/vectors/vectors.gpr";
