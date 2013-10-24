@@ -34,7 +34,6 @@ package body Navigation.Dispatcher is
       return pxNewDispatcher;
    end pxCreate;
 
-
    function tfGet_Thruster_Values(this : in CDispatcher; fDeltaTime : in float) return Navigation.Thrusters.TThrusterValuesArray is
       use Navigation.Thrusters;
       tfThrusterValues : Navigation.Thrusters.TThrusterValuesArray(1 .. this.pxThrusterConfigurator.iGet_Number_Of_Thrusters);
@@ -99,18 +98,15 @@ package body Navigation.Dispatcher is
 
    end Set_New_Component_PID_Scalings;
 
-
    procedure Update_Current_Absolute_Position (this : in out CDispatcher; xNewCurrentAbsolutePosition : in Math.Vectors.CVector) is
    begin
       this.pxCurrentAbsolutePosition.Copy_From(xNewCurrentAbsolutePosition);
    end Update_Current_Absolute_Position;
 
-
    procedure Update_Wanted_Absolute_Position (this : in out CDispatcher; xNewWantedAbsolutePosition : in Math.Vectors.CVector) is
    begin
       this.pxWantedAbsolutePosition.Copy_From(xNewWantedAbsolutePosition);
    end Update_Wanted_Absolute_Position;
-
 
    procedure Update_Current_Absolute_Orientation (this : in out CDispatcher; xNewCurrentAbsoluteOrientation : in Math.Matrices.CMatrix) is
    begin
@@ -121,7 +117,6 @@ package body Navigation.Dispatcher is
    begin
       this.pxWantedAbsoluteOrientation.Copy_From(xNewWantedAbsoluteOrientation);
    end Update_Wanted_Absolute_Orientation;
-
 
    procedure Scale_Thruster_Values (tfThrusterValues : in out Navigation.Thrusters.TThrusterValuesArray) is
       fScaleRatio : float;
@@ -193,7 +188,5 @@ package body Navigation.Dispatcher is
          Math.Matrices.Free(pxMatrixToDeallocate => this.pxWantedAbsoluteOrientation);
       end if;
    end Finalize;
-
-
 
 end Navigation.Dispatcher;
