@@ -78,6 +78,8 @@ package body Navigation.PID_Controller is
 
       output := this.fCurrentIntegralPart * this.fIntegralScale + this.fCurrentDerivativePart * this.fDerivativeScale + this.fCurrentProportionalPart * this.fProportionalScale;
 
+      this.fLastProportionalPart := this.fCurrentProportionalPart;
+
       return output;
    end xGet_New_Control_Value;
 
