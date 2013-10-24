@@ -144,11 +144,11 @@ begin
    iDoGaussian := 0;
    iDoSplit := 0;
    iDoCvtGrey := 0;
-   iDoCvtHSI := 0;
+   iDoCvtHSI := 1;
    iDoHistoBGR := 0;
    iDoHistoHSI := 0;
    iDoCanny := 0;
-   iDoThresh := 0;
+   iDoThresh := 1;
    iDoHoughCircles := 0;
    iDoContours := 0;
    iDoApproxPoly := 0;
