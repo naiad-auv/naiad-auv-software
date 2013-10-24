@@ -4,7 +4,6 @@ with GNAT.Traceback.Symbolic;
 
 package body Exception_Handling is
 
-
    -------------------------
    -- Unhandled_Exception --
    -------------------------
@@ -19,6 +18,5 @@ package body Exception_Handling is
       Ada.Text_IO.Put_Line (GNAT.Traceback.Symbolic.Symbolic_Traceback (Trace (1..Length)));
       raise UnhandledException;
    end Unhandled_Exception;
-
 
 end Exception_Handling;

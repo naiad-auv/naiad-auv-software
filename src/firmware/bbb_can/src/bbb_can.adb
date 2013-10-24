@@ -5,8 +5,9 @@
 -- This code is loosly based on the router.adb file from the Vasa project.
 
 -- Written by Nils Brynedal Ignell for the Naiad AUV project
--- Last changed (yyyy-mm-dd): 2013-10-18
+-- Last changed (yyyy-mm-dd): 2013-10-24
 
+-- TODO: Needs iDataAvailable function from pxUart (Emil's code)
 -- TODO: hardware testing
 ---------------------------------------------------------------------------
 
@@ -64,96 +65,38 @@ package body BBB_CAN is
 
       sHeadBuf     : String(1..HEADLEN);
       iRnum 	   : Integer;
-      iDataLen     : Integer;
-      iID	   : Integer;
-      u8Checksum   : Interfaces.Unsigned_8;
+      u8ActualChecksum    : Interfaces.Unsigned_8;
+      u8ReceivedChecksum  : Interfaces.Unsigned_8;
    begin
-      Usart_Read(sHeadBuf, HEADLEN, iRnum);
 
-      if iRnum = HEADLEN then
-         iDataLen := Character'Pos(sHeadBuf(LEN_POS));
-         iID := Character'Pos(sHeadBuf(IDHIGH_POS)) * 256 + Character'Pos(sHeadBuf(IDLOW_POS));
+      if pxUart.iDataAvailable >= HEADLEN then
+         Usart_Read(sHeadBuf, HEADLEN, iRnum);
 
-         msg.ID.Identifier  := AVR.AT90CAN128.CAN.CAN_Identifier(iID);
-
-         msg.ID.isExtended
-
-         msg.Len := AVR.AT90CAN128.DLC_Type(iDataLen);
          bMsgReceived := true;
+         CAN_Link_Utils.Bytes_To_Message_Header(Head_Buf, msg, u8ReceivedChecksum);
 
-         if iDataLen /= 0 then
+         if Integer(msg.Len) /= 0 then
             declare
                sData : String(1..iDataLen);
-               sBuffer : String(1..1);
-               iLeft : Integer := iDataLen;
-               iBytesRead : Integer;
-               iTotalBytes : Integer := 0;
             begin
-               while iTotalBytes < iDataLen loop
-                  Usart_Read(sBuffer, 1, iBytesRead);
-                  iTotalBytes := iTotalBytes + 1;
-                  if iBytesRead = 1 then
-                     sData(iTotalBytes) := sBuffer(1);
-                  end if;
+               while pxUart.iDataAvailable < Integer(msg.Len) loop
+                  null;
                end loop;
 
-               for i in 1..iDataLen loop
-                  msg.Data(AVR.AT90CAN128.DLC_Type(i)) := Character'Pos(sData(i));
-               end loop;
-
-               u8Checksum := Calculate_Checksum(msg.Data, msg.Len);
+               Usart_Read(sData, Integer(msg.Len), iBytesRead);
+               CAN_Link_Utils.Bytes_To_Message_Data(Data_Buf, msg, u8ActualChecksum);
             end;
-            bUARTChecksumOK := (u8Checksum = Character'Pos(sHeadBuf(Checksum_POS)));
+            bUARTChecksumOK := (u8ActualChecksum = u8ReceivedChecksum);
          else
             bUARTChecksumOK := true; --if there is no data in the message, the checksum is defined as ok
          end if;
-
-
       else
          bMsgReceived 	 := false;
          bUARTChecksumOK := false;
       end if;
    end Get;
 
-   --------- private functions -------------------------------------
-
-   procedure Bytes_To_Message(sBuffer : String; msg : out AVR.AT90CAN128.CAN.CAN_Message; bCheckSumCorrect : out Boolean) is
-   begin
-      msg.ID.Identifier := AVR.AT90CAN128.CAN.CAN_Identifier(
-                      				 (Character'Pos(sBuffer(IDHIGH_POS)) * 256)
-                       			          + Character'Pos(sBuffer(IDLOW_POS)));
-
-      msg.Len := Character'Pos(sBuffer(LEN_POS));
-
-      for I in 1..msg.Len loop
-         Msg.Data(I) := Interfaces.Unsigned_8(
-                                              Character'Pos(
-                                                sBuffer(HEADLEN + Integer(I))));
-      end loop;
-
-      bCheckSumCorrect :=  Character'Pos(sBuffer(CHECKSUM_POS)) = Integer(Calculate_Checksum(msg.Data, msg.Len));
-
-   end Bytes_To_Message;
-
-   procedure Message_To_Bytes(sBuffer : out String; msg : AVR.AT90CAN128.CAN.CAN_Message) is
-      iDataLength : Integer := Integer(msg.Len);
-   begin
-      sBuffer(BUSTYPE_POS) := Character'Val(0);
-
-      sBuffer(IDHIGH_POS)  := Character'Val(Integer(msg.ID.Identifier) / 256);
-      sBuffer(IDLOW_POS)   := Character'Val(Integer(Msg.ID.Identifier) Mod 256);
-
-
-      sBuffer(LEN_POS) 	   := Character'Val(Integer(msg.Len));
-
-      if Integer(msg.Len) > 0 then
-         for I in 1..Integer(msg.Len) loop
-            sBuffer(HEADLEN + I) := Character'Val(Msg.Data ( AVR.AT90CAN128.DLC_Type(I)));
-         end loop;
-      end if;
-
-      sBuffer(CHECKSUM_POS) := Character'Val(Integer(Calculate_Checksum(Msg.Data, msg.Len)));
-   end Message_To_Bytes;
+   --------- private functions ------------------------------------
 
    procedure Usart_Write(sBuffer : String; iSize : Integer) is
    begin
@@ -164,15 +107,4 @@ package body BBB_CAN is
    begin
       sBuffer := pxUart.sUartReadSpecificAmount(iSize, iBytesRead);
    end Usart_Read;
-
-   function Calculate_Checksum(b8Data : AVR.AT90CAN128.CAN.Byte8; Len : AVR.AT90CAN128.DLC_Type) return Interfaces.Unsigned_8 is
-      Checksum : Interfaces.Unsigned_8 := 0;
-      use Interfaces;
-   begin
-      for I in 1..Len loop
-         Checksum := Checksum xor b8Data(I);
-      end loop;
-      return Checksum;
-   end Calculate_Checksum;
-
 end BBB_CAN;
