@@ -1,6 +1,10 @@
 with Ada.Exceptions;
 package Exceptions is
 
-   type  is new Exception;
+   type Null_Pointer is Exception();
+
+
+
+
 
 end Exceptions;
