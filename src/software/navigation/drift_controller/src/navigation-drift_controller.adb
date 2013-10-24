@@ -31,13 +31,13 @@ package body Navigation.Drift_Controller is
       pxDriftController.pxCurrentAbsoluteOrientation := pxCurrentAbsoluteOrientation;
       pxDriftController.pxLastAbsolutePosition := pxDriftController.pxCurrentAbsolutePosition.pxGet_Copy;
 
-      pxDriftController.pxXMotionComponent := Navigation.Motion_Component.pxCreate(eAxisIndex    => Navigation.Motion_Component.X,
+      pxDriftController.pxXDriftMotionComponent := Navigation.Motion_Component.pxCreate(eAxisIndex    => Navigation.Motion_Component.X,
                                                                                        xPIDScalings => Navigation.PID_Controller.TPIDComponentScalings'(0.0,0.0,0.0));
 
-      pxDriftController.pxYMotionComponent := Navigation.Motion_Component.pxCreate(eAxisIndex    => Navigation.Motion_Component.Y,
+      pxDriftController.pxYDriftMotionComponent := Navigation.Motion_Component.pxCreate(eAxisIndex    => Navigation.Motion_Component.Y,
                                                                                        xPIDScalings => Navigation.PID_Controller.TPIDComponentScalings'(0.0,0.0,0.0));
 
-      pxDriftController.pxZMotionComponent := Navigation.Motion_Component.pxCreate(eAxisIndex    => Navigation.Motion_Component.Z,
+      pxDriftController.pxZDriftMotionComponent := Navigation.Motion_Component.pxCreate(eAxisIndex    => Navigation.Motion_Component.Z,
                                                                                        xPIDScalings => Navigation.PID_Controller.TPIDComponentScalings'(0.0,0.0,0.0));
 
       return pxDriftController;
@@ -53,9 +53,9 @@ package body Navigation.Drift_Controller is
       return Navigation.Thrusters.TThrusterEffects
    is
    begin
-      return Navigation.Thrusters.TThrusterEffects'(Navigation.Thrusters.XPosition => this.pxXMotionComponent.xGet_New_Component_Control_Value(fDeltaTime).fValue,
-              Navigation.Thrusters.YPosition => this.pxYMotionComponent.xGet_New_Component_Control_Value(fDeltatime).fValue,
-              Navigation.Thrusters.ZPosition => this.pxZMotionComponent.xGet_New_Component_Control_Value(fDeltaTime).fValue,
+      return Navigation.Thrusters.TThrusterEffects'(Navigation.Thrusters.XPosition => this.pxXDriftMotionComponent.xGet_New_Component_Control_Value(fDeltaTime).fValue,
+              Navigation.Thrusters.YPosition => this.pxYDriftMotionComponent.xGet_New_Component_Control_Value(fDeltatime).fValue,
+              Navigation.Thrusters.ZPosition => this.pxZDriftMotionComponent.xGet_New_Component_Control_Value(fDeltaTime).fValue,
               others => 0.0);
    end xGet_Positional_Thruster_Control_Values;
 
@@ -81,9 +81,9 @@ package body Navigation.Drift_Controller is
       xAbsoluteDriftVelocityVector := xAbsoluteVelocityVector - (xAbsoluteDirectionVector * fDriftComponent);
       xRelativeDriftVelocityVector := this.pxCurrentAbsoluteOrientation.xGet_Inverse * xAbsoluteDriftVelocityVector;
 
-      this.pxXMotionComponent.Update_Current_Error(xRelativeDriftVelocityVector.fGet_X);
-      this.pxYMotionComponent.Update_Current_Error(xRelativeDriftVelocityVector.fGet_Y);
-      this.pxZMotionComponent.Update_Current_Error(xRelativeDriftVelocityVector.fGet_Z);
+      this.pxXDriftMotionComponent.Update_Current_Error(xRelativeDriftVelocityVector.fGet_X);
+      this.pxYDriftMotionComponent.Update_Current_Error(xRelativeDriftVelocityVector.fGet_Y);
+      this.pxZDriftMotionComponent.Update_Current_Error(xRelativeDriftVelocityVector.fGet_Z);
 
       this.pxLastAbsolutePosition.Copy_From(xSourceVector => this.pxCurrentAbsolutePosition.all);
 
@@ -100,16 +100,16 @@ package body Navigation.Drift_Controller is
    is
    begin
       case eComponentToUpdate is
-         when Navigation.Motion_Component.X =>
-            this.pxXMotionComponent.Set_New_PID_Component_Scalings(xNewPIDScaling);
-         when Navigation.Motion_Component.Y =>
-            this.pxYMotionComponent.Set_New_PID_Component_Scalings(xNewPIDScaling);
-         when Navigation.Motion_Component.Z =>
-            this.pxZMotionComponent.Set_New_PID_Component_Scalings(xNewPIDScaling);
+         when Navigation.Motion_Component.DriftX =>
+            this.pxXDriftMotionComponent.Set_New_PID_Component_Scalings(xNewPIDScaling);
+         when Navigation.Motion_Component.DriftY =>
+            this.pxYDriftMotionComponent.Set_New_PID_Component_Scalings(xNewPIDScaling);
+         when Navigation.Motion_Component.DriftZ =>
+            this.pxZDriftMotionComponent.Set_New_PID_Component_Scalings(xNewPIDScaling);
          when Navigation.Motion_Component.AllComponents =>
-            this.pxXMotionComponent.Set_New_PID_Component_Scalings(xNewPIDScaling);
-            this.pxYMotionComponent.Set_New_PID_Component_Scalings(xNewPIDScaling);
-            this.pxZMotionComponent.Set_New_PID_Component_Scalings(xNewPIDScaling);
+            this.pxXDriftMotionComponent.Set_New_PID_Component_Scalings(xNewPIDScaling);
+            this.pxYDriftMotionComponent.Set_New_PID_Component_Scalings(xNewPIDScaling);
+            this.pxZDriftMotionComponent.Set_New_PID_Component_Scalings(xNewPIDScaling);
          when others =>
             null;
       end case;
@@ -124,14 +124,14 @@ package body Navigation.Drift_Controller is
       use Navigation.Motion_Component;
       use Math.Vectors;
    begin
-      if this.pxXMotionComponent /= null then
-         Navigation.Motion_Component.Free(pxMotionComponentToDeallocate => this.pxXMotionComponent);
+      if this.pxXDriftMotionComponent /= null then
+         Navigation.Motion_Component.Free(pxMotionComponentToDeallocate => this.pxXDriftMotionComponent);
       end if;
-      if this.pxYMotionComponent /= null then
-         Navigation.Motion_Component.Free(pxMotionComponentToDeallocate => this.pxYMotionComponent);
+      if this.pxYDriftMotionComponent /= null then
+         Navigation.Motion_Component.Free(pxMotionComponentToDeallocate => this.pxYDriftMotionComponent);
       end if;
-      if this.pxZMotionComponent /= null then
-         Navigation.Motion_Component.Free(pxMotionComponentToDeallocate => this.pxZMotionComponent);
+      if this.pxZDriftMotionComponent /= null then
+         Navigation.Motion_Component.Free(pxMotionComponentToDeallocate => this.pxZDriftMotionComponent);
       end if;
       if this.pxLastAbsolutePosition /= null then
          Math.Vectors.Free(pxVectorToDeallocate => this.pxLastAbsolutePosition);

@@ -11,6 +11,7 @@ with Ada.Text_IO;
 with System.Address_Image;
 with System.Pool_Local;
 with Math.Angles;
+with Navigation.Drift_Controller;
 with Ada.Finalization;
 with Ada.Unchecked_Deallocation;
 
@@ -71,6 +72,8 @@ private
          pxOrientationalController : Navigation.Orientational_Controller.pCOrientationalController;
 
          pxPositionalController : Navigation.Positional_Controller.pCPositionalController;
+
+         pxDriftController : Navigation.Drift_Controller.pCDriftController;
 
          pxCurrentAbsolutePosition : Math.Vectors.pCVector;
          pxWantedAbsolutePosition : Math.Vectors.pCVector;

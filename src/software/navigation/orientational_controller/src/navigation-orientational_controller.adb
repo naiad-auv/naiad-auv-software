@@ -10,10 +10,8 @@ package body Navigation.Orientational_Controller is
 
       pxOrientationalController := new Navigation.Orientational_Controller.COrientationalController;
 
-      pxOrientationalController.pxCurrentToWantedPlaneRotation := Math.Quaternions.pxCreate(fX => 1.0,
-                                                                                            fY => 0.0,
-                                                                                            fZ => 0.0,
-                                                                                            fW => 0.0);
+      pxOrientationalController.pxCurrentToWantedPlaneRotation := Math.Quaternions.pxCreate(xAxisVector     => Math.Matrices.xCreate_Identity.xGet_X_Vector,
+                                                                                            fAngleInDegrees => 0.0);
 
       pxOrientationalController.pxCurrentAbsoluteOrientation := pxCurrentAbsoluteOrientation;
       pxOrientationalController.pxWantedAbsoluteOrientation := pxWantedAbsoluteOrientation;

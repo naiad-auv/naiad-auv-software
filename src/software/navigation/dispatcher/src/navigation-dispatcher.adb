@@ -23,6 +23,9 @@ package body Navigation.Dispatcher is
       pxNewDispatcher.pxPositionalController := Navigation.Positional_Controller.pxCreate(pxCurrentAbsolutePosition    => pxNewDispatcher.pxCurrentAbsolutePosition,
                                                                                           pxWantedAbsolutePosition     => pxNewDispatcher.pxWantedAbsolutePosition,
                                                                                           pxCurrentAbsoluteOrientation => pxNewDispatcher.pxCurrentAbsoluteOrientation);
+      pxNewDispatcher.pxDriftController := Navigation.Drift_Controller.pxCreate(pxCurrentAbsolutePosition    => pxNewDispatcher.pxCurrentAbsolutePosition,
+                                                                                pxWantedAbsolutePosition     => pxNewDispatcher.pxWantedAbsolutePosition,
+                                                                                pxCurrentAbsoluteOrientation => pxNewDispatcher.pxCurrentAbsoluteOrientation);
 
       --Ada.Text_IO.Put_Line("CAO: " & System.Address_Image(pxNewDispatcher.pxCurrentAbsoluteOrientation.all'Address));
       --Ada.Text_IO.Put_Line("WAO: " & System.Address_Image(pxNewDispatcher.pxWantedAbsoluteOrientation.all'Address));
@@ -38,6 +41,7 @@ package body Navigation.Dispatcher is
       tfThrusterEffectsMatrix : Navigation.Thrusters.TThrusterEffectsMatrix(1 .. this.pxThrusterConfigurator.iGet_Number_Of_Thrusters+1);
       tfPositionalValues : Navigation.Thrusters.TThrusterEffects;
       tfOrientationalValues : Navigation.Thrusters.TThrusterEffects;
+      tfDriftValues : Navigation.Thrusters.TThrusterEffects;
       tfCombinedValues : Navigation.Thrusters.TThrusterEffects;
       iThrusterCount : integer;
 
@@ -47,20 +51,25 @@ package body Navigation.Dispatcher is
 
       this.pxPositionalController.Update_Current_Errors;
       this.pxOrientationalController.Update_Current_Errors;
+      this.pxDriftController.Update_Current_Errors;
 
       tfPositionalValues := this.pxPositionalController.xGet_Positional_Thruster_Control_Values(fDeltaTime);
       tfOrientationalValues := this.pxOrientationalController.xGet_Orientational_Thruster_Control_Values(fDeltaTime);
+      tfDriftValues := this.pxDriftController.xGet_Positional_Thruster_Control_Values(fDeltaTime);
 
-      tfCombinedValues := tfPositionalValues + tfOrientationalValues;
+      tfCombinedValues := tfPositionalValues + tfOrientationalValues + tfDriftValues;
 
 
       tfThrusterValues := this.pxThrusterConfigurator.tfGet_Thruster_Values(tfComponentValues => tfCombinedValues);
 
 
       if bThruster_Values_Need_Scaling(tfThrusterValues) then
-         tfThrusterValues := this.pxThrusterConfigurator.tfGet_Thruster_Values(tfComponentValues => tfPositionalValues);
+         tfThrusterValues := this.pxThrusterConfigurator.tfGet_Thruster_Values(tfComponentValues => tfPositionalValues + tfDriftValues);
          if bThruster_Values_Need_Scaling(tfThrusterValues) then
-            Scale_Thruster_Values(tfThrusterValues);
+            tfThrusterValues := this.pxThrusterConfigurator.tfGet_Thruster_Values(tfComponentValues => tfPositionalValues);
+            if bThruster_Values_Need_Scaling(tfThrusterValues) then
+               Scale_Thruster_Values(tfThrusterValues);
+            end if;
          end if;
       end if;
 
@@ -76,6 +85,9 @@ package body Navigation.Dispatcher is
          when Navigation.Motion_Component.Direction .. Navigation.Motion_Component.Plane =>
             this.pxOrientationalController.Set_New_PID_Component_Scalings(eComponentToUpdate => eComponentToChange,
                                                                           xNewPIDScaling     => xNewPIDSCalings);
+         when Navigation.Motion_Component.DriftX .. Navigation.Motion_Component.DriftZ =>
+            this.pxDriftController.Set_New_PID_Component_Scalings(eComponentToUpdate => eComponentToChange,
+                                                                  xNewPIDScaling     => xNewPIDSCalings);
          when Navigation.Motion_Component.AllComponents =>
             this.pxPositionalController.Set_New_PID_Component_Scalings(eComponentToUpdate => eComponentToChange,
                                                                        xNewPIDScaling     => xNewPIDSCalings);
@@ -152,6 +164,7 @@ package body Navigation.Dispatcher is
       use Navigation.Thruster_Configurator;
       use Navigation.Orientational_Controller;
       use Navigation.Positional_Controller;
+      use Navigation.Drift_Controller;
       use Math.Vectors;
       use Math.Matrices;
    begin
@@ -163,6 +176,9 @@ package body Navigation.Dispatcher is
       end if;
       if this.pxPositionalController /= null then
          Navigation.Positional_Controller.Free(pxPositionalControllerToDeallocate => this.pxPositionalController);
+      end if;
+      if this.pxDriftController /= null then
+         Navigation.Drift_Controller.Free(pxDriftControllerToDeallocate => this.pxDriftController);
       end if;
       if this.pxCurrentAbsolutePosition /= null then
          Math.Vectors.Free(pxVectorToDeallocate => this.pxCurrentAbsolutePosition);
