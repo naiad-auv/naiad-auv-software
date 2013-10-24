@@ -96,11 +96,11 @@ package body Navigation.Orientational_Controller is
 
    begin
       xCurrentRelativeOrientation := Math.Matrices.xCreate_Identity;
-      xWantedRelativeOrientation := this.pxCurrentAbsoluteOrientation.xGet_Inverse * this.pxWantedAbsoluteOrientation;
+      xWantedRelativeOrientation := this.pxCurrentAbsoluteOrientation.xGet_Inverse * this.pxWantedAbsoluteOrientation.all;
 
       pxCurrentRelativePlane := Math.Planes.pxCreate(xNormalVector      => Math.Vectors.xCross_Product(xCurrentRelativeOrientation.xGet_Y_Vector, xCurrentRelativeOrientation.xGet_Z_Vector),
                                                      fDistanceFromOrigin => 0.0);
-      xWantedRelativePlane := xWantedRelativeOrientation * pxCurrentRelativePlane;
+      xWantedRelativePlane := xWantedRelativeOrientation * pxCurrentRelativePlane.all;
 
 
 
@@ -128,7 +128,7 @@ package body Navigation.Orientational_Controller is
 
    begin
       xCurrentRelativeOrientation := Math.Matrices.xCreate_Identity;
-      xWantedRelativeOrientation := this.pxCurrentAbsoluteOrientation.xGet_Inverse * this.pxWantedAbsoluteOrientation;
+      xWantedRelativeOrientation := this.pxCurrentAbsoluteOrientation.xGet_Inverse * this.pxWantedAbsoluteOrientation.all;
 
       xCurrentDirectionVectorOnWantedPlane := Math.Matrices.xCreate_From_Quaternion(this.pxCurrentToWantedPlaneRotation) * xCurrentRelativeOrientation.xGet_X_Vector;
       this.pxDirectionalMotionComponent.Update_Current_Error(fGet_Directional_Error(xCurrentDirectionVectorOnWantedPlane, xWantedRelativeOrientation.xGet_X_Vector));

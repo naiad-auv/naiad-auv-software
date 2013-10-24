@@ -9,27 +9,28 @@ package body Math.Matrices is
 
 
    function fGet_Determinant (this : in CMatrix) return float is
-      pxXVector : Math.Vectors.pCVector;
-      pxYVector : Math.Vectors.pCVector;
-      pxZVector : Math.Vectors.pCVector;
-      pxMatrix : pCMatrix;
+      xXVector : Math.Vectors.CVector;
+      xYVector : Math.Vectors.CVector;
+      xZVector : Math.Vectors.CVector;
+      xMatrix : CMatrix;
       fDeterminant : float;
    begin
-      pxXVector := Math.Vectors.pxCreate(1.0,0.0,0.0);
-      pxYVector := Math.Vectors.pxCreate(0.0,1.0,0.0);
-      pxZVector := Math.Vectors.pxCreate(0.0,0.0,1.0);
-      pxMatrix := Math.Matrices.pxCreate(this.tfMatrix);
+      xMatrix := Math.Matrices.xCreate_Identity;
+      xXVector := xMatrix.xGet_X_Vector;
+      xYVector := xMatrix.xGet_Y_Vector;
+      xZVector := xMatrix.xGet_Z_Vector;
+      xMatrix.Copy_From(xSourceMatrix => this);
 
-      pxXVector.Copy_From(xSourceVector => pxMatrix * pxXVector);
-      pxYVector.Copy_From(xSourceVector => pxMatrix * pxYVector);
-      pxZVector.Copy_From(xSourceVector => pxMatrix * pxZVector);
+      xXVector.Copy_From(xSourceVector => xMatrix * xXVector);
+      xYVector.Copy_From(xSourceVector => xMatrix * xYVector);
+      xZVector.Copy_From(xSourceVector => xMatrix * xZVector);
 
-      fDeterminant := Math.Vectors.fDot_Product(pxXVector, Math.Vectors.xCross_Product(pxYVector, pxZVector));
+      fDeterminant := Math.Vectors.fDot_Product(xXVector, Math.Vectors.xCross_Product(xYVector, xZVector));
 
-      Math.Vectors.Free(pxVectorToDeallocate => pxXVector);
-      Math.Vectors.Free(pxVectorToDeallocate => pxYVector);
-      Math.Vectors.Free(pxVectorToDeallocate => pxZVector);
-      Math.Matrices.Free(pxMatrixToDeallocate => pxMatrix);
+--        Math.Vectors.Free(pxVectorToDeallocate => pxXVector);
+--        Math.Vectors.Free(pxVectorToDeallocate => pxYVector);
+--        Math.Vectors.Free(pxVectorToDeallocate => pxZVector);
+--        Math.Matrices.Free(pxMatrixToDeallocate => pxMatrix);
 
       return fDeterminant;
    end fGet_Determinant;
