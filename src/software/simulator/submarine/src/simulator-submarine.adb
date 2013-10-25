@@ -16,9 +16,9 @@ package body simulator.submarine is
       tfRawMatrix : Math.Matrices.TMatrix;
 
       pxPositionVectorMotorFrontLeftXYPlane : math.Vectors.pCVector := math.Vectors.pxCreate(fX => 0.5,
-                                                                                             fY => 0.8660254037,
+                                                                                             fY => 0.8660254037844386467637231707529361834714026269051903,
                                                                                              fZ => 0.0);
-      pxForceVectorMotorFrontLeftXYPlane : math.Vectors.pCVector := math.Vectors.pxCreate(fX => -0.8660254037,
+      pxForceVectorMotorFrontLeftXYPlane : math.Vectors.pCVector := math.Vectors.pxCreate(fX => -0.8660254037844386467637231707529361834714026269051903,
                                                                                           fY => 0.5,
                                                                                           fZ => 0.0);
       pxPositionVectorMotorRearXYPlane : math.Vectors.pCVector := math.Vectors.pxCreate(fX => -1.0,
@@ -28,13 +28,13 @@ package body simulator.submarine is
                                                                                      fY => -1.0,
                                                                                      fZ => 0.0);
       pxPositionVectorMotorFrontRightXYPlane : math.Vectors.pCVector := math.Vectors.pxCreate(fX => 0.5,
-                                                                                              fY => -0.8660254037,
+                                                                                              fY => -0.8660254037844386467637231707529361834714026269051903,
                                                                                               fZ => 0.0);
-      pxForceVectorMotorFrontRightXYPlane : math.Vectors.pCVector := math.Vectors.pxCreate(fX => 0.8660254037,
+      pxForceVectorMotorFrontRightXYPlane : math.Vectors.pCVector := math.Vectors.pxCreate(fX => 0.8660254037844386467637231707529361834714026269051903,
                                                                                            fY => 0.5,
                                                                                            fZ => 0.0);
       pxPositionVectorMotorFrontLeftZAxis : math.Vectors.pCVector := math.Vectors.pxCreate(fX => 0.5,
-                                                                                           fY => 0.8660254037,
+                                                                                           fY => 0.8660254037844386467637231707529361834714026269051903,
                                                                                            fZ => 0.0);
       pxForceVectorMotorFrontLeftZAxis : math.Vectors.pCVector := math.Vectors.pxCreate(fX => 0.0,
                                                                                         fY => 0.0,
@@ -46,7 +46,7 @@ package body simulator.submarine is
                                                                                    fY => 0.0,
                                                                                    fZ => 1.0);
       pxPositionVectorMotorFrontRightZAxis : math.Vectors.pCVector := math.Vectors.pxCreate(fX => 0.5,
-                                                                                            fY => -0.8660254037,
+                                                                                            fY => -0.8660254037844386467637231707529361834714026269051903,
                                                                                             fZ => 0.0);
       pxForceVectorMotorFrontRightZAxis : math.Vectors.pCVector := math.Vectors.pxCreate(fX => 0.0,
                                                                                          fY => 0.0,
