@@ -23,6 +23,7 @@ procedure main is
    iDoContours : Integer;
    iDoApproxPoly : Integer;
    iDoObjectTracking : Integer;
+   iDoFusion : Integer;
 
    iImageSource : Interfaces.C.Int;
    iPreviousImageLocation : Interfaces.C.int;
@@ -146,15 +147,16 @@ begin
    iDoGaussian := 0;
    iDoSplit := 0;
    iDoCvtGrey := 0;
-   iDoCvtHSI := 1;
+   iDoCvtHSI := 0;
    iDoHistoBGR := 0;
    iDoHistoHSI := 0;
    iDoCanny := 0;
-   iDoThresh := 1;
+   iDoThresh := 0;
    iDoHoughCircles := 0;
    iDoContours := 0;
    iDoApproxPoly := 0;
-   iDoObjectTracking := 1;
+   iDoObjectTracking := 0;
+   iDoFusion := 1;
 
 
 
@@ -287,6 +289,11 @@ begin
       if (iDoApproxPoly = 1) then
          processingWrap.approxPolyDP(1.2, 1);
       end if;
+
+      if (iDoFusion = 1) then
+         processingWrap.fusion(iImageSource);
+      end if;
+
 
    end loop Endless_Loop;
 end main;

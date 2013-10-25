@@ -45,8 +45,8 @@ void Core_Wrap::img_buffer()
 	char strStorage[50]; // enough to hold all numbers up to 64-bits
 	int bufSize=0;
 	  
-	std::string folderPath = "/home/vision/Documents/project/cdt508/Robosub2012_logging/Loggning/log 3/Bottom/";
-	//std::string folderPath = "//home/bork/Data/cdt508/Robosub2012_logging/Loggning/log 3/Bottom/";
+	//std::string folderPath = "/home/vision/Documents/project/cdt508/Robosub2012_logging/Loggning/log 3/Bottom/";
+	std::string folderPath = "//home/bork/Data/cdt508/Robosub2012_logging/Loggning/log 3/Bottom/";
 	
 	std::string result;
 	std::string imageType = ".jpg";
@@ -591,6 +591,20 @@ void Processing_Wrap::roi(int src, int dst)
 	//img.at(dst)
 	G = F(cv::Range(0,0), cv::Range(100,100));
 	cv::imshow("roi", G);
+	cv::waitKey(0);
+}
+
+/////////////////////// FUSION ////////////////////////////////////////////////////////////
+
+void Processing_Wrap::fusion(int src)
+{
+	//DO STUFF
+	cv::Mat img1=img.at(src).clone(), img2, img3;
+	cv::cvtColor(img1, img2, CV_BGR2GRAY);
+	img1.copyTo(img3,img2);
+	img3.copyTo(img3,img2);
+	img3.copyTo(img3,img2);
+	cv::imshow("fused", img3);
 	cv::waitKey(0);
 }
 
