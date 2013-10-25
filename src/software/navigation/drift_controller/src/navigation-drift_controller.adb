@@ -31,13 +31,13 @@ package body Navigation.Drift_Controller is
       pxDriftController.pxCurrentAbsoluteOrientation := pxCurrentAbsoluteOrientation;
       pxDriftController.pxLastAbsolutePosition := pxDriftController.pxCurrentAbsolutePosition.pxGet_Copy;
 
-      pxDriftController.pxXDriftMotionComponent := Navigation.Motion_Component.pxCreate(eAxisIndex    => Navigation.Motion_Component.X,
+      pxDriftController.pxXDriftMotionComponent := Navigation.Motion_Component.pxCreate(eAxisIndex    => Navigation.Motion_Component.DriftX,
                                                                                        xPIDScalings => Navigation.PID_Controller.TPIDComponentScalings'(0.0,0.0,0.0));
 
-      pxDriftController.pxYDriftMotionComponent := Navigation.Motion_Component.pxCreate(eAxisIndex    => Navigation.Motion_Component.Y,
+      pxDriftController.pxYDriftMotionComponent := Navigation.Motion_Component.pxCreate(eAxisIndex    => Navigation.Motion_Component.DriftY,
                                                                                        xPIDScalings => Navigation.PID_Controller.TPIDComponentScalings'(0.0,0.0,0.0));
 
-      pxDriftController.pxZDriftMotionComponent := Navigation.Motion_Component.pxCreate(eAxisIndex    => Navigation.Motion_Component.Z,
+      pxDriftController.pxZDriftMotionComponent := Navigation.Motion_Component.pxCreate(eAxisIndex    => Navigation.Motion_Component.DriftZ,
                                                                                        xPIDScalings => Navigation.PID_Controller.TPIDComponentScalings'(0.0,0.0,0.0));
 
       return pxDriftController;

@@ -8,11 +8,12 @@ with Ada.Exceptions;
 with Ada.Numerics.Elementary_Functions;
 with Ada.Unchecked_Deallocation;
 with Ada.Text_IO;
+with Exception_Handling;
 
 -- Matrices package for classes, types and functionality regarding 3x3 rotation matrices. A 3x3 rotation matrix object is stored in a pCMatrix variable and is created with the different pxCreate functions.
 package Math.Matrices is
 
-   fMATRIX_PRECISION : constant float := 0.00001;
+   fMATRIX_PRECISION : constant float := 0.000001;
 
    type CMatrix is tagged private;
 
