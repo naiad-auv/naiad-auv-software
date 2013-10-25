@@ -1,3 +1,4 @@
+with Ada.Text_IO;
 with Navigation.PID_Controller;
 
 package body Navigation.Motion_Component is
@@ -18,6 +19,8 @@ package body Navigation.Motion_Component is
    begin
       
       fNewControlValue := this.pxComponentPIDController.xGet_New_Control_Value(fDeltaTime);
+      Ada.Text_IO.Put_Line("New control value for " & integer'Image(EMotionComponent'Pos(this.eComponentIndex)) & ": " & float'Image(fNewControlValue));
+      
  
       return TComponentControlValue'(fNewControlValue, this.eComponentIndex);
       
@@ -31,9 +34,10 @@ package body Navigation.Motion_Component is
 
    procedure Update_Current_Error (this : in out CMotionComponent; fNewErrorValue : float) is
    begin
+      Ada.Text_IO.Put_Line("New error for " & integer'Image(EMotionComponent'Pos(this.eComponentIndex)) & ": " & float'Image(fNewErrorValue));
       this.fCurrentError := fNewErrorValue;
       this.pxComponentPIDController.Set_New_Set_Point(0.0);
-      this.pxComponentPIDController.Update_Current_Value_From_External_Source(this.fCurrentError);
+      this.pxComponentPIDController.Update_Current_Value_From_External_Source(-this.fCurrentError);
    end Update_Current_Error;
 
 

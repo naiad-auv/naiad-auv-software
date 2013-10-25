@@ -80,22 +80,21 @@ package body Math.Matrices.Test_Data.Tests is
                            
       end loop;
       
-      pxRotQuat := Math.Quaternions.pxCreate(fX => 0.5,
-                                             fY => 0.0,
-                                             fZ => 0.0,
-                                             fW => 0.0);
-      
-      pxQuatRotMatrix := Math.Matrices.xCreate_From_Quaternion(pxRotQuat).pxGet_Copy;
-      AUnit.Assertions.Assert(Condition => False,
-                              Message   => "Matrices.pxCreate_From_Quaternion failed, should have raised exception");
-   exception
-      when Numeric_Error =>
-         null; -- Test passed
-      when E : others =>
-         AUnit.Assertions.Assert(Condition => False,
-                                 Message   =>"Matrices.pxCreate_From_Quaternion failed, wrong exception raised: " & Ada.Exceptions.Exception_Name (E) & ". Expected: NUMERIC_ERROR.");      
-      
-      
+--        pxRotQuat := Math.Quaternions.pxCreate(xAxisVector     => Math.Matrices.xCreate_Identity.xGet_X_Vector * 0.5,
+--                                               fAngleInDegrees => 0.000000001);
+--        
+--        
+--        pxQuatRotMatrix := Math.Matrices.xCreate_From_Quaternion(pxRotQuat).pxGet_Copy;
+--        AUnit.Assertions.Assert(Condition => False,
+--                                Message   => "Matrices.pxCreate_From_Quaternion failed, should have raised exception");
+--     exception
+--        when Numeric_Error =>
+--           null; -- Test passed
+--        when E : others =>
+--           AUnit.Assertions.Assert(Condition => False,
+--                                   Message   =>"Matrices.pxCreate_From_Quaternion failed, wrong exception raised: " & Ada.Exceptions.Exception_Name (E) & ". Expected: NUMERIC_ERROR.");      
+--        
+--        
 --  begin read only
    end Test_pxCreate_From_Quaternion;
 --  end read only
@@ -849,9 +848,10 @@ package body Math.Matrices.Test_Data.Tests is
       AUnit.Assertions.Assert(Condition => False,
                               Message   => "Matrices.Perform_Gauss_Jordan_Elimination_On failed, should have raised exception");
    exception
-      when Numeric_Error =>
+      when Exception_Handling.SingularMatrix =>
          null; -- Test passed
-      when E : others =>
+      when E : others =>         
+         --Exception_Handling.Unhandled_Exception(E);
          AUnit.Assertions.Assert(Condition => False,
                                  Message   =>"Matrices.Perform_Gauss_Jordan_Elimination_On failed, wrong exception raised: " & Ada.Exceptions.Exception_Name (E) & ". Expected: NUMERIC_ERROR.");      
 

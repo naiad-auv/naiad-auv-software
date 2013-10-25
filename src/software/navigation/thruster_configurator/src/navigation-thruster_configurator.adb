@@ -15,22 +15,22 @@ package body Navigation.Thruster_Configurator is
       pxNewThrusterConfigurator := new CThrusterConfigurator;
 
       tfThrusterEffects := Navigation.Thrusters.tfMake_Thruster_Effects(fXPosition => -Sin(Pi/4.0),
-                                                                        fYPosition => -Sin(Pi/4.0),
+                                                                        fYPosition => Sin(Pi/4.0),
                                                                         FZPosition => 0.0,
                                                                         fXRotation => 0.0,
                                                                         fYRotation => 0.0,
                                                                         fZRotation => 1.0);
       pxNewThrusterConfigurator.pxThrusterList := Navigation.Thrusters.pxCreate(tfThrusterEffects);
 
-      tfThrusterEffects := Navigation.Thrusters.tfMake_Thruster_Effects(fXPosition => 1.0,
-                                                                        fYPosition => 0.0,
+      tfThrusterEffects := Navigation.Thrusters.tfMake_Thruster_Effects(fXPosition => 0.0,
+                                                                        fYPosition => -1.0,
                                                                         FZPosition => 0.0,
                                                                         fXRotation => 0.0,
                                                                         fYRotation => 0.0,
                                                                         fZRotation => 1.0);
       pxNewThrusterConfigurator.pxThrusterList.Add_Thruster_With_Effects(tfThrusterEffects);
 
-      tfThrusterEffects := Navigation.Thrusters.tfMake_Thruster_Effects(fXPosition => -Sin(Pi/4.0),
+      tfThrusterEffects := Navigation.Thrusters.tfMake_Thruster_Effects(fXPosition => Sin(Pi/4.0),
                                                                         fYPosition => Sin(Pi/4.0),
                                                                         FZPosition => 0.0,
                                                                         fXRotation => 0.0,
@@ -42,7 +42,7 @@ package body Navigation.Thruster_Configurator is
                                                                         fYPosition => 0.0,
                                                                         FZPosition => 1.0,
                                                                         fXRotation => Sin(Pi/4.0),
-                                                                        fYRotation => Sin(Pi/4.0),
+                                                                        fYRotation => -Sin(Pi/4.0),
                                                                         fZRotation => 0.0);
       pxNewThrusterConfigurator.pxThrusterList.Add_Thruster_With_Effects(tfThrusterEffects);
 
@@ -50,7 +50,7 @@ package body Navigation.Thruster_Configurator is
                                                                         fYPosition => 0.0,
                                                                         FZPosition => 1.0,
                                                                         fXRotation => 0.0,
-                                                                        fYRotation => -1.0,
+                                                                        fYRotation => 1.0,
                                                                         fZRotation => 0.0);
       pxNewThrusterConfigurator.pxThrusterList.Add_Thruster_With_Effects(tfThrusterEffects);
 
