@@ -17,6 +17,12 @@ package Sockets is
     function Read_Request (From : GNAT.Sockets.Socket_Type) return Natural;
     function Get_Message (N : Natural) return String;
 
+    -- TCP
+    procedure Send_TCP_Message;
+    procedure Listen_On_TCP_Socket;
+
+    -- UDP
     procedure Send_UDP_Message;
-    procedure Listen_On_Socket;
+    procedure Listen_On_UDP_Socket;
+
 end Sockets;

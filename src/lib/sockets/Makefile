@@ -4,4 +4,4 @@ all:
 clean:
 	rm -rf obj/*.o
 	rm -rf obj/*.ali
-	rm -rf obj/client obj/server obj/udptest obj/send_udp obj/receive_udp
+	rm -rf obj/tcp_client obj/tcp_server obj/udp_client obj/udp_server
