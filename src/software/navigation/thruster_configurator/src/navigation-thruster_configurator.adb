@@ -41,8 +41,8 @@ package body Navigation.Thruster_Configurator is
       tfThrusterEffects := Navigation.Thrusters.tfMake_Thruster_Effects(fXPosition => 0.0,
                                                                         fYPosition => 0.0,
                                                                         FZPosition => 1.0,
-                                                                        fXRotation => Sin(Pi/4.0),
-                                                                        fYRotation => -Sin(Pi/4.0),
+                                                                        fXRotation => Sin(Pi/3.0),
+                                                                        fYRotation => -Sin(Pi/6.0),
                                                                         fZRotation => 0.0);
       pxNewThrusterConfigurator.pxThrusterList.Add_Thruster_With_Effects(tfThrusterEffects);
 
@@ -57,8 +57,8 @@ package body Navigation.Thruster_Configurator is
       tfThrusterEffects := Navigation.Thrusters.tfMake_Thruster_Effects(fXPosition => 0.0,
                                                                         fYPosition => 0.0,
                                                                         FZPosition => 1.0,
-                                                                        fXRotation => -Sin(Pi/4.0),
-                                                                        fYRotation => -Sin(Pi/4.0),
+                                                                        fXRotation => -Sin(Pi/3.0),
+                                                                        fYRotation => -Sin(Pi/6.0),
                                                                         fZRotation => 0.0);
       pxNewThrusterConfigurator.pxThrusterList.Add_Thruster_With_Effects(tfThrusterEffects);
 

@@ -56,6 +56,8 @@ package body Navigation.Dispatcher.CDispatcher_Test_Data.CDispatcher_Tests is
                                       Message => "CDispatcher.tfGet_Thruster_Values failed, wrong value from thruster 2. Value: " & float'Image(tfThrusterValues(2)) & ". Expected: 0.0.");
       AUnit.Assertions.Assert        (Condition => tfThrusterValues(3) > 0.0,
                                       Message => "CDispatcher.tfGet_Thruster_Values failed, wrong value from thruster 3. Value: " & float'Image(tfThrusterValues(3)) & ". Expected: > 0.0.");
+      AUnit.Assertions.Assert        (Condition => tfThrusterValues(1) = -tfThrusterValues(3),
+                                      Message => "CDispatcher.tfGet_Thruster_Values failed, thruster 1 and 3 not opposite");
       AUnit.Assertions.Assert        (Condition => abs(tfThrusterValues(4)) = 0.0,
                                       Message => "CDispatcher.tfGet_Thruster_Values failed, wrong value from thruster 4. Value: " & float'Image(tfThrusterValues(4)) & ". Expected: 0.0.");
       AUnit.Assertions.Assert        (Condition => abs(tfThrusterValues(5)) = 0.0,
@@ -110,15 +112,53 @@ package body Navigation.Dispatcher.CDispatcher_Test_Data.CDispatcher_Tests is
                                       Message => "CDispatcher.tfGet_Thruster_Values failed, wrong value from thruster 2. Value: " & float'Image(tfThrusterValues(2)) & ". Expected: 0.0.");
       AUnit.Assertions.Assert        (Condition => abs(tfThrusterValues(3)) = 0.0,
                                       Message => "CDispatcher.tfGet_Thruster_Values failed, wrong value from thruster 3. Value: " & float'Image(tfThrusterValues(3)) & ". Expected: 0.0.");
-      AUnit.Assertions.Assert        (Condition => tfThrusterValues(4) = tfThrusterValues(6),
-                                      Message => "CDispatcher.tfGet_Thruster_Values failed, thruster 4 and 6 not equal.");
+      AUnit.Assertions.Assert        (Condition => abs(tfThrusterValues(4) - tfThrusterValues(5)) < 0.00001,
+                                      Message => "CDispatcher.tfGet_Thruster_Values failed, thruster 4 and 5 not equal. 4: " & float'Image(tfThrusterValues(4)-tfThrusterValues(5)) & " 5: " & float'image(tfThrusterValues(5)));
       AUnit.Assertions.Assert        (Condition => tfThrusterValues(4) > 0.0,
                                       Message => "CDispatcher.tfGet_Thruster_Values failed, wrong value from thruster 4 and 6. Value: " & float'Image(tfThrusterValues(1)) & ". Expected: > 0.0.");
-      AUnit.Assertions.Assert        (Condition => tfThrusterValues(5) = Ada.Numerics.Elementary_Functions.Sqrt(2.0) * tfThrusterValues(4),
-                                      Message => "CDispatcher.tfGet_Thruster_Values failed, wrong value from thruster 5. Value: " & float'Image(tfThrusterValues(5)) & ". Expected: " & float'Image(Ada.Numerics.Elementary_Functions.Sqrt(2.0) * tfThrusterValues(4)));
+      AUnit.Assertions.Assert        (Condition => abs(tfThrusterValues(5) - tfThrusterValues(6)) < 0.00001,
+                                      Message => "CDispatcher.tfGet_Thruster_Values failed, thruster 5 and 6 not equal.");
 
       Navigation.Dispatcher.Free(pxDispatcherToDeallocate => pxDispatcher);          
-                                 
+ 
+      pxDispatcher := Navigation.Dispatcher.pxCreate;
+--        pxVector := Math.Vectors.pxCreate(fX => 10.0,
+--                                          fY => 0.0,
+--                                          fZ => 0.0);
+--        pxDispatcher.Update_Wanted_Absolute_Position(xNewWantedAbsolutePosition => pxVector.all);
+--        Math.Vectors.Free(pxVectorToDeallocate => pxVector);
+--        pxVector := Math.Vectors.pxCreate(fX => -3.0,
+--                                          fY => 6.0,
+--                                          fZ => 2.0);
+--        pxDispatcher.Update_Wanted_Absolute_Position(xNewWantedAbsolutePosition => pxVector.all);
+--        Math.Vectors.Free(pxVectorToDeallocate => pxVector);
+      
+--        pxDispatcher.Update_Current_Absolute_Orientation(xNewCurrentAbsoluteOrientation => Math.Matrices.xCreate_Rotation_Around_X_Axis(tfAngleInDegrees => Math.Angles.TAngle(45.0)));
+        pxDispatcher.Update_Wanted_Absolute_Orientation(xNewWantedAbsoluteOrientation => Math.Matrices.xCreate_Rotation_Around_X_Axis(tfAngleInDegrees => Math.Angles.TAngle(45.0)));
+      
+      pxDispatcher.Set_New_Component_PID_Scalings(eComponentToChange => Navigation.Motion_Component.AllComponents,
+                                                  xNewPIDSCalings    => Navigation.PID_Controller.TPIDComponentScalings'(fProportionalScale => 1.0, fIntegralScale => 1.0, fDerivativeScale => 1.0));
+      tfThrusterValues := pxDispatcher.tfGet_Thruster_Values(fDeltaTime => 0.25);
+      
+
+      AUnit.Assertions.Assert        (Condition => tfThrusterValues(4) > 0.0,
+                                      Message => "CDispatcher.tfGet_Thruster_Values failed, wrong value from thruster 4. Value: " & float'Image(tfThrusterValues(4)) & ". Expected: > 0.0.");
+      AUnit.Assertions.Assert        (Condition => tfThrusterValues(4) = -tfThrusterValues(6),
+                                      Message => "CDispatcher.tfGet_Thruster_Values failed, 4 not opposite of 6. Value: " & float'Image(-tfThrusterValues(6)) & ". Expected: " & float'Image(-tfThrusterValues(6)));
+      AUnit.Assertions.Assert        (Condition => tfThrusterValues(6) < 0.0,
+                                      Message => "CDispatcher.tfGet_Thruster_Values failed, wrong value from thruster 6. Value: " & float'Image(tfThrusterValues(6)) & ". Expected: < 0.0.");
+      AUnit.Assertions.Assert        (Condition => abs(tfThrusterValues(1)) = 0.0,
+                                      Message => "CDispatcher.tfGet_Thruster_Values failed, wrong value from thruster 1. Value: " & float'Image(tfThrusterValues(1)) & ". Expected: 0.0.");
+      AUnit.Assertions.Assert        (Condition => abs(tfThrusterValues(2)) = 0.0,
+                                      Message => "CDispatcher.tfGet_Thruster_Values failed, wrong value from thruster 2. Value: " & float'Image(tfThrusterValues(2)) & ". Expected: 0.0.");
+      AUnit.Assertions.Assert        (Condition => abs(tfThrusterValues(3)) = 0.0,
+                                      Message => "CDispatcher.tfGet_Thruster_Values failed, wrong value from thruster 3. Value: " & float'Image(tfThrusterValues(3)) & ". Expected: 0.0.");
+      AUnit.Assertions.Assert        (Condition => abs(tfThrusterValues(5)) = 0.0,
+                                      Message => "CDispatcher.tfGet_Thruster_Values failed, wrong value from thruster 5. Value: " & float'Image(tfThrusterValues(5)) & ". Expected: 0.0.");
+
+      Navigation.Dispatcher.Free(pxDispatcherToDeallocate => pxDispatcher);
+      
+       
 --  begin read only
    end Test_tfGet_Thruster_Values;
 --  end read only
