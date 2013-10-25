@@ -24,13 +24,12 @@ package body Navigation.Orientational_Controller.COrientationalController_Test_D
       use Math.Matrices;
 
       pxOrientationalController : Navigation.Orientational_Controller.pCOrientationalController;
-      pxOrientationalMatrix : Math.Matrices.pCMatrix;
 
       xThrusterControlValues : Navigation.Thrusters.TThrusterEffects;
       bAtleasteOneControlValue : boolean := false;
 
-      pxCurrentOrientation : Math.Matrices.pCMatrix := Math.Matrices.pxCreate_Identity;
-      pxWantedOrientation : Math.Matrices.pCMatrix := Math.Matrices.pxCreate_Rotation_Around_X_Axis(50.0) * Math.Matrices.pxCreate_Rotation_Around_Y_Axis(50.0) * Math.Matrices.pxCreate_Rotation_Around_Z_Axis(50.0);
+      pxCurrentOrientation : Math.Matrices.pCMatrix := Math.Matrices.xCreate_Identity.pxGet_Copy;
+      pxWantedOrientation : Math.Matrices.pCMatrix := Math.Matrices.CMatrix(Math.Matrices.xCreate_Rotation_Around_X_Axis(50.0) * Math.Matrices.xCreate_Rotation_Around_Y_Axis(50.0) * Math.Matrices.xCreate_Rotation_Around_Z_Axis(50.0)).pxGet_Copy;
 
    begin
 
@@ -40,9 +39,6 @@ package body Navigation.Orientational_Controller.COrientationalController_Test_D
       pxOrientationalController.Set_New_PID_Component_Scalings(eComponentToUpdate => Navigation.Motion_Component.AllComponents,
                                                                xNewPIDScaling => Navigation.PID_Controller.TPIDComponentScalings'(1.0,1.0,1.0));
 
-      pxOrientationalMatrix := Math.Matrices.pxCreate_Rotation_Around_X_Axis(50.0)
-        			* Math.Matrices.pxCreate_Rotation_Around_Z_Axis(50.0)
-        			* Math.Matrices.pxCreate_Rotation_Around_Y_Axis(50.0);
 
       pxOrientationalController.Update_Current_Errors;
 
@@ -59,6 +55,10 @@ package body Navigation.Orientational_Controller.COrientationalController_Test_D
 
       AUnit.Assertions.Assert(Condition => bAtleasteOneControlValue,
                               Message   => "No control constatnts, this is not good");
+
+      Navigation.Orientational_Controller.Free(pxOrientationalControllerToDeallocate => pxOrientationalController);
+      Math.Matrices.Free(pxMatrixToDeallocate => pxCurrentOrientation);
+      Math.Matrices.Free(pxMatrixToDeallocate => pxWantedOrientation);
 
 --  begin read only
    end Test_xGet_Orientational_Thruster_Control_Values;
@@ -165,8 +165,8 @@ package body Navigation.Orientational_Controller.COrientationalController_Test_D
 
       bAtleasteOneControlValue : boolean := false;
 
-      pxCurrentOrientation : Math.Matrices.pCMatrix := Math.Matrices.pxCreate_Identity;
-      pxWantedOrientation : Math.Matrices.pCMatrix := Math.Matrices.pxCreate_Rotation_Around_X_Axis(50.0) * Math.Matrices.pxCreate_Rotation_Around_Y_Axis(50.0) * Math.Matrices.pxCreate_Rotation_Around_Z_Axis(50.0);
+      pxCurrentOrientation : Math.Matrices.pCMatrix := Math.Matrices.xCreate_Identity.pxGet_Copy;
+      pxWantedOrientation : Math.Matrices.pCMatrix := Math.Matrices.CMatrix(Math.Matrices.xCreate_Rotation_Around_X_Axis(50.0) * Math.Matrices.xCreate_Rotation_Around_Y_Axis(50.0) * Math.Matrices.xCreate_Rotation_Around_Z_Axis(50.0)).pxGet_Copy;
 
    begin
 
@@ -191,7 +191,9 @@ package body Navigation.Orientational_Controller.COrientationalController_Test_D
       AUnit.Assertions.Assert(Condition => bAtleasteOneControlValue,
                               Message   => "No control constatnts, this is not good");
 
-
+      Navigation.Orientational_Controller.Free(pxOrientationalControllerToDeallocate => pxOrientationalController);
+      Math.Matrices.Free(pxMatrixToDeallocate => pxCurrentOrientation);
+      Math.Matrices.Free(pxMatrixToDeallocate => pxWantedOrientation);
 
 --  begin read only
    end Test_xGet_Planal_Thruster_Control_Value;
@@ -212,13 +214,12 @@ package body Navigation.Orientational_Controller.COrientationalController_Test_D
       use Math.Matrices;
 
       pxOrientationalController : Navigation.Orientational_Controller.pCOrientationalController;
-      pxOrientationalMatrix : Math.Matrices.pCMatrix;
 
       xThrusterControlValues : Navigation.Thrusters.TThrusterEffects;
       bAtleasteOneControlValue : boolean := false;
 
-      pxCurrentOrientation : Math.Matrices.pCMatrix := Math.Matrices.pxCreate_Identity;
-      pxWantedOrientation : Math.Matrices.pCMatrix := Math.Matrices.pxCreate_Rotation_Around_X_Axis(50.0) * Math.Matrices.pxCreate_Rotation_Around_Y_Axis(50.0) * Math.Matrices.pxCreate_Rotation_Around_Z_Axis(50.0);
+      pxCurrentOrientation : Math.Matrices.pCMatrix := Math.Matrices.xCreate_Identity.pxGet_Copy;
+      pxWantedOrientation : Math.Matrices.pCMatrix := Math.Matrices.CMatrix(Math.Matrices.xCreate_Rotation_Around_X_Axis(50.0) * Math.Matrices.xCreate_Rotation_Around_Y_Axis(50.0) * Math.Matrices.xCreate_Rotation_Around_Z_Axis(50.0)).pxGet_Copy;
 
    begin
 
@@ -228,9 +229,7 @@ package body Navigation.Orientational_Controller.COrientationalController_Test_D
       pxOrientationalController.Set_New_PID_Component_Scalings(eComponentToUpdate => Navigation.Motion_Component.AllComponents,
                                                                xNewPIDScaling => Navigation.PID_Controller.TPIDComponentScalings'(1.0,1.0,1.0));
 
-      pxOrientationalMatrix := Math.Matrices.pxCreate_Rotation_Around_X_Axis(50.0)
-        			* Math.Matrices.pxCreate_Rotation_Around_Z_Axis(50.0)
-        			* Math.Matrices.pxCreate_Rotation_Around_Y_Axis(50.0);
+
 
       pxOrientationalController.Update_Current_Errors;
 
@@ -246,6 +245,9 @@ package body Navigation.Orientational_Controller.COrientationalController_Test_D
       AUnit.Assertions.Assert(Condition => bAtleasteOneControlValue,
                               Message   => "No control constatnts, this is not good");
 
+      Navigation.Orientational_Controller.Free(pxOrientationalControllerToDeallocate => pxOrientationalController);
+      Math.Matrices.Free(pxMatrixToDeallocate => pxCurrentOrientation);
+      Math.Matrices.Free(pxMatrixToDeallocate => pxWantedOrientation);
 
 --  begin read only
    end Test_xGet_Directional_Thruster_Control_Value;

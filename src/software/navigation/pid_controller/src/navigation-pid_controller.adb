@@ -78,6 +78,8 @@ package body Navigation.PID_Controller is
 
       output := this.fCurrentIntegralPart * this.fIntegralScale + this.fCurrentDerivativePart * this.fDerivativeScale + this.fCurrentProportionalPart * this.fProportionalScale;
 
+      this.fLastProportionalPart := this.fCurrentProportionalPart;
+
       return output;
    end xGet_New_Control_Value;
 
@@ -96,5 +98,11 @@ package body Navigation.PID_Controller is
    begin
       return this.fProportionalScale;
    end fGetProportionalScale;
+
+   procedure Free(pxPIDControllerToDeallocate : in out pCPIDController) is
+      procedure Dealloc is new Ada.Unchecked_Deallocation(CPIDController, pCPIDController);
+   begin
+      Dealloc(pxPIDControllerToDeallocate);
+   end Free;
 
 end Navigation.PID_Controller;

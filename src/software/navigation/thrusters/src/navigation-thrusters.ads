@@ -1,6 +1,12 @@
+with Ada.Finalization;
+with Ada.Unchecked_Deallocation;
+with Exception_Handling;
+
 package Navigation.Thrusters is
-   type CThruster is tagged private;
+   type CThruster is new Ada.Finalization.Controlled with private;
    type pCThruster is access CThruster;
+
+   procedure Free(pxThrusterToDeallocate : in out pCThruster);
 
    type EThrusterEffectsComponents is (XPosition, YPosition, ZPosition, XRotation, YRotation, ZRotation);
    type TThrusterEffects is array (XPosition .. ZRotation) of float;
@@ -20,10 +26,12 @@ package Navigation.Thrusters is
 private
    procedure Put_Thruster_Effects_Into_Matrix (this : in CThruster; txThrusterEffectsMatrix : in out TThrusterEffectsMatrix; iThrusterIndex : in integer);
 
-   type CThruster is tagged
+   type CThruster is new Ada.Finalization.Controlled with
       record
          pxNextThruster : pCThruster;
          tfThrusterEffects : TThrusterEffects;
       end record;
+
+   procedure Finalize(this : in out CThruster);
 
 end Navigation.Thrusters;

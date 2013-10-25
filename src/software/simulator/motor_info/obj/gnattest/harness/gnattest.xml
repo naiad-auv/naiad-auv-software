@@ -3,16 +3,16 @@
       <test_unit target_file="simulator-motor_info-cmotorinfo_test_data-cmotorinfo_tests.ads">
          <setup file="simulator-motor_info-cmotorinfo_test_data.adb" line="4"  column="4"/>
          <teardown file="simulator-motor_info-cmotorinfo_test_data.adb" line="8"  column="4"/>
-         <tested name="pxGet_Force_Vector" line="10" column="4">
+         <tested name="pxGet_Force_Vector" line="13" column="4">
             <test file="simulator-motor_info-cmotorinfo_test_data-cmotorinfo_tests.adb" line="13" column="1" timestamp="modified"/>
          </tested>
-         <tested name="pxGet_Position_Vector" line="11" column="4">
+         <tested name="pxGet_Position_Vector" line="14" column="4">
             <test file="simulator-motor_info-cmotorinfo_test_data-cmotorinfo_tests.adb" line="53" column="1" timestamp="modified"/>
          </tested>
-         <tested name="pxGet_Torque_Vector" line="12" column="4">
+         <tested name="pxGet_Torque_Vector" line="15" column="4">
             <test file="simulator-motor_info-cmotorinfo_test_data-cmotorinfo_tests.adb" line="91" column="1" timestamp="modified"/>
          </tested>
-         <tested name="pxGet_Copy" line="13" column="4">
+         <tested name="pxGet_Copy" line="16" column="4">
             <test file="simulator-motor_info-cmotorinfo_test_data-cmotorinfo_tests.adb" line="129" column="1" timestamp="modified"/>
          </tested>
          <dangling>
@@ -21,17 +21,16 @@
       <test_unit target_file="simulator-motor_info-test_data-tests.ads">
          <setup file="simulator-motor_info-test_data.adb" line="3"  column="4"/>
          <teardown file="simulator-motor_info-test_data.adb" line="9"  column="4"/>
-         <tested name="pxCreate" line="9" column="4">
-            <test file="simulator-motor_info-test_data-tests.adb" line="13" column="1" timestamp="modified"/>
+         <tested name="Free" line="10" column="4">
+            <test file="simulator-motor_info-test_data-tests.adb" line="13" column="1" timestamp="2013-10-24 09:05:38"/>
          </tested>
-         <tested name="Equal" line="14" column="4">
-            <test file="simulator-motor_info-test_data-tests.adb" line="58" column="1" timestamp="2013-10-11 11:37:17"/>
+         <tested name="pxCreate" line="12" column="4">
+            <test file="simulator-motor_info-test_data-tests.adb" line="34" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="Equal" line="17" column="4">
+            <test file="simulator-motor_info-test_data-tests.adb" line="79" column="1" timestamp="modified"/>
          </tested>
          <dangling>
-            <test file="simulator-motor_info-test_data-tests.adb" line="78" column="1"/>
-            <test file="simulator-motor_info-test_data-tests.adb" line="98" column="1"/>
-            <test file="simulator-motor_info-test_data-tests.adb" line="118" column="1"/>
-            <test file="simulator-motor_info-test_data-tests.adb" line="138" column="1"/>
          </dangling>
       </test_unit>
    </unit>

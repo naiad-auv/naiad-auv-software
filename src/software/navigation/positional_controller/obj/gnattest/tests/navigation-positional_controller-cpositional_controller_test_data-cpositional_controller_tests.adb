@@ -62,6 +62,10 @@ package body Navigation.Positional_Controller.CPositional_Controller_Test_Data.C
                               Message => "PositionalControlvalue component 1 is 0");
 
 
+      Navigation.Positional_Controller.Free(pxPositionalControllerToDeallocate => pxPositionalController);
+      Math.Vectors.Free(pxVectorToDeallocate => pxNewWanted);
+      Math.Vectors.Free(pxVectorToDeallocate => pxCurrentPosition);
+      Math.Matrices.Free(pxMatrixToDeallocate => pxCurrentOrientation);      
 
 
 --  begin read only

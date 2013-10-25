@@ -27,7 +27,7 @@ package body Navigation.Positional_Controller.CPositionalController_Test_Data.CP
       pxNewWanted : Math.Vectors.pCVector := Math.Vectors.pxCreate(5.0,5.0,5.0);
 
       pxCurrentPosition : Math.Vectors.pCVector := Math.Vectors.pxCreate(0.0,0.0,0.0);
-      pxCurrentOrientation : Math.Matrices.pCMatrix := Math.Matrices.pxCreate_Identity;
+      pxCurrentOrientation : Math.Matrices.pCMatrix := Math.Matrices.xCreate_Identity.pxGet_Copy;
 
       pxPositionalScalings : Navigation.PID_Controller.TPIDComponentScalings := (1.0,1.0,1.0);
 
@@ -53,6 +53,11 @@ package body Navigation.Positional_Controller.CPositionalController_Test_Data.CP
 
       AUnit.Assertions.Assert(Condition => abs(xPositionalControlValues(Thrusters.ZPosition)) > 0.00001,
                               Message => "PositionalControlvalue component 1 is 0");
+
+      Navigation.Positional_Controller.Free(pxPositionalControllerToDeallocate => pxPositionalController);
+      Math.Vectors.Free(pxVectorToDeallocate => pxNewWanted);
+      Math.Vectors.Free(pxVectorToDeallocate => pxCurrentPosition);
+      Math.Matrices.Free(pxMatrixToDeallocate => pxCurrentOrientation);
 
 
 --  begin read only

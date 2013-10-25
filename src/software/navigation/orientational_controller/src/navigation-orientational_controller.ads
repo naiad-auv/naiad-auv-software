@@ -9,11 +9,15 @@ with Navigation.Thrusters;
 with System;
 with Ada.Text_IO;
 with System.Address_Image;
+with Ada.Finalization;
+with Ada.Unchecked_Deallocation;
 
 package Navigation.Orientational_Controller is
 
-   type COrientationalController is tagged private;
+   type COrientationalController is new Ada.Finalization.Controlled with private;
    type pCOrientationalController is access COrientationalController;
+
+   procedure Free(pxOrientationalControllerToDeallocate : in out pCOrientationalController);
 
    function pxCreate (pxCurrentAbsoluteOrientation : in Math.Matrices.pCMatrix; pxWantedAbsoluteOrientation : in Math.Matrices.pCMatrix) return pCOrientationalController;
    --  <summary>Creates an object of type COrientationalController and sets references to the current and wanted orientation</summary>
@@ -41,13 +45,13 @@ private
    procedure Update_Current_Planal_Error (this : in out COrientationalController);
    procedure Update_Current_Directional_Error (this : in COrientationalController);
 
-   function fGet_Directional_Error (pxCurrentRelativeDirectionVector : in Math.Vectors.pCVector; pxWantedRelativeDirectionVector : in Math.Vectors.pCVector) return float;
-   function fGet_Planal_Error (pxCurrentRelativePlane : in Math.Planes.pCPlane; pxWantedRelativePlane : in Math.Planes.pCPlane) return float;
+   function fGet_Directional_Error (xCurrentRelativeDirectionVector : in Math.Vectors.CVector; xWantedRelativeDirectionVector : in Math.Vectors.CVector) return float;
+   function fGet_Planal_Error (xCurrentRelativePlane : in Math.Planes.CPlane; xWantedRelativePlane : in Math.Planes.CPlane) return float;
 
    function xGet_Planal_Thruster_Control_Value (this : in COrientationalController; fDeltaTime : in float) return Navigation.Thrusters.TThrusterEffects;
    function xGet_Directional_Thruster_Control_Value (this : in COrientationalController; fDeltaTime : in float) return Navigation.Thrusters.TThrusterEffects;
 
-   type COrientationalController is tagged
+   type COrientationalController is new Ada.Finalization.Controlled with
       record
          pxCurrentAbsoluteOrientation : Math.Matrices.pCMatrix;
          pxWantedAbsoluteOrientation : Math.Matrices.pCMatrix;
@@ -57,4 +61,6 @@ private
 
          pxCurrentToWantedPlaneRotation : Math.Quaternions.pCQuaternion;
       end record;
+
+   procedure Finalize(this : in out COrientationalController);
 end Navigation.Orientational_Controller;

@@ -37,6 +37,7 @@ package body Navigation.Motion_Component.CMotion_Component_Test_Data.CMotion_Com
       
       AUnit.Assertions.Assert(Condition => xCurrentComponentControlValue.fValue /= 0.0,
                               Message => "abo");
+      Navigation.Motion_Component.Free(pxMotionComponentToDeallocate => pxMotionComponent);
      
 --  begin read only
    end Test_xGet_New_Component_Control_Value;
@@ -64,15 +65,16 @@ package body Navigation.Motion_Component.CMotion_Component_Test_Data.CMotion_Com
       
       pxMotionComponent.Set_New_PID_Component_Scalings(xNewPidScalings);
       
-      AUnit.Assertions.Assert(Condition => pxMotionComponent.xComponentPIDController.fGetProportionalScale = 4.0,
+      AUnit.Assertions.Assert(Condition => pxMotionComponent.pxComponentPIDController.fGetProportionalScale = 4.0,
                               Message => "Proportional scale in component pid controller not set correctly");
       
-      AUnit.Assertions.Assert(Condition => pxMotionComponent.xComponentPIDController.fGetIntergralScale = 5.0,
-                              Message => "Integral scale in component pid controller not set correctly wanted: , actual: " & Float'Image(pxMotionComponent.xComponentPIDController.fGetIntergralScale));
+      AUnit.Assertions.Assert(Condition => pxMotionComponent.pxComponentPIDController.fGetIntergralScale = 5.0,
+                              Message => "Integral scale in component pid controller not set correctly wanted: , actual: " & Float'Image(pxMotionComponent.pxComponentPIDController.fGetIntergralScale));
       
-      AUnit.Assertions.Assert(Condition => pxMotionComponent.xComponentPIDController.fGetDerivativeScale = 6.0,
+      AUnit.Assertions.Assert(Condition => pxMotionComponent.pxComponentPIDController.fGetDerivativeScale = 6.0,
                               Message => "Derivative scale in component pid controller not set correctly");
       
+      Navigation.Motion_Component.Free(pxMotionComponentToDeallocate => pxMotionComponent);
       
 --  begin read only
    end Test_Set_New_PID_Component_Scalings;
@@ -101,6 +103,7 @@ package body Navigation.Motion_Component.CMotion_Component_Test_Data.CMotion_Com
       
       AUnit.Assertions.Assert(Condition => pxMotionComponent.fCurrentError = -24.0,
                               Message => "fCurrentError value is set incorrectly");
+      Navigation.Motion_Component.Free(pxMotionComponentToDeallocate => pxMotionComponent);
 --  begin read only
    end Test_Update_Current_Error;
 --  end read only
@@ -133,6 +136,7 @@ package body Navigation.Motion_Component.CMotion_Component_Test_Data.CMotion_Com
       AUnit.Assertions.Assert(Condition => pxMotionComponent.fCurrentError = 0.0,
                               Message => "fCurrentError is not reset");
       
+      Navigation.Motion_Component.Free(pxMotionComponentToDeallocate => pxMotionComponent);
 
 --  begin read only
    end Test_Reset_Component;

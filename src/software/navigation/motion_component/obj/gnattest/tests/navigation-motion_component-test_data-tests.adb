@@ -38,9 +38,10 @@ package body Navigation.Motion_Component.Test_Data.Tests is
       AUnit.Assertions.Assert(Condition => pxMotionComponent.fCurrentError = 0.0,
                               Message => "Current value of motion component not set to zero during construction");
 
-      AUnit.Assertions.Assert(Condition => pxMotionComponent.xComponentPIDController /= null,
+      AUnit.Assertions.Assert(Condition => pxMotionComponent.pxComponentPIDController /= null,
                               Message => "PID controller of motion component is null after construction");
 
+      Navigation.Motion_Component.Free(pxMotionComponentToDeallocate => pxMotionComponent);
 --  begin read only
    end Test_pxCreate;
 --  end read only

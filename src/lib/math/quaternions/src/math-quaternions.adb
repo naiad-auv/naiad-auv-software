@@ -1,19 +1,18 @@
 with Math.Vectors;
 with Ada.Numerics.Elementary_Functions;
 with Ada.Numerics;
-
+with Exception_Handling;
 
 package body Math.Quaternions is
 
-
-   -- TODO: Maybe remove? Should never be used outside of this package.
-   function pxCreate (fX, fY, fZ, fW : float) return pCQuaternion is
+   function pxCreate (fX : in float; fY : in float; fZ : in float; fW : in float) return pCQuaternion is
    begin
       return new CQuaternion'(fX => fX,
                               fY => fY,
                               fZ => fZ,
                               fW => fW);
    end pxCreate;
+
 
    function pxCreate (xAxisVector : in Math.Vectors.CVector; fAngleInDegrees : in float) return pCQuaternion is
       fAngleInRadians : float;
@@ -38,21 +37,22 @@ package body Math.Quaternions is
       fW := Ada.Numerics.Elementary_Functions.Cos(fNorm);
       Math.Vectors.Free(pxVectorToDeallocate => pxNormalizedAxisVector);
 
-      return Math.Quaternions.pxCreate(fX => fX,
-                                       fY => fY,
-                                       fZ => fZ,
-                                       fW => fW);
+      return new CQuaternion'(fX => fX,
+                              fY => fY,
+                              fZ => fZ,
+                              fW => fW);
    end pxCreate;
 
    function pxCreate (pxAxisVector : in Math.Vectors.pCVector; fAngleInDegrees : in float) return pCQuaternion is
+      use Math.Vectors;
    begin
       if pxAxisVector /= null then
          return Math.Quaternions.pxCreate(xAxisVector    => pxAxisVector.all,
                                           fAngleInDegrees => fAngleInDegrees);
       end if;
-      raise Constraint_Error;
-   end pxCreate;
 
+      raise Exception_Handling.NullPointer;
+   end pxCreate;
 
    function pxGet_Copy (this : in CQuaternion) return pCQuaternion is
    begin
@@ -62,70 +62,6 @@ package body Math.Quaternions is
                               fW => this.fW);
    end pxGet_Copy;
 
-
-
-
-   function "+" (xLeftOperandQuaternion, xRightOperandQuaternion : in CQuaternion) return CQuaternion is
-   begin
-      return CQuaternion'(fX => xLeftOperandQuaternion.fX + xRightOperandQuaternion.fX,
-                          fY => xLeftOperandQuaternion.fY + xRightOperandQuaternion.fY,
-                          fZ => xLeftOperandQuaternion.fZ + xRightOperandQuaternion.fZ,
-                          fW => xLeftOperandQuaternion.fW + xRightOperandQuaternion.fW);
-   end "+";
-   function "+" (pxLeftOperandQuaternion : in pCQuaternion; xRightOperandQuaternion : in CQuaternion) return CQuaternion is
-   begin
-      if pxLeftOperandQuaternion /= null then
-         return pxLeftOperandQuaternion.all + xRightOperandQuaternion;
-      end if;
-      raise Constraint_Error;
-   end "+";
-   function "+" (xLeftOperandQuaternion : in CQuaternion; pxRightOperandQuaternion : in pCQuaternion) return CQuaternion is
-   begin
-      if pxRightOperandQuaternion /= null then
-         return xLeftOperandQuaternion + pxRightOperandQuaternion.all;
-      end if;
-      raise Constraint_Error;
-   end "+";
-   function "+" (pxLeftOperandQuaternion : in pCQuaternion; pxRightOperandQuaternion : in pCQuaternion) return CQuaternion is
-   begin
-      if pxLeftOperandQuaternion /= null and then pxRightOperandQuaternion /= null then
-         return pxLeftOperandQuaternion.all + pxRightOperandQuaternion.all;
-      end if;
-      raise Constraint_Error;
-   end "+";
-
-   function "-" (xLeftOperandQuaternion, xRightOperandQuaternion : in CQuaternion) return CQuaternion is
-   begin
-      return CQuaternion'(fX => xLeftOperandQuaternion.fX - xRightOperandQuaternion.fX,
-                          fY => xLeftOperandQuaternion.fY - xRightOperandQuaternion.fY,
-                          fZ => xLeftOperandQuaternion.fZ - xRightOperandQuaternion.fZ,
-                          fW => xLeftOperandQuaternion.fW - xRightOperandQuaternion.fW);
-   end "-";
-   function "-" (pxLeftOperandQuaternion : in pCQuaternion; xRightOperandQuaternion : in CQuaternion) return CQuaternion is
-   begin
-      if pxLeftOperandQuaternion /= null then
-         return pxLeftOperandQuaternion.all - xRightOperandQuaternion;
-      end if;
-      raise Constraint_Error;
-   end "-";
-   function "-" (xLeftOperandQuaternion : in CQuaternion; pxRightOperandQuaternion : in pCQuaternion) return CQuaternion is
-   begin
-      if pxRightOperandQuaternion /= null then
-         return xLeftOperandQuaternion - pxRightOperandQuaternion.all;
-      end if;
-      raise Constraint_Error;
-   end "-";
-   function "-" (pxLeftOperandQuaternion : in pCQuaternion; pxRightOperandQuaternion : in pCQuaternion) return CQuaternion is
-   begin
-      if pxLeftOperandQuaternion /= null and then pxRightOperandQuaternion /= null then
-         return pxLeftOperandQuaternion.all - pxRightOperandQuaternion.all;
-      end if;
-      raise Constraint_Error;
-   end "-";
-
-
-
-
    function "*" (xLeftOperandQuaternion, xRightOperandQuaternion : in CQuaternion) return CQuaternion is
    begin
       return Math.Quaternions.CQuaternion'(fX => ((xLeftOperandQuaternion.fW*xRightOperandQuaternion.fX)+(xLeftOperandQuaternion.fX*xRightOperandQuaternion.fW)+(xLeftOperandQuaternion.fY*xRightOperandQuaternion.fZ)-(xLeftOperandQuaternion.fZ*xRightOperandQuaternion.fY)),
@@ -133,42 +69,41 @@ package body Math.Quaternions is
                                            fZ => ((xLeftOperandQuaternion.fW*xRightOperandQuaternion.fZ)+(xLeftOperandQuaternion.fX*xRightOperandQuaternion.fY)-(xLeftOperandQuaternion.fY*xRightOperandQuaternion.fX)-(xLeftOperandQuaternion.fZ*xRightOperandQuaternion.fW)),
                                            fW => ((xLeftOperandQuaternion.fW*xRightOperandQuaternion.fW)-(xLeftOperandQuaternion.fX*xRightOperandQuaternion.fX)-(xLeftOperandQuaternion.fY*xRightOperandQuaternion.fY)-(xLeftOperandQuaternion.fZ*xRightOperandQuaternion.fZ)));
    end "*";
+
    function "*" (xLeftOperandQuaternion : in CQuaternion; pxRightOperandQuaternion : in pCQuaternion) return CQuaternion is
    begin
       if pxRightOperandQuaternion /= null then
          return xLeftOperandQuaternion * pxRightOperandQuaternion.all;
       end if;
-      raise Constraint_Error;
+
+      raise Exception_Handling.NullPointer;
    end "*";
+
    function "*" (pxLeftOperandQuaternion : in pCQuaternion; xRightOperandQuaternion : in CQuaternion) return CQuaternion is
    begin
       if pxLeftOperandQuaternion /= null then
          return pxLeftOperandQuaternion.all * xRightOperandQuaternion;
       end if;
-      raise Constraint_Error;
+
+      raise Exception_Handling.NullPointer;
    end "*";
+
    function "*" (pxLeftOperandQuaternion, pxRightOperandQuaternion : in pCQuaternion) return CQuaternion is
    begin
       if pxLeftOperandQuaternion /= null and then pxRightOperandQuaternion /= null then
          return pxLeftOperandQuaternion.all * pxRightOperandQuaternion.all;
       end if;
-      raise Constraint_Error;
+
+      raise Exception_Handling.NullPointer;
    end "*";
-
-
 
    function "=" (xLeftOperandQuaternion, xRightOperandQuaternion : in CQuaternion) return boolean is
    begin
-      return (xLeftOperandQuaternion.fX = xRightOperandQuaternion.fX) and
-        (xLeftOperandQuaternion.fY = xRightOperandQuaternion.fY) and
-        (xLeftOperandQuaternion.fZ = xRightOperandQuaternion.fZ) and
+      return (xLeftOperandQuaternion.fX = xRightOperandQuaternion.fX) and then
+        (xLeftOperandQuaternion.fY = xRightOperandQuaternion.fY) and then
+        (xLeftOperandQuaternion.fZ = xRightOperandQuaternion.fZ) and then
         (xLeftOperandQuaternion.fW = xRightOperandQuaternion.fW);
    end "=";
-
-
-
-
-
 
    function fGet_Dot_Product (xLeftOperandQuaternion, xRightOperandQuaternion : in CQuaternion) return float is
    begin
@@ -177,76 +112,42 @@ package body Math.Quaternions is
         (xLeftOperandQuaternion.fZ * xRightOperandQuaternion.fZ) +
         (xLeftOperandQuaternion.fW * xRightOperandQuaternion.fW);
    end fGet_Dot_Product;
+
    function fGet_Dot_Product (pxLeftOperandQuaternion : in pCQuaternion; xRightOperandQuaternion : in CQuaternion) return float is
    begin
       if pxLeftOperandQuaternion /= null then
          return fGet_Dot_Product(pxLeftOperandQuaternion.all, xRightOperandQuaternion);
       end if;
-      raise Constraint_Error;
+
+      raise Exception_Handling.NullPointer;
    end fGet_Dot_Product;
+
    function fGet_Dot_Product (xLeftOperandQuaternion : in CQuaternion; pxRightOperandQuaternion : in pCQuaternion) return float is
    begin
       if pxRightOperandQuaternion /= null then
          return fGet_Dot_Product(xLeftOperandQuaternion, pxRightOperandQuaternion.all);
       end if;
-      raise Constraint_Error;
+
+      raise Exception_Handling.NullPointer;
    end fGet_Dot_Product;
+
    function fGet_Dot_Product (pxLeftOperandQuaternion, pxRightOperandQuaternion : in pCQuaternion) return float is
    begin
       if pxLeftOperandQuaternion /= null and then pxRightOperandQuaternion /= null then
          return fGet_Dot_Product(pxLeftOperandQuaternion.all, pxRightOperandQuaternion.all);
       end if;
-      raise Constraint_Error;
+
+      raise Exception_Handling.NullPointer;
    end fGet_Dot_Product;
-
---     function pxGet_Spherical_Linear_Interpolation_Quaternion (pxFromQuaternion : in pCQuaternion; pxToQuaternion : in pCQuaternion; fInterpolationCoefficient : float) return pCQuaternion is
---        --pxInterpolatedQuaternion : pCQuaternion;
---        cosHalfTheta : float;
---        halfTheta : float;
---        sinHalfTheta : float;
---        --fInvSinAngle : float;
---        ratioA : float;
---        ratioB : float;
---     begin
---
---
---        cosHalfTheta := Math.Quaternions.fGet_Dot_Product(pxLeftOperandQuaternion  => pxFromQuaternion,
---                                                          pxRightOperandQuaternion => pxToQuaternion);
---
---        if abs(cosHalfTheta) >= 1.0 then
---           return pxFromQuaternion.pxGet_Copy;
---        end if;
---
---        halfTheta := Ada.Numerics.Elementary_Functions.Arccos(cosHalfTheta);
---        sinHalfTheta := Ada.Numerics.Elementary_Functions.Sqrt(1.0 - (cosHalfTheta * cosHalfTheta));
---
---        if abs(sinHalfTheta) < 0.001 then
---           return Math.Quaternions.pxCreate(fX => (pxFromQuaternion.fX * 0.5) + (pxToQuaternion.fX * 0.5),
---                                            fY => (pxFromQuaternion.fY * 0.5) + (pxToQuaternion.fY * 0.5),
---                                            fZ => (pxFromQuaternion.fZ * 0.5) + (pxToQuaternion.fZ * 0.5),
---                                            fW => (pxFromQuaternion.fW * 0.5) + (pxToQuaternion.fW * 0.5));
---        end if;
---
---        ratioA := Ada.Numerics.Elementary_Functions.Sin((1.0 - fInterpolationCoefficient) * halfTheta) / sinHalfTheta;
---        ratioB := Ada.Numerics.Elementary_Functions.Sin(fInterpolationCoefficient * halfTheta) / sinHalfTheta;
---
---        return Math.Quaternions.pxCreate(fX => (pxFromQuaternion.fX * ratioA) + (pxToQuaternion.fX * ratioB),
---                                            fY => (pxFromQuaternion.fY * ratioA) + (pxToQuaternion.fY * ratioB),
---                                            fZ => (pxFromQuaternion.fZ * ratioA) + (pxToQuaternion.fZ * ratioB),
---                                            fW => (pxFromQuaternion.fW * ratioA) + (pxToQuaternion.fW * ratioB));
---
---
---     end pxGet_Spherical_Linear_Interpolation_Quaternion;
-
-
 
    function xGet_Normalized (this : in CQuaternion) return CQuaternion is
       fLength : float;
    begin
 
       if this.fGet_Length_Squared = 0.0 then
-         raise Numeric_Error;
+         raise Exception_Handling.DivisionByZero;
       end if;
+
       fLength := this.fGet_Length;
 
       return Math.Quaternions.CQuaternion'(fX => this.fX / fLength,
@@ -264,9 +165,6 @@ package body Math.Quaternions is
    begin
       return (this.fX*this.fX) + (this.fY*this.fY) + (this.fZ*this.fZ) + (this.fW*this.fW);
    end fGet_Length_Squared;
-
-
-
 
    function fGet_X ( this : in CQuaternion) return float is
    begin
@@ -303,8 +201,10 @@ package body Math.Quaternions is
                                                fY => this.fY / fScale,
                                                fZ => this.fZ / fScale);
       end if;
+
       xAxisVector.Copy_From(xSourceVector => pxAxisVector.all);
       Math.Vectors.Free(pxVectorToDeallocate => pxAxisVector);
+
       return xAxisVector;
    end xGet_Axis_Vector;
 
@@ -321,12 +221,10 @@ package body Math.Quaternions is
       this.fW := xSourceQuaternion.fW;
    end Copy_From;
 
-
    procedure Free(pxQuaternionToDeallocate : in out pCQuaternion) is
       procedure Dealloc is new Ada.Unchecked_Deallocation(CQuaternion, pCQuaternion);
    begin
       Dealloc(pxQuaternionToDeallocate);
    end Free;
-
 
 end Math.Quaternions;

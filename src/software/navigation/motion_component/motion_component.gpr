@@ -1,3 +1,4 @@
+with "../../../lib/exception_handling/exception_handling.gpr";
 with "../pid_controller/pid_controller.gpr";
 with "../navigation.gpr";
 

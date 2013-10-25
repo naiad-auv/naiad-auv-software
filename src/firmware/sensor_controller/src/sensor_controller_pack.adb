@@ -101,7 +101,7 @@ package body Sensor_Controller_pack is
       declare
          mask : AVR.AT90CAN128.CAN.CAN_ID;
       begin
-         if CAN_Defs.IS_EXTENDED_MSG then
+         if USE_EXTENDED_MSG then
             mask := (536870911, true);
          else
             mask := (2047, false);

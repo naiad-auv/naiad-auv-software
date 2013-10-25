@@ -1,5 +1,5 @@
 with Math;
-with Math.Vectors; use Math.Vectors;
+with Math.Vectors;-- use Math.Vectors;
 with Ada.Finalization;
 with Ada.Text_IO;
 with Ada.Unchecked_Deallocation;

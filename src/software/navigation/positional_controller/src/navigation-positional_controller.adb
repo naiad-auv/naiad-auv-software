@@ -33,7 +33,7 @@ package body Navigation.Positional_Controller is
 
    function xGet_Positional_Thruster_Control_Values (this : in out CPositionalController; fDeltaTime : float) return Navigation.Thrusters.TThrusterEffects is
    begin
-      return (Navigation.Thrusters.XPosition => this.pxXMotionComponent.xGet_New_Component_Control_Value(fDeltaTime).fValue,
+      return Navigation.Thrusters.TThrusterEffects'(Navigation.Thrusters.XPosition => this.pxXMotionComponent.xGet_New_Component_Control_Value(fDeltaTime).fValue,
               Navigation.Thrusters.YPosition => this.pxYMotionComponent.xGet_New_Component_Control_Value(fDeltatime).fValue,
               Navigation.Thrusters.ZPosition => this.pxZMotionComponent.xGet_New_Component_Control_Value(fDeltaTime).fValue,
               others => 0.0);
@@ -46,15 +46,15 @@ package body Navigation.Positional_Controller is
       use Math.Vectors;
       use Math.Matrices;
 
-      pxRelativeWantedPositionVector : Math.Vectors.pCVector;
-      pxAbsoluteDifferenceVector : Math.Vectors.pCVector;
+      xRelativeWantedPositionVector : Math.Vectors.CVector;
+      xAbsoluteDifferenceVector : Math.Vectors.CVector;
    begin
-      pxAbsoluteDifferenceVector := this.pxWantedAbsolutePosition - this.pxCurrentAbsolutePosition;
-      pxRelativeWantedPositionVector := this.pxCurrentAbsoluteOrientation.pxGet_Inverse * pxAbsoluteDifferenceVector;
+      xAbsoluteDifferenceVector := this.pxWantedAbsolutePosition.all - this.pxCurrentAbsolutePosition.all;
+      xRelativeWantedPositionVector := this.pxCurrentAbsoluteOrientation.xGet_Inverse * xAbsoluteDifferenceVector;
 
-      this.pxXMotionComponent.Update_Current_Error(pxRelativeWantedPositionVector.fGet_X);
-      this.pxYMotionComponent.Update_Current_Error(pxRelativeWantedPositionVector.fGet_Y);
-      this.pxZMotionComponent.Update_Current_Error(pxRelativeWantedPositionVector.fGet_Z);
+      this.pxXMotionComponent.Update_Current_Error(xRelativeWantedPositionVector.fGet_X);
+      this.pxYMotionComponent.Update_Current_Error(xRelativeWantedPositionVector.fGet_Y);
+      this.pxZMotionComponent.Update_Current_Error(xRelativeWantedPositionVector.fGet_Z);
    end Update_Current_Errors;
 
 
@@ -77,5 +77,28 @@ package body Navigation.Positional_Controller is
       end case;
 
    end Set_New_PID_Component_Scalings;
+
+   procedure Free(pxPositionalControllerToDeallocate : in out pCPositionalController) is
+      procedure Dealloc is new Ada.Unchecked_Deallocation(CPositionalController, pCPositionalController);
+   begin
+      Dealloc(pxPositionalControllerToDeallocate);
+   end Free;
+
+
+   procedure Finalize(this : in out CPositionalController) is
+      use Navigation.Motion_Component;
+   begin
+      if this.pxXMotionComponent /= null then
+         Navigation.Motion_Component.Free(pxMotionComponentToDeallocate => this.pxXMotionComponent);
+      end if;
+      if this.pxYMotionComponent /= null then
+         Navigation.Motion_Component.Free(pxMotionComponentToDeallocate => this.pxYMotionComponent);
+      end if;
+      if this.pxZMotionComponent /= null then
+         Navigation.Motion_Component.Free(pxMotionComponentToDeallocate => this.pxZMotionComponent);
+      end if;
+
+   end Finalize;
+
 
 end Navigation.Positional_Controller;

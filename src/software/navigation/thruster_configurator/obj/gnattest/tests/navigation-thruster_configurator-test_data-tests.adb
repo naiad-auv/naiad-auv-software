@@ -33,6 +33,7 @@ package body Navigation.Thruster_Configurator.Test_Data.Tests is
 
       AUnit.Assertions.Assert(Condition => pxThrusterConfigurator.pxThrusterList /= null,
                               Message   => "pxThrusterList is null after construction");
+      Navigation.Thruster_Configurator.Free(pxThrusterConfiguratorToDeallocate => pxThrusterConfigurator);
 
 --  begin read only
    end Test_pxCreate;
@@ -72,6 +73,7 @@ package body Navigation.Thruster_Configurator.Test_Data.Tests is
 
       end loop;
 
+      Navigation.Thruster_Configurator.Free(pxThrusterConfiguratorToDeallocate => pxThrusterConfigurator);
 
 --  begin read only
    end Test_tfGet_Results_Vector_From;
@@ -97,6 +99,7 @@ package body Navigation.Thruster_Configurator.Test_Data.Tests is
                               Message   => "(3,2) didnt get set to 0.0");
       AUnit.Assertions.Assert(Condition => abs(xfExtendedMatrix(1,3)) < 0.0001,
                               Message   => "(3,1) didnt get set to 0.0");
+
 
 --  begin read only
    end Test_Remove_Component_In_Leading_Rows;

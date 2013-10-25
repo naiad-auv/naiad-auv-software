@@ -2,17 +2,16 @@ with Navigation.Motion_Component;
 with Math.Matrices;
 with Math.Vectors;
 with Navigation.Thrusters;
-with System.Pool_Local;
+with Ada.Finalization;
+with Ada.Unchecked_Deallocation;
 
 package Navigation.Thruster_Configurator is
 
-   type CThrusterConfigurator is tagged private;
-
-
+   type CThrusterConfigurator is new Ada.Finalization.Controlled with private;
    type pCThrusterConfigurator is access CThrusterConfigurator;
 
-   xStoragePool : System.Pool_Local.Unbounded_Reclaim_Pool;
-   for pCThrusterConfigurator'Storage_Pool use xStoragePool;
+   procedure Free(pxThrusterConfiguratorToDeallocate : in out pCThrusterConfigurator);
+
 
    type TExtendedMatrix is array(POSITIVE range <>, POSITIVE range <>) of float;
 
@@ -38,10 +37,11 @@ private
    procedure Insert_Component_Values_In_Extended_Matrix(tfExtendedMatrix : in out TExtendedMatrix; tfComponentValues : in Navigation.Thrusters.TThrusterEffects);
    procedure Perform_Gauss_Jordan_Elimination_On(tfExtendedMatrix : in out TExtendedMatrix);
 
-   type CThrusterConfigurator is tagged
+   type CThrusterConfigurator is new Ada.Finalization.Controlled with
       record
          pxThrusterList : Navigation.Thrusters.pCThruster;
       end record;
 
+   procedure Finalize(this : in out CThrusterConfigurator);
 
 end Navigation.Thruster_Configurator;

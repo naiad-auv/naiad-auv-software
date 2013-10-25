@@ -22,19 +22,19 @@ package body Simulator.Motor_Info.CMotorInfo_Test_Data.CMotorInfo_Tests.Suite is
 
       Runner_1.Create
         (Case_1_1_Test_pxGet_Force_Vector_cab73d,
-         "simulator-motor_info.ads:10:4:",
+         "simulator-motor_info.ads:13:4:",
          Test_pxGet_Force_Vector_cab73d'Access);
       Runner_1.Create
         (Case_2_1_Test_pxGet_Position_Vector_b43fda,
-         "simulator-motor_info.ads:11:4:",
+         "simulator-motor_info.ads:14:4:",
          Test_pxGet_Position_Vector_b43fda'Access);
       Runner_1.Create
         (Case_3_1_Test_pxGet_Torque_Vector_f58fc8,
-         "simulator-motor_info.ads:12:4:",
+         "simulator-motor_info.ads:15:4:",
          Test_pxGet_Torque_Vector_f58fc8'Access);
       Runner_1.Create
         (Case_4_1_Test_pxGet_Copy_3bb6df,
-         "simulator-motor_info.ads:13:4:",
+         "simulator-motor_info.ads:16:4:",
          Test_pxGet_Copy_3bb6df'Access);
 
       Result.Add_Test (Case_1_1_Test_pxGet_Force_Vector_cab73d'Access);

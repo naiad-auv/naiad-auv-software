@@ -1,5 +1,6 @@
 
 package body CAN_Link_Utils is
+   pragma Suppress (All_Checks);
 
    function Calculate_Checksum(b8Data : AVR.AT90CAN128.CAN.Byte8; Len : AVR.AT90CAN128.DLC_Type) return Interfaces.Unsigned_8 is
       Checksum : Interfaces.Unsigned_8 := 0;
@@ -12,7 +13,7 @@ package body CAN_Link_Utils is
    end Calculate_Checksum;
 
 
-   procedure Bytes_To_Message_Header(sBuffer : String; msg : in out AVR.AT90CAN128.CAN.CAN_Message) is
+   procedure Bytes_To_Message_Header(sBuffer : String; msg : in out AVR.AT90CAN128.CAN.CAN_Message; u8SpecifiedChecksum : out Interfaces.Unsigned_8) is
    begin
       msg.ID.isExtended := sBuffer(MSG_TYPE_POS) /= Character'Val(0);
 
@@ -24,17 +25,20 @@ package body CAN_Link_Utils is
                                           Standard.Long_Integer(Character'Pos(sBuffer(IDHIGH_POS + 3))));
 
       msg.Len := Character'Pos(sBuffer(LEN_POS));
+
+      u8SpecifiedChecksum := Interfaces.Unsigned_8(Character'Pos(sBuffer(CHECKSUM_POS)));
    end Bytes_To_Message_Header;
 
 
-   procedure Bytes_To_Message_Data(sBuffer : String; msg : in out AVR.AT90CAN128.CAN.CAN_Message; bCheckSumCorrect : out Boolean) is
+   procedure Bytes_To_Message_Data(sBuffer : String;
+                                   msg : in out AVR.AT90CAN128.CAN.CAN_Message; u8ActualChecksum : out Interfaces.Unsigned_8) is
       -- sBuffer shall only contain the data, not the header
    begin
       for i in 1..msg.Len loop
          msg.Data(i) := Interfaces.Unsigned_8(Character'Pos(sBuffer(Integer(i))));
       end loop;
 
-      bCheckSumCorrect :=  Character'Pos(sBuffer(CHECKSUM_POS)) = Integer(Calculate_Checksum(msg.Data, msg.Len));
+      u8ActualChecksum :=  Calculate_Checksum(msg.Data, msg.Len);
    end Bytes_To_Message_Data;
 
    procedure Message_To_Bytes(sBuffer : out String; msg : AVR.AT90CAN128.CAN.CAN_Message) is
