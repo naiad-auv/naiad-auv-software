@@ -189,20 +189,25 @@ package body Navigation.Dispatcher.CDispatcher_Test_Data.CDispatcher_Tests is
       pxDispatcher.Set_New_Component_PID_Scalings(eComponentToChange => Navigation.Motion_Component.AllComponents,
                                                   xNewPIDSCalings    => Navigation.PID_Controller.TPIDComponentScalings'(fProportionalScale => 1.0, fIntegralScale => 1.0, fDerivativeScale => 1.0));
       tfThrusterValues := pxDispatcher.tfGet_Thruster_Values(fDeltaTime => 0.25);
+
+--        for i in tfThrusterValues'Range loop
+--           
+--           Ada.Text_IO.Put_Line(float'Image(tfThrusterValues(i)));
+--        end loop;
       
 
       AUnit.Assertions.Assert        (Condition => tfThrusterValues(1) > 0.0,
-                                      Message => "CDispatcher.tfGet_Thruster_Values failed, wrong value from thruster 4. Value: " & float'Image(tfThrusterValues(4)) & ". Expected: < 0.0.");
-      AUnit.Assertions.Assert        (Condition => tfThrusterValues(4) = tfThrusterValues(6),
-                                      Message => "CDispatcher.tfGet_Thruster_Values failed, 4 not equal to 6. Value: " & float'Image(tfThrusterValues(6)) & ". Expected: " & float'Image(tfThrusterValues(4)));
-      AUnit.Assertions.Assert        (Condition => -tfThrusterValues(5) = tfThrusterValues(4) + tfThrusterValues(6) ,
-                                      Message => "CDispatcher.tfGet_Thruster_Values failed, wrong value from thruster 5. Value: " & float'Image(tfThrusterValues(5)) & ". Expected: " & float'Image(tfThrusterValues(4) + tfThrusterValues(6)));
-      AUnit.Assertions.Assert        (Condition => abs(tfThrusterValues(1)) = 0.0,
-                                      Message => "CDispatcher.tfGet_Thruster_Values failed, wrong value from thruster 1. Value: " & float'Image(tfThrusterValues(1)) & ". Expected: 0.0.");
-      AUnit.Assertions.Assert        (Condition => abs(tfThrusterValues(2)) = 0.0,
-                                      Message => "CDispatcher.tfGet_Thruster_Values failed, wrong value from thruster 2. Value: " & float'Image(tfThrusterValues(2)) & ". Expected: 0.0.");
-      AUnit.Assertions.Assert        (Condition => abs(tfThrusterValues(3)) = 0.0,
-                                      Message => "CDispatcher.tfGet_Thruster_Values failed, wrong value from thruster 3. Value: " & float'Image(tfThrusterValues(3)) & ". Expected: 0.0.");
+                                      Message => "CDispatcher.tfGet_Thruster_Values failed, wrong value from thruster 1. Value: " & float'Image(tfThrusterValues(1)) & ". Expected: > 0.0.");
+      AUnit.Assertions.Assert        (Condition => abs(tfThrusterValues(1) - tfThrusterValues(2)) < 0.00001,
+                                      Message => "CDispatcher.tfGet_Thruster_Values failed, 1 not equal to 2. Value: " & float'Image(tfThrusterValues(2)) & ". Expected: " & float'Image(tfThrusterValues(1)));
+      AUnit.Assertions.Assert        (Condition => abs(tfThrusterValues(2) - tfThrusterValues(3)) < 0.00001,
+                                      Message => "CDispatcher.tfGet_Thruster_Values failed, 2 not equal to 3. Value: " & float'Image(tfThrusterValues(3)) & ". Expected: " & float'Image(tfThrusterValues(2)));
+      AUnit.Assertions.Assert        (Condition => abs(tfThrusterValues(4)) = 0.0,
+                                      Message => "CDispatcher.tfGet_Thruster_Values failed, wrong value from thruster 4. Value: " & float'Image(tfThrusterValues(4)) & ". Expected: 0.0.");
+      AUnit.Assertions.Assert        (Condition => abs(tfThrusterValues(5)) = 0.0,
+                                      Message => "CDispatcher.tfGet_Thruster_Values failed, wrong value from thruster 5. Value: " & float'Image(tfThrusterValues(5)) & ". Expected: 0.0.");
+      AUnit.Assertions.Assert        (Condition => abs(tfThrusterValues(6)) = 0.0,
+                                      Message => "CDispatcher.tfGet_Thruster_Values failed, wrong value from thruster 6. Value: " & float'Image(tfThrusterValues(6)) & ". Expected: 0.0.");
 
       Navigation.Dispatcher.Free(pxDispatcherToDeallocate => pxDispatcher);
             
