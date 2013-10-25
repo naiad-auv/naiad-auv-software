@@ -17,7 +17,6 @@ package body Navigation.Motion_Component is
    function xGet_New_Component_Control_Value (this : in out CMotionComponent; fDeltaTime : float) return TComponentControlValue is
    	fNewControlValue : float;
    begin
-      
       fNewControlValue := this.pxComponentPIDController.xGet_New_Control_Value(fDeltaTime);
  
       return TComponentControlValue'(fNewControlValue, this.eComponentIndex);

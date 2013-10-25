@@ -14,8 +14,8 @@ package body Navigation.Thruster_Configurator is
    begin
       pxNewThrusterConfigurator := new CThrusterConfigurator;
 
-      tfThrusterEffects := Navigation.Thrusters.tfMake_Thruster_Effects(fXPosition => -Sin(Pi/4.0),
-                                                                        fYPosition => Sin(Pi/4.0),
+      tfThrusterEffects := Navigation.Thrusters.tfMake_Thruster_Effects(fXPosition => -Sin(Pi/6.0),
+                                                                        fYPosition => Sin(Pi/3.0),
                                                                         FZPosition => 0.0,
                                                                         fXRotation => 0.0,
                                                                         fYRotation => 0.0,
@@ -30,8 +30,8 @@ package body Navigation.Thruster_Configurator is
                                                                         fZRotation => 1.0);
       pxNewThrusterConfigurator.pxThrusterList.Add_Thruster_With_Effects(tfThrusterEffects);
 
-      tfThrusterEffects := Navigation.Thrusters.tfMake_Thruster_Effects(fXPosition => Sin(Pi/4.0),
-                                                                        fYPosition => Sin(Pi/4.0),
+      tfThrusterEffects := Navigation.Thrusters.tfMake_Thruster_Effects(fXPosition => Sin(Pi/6.0),
+                                                                        fYPosition => Sin(Pi/3.0),
                                                                         FZPosition => 0.0,
                                                                         fXRotation => 0.0,
                                                                         fYRotation => 0.0,
@@ -82,6 +82,8 @@ package body Navigation.Thruster_Configurator is
 
    begin
       tfExtendedMatrix := this.tfCreate_Extended_Matrix;
+
+
 
       Insert_Component_Values_In_Extended_Matrix(tfExtendedMatrix, tfComponentValues);
 

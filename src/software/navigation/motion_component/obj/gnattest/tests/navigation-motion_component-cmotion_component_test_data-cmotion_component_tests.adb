@@ -38,6 +38,15 @@ package body Navigation.Motion_Component.CMotion_Component_Test_Data.CMotion_Com
       AUnit.Assertions.Assert(Condition => xCurrentComponentControlValue.fValue /= 0.0,
                               Message => "abo");
       Navigation.Motion_Component.Free(pxMotionComponentToDeallocate => pxMotionComponent);
+      
+      xPidScalings := Navigation.PID_Controller.TPIDComponentScalings'(0.0, 0.0, 0.0);
+      xComponentIndex := Direction;      
+      pxMotionComponent := Navigation.Motion_Component.pxCreate(xComponentIndex, xPidScalings);
+      pxMotionComponent.Update_Current_Error(0.0);
+      xCurrentComponentControlValue := pxMotionComponent.xGet_New_Component_Control_Value(0.25);
+      AUnit.Assertions.Assert(Condition => xCurrentComponentControlValue.fValue = 0.0,
+                              Message => "abo");
+      
      
 --  begin read only
    end Test_xGet_New_Component_Control_Value;

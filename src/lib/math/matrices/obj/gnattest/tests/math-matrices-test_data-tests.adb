@@ -194,7 +194,8 @@ package body Math.Matrices.Test_Data.Tests is
          
       end loop;
       
-      Math.Vectors.Free(pxVectorToDeallocate => pxOriginalVector);          
+      Math.Vectors.Free(pxVectorToDeallocate => pxOriginalVector);    
+      
 
 --  begin read only
    end Test_pxCreate_Rotation_Around_Y_Axis;
