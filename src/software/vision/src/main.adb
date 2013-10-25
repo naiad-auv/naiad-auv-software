@@ -237,26 +237,18 @@ begin
       if(iDoObjectTracking = 1) then
          processingWrap.cvtColor(iImageSource, iHSILocation, iHSIFilter);
          ret := processingWrap.thresh(iHSILocation, 10, 70, 50, 255, 50, 255);
-          CoreWrap.imshow(New_String("why so y?"), iThreshedImageLocation);
-         CoreWrap.waitKey(0);
 
          processingWrap.cvtColor(iThreshedImageLocation,iGreyScaleLocation, iGreyFilter);
-         CoreWrap.imshow(New_String("grey thresed?"), iGreyScaleLocation);
-         CoreWrap.waitKey(0);
-
          processingWrap.Canny(iGreyScaleLocation,iCannyLocation, iCannyLowThres, iCannyHighThres, iCannyKernelSize);
-         CoreWrap.imshow(New_String("cannyied grey thres?"), iCannyLocation);
-         CoreWrap.waitKey(0);
-
          processingWrap.Contours(iCannyLocation);
          processingWrap.showContours(contourOut => iContourLocation,contourId  => -1 ,thickness  => 3 );
-         CoreWrap.imshow(New_String("contored canny?"), iContourLocation);
-         CoreWrap.waitKey(0);
 
 
          processingWrap.cvtColor(iContourLocation,iGreyScaleLocation, iGreyFilter);
          CoreWrap.imshow(New_String("sending this to tracking?"), iGreyScaleLocation);
          CoreWrap.waitKey(0);
+
+         processingWrap.approxPolyDP(1.2, 1);
 
          processingWrap.goodFeatures(iGreyScaleLocation);
          processingWrap.objectTracking;
