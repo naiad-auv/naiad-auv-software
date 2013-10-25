@@ -106,6 +106,9 @@ package visionBindings_hpp is
          intersectionThreshold : int);  -- visionBindings.cpp:258
       pragma Import (CPP, HoughLines, "_ZN15Processing_Wrap10HoughLinesEiifi");
 
+      procedure HoughLinesP (this : access Processing_Wrap; src : int);  -- visionBindings.cpp:308
+      pragma Import (CPP, HoughLinesP, "_ZN15Processing_Wrap11HoughLinesPEi");
+
       procedure DrawHoughLines (this : access Processing_Wrap; cdst : int);  -- visionBindings.cpp:266
       pragma Import (CPP, DrawHoughLines, "_ZN15Processing_Wrap14DrawHoughLinesEi");
 
@@ -126,7 +129,7 @@ package visionBindings_hpp is
          histSize : int;
          c_range : access float;
          uniform : Extensions.bool;
-         accumulate : Extensions.bool);  -- visionBindings.cpp:359
+         accumulate : Extensions.bool);  -- visionBindings.cpp:390
       pragma Import (CPP, BGRHistogram, "_ZN15Processing_Wrap12BGRHistogramEiiiPfbb");
 
       procedure HSIHistogram
@@ -139,28 +142,28 @@ package visionBindings_hpp is
          srange : access float;
          histDimensionality : int;
          uniform : Extensions.bool;
-         accumulate : Extensions.bool);  -- visionBindings.cpp:405
+         accumulate : Extensions.bool);  -- visionBindings.cpp:436
       pragma Import (CPP, HSIHistogram, "_ZN15Processing_Wrap12HSIHistogramEiiPiS0_PfS1_ibb");
 
-      procedure showBGRHistogram (this : access Processing_Wrap; histSize : int);  -- visionBindings.cpp:373
+      procedure showBGRHistogram (this : access Processing_Wrap; histSize : int);  -- visionBindings.cpp:404
       pragma Import (CPP, showBGRHistogram, "_ZN15Processing_Wrap16showBGRHistogramEi");
 
-      procedure showHSIHistogram (this : access Processing_Wrap; histSize : access int);  -- visionBindings.cpp:416
+      procedure showHSIHistogram (this : access Processing_Wrap; histSize : access int);  -- visionBindings.cpp:447
       pragma Import (CPP, showHSIHistogram, "_ZN15Processing_Wrap16showHSIHistogramEPi");
 
       procedure approxPolyDP
         (this : access Processing_Wrap;
          epsilon : double;
-         closed : Extensions.bool);  -- visionBindings.cpp:307
+         closed : Extensions.bool);  -- visionBindings.cpp:333
       pragma Import (CPP, approxPolyDP, "_ZN15Processing_Wrap12approxPolyDPEdb");
 
-      procedure splitChannels (this : access Processing_Wrap; src : int);  -- visionBindings.cpp:350
+      procedure splitChannels (this : access Processing_Wrap; src : int);  -- visionBindings.cpp:381
       pragma Import (CPP, splitChannels, "_ZN15Processing_Wrap13splitChannelsEi");
 
-      procedure showBlueChannel (this : access Processing_Wrap);  -- visionBindings.cpp:444
+      procedure showBlueChannel (this : access Processing_Wrap);  -- visionBindings.cpp:475
       pragma Import (CPP, showBlueChannel, "_ZN15Processing_Wrap15showBlueChannelEv");
 
-      procedure showGreenChannel (this : access Processing_Wrap);  -- visionBindings.cpp:452
+      procedure showGreenChannel (this : access Processing_Wrap);  -- visionBindings.cpp:483
       pragma Import (CPP, showGreenChannel, "_ZN15Processing_Wrap16showGreenChannelEv");
 
       function thresh
@@ -171,10 +174,10 @@ package visionBindings_hpp is
          greenLow : int;
          greenUp : int;
          redLow : int;
-         redUp : int) return int;  -- visionBindings.cpp:490
+         redUp : int) return int;  -- visionBindings.cpp:521
       pragma Import (CPP, thresh, "_ZN15Processing_Wrap6threshEiiiiiii");
 
-      procedure showRedChannel (this : access Processing_Wrap);  -- visionBindings.cpp:460
+      procedure showRedChannel (this : access Processing_Wrap);  -- visionBindings.cpp:491
       pragma Import (CPP, showRedChannel, "_ZN15Processing_Wrap14showRedChannelEv");
 
       procedure LabelPoints (this : access Processing_Wrap; src : int);  -- visionBindings.cpp:234
@@ -186,22 +189,22 @@ package visionBindings_hpp is
          dest : int;
          kersize : int;
          sigmaX : double;
-         sigmaY : double);  -- visionBindings.cpp:576
+         sigmaY : double);  -- visionBindings.cpp:607
       pragma Import (CPP, gaussianBlur, "_ZN15Processing_Wrap12gaussianBlurEiiidd");
 
-      procedure objectTracking (this : access Processing_Wrap);  -- visionBindings.cpp:512
+      procedure objectTracking (this : access Processing_Wrap);  -- visionBindings.cpp:543
       pragma Import (CPP, objectTracking, "_ZN15Processing_Wrap14objectTrackingEv");
 
       procedure roi
         (this : access Processing_Wrap;
          src : int;
-         dst : int);  -- visionBindings.cpp:587
+         dst : int);  -- visionBindings.cpp:618
       pragma Import (CPP, roi, "_ZN15Processing_Wrap3roiEii");
 
-      procedure goodFeatures (this : access Processing_Wrap; src : int);  -- visionBindings.cpp:468
+      procedure goodFeatures (this : access Processing_Wrap; src : int);  -- visionBindings.cpp:499
       pragma Import (CPP, goodFeatures, "_ZN15Processing_Wrap12goodFeaturesEi");
 
-      function New_Processing_Wrap return Processing_Wrap;  -- visionBindings.cpp:601
+      function New_Processing_Wrap return Processing_Wrap;  -- visionBindings.cpp:632
       pragma CPP_Constructor (New_Processing_Wrap, "_ZN15Processing_WrapC1Ev");
 
 
@@ -213,19 +216,19 @@ package visionBindings_hpp is
       end record;
       pragma Import (CPP, Preprocessing_Wrap);
 
-      procedure VideoCaptureOpen (this : access Preprocessing_Wrap);  -- visionBindings.cpp:613
+      procedure VideoCaptureOpen (this : access Preprocessing_Wrap);  -- visionBindings.cpp:644
       pragma Import (CPP, VideoCaptureOpen, "_ZN18Preprocessing_Wrap16VideoCaptureOpenEv");
 
       procedure namedWindow
         (this : access Preprocessing_Wrap;
          name : Interfaces.C.Strings.chars_ptr;
-         num : int);  -- visionBindings.cpp:618
+         num : int);  -- visionBindings.cpp:649
       pragma Import (CPP, namedWindow, "_ZN18Preprocessing_Wrap11namedWindowEPci");
 
-      procedure nextFrame (this : access Preprocessing_Wrap; dst : int);  -- visionBindings.cpp:623
+      procedure nextFrame (this : access Preprocessing_Wrap; dst : int);  -- visionBindings.cpp:654
       pragma Import (CPP, nextFrame, "_ZN18Preprocessing_Wrap9nextFrameEi");
 
-      function New_Preprocessing_Wrap return Preprocessing_Wrap;  -- visionBindings.cpp:628
+      function New_Preprocessing_Wrap return Preprocessing_Wrap;  -- visionBindings.cpp:659
       pragma CPP_Constructor (New_Preprocessing_Wrap, "_ZN18Preprocessing_WrapC1Ev");
 
 

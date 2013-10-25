@@ -47,6 +47,8 @@ virtual void FindCircleCenters(void);
 
 virtual void HoughLines(int src, int rho, float theta, int intersectionThreshold);
 
+virtual void HoughLinesP(int src);
+
 virtual void DrawHoughLines(int cdst);
 
 virtual void Contours(int src);

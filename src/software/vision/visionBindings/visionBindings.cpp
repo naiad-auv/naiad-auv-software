@@ -17,7 +17,7 @@ std::vector<cv::Mat> channels;
 	
 std::queue <cv::Mat> imageBuf; // Declare a queue
 //int imageName=0;
-int imageName=31;
+int imageName=0;
 	
 cv::vector<cv::Mat> BGR;
 cv::Mat blueHistVals;
@@ -82,7 +82,7 @@ void Core_Wrap::img_buffer()
 		bufSize=imageBuf.size();
 		}while (bufSize<IMAGE_BUFFER_SIZE);
 	   
-		std::cout<<imageName;
+		std::cout<<"image "<<imageName;
 }
 	
 	
@@ -289,7 +289,7 @@ void Processing_Wrap::DrawHoughLines(int cdst)
 	
 void Processing_Wrap::Contours(int src) 
 {
-	cv::findContours( img.at(src), contours, CV_RETR_LIST, CV_CHAIN_APPROX_SIMPLE);	
+	cv::findContours( img.at(src), contours, CV_RETR_LIST, CV_CHAIN_APPROX_NONE);	
 }
 	
 	
@@ -299,14 +299,40 @@ void Processing_Wrap::showContours(int contourOut, int contourId = -1, int thick
 {
 	img.at(contourOut)=img.at(26).clone();
 	cv::drawContours(img.at(contourOut), contours, contourId, cv::Scalar(0,0,255), thickness, CV_AA );
+	cv::imshow("contours", img.at(contourOut));
 }
+
 	
+////////////////////////// HOUGH LINES P //////////////////////////////////////////////////////
+
+void Processing_Wrap::HoughLinesP(int src)
+{
+	std::vector<cv::Vec4i> houLineStorage;
+	double rho =1;
+	double theta =	3.14/180;
+	int threshold = 10;
+	double minLineLength,maxLineGap;
 	
+	//std::cout<<"before hough lines";
+	//cv::waitKey(0);
+	cv::HoughLinesP(img.at(src), houLineStorage, rho, theta, threshold, minLineLength=35,  maxLineGap=0 );
+	//std::cout<<"after hough lines";
+	//cv::waitKey(0);
+	if (houLineStorage.size()>0)
+	{
+		std::cout<<"line detected\n"<<houLineStorage.size();
+		//std::cout<<"line detected\n"<<houLineStorage(0);
+		//std::cout<<"line detected\n"<<houLineStorage(1);
+		//std::cout<<"line detected\n"<<houLineStorage(2);
+		
+		cv::waitKey(0);
+	}	
+}
 ////////////////////////// APPROX POLY //////////////////////////////////////////////////////
 	
 void Processing_Wrap::approxPolyDP(double epsilon, bool closed)
 {
-	int rectangleCount=0,triCount=0,halfRect = 0;
+	int rectangleCount=0,triCount=0,halfRect = 0,contourCnt =0;
 	std::vector<cv::Point> polys;
 	cv::Mat tempStorage;
 	
@@ -327,7 +353,11 @@ void Processing_Wrap::approxPolyDP(double epsilon, bool closed)
 		{
 			halfRect++;
 		}
-		std::cout<<"\n polys:\t\t"<<polys.at(0)<<std::endl;
+		else
+		{
+			contourCnt++;
+		}
+		//std::cout<<"\n polys:\t\t"<<polys.at(0)<<std::endl;
 		//tracking, convert int point to float point for optical tracking function
 		features_prev=(features_next);
 		cv::Mat srcMat = cv::Mat(polys);
@@ -336,12 +366,13 @@ void Processing_Wrap::approxPolyDP(double epsilon, bool closed)
 		srcMat.convertTo(tmpMat, dstMat.type());
 		features_next = (std::vector<cv::Point2f>) tmpMat;
 	}
-	/*
+	
 	std::cout<<"\n rectangles:\t\t"<<rectangleCount;
 	std::cout<<"\n halfRect:\t\t"<<halfRect;
-	std::cout<<"\n rect centers:\t\t"<<rectangleCenters;
+	//std::cout<<"\n rect centers:\t\t"<<rectangleCenters;
 	std::cout<<"\n triangles:\t\t"<<triCount<<std::endl;
-	std::cout<<"triangle centers:\t"<<triangleCenters<<std::endl;*/
+	std::cout<<" contour count:\t\t"<<contourCnt<<std::endl;
+	//std::cout<<"triangle centers:\t"<<triangleCenters<<std::endl;
 }
 	
 	
@@ -467,8 +498,8 @@ void Processing_Wrap::showRedChannel()
 	
 void Processing_Wrap::goodFeatures(int src)
 {
-	std::cout<<"in good features";
-	cv::waitKey(0);
+	//std::cout<<"in good features";
+	//cv::waitKey(0);
 	cv::Mat eig_image,temp_image;
 	int numFeatures =400;
 	features_prev=features_next;
@@ -479,7 +510,7 @@ void Processing_Wrap::goodFeatures(int src)
                                      bool useHarrisDetector=false, double k=0.04 );
 	*/
 	cv::goodFeaturesToTrack(img.at(src),features_next,numFeatures,0.1,0.1,cv::Mat());
-	std::cout<<"leaving good features";
+	//std::cout<<"leaving good features";
 }
 
 
@@ -494,8 +525,8 @@ int Processing_Wrap::thresh(int src, int blueLow, int blueUp, int greenLow, int 
 	int i;
 
 	cv::inRange(img.at(src), cv::Scalar(blueLow+(tolerance*blueLow), greenLow+(tolerance*greenLow), redLow+(tolerance*redLow)), cv::Scalar(blueUp+(tolerance*blueUp), greenUp+(tolerance*greenUp), redUp+(tolerance*redUp)), mask);
-	cv::imshow("mask",mask);
-	cv::waitKey(0);
+	//cv::imshow("mask",mask);
+	//cv::waitKey(0);
 	threshOut.copyTo(outPic,mask);
 	
 	img.at(26)=outPic.clone();
@@ -517,7 +548,7 @@ void Processing_Wrap::objectTracking(void)
 	
 	if (features_prev.size()==0)
 	{
-		std::cout<<"congratulations, i dont have to do anything";
+		//std::cout<<"congratulations, i dont have to do anything";
 	}
 	else
 	{
@@ -526,12 +557,12 @@ void Processing_Wrap::objectTracking(void)
 		imgA.convertTo(imgA, CV_8UC1);
 		imgB.convertTo(imgB, CV_8UC1);
 				
-		std::cout<<"features prev"<<features_prev<<"\n features next"<<features_next;
-		cv::waitKey(0);
+		//std::cout<<"features prev"<<features_prev<<"\n features next"<<features_next;
+		//cv::waitKey(0);
 	
 		cv::calcOpticalFlowPyrLK(imgB,imgA,features_prev,features_next,status,err);
-		std::cout<<"ha!finished and it seems to have worked	?";
-		cv::waitKey(0);
+		//std::cout<<"ha!finished and it seems to have worked	?";
+		//cv::waitKey(0);
 		
 		for (int i =0; i<features_prev.size(); i++)
 		{

@@ -23,6 +23,7 @@ procedure main is
    iDoContours : Integer;
    iDoApproxPoly : Integer;
    iDoObjectTracking : Integer;
+   iDoVelocityMode : Integer;
 
    iImageSource : Interfaces.C.Int;
    iPreviousImageLocation : Interfaces.C.int;
@@ -154,7 +155,8 @@ begin
    iDoHoughCircles := 0;
    iDoContours := 0;
    iDoApproxPoly := 0;
-   iDoObjectTracking := 1;
+   iDoObjectTracking := 0;
+   iDoVelocityMode := 1;
 
 
 
@@ -183,7 +185,7 @@ begin
       --display image source
       if (iShowOriginal = 1) then
          CoreWrap.imshow(New_String("Why so normal?"), iImageSource);--show image for debug purposes
-         CoreWrap.waitKey(0);
+         CoreWrap.waitKey(400);
       end if;
 
       --Gaussian Blur
@@ -245,8 +247,29 @@ begin
 
 
          processingWrap.cvtColor(iContourLocation,iGreyScaleLocation, iGreyFilter);
-         CoreWrap.imshow(New_String("sending this to tracking?"), iGreyScaleLocation);
-         CoreWrap.waitKey(0);
+         --CoreWrap.imshow(New_String("sending this to tracking?"), iGreyScaleLocation);
+         --CoreWrap.waitKey(0);
+
+         processingWrap.approxPolyDP(1.2, 1);
+
+         processingWrap.goodFeatures(iGreyScaleLocation);
+         processingWrap.objectTracking;
+      end if;
+
+      --USE VELOCITY MODE
+      if(iDoVelocityMode =1) then
+         processingWrap.cvtColor(iImageSource, iHSILocation, iHSIFilter);
+         ret := processingWrap.thresh(iHSILocation, 30, 60, 50, 255, 50, 255);
+
+         processingWrap.cvtColor(iThreshedImageLocation,iGreyScaleLocation, iGreyFilter);
+         processingWrap.Canny(iGreyScaleLocation,iCannyLocation, iCannyLowThres, iCannyHighThres, iCannyKernelSize);
+         processingWrap.Contours(iCannyLocation);
+         processingWrap.showContours(contourOut => iContourLocation,contourId  => -1 ,thickness  => 3 );
+
+         processingWrap.cvtColor(iContourLocation,iGreyScaleLocation, iGreyFilter);
+         processingWrap.HoughLinesP(iGreyScaleLocation);
+         --CoreWrap.imshow(New_String("sending this to tracking?"), iGreyScaleLocation);
+         --CoreWrap.waitKey(0);
 
          processingWrap.approxPolyDP(1.2, 1);
 
