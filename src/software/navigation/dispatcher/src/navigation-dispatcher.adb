@@ -48,20 +48,14 @@ package body Navigation.Dispatcher is
       iThrusterCount := this.pxThrusterConfigurator.iGet_Number_Of_Thrusters;
       tfThrusterEffectsMatrix := this.pxThrusterConfigurator.tfGet_Thruster_Effects_Matrix;
 
-      Ada.Text_IO.Put_Line("Pos");
       this.pxPositionalController.Update_Current_Errors;
-      Ada.Text_IO.Put_Line("Ori");
       this.pxOrientationalController.Update_Current_Errors;
-      Ada.Text_IO.Put_Line("Dri");
       this.pxDriftController.Update_Current_Errors;
 
       tfPositionalValues := this.pxPositionalController.xGet_Positional_Thruster_Control_Values(fDeltaTime);
       tfOrientationalValues := this.pxOrientationalController.xGet_Orientational_Thruster_Control_Values(fDeltaTime);
       tfDriftValues := this.pxDriftController.xGet_Positional_Thruster_Control_Values(fDeltaTime);
 
-      for i in tfOrientationalValues'Range loop
-         Ada.Text_IO.Put_Line(float'Image(tfOrientationalValues(i)));
-      end loop;
 
       tfCombinedValues := tfPositionalValues + tfOrientationalValues + tfDriftValues;
 

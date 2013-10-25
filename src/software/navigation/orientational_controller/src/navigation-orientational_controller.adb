@@ -98,10 +98,9 @@ package body Navigation.Orientational_Controller is
       xCurrentRelativeOrientation := Math.Matrices.xCreate_Identity;
       xWantedRelativeOrientation := this.pxCurrentAbsoluteOrientation.xGet_Inverse * this.pxWantedAbsoluteOrientation.all;
 
-      pxCurrentRelativePlane := Math.Planes.pxCreate(xNormalVector      => Math.Vectors.xCross_Product(xCurrentRelativeOrientation.xGet_Y_Vector, xCurrentRelativeOrientation.xGet_Z_Vector),
+      pxCurrentRelativePlane := Math.Planes.pxCreate(xNormalVector      => Math.Vectors.xCross_Product(xCurrentRelativeOrientation.xGet_X_Vector, xCurrentRelativeOrientation.xGet_Y_Vector),
                                                      fDistanceFromOrigin => 0.0);
       xWantedRelativePlane := xWantedRelativeOrientation * pxCurrentRelativePlane.all;
-
 
 
       if Math.Planes.fAngle_Between_In_Degrees(pxCurrentRelativePlane.all, xWantedRelativePlane) > 0.0 then
