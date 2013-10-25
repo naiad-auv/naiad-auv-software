@@ -75,63 +75,43 @@ function Read_Request (From : GNAT.Sockets.Socket_Type) return Natural is
         Remote_Address  : GNAT.Sockets.Sock_Addr_Type;
         Socket          : GNAT.Sockets.Socket_Type;
         Stream_Access   : GNAT.Sockets.Stream_Access;
-        Message         : Ada.Streams.Stream_Element_Array := (1, 2, 3, 4);
-        Last            : Ada.Streams.Stream_Element_Offset;
         Message_Length  : Natural;
     begin
-        Ada.Text_IO.Put_Line("DEBUG: Send_UDP_Message - Started");
+        Ada.Text_IO.Put_Line("DEBUG: Send_TCP_Message - Started" & CRLF);
 
-         Remote_Address.Addr :=  GNAT.Sockets.Addresses(
+        Remote_Address.Addr :=  GNAT.Sockets.Addresses(
                                      GNAT.Sockets.Get_Host_By_Name(
                                          DST_ADDRESS), 1);
-
-        -- Remote_Address.Addr :=  GNAT.Sockets.Addresses(
-        --                             GNAT.Sockets.Get_Host_By_Name(
-        --                                 GNAT.Sockets.Host_Name), 1);
         Remote_Address.Port := PORT;
 
---        GNAT.Sockets.Set_Socket_Option(Socket,
---                                         GNAT.Sockets.Socket_Level,
---                                         (GNAT.Sockets.Reuse_address, True));
+        GNAT.Sockets.Create_Socket(Socket);
 
---      GNAT.Sockets.Create_Socket(Socket);
+        GNAT.Sockets.Set_Socket_Option(Socket,
+                                         GNAT.Sockets.Socket_Level,
+                                         (GNAT.Sockets.Reuse_address, True));
 
-       GNAT.Sockets.Create_Socket(Socket,
-                                    GNAT.Sockets.Family_Inet,
-                                     GNAT.Sockets.Socket_Datagram);
 
-       GNAT.Sockets.Send_Socket(Socket,
-                                    Message,
-                                    Last,
-                                    Remote_Address);
+        GNAT.Sockets.Connect_Socket(Socket, Remote_Address);
+        Stream_Access := GNAT.Sockets.Stream(Socket);
 
---         GNAT.Sockets.Set_Socket_Option(Socket,
---                                         GNAT.Sockets.Socket_Level,
---                                         (GNAT.Sockets.Reuse_address, True));
---
---         GNAT.Sockets.Connect_Socket(Socket, Remote_Address);
---         Stream_Access := GNAT.Sockets.Stream(Socket);
---
---         delay 1.0;
---
---         String'Write (Stream_Access, "Dad" & CRLF & CRLF & "TEST");
---
---         Message_Length := Read_Request(Socket);
---
---         Ada.Text_IO.Put_Line ("DEBUG: Message Length from Read_Request" & Natural'Image(Message_Length));
---         declare
---             Message : String(1 .. Message_Length) := Get_Message(Message_Length);
---             -- Message : String := String'Input(Stream_Access);
---         begin
---             Ada.Text_IO.Put_Line(Message);
---             delay 1.0;
---             String'Write(Stream_Access, CRLF & "Datagram Socket: Message from Server_Socket back to Client" & CRLF );
---             String'Write(Stream_Access, Message);
---         end;
---
+        delay 1.0;
+
+        -- Send first message, Client to Server
+        String'Write (Stream_Access, "This is the first message from Client to Server" & CRLF & CRLF);
+
+        -- Receive second message, Server to Client.
+        Message_Length := Read_Request(Socket);
+
+        Ada.Text_IO.Put_Line ("DEBUG: Message Length from Read_Request" & Natural'Image(Message_Length));
+        declare
+            Message : String(1 .. Message_Length) := Get_Message(Message_Length);
+        begin
+            Ada.Text_IO.Put_Line(Message);
+        end;
+
         GNAT.Sockets.Close_Socket(Socket);
 
-        Ada.Text_IO.Put_Line("DEBUG: Send_UDP_Message - Finished");
+        Ada.Text_IO.Put_Line("DEBUG: Send_TCP_Message - Finished");
     end Send_TCP_Message;
 
     --------------------------
@@ -139,16 +119,12 @@ function Read_Request (From : GNAT.Sockets.Socket_Type) return Natural is
     --------------------------
     procedure Listen_On_TCP_Socket is
         Address_Listen_On   : GNAT.Sockets.Sock_Addr_Type;
-        Address_From    : GNAT.Sockets.Sock_Addr_Type;
         Socket          : GNAT.Sockets.Socket_Type;
         Server_Socket          : GNAT.Sockets.Socket_Type;
         Stream_Access   : GNAT.Sockets.Stream_Access;
         Message_Length  : Natural;
-
-        Last     : Ada.Streams.Stream_Element_Offset;
-        -- Message : Ada.Streams.Stream_Element_Array (1 .. 65535);
     begin
-        Ada.Text_IO.Put_Line("DEBUG: Listen_On_TCP_Socket - Started");
+        Ada.Text_IO.Put_Line("DEBUG: Listen_On_TCP_Socket - Started" & CRLF);
 
         Address_Listen_On.Addr := GNAT.Sockets.Addresses(
                             GNAT.Sockets.Get_Host_By_Name(
@@ -165,33 +141,26 @@ function Read_Request (From : GNAT.Sockets.Socket_Type) return Natural is
         GNAT.Sockets.Listen_Socket(Server_Socket);
         GNAT.Sockets.Accept_Socket(Server_Socket, Socket, Address_Listen_On);
 
---         Ada.Text_IO.Put_Line("DEBUG: Receiving...");
---         GNAT.Sockets.Receive_Socket(Server_Socket, Tmp, Last);
---         Ada.Text_IO.Put_Line("DEBUG: Received.");
--- 
---         declare
---             Message : String(1 .. Natural(Tmp'Last)) := Get_Message(Natural(Tmp'Last));
---         begin
---             Ada.Text_IO.Put_Line ("DEBUG: TCP Message Received := " & Message);
---         end;
--- 
---          Stream_Access := GNAT.Sockets.Stream(Socket);
---          Message_Length := Read_Request(Socket);
--- 
---          Ada.Text_IO.Put_Line ("DEBUG: Message Length from Read_Request" & Natural'Image(Message_Length));
---         declare
---              Message : String(1 .. Message_Length) := Get_Message(Message_Length);
---              -- Message : String := String'Input(Stream_Access);
---          begin
---              Ada.Text_IO.Put_Line(Message);
---              delay 1.0;
---  --             String'Write(Stream_Access, CRLF & "Datagram Socket: Message from Server_Socket back to Client" & CRLF );
---  --             String'Write(Stream_Access, Message);
---          end;
--- 
---          delay 5.0;
-         GNAT.Sockets.Close_Socket(Server_Socket);
-         GNAT.Sockets.Close_Socket(Socket);
+
+        Stream_Access := GNAT.Sockets.Stream(Socket);
+
+        -- Receive first message, Client to Server
+        Message_Length := Read_Request(Socket);
+
+        Ada.Text_IO.Put_Line ("DEBUG: Message Length from Read_Request"
+                                    & Natural'Image(Message_Length));
+        declare
+             Message : String(1 .. Message_Length) := Get_Message(Message_Length);
+        begin
+            Ada.Text_IO.Put_Line(Message);
+            delay 1.0;
+            -- Send second message, Server to Client.
+            String'Write(Stream_Access, "This is the second message, Server to Client." & CRLF);
+            String'Write(Stream_Access, Message & CRLF & CRLF);
+        end;
+
+        GNAT.Sockets.Close_Socket(Server_Socket);
+        GNAT.Sockets.Close_Socket(Socket);
 
         Ada.Text_IO.Put_Line("DEBUG: Listen_On_TCP_Socket - Finished");
     end Listen_On_TCP_Socket;
@@ -206,12 +175,10 @@ function Read_Request (From : GNAT.Sockets.Socket_Type) return Natural is
     procedure Send_UDP_Message is
         Remote_Address: GNAT.Sockets.Sock_Addr_Type;
         Socket  : GNAT.Sockets.Socket_Type;
-        Stream_Access : GNAT.Sockets.Stream_Access;
         Message : Ada.Streams.Stream_Element_Array := (1, 2, 3, 4);
         Last     : Ada.Streams.Stream_Element_Offset;
-        Message_Length: Natural;
     begin
-        Ada.Text_IO.Put_Line("DEBUG: Send_UDP_Message - Started");
+        Ada.Text_IO.Put_Line("DEBUG: Send_UDP_Message - Started" & CRLF);
 
         Remote_Address.Addr :=  GNAT.Sockets.Addresses(
                                      GNAT.Sockets.Get_Host_By_Name(
@@ -240,10 +207,9 @@ function Read_Request (From : GNAT.Sockets.Socket_Type) return Natural is
         Address_Listen_On   : GNAT.Sockets.Sock_Addr_Type;
         Remote_Address      : GNAT.Sockets.Sock_Addr_Type;
         Server_Socket       : GNAT.Sockets.Socket_Type;
-        Stream_Access       : GNAT.Sockets.Stream_Access;
         Last                : Ada.Streams.Stream_Element_Offset;
     begin
-        Ada.Text_IO.Put_Line("DEBUG: Listen_On_UDP_Socket - Started");
+        Ada.Text_IO.Put_Line("DEBUG: Listen_On_UDP_Socket - Started" & CRLF);
 
         Address_Listen_On.Addr := GNAT.Sockets.Addresses(
                                             GNAT.Sockets.Get_Host_By_Name(
