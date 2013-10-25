@@ -304,6 +304,8 @@ package body simulator.submarine is
       use Math.Matrices;
       xRelativeForce : math.Vectors.CVector;
       xFixedCordForce : math.Vectors.CVector;
+      pxAbsoluteGravityForce : math.Vectors.pCVector := math.Vectors.pxCreate(0.0,0.0,-this.fWeight*9.82);
+      pxAbsoluteBouyancyForce : math.Vectors.pCVector := math.Vectors.pxCreate(0.0,0.0,this.fBuoyancyForce);
    begin
       if(this.pxAccelerationVector/=null) then
          math.Vectors.Free(this.pxAccelerationVector);
@@ -314,9 +316,12 @@ package body simulator.submarine is
          xRelativeForce := xRelativeForce+(this.txMotorInfo(iLoopThroughMotors).pxGet_Force_Vector*this.txMotorForce(iLoopThroughMotors));
       end loop;
       xFixedCordForce := this.pxOrientationMatrix*xRelativeForce;
-      xFixedCordForce := xFixedCordForce+math.Vectors.pxCreate(0.0,0.0,-this.fWeight*9.82);
-      xFixedCordForce := xFixedCordForce+math.Vectors.pxCreate(0.0,0.0,this.fBuoyancyForce);
+      xFixedCordForce := xFixedCordForce+pxAbsoluteGravityForce;
+      xFixedCordForce := xFixedCordForce+pxAbsoluteBouyancyForce;
       this.pxAccelerationVector := math.Vectors.pxGet_Copy(xFixedCordForce *(1.0/this.fWeight));
+
+      math.Vectors.Free(pxAbsoluteGravityForce);
+      math.Vectors.Free(pxAbsoluteBouyancyForce);
    end Calculate_Acceleration;
 
    ------------------------------------
