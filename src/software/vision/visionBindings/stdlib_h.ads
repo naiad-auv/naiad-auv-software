@@ -40,34 +40,20 @@ package stdlib_h is
 
    --  skipped anonymous struct anon_2
 
-   package Class_ldiv_t is
-      type ldiv_t is limited record
-         quot : aliased long;  -- /usr/include/stdlib.h:108
-         c_rem : aliased long;  -- /usr/include/stdlib.h:109
-      end record;
-      pragma Import (CPP, ldiv_t);
+   type ldiv_t is record
+      quot : aliased long;  -- /usr/include/stdlib.h:108
+      c_rem : aliased long;  -- /usr/include/stdlib.h:109
+   end record;
+   pragma Convention (C_Pass_By_Copy, ldiv_t);  -- /usr/include/stdlib.h:110
 
-      function New_ldiv_t return ldiv_t;  -- /usr/include/stdlib.h:110
-      pragma CPP_Constructor (New_ldiv_t, "_ZN6ldiv_tC1Ev");
-
-
-   end;
-   use Class_ldiv_t;
    --  skipped anonymous struct anon_3
 
-   package Class_lldiv_t is
-      type lldiv_t is limited record
-         quot : aliased Long_Long_Integer;  -- /usr/include/stdlib.h:120
-         c_rem : aliased Long_Long_Integer;  -- /usr/include/stdlib.h:121
-      end record;
-      pragma Import (CPP, lldiv_t);
+   type lldiv_t is record
+      quot : aliased Long_Long_Integer;  -- /usr/include/stdlib.h:120
+      c_rem : aliased Long_Long_Integer;  -- /usr/include/stdlib.h:121
+   end record;
+   pragma Convention (C_Pass_By_Copy, lldiv_t);  -- /usr/include/stdlib.h:122
 
-      function New_lldiv_t return lldiv_t;  -- /usr/include/stdlib.h:122
-      pragma CPP_Constructor (New_lldiv_t, "_ZN7lldiv_tC1Ev");
-
-
-   end;
-   use Class_lldiv_t;
    --  skipped anonymous struct anon_4
 
    function atof (uu_nptr : Interfaces.C.Strings.chars_ptr) return double;  -- /usr/include/stdlib.h:145
@@ -321,6 +307,12 @@ package stdlib_h is
 
    function valloc (uu_size : stddef_h.size_t) return System.Address;  -- /usr/include/stdlib.h:503
    pragma Import (C, valloc, "valloc");
+
+   function posix_memalign
+     (uu_memptr : System.Address;
+      uu_alignment : stddef_h.size_t;
+      uu_size : stddef_h.size_t) return int;  -- /usr/include/stdlib.h:508
+   pragma Import (C, posix_memalign, "posix_memalign");
 
    procedure c_abort;  -- /usr/include/stdlib.h:514
    pragma Import (C, c_abort, "abort");

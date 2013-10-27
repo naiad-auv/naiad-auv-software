@@ -45,8 +45,9 @@ void Core_Wrap::img_buffer()
 	char strStorage[50]; // enough to hold all numbers up to 64-bits
 	int bufSize=0;
 	  
-	std::string folderPath = "/home/vision/Documents/project/cdt508/Robosub2012_logging/Loggning/log 3/Bottom/";
+	//std::string folderPath = "/home/vision/Documents/project/cdt508/Robosub2012_logging/Loggning/log 3/Bottom/";
 	//std::string folderPath = "//home/bork/Data/cdt508/Robosub2012_logging/Loggning/log 3/Bottom/";
+	std::string folderPath = "/home/gerard/Documents/project/cdt508/Robosub2012_logging/Loggning/log 3/Bottom/";
 	
 	std::string result;
 	std::string imageType = ".jpg";
@@ -315,13 +316,17 @@ void Processing_Wrap::HoughLinesP(int src)
 	
 	//std::cout<<"before hough lines";
 	//cv::waitKey(0);
-	cv::HoughLinesP(img.at(src), houLineStorage, rho, theta, threshold, minLineLength=35,  maxLineGap=0 );
+	cv::HoughLinesP(img.at(src), houLineStorage, rho, theta, threshold, minLineLength=250,  maxLineGap=0 );
 	//std::cout<<"after hough lines";
 	//cv::waitKey(0);
 	if (houLineStorage.size()>0)
 	{
 		std::cout<<"line detected\n"<<houLineStorage.size();
-		//std::cout<<"line detected\n"<<houLineStorage(0);
+		for(int i=0;i<houLineStorage.size();i++)
+		{
+			std::cout<<"line detected\n"<<houLineStorage[i][0]<<"\t"<<houLineStorage[i][1]<<"\t"<<houLineStorage[i][2]<<"\t"<<houLineStorage[i][3];
+		}
+		
 		//std::cout<<"line detected\n"<<houLineStorage(1);
 		//std::cout<<"line detected\n"<<houLineStorage(2);
 		
@@ -623,6 +628,31 @@ void Processing_Wrap::roi(int src, int dst)
 	G = F(cv::Range(0,0), cv::Range(100,100));
 	cv::imshow("roi", G);
 	cv::waitKey(0);
+}
+
+float Processing_Wrap::estimateVelocity(void)
+{
+	float estVel=0.0,distance=0.0;
+	//check features dtected
+	if (features_next.size()>0)
+	{
+		//std::cout<<"gonna estimate me some velocity";
+		//distance=dif in feature positions
+		//distance=features_prev-features_next;
+		 distance=sqrt((features_next.at(0).x-features_prev.at(0).x)*(features_next.at(0).x-features_prev.at(0).x) + (features_next.at(0).y-features_prev.at(0).y)*(features_next.at(0).y-features_prev.at(0).y));
+		estVel=distance/FRAME_RATE;
+		//cv::waitKey(0);
+		std::cout<<"gonna estimate me some velocity"<<estVel;
+	}
+	else
+	{
+		//distance=features_prev-features_next;
+		
+		//estVel=distance/FRAME_RATE;
+		estVel=0.0;
+		std::cout<<"now this is where things get interesting, we're going fast-ish?\n"<<estVel<<"metres per second/n";
+	}
+	return estVel;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////

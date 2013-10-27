@@ -58,6 +58,8 @@ package sys_types_h is
 
    subtype ulong is unsigned_long;  -- /usr/include/sys/types.h:151
 
+   subtype ushort is unsigned_short;  -- /usr/include/sys/types.h:152
+
    subtype uint is unsigned;  -- /usr/include/sys/types.h:153
 
    subtype int8_t is signed_char;  -- /usr/include/sys/types.h:195

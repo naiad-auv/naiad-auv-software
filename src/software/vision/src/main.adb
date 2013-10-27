@@ -79,6 +79,9 @@ procedure main is
    GaussianSigmaX : interfaces.c.double;
    GaussianSigmaY : interfaces.c.double;
 
+   --est vel
+   estVel:float;
+
    CoreWrap : aliased Class_Core_Wrap.Core_Wrap;
    processingWrap : aliased Class_Processing_Wrap.Processing_Wrap;
    preprocessingWrap : aliased Class_Preprocessing_Wrap.Preprocessing_Wrap;
@@ -140,6 +143,9 @@ begin
    GaussianSigmaX := 0.0;
    GaussianSigmaY := 0.0;
 
+   --est velocity
+   estVel :=0.0;
+
    --user decisions
    iUseBuffer := 1;
    iUseStatic := 0;
@@ -157,9 +163,6 @@ begin
    iDoApproxPoly := 0;
    iDoObjectTracking := 0;
    iDoVelocityMode := 1;
-
-
-
 
    -----------------------------MAIN LOOP --------------------------------------------------------
    Endless_Loop:
@@ -214,6 +217,7 @@ begin
 
       --hsi histo
       if (iDoHistoHSI = 1) then
+         processingWrap.cvtColor(iImageSource, iHSILocation, iHSIFilter);
          processingWrap.HSIHistogram(iHSILocation,hsiNumSourceArray,channels(1)'Access,hsiSize(1)'Access,hrange(1)'Access,srange(1)'Access,histDimensionality,uniform,accumulate);
          processingWrap.showHSIHistogram(hsiSize(1)'Access);
       end if;
@@ -245,10 +249,7 @@ begin
          processingWrap.Contours(iCannyLocation);
          processingWrap.showContours(contourOut => iContourLocation,contourId  => -1 ,thickness  => 3 );
 
-
          processingWrap.cvtColor(iContourLocation,iGreyScaleLocation, iGreyFilter);
-         --CoreWrap.imshow(New_String("sending this to tracking?"), iGreyScaleLocation);
-         --CoreWrap.waitKey(0);
 
          processingWrap.approxPolyDP(1.2, 1);
 
@@ -267,7 +268,8 @@ begin
          processingWrap.showContours(contourOut => iContourLocation,contourId  => -1 ,thickness  => 3 );
 
          processingWrap.cvtColor(iContourLocation,iGreyScaleLocation, iGreyFilter);
-         processingWrap.HoughLinesP(iGreyScaleLocation);
+         processingWrap.gaussianBlur(iGreyScaleLocation, iGaussianBlurLocation, 10, GaussianSigmaX, GaussianSigmaY);
+         processingWrap.HoughLinesP(iGaussianBlurLocation);
          --CoreWrap.imshow(New_String("sending this to tracking?"), iGreyScaleLocation);
          --CoreWrap.waitKey(0);
 
@@ -275,6 +277,7 @@ begin
 
          processingWrap.goodFeatures(iGreyScaleLocation);
          processingWrap.objectTracking;
+         estVel:=processingWrap.estimateVelocity;
       end if;
 
       --write image to file
@@ -282,6 +285,7 @@ begin
 
       --HOUGH CIRCLES
       if (iDoHoughCircles = 1) then
+         processingWrap.cvtColor(iImageSource,iGreyScaleLocation, iGreyFilter);
          processingWrap.HoughCircles(iGreyScaleLocation, inverseRatioOfResolution, minDistBetweenCenters, houghCannyUpThres, centerDetectionThreshold, minRadius, maxRadius);
          processingWrap.DrawHoughCircles(iImageSource);
          CoreWrap.imshow(New_String("why so circly?"), iCirclesLocation);--show image for debug purposes
@@ -292,6 +296,8 @@ begin
 
       --CONTOURS
       if (iDoContours = 1) then
+         processingWrap.cvtColor(iImageSource,iGreyScaleLocation, iGreyFilter);
+         processingWrap.Canny(iGreyScaleLocation,iCannyLocation, iCannyLowThres, iCannyHighThres, iCannyKernelSize);
          processingWrap.Contours(iCannyLocation);
          processingWrap.showContours(contourOut => iContourLocation,contourId  => -1 ,thickness  => 3 );
          CoreWrap.imshow(New_String("Whats with the contours?"),iContourLocation);
