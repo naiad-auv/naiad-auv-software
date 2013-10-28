@@ -69,17 +69,19 @@ package body BBB_CAN is
 
       use Interfaces;
 
-      function ReadFromUART(sBuffer : out String) return Boolean is
+      procedure ReadFromUART(sBuffer : out String; bReadComplete : out Boolean) is
          iBytesRead : Integer;
       begin
          if iNumTempBytes = 0 then
             Usart_Read(sTempBuffer, CAN_Link_Utils.HEADLEN, iBytesRead);
             if iBytesRead = CAN_Link_Utils.HEADLEN then
                sBuffer := sTempBuffer;
-               return true;
+               bReadComplete := true;
+               return;
             else
                iNumTempBytes := iBytesRead;
-               return false;
+               bReadComplete := false;
+               return;
             end if;
          else
             declare
@@ -95,9 +97,11 @@ package body BBB_CAN is
             if iNumTempBytes = CAN_Link_Utils.HEADLEN then
                iNumTempBytes := 0;
                sBuffer := sTempBuffer;
-               return true;
+               bReadComplete := true;
+               return;
             else
-               return false;
+               bReadComplete := false;
+               return;
             end if;
          end if;
       end ReadFromUART;
@@ -105,10 +109,11 @@ package body BBB_CAN is
       sHeadBuf     : String(1..CAN_Link_Utils.HEADLEN);
       u8ActualChecksum    : Interfaces.Unsigned_8;
       u8ReceivedChecksum  : Interfaces.Unsigned_8;
-
+      bReadComplete : Boolean;
    begin
 
-      if not ReadFromUART(sHeadBuf) then
+      ReadFromUART(sHeadBuf, bReadComplete);
+      if not bReadComplete then
          bMsgReceived 	 := false;
          bUARTChecksumOK := false;
          return;
