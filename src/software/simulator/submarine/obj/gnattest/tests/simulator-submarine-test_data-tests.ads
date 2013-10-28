@@ -15,5 +15,8 @@ package simulator.submarine.Test_Data.Tests is
    procedure Test_pxCreate_1cb11e (Gnattest_T : in out Test);
    --  simulator-submarine.ads:17:4:pxCreate
 
+   procedure Test_Free_94ad82 (Gnattest_T : in out Test);
+   --  simulator-submarine.ads:18:4:Free
+
 end simulator.submarine.Test_Data.Tests;
 --  end read only

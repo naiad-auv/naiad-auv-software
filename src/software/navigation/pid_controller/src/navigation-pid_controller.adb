@@ -86,17 +86,17 @@ package body Navigation.PID_Controller is
    end xGet_New_Control_Value;
 
 
-   function fGetIntergralScale (this : in out CPIDController) return float is
+   function fGetIntergralScale (this : in CPIDController) return float is
    begin
       return this.fIntegralScale;
    end fGetIntergralScale;
 
-   function fGetDerivativeScale (this : in out CPIDController) return float is
+   function fGetDerivativeScale (this : in CPIDController) return float is
    begin
       return this.fDerivativeScale;
    end fGetDerivativeScale;
 
-   function fGetProportionalScale (this : in out CPIDController) return float is
+   function fGetProportionalScale (this : in CPIDController) return float is
    begin
       return this.fProportionalScale;
    end fGetProportionalScale;

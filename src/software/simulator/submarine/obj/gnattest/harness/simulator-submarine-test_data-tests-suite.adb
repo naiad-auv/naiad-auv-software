@@ -14,6 +14,7 @@ package body simulator.submarine.Test_Data.Tests.Suite is
 
    Case_1_1_Test_pxCreate_Naiad_b9ce65 : aliased Runner_1.Test_Case;
    Case_2_1_Test_pxCreate_1cb11e : aliased Runner_1.Test_Case;
+   Case_3_1_Test_Free_94ad82 : aliased Runner_1.Test_Case;
 
    function Suite return AUnit.Test_Suites.Access_Test_Suite is
    begin
@@ -26,9 +27,14 @@ package body simulator.submarine.Test_Data.Tests.Suite is
         (Case_2_1_Test_pxCreate_1cb11e,
          "simulator-submarine.ads:17:4:",
          Test_pxCreate_1cb11e'Access);
+      Runner_1.Create
+        (Case_3_1_Test_Free_94ad82,
+         "simulator-submarine.ads:18:4:",
+         Test_Free_94ad82'Access);
 
       Result.Add_Test (Case_1_1_Test_pxCreate_Naiad_b9ce65'Access);
       Result.Add_Test (Case_2_1_Test_pxCreate_1cb11e'Access);
+      Result.Add_Test (Case_3_1_Test_Free_94ad82'Access);
 
       return Result'Access;
 
