@@ -19,7 +19,7 @@ package Navigation.Orientational_Controller is
 
    procedure Free(pxOrientationalControllerToDeallocate : in out pCOrientationalController);
 
-   function pxCreate (pxCurrentAbsoluteOrientation : in Math.Matrices.pCMatrix; pxWantedAbsoluteOrientation : in Math.Matrices.pCMatrix) return pCOrientationalController;
+   function pxCreate (pxCurrentAbsoluteOrientation : in Math.Matrices.pCMatrix; pxWantedAbsoluteOrientation : in Math.Matrices.pCMatrix; pxCurrentAbsoluteOrientationInverse : in Math.Matrices.pCMatrix) return pCOrientationalController;
    --  <summary>Creates an object of type COrientationalController and sets references to the current and wanted orientation</summary>
    --  <parameter name="pxCurrentAbsoluteOrientation">A reference to the current absolute orientation</parameter>
    --  <parameter name="pxWantedAbsoluteOrientation">A reference to the wanted absolute orientation</parameter>
@@ -55,6 +55,7 @@ private
       record
          pxCurrentAbsoluteOrientation : Math.Matrices.pCMatrix;
          pxWantedAbsoluteOrientation : Math.Matrices.pCMatrix;
+         pxCurrentAbsoluteOrientationInverse : Math.Matrices.pCMatrix;
 
          pxPlanalMotionComponent: Navigation.Motion_Component.pCMotionComponent;
          pxDirectionalMotionComponent : Navigation.Motion_Component.pCMotionComponent;

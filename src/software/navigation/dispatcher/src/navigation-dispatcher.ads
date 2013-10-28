@@ -81,6 +81,7 @@ private
 
          pxCurrentAbsoluteOrientation : Math.Matrices.pCMatrix;
          pxWantedAbsoluteOrientation : Math.Matrices.pCMatrix;
+         pxCurrentAbsoluteOrientationInverse : Math.Matrices.pCMatrix;
       end record;
 
    procedure Finalize (this : in out CDispatcher);
