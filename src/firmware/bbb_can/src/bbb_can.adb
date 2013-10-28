@@ -140,7 +140,7 @@ package body BBB_CAN is
 
    procedure Usart_Read(sBuffer : out String; iSize : Integer; iBytesRead : out Integer) is
    begin
-      sBuffer := pxUart.sUartReadSpecificAmount(iSize, iBytesRead);
+      pxUart.UartReadSpecificAmount(iSize, iBytesRead, sBuffer);
    end Usart_Read;
 
    procedure Usart_Read_Inf_Block(sBuffer : out String; iSize : Integer) is
@@ -149,7 +149,7 @@ package body BBB_CAN is
       iTotalBytes : Integer := 0;
    begin
       while iTotalBytes < iSize loop
-         sTemp := pxUart.sUartReadSpecificAmount(iSize - iTotalBytes, iBytesRead);
+         pxUart.UartReadSpecificAmount(iSize - iTotalBytes, iBytesRead, sTemp);
          for i in 1 .. iBytesRead loop
             sBuffer(i + iTotalBytes) := sTemp(i);
          end loop;
