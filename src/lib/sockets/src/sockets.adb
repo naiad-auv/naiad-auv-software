@@ -84,6 +84,7 @@ function Read_Request (From : GNAT.Sockets.Socket_Type) return Natural is
                                          DST_ADDRESS), 1);
         Remote_Address.Port := PORT;
 
+        GNAT.Sockets.Initialize;
         GNAT.Sockets.Create_Socket(Socket);
 
         GNAT.Sockets.Set_Socket_Option(Socket,
@@ -110,6 +111,7 @@ function Read_Request (From : GNAT.Sockets.Socket_Type) return Natural is
         end;
 
         GNAT.Sockets.Close_Socket(Socket);
+        GNAT.Sockets.Finalize;
 
         Ada.Text_IO.Put_Line("DEBUG: Send_TCP_Message - Finished");
     end Send_TCP_Message;
@@ -131,6 +133,7 @@ function Read_Request (From : GNAT.Sockets.Socket_Type) return Natural is
                                 LOCALHOST), 1);
         Address_Listen_On.Port := PORT;
 
+        GNAT.Sockets.Initialize;
         GNAT.Sockets.Create_Socket(Server_Socket);
 
         GNAT.Sockets.Set_Socket_Option(Server_Socket,
@@ -161,6 +164,7 @@ function Read_Request (From : GNAT.Sockets.Socket_Type) return Natural is
 
         GNAT.Sockets.Close_Socket(Server_Socket);
         GNAT.Sockets.Close_Socket(Socket);
+        GNAT.Sockets.Finalize;
 
         Ada.Text_IO.Put_Line("DEBUG: Listen_On_TCP_Socket - Finished");
     end Listen_On_TCP_Socket;
