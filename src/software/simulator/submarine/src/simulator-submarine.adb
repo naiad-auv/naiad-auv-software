@@ -15,38 +15,38 @@ package body simulator.submarine is
       txMotorInfo : simulator.submarine.TMotors;
       tfRawMatrix : Math.Matrices.TMatrix;
 
-      pxPositionVectorMotorFrontLeftXYPlane : math.Vectors.pCVector := math.Vectors.pxCreate(fX => -0.70710678118,
-                                                                                             fY => 0.70710678118,
+      pxPositionVectorMotorFrontLeftXYPlane : math.Vectors.pCVector := math.Vectors.pxCreate(fX => 0.5,
+                                                                                             fY => 0.8660254037844386467637231707529361834714026269051903,
                                                                                              fZ => 0.0);
-      pxForceVectorMotorFrontLeftXYPlane : math.Vectors.pCVector := math.Vectors.pxCreate(fX => -0.70710678118,
-                                                                                          fY => -0.70710678118,
+      pxForceVectorMotorFrontLeftXYPlane : math.Vectors.pCVector := math.Vectors.pxCreate(fX => -0.8660254037844386467637231707529361834714026269051903,
+                                                                                          fY => 0.5,
                                                                                           fZ => 0.0);
-      pxPositionVectorMotorRearXYPlane : math.Vectors.pCVector := math.Vectors.pxCreate(fX => 0.0,
-                                                                                        fY => -1.0,
+      pxPositionVectorMotorRearXYPlane : math.Vectors.pCVector := math.Vectors.pxCreate(fX => -1.0,
+                                                                                        fY => 0.0,
                                                                                         fZ => 0.0);
-      pxForceVectorMotorRearXYPlane : math.Vectors.pCVector := math.Vectors.pxCreate(fX => 1.0,
-                                                                                     fY => 0.0,
+      pxForceVectorMotorRearXYPlane : math.Vectors.pCVector := math.Vectors.pxCreate(fX => 0.0,
+                                                                                     fY => -1.0,
                                                                                      fZ => 0.0);
-      pxPositionVectorMotorFrontRightXYPlane : math.Vectors.pCVector := math.Vectors.pxCreate(fX => 0.70710678118,
-                                                                                              fY => 0.70710678118,
+      pxPositionVectorMotorFrontRightXYPlane : math.Vectors.pCVector := math.Vectors.pxCreate(fX => 0.5,
+                                                                                              fY => -0.8660254037844386467637231707529361834714026269051903,
                                                                                               fZ => 0.0);
-      pxForceVectorMotorFrontRightXYPlane : math.Vectors.pCVector := math.Vectors.pxCreate(fX => -0.70710678118,
-                                                                                           fY => 0.70710678118,
+      pxForceVectorMotorFrontRightXYPlane : math.Vectors.pCVector := math.Vectors.pxCreate(fX => 0.8660254037844386467637231707529361834714026269051903,
+                                                                                           fY => 0.5,
                                                                                            fZ => 0.0);
-      pxPositionVectorMotorFrontLeftZAxis : math.Vectors.pCVector := math.Vectors.pxCreate(fX => -0.70710678118,
-                                                                                           fY => 0.70710678118,
+      pxPositionVectorMotorFrontLeftZAxis : math.Vectors.pCVector := math.Vectors.pxCreate(fX => 0.5,
+                                                                                           fY => 0.8660254037844386467637231707529361834714026269051903,
                                                                                            fZ => 0.0);
       pxForceVectorMotorFrontLeftZAxis : math.Vectors.pCVector := math.Vectors.pxCreate(fX => 0.0,
                                                                                         fY => 0.0,
                                                                                         fZ => 1.0);
-      pxPositionVectorMotorRearZAxis : math.Vectors.pCVector := math.Vectors.pxCreate(fX => 0.0,
-                                                                                      fY => -1.0,
+      pxPositionVectorMotorRearZAxis : math.Vectors.pCVector := math.Vectors.pxCreate(fX => -1.0,
+                                                                                      fY => 0.0,
                                                                                       fZ => 0.0);
       pxForceVectorMotorRearZAxis : math.Vectors.pCVector := math.Vectors.pxCreate(fX => 0.0,
                                                                                    fY => 0.0,
                                                                                    fZ => 1.0);
-      pxPositionVectorMotorFrontRightZAxis : math.Vectors.pCVector := math.Vectors.pxCreate(fX => 0.70710678118,
-                                                                                            fY => 0.70710678118,
+      pxPositionVectorMotorFrontRightZAxis : math.Vectors.pCVector := math.Vectors.pxCreate(fX => 0.5,
+                                                                                            fY => -0.8660254037844386467637231707529361834714026269051903,
                                                                                             fZ => 0.0);
       pxForceVectorMotorFrontRightZAxis : math.Vectors.pCVector := math.Vectors.pxCreate(fX => 0.0,
                                                                                          fY => 0.0,
@@ -304,19 +304,24 @@ package body simulator.submarine is
       use Math.Matrices;
       xRelativeForce : math.Vectors.CVector;
       xFixedCordForce : math.Vectors.CVector;
+      pxAbsoluteGravityForce : math.Vectors.pCVector := math.Vectors.pxCreate(0.0,0.0,-this.fWeight*9.82);
+      pxAbsoluteBouyancyForce : math.Vectors.pCVector := math.Vectors.pxCreate(0.0,0.0,this.fBuoyancyForce);
    begin
       if(this.pxAccelerationVector/=null) then
          math.Vectors.Free(this.pxAccelerationVector);
       end if;
 
-      xRelativeForce := -(this.pxOrientationMatrix.xGet_Inverse)*this.pxVelocityVector*this.pxVelocityFrictionVector;
+      xRelativeForce := -(this.pxOrientationMatrix.xGet_Inverse*this.pxVelocityVector)*this.pxVelocityFrictionVector;
       for iLoopThroughMotors in this.txMotorForce'Range loop
          xRelativeForce := xRelativeForce+(this.txMotorInfo(iLoopThroughMotors).pxGet_Force_Vector*this.txMotorForce(iLoopThroughMotors));
       end loop;
       xFixedCordForce := this.pxOrientationMatrix*xRelativeForce;
-      xFixedCordForce := xFixedCordForce+math.Vectors.pxCreate(0.0,0.0,-this.fWeight*9.82);
-      xFixedCordForce := xFixedCordForce+math.Vectors.pxCreate(0.0,0.0,this.fBuoyancyForce);
+      xFixedCordForce := xFixedCordForce+pxAbsoluteGravityForce;
+      xFixedCordForce := xFixedCordForce+pxAbsoluteBouyancyForce;
       this.pxAccelerationVector := math.Vectors.pxGet_Copy(xFixedCordForce *(1.0/this.fWeight));
+
+      math.Vectors.Free(pxAbsoluteGravityForce);
+      math.Vectors.Free(pxAbsoluteBouyancyForce);
    end Calculate_Acceleration;
 
    ------------------------------------
@@ -335,7 +340,7 @@ package body simulator.submarine is
          math.Vectors.Free(this.pxAngularAccelerationVector);
       end if;
 
-      xRelativeAngularVelocity := -this.pxOrientationMatrix.xGet_Inverse * this.pxAngularVelocityVector*this.pxRotationFrictionVector;
+      xRelativeAngularVelocity := this.pxOrientationMatrix.xGet_Inverse * this.pxAngularVelocityVector;
 
       xRelativeTorque := math.Vectors.xCross_Product(this.pxBuoyancyForcePositionVector , this.pxOrientationMatrix.xGet_Inverse * pxBouyancyForce) - xRelativeAngularVelocity*this.pxRotationFrictionVector;
       for iLoopThroughMotors in this.txMotorForce'Range loop

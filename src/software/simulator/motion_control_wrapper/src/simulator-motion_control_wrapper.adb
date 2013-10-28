@@ -20,6 +20,12 @@ package body simulator.Motion_Control_Wrapper is
       pxWrapper.pxDispatcher.Set_New_Component_PID_Scalings(eComponentToChange => Navigation.Motion_Component.Direction,
                                                   xNewPIDSCalings    => (1.0,1.0,1.0));
       pxWrapper.pxDispatcher.Set_New_Component_PID_Scalings(eComponentToChange => Navigation.Motion_Component.Plane,
+                                                            xNewPIDSCalings    => (1.0,1.0,1.0));
+      pxWrapper.pxDispatcher.Set_New_Component_PID_Scalings(eComponentToChange => Navigation.Motion_Component.DriftX,
+                                                            xNewPIDSCalings    => (1.0,1.0,1.0));
+      pxWrapper.pxDispatcher.Set_New_Component_PID_Scalings(eComponentToChange => Navigation.Motion_Component.DriftY,
+                                                            xNewPIDSCalings    => (1.0,1.0,1.0));
+      pxWrapper.pxDispatcher.Set_New_Component_PID_Scalings(eComponentToChange => Navigation.Motion_Component.DriftZ,
                                                   xNewPIDSCalings    => (1.0,1.0,1.0));
 
       return pxWrapper;
@@ -40,15 +46,15 @@ package body simulator.Motion_Control_Wrapper is
 
       tfMotorValuesTThrustesValuesArray : navigation.Thrusters.TThrusterValuesArray(1..6);
    begin
-      this.pxDispatcher.Update_Current_Absolute_Position(pxNewCurrentAbsolutePosition.pxGet_Copy);
-      this.pxDispatcher.Update_Current_Absolute_Orientation(pxNewCurrentOrientation.pxGet_Copy);
+      this.pxDispatcher.Update_Current_Absolute_Position(pxNewCurrentAbsolutePosition.pxGet_Copy.all);
+      this.pxDispatcher.Update_Current_Absolute_Orientation(pxNewCurrentOrientation.pxGet_Copy.all);
       tfMotorValuesTThrustesValuesArray := this.pxDispatcher.tfGet_Thruster_Values(fDeltaTime => fDeltaTime);
-      tfMotorValuesSubmarine(1) := tfMotorValuesTThrustesValuesArray(1);
-      tfMotorValuesSubmarine(2) := tfMotorValuesTThrustesValuesArray(2);
-      tfMotorValuesSubmarine(3) := tfMotorValuesTThrustesValuesArray(3);
-      tfMotorValuesSubmarine(4) := tfMotorValuesTThrustesValuesArray(4);
-      tfMotorValuesSubmarine(5) := tfMotorValuesTThrustesValuesArray(5);
-      tfMotorValuesSubmarine(6) := tfMotorValuesTThrustesValuesArray(6);
+      tfMotorValuesSubmarine(1) := tfMotorValuesTThrustesValuesArray(1)*6.8*9.82*0.01;
+      tfMotorValuesSubmarine(2) := tfMotorValuesTThrustesValuesArray(2)*6.8*9.82*0.01;
+      tfMotorValuesSubmarine(3) := tfMotorValuesTThrustesValuesArray(3)*6.8*9.82*0.01;
+      tfMotorValuesSubmarine(4) := tfMotorValuesTThrustesValuesArray(4)*6.8*9.82*0.01;
+      tfMotorValuesSubmarine(5) := tfMotorValuesTThrustesValuesArray(5)*6.8*9.82*0.01;
+      tfMotorValuesSubmarine(6) := tfMotorValuesTThrustesValuesArray(6)*6.8*9.82*0.01;
 
    end Update_Values;
 
@@ -62,8 +68,8 @@ package body simulator.Motion_Control_Wrapper is
                                      pxWantedOrientation : in math.Matrices.pCMatrix ) is
 
    begin
-      this.pxDispatcher.Update_Wanted_Absolute_Position(pxWantedPosition);
-      this.pxDispatcher.Update_Wanted_Absolute_Orientation(pxWantedOrientation);
+      this.pxDispatcher.Update_Wanted_Absolute_Position(pxWantedPosition.all);
+      this.pxDispatcher.Update_Wanted_Absolute_Orientation(pxWantedOrientation.all);
    end Update_Wanted_Position;
 
 end simulator.Motion_Control_Wrapper;

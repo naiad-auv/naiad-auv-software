@@ -1,3 +1,4 @@
+with Ada.Text_IO;
 with Navigation;
 
 package body Navigation.PID_Controller is
@@ -17,15 +18,12 @@ package body Navigation.PID_Controller is
       return float'Min(float'Max(fvalue, -1.0), 1.0);
    end fNormalize_Float_Value;
 
-   function pxCreate return pCPIDController is
-   begin
-      return new CPIDController;
-   end pxCreate;
 
    function pxCreate(xPIDComponentScalings : TPIDComponentScalings) return pCPIDController is
       pCurrentController : pCPIDController;
    begin
       pCurrentController := new CPIDController;
+      pCurrentController.Reset_Controller;
       pCurrentController.Set_New_PID_Component_Scalings(xPIDComponentScalings);
       return pCurrentController;
    end pxCreate;
@@ -70,11 +68,15 @@ package body Navigation.PID_Controller is
       fLastError : float := this.fCurrentProportionalPart;
       output : float;
    begin
+
+
       this.fCurrentProportionalPart := this.fCurrentSetPoint - this.fCurrentValue;
+
 
       Update_Derivative_Part_Based_On_Tick(this, fDeltaTime);
 
       this.fCurrentIntegralPart := this.fCurrentIntegralPart + this.fCurrentProportionalPart;
+
 
       output := this.fCurrentIntegralPart * this.fIntegralScale + this.fCurrentDerivativePart * this.fDerivativeScale + this.fCurrentProportionalPart * this.fProportionalScale;
 

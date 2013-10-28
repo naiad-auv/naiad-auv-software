@@ -56,6 +56,11 @@ package body Navigation.Dispatcher is
       tfOrientationalValues := this.pxOrientationalController.xGet_Orientational_Thruster_Control_Values(fDeltaTime);
       tfDriftValues := this.pxDriftController.xGet_Positional_Thruster_Control_Values(fDeltaTime);
 
+--        for i in tfOrientationalValues'Range loop
+--           Ada.Text_IO.Put_Line("Ori " & integer'Image(EThrusterEffectsComponents'Pos(i)) & ": " & float'Image(tfOrientationalValues(i)));
+--        end loop;
+--
+
       tfCombinedValues := tfPositionalValues + tfOrientationalValues + tfDriftValues;
 
 

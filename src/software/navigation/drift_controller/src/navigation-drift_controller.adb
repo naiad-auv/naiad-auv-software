@@ -31,13 +31,13 @@ package body Navigation.Drift_Controller is
       pxDriftController.pxCurrentAbsoluteOrientation := pxCurrentAbsoluteOrientation;
       pxDriftController.pxLastAbsolutePosition := pxDriftController.pxCurrentAbsolutePosition.pxGet_Copy;
 
-      pxDriftController.pxXDriftMotionComponent := Navigation.Motion_Component.pxCreate(eAxisIndex    => Navigation.Motion_Component.X,
+      pxDriftController.pxXDriftMotionComponent := Navigation.Motion_Component.pxCreate(eAxisIndex    => Navigation.Motion_Component.DriftX,
                                                                                        xPIDScalings => Navigation.PID_Controller.TPIDComponentScalings'(0.0,0.0,0.0));
 
-      pxDriftController.pxYDriftMotionComponent := Navigation.Motion_Component.pxCreate(eAxisIndex    => Navigation.Motion_Component.Y,
+      pxDriftController.pxYDriftMotionComponent := Navigation.Motion_Component.pxCreate(eAxisIndex    => Navigation.Motion_Component.DriftY,
                                                                                        xPIDScalings => Navigation.PID_Controller.TPIDComponentScalings'(0.0,0.0,0.0));
 
-      pxDriftController.pxZDriftMotionComponent := Navigation.Motion_Component.pxCreate(eAxisIndex    => Navigation.Motion_Component.Z,
+      pxDriftController.pxZDriftMotionComponent := Navigation.Motion_Component.pxCreate(eAxisIndex    => Navigation.Motion_Component.DriftZ,
                                                                                        xPIDScalings => Navigation.PID_Controller.TPIDComponentScalings'(0.0,0.0,0.0));
 
       return pxDriftController;
@@ -73,7 +73,11 @@ package body Navigation.Drift_Controller is
       xAbsoluteDriftVelocityVector : Math.Vectors.CVector;
       fDriftComponent : float;
    begin
-      xAbsoluteDirectionVector := Math.Vectors.CVector(this.pxWantedAbsolutePosition.all - this.pxCurrentAbsolutePosition.all).xGet_Normalized;
+      xAbsoluteDirectionVector := Math.Vectors.CVector(this.pxWantedAbsolutePosition.all - this.pxCurrentAbsolutePosition.all);
+      if abs(xAbsoluteDirectionVector.fLength_Squared) /= 0.0 then
+         xAbsoluteDirectionVector := xAbsoluteDirectionVector.xGet_Normalized;
+      end if;
+
       xAbsoluteVelocityVector := this.pxCurrentAbsolutePosition.all - this.pxLastAbsolutePosition.all;
 
       fDriftComponent := Math.Vectors.fDot_Product(xAbsoluteVelocityVector, xAbsoluteDirectionVector);

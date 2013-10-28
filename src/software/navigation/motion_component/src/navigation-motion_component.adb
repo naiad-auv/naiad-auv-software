@@ -1,3 +1,4 @@
+with Ada.Text_IO;
 with Navigation.PID_Controller;
 
 package body Navigation.Motion_Component is
@@ -16,7 +17,6 @@ package body Navigation.Motion_Component is
    function xGet_New_Component_Control_Value (this : in out CMotionComponent; fDeltaTime : float) return TComponentControlValue is
    	fNewControlValue : float;
    begin
-      
       fNewControlValue := this.pxComponentPIDController.xGet_New_Control_Value(fDeltaTime);
  
       return TComponentControlValue'(fNewControlValue, this.eComponentIndex);
@@ -33,7 +33,7 @@ package body Navigation.Motion_Component is
    begin
       this.fCurrentError := fNewErrorValue;
       this.pxComponentPIDController.Set_New_Set_Point(0.0);
-      this.pxComponentPIDController.Update_Current_Value_From_External_Source(this.fCurrentError);
+      this.pxComponentPIDController.Update_Current_Value_From_External_Source(-this.fCurrentError);
    end Update_Current_Error;
 
 

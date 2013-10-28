@@ -570,8 +570,8 @@ package body Math.Matrices is
       xXVector : Math.Vectors.CVector;
    begin
       pxXVector := Math.Vectors.pxCreate(fX => this.tfMatrix(1,1),
-                                         fY => this.tfMatrix(1,2),
-                                         fZ => this.tfMatrix(1,3));
+                                         fY => this.tfMatrix(2,1),
+                                         fZ => this.tfMatrix(3,1));
       xXVector.Copy_From(xSourceVector => pxXVector.all);
       Math.Vectors.Free(pxVectorToDeallocate => pxXVector);
 
@@ -582,9 +582,9 @@ package body Math.Matrices is
       pxYVector : Math.Vectors.pCVector;
       xYVector : Math.Vectors.CVector;
    begin
-      pxYVector := Math.Vectors.pxCreate(fX => this.tfMatrix(2,1),
+      pxYVector := Math.Vectors.pxCreate(fX => this.tfMatrix(1,2),
                                          fY => this.tfMatrix(2,2),
-                                         fZ => this.tfMatrix(2,3));
+                                         fZ => this.tfMatrix(3,2));
       xYVector.Copy_From(xSourceVector => pxYVector.all);
 
       Math.Vectors.Free(pxVectorToDeallocate => pxYVector);
@@ -595,8 +595,8 @@ package body Math.Matrices is
       pxZVector : Math.Vectors.pCVector;
       xZVector : Math.Vectors.CVector;
    begin
-      pxZVector := Math.Vectors.pxCreate(fX => this.tfMatrix(3,1),
-                                         fY => this.tfMatrix(3,2),
+      pxZVector := Math.Vectors.pxCreate(fX => this.tfMatrix(1,3),
+                                         fY => this.tfMatrix(2,3),
                                          fZ => this.tfMatrix(3,3));
       xZVector.Copy_From(xSourceVector => pxZVector.all);
 
