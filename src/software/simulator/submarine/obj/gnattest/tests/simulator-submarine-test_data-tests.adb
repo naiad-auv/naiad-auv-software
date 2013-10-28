@@ -6,9 +6,10 @@
 --  placed into simulator.submarine.Test_Data.
 
 with AUnit.Assertions; use AUnit.Assertions;
-with math.Vectors; use Math.Vectors;
-with math.Matrices; use math.Matrices;
+with Math.Vectors; use Math.Vectors;
+with Math.Matrices; use math.Matrices;
 with simulator.Motor_Info; use Simulator.Motor_Info;
+with ada.Text_IO;
 
 package body simulator.submarine.Test_Data.Tests is
 
@@ -50,6 +51,22 @@ package body simulator.submarine.Test_Data.Tests is
       AUnit.Assertions.Assert(Condition => pxSubmarine.pxVelocityFrictionVector /=null,
                               Message   => "Simulator.Submarine.pxCreateNaiad failed, didn't set velocity friction");
 
+      ada.Text_IO.Put_Line("Motor 1 Force X:" & pxSubmarine.txMotorInfo(1).pxGet_Force_Vector.fGet_X'img & " Y: " & pxSubmarine.txMotorInfo(1).pxGet_Force_Vector.fGet_Y'img & " Z: " & pxSubmarine.txMotorInfo(1).pxGet_Force_Vector.fGet_Z'img);
+      ada.Text_IO.Put_Line("Motor 2 Force X:" & pxSubmarine.txMotorInfo(2).pxGet_Force_Vector.fGet_X'img & " Y: " & pxSubmarine.txMotorInfo(2).pxGet_Force_Vector.fGet_Y'img & " Z: " & pxSubmarine.txMotorInfo(2).pxGet_Force_Vector.fGet_Z'img);
+      ada.Text_IO.Put_Line("Motor 3 Force X:" & pxSubmarine.txMotorInfo(3).pxGet_Force_Vector.fGet_X'img & " Y: " & pxSubmarine.txMotorInfo(3).pxGet_Force_Vector.fGet_Y'img & " Z: " & pxSubmarine.txMotorInfo(3).pxGet_Force_Vector.fGet_Z'img);
+      ada.Text_IO.Put_Line("Motor 4 Force X:" & pxSubmarine.txMotorInfo(4).pxGet_Force_Vector.fGet_X'img & " Y: " & pxSubmarine.txMotorInfo(4).pxGet_Force_Vector.fGet_Y'img & " Z: " & pxSubmarine.txMotorInfo(4).pxGet_Force_Vector.fGet_Z'img);
+      ada.Text_IO.Put_Line("Motor 5 Force X:" & pxSubmarine.txMotorInfo(5).pxGet_Force_Vector.fGet_X'img & " Y: " & pxSubmarine.txMotorInfo(5).pxGet_Force_Vector.fGet_Y'img & " Z: " & pxSubmarine.txMotorInfo(5).pxGet_Force_Vector.fGet_Z'img);
+      ada.Text_IO.Put_Line("Motor 6 Force X:" & pxSubmarine.txMotorInfo(6).pxGet_Force_Vector.fGet_X'img & " Y: " & pxSubmarine.txMotorInfo(6).pxGet_Force_Vector.fGet_Y'img & " Z: " & pxSubmarine.txMotorInfo(6).pxGet_Force_Vector.fGet_Z'img);
+
+      ada.Text_IO.Put_Line("Motor 1 Torque X:" & pxSubmarine.txMotorInfo(1).pxGet_Torque_Vector.fGet_X'img & " Y: " & pxSubmarine.txMotorInfo(1).pxGet_Torque_Vector.fGet_Y'img & " Z: " & pxSubmarine.txMotorInfo(1).pxGet_Torque_Vector.fGet_Z'img);
+      ada.Text_IO.Put_Line("Motor 2 Torque X:" & pxSubmarine.txMotorInfo(2).pxGet_Torque_Vector.fGet_X'img & " Y: " & pxSubmarine.txMotorInfo(2).pxGet_Torque_Vector.fGet_Y'img & " Z: " & pxSubmarine.txMotorInfo(2).pxGet_Torque_Vector.fGet_Z'img);
+      ada.Text_IO.Put_Line("Motor 3 Torque X:" & pxSubmarine.txMotorInfo(3).pxGet_Torque_Vector.fGet_X'img & " Y: " & pxSubmarine.txMotorInfo(3).pxGet_Torque_Vector.fGet_Y'img & " Z: " & pxSubmarine.txMotorInfo(3).pxGet_Torque_Vector.fGet_Z'img);
+      ada.Text_IO.Put_Line("Motor 4 Torque X:" & pxSubmarine.txMotorInfo(4).pxGet_Torque_Vector.fGet_X'img & " Y: " & pxSubmarine.txMotorInfo(4).pxGet_Torque_Vector.fGet_Y'img & " Z: " & pxSubmarine.txMotorInfo(4).pxGet_Torque_Vector.fGet_Z'img);
+      ada.Text_IO.Put_Line("Motor 5 Torque X:" & pxSubmarine.txMotorInfo(5).pxGet_Torque_Vector.fGet_X'img & " Y: " & pxSubmarine.txMotorInfo(5).pxGet_Torque_Vector.fGet_Y'img & " Z: " & pxSubmarine.txMotorInfo(5).pxGet_Torque_Vector.fGet_Z'img);
+      ada.Text_IO.Put_Line("Motor 6 Torque X:" & pxSubmarine.txMotorInfo(6).pxGet_Torque_Vector.fGet_X'img & " Y: " & pxSubmarine.txMotorInfo(6).pxGet_Torque_Vector.fGet_Y'img & " Z: " & pxSubmarine.txMotorInfo(6).pxGet_Torque_Vector.fGet_Z'img);
+
+
+
 
 --  begin read only
    end Test_pxCreate_Naiad;
@@ -74,6 +91,29 @@ package body simulator.submarine.Test_Data.Tests is
 
 --  begin read only
    end Test_pxCreate;
+--  end read only
+
+
+--  begin read only
+   procedure Test_Free (Gnattest_T : in out Test);
+   procedure Test_Free_94ad82 (Gnattest_T : in out Test) renames Test_Free;
+--  id:2.1/94ad82e038c95891/Free/1/0/
+   procedure Test_Free (Gnattest_T : in out Test) is
+   --  simulator-submarine.ads:18:4:Free
+--  end read only
+
+      pragma Unreferenced (Gnattest_T);
+      pxSubmarine : simulator.submarine.pCSubmarine;
+   begin
+      pxSubmarine := simulator.submarine.pxCreate_Naiad;
+       AUnit.Assertions.Assert(Condition => pxSubmarine /=null,
+                              Message   => "Simulator.Submarine.Test_Free failed, didn't set position");
+      simulator.submarine.Free(pxSubmarine);
+       AUnit.Assertions.Assert(Condition => pxSubmarine =null,
+                              Message   => "Simulator.Submarine.Test_Free failed, didn't set position");
+
+--  begin read only
+   end Test_Free;
 --  end read only
 
 end simulator.submarine.Test_Data.Tests;
