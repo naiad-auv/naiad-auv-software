@@ -18,6 +18,7 @@ package body UartWrapper is
                                      Timeout   => blockingTime);
       pxUartHandler.bufferSize := bufferSize;
 
+
       return pxUartHandler;
    end pxCreate;
 
@@ -87,8 +88,5 @@ package body UartWrapper is
       return this.sUartReadSpecificAmount(bytesToRead  => bytesToRead,
                                           numBytesRead => numBytesRead);
    end sUartEcho;
-
-
-
 
 end UartWrapper;

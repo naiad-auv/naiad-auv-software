@@ -45,15 +45,15 @@ package Navigation.PID_Controller is
    --  <parameter name="this">The CPIDController to do the calculations upon.</parameter>
    --  <parameter name="fDeltaTime">The time difference since the last calculation.</parameter>
 
-   function fGetIntergralScale(this : in out CPIDController) return float;
+   function fGetIntergralScale(this : in CPIDController) return float;
    --  <summary>Gets the scaling componet for the integral part.</summary>
    --  <parameter name=" : ">The CPIDController to retrive the scaling from.</parameter>
 
-   function fGetDerivativeScale(this : in out CPIDController) return float;
+   function fGetDerivativeScale(this : in CPIDController) return float;
    --  <summary>Gets the scaling componet for the derivative part.</summary>
    --  <parameter name=" : ">The CPIDController to retrive the scaling from.</parameter>
 
-   function fGetProportionalScale(this : in out CPIDController) return float;
+   function fGetProportionalScale(this : in CPIDController) return float;
    --  <summary>Gets the scaling componet for the proportional part.</summary>
    --  <parameter name=" : ">The CPIDController to retrive the scaling from.</parameter>
 

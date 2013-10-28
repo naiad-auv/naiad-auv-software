@@ -1,15 +1,17 @@
 with UartWrapper;
 with Ada.Text_IO;
+use Ada.Text_IO;
 with GNAT.Serial_Communications;
+with Ada.Directories; use Ada.Directories;
 
 procedure Main is
 
-   pxUart : UartWrapper.pCUartHandler;
+   	pxUart : UartWrapper.pCUartHandler;
 
    bytesRead : Integer;
 begin
 
-   pxUart := UartWrapper.pxCreate("/dev/ttyACM1", GNAT.Serial_Communications.B9600, 1.0, 100);
+ --  pxUart := UartWrapper.pxCreate("/dev/ttyACM1", GNAT.Serial_Communications.B9600, 1.0, 100);
 
 
   -- pxUart.Uart_Write("hej jag heter emil bergstroem");
@@ -25,9 +27,9 @@ begin
 --
 --     end loop;
 
-   Ada.Text_IO.Put_Line(pxUart.sUartEcho(4,bytesRead,"HEJ",5.0));
+--   Ada.Text_IO.Put_Line(pxUart.sUartEcho(4,bytesRead,"HEJ",5.0));
 
-
+	Put_Line (File_Size'Image (Size ("/home/emibe/make.out")) & " bytes");
 
 
 end Main;
