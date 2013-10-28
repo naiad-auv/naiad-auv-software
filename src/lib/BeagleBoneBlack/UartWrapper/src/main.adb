@@ -8,13 +8,12 @@ procedure Main is
 
    	pxUart : UartWrapper.pCUartHandler;
 
-   bytesRead : Integer;
 begin
 
- --  pxUart := UartWrapper.pxCreate("/dev/ttyACM1", GNAT.Serial_Communications.B9600, 1.0, 100);
+   pxUart := UartWrapper.pxCreate("/dev/ttyACM1", GNAT.Serial_Communications.B9600, 1.0, 100);
 
 
-  -- pxUart.Uart_Write("hej jag heter emil bergstroem");
+   pxUart.Uart_Write("hej jag heter emil bergstroem");
 
 
 

@@ -26,14 +26,14 @@ package body UartWrapper is
    -- Uart_Write --
    ----------------
 
-   procedure Uart_Write (this : in out CUartHandler; stringToBeWritten : string; length : Integer) is
-	buffer : Ada.Streams.Stream_Element_Array(1 .. Ada.Streams.Stream_Element_Offset(length + 1));
+   procedure Uart_Write (this : in out CUartHandler; sStringToBeWritten : string; iLengthOfString : Integer) is
+      buffer : Ada.Streams.Stream_Element_Array(1 .. Ada.Streams.Stream_Element_Offset(iLengthOfString + 1));
    begin
-      for i in 1 .. Ada.Streams.Stream_Element_Offset(length) loop
-         buffer(i) := Ada.Streams.Stream_Element(Character'Pos(stringToBeWritten(Integer(i))));
+      for i in 1 .. Ada.Streams.Stream_Element_Offset(iLengthOfString) loop
+         buffer(i) := Ada.Streams.Stream_Element(Character'Pos(sStringToBeWritten(Integer(i))));
       end loop;
 
-      buffer(Ada.Streams.Stream_Element_Offset(length + 1)) := Ada.Streams.Stream_Element(4);
+      buffer(Ada.Streams.Stream_Element_Offset(iLengthOfString + 1)) := Ada.Streams.Stream_Element(4);
 
       Gnat.Serial_Communications.Write(this.serialHandler, buffer);
    end Uart_Write;
@@ -48,7 +48,7 @@ package body UartWrapper is
    -- sUart_Read --
    ----------------
 
-   function sUartRead (this : in out CUartHandler; numBytesRead : out Integer) return string is
+   procedure UartRead (this : in out CUartHandler; iNumBytesRead : out Integer; sStringRead : out string) is
       returnString : string(1.. this.bufferSize);
       buffer : Ada.Streams.Stream_Element_Array(1 .. Ada.Streams.Stream_Element_Offset(this.bufferSize));
       bytesRead : Ada.Streams.Stream_Element_Offset;
@@ -56,37 +56,38 @@ package body UartWrapper is
       Gnat.Serial_Communications.Read(this.serialHandler,buffer, bytesRead);
 
       for i in 1 .. bytesRead loop
-      	returnString(Integer(i)) := Character'Val (Integer (Buffer (i)));
+         returnString(Integer(i)) := Character'Val (Integer (Buffer (i)));
       end loop;
 
-      numBytesRead := Integer(bytesRead);
-      return returnString(1..numBytesRead);
-   end sUartRead;
+      iNumBytesRead := Integer(bytesRead);
+      sStringRead := returnString(1..iNumBytesRead);
+   end UartRead;
 
 
-   function sUartReadSpecificAmount (this : in out CUartHandler; bytesToRead : in Integer; numBytesRead : out Integer) return string is
+   procedure UartReadSpecificAmount (this : in out CUartHandler; iBytesToRead : in Integer; iNumBytesRead : out Integer;sStringRead : out string) is
       returnString : string(1.. this.bufferSize);
-      buffer : Ada.Streams.Stream_Element_Array(1 .. Ada.Streams.Stream_Element_Offset(bytesToRead));
+      buffer : Ada.Streams.Stream_Element_Array(1 .. Ada.Streams.Stream_Element_Offset(iBytesToRead));
       bytesRead : Ada.Streams.Stream_Element_Offset;
    begin
       Gnat.Serial_Communications.Read(this.serialHandler,buffer, bytesRead);
 
       for i in 1 .. bytesRead loop
-      	returnString(Integer(i)) := Character'Val (Integer (Buffer (i)));
+         returnString(Integer(i)) := Character'Val (Integer (Buffer (i)));
       end loop;
 
-      numBytesRead := Integer(bytesRead);
-      return returnString(1..numBytesRead);
-   end sUartReadSpecificAmount;
+      iNumBytesRead := Integer(bytesRead);
+      sStringRead := returnString(1..iNumBytesRead);
+   end UartReadSpecificAmount;
 
-   function sUartEcho(this : in out CUartHandler; bytesToRead : in Integer; numBytesRead : out integer; stringToBeWritten : string; waitTime : Duration) return string is
+   procedure UartEcho (this : in out CUartHandler; iBytesToRead : in Integer; iNumBytesRead : out integer; sStringToBeWritten : string; dWaitTime : Duration; sStringRead : out string) is
    begin
-      this.Uart_Write(stringToBeWritten => stringToBeWritten);
+      this.Uart_Write(stringToBeWritten => sStringToBeWritten);
 
-      delay(waitTime);
+      delay(dWaitTime);
 
-      return this.sUartReadSpecificAmount(bytesToRead  => bytesToRead,
-                                          numBytesRead => numBytesRead);
-   end sUartEcho;
+      this.UartReadSpecificAmount(iBytesToRead  => iBytesToRead,
+                                  iNumBytesRead => iNumBytesRead,
+                                  sStringRead => sStringRead);
+   end UartEcho;
 
 end UartWrapper;
