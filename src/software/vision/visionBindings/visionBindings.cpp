@@ -493,7 +493,7 @@ int Processing_Wrap::thresh(int src, int blueLow, int blueUp, int greenLow, int 
 	int tolerance = 0.05;
 	int i;
 
-	cv::inRange(img.at(src), cv::Scalar(blueLow+(tolerance*blueLow), greenLow+(tolerance*greenLow), redLow+(tolerance*redLow)), cv::Scalar(blueUp+(tolerance*blueUp), greenUp+(tolerance*greenUp), redUp+(tolerance*redUp)), mask);
+	cv::inRange(img.at(src), cv::Scalar(blueLow-(tolerance*blueLow), greenLow-(tolerance*greenLow), redLow-(tolerance*redLow)), cv::Scalar(blueUp+(tolerance*blueUp), greenUp+(tolerance*greenUp), redUp+(tolerance*redUp)), mask);
 	cv::imshow("mask",mask);
 	cv::waitKey(0);
 	threshOut.copyTo(outPic,mask);
@@ -596,14 +596,24 @@ void Processing_Wrap::roi(int src, int dst)
 
 /////////////////////// FUSION ////////////////////////////////////////////////////////////
 
-void Processing_Wrap::fusion(int src)
+void Processing_Wrap::fusion(int src, int dst)
 {
 	//DO STUFF
-	cv::Mat img1=img.at(src).clone(), img2, img3;
+	cv::Mat img1=img.at(src).clone(), img2, img3, img4, img5=img.at(src).clone();
+	cv::cvtColor(img5, img4, CV_BGR2HSV);
 	cv::cvtColor(img1, img2, CV_BGR2GRAY);
-	img1.copyTo(img3,img2);
-	img3.copyTo(img3,img2);
-	img3.copyTo(img3,img2);
+	double alpha = 1,beta = 2;
+	//cv::addWeighted(img2, alpha, img4, beta, (double)(000,000,000), img3);
+	img5.copyTo(img3,img2);
+	img3.copyTo(img3,img4);
+	int i = 0;
+	for (i = 0; i < 100; i++)
+	{
+		//DO
+		img3.copyTo(img3,img4);
+	}
+	std::cout<<"\n loops :"<<i;
+	img.at(dst) = img3.clone();
 	cv::imshow("fused", img3);
 	cv::waitKey(0);
 }

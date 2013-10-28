@@ -35,6 +35,7 @@ procedure main is
    iCirclesLocation : Interfaces.C.Int;
    iGaussianBlurLocation : Interfaces.C.int;
    iThreshedImageLocation : Interfaces.C.int;
+   iFusionOut : Interfaces.C.int;
 
    iGreyFilter : Interfaces.C.Int;
    iHSIFilter : Interfaces.C.Int;
@@ -93,6 +94,7 @@ begin
    iCirclesLocation := 24;
    iGaussianBlurLocation :=25;
    iThreshedImageLocation := 26;
+   iFusionOut := 27;
 
    iGreyFilter := 6;
    iHSIFilter :=40;
@@ -141,8 +143,8 @@ begin
    GaussianSigmaY := 0.0;
 
    --user decisions
-   iUseBuffer := 1;
-   iUseStatic := 0;
+   iUseBuffer := 0;
+   iUseStatic := 1;
    iShowOriginal := 1;
    iDoGaussian := 0;
    iDoSplit := 0;
@@ -169,7 +171,7 @@ begin
          CoreWrap.img_buffer; --load image to img.at(0)
       elsif (iUseStatic =1) then
          --, or just read in single image NEW, READS IN IMAGE AND STORES IN INDEX "IMAGESOURCE" OF "img.at()"
-         CoreWrap.imstore(iImageSource,New_String("62.jpg"));
+         CoreWrap.imstore(iImageSource,New_String("g1.jpg"));
       end if;
 
 
@@ -291,7 +293,7 @@ begin
       end if;
 
       if (iDoFusion = 1) then
-         processingWrap.fusion(iImageSource);
+         processingWrap.fusion(iImageSource, iFusionOut);
       end if;
 
 
