@@ -2,10 +2,10 @@
 #include <stdio.h>
 #include <string>
 
-
 //defines
 #define IMAGE_BUFFER_SIZE 10
 #define IMAGE_STORE_SIZE 30
+#define FRAME_RATE 1.0 //images per second
 
 
 class Core_Wrap{
@@ -84,6 +84,8 @@ virtual void objectTracking(void);
 virtual void roi(int src, int dst);
 
 virtual void goodFeatures(int src);
+
+virtual float estimateVelocity(void);
 
 Processing_Wrap();
 };

@@ -12,7 +12,7 @@ limited with opencv2_imgproc_imgproc_hpp;
 
 package cpp_4_7_4_ext_new_allocator_h is
 
-   package new_allocator_Vec is
+   package new_allocator_Class_Vec.Vec is
       type new_allocator is limited record
          null;
       end record;
@@ -48,14 +48,14 @@ package cpp_4_7_4_ext_new_allocator_h is
       procedure construct
         (this : access new_allocator;
          uu_p : pointer;
-         uu_val : System.Address);  -- /usr/gnat/lib/gcc/x86_64-pc-linux-gnu/4.7.4/../../../../include/c++/4.7.4/ext/new_allocator.h:119
+         uu_val : access constant opencv2_core_core_hpp.Class_Vec.Vec);  -- /usr/gnat/lib/gcc/x86_64-pc-linux-gnu/4.7.4/../../../../include/c++/4.7.4/ext/new_allocator.h:119
       pragma Import (CPP, construct, "_ZN9__gnu_cxx13new_allocatorIN2cv3VecIiLi4EEEE9constructEPS3_RKS3_");
 
       procedure destroy (this : access new_allocator; uu_p : pointer);  -- /usr/gnat/lib/gcc/x86_64-pc-linux-gnu/4.7.4/../../../../include/c++/4.7.4/ext/new_allocator.h:123
       pragma Import (CPP, destroy, "_ZN9__gnu_cxx13new_allocatorIN2cv3VecIiLi4EEEE7destroyEPS3_");
 
    end;
-   use new_allocator_Vec;
+   use new_allocator_Class_Vec.Vec;
 
    package new_allocator_Class_Point_u.Point_u is
       type new_allocator is limited record

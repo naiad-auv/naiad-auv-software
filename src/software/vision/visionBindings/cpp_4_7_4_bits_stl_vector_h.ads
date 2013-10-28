@@ -7,7 +7,7 @@ with Interfaces.C.Extensions;
 
 package cpp_4_7_4_bits_stl_vector_h is
 
-   package u_Vector_base_Vec_Class_allocator.allocator is
+   package u_Vector_base_Class_Vec.Vec_Class_allocator.allocator is
       type u_Vector_base is limited record
          u_M_impl : aliased u_Vector_impl;  -- /usr/gnat/lib/gcc/x86_64-pc-linux-gnu/4.7.4/../../../../include/c++/4.7.4/bits/stl_vector.h:165
       end record;
@@ -40,7 +40,7 @@ package cpp_4_7_4_bits_stl_vector_h is
       --  skipped func _M_create_storage
 
    end;
-   use u_Vector_base_Vec_Class_allocator.allocator;
+   use u_Vector_base_Class_Vec.Vec_Class_allocator.allocator;
 
    package u_Vector_base_Class_Point_u.Point_u_Class_allocator.allocator is
       type u_Vector_base is limited record
@@ -1199,7 +1199,7 @@ package cpp_4_7_4_bits_stl_vector_h is
 
 
 
-   package vector_Vec_Class_allocator.allocator is
+   package vector_Class_Vec.Vec_Class_allocator.allocator is
       type vector is limited record
          parent : aliased u_Vector_base;
           : aliased u_Base;  -- /usr/gnat/lib/gcc/x86_64-pc-linux-gnu/4.7.4/../../../../include/c++/4.7.4/bits/stl_vector.h:235
@@ -1358,7 +1358,7 @@ package cpp_4_7_4_bits_stl_vector_h is
       --  skipped func _M_erase_at_end
 
    end;
-   use vector_Vec_Class_allocator.allocator;
+   use vector_Class_Vec.Vec_Class_allocator.allocator;
 
    package vector_Class_Vec.Vec_Class_allocator.allocator is
       type vector is limited record
