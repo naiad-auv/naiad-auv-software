@@ -42,7 +42,7 @@ package simulator.submarine is
    procedure Calculate_Angular_Acceleration(this : in out CSubmarine);
    procedure Integrate_Submarine_Variables(this : in out CSubmarine; fTimeDuration : in float);
 
-   procedure Time_Step_Motor_Force_To_Integrate(this : in out CSubmarine ; txMotorForce : in TmotorForce);
+   procedure Time_Step_Motor_Force_To_Integrate(this : in out CSubmarine ; txMotorForce : in TmotorForce; fDeltaTime : in float);
 
    procedure Set_Gripper_Left_Status(this : in out CSubmarine ; bGripperLeft : boolean);
    procedure Set_Gripper_Right_Status(this : in out CSubmarine ; bGripperRight : boolean);

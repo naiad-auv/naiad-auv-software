@@ -28,6 +28,7 @@ package body Navigation.Thruster_Configurator.CThrusterConfigurator_Test_Data.CT
 
       AUnit.Assertions.Assert(Condition => pxThrusterConfigurator.iGet_Number_Of_Thrusters = 6,
                               Message   => "Wrong number of thrusters returned");
+      Navigation.Thruster_Configurator.Free(pxThrusterConfiguratorToDeallocate => pxThrusterConfigurator);
 --  begin read only
    end Test_iGet_Number_Of_Thrusters;
 --  end read only
@@ -96,6 +97,7 @@ package body Navigation.Thruster_Configurator.CThrusterConfigurator_Test_Data.CT
                               Message   => "All components are equal");
       AUnit.Assertions.Assert(Condition => not allZero,
                               Message   => "All components are zero");
+      Navigation.Thruster_Configurator.Free(pxThrusterConfiguratorToDeallocate => pxThrusterConfigurator);
 --  begin read only
    end Test_tfGet_Thruster_Values;
 --  end read only

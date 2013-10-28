@@ -1,5 +1,5 @@
 with Math;
-with Math.Vectors; use Math.Vectors;
+with Math.Vectors; --use Math.Vectors;
 with System; use System;
 with Ada.Exceptions;
 with Ada.Unchecked_Deallocation;
@@ -14,13 +14,6 @@ package Math.Quaternions is
 
    procedure Free(pxQuaternionToDeallocate : in out pCQuaternion);
 
-   function pxCreate (fX, fY, fZ, fW : in float) return pCQuaternion;
-   --  <summary>Creates an object of type CQuaternion. Returns a pointer of type pCQuaternion to the object created.</summary>
-   --  <parameter name="fX">The value of the quaternion's X-component.</parameter>
-   --  <parameter name="fY">The value of the quaternion's Y-component.</parameter>
-   --  <parameter name="fZ">The value of the quaternion's Z-component.</parameter>
-   --  <parameter name="fW">The value of the quaternion's W-component.</parameter>
-
    function pxCreate (xAxisVector : in Math.Vectors.CVector; fAngleInDegrees : in float) return pCQuaternion;
    function pxCreate (pxAxisVector : in Math.Vectors.pCVector; fAngleInDegrees : in float) return pCQuaternion;
    --  <summary>Creates an object of type CQuaternion defining it with an axis vector and an angle in degrees of rotation around that axis. Returns a pointer of type pCQuaternion to the object created.</summary>
@@ -31,21 +24,6 @@ package Math.Quaternions is
    --  <summary>Creates an object of type CQuaternion with all components copied from the object called on. Returns a pointer of type pCQuaternion to the object created.</summary>
    --  <parameter name="this">The quaternion to copy the components from.</parameter>
 
-   function "+" (xLeftOperandQuaternion, xRightOperandQuaternion : in CQuaternion) return CQuaternion;
-   function "+" (pxLeftOperandQuaternion, pxRightOperandQuaternion : in pCQuaternion) return CQuaternion;
-   function "+" (xLeftOperandQuaternion : in CQuaternion; pxRightOperandQuaternion : in pCQuaternion) return CQuaternion;
-   function "+" (pxLeftOperandQuaternion : in pCQuaternion; xRightOperandQuaternion : in CQuaternion) return CQuaternion;
-   --  <summary>Creates an object of type CQuaternion with each component the sum of the two operand quaternions' components. Returns a pointer of type pCQuaternion to the object created.</summary>
-   --  <parameter name="pxLeftOperandQuaternion">The CQuaternion object representing the left operand.</parameter>
-   --  <parameter name="pxRightOperandQuaternion">The CQuaternion object representing the right operand.</parameter>
-
-   function "-" (xLeftOperandQuaternion, xRightOperandQuaternion : in CQuaternion) return CQuaternion;
-   function "-" (pxLeftOperandQuaternion, pxRightOperandQuaternion : in pCQuaternion) return CQuaternion;
-   function "-" (xLeftOperandQuaternion : in CQuaternion; pxRightOperandQuaternion : in pCQuaternion) return CQuaternion;
-   function "-" (pxLeftOperandQuaternion : in pCQuaternion; xRightOperandQuaternion : in CQuaternion) return CQuaternion;
-   --  <summary>Creates an object of type CQuaternion with each component the difference of the two operand quaternions' components. Returns a pointer of type pCQuaternion to the object created.</summary>
-   --  <parameter name="pxLeftOperandQuaternion">The CQuaternion object representing the left operand.</parameter>
-   --  <parameter name="pxRightOperandQuaternion">The CQuaternion object representing the right operand.</parameter>
 
    function "*" (pxLeftOperandQuaternion, pxRightOperandQuaternion : in pCQuaternion) return CQuaternion;
    function "*" (pxLeftOperandQuaternion : in pCQuaternion; xRightOperandQuaternion : in CQuaternion) return CQuaternion;
@@ -107,8 +85,14 @@ package Math.Quaternions is
    --  <parameter name="this">The quaternion holding the wanted angle of rotation.</parameter>
 
    procedure Copy_From(this : in out CQuaternion; xSourceQuaternion : in CQuaternion);
+   --  <summary>Copys the xSourceQuaternion over to the this object</summary>
+   --  <parameter name="this">The quaternion to be overwritten.</parameter>
+   --  <parameter name="xSourceQuaternion">The quaternion to be to copy values from.</parameter>
 
 private
+
+   function pxCreate (fX : in float; fY : in float; fZ : in float; fW : in float) return pCQuaternion;
+
    type CQuaternion is tagged
       record
          fX : float;

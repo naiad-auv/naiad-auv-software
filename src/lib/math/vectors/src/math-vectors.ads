@@ -15,7 +15,7 @@ package Math.Vectors is
    type CVector is tagged private;
    --  <summary>Class for vector.</summary>
 
-   type pCVector is access CVector;
+   type pCVector is access all CVector;
    --  <summary>Pointer type for object of type CVector. Objects of type CVector should always be stored in variables of this type.</summary>
 
 

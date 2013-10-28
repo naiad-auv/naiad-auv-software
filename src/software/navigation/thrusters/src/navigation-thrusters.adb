@@ -1,3 +1,5 @@
+with Exception_Handling;
+
 package body Navigation.Thrusters is
 
    --------------
@@ -22,6 +24,7 @@ package body Navigation.Thrusters is
       if this.pxNextThruster /= null then
          return this.pxNextThruster.iGet_Count + 1;
       end if;
+
       return 1;
    end iGet_Count;
 
@@ -41,12 +44,12 @@ package body Navigation.Thrusters is
       end if;
    end Add_Thruster_With_Effects;
 
-
    procedure Change_Thruster_Effects
      (this : in out CThruster;
       iThrusterIndex : in integer;
       tfThrusterEffects : in TThrusterEffects)
    is
+
    begin
       if iThrusterIndex - 1 = 0 then
          this.tfThrusterEffects := tfThrusterEffects;
@@ -54,9 +57,11 @@ package body Navigation.Thrusters is
          if this.pxNextThruster /= null then
             this.pxNextThruster.Change_Thruster_Effects(iThrusterIndex - 1, tfThrusterEffects);
          else
-            raise Numeric_Error; -- index out of range
+            raise Exception_Handling.IndexOutOfBounds;
          end if;
+
       end if;
+
    end;
 
    -----------------------------------
@@ -90,6 +95,7 @@ package body Navigation.Thrusters is
       tfNewThrusterEffects(XRotation) := fXRotation;
       tfNewThrusterEffects(YRotation) := fYRotation;
       tfNewThrusterEffects(ZRotation) := fZRotation;
+
       return tfNewThrusterEffects;
    end tfMake_Thruster_Effects;
 
@@ -107,9 +113,11 @@ package body Navigation.Thrusters is
       loop
          txThrusterEffectsMatrix(iThrusterIndex)(i) := this.tfThrusterEffects(i);
       end loop;
+
       if this.pxNextThruster /= null then
          this.pxNextThruster.Put_Thruster_Effects_Into_Matrix(txThrusterEffectsMatrix, iThrusterIndex + 1);
       end if;
+
    end Put_Thruster_Effects_Into_Matrix;
 
    function "+" (tfLeftOperand : in TThrusterEffects; tfRightOperand : in TThrusterEffects) return TThrusterEffects is
@@ -124,5 +132,20 @@ package body Navigation.Thrusters is
    end "+";
 
 
+   procedure Free(pxThrusterToDeallocate : in out pCThruster) is
+
+      procedure Dealloc is new Ada.Unchecked_Deallocation(CThruster, pCThruster);
+
+   begin
+      Dealloc(pxThrusterToDeallocate);
+   end Free;
+
+   procedure Finalize(this : in out CThruster) is
+   begin
+      if this.pxNextThruster /= null then
+         Free(this.pxNextThruster);
+      end if;
+
+   end Finalize;
 
 end Navigation.Thrusters;

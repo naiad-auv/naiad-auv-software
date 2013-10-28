@@ -1,10 +1,13 @@
 with Navigation;
+with Ada.Unchecked_Deallocation;
+
 
 package Navigation.PID_Controller is
 
    type CPIDController is tagged private;
    type pCPIDController is access CPIDController;
 
+   procedure Free(pxPIDControllerToDeallocate : in out pCPIDController);
 
    type TPIDComponentScalings is
 	record
@@ -13,8 +16,6 @@ package Navigation.PID_Controller is
 	 fDerivativeScale : float;
 	end record;
 
-   function pxCreate return pCPIDController;
-   --  <summary>Creates an object of type CPIDController without setting the scaling components for the object in question</summary>
 
    function pxCreate(xPIDComponentScalings : TPIDComponentScalings) return pCPIDController;
    --  <summary>Creates an object of type CPIDController and sets the scaling components for the object in question</summary>

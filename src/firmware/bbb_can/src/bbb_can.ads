@@ -5,9 +5,9 @@
 -- This code is loosly based on the router.adb file from the Vasa project.
 
 -- Written by Nils Brynedal Ignell for the Naiad AUV project
--- Last changed (yyyy-mm-dd): 2013-10-21
+-- Last changed (yyyy-mm-dd): 2013-10-28
 
--- TODO: Unit testing, hardware testing
+-- TODO: Hardware testing
 ---------------------------------------------------------------------------
 
 
@@ -39,5 +39,6 @@ private
 
    procedure Usart_Write(sBuffer : String; iSize : Integer);
 
+   procedure Usart_Read_Inf_Block(sBuffer : out String; iSize : Integer);
 
 end BBB_CAN;

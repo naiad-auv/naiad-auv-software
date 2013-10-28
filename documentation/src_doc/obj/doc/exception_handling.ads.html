@@ -1,0 +1,190 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html><head>
+  <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript"/>
+
+  <title>
+    Package: Exception_Handling
+  </title>
+  <link rel='stylesheet' href='support/docgen.css' type='text/css'/>
+  <link rel='stylesheet' href='support/tags.css' type='text/css'/>
+  <script src='support/docgen.js' type='text/javascript' charset='utf-8'></script>
+</head>
+<body onload="onloadDoc();">
+
+<div id='leftSide'>
+  <div id='leftSideInside'>
+  <div id='header'>
+    <h2 class="button">Documentation</h2>
+    <a href='toc.html'><div class="button2">Table of Contents</div></a>
+
+    <a href='tree.html'><div class="button2">Class Inheritance Tree</div></a>
+
+  </div>
+
+  <div id='navigation'>
+    <h2 class="button">Navigation</h2>
+    <a href='#Description'><div class="button2">Description</div></a>
+    <a href='#Constants'><div class="button2">Constants &amp; Global variables</div></a>
+    <a href='#Methods'><div class="button2">Subprograms &amp; Entries</div></a>
+  </div><!-- navigation -->
+  </div>
+</div> <!-- leftSide -->
+
+<div class='default' id='rightSide'>
+ <div id='rightSideInside'>
+ <div id='Index'>
+  <h2>Index</h2>
+  <script type="text/javascript">
+    var names = new Array (
+new Array ('UnhandledException', 'exception_handling.ads:5:4', 'var-spec'),
+new Array ('NullPointer', 'exception_handling.ads:8:4', 'var-spec'),
+new Array ('NotUnitQuaternion', 'exception_handling.ads:11:4', 'var-spec'),
+new Array ('SingularMatrix', 'exception_handling.ads:14:4', 'var-spec'),
+new Array ('ParallelPlanes', 'exception_handling.ads:17:4', 'var-spec'),
+new Array ('DivisionByZero', 'exception_handling.ads:20:4', 'var-spec'),
+new Array ('IndexOutOfBounds', 'exception_handling.ads:23:4', 'var-spec'),
+new Array ('UnknownMotionComponent', 'exception_handling.ads:26:4', 'var-spec'),
+new Array ('Unhandled_<wbr/>Exception', 'exception_handling.ads:29:14', 'subp-spec'),
+      new Array ('dummy', '', ''));
+    printIndexList (names);
+  </script>
+  <noscript>
+    <ul>
+      <li class='var-spec'><a href="#exception_handling.ads:5:4">UnhandledException</a></li>
+      <li class='var-spec'><a href="#exception_handling.ads:8:4">NullPointer</a></li>
+      <li class='var-spec'><a href="#exception_handling.ads:11:4">NotUnitQuaternion</a></li>
+      <li class='var-spec'><a href="#exception_handling.ads:14:4">SingularMatrix</a></li>
+      <li class='var-spec'><a href="#exception_handling.ads:17:4">ParallelPlanes</a></li>
+      <li class='var-spec'><a href="#exception_handling.ads:20:4">DivisionByZero</a></li>
+      <li class='var-spec'><a href="#exception_handling.ads:23:4">IndexOutOfBounds</a></li>
+      <li class='var-spec'><a href="#exception_handling.ads:26:4">UnknownMotionComponent</a></li>
+      <li class='subp-spec'><a href="#exception_handling.ads:29:14">Unhandled_<wbr/>Exception</a></li>
+    </ul>
+  </noscript>
+ </div>
+ </div>
+</div>
+
+<div class='default' id='documentation'>
+  <div class='title'>
+    Package:
+<span class="droplink"><i>Exception_Handling</i><ul>
+  <li><a href="src_exception_handling.ads.html">Goto spec source</a></li>
+</ul></span>
+  </div>
+  <div class='subprograms'>
+    <h1><a name='Description' id='Description'></a>Description</h1>
+    <div class="class">
+    <div class='details'><pre><span class="keyword">package</span> <span class="name_emphasis">Exception_Handling</span> <span class="keyword">is</span></pre></div>
+    </div>
+  </div>
+
+
+
+
+
+  <div class='subprograms'>
+    <h1><a name='Constants' id='Constants'></a>Constants &amp; Global variables</h1>
+    <div class="class">
+      <h3><a name='exception_handling.ads:5:4' id='exception_handling.ads:5:4'></a>
+<span class="droplink">UnhandledException<ul>
+  <li><a href="src_exception_handling.ads.html#l5">Goto declaration in source</a></li>
+</ul></span>
+      </h3>
+      <div class='details'><pre><span class="name_emphasis">UnhandledException</span> : <span class="keyword">exception</span>;</pre></div>
+      <div class='comment'><div class="summary" >Unhandled exception, thrown after logging is performed</div>
+</div>
+    </div>
+    <div class="class">
+      <h3><a name='exception_handling.ads:8:4' id='exception_handling.ads:8:4'></a>
+<span class="droplink">NullPointer<ul>
+  <li><a href="src_exception_handling.ads.html#l8">Goto declaration in source</a></li>
+</ul></span>
+      </h3>
+      <div class='details'><pre><span class="name_emphasis">NullPointer</span> : <span class="keyword">exception</span>;</pre></div>
+      <div class='comment'><div class="summary" >Null pointer exception, thrown by methods with pointers passed as arguments</div>
+</div>
+    </div>
+    <div class="class">
+      <h3><a name='exception_handling.ads:11:4' id='exception_handling.ads:11:4'></a>
+<span class="droplink">NotUnitQuaternion<ul>
+  <li><a href="src_exception_handling.ads.html#l11">Goto declaration in source</a></li>
+</ul></span>
+      </h3>
+      <div class='details'><pre><span class="name_emphasis">NotUnitQuaternion</span> : <span class="keyword">exception</span>;</pre></div>
+      <div class='comment'><div class="summary" >Not unit quaternion, thrown by operations that needs a unit quaternion to complete</div>
+</div>
+    </div>
+    <div class="class">
+      <h3><a name='exception_handling.ads:14:4' id='exception_handling.ads:14:4'></a>
+<span class="droplink">SingularMatrix<ul>
+  <li><a href="src_exception_handling.ads.html#l14">Goto declaration in source</a></li>
+</ul></span>
+      </h3>
+      <div class='details'><pre><span class="name_emphasis">SingularMatrix</span> : <span class="keyword">exception</span>;</pre></div>
+      <div class='comment'><div class="summary" >Singular matrix exception, thrown by operations not permitted with a singular matrix. I.e gauss-jordan elimination</div>
+</div>
+    </div>
+    <div class="class">
+      <h3><a name='exception_handling.ads:17:4' id='exception_handling.ads:17:4'></a>
+<span class="droplink">ParallelPlanes<ul>
+  <li><a href="src_exception_handling.ads.html#l17">Goto declaration in source</a></li>
+</ul></span>
+      </h3>
+      <div class='details'><pre><span class="name_emphasis">ParallelPlanes</span> : <span class="keyword">exception</span>;</pre></div>
+      <div class='comment'><div class="summary" >Parallel planes exception, thrown by operations not permitted with two parallel planes. I.e when trying to find a instersection vector between two planes</div>
+</div>
+    </div>
+    <div class="class">
+      <h3><a name='exception_handling.ads:20:4' id='exception_handling.ads:20:4'></a>
+<span class="droplink">DivisionByZero<ul>
+  <li><a href="src_exception_handling.ads.html#l20">Goto declaration in source</a></li>
+</ul></span>
+      </h3>
+      <div class='details'><pre><span class="name_emphasis">DivisionByZero</span> : <span class="keyword">exception</span>;</pre></div>
+      <div class='comment'><div class="summary" >Division by zero exception, thrown by functions where the passed divident is 0</div>
+</div>
+    </div>
+    <div class="class">
+      <h3><a name='exception_handling.ads:23:4' id='exception_handling.ads:23:4'></a>
+<span class="droplink">IndexOutOfBounds<ul>
+  <li><a href="src_exception_handling.ads.html#l23">Goto declaration in source</a></li>
+</ul></span>
+      </h3>
+      <div class='details'><pre><span class="name_emphasis">IndexOutOfBounds</span> : <span class="keyword">exception</span>;</pre></div>
+      <div class='comment'><div class="summary" >Index out of bounds exception, thrown by functions where an index of i.e and array is out of the bounds of the array</div>
+</div>
+    </div>
+    <div class="class">
+      <h3><a name='exception_handling.ads:26:4' id='exception_handling.ads:26:4'></a>
+<span class="droplink">UnknownMotionComponent<ul>
+  <li><a href="src_exception_handling.ads.html#l26">Goto declaration in source</a></li>
+</ul></span>
+      </h3>
+      <div class='details'><pre><span class="name_emphasis">UnknownMotionComponent</span> : <span class="keyword">exception</span>;</pre></div>
+      <div class='comment'><div class="summary" >Unkown motion component exception, thrown when a user tries to update the PID scalings of an undefined component</div>
+</div>
+    </div>
+  </div>
+
+    <div class='subprograms'>
+      <h1><a name='Methods' id='Methods'></a>Subprograms &amp; Entries</h1>
+      <div class="class">
+        <h3>
+          <a name='exception_handling.ads:29:14' id='exception_handling.ads:29:14'></a>
+<span class="droplink">Unhandled_Exception<ul>
+  <li><a href="src_exception_handling.ads.html#l29">Goto spec in source</a></li>
+</ul></span>
+        </h3>
+        <div class='details'><pre><span class="keyword">procedure</span> <span class="name_emphasis">Unhandled_Exception</span> <table><tr><td>(</td><td><span class="name"><a name="exception_handling.ads:29:35"></a>E</span></td><td>: <span class="keyword">in</span> Ada.Exceptions.Exception_Occurrence);</td></tr></table></pre></div>
+        <div class='comment'><div class="summary" >Handles the exception E, prints a stacktrace and raises an <a href="exception_handling.ads.html#exception_handling.ads:5:4" title="UnhandledException">UnhandledException</a></div>
+<div class="parameter"><span class="name">E:</span> The Exception thrown</div>
+</div>
+      </div>
+    </div>
+</div> <!-- documentation -->
+
+</body>
+</html>

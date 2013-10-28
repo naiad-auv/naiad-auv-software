@@ -6,11 +6,15 @@ with Navigation.Thrusters;
 with System;
 with Ada.Text_IO;
 with System.Address_Image;
+with Ada.Finalization;
+with Ada.Unchecked_Deallocation;
 
 package Navigation.Positional_Controller is
 
-   type CPositionalController is tagged private;
+   type CPositionalController is new Ada.Finalization.Controlled with private;
    type pCPositionalController is access CPositionalController;
+
+   procedure Free(pxPositionalControllerToDeallocate : in out pCPositionalController);
 
    function pxCreate (pxCurrentAbsolutePosition : in Math.Vectors.pCVector; pxWantedAbsolutePosition : in Math.Vectors.pCVector; pxCurrentAbsoluteOrientation : in Math.Matrices.pCMatrix) return pCPositionalController;
    --  <summary>Creates an object of type CPositionalController and sets references to the current and wanted position</summary>
@@ -33,7 +37,7 @@ package Navigation.Positional_Controller is
    --  <parameter name="eComponentToChange">The index of the component to change.</parameter>
 
 private
-   type CPositionalController is tagged
+   type CPositionalController is new Ada.Finalization.Controlled with
       record
 
          pxWantedAbsolutePosition : Math.Vectors.pCVector;
@@ -45,5 +49,7 @@ private
          pxYMotionComponent : Navigation.Motion_Component.pCMotionComponent;
          pxZMotionComponent : Navigation.Motion_Component.pCMotionComponent;
       end record;
+
+   procedure Finalize(this : in out CPositionalController);
 
 end Navigation.Positional_Controller;

@@ -15,14 +15,10 @@ with Salinity_Sensor;
 
 package Sensor_Controller_pack is
 
+   USE_EXTENDED_MSG : constant Boolean := true;
    uTEMP_PIN      : constant Interfaces.Unsigned_8   := 0; -- which pin the temp sensor is at
    uPRESSURE_PIN  : constant Interfaces.Unsigned_8   := 0; -- which pin the pressure sensor is at
    UARTPort       : constant Salinity_Sensor.USARTID := Salinity_Sensor.USART0;
-
- --  SEND_MESSAGE_ID 		: constant AVR.AT90CAN128.CAN.CAN_ID := 100;
---     SIMULATION_MESSAGE_ID 	: constant AVR.AT90CAN128.CAN.CAN_ID := 101;
---     SIMULATION_MODE_OFF		: constant Interfaces.Unsigned_8 := 0;	 --data message that means simulation mode off
---     SIMULATION_MODE_ON		: constant Interfaces.Unsigned_8 := 255;
 
    bSimulate : Boolean := false;
 

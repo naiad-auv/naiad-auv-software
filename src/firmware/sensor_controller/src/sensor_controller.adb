@@ -1,8 +1,7 @@
 
 --  Sensor controller firmware
---  This code handles the 1-Wire communication with the Temp sensor,
---  the UART communication with the Salinity sensor and the ADC
---  readings of the pressure sensor. The sensor data is put into a CAN message
+--  This code handles the UART communication with the Salinity sensor and the ADC
+--  readings of the pressure and temperature sensors. The sensor data is put into a CAN message
 --  and sent.
 
 --  Written by: Nils Brynedal Ignell for the Naiad AUV project
@@ -19,11 +18,7 @@ pragma Profile (Ravenscar);
 
 with AVR.AT90CAN128.Clock;	use AVR.AT90CAN128.Clock;
 
---with Text_IO;
-
-
 with Sensor_Controller_pack;
---with Interfaces;
 
 procedure Sensor_Controller is
 
@@ -32,15 +27,11 @@ procedure Sensor_Controller is
    tLastLoop   		: AVR.AT90CAN128.Clock.Time;  --  in milliseconds
    tLOOP_PERIOD 	: Constant AVR.AT90CAN128.Clock.Time := 500; --  loop period in milliseconds
 
- --  use Interfaces;
-
 begin
 
 
    Sensor_Controller_pack.Init;
 
---     Text_IO.Put_Line(Integer'Image(Integer(Temp_Sensor.i16From_Bytes(248, 255))));
---     return;
    loop
       tLastLoop := AVR.AT90CAN128.Clock.getClockTime;
 

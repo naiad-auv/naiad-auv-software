@@ -1,5 +1,6 @@
 
 package body CAN_Link_Utils is
+   pragma Suppress (All_Checks);
 
    function Calculate_Checksum(b8Data : AVR.AT90CAN128.CAN.Byte8; Len : AVR.AT90CAN128.DLC_Type) return Interfaces.Unsigned_8 is
       Checksum : Interfaces.Unsigned_8 := 0;
