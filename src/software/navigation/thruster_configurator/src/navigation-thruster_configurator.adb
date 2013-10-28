@@ -14,8 +14,8 @@ package body Navigation.Thruster_Configurator is
    begin
       pxNewThrusterConfigurator := new CThrusterConfigurator;
 
-      tfThrusterEffects := Navigation.Thrusters.tfMake_Thruster_Effects(fXPosition => -Sin(Pi/4.0),
-                                                                        fYPosition => Sin(Pi/4.0),
+      tfThrusterEffects := Navigation.Thrusters.tfMake_Thruster_Effects(fXPosition => -Sin(Pi/3.0),
+                                                                        fYPosition => Sin(Pi/6.0),
                                                                         FZPosition => 0.0,
                                                                         fXRotation => 0.0,
                                                                         fYRotation => 0.0,
@@ -30,8 +30,8 @@ package body Navigation.Thruster_Configurator is
                                                                         fZRotation => 1.0);
       pxNewThrusterConfigurator.pxThrusterList.Add_Thruster_With_Effects(tfThrusterEffects);
 
-      tfThrusterEffects := Navigation.Thrusters.tfMake_Thruster_Effects(fXPosition => Sin(Pi/4.0),
-                                                                        fYPosition => Sin(Pi/4.0),
+      tfThrusterEffects := Navigation.Thrusters.tfMake_Thruster_Effects(fXPosition => Sin(Pi/3.0),
+                                                                        fYPosition => Sin(Pi/6.0),
                                                                         FZPosition => 0.0,
                                                                         fXRotation => 0.0,
                                                                         fYRotation => 0.0,
@@ -83,7 +83,19 @@ package body Navigation.Thruster_Configurator is
    begin
       tfExtendedMatrix := this.tfCreate_Extended_Matrix;
 
+
+
       Insert_Component_Values_In_Extended_Matrix(tfExtendedMatrix, tfComponentValues);
+
+
+--        for i in tfExtendedMatrix'Range(1) loop
+--           for j in tfExtendedMatrix'Range(2) loop
+--              Ada.Text_IO.Put(float'Image(tfExtendedMatrix(i,j)) & " ");
+--           end loop;
+--
+--           Ada.Text_IO.New_Line;
+--        end loop;
+--
 
       Perform_Gauss_Jordan_Elimination_On(tfExtendedMatrix);
 
