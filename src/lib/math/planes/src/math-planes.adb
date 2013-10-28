@@ -6,6 +6,10 @@ package body Math.Planes is
 
    function pxCreate (xNormalVector : in Math.Vectors.CVector; fDistanceFromOrigin : in float) return pCPlane is
    begin
+      if xNormalVector.fLength_Squared = 0.0 then
+         raise Exception_Handling.DivisionByZero;
+      end if;
+
       return new CPlane'(fA => xNormalVector.fGet_X,
                          fB => xNormalVector.fGet_Y,
                          fC => xNormalVector.fGet_Z,
@@ -94,13 +98,39 @@ package body Math.Planes is
       raise Exception_Handling.NullPointer;
    end fAngle_Between_In_Degrees;
 
-   function xGet_Intersection_Vector_Between (xLeftOperandPlane : in CPlane; xRightOperandPlane : in CPlane) return Math.Vectors.CVector is
+   procedure Log_Plane(this : in CPlane) is
    begin
-      if abs(Math.Vectors.fDot_Product(xLeftOperandPlane.xGet_Normal_Vector, xRightOperandPlane.xGet_Normal_Vector)) = 1.0 then
-         raise Exception_Handling.ParallelPlanes;
+      Ada.Text_IO.Put_Line("Plane normal: " & float'Image(this.xGet_Normal_Vector.fGet_X) & ", " & float'Image(this.xGet_Normal_Vector.fGet_Y) & ", " & float'Image(this.xGet_Normal_Vector.fGet_Z) & ".");
+   end Log_Plane;
+
+
+   function xGet_Intersection_Vector_Between (xLeftOperandPlane : in CPlane; xRightOperandPlane : in CPlane) return Math.Vectors.CVector is
+      use Math.Vectors;
+      pxVector : Math.Vectors.pCVector;
+      xVector : Math.Vectors.CVector;
+   begin
+      if xLeftOperandPlane.fGet_Distance_From_Origin * xLeftOperandPlane.xGet_Normal_Vector /=
+        xRightOperandPlane.fGet_Distance_From_Origin * xRightOperandPlane.xGet_Normal_Vector then
+         raise Exception_Handling.NoIntersectionBetweenPlanes;
       end if;
 
       return Math.Vectors.xCross_Product(xLeftOperandPlane.xGet_Normal_Vector, xRightOperandPlane.xGet_Normal_Vector).xGet_Normalized;
+
+   exception
+      when Exception_Handling.DivisionByZero =>
+         pxVector := Math.Vectors.pxCreate(fX => 1.0,
+                                           fY => 0.0,
+                                           fZ => 0.0);
+         if pxVector.xGet_Normalized = xLeftOperandPlane.xGet_Normal_Vector then
+            Math.Vectors.Free(pxVectorToDeallocate => pxVector);
+            pxVector := Math.Vectors.pxCreate(fX => 0.0,
+                                              fY => 1.0,
+                                              fZ => 0.0);
+         end if;
+         xVector.Copy_From(xSourceVector => pxVector.all);
+         Math.Vectors.Free(pxVectorToDeallocate => pxVector);
+         return Math.Vectors.xCross_Product(xLeftOperandPlane.xGet_Normal_Vector + xVector, xRightOperandPlane.xGet_Normal_Vector).xGet_Normalized;
+
    end xGet_Intersection_Vector_Between;
 
    function xGet_Intersection_Vector_Between (pxLeftOperandPlane : in pCPlane; pxRightOperandPlane : in pCPlane) return Math.Vectors.CVector is

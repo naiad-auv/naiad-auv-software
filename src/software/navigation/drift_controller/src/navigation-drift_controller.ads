@@ -14,7 +14,7 @@ package Navigation.Drift_Controller is
 
    procedure Free(pxDriftControllerToDeallocate : in out pCDriftController);
 
-   function pxCreate (pxCurrentAbsolutePosition : in Math.Vectors.pCVector; pxWantedAbsolutePosition : in Math.Vectors.pCVector; pxCurrentAbsoluteOrientation : in Math.Matrices.pCMatrix) return pCDriftController;
+   function pxCreate (pxCurrentAbsolutePosition : in Math.Vectors.pCVector; pxWantedAbsolutePosition : in Math.Vectors.pCVector; pxCurrentAbsoluteOrientation : in Math.Matrices.pCMatrix; pxCurrentAbsoluteOrientationInverse : in Math.Matrices.pCMatrix) return pCDriftController;
    --  <summary>Creates an object of type CPositionalController and sets references to the current and wanted position</summary>
    --  <parameter name="pxCurrentAbsoluteOrientation">A reference to the current absolute position</parameter>
    --  <parameter name="pxWantedAbsoluteOrientation">A reference to the wanted absolute position</parameter>
@@ -43,6 +43,7 @@ private
          pxLastAbsolutePosition : Math.Vectors.pCVector;
 
          pxCurrentAbsoluteOrientation : Math.Matrices.pCMatrix;
+         pxCurrentAbsoluteOrientationInverse : Math.Matrices.pCMatrix;
 
          pxXDriftMotionComponent : Navigation.Motion_Component.pCMotionComponent;
          pxYDriftMotionComponent : Navigation.Motion_Component.pCMotionComponent;

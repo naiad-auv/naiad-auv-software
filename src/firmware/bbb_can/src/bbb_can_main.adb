@@ -1,4 +1,16 @@
 
+
+---------------------------------------------------------------------------
+-- This code tests the communication between the BeagleBone Black (BBB) and
+-- the CAN-link.
+
+-- Written by Nils Brynedal Ignell for the Naiad AUV project
+-- Last changed (yyyy-mm-dd): 2013-10-28
+
+-- TODO: hardware testing
+
+---------------------------------------------------------------------------
+
 with AVR.AT90CAN128;
 with AVR.AT90CAN128.CAN;
 with BBB_CAN;
@@ -23,6 +35,8 @@ begin
    BBB_CAN.Send(msg);
 
    loop
+      delay(0.1);
+
       BBB_CAN.Get(msg, bMsg, bOk);
 
       if bMsg then

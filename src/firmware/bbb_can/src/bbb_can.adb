@@ -5,17 +5,23 @@
 -- This code is loosly based on the router.adb file from the Vasa project.
 
 -- Written by Nils Brynedal Ignell for the Naiad AUV project
--- Last changed (yyyy-mm-dd): 2013-10-24
+-- Last changed (yyyy-mm-dd): 2013-10-28
 
--- TODO: Needs iDataAvailable function from pxUart (Emil's code)
 -- TODO: hardware testing
+
 ---------------------------------------------------------------------------
 
 with UartWrapper;
 with GNAT.Serial_Communications;
+with CAN_Link_Utils;
 
 package body BBB_CAN is
    pragma Suppress (All_Checks);
+
+
+   --if only a part of a message header has arrived, it will be saved here
+   sTempBuffer : String(1..CAN_Link_Utils.HEADLEN);
+   iNumTempBytes : Integer := 0; -- number of bytes in sTempBuffer
 
    pxUart : UartWrapper.pCUartHandler;
 
@@ -53,46 +59,75 @@ package body BBB_CAN is
 --     end Handshake;
 
    procedure Send(msg : AVR.AT90CAN128.CAN.CAN_Message) is
-      sBuffer : String(1 .. (Integer(msg.Len) + HEADLEN));
+      sBuffer : String(1 .. (Integer(msg.Len) + CAN_Link_Utils.HEADLEN));
    begin
-      Message_To_Bytes(sBuffer, msg);
-      Usart_Write(sBuffer, Integer(msg.Len) + HEADLEN);
+      CAN_Link_Utils.Message_To_Bytes(sBuffer, msg);
+      Usart_Write(sBuffer, Integer(msg.Len) + CAN_Link_Utils.HEADLEN);
    end Send;
 
    procedure Get(msg : out AVR.AT90CAN128.CAN.CAN_Message; bMsgReceived : out Boolean; bUARTChecksumOK : out Boolean) is
 
       use Interfaces;
 
-      sHeadBuf     : String(1..HEADLEN);
-      iRnum 	   : Integer;
+      function ReadFromUART(sBuffer : out String) return Boolean is
+         iBytesRead : Integer;
+      begin
+         if iNumTempBytes = 0 then
+            Usart_Read(sTempBuffer, CAN_Link_Utils.HEADLEN, iBytesRead);
+            if iBytesRead = CAN_Link_Utils.HEADLEN then
+               sBuffer := sTempBuffer;
+               return true;
+            else
+               iNumTempBytes := iBytesRead;
+               return false;
+            end if;
+         else
+            declare
+               sTemp : String(1..CAN_Link_Utils.HEADLEN - iNumTempBytes);
+            begin
+               Usart_Read(sTemp, CAN_Link_Utils.HEADLEN - iNumTempBytes, iBytesRead);
+
+               for i in 1..iBytesRead loop
+                  sTempBuffer(i + iNumTempBytes) := sTemp(i);
+               end loop;
+               iNumTempBytes := iNumTempBytes + iBytesRead;
+            end;
+            if iNumTempBytes = CAN_Link_Utils.HEADLEN then
+               iNumTempBytes := 0;
+               sBuffer := sTempBuffer;
+               return true;
+            else
+               return false;
+            end if;
+         end if;
+      end ReadFromUART;
+
+      sHeadBuf     : String(1..CAN_Link_Utils.HEADLEN);
       u8ActualChecksum    : Interfaces.Unsigned_8;
       u8ReceivedChecksum  : Interfaces.Unsigned_8;
+
    begin
 
-      if pxUart.iDataAvailable >= HEADLEN then
-         Usart_Read(sHeadBuf, HEADLEN, iRnum);
-
-         bMsgReceived := true;
-         CAN_Link_Utils.Bytes_To_Message_Header(Head_Buf, msg, u8ReceivedChecksum);
-
-         if Integer(msg.Len) /= 0 then
-            declare
-               sData : String(1..iDataLen);
-            begin
-               while pxUart.iDataAvailable < Integer(msg.Len) loop
-                  null;
-               end loop;
-
-               Usart_Read(sData, Integer(msg.Len), iBytesRead);
-               CAN_Link_Utils.Bytes_To_Message_Data(Data_Buf, msg, u8ActualChecksum);
-            end;
-            bUARTChecksumOK := (u8ActualChecksum = u8ReceivedChecksum);
-         else
-            bUARTChecksumOK := true; --if there is no data in the message, the checksum is defined as ok
-         end if;
-      else
+      if not ReadFromUART(sHeadBuf) then
          bMsgReceived 	 := false;
          bUARTChecksumOK := false;
+         return;
+      end if;
+
+      bMsgReceived := true;
+      CAN_Link_Utils.Bytes_To_Message_Header(sHeadBuf, msg, u8ReceivedChecksum);
+
+      if Integer(msg.Len) /= 0 then
+         declare
+            sData : String(1..Integer(msg.Len));
+         begin
+            Usart_Read_Inf_Block(sData, Integer(msg.Len));
+
+            CAN_Link_Utils.Bytes_To_Message_Data(sData, msg, u8ActualChecksum);
+         end;
+         bUARTChecksumOK := (u8ActualChecksum = u8ReceivedChecksum);
+      else
+         bUARTChecksumOK := true; --if there is no data in the message, the checksum is defined as ok
       end if;
    end Get;
 
@@ -107,4 +142,19 @@ package body BBB_CAN is
    begin
       sBuffer := pxUart.sUartReadSpecificAmount(iSize, iBytesRead);
    end Usart_Read;
+
+   procedure Usart_Read_Inf_Block(sBuffer : out String; iSize : Integer) is
+      sTemp : String(1..iSize);
+      iBytesRead : Integer;
+      iTotalBytes : Integer := 0;
+   begin
+      while iTotalBytes < iSize loop
+         sTemp := pxUart.sUartReadSpecificAmount(iSize - iTotalBytes, iBytesRead);
+         for i in 1 .. iBytesRead loop
+            sBuffer(i + iTotalBytes) := sTemp(i);
+         end loop;
+         iTotalBytes := iTotalBytes + iBytesRead;
+      end loop;
+   end Usart_Read_Inf_Block;
+
 end BBB_CAN;

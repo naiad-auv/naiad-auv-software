@@ -3,6 +3,7 @@ with Ada.Exceptions;
 with math.Vectors;use Math.Vectors;
 with Math.Matrices;use Math.Matrices;
 with Simulator.Motor_Info; use Simulator.Motor_Info;
+with Ada.Unchecked_Deallocation;
 
 package body simulator.submarine is
 
@@ -53,7 +54,12 @@ package body simulator.submarine is
                                                                                          fZ => 1.0);
 
    begin
-      pxSubmarine := simulator.submarine.pxCreate;
+      if (pxSubmarine=null) then
+         pxSubmarine := simulator.submarine.pxCreate;
+      else
+         Free(pxSubmarine);
+         pxSubmarine := simulator.submarine.pxCreate;
+      end if;
 
       tfRawMatrix := ((0.36,0.001,0.037),
                       (0.001,0.9,0.0003),
@@ -92,16 +98,47 @@ package body simulator.submarine is
    function pxCreate return pCSubmarine is
       pxSubmarine : pCSubmarine;
    begin
-      pxSubmarine := new CSubmarine;
+      if(pxSubmarine = null) then
+         pxSubmarine := new CSubmarine;
+      else
+         free(pxSubmarine);
+         pxSubmarine := new CSubmarine;
+      end if;
       return pxSubmarine;
    end pxCreate;
+
+   ----------
+   -- Free --
+   ----------
+
+   procedure Free(pxSubmarine : in out pCSubmarine) is
+      procedure Dealloc is new Ada.Unchecked_Deallocation(CSubmarine, pCSubmarine);
+   begin
+      math.Vectors.Free(pxVectorToDeallocate => pxSubmarine.pxPositionVector);
+      math.Vectors.Free(pxVectorToDeallocate => pxSubmarine.pxVelocityVector);
+      math.Matrices.Free(pxMatrixToDeallocate => pxSubmarine.pxOrientationMatrix);
+      math.Vectors.Free(pxVectorToDeallocate => pxSubmarine.pxAngularVelocityVector);
+      math.Matrices.Free(pxMatrixToDeallocate => pxSubmarine.pxInertiaMatrix);
+      simulator.Motor_Info.Free(pxMotorInfoToDealocate => pxSubmarine.txMotorInfo(1));
+      simulator.Motor_Info.Free(pxMotorInfoToDealocate => pxSubmarine.txMotorInfo(2));
+      simulator.Motor_Info.Free(pxMotorInfoToDealocate => pxSubmarine.txMotorInfo(3));
+      simulator.Motor_Info.Free(pxMotorInfoToDealocate => pxSubmarine.txMotorInfo(4));
+      simulator.Motor_Info.Free(pxMotorInfoToDealocate => pxSubmarine.txMotorInfo(5));
+      simulator.Motor_Info.Free(pxMotorInfoToDealocate => pxSubmarine.txMotorInfo(6));
+      math.Vectors.Free(pxVectorToDeallocate => pxSubmarine.pxBuoyancyForcePositionVector);
+      math.Vectors.Free(pxVectorToDeallocate => pxSubmarine.pxRotationFrictionVector);
+      math.Vectors.Free(pxVectorToDeallocate => pxSubmarine.pxVelocityFrictionVector);
+      math.Vectors.Free(pxVectorToDeallocate => pxSubmarine.pxAccelerationVector);
+      math.Vectors.Free(pxVectorToDeallocate => pxSubmarine.pxAngularAccelerationVector);
+      Dealloc(pxSubmarine);
+
+   end Free;
 
    ---------------------------
    -- pxGet_Position_Vector --
    ---------------------------
 
    function pxGet_Position_Vector(this : in CSubmarine) return math.Vectors.pCVector is
-
    begin
       return this.pxPositionVector.pxGet_Copy;
    end pxGet_Position_Vector;
@@ -157,10 +194,12 @@ package body simulator.submarine is
 
    procedure Set_Position_Vector(this : in out CSubmarine; pxPositionVector : in math.Vectors.pCVector) is
    begin
-      if(this.pxPositionVector/=null) then
-         math.Vectors.Free(this.pxPositionVector);
+      if(this.pxPositionVector=null) then
+         this.pxPositionVector:=pxPositionVector.pxGet_Copy;
+      else
+         this.pxPositionVector.Copy_From(pxPositionVector.all);
       end if;
-      this.pxPositionVector:=pxPositionVector.pxGet_Copy;
+
    end Set_Position_Vector;
 
    ----------------------------
@@ -169,10 +208,12 @@ package body simulator.submarine is
 
    procedure Set_Orientation_Matrix(this : in out CSubmarine ; pxOrientationMatrix : in Math.Matrices.pCMatrix)is
    begin
-      if(this.pxOrientationMatrix/=null) then
-         math.Matrices.Free(this.pxOrientationMatrix);
+      if(this.pxOrientationMatrix=null) then
+         this.pxOrientationMatrix := pxOrientationMatrix.pxGet_Copy;
+      else
+         this.pxOrientationMatrix.Copy_From(pxOrientationMatrix.all);
       end if;
-      this.pxOrientationMatrix := pxOrientationMatrix.pxGet_Copy;
+
    end Set_Orientation_Matrix;
 
    -------------------------
@@ -181,10 +222,12 @@ package body simulator.submarine is
 
    procedure Set_Velocity_Vector(this : in out CSubmarine ; pxVelocityVector : in Math.Vectors.pCVector)is
    begin
-      if(this.pxVelocityVector/=null) then
-         math.Vectors.Free(this.pxVelocityVector);
+      if(this.pxVelocityVector=null) then
+         this.pxVelocityVector := pxVelocityVector.pxGet_Copy;
+      else
+         this.pxVelocityVector.Copy_From(pxVelocityVector.all);
       end if;
-      this.pxVelocityVector := pxVelocityVector.pxGet_Copy;
+
    end Set_Velocity_Vector;
 
    ---------------------------------
@@ -193,10 +236,12 @@ package body simulator.submarine is
 
    procedure Set_Angular_Velocity_Vector(this : in out CSubmarine ; pxAngularVelocityVector : in Math.Vectors.pCVector)is
    begin
-      if(this.pxAngularVelocityVector/=null) then
-         math.Vectors.Free(this.pxAngularVelocityVector);
+      if(this.pxAngularVelocityVector=null) then
+         this.pxAngularVelocityVector := pxAngularVelocityVector.pxGet_Copy;
+      else
+         this.pxAngularVelocityVector.Copy_From(pxAngularVelocityVector.all);
       end if;
-      this.pxAngularVelocityVector := pxAngularVelocityVector.pxGet_Copy;
+
    end Set_Angular_Velocity_Vector;
 
    --------------------
@@ -248,10 +293,11 @@ package body simulator.submarine is
 
    procedure Set_Buoyancy_Force_Position_Vector(this : in out CSubmarine ; pxBuoyancyForcePositionVector : in math.Vectors.pCVector) is
    begin
-      if(this.pxBuoyancyForcePositionVector/=null) then
-         math.Vectors.Free(this.pxBuoyancyForcePositionVector);
+      if(this.pxBuoyancyForcePositionVector=null) then
+         this.pxBuoyancyForcePositionVector := pxBuoyancyForcePositionVector.pxGet_Copy;
+      else
+         this.pxBuoyancyForcePositionVector.Copy_From(pxBuoyancyForcePositionVector.all);
       end if;
-      this.pxBuoyancyForcePositionVector := pxBuoyancyForcePositionVector.pxGet_Copy;
    end Set_Buoyancy_Force_Position_Vector;
 
    ----------------------------------
@@ -260,10 +306,12 @@ package body simulator.submarine is
 
    procedure Set_Rotation_Friction_Vector(this : in out CSubmarine ; pxRotationFrictionVector : in math.Vectors.pCVector) is
    begin
-      if(this.pxRotationFrictionVector/=null) then
-         math.Vectors.Free(this.pxRotationFrictionVector);
+      if(this.pxRotationFrictionVector=null) then
+         this.pxRotationFrictionVector := pxRotationFrictionVector.pxGet_Copy;
+      else
+         this.pxRotationFrictionVector.Copy_From(pxRotationFrictionVector.all);
       end if;
-      this.pxRotationFrictionVector := pxRotationFrictionVector.pxGet_Copy;
+
    end Set_Rotation_Friction_Vector;
 
    -----------------------------------
@@ -272,10 +320,12 @@ package body simulator.submarine is
 
    procedure Set_Veclocity_Friction_Vector(this : in out CSubmarine ; pxVelocityFrictionVector : in math.Vectors.pCVector) is
    begin
-      if(this.pxVelocityFrictionVector/=null) then
-         math.Vectors.Free(this.pxVelocityFrictionVector);
+      if(this.pxVelocityFrictionVector=null) then
+         this.pxVelocityFrictionVector := pxVelocityFrictionVector.pxGet_Copy;
+      else
+         this.pxVelocityFrictionVector.Copy_From(pxVelocityFrictionVector.all);
       end if;
-      this.pxVelocityFrictionVector := pxVelocityFrictionVector.pxGet_Copy;
+
    end Set_Veclocity_Friction_Vector;
 
 
@@ -286,10 +336,12 @@ package body simulator.submarine is
    procedure Set_Inertia_Matrix(this : in out CSubmarine; pxInertiaMatrix : in math.Matrices.pCMatrix) is
 
    begin
-      if(this.pxVelocityFrictionVector/=null) then
-         math.Vectors.Free(this.pxVelocityFrictionVector);
+      if(this.pxVelocityFrictionVector=null) then
+         this.pxInertiaMatrix := pxInertiaMatrix.pxGet_Copy;
+      else
+         this.pxInertiaMatrix.Copy_From(pxInertiaMatrix.all);
       end if;
-      this.pxInertiaMatrix := pxInertiaMatrix.pxGet_Copy;
+
    end;
 
 
@@ -307,9 +359,7 @@ package body simulator.submarine is
       pxAbsoluteGravityForce : math.Vectors.pCVector := math.Vectors.pxCreate(0.0,0.0,-this.fWeight*9.82);
       pxAbsoluteBouyancyForce : math.Vectors.pCVector := math.Vectors.pxCreate(0.0,0.0,this.fBuoyancyForce);
    begin
-      if(this.pxAccelerationVector/=null) then
-         math.Vectors.Free(this.pxAccelerationVector);
-      end if;
+
 
       xRelativeForce := -(this.pxOrientationMatrix.xGet_Inverse*this.pxVelocityVector)*this.pxVelocityFrictionVector;
       for iLoopThroughMotors in this.txMotorForce'Range loop
@@ -318,7 +368,12 @@ package body simulator.submarine is
       xFixedCordForce := this.pxOrientationMatrix*xRelativeForce;
       xFixedCordForce := xFixedCordForce+pxAbsoluteGravityForce;
       xFixedCordForce := xFixedCordForce+pxAbsoluteBouyancyForce;
-      this.pxAccelerationVector := math.Vectors.pxGet_Copy(xFixedCordForce *(1.0/this.fWeight));
+      if(this.pxAccelerationVector=null) then
+         this.pxAccelerationVector := math.Vectors.pxGet_Copy(xFixedCordForce *(1.0/this.fWeight));
+      else
+         this.pxAccelerationVector.Copy_From(xFixedCordForce *(1.0/this.fWeight));
+      end if;
+
 
       math.Vectors.Free(pxAbsoluteGravityForce);
       math.Vectors.Free(pxAbsoluteBouyancyForce);
@@ -336,9 +391,7 @@ package body simulator.submarine is
       xRelativeAngularAccelerationVector : math.Vectors.CVector;
       pxBouyancyForce : math.Vectors.pCVector := math.Vectors.pxCreate(0.0,0.0,this.fBuoyancyForce);
    begin
-      if(this.pxAngularAccelerationVector/=null) then
-         math.Vectors.Free(this.pxAngularAccelerationVector);
-      end if;
+
 
       xRelativeAngularVelocity := this.pxOrientationMatrix.xGet_Inverse * this.pxAngularVelocityVector;
 
@@ -347,8 +400,12 @@ package body simulator.submarine is
          xRelativeTorque := xRelativeTorque+(this.txMotorInfo(iLoopThroughMotors).pxGet_Torque_Vector*this.txMotorForce(iLoopThroughMotors));
       end loop;
       xRelativeAngularAccelerationVector := this.pxInertiaMatrix.xGet_Inverse*(xRelativeTorque-math.Vectors.xCross_Product(xRelativeAngularVelocity, this.pxInertiaMatrix*xRelativeAngularVelocity));
-      this.pxAngularAccelerationVector := math.Vectors.pxGet_Copy(this.pxOrientationMatrix * xRelativeAngularAccelerationVector);
 
+      if(this.pxAngularAccelerationVector=null) then
+         this.pxAngularAccelerationVector := math.Vectors.pxGet_Copy(this.pxOrientationMatrix * xRelativeAngularAccelerationVector);
+      else
+         this.pxAngularAccelerationVector.Copy_From(this.pxOrientationMatrix * xRelativeAngularAccelerationVector);
+      end if;
       math.Vectors.Free(pxBouyancyForce);
    end Calculate_Angular_Acceleration;
 
