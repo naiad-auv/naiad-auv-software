@@ -25,10 +25,10 @@ package body BBB_CAN is
 
    pxUart : UartWrapper.pCUartHandler;
 
-   procedure Init is
+   procedure Init(sPort : String; baud : GNAT.Serial_Communications.Data_Rate) is
    begin
       --initiates UART commiunication:
-      pxUart := UartWrapper.pxCreate("/dev/ttyACM1", GNAT.Serial_Communications.B38400, 0.001, 100);
+      pxUart := UartWrapper.pxCreate(GNAT.Serial_Communications.Port_Name("/dev/" & sPort), baud, 0.001, 100);
    end Init;
 
 --     function Handshake return Boolean is
