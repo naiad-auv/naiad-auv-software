@@ -13,6 +13,7 @@
 
 with AVR.AT90CAN128;
 with AVR.AT90CAN128.CAN;
+with GNAT.Serial_Communications;
 
 with Interfaces;
 
@@ -20,7 +21,7 @@ package BBB_CAN is
 
    iHANDSHAKE_WAIT_TIME_MS : constant Integer := 200;
 
-   procedure Init;
+   procedure Init(sPort : String; baud : GNAT.Serial_Communications.Data_Rate);
 
    -- Tries a handshake, if no answer is received after iHANDSHAKE_WAIT_TIME_MS it returns false
    -- if handshake was successful, true is returned

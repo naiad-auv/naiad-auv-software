@@ -25,10 +25,10 @@ package body BBB_CAN is
 
    pxUart : UartWrapper.pCUartHandler;
 
-   procedure Init is
+   procedure Init(sPort : String; baud : GNAT.Serial_Communications.Data_Rate) is
    begin
       --initiates UART commiunication:
-      pxUart := UartWrapper.pxCreate("/dev/ttyACM1", GNAT.Serial_Communications.B38400, 0.001, 100);
+      pxUart := UartWrapper.pxCreate(GNAT.Serial_Communications.Port_Name("/dev/" & sPort), baud, 0.001, 100);
    end Init;
 
 --     function Handshake return Boolean is
@@ -69,17 +69,19 @@ package body BBB_CAN is
 
       use Interfaces;
 
-      function ReadFromUART(sBuffer : out String) return Boolean is
+      procedure ReadFromUART(sBuffer : out String; bReadComplete : out Boolean) is
          iBytesRead : Integer;
       begin
          if iNumTempBytes = 0 then
             Usart_Read(sTempBuffer, CAN_Link_Utils.HEADLEN, iBytesRead);
             if iBytesRead = CAN_Link_Utils.HEADLEN then
                sBuffer := sTempBuffer;
-               return true;
+               bReadComplete := true;
+               return;
             else
                iNumTempBytes := iBytesRead;
-               return false;
+               bReadComplete := false;
+               return;
             end if;
          else
             declare
@@ -95,9 +97,11 @@ package body BBB_CAN is
             if iNumTempBytes = CAN_Link_Utils.HEADLEN then
                iNumTempBytes := 0;
                sBuffer := sTempBuffer;
-               return true;
+               bReadComplete := true;
+               return;
             else
-               return false;
+               bReadComplete := false;
+               return;
             end if;
          end if;
       end ReadFromUART;
@@ -105,10 +109,11 @@ package body BBB_CAN is
       sHeadBuf     : String(1..CAN_Link_Utils.HEADLEN);
       u8ActualChecksum    : Interfaces.Unsigned_8;
       u8ReceivedChecksum  : Interfaces.Unsigned_8;
-
+      bReadComplete : Boolean;
    begin
 
-      if not ReadFromUART(sHeadBuf) then
+      ReadFromUART(sHeadBuf, bReadComplete);
+      if not bReadComplete then
          bMsgReceived 	 := false;
          bUARTChecksumOK := false;
          return;
@@ -140,7 +145,7 @@ package body BBB_CAN is
 
    procedure Usart_Read(sBuffer : out String; iSize : Integer; iBytesRead : out Integer) is
    begin
-      sBuffer := pxUart.sUartReadSpecificAmount(iSize, iBytesRead);
+      pxUart.UartReadSpecificAmount(iSize, iBytesRead, sBuffer);
    end Usart_Read;
 
    procedure Usart_Read_Inf_Block(sBuffer : out String; iSize : Integer) is
@@ -149,7 +154,7 @@ package body BBB_CAN is
       iTotalBytes : Integer := 0;
    begin
       while iTotalBytes < iSize loop
-         sTemp := pxUart.sUartReadSpecificAmount(iSize - iTotalBytes, iBytesRead);
+         pxUart.UartReadSpecificAmount(iSize - iTotalBytes, iBytesRead, sTemp);
          for i in 1 .. iBytesRead loop
             sBuffer(i + iTotalBytes) := sTemp(i);
          end loop;
