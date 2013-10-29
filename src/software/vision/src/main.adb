@@ -8,22 +8,22 @@ with Vision.Image_Processing;
 procedure main is
 
    --user decisions
-   iUseBuffer : Integer;
-   iUseStatic : Integer;
-   iShowOriginal : Integer;
-   iDoGaussian : Integer;
-   iDoSplit : Integer;
-   iDoCvtGrey : Integer;
-   iDoCvtHSI : Integer;
-   iDoHistoBGR : Integer;
-   iDoHistoHSI : Integer;
-   iDoCanny : Integer;
-   iDoThresh : Integer;
-   iDoHoughCircles : Integer;
-   iDoContours : Integer;
-   iDoApproxPoly : Integer;
-   iDoObjectTracking : Integer;
-   iDoFusion : Integer;
+   iUseBuffer : Integer := 1;
+   iUseStatic : Integer := 0;
+   iShowOriginal : Integer := 1;
+   iDoGaussian : Integer := 0;
+   iDoSplit : Integer := 0;
+   iDoCvtGrey : Integer := 0;
+   iDoCvtHSI : Integer := 0;
+   iDoHistoBGR : Integer := 0;
+   iDoHistoHSI : Integer := 0;
+   iDoCanny : Integer := 1;
+   iDoThresh : Integer := 0;
+   iDoHoughCircles : Integer := 0;
+   iDoContours : Integer := 0;
+   iDoApproxPoly : Integer := 0;
+   iDoObjectTracking : Integer := 0;
+   iDoFusion : Integer := 1;
 
    iImageSource : Interfaces.C.Int;
    iPreviousImageLocation : Interfaces.C.int;
@@ -87,6 +87,7 @@ procedure main is
 begin
    iImageSource := 0;
    iPreviousImageLocation := 1;
+   iImageDestination := 2;
    iGreyScaleLocation :=20;
    iCannyLocation :=21;
    iHSILocation := 22;
@@ -142,27 +143,6 @@ begin
    GaussianSigmaX := 0.0;
    GaussianSigmaY := 0.0;
 
-   --user decisions
-   iUseBuffer := 0;
-   iUseStatic := 1;
-   iShowOriginal := 1;
-   iDoGaussian := 0;
-   iDoSplit := 0;
-   iDoCvtGrey := 0;
-   iDoCvtHSI := 0;
-   iDoHistoBGR := 0;
-   iDoHistoHSI := 0;
-   iDoCanny := 0;
-   iDoThresh := 0;
-   iDoHoughCircles := 0;
-   iDoContours := 0;
-   iDoApproxPoly := 0;
-   iDoObjectTracking := 0;
-   iDoFusion := 1;
-
-
-
-
    -----------------------------MAIN LOOP --------------------------------------------------------
    Endless_Loop:
    loop
@@ -171,7 +151,7 @@ begin
          CoreWrap.img_buffer; --load image to img.at(0)
       elsif (iUseStatic =1) then
          --, or just read in single image NEW, READS IN IMAGE AND STORES IN INDEX "IMAGESOURCE" OF "img.at()"
-         CoreWrap.imstore(iImageSource,New_String("g1.jpg"));
+         CoreWrap.imstore(iImageSource,New_String("Square.jpg"));
       end if;
 
 
@@ -292,10 +272,22 @@ begin
          processingWrap.approxPolyDP(1.2, 1);
       end if;
 
+
+      --Fusion
       if (iDoFusion = 1) then
          processingWrap.fusion(iImageSource, iFusionOut);
-      end if;
+--           CoreWrap.imshow(New_String("why so fused?"), iFusionOut);
+--           CoreWrap.waitKey(0);
+--
+         --debug / test
+         processingWrap.cvtColor(iFusionOut,iGreyScaleLocation, iGreyFilter);
+--           CoreWrap.imshow(New_String("fusedf gray"),iGreyScaleLocation);
+--           CoreWrap.waitKey(0);
+         processingWrap.Canny(iGreyScaleLocation, iImageDestination, iCannyLowThres, iCannyHighThres, iCannyKernelSize);
+         CoreWrap.imshow(New_String("why so fused canny?"), iImageDestination);--show image for debug purposes
+         CoreWrap.waitKey(0);
 
+      end if;
 
    end loop Endless_Loop;
 end main;

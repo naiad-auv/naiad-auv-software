@@ -601,11 +601,11 @@ void Processing_Wrap::fusion(int src, int dst)
 	//DO STUFF
 	cv::Mat img1=img.at(src).clone(), img2, img3, img4, img5=img.at(src).clone();
 	cv::cvtColor(img5, img4, CV_BGR2HSV);
-	cv::cvtColor(img1, img2, CV_BGR2GRAY);
+	//cv::cvtColor(img1, img2, CV_BGR2GRAY);
 	double alpha = 1,beta = 2;
 	//cv::addWeighted(img2, alpha, img4, beta, (double)(000,000,000), img3);
-	img5.copyTo(img3,img2);
-	img3.copyTo(img3,img4);
+	img5.copyTo(img3,img4);
+	//img3.copyTo(img3,img4);
 	int i = 0;
 	for (i = 0; i < 100; i++)
 	{
@@ -614,8 +614,7 @@ void Processing_Wrap::fusion(int src, int dst)
 	}
 	std::cout<<"\n loops :"<<i;
 	img.at(dst) = img3.clone();
-	cv::imshow("fused", img3);
-	cv::waitKey(0);
+	
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
