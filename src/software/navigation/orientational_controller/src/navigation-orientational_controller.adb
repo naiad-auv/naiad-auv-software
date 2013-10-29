@@ -114,8 +114,7 @@ package body Navigation.Orientational_Controller is
 
 
 
-      xCurrentRelativePlane.Log_Plane;
-      xWantedRelativePlane.Log_Plane;
+
       fAngleBetweenPlanesInDegrees := Math.Planes.fAngle_Between_In_Degrees(xCurrentRelativePlane, xWantedRelativePlane);
       pxNewCurrentToWantedPlaneRotation := Math.Quaternions.pxCreate(xAxisVector => Math.Planes.xGet_Intersection_Vector_Between(xCurrentRelativePlane, xWantedRelativePlane),
                                                                      fAngleInDegrees => fAngleBetweenPlanesInDegrees);

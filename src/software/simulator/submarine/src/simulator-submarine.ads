@@ -15,8 +15,8 @@ package simulator.submarine is
    function pxCreate_Naiad return pCSubmarine;
 
    function pxCreate return pCSubmarine;
-   procedure Free(pxSubmarine : in out pCSubmarine);
 
+   procedure Free(pxSubmarine : in out pCSubmarine);
    function pxGet_Position_Vector(this : in CSubmarine) return math.Vectors.pCVector;
    function pxGet_Velocity_Vector(this : in CSubmarine) return math.Vectors.pCVector;
    function pxGet_Orientation_Matrix(this : in CSubmarine) return math.Matrices.pCMatrix;
