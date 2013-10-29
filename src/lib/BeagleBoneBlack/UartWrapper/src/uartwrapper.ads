@@ -8,15 +8,15 @@ package UartWrapper is
 
    function pxCreate (path : Gnat.Serial_Communications.Port_Name; baudRate : Gnat.Serial_Communications.Data_Rate; blockingTime : Duration; bufferSize : Integer) return pCUartHandler;
 
-   procedure Uart_Write(this : in out CUartHandler; stringToBeWritten : string; length : Integer);
+   procedure Uart_Write (this : in out CUartHandler; sStringToBeWritten : string; iLengthOfString : Integer);
 
    procedure Uart_Write(this : in out CUartHandler; stringToBeWritten : string);
 
-   function sUartRead (this : in out CUartHandler; numBytesRead : out Integer) return string;
+   procedure UartRead (this : in out CUartHandler; iNumBytesRead : out Integer; sStringRead : out string);
 
-   function sUartReadSpecificAmount (this : in out CUartHandler; bytesToRead : in Integer; numBytesRead : out Integer) return string;
+   procedure UartReadSpecificAmount (this : in out CUartHandler; iBytesToRead : in Integer; iNumBytesRead : out Integer;sStringRead : out string);
 
-   function sUartEcho(this : in out CUartHandler; bytesToRead : in Integer; numBytesRead : out integer; stringToBeWritten : string; waitTime : Duration) return string;
+   procedure UartEcho (this : in out CUartHandler; iBytesToRead : in Integer; iNumBytesRead : out integer; sStringToBeWritten : string; dWaitTime : Duration; sStringRead : out string);
 
 private
 

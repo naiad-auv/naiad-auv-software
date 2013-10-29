@@ -58,8 +58,8 @@ package body Navigation.Dispatcher.Test_Data.Tests is
 
       pragma Unreferenced (Gnattest_T);
 
-      tfThrusterValues : Navigation.Thrusters.TThrusterValuesArray(1 .. 6);
-      tfOldValues : Navigation.Thrusters.TThrusterValuesArray(1 .. 6);
+      tfThrusterValues : Navigation.Thrusters.TThrusterValuesArray;
+      tfOldValues : Navigation.Thrusters.TThrusterValuesArray;
       fOldRatio : float;
       fNewRatio : float;
    begin
@@ -97,10 +97,10 @@ package body Navigation.Dispatcher.Test_Data.Tests is
 
       pragma Unreferenced (Gnattest_T);
 
-      tfV1 : Navigation.Thrusters.TThrusterValuesArray(1 .. 6);
-      tfV2 : Navigation.Thrusters.TThrusterValuesArray(1 .. 6);
-      tfV3 : Navigation.Thrusters.TThrusterValuesArray(1 .. 6);
-      tfV4 : Navigation.Thrusters.TThrusterValuesArray(1 .. 6);
+      tfV1 : Navigation.Thrusters.TThrusterValuesArray;
+      tfV2 : Navigation.Thrusters.TThrusterValuesArray;
+      tfV3 : Navigation.Thrusters.TThrusterValuesArray;
+      tfV4 : Navigation.Thrusters.TThrusterValuesArray;
 
    begin
 
