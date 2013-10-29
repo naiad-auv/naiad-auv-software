@@ -1,7 +1,7 @@
 package body Navigation.Positional_Controller is
 
 
-   function pxCreate (pxCurrentAbsolutePosition : in Math.Vectors.pCVector; pxWantedAbsolutePosition : in Math.Vectors.pCVector; pxCurrentAbsoluteOrientation : in Math.Matrices.pCMatrix) return pCPositionalController is
+   function pxCreate (pxCurrentAbsolutePosition : in Math.Vectors.pCVector; pxWantedAbsolutePosition : in Math.Vectors.pCVector; pxCurrentAbsoluteOrientation : in Math.Matrices.pCMatrix; pxCurrentAbsoluteOrientationInverse : in Math.Matrices.pCMatrix) return pCPositionalController is
 
       use System;
       xPositionalController : pCPositionalController;
@@ -14,6 +14,7 @@ package body Navigation.Positional_Controller is
       xPositionalController.pxWantedAbsolutePosition := pxWantedAbsolutePosition;
       xPositionalController.pxCurrentAbsolutePosition := pxCurrentAbsolutePosition;
       xPositionalController.pxCurrentAbsoluteOrientation := pxCurrentAbsoluteOrientation;
+      xPositionalController.pxCurrentAbsoluteOrientationInverse := pxCurrentAbsoluteOrientationInverse;
 
       xPositionalController.pxXMotionComponent := Navigation.Motion_Component.pxCreate(eAxisIndex    => Navigation.Motion_Component.X,
                                                                                        xPIDScalings => Navigation.PID_Controller.TPIDComponentScalings'(0.0,0.0,0.0));
@@ -50,7 +51,7 @@ package body Navigation.Positional_Controller is
       xAbsoluteDifferenceVector : Math.Vectors.CVector;
    begin
       xAbsoluteDifferenceVector := this.pxWantedAbsolutePosition.all - this.pxCurrentAbsolutePosition.all;
-      xRelativeWantedPositionVector := this.pxCurrentAbsoluteOrientation.xGet_Inverse * xAbsoluteDifferenceVector;
+      xRelativeWantedPositionVector := this.pxCurrentAbsoluteOrientationInverse.all * xAbsoluteDifferenceVector;
 
       this.pxXMotionComponent.Update_Current_Error(xRelativeWantedPositionVector.fGet_X);
       this.pxYMotionComponent.Update_Current_Error(xRelativeWantedPositionVector.fGet_Y);

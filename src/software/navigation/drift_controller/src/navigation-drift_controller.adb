@@ -18,7 +18,8 @@ package body Navigation.Drift_Controller is
    function pxCreate
      (pxCurrentAbsolutePosition : in Math.Vectors.pCVector;
       pxWantedAbsolutePosition : in Math.Vectors.pCVector;
-      pxCurrentAbsoluteOrientation : in Math.Matrices.pCMatrix)
+      pxCurrentAbsoluteOrientation : in Math.Matrices.pCMatrix;
+      pxCurrentAbsoluteOrientationInverse : in Math.Matrices.pCMatrix)
       return pCDriftController
    is
       pxDriftController : pCDriftController;
@@ -30,6 +31,7 @@ package body Navigation.Drift_Controller is
       pxDriftController.pxCurrentAbsolutePosition := pxCurrentAbsolutePosition;
       pxDriftController.pxCurrentAbsoluteOrientation := pxCurrentAbsoluteOrientation;
       pxDriftController.pxLastAbsolutePosition := pxDriftController.pxCurrentAbsolutePosition.pxGet_Copy;
+      pxDriftController.pxCurrentAbsoluteOrientationInverse := pxCurrentAbsoluteOrientationInverse;
 
       pxDriftController.pxXDriftMotionComponent := Navigation.Motion_Component.pxCreate(eAxisIndex    => Navigation.Motion_Component.DriftX,
                                                                                        xPIDScalings => Navigation.PID_Controller.TPIDComponentScalings'(0.0,0.0,0.0));
@@ -83,7 +85,7 @@ package body Navigation.Drift_Controller is
       fDriftComponent := Math.Vectors.fDot_Product(xAbsoluteVelocityVector, xAbsoluteDirectionVector);
 
       xAbsoluteDriftVelocityVector := xAbsoluteVelocityVector - (xAbsoluteDirectionVector * fDriftComponent);
-      xRelativeDriftVelocityVector := this.pxCurrentAbsoluteOrientation.xGet_Inverse * xAbsoluteDriftVelocityVector;
+      xRelativeDriftVelocityVector := this.pxCurrentAbsoluteOrientationInverse.all * xAbsoluteDriftVelocityVector;
 
       this.pxXDriftMotionComponent.Update_Current_Error(xRelativeDriftVelocityVector.fGet_X);
       this.pxYDriftMotionComponent.Update_Current_Error(xRelativeDriftVelocityVector.fGet_Y);

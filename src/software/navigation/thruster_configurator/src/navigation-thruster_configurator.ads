@@ -13,7 +13,8 @@ package Navigation.Thruster_Configurator is
    procedure Free(pxThrusterConfiguratorToDeallocate : in out pCThrusterConfigurator);
 
 
-   type TExtendedMatrix is array(POSITIVE range <>, POSITIVE range <>) of float;
+   type TExtendedMatrix is array(1 .. 6, 1 .. 12) of float;
+   type TMatrix is array(1 .. 6, 1 .. 6) of float;
 
 
    function pxCreate return pCThrusterConfigurator;
@@ -25,7 +26,6 @@ package Navigation.Thruster_Configurator is
 
 private
 
-   function tfGet_Results_Vector_From(tfExtendedMatrix : in TExtendedMatrix) return Navigation.Thrusters.TThrusterValuesArray;
    procedure Remove_Component_In_Leading_Rows(tfExtendedMatrix : in out TExtendedMatrix; iRow : in integer);
    procedure Remove_Component_In_Following_Rows(tfExtendedMatrix : in out TExtendedMatrix; iRow : in integer);
    procedure Scale_Row_In_Extended_Matrix(tfExtendedMatrix : in out TExtendedMatrix; iStartingColumn : in integer);
@@ -36,10 +36,14 @@ private
    function tfCreate_Extended_Matrix(this : in CThrusterConfigurator) return TExtendedMatrix;
    procedure Insert_Component_Values_In_Extended_Matrix(tfExtendedMatrix : in out TExtendedMatrix; tfComponentValues : in Navigation.Thrusters.TThrusterEffects);
    procedure Perform_Gauss_Jordan_Elimination_On(tfExtendedMatrix : in out TExtendedMatrix);
+   procedure Set_Inverse(this : in out CThrusterConfigurator);
+   function tfGet_Inverse_Part_Of(tfExtendedMatrix : in TExtendedMatrix) return TMatrix;
+   function tfMultiply_Values_With_Matrix(this : in CThrusterConfigurator; tfComponentValues : in Navigation.Thrusters.TThrusterEffects) return Navigation.Thrusters.TThrusterValuesArray;
 
    type CThrusterConfigurator is new Ada.Finalization.Controlled with
       record
          pxThrusterList : Navigation.Thrusters.pCThruster;
+         tfInverseMatrixForThrusterConfiguration : TMatrix;
       end record;
 
    procedure Finalize(this : in out CThrusterConfigurator);

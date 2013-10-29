@@ -14,7 +14,7 @@ package Exception_Handling is
    SingularMatrix : exception;
    --  <summary>Singular matrix exception, thrown by operations not permitted with a singular matrix. I.e gauss-jordan elimination</summary>
 
-   ParallelPlanes : exception;
+   NoIntersectionBetweenPlanes : exception;
    --  <summary>Parallel planes exception, thrown by operations not permitted with two parallel planes. I.e when trying to find a instersection vector between two planes</summary>
 
    DivisionByZero : exception;

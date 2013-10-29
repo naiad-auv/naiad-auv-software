@@ -24,6 +24,8 @@ package Math.Planes is
 
    function pxGet_Copy(this : in CPlane) return pCPlane;
 
+   --procedure Log_Plane(this : in CPlane);
+
    function xGet_Normal_Vector (this : in CPlane) return Math.Vectors.CVector;
    --  <summary>Returns a copy of the plane's normal vector.</summary>
    --  <parameter name="this">Represents the plane which the normal vector will be copied from.</parameter>

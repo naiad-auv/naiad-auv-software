@@ -7,9 +7,10 @@
 
 with AUnit.Assertions; use AUnit.Assertions;
 with System; use System;
-with Math.Vectors; use Math.Vectors;
-with math.Matrices; use math.Matrices;
-with math.Quaternions; use math.Quaternions;
+with math.Vectors; use Math.Vectors;
+with math.Matrices; use Math.Matrices;
+with math.Angles; use math.Angles;
+with Simulator.Motor_Info; use Simulator.Motor_Info;
 with ada.Text_IO; use ada.Text_IO;
 
 package body simulator.submarine.CSubmarine_Test_Data.CSubmarine_Tests is
@@ -20,7 +21,7 @@ package body simulator.submarine.CSubmarine_Test_Data.CSubmarine_Tests is
    procedure Test_pxGet_Position_Vector_1a4a9e (Gnattest_T : in out Test_CSubmarine) renames Test_pxGet_Position_Vector;
 --  id:2.1/1a4a9e42b6f7389a/pxGet_Position_Vector/1/0/
    procedure Test_pxGet_Position_Vector (Gnattest_T : in out Test_CSubmarine) is
-   --  simulator-submarine.ads:19:4:pxGet_Position_Vector
+   --  simulator-submarine.ads:20:4:pxGet_Position_Vector
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -49,7 +50,7 @@ package body simulator.submarine.CSubmarine_Test_Data.CSubmarine_Tests is
    procedure Test_pxGet_Velocity_Vector_feac87 (Gnattest_T : in out Test_CSubmarine) renames Test_pxGet_Velocity_Vector;
 --  id:2.1/feac874dcd43d0b4/pxGet_Velocity_Vector/1/0/
    procedure Test_pxGet_Velocity_Vector (Gnattest_T : in out Test_CSubmarine) is
-   --  simulator-submarine.ads:20:4:pxGet_Velocity_Vector
+   --  simulator-submarine.ads:21:4:pxGet_Velocity_Vector
 --  end read only
 
       pxSubmarine : simulator.submarine.pCSubmarine;
@@ -75,7 +76,7 @@ package body simulator.submarine.CSubmarine_Test_Data.CSubmarine_Tests is
    procedure Test_pxGet_Orientation_Matrix_a37cba (Gnattest_T : in out Test_CSubmarine) renames Test_pxGet_Orientation_Matrix;
 --  id:2.1/a37cbadda4a40973/pxGet_Orientation_Matrix/1/0/
    procedure Test_pxGet_Orientation_Matrix (Gnattest_T : in out Test_CSubmarine) is
-   --  simulator-submarine.ads:21:4:pxGet_Orientation_Matrix
+   --  simulator-submarine.ads:22:4:pxGet_Orientation_Matrix
 --  end read only
       pragma Unreferenced (Gnattest_T);
       pxSubmarine : simulator.submarine.pCSubmarine;
@@ -102,7 +103,7 @@ package body simulator.submarine.CSubmarine_Test_Data.CSubmarine_Tests is
    procedure Test_pxGet_Angular_Velocity_Vector_1d26d6 (Gnattest_T : in out Test_CSubmarine) renames Test_pxGet_Angular_Velocity_Vector;
 --  id:2.1/1d26d6e8225b344c/pxGet_Angular_Velocity_Vector/1/0/
    procedure Test_pxGet_Angular_Velocity_Vector (Gnattest_T : in out Test_CSubmarine) is
-   --  simulator-submarine.ads:22:4:pxGet_Angular_Velocity_Vector
+   --  simulator-submarine.ads:23:4:pxGet_Angular_Velocity_Vector
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -129,7 +130,7 @@ package body simulator.submarine.CSubmarine_Test_Data.CSubmarine_Tests is
    procedure Test_pxGet_Motor_Values_45ed60 (Gnattest_T : in out Test_CSubmarine) renames Test_pxGet_Motor_Values;
 --  id:2.1/45ed60b2ccf2eafa/pxGet_Motor_Values/1/0/
    procedure Test_pxGet_Motor_Values (Gnattest_T : in out Test_CSubmarine) is
-   --  simulator-submarine.ads:23:4:pxGet_Motor_Values
+   --  simulator-submarine.ads:24:4:pxGet_Motor_Values
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -160,7 +161,7 @@ package body simulator.submarine.CSubmarine_Test_Data.CSubmarine_Tests is
    procedure Test_Set_Position_Vector_decf7f (Gnattest_T : in out Test_CSubmarine) renames Test_Set_Position_Vector;
 --  id:2.1/decf7f4f687e05e2/Set_Position_Vector/1/0/
    procedure Test_Set_Position_Vector (Gnattest_T : in out Test_CSubmarine) is
-   --  simulator-submarine.ads:25:4:Set_Position_Vector
+   --  simulator-submarine.ads:26:4:Set_Position_Vector
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -184,7 +185,7 @@ package body simulator.submarine.CSubmarine_Test_Data.CSubmarine_Tests is
    procedure Test_Set_Orientation_Matrix_6a4bc0 (Gnattest_T : in out Test_CSubmarine) renames Test_Set_Orientation_Matrix;
 --  id:2.1/6a4bc0b1aa52b33b/Set_Orientation_Matrix/1/0/
    procedure Test_Set_Orientation_Matrix (Gnattest_T : in out Test_CSubmarine) is
-   --  simulator-submarine.ads:26:4:Set_Orientation_Matrix
+   --  simulator-submarine.ads:27:4:Set_Orientation_Matrix
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -208,7 +209,7 @@ package body simulator.submarine.CSubmarine_Test_Data.CSubmarine_Tests is
    procedure Test_Set_Velocity_Vector_174b8c (Gnattest_T : in out Test_CSubmarine) renames Test_Set_Velocity_Vector;
 --  id:2.1/174b8c1749988537/Set_Velocity_Vector/1/0/
    procedure Test_Set_Velocity_Vector (Gnattest_T : in out Test_CSubmarine) is
-   --  simulator-submarine.ads:27:4:Set_Velocity_Vector
+   --  simulator-submarine.ads:28:4:Set_Velocity_Vector
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -232,7 +233,7 @@ package body simulator.submarine.CSubmarine_Test_Data.CSubmarine_Tests is
    procedure Test_Set_Angular_Velocity_Vector_49aadb (Gnattest_T : in out Test_CSubmarine) renames Test_Set_Angular_Velocity_Vector;
 --  id:2.1/49aadb28185370c1/Set_Angular_Velocity_Vector/1/0/
    procedure Test_Set_Angular_Velocity_Vector (Gnattest_T : in out Test_CSubmarine) is
-   --  simulator-submarine.ads:28:4:Set_Angular_Velocity_Vector
+   --  simulator-submarine.ads:29:4:Set_Angular_Velocity_Vector
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -256,8 +257,7 @@ package body simulator.submarine.CSubmarine_Test_Data.CSubmarine_Tests is
    procedure Test_Set_Motor_Info_ae0f8d (Gnattest_T : in out Test_CSubmarine) renames Test_Set_Motor_Info;
 --  id:2.1/ae0f8d45af54da56/Set_Motor_Info/1/0/
    procedure Test_Set_Motor_Info (Gnattest_T : in out Test_CSubmarine) is
-      use simulator.Motor_Info;
-   --  simulator-submarine.ads:30:4:Set_Motor_Info
+   --  simulator-submarine.ads:31:4:Set_Motor_Info
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -287,7 +287,7 @@ package body simulator.submarine.CSubmarine_Test_Data.CSubmarine_Tests is
    procedure Test_Set_Motor_Force_22e88d (Gnattest_T : in out Test_CSubmarine) renames Test_Set_Motor_Force;
 --  id:2.1/22e88dd077a74849/Set_Motor_Force/1/0/
    procedure Test_Set_Motor_Force (Gnattest_T : in out Test_CSubmarine) is
-   --  simulator-submarine.ads:31:4:Set_Motor_Force
+   --  simulator-submarine.ads:32:4:Set_Motor_Force
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -313,7 +313,7 @@ package body simulator.submarine.CSubmarine_Test_Data.CSubmarine_Tests is
    procedure Test_Set_Weight_df8cdc (Gnattest_T : in out Test_CSubmarine) renames Test_Set_Weight;
 --  id:2.1/df8cdc5661478d3b/Set_Weight/1/0/
    procedure Test_Set_Weight (Gnattest_T : in out Test_CSubmarine) is
-   --  simulator-submarine.ads:33:4:Set_Weight
+   --  simulator-submarine.ads:34:4:Set_Weight
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -336,7 +336,7 @@ package body simulator.submarine.CSubmarine_Test_Data.CSubmarine_Tests is
    procedure Test_Set_Buoyancy_Force_c2f9a4 (Gnattest_T : in out Test_CSubmarine) renames Test_Set_Buoyancy_Force;
 --  id:2.1/c2f9a4c4dd7e622e/Set_Buoyancy_Force/1/0/
    procedure Test_Set_Buoyancy_Force (Gnattest_T : in out Test_CSubmarine) is
-   --  simulator-submarine.ads:34:4:Set_Buoyancy_Force
+   --  simulator-submarine.ads:35:4:Set_Buoyancy_Force
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -358,7 +358,7 @@ package body simulator.submarine.CSubmarine_Test_Data.CSubmarine_Tests is
    procedure Test_Set_Buoyancy_Force_Position_Vector_dee059 (Gnattest_T : in out Test_CSubmarine) renames Test_Set_Buoyancy_Force_Position_Vector;
 --  id:2.1/dee05945749e1845/Set_Buoyancy_Force_Position_Vector/1/0/
    procedure Test_Set_Buoyancy_Force_Position_Vector (Gnattest_T : in out Test_CSubmarine) is
-   --  simulator-submarine.ads:35:4:Set_Buoyancy_Force_Position_Vector
+   --  simulator-submarine.ads:36:4:Set_Buoyancy_Force_Position_Vector
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -383,7 +383,7 @@ package body simulator.submarine.CSubmarine_Test_Data.CSubmarine_Tests is
    procedure Test_Set_Rotation_Friction_Vector_b6db04 (Gnattest_T : in out Test_CSubmarine) renames Test_Set_Rotation_Friction_Vector;
 --  id:2.1/b6db04c658b520c3/Set_Rotation_Friction_Vector/1/0/
    procedure Test_Set_Rotation_Friction_Vector (Gnattest_T : in out Test_CSubmarine) is
-   --  simulator-submarine.ads:36:4:Set_Rotation_Friction_Vector
+   --  simulator-submarine.ads:37:4:Set_Rotation_Friction_Vector
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -407,7 +407,7 @@ package body simulator.submarine.CSubmarine_Test_Data.CSubmarine_Tests is
    procedure Test_Set_Veclocity_Friction_Vector_57733d (Gnattest_T : in out Test_CSubmarine) renames Test_Set_Veclocity_Friction_Vector;
 --  id:2.1/57733d9b83fc2da3/Set_Veclocity_Friction_Vector/1/0/
    procedure Test_Set_Veclocity_Friction_Vector (Gnattest_T : in out Test_CSubmarine) is
-   --  simulator-submarine.ads:37:4:Set_Veclocity_Friction_Vector
+   --  simulator-submarine.ads:38:4:Set_Veclocity_Friction_Vector
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -431,7 +431,7 @@ package body simulator.submarine.CSubmarine_Test_Data.CSubmarine_Tests is
    procedure Test_Set_Inertia_Matrix_5d5d83 (Gnattest_T : in out Test_CSubmarine) renames Test_Set_Inertia_Matrix;
 --  id:2.1/5d5d836ead8b845c/Set_Inertia_Matrix/1/0/
    procedure Test_Set_Inertia_Matrix (Gnattest_T : in out Test_CSubmarine) is
-   --  simulator-submarine.ads:39:4:Set_Inertia_Matrix
+   --  simulator-submarine.ads:40:4:Set_Inertia_Matrix
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -457,7 +457,7 @@ package body simulator.submarine.CSubmarine_Test_Data.CSubmarine_Tests is
    procedure Test_Calculate_Acceleration_559bc8 (Gnattest_T : in out Test_CSubmarine) renames Test_Calculate_Acceleration;
 --  id:2.1/559bc85b126f9fe1/Calculate_Acceleration/1/0/
    procedure Test_Calculate_Acceleration (Gnattest_T : in out Test_CSubmarine) is
-   --  simulator-submarine.ads:41:4:Calculate_Acceleration
+   --  simulator-submarine.ads:42:4:Calculate_Acceleration
 --  end read only
 
       use math.Vectors;
@@ -513,7 +513,7 @@ package body simulator.submarine.CSubmarine_Test_Data.CSubmarine_Tests is
    procedure Test_Calculate_Angular_Acceleration_daef8b (Gnattest_T : in out Test_CSubmarine) renames Test_Calculate_Angular_Acceleration;
 --  id:2.1/daef8b88a1a16409/Calculate_Angular_Acceleration/1/0/
    procedure Test_Calculate_Angular_Acceleration (Gnattest_T : in out Test_CSubmarine) is
-   --  simulator-submarine.ads:42:4:Calculate_Angular_Acceleration
+   --  simulator-submarine.ads:43:4:Calculate_Angular_Acceleration
 --  end read only
       use math.Vectors;
       use math.Matrices;
@@ -567,7 +567,7 @@ package body simulator.submarine.CSubmarine_Test_Data.CSubmarine_Tests is
    procedure Test_Integrate_Submarine_Variables_8288c8 (Gnattest_T : in out Test_CSubmarine) renames Test_Integrate_Submarine_Variables;
 --  id:2.1/8288c89aefabd6d4/Integrate_Submarine_Variables/1/0/
    procedure Test_Integrate_Submarine_Variables (Gnattest_T : in out Test_CSubmarine) is
-   --  simulator-submarine.ads:43:4:Integrate_Submarine_Variables
+   --  simulator-submarine.ads:44:4:Integrate_Submarine_Variables
 --  end read only
 
 
@@ -652,10 +652,10 @@ package body simulator.submarine.CSubmarine_Test_Data.CSubmarine_Tests is
 
 --  begin read only
    procedure Test_Time_Step_Motor_Force_To_Integrate (Gnattest_T : in out Test_CSubmarine);
-   procedure Test_Time_Step_Motor_Force_To_Integrate_b83376 (Gnattest_T : in out Test_CSubmarine) renames Test_Time_Step_Motor_Force_To_Integrate;
---  id:2.1/b833764d3f5e0f37/Time_Step_Motor_Force_To_Integrate/1/0/
+   procedure Test_Time_Step_Motor_Force_To_Integrate_5a3176 (Gnattest_T : in out Test_CSubmarine) renames Test_Time_Step_Motor_Force_To_Integrate;
+--  id:2.1/5a31763b92496da9/Time_Step_Motor_Force_To_Integrate/1/0/
    procedure Test_Time_Step_Motor_Force_To_Integrate (Gnattest_T : in out Test_CSubmarine) is
-   --  simulator-submarine.ads:45:4:Time_Step_Motor_Force_To_Integrate
+   --  simulator-submarine.ads:46:4:Time_Step_Motor_Force_To_Integrate
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -681,7 +681,7 @@ package body simulator.submarine.CSubmarine_Test_Data.CSubmarine_Tests is
    procedure Test_Set_Gripper_Left_Status_9066c9 (Gnattest_T : in out Test_CSubmarine) renames Test_Set_Gripper_Left_Status;
 --  id:2.1/9066c9efe19c9d07/Set_Gripper_Left_Status/1/0/
    procedure Test_Set_Gripper_Left_Status (Gnattest_T : in out Test_CSubmarine) is
-   --  simulator-submarine.ads:47:4:Set_Gripper_Left_Status
+   --  simulator-submarine.ads:48:4:Set_Gripper_Left_Status
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -695,6 +695,9 @@ package body simulator.submarine.CSubmarine_Test_Data.CSubmarine_Tests is
       Aunit.Assertions.Assert(Condition => pxSubmarine.bGripperLeft = false,
                               Message   => "Simulator.Submarine.Set_Gripper_Left_Status failed, was true should have been false");
 
+
+
+--  begin read only
    end Test_Set_Gripper_Left_Status;
 --  end read only
 
@@ -704,20 +707,19 @@ package body simulator.submarine.CSubmarine_Test_Data.CSubmarine_Tests is
    procedure Test_Set_Gripper_Right_Status_82ca32 (Gnattest_T : in out Test_CSubmarine) renames Test_Set_Gripper_Right_Status;
 --  id:2.1/82ca32037c3a658c/Set_Gripper_Right_Status/1/0/
    procedure Test_Set_Gripper_Right_Status (Gnattest_T : in out Test_CSubmarine) is
-   --  simulator-submarine.ads:48:4:Set_Gripper_Right_Status
+   --  simulator-submarine.ads:49:4:Set_Gripper_Right_Status
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
       pxSubmarine : simulator.submarine.pCSubmarine;
    begin
       pxSubmarine := simulator.submarine.pxCreate;
-      pxSubmarine.Set_Gripper_Right_Status(true);
-      Aunit.Assertions.Assert(Condition => pxSubmarine.bGripperRight = true,
-                              Message   => "Simulator.Submarine.Set_Gripper_Right_Status failed, was false should have been true");
-      pxSubmarine.Set_Gripper_Right_Status(false);
-      Aunit.Assertions.Assert(Condition => pxSubmarine.bGripperRight = false,
-                              Message   => "Simulator.Submarine.Set_Gripper_Right_Status failed, was true should have been false");
-
+      pxSubmarine.Set_Dropper_Right_Status(true);
+      Aunit.Assertions.Assert(Condition => pxSubmarine.bDropperRight = true,
+                              Message   => "Simulator.Submarine.Set_Dropper_Right_Status failed, was false should have been true");
+      pxSubmarine.Set_Dropper_Right_Status(false);
+      Aunit.Assertions.Assert(Condition => pxSubmarine.bDropperRight = false,
+                              Message   => "Simulator.Submarine.Set_Dropper_Right_Status failed, was true should have been false");
 --  begin read only
    end Test_Set_Gripper_Right_Status;
 --  end read only
@@ -728,7 +730,7 @@ package body simulator.submarine.CSubmarine_Test_Data.CSubmarine_Tests is
    procedure Test_Set_Dropper_Left_Status_9382b7 (Gnattest_T : in out Test_CSubmarine) renames Test_Set_Dropper_Left_Status;
 --  id:2.1/9382b717e35a9866/Set_Dropper_Left_Status/1/0/
    procedure Test_Set_Dropper_Left_Status (Gnattest_T : in out Test_CSubmarine) is
-   --  simulator-submarine.ads:49:4:Set_Dropper_Left_Status
+   --  simulator-submarine.ads:50:4:Set_Dropper_Left_Status
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -751,7 +753,7 @@ package body simulator.submarine.CSubmarine_Test_Data.CSubmarine_Tests is
    procedure Test_Set_Dropper_Right_Status_c22d27 (Gnattest_T : in out Test_CSubmarine) renames Test_Set_Dropper_Right_Status;
 --  id:2.1/c22d27f57bbbd985/Set_Dropper_Right_Status/1/0/
    procedure Test_Set_Dropper_Right_Status (Gnattest_T : in out Test_CSubmarine) is
-   --  simulator-submarine.ads:50:4:Set_Dropper_Right_Status
+   --  simulator-submarine.ads:51:4:Set_Dropper_Right_Status
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -777,7 +779,7 @@ package body simulator.submarine.CSubmarine_Test_Data.CSubmarine_Tests is
    procedure Test_Set_Depth_3efef2 (Gnattest_T : in out Test_CSubmarine) renames Test_Set_Depth;
 --  id:2.1/3efef2efc816260b/Set_Depth/1/0/
    procedure Test_Set_Depth (Gnattest_T : in out Test_CSubmarine) is
-   --  simulator-submarine.ads:51:4:Set_Depth
+   --  simulator-submarine.ads:52:4:Set_Depth
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -801,7 +803,7 @@ package body simulator.submarine.CSubmarine_Test_Data.CSubmarine_Tests is
    procedure Test_bGet_Gripper_Left_Status_878bba (Gnattest_T : in out Test_CSubmarine) renames Test_bGet_Gripper_Left_Status;
 --  id:2.1/878bbaa6f638f496/bGet_Gripper_Left_Status/1/0/
    procedure Test_bGet_Gripper_Left_Status (Gnattest_T : in out Test_CSubmarine) is
-   --  simulator-submarine.ads:53:4:bGet_Gripper_Left_Status
+   --  simulator-submarine.ads:54:4:bGet_Gripper_Left_Status
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -826,7 +828,7 @@ package body simulator.submarine.CSubmarine_Test_Data.CSubmarine_Tests is
    procedure Test_bGet_Gripper_Right_Status_d2fdd1 (Gnattest_T : in out Test_CSubmarine) renames Test_bGet_Gripper_Right_Status;
 --  id:2.1/d2fdd1965550a2c6/bGet_Gripper_Right_Status/1/0/
    procedure Test_bGet_Gripper_Right_Status (Gnattest_T : in out Test_CSubmarine) is
-   --  simulator-submarine.ads:54:4:bGet_Gripper_Right_Status
+   --  simulator-submarine.ads:55:4:bGet_Gripper_Right_Status
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -851,7 +853,7 @@ package body simulator.submarine.CSubmarine_Test_Data.CSubmarine_Tests is
    procedure Test_bGet_Dropper_Left_Status_e732c2 (Gnattest_T : in out Test_CSubmarine) renames Test_bGet_Dropper_Left_Status;
 --  id:2.1/e732c2ac5f279402/bGet_Dropper_Left_Status/1/0/
    procedure Test_bGet_Dropper_Left_Status (Gnattest_T : in out Test_CSubmarine) is
-   --  simulator-submarine.ads:55:4:bGet_Dropper_Left_Status
+   --  simulator-submarine.ads:56:4:bGet_Dropper_Left_Status
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -875,7 +877,7 @@ package body simulator.submarine.CSubmarine_Test_Data.CSubmarine_Tests is
    procedure Test_bGet_Dropper_Right_Status_be1f1c (Gnattest_T : in out Test_CSubmarine) renames Test_bGet_Dropper_Right_Status;
 --  id:2.1/be1f1cc24987f329/bGet_Dropper_Right_Status/1/0/
    procedure Test_bGet_Dropper_Right_Status (Gnattest_T : in out Test_CSubmarine) is
-   --  simulator-submarine.ads:56:4:bGet_Dropper_Right_Status
+   --  simulator-submarine.ads:57:4:bGet_Dropper_Right_Status
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -900,7 +902,7 @@ package body simulator.submarine.CSubmarine_Test_Data.CSubmarine_Tests is
    procedure Test_fGet_Depth_100ec6 (Gnattest_T : in out Test_CSubmarine) renames Test_fGet_Depth;
 --  id:2.1/100ec640b5133647/fGet_Depth/1/0/
    procedure Test_fGet_Depth (Gnattest_T : in out Test_CSubmarine) is
-   --  simulator-submarine.ads:57:4:fGet_Depth
+   --  simulator-submarine.ads:58:4:fGet_Depth
 --  end read only
 
       pragma Unreferenced (Gnattest_T);

@@ -8,7 +8,9 @@ package body Navigation.Dispatcher is
       pxNewDispatcher.pxThrusterConfigurator := Navigation.Thruster_Configurator.pxCreate;
 
       pxNewDispatcher.pxCurrentAbsoluteOrientation := Math.Matrices.xCreate_Identity.pxGet_Copy;
-      pxNewDispatcher.pxWantedAbsoluteOrientation := Math.Matrices.xCreate_Identity.pxGet_Copy;
+      pxNewDispatcher.pxWantedAbsoluteOrientation := pxNewDispatcher.pxCurrentAbsoluteOrientation.pxGet_Copy;
+      pxNewDispatcher.pxCurrentAbsoluteOrientationInverse := pxNewDispatcher.pxCurrentAbsoluteOrientation.pxGet_Copy;
+
 
       pxNewDispatcher.pxCurrentAbsolutePosition := Math.Vectors.pxCreate(fX => 0.0,
                                                                          fY => 0.0,
@@ -19,13 +21,16 @@ package body Navigation.Dispatcher is
                                                                         fZ => 0.0);
 
       pxNewDispatcher.pxOrientationalController := Navigation.Orientational_Controller.pxCreate(pxCurrentAbsoluteOrientation => pxNewDispatcher.pxCurrentAbsoluteOrientation,
-                                                                                                pxWantedAbsoluteOrientation  => pxNewDispatcher.pxWantedAbsoluteOrientation);
+                                                                                                pxWantedAbsoluteOrientation  => pxNewDispatcher.pxWantedAbsoluteOrientation,
+                                                                                               pxCurrentAbsoluteOrientationInverse => pxNewDispatcher.pxCurrentAbsoluteOrientationInverse);
       pxNewDispatcher.pxPositionalController := Navigation.Positional_Controller.pxCreate(pxCurrentAbsolutePosition    => pxNewDispatcher.pxCurrentAbsolutePosition,
                                                                                           pxWantedAbsolutePosition     => pxNewDispatcher.pxWantedAbsolutePosition,
-                                                                                          pxCurrentAbsoluteOrientation => pxNewDispatcher.pxCurrentAbsoluteOrientation);
+                                                                                          pxCurrentAbsoluteOrientation => pxNewDispatcher.pxCurrentAbsoluteOrientation,
+                                                                                         pxCurrentAbsoluteOrientationInverse => pxNewDispatcher.pxCurrentAbsoluteOrientationInverse);
       pxNewDispatcher.pxDriftController := Navigation.Drift_Controller.pxCreate(pxCurrentAbsolutePosition    => pxNewDispatcher.pxCurrentAbsolutePosition,
                                                                                 pxWantedAbsolutePosition     => pxNewDispatcher.pxWantedAbsolutePosition,
-                                                                                pxCurrentAbsoluteOrientation => pxNewDispatcher.pxCurrentAbsoluteOrientation);
+                                                                                pxCurrentAbsoluteOrientation => pxNewDispatcher.pxCurrentAbsoluteOrientation,
+                                                                               pxCurrentAbsoluteOrientationInverse => pxNewDispatcher.pxCurrentAbsoluteOrientationInverse);
 
       --Ada.Text_IO.Put_Line("CAO: " & System.Address_Image(pxNewDispatcher.pxCurrentAbsoluteOrientation.all'Address));
       --Ada.Text_IO.Put_Line("WAO: " & System.Address_Image(pxNewDispatcher.pxWantedAbsoluteOrientation.all'Address));
@@ -36,8 +41,7 @@ package body Navigation.Dispatcher is
 
    function tfGet_Thruster_Values(this : in CDispatcher; fDeltaTime : in float) return Navigation.Thrusters.TThrusterValuesArray is
       use Navigation.Thrusters;
-      tfThrusterValues : Navigation.Thrusters.TThrusterValuesArray(1 .. this.pxThrusterConfigurator.iGet_Number_Of_Thrusters);
-      tfThrusterEffectsMatrix : Navigation.Thrusters.TThrusterEffectsMatrix(1 .. this.pxThrusterConfigurator.iGet_Number_Of_Thrusters+1);
+      tfThrusterValues : Navigation.Thrusters.TThrusterValuesArray;
       tfPositionalValues : Navigation.Thrusters.TThrusterEffects;
       tfOrientationalValues : Navigation.Thrusters.TThrusterEffects;
       tfDriftValues : Navigation.Thrusters.TThrusterEffects;
@@ -45,16 +49,20 @@ package body Navigation.Dispatcher is
       iThrusterCount : integer;
 
    begin
+
       iThrusterCount := this.pxThrusterConfigurator.iGet_Number_Of_Thrusters;
-      tfThrusterEffectsMatrix := this.pxThrusterConfigurator.tfGet_Thruster_Effects_Matrix;
 
       this.pxPositionalController.Update_Current_Errors;
       this.pxOrientationalController.Update_Current_Errors;
       this.pxDriftController.Update_Current_Errors;
 
+
+
       tfPositionalValues := this.pxPositionalController.xGet_Positional_Thruster_Control_Values(fDeltaTime);
       tfOrientationalValues := this.pxOrientationalController.xGet_Orientational_Thruster_Control_Values(fDeltaTime);
       tfDriftValues := this.pxDriftController.xGet_Positional_Thruster_Control_Values(fDeltaTime);
+
+
 
 --        for i in tfOrientationalValues'Range loop
 --           Ada.Text_IO.Put_Line("Ori " & integer'Image(EThrusterEffectsComponents'Pos(i)) & ": " & float'Image(tfOrientationalValues(i)));
@@ -116,6 +124,7 @@ package body Navigation.Dispatcher is
    procedure Update_Current_Absolute_Orientation (this : in out CDispatcher; xNewCurrentAbsoluteOrientation : in Math.Matrices.CMatrix) is
    begin
       this.pxCurrentAbsoluteOrientation.Copy_From(xNewCurrentAbsoluteOrientation);
+      this.pxCurrentAbsoluteOrientationInverse.Copy_From(xSourceMatrix => this.pxCurrentAbsoluteOrientation.xGet_Inverse);
    end Update_Current_Absolute_Orientation;
 
    procedure Update_Wanted_Absolute_Orientation (this : in out CDispatcher; xNewWantedAbsoluteOrientation : in Math.Matrices.CMatrix) is

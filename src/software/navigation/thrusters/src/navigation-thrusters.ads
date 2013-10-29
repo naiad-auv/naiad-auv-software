@@ -10,8 +10,8 @@ package Navigation.Thrusters is
 
    type EThrusterEffectsComponents is (XPosition, YPosition, ZPosition, XRotation, YRotation, ZRotation);
    type TThrusterEffects is array (XPosition .. ZRotation) of float;
-   type TThrusterEffectsMatrix is array (POSITIVE range <>) of TThrusterEffects;
-   type TThrusterValuesArray is array (POSITIVE range <>) of float;
+   type TThrusterEffectsMatrix is array (1 .. 6) of TThrusterEffects;
+   type TThrusterValuesArray is array (1 .. 6) of float;
 
    function pxCreate (tfThrusterEffects : in TThrusterEffects) return pCThruster;
 

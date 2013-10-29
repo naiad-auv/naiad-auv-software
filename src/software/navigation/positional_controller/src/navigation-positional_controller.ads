@@ -16,7 +16,7 @@ package Navigation.Positional_Controller is
 
    procedure Free(pxPositionalControllerToDeallocate : in out pCPositionalController);
 
-   function pxCreate (pxCurrentAbsolutePosition : in Math.Vectors.pCVector; pxWantedAbsolutePosition : in Math.Vectors.pCVector; pxCurrentAbsoluteOrientation : in Math.Matrices.pCMatrix) return pCPositionalController;
+   function pxCreate (pxCurrentAbsolutePosition : in Math.Vectors.pCVector; pxWantedAbsolutePosition : in Math.Vectors.pCVector; pxCurrentAbsoluteOrientation : in Math.Matrices.pCMatrix; pxCurrentAbsoluteOrientationInverse : in Math.Matrices.pCMatrix) return pCPositionalController;
    --  <summary>Creates an object of type CPositionalController and sets references to the current and wanted position</summary>
    --  <parameter name="pxCurrentAbsoluteOrientation">A reference to the current absolute position</parameter>
    --  <parameter name="pxWantedAbsoluteOrientation">A reference to the wanted absolute position</parameter>
@@ -44,6 +44,7 @@ private
          pxCurrentAbsolutePosition : Math.Vectors.pCVector;
 
          pxCurrentAbsoluteOrientation : Math.Matrices.pCMatrix;
+         pxCurrentAbsoluteOrientationInverse : Math.Matrices.pCMatrix;
 
          pxXMotionComponent : Navigation.Motion_Component.pCMotionComponent;
          pxYMotionComponent : Navigation.Motion_Component.pCMotionComponent;
