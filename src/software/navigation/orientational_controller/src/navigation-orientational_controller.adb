@@ -1,4 +1,4 @@
-
+with Exception_Handling;
 
 package body Navigation.Orientational_Controller is
 
@@ -10,8 +10,8 @@ package body Navigation.Orientational_Controller is
 
       pxOrientationalController := new Navigation.Orientational_Controller.COrientationalController;
 
-      pxOrientationalController.pxCurrentToWantedPlaneRotation := Math.Quaternions.pxCreate(xAxisVector     => Math.Matrices.xCreate_Identity.xGet_X_Vector,
-                                                                                            fAngleInDegrees => 0.0);
+      pxOrientationalController.pxCurrentToWantedPlaneRotation := Math.Quaternions.xCreate(xAxisVector     => Math.Matrices.xCreate_Identity.xGet_X_Vector,
+                                                                                            fAngleInDegrees => 0.0).pxGet_Allocated_Copy;
 
       pxOrientationalController.pxCurrentAbsoluteOrientation := pxCurrentAbsoluteOrientation;
       pxOrientationalController.pxWantedAbsoluteOrientation := pxWantedAbsoluteOrientation;
@@ -106,8 +106,8 @@ package body Navigation.Orientational_Controller is
       xWantedRelativeOrientation := this.pxCurrentAbsoluteOrientationInverse.all * this.pxWantedAbsoluteOrientation.all;
 
 
-      pxCurrentRelativePlane := Math.Planes.pxCreate(xNormalVector      => Math.Vectors.xCross_Product(xCurrentRelativeOrientation.xGet_X_Vector, xCurrentRelativeOrientation.xGet_Y_Vector),
-                                                     fDistanceFromOrigin => 0.0);
+      pxCurrentRelativePlane := Math.Planes.xCreate(xNormalVector      => Math.Vectors.xCross_Product(xCurrentRelativeOrientation.xGet_X_Vector, xCurrentRelativeOrientation.xGet_Y_Vector),
+                                                     fDistanceFromOrigin => 0.0).pxGet_Allocated_Copy;
       xCurrentRelativePlane.Copy_From(xSourcePlane => pxCurrentRelativePlane.all);
       Math.Planes.Free(pxPlaneToDeallocate => pxCurrentRelativePlane);
       xWantedRelativePlane := xWantedRelativeOrientation * xCurrentRelativePlane;
@@ -116,8 +116,8 @@ package body Navigation.Orientational_Controller is
 
 
       fAngleBetweenPlanesInDegrees := Math.Planes.fAngle_Between_In_Degrees(xCurrentRelativePlane, xWantedRelativePlane);
-      pxNewCurrentToWantedPlaneRotation := Math.Quaternions.pxCreate(xAxisVector => Math.Planes.xGet_Intersection_Vector_Between(xCurrentRelativePlane, xWantedRelativePlane),
-                                                                     fAngleInDegrees => fAngleBetweenPlanesInDegrees);
+      pxNewCurrentToWantedPlaneRotation := Math.Quaternions.xCreate(xAxisVector => Math.Planes.xGet_Intersection_Vector_Between(xCurrentRelativePlane, xWantedRelativePlane),
+                                                                     fAngleInDegrees => fAngleBetweenPlanesInDegrees).pxGet_Allocated_Copy;
 
 
       this.pxCurrentToWantedPlaneRotation.Copy_From(xSourceQuaternion => pxNewCurrentToWantedPlaneRotation.all);

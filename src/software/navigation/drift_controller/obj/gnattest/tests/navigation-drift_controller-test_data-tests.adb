@@ -6,9 +6,6 @@
 --  placed into Navigation.Drift_Controller.Test_Data.
 
 with AUnit.Assertions; use AUnit.Assertions;
-with math.Vectors; use math.Vectors;
-with math.Matrices; use math.Matrices;
-with navigation.Motion_Component; use navigation.Motion_Component;
 
 package body Navigation.Drift_Controller.Test_Data.Tests is
 
@@ -31,13 +28,14 @@ package body Navigation.Drift_Controller.Test_Data.Tests is
 
    begin
 
-      pxCurrentPos := math.Vectors.pxCreate(0.0,0.0,0.0);
-      pxWantedPos := math.Vectors.pxCreate(0.0,0.0,0.0);
-      pxCurrentOrientation := math.Matrices.xCreate_Identity.pxGet_Copy;
+      pxCurrentPos := math.Vectors.xCreate(0.0,0.0,0.0).pxGet_Allocated_Copy;
+      pxWantedPos := math.Vectors.xCreate(0.0,0.0,0.0).pxGet_Allocated_Copy;
+      pxCurrentOrientation := math.Matrices.xCreate_Identity.pxGet_Allocated_Copy;
 
       pxDriftController := Navigation.Drift_Controller.pxCreate(pxCurrentAbsolutePosition    => pxCurrentPos,
                                                                 pxWantedAbsolutePosition     => pxWantedPos,
-                                                                pxCurrentAbsoluteOrientation => pxCurrentOrientation);
+                                                                pxCurrentAbsoluteOrientation => pxCurrentOrientation,
+                                                                pxCurrentAbsoluteOrientationInverse =>  pxCurrentOrientation);
 
       Navigation.Drift_Controller.Free(pxDriftController);
 
@@ -51,8 +49,8 @@ package body Navigation.Drift_Controller.Test_Data.Tests is
 
 --  begin read only
    procedure Test_pxCreate (Gnattest_T : in out Test);
-   procedure Test_pxCreate_3be9de (Gnattest_T : in out Test) renames Test_pxCreate;
---  id:2.1/3be9de65e2085892/pxCreate/1/0/
+   procedure Test_pxCreate_5047e3 (Gnattest_T : in out Test) renames Test_pxCreate;
+--  id:2.1/5047e3a6d2da74e4/pxCreate/1/0/
    procedure Test_pxCreate (Gnattest_T : in out Test) is
    --  navigation-drift_controller.ads:17:4:pxCreate
 --  end read only
@@ -67,13 +65,14 @@ package body Navigation.Drift_Controller.Test_Data.Tests is
 
    begin
 
-      pxCurrentPos := math.Vectors.pxCreate(0.0,0.0,0.0);
-      pxWantedPos := math.Vectors.pxCreate(0.0,0.0,0.0);
-      pxCurrentOrientation := math.Matrices.xCreate_Identity.pxGet_Copy;
+      pxCurrentPos := math.Vectors.xCreate(0.0,0.0,0.0).pxGet_Allocated_Copy;
+      pxWantedPos := math.Vectors.xCreate(0.0,0.0,0.0).pxGet_Allocated_Copy;
+      pxCurrentOrientation := math.Matrices.xCreate_Identity.pxGet_Allocated_Copy;
 
       pxDriftController := Navigation.Drift_Controller.pxCreate(pxCurrentAbsolutePosition    => pxCurrentPos,
                                                                 pxWantedAbsolutePosition     => pxWantedPos,
-                                                                pxCurrentAbsoluteOrientation => pxCurrentOrientation);
+                                                                pxCurrentAbsoluteOrientation => pxCurrentOrientation,
+                                                               pxCurrentAbsoluteOrientationInverse => pxCurrentOrientation);
 
       Aunit.Assertions.Assert(Condition => pxDriftController.pxWantedAbsolutePosition /= null,
                               Message   => "pxWantedAbsolutePosition is null after construction");

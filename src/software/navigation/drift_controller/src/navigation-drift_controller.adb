@@ -30,7 +30,7 @@ package body Navigation.Drift_Controller is
       pxDriftController.pxWantedAbsolutePosition := pxWantedAbsolutePosition;
       pxDriftController.pxCurrentAbsolutePosition := pxCurrentAbsolutePosition;
       pxDriftController.pxCurrentAbsoluteOrientation := pxCurrentAbsoluteOrientation;
-      pxDriftController.pxLastAbsolutePosition := pxDriftController.pxCurrentAbsolutePosition.pxGet_Copy;
+      pxDriftController.pxLastAbsolutePosition := pxDriftController.pxCurrentAbsolutePosition.pxGet_Allocated_Copy;
       pxDriftController.pxCurrentAbsoluteOrientationInverse := pxCurrentAbsoluteOrientationInverse;
 
       pxDriftController.pxXDriftMotionComponent := Navigation.Motion_Component.pxCreate(eAxisIndex    => Navigation.Motion_Component.DriftX,

@@ -15,6 +15,8 @@ with Navigation.Drift_Controller;
 with Ada.Finalization;
 with Ada.Unchecked_Deallocation;
 with Exception_Handling;
+with Ada.Exceptions;
+
 
 package Navigation.Dispatcher is
 
