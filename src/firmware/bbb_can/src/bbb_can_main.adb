@@ -10,6 +10,7 @@
 -- TODO: hardware testing
 
 ---------------------------------------------------------------------------
+with Ada.Text_IO;
 with Ada.Command_line;
 with Ada.Text_IO;
 with GNAT.Serial_Communications;
@@ -31,9 +32,13 @@ procedure BBB_CAN_main is
 
 
 begin
+   Ada.Text_IO.New_Line;
+   Ada.Text_IO.Put_Line("Hello!");
 
    if Ada.Command_line.Argument_Count /= 2 then
       Ada.Text_IO.Put_Line("Please provide two arbuments, the name of the serial port (excluding '/dev/') and the baudrate (9600, 38400, 57600 or 115200)");
+
+    --  BBB_CAN.Init("ttyACM1", GNAT.Serial_Communications.B9600);
       return;
    else
       declare
@@ -55,6 +60,8 @@ begin
          BBB_CAN.Init(sPort, baud);
       end;
    end if;
+   Ada.Text_IO.New_Line;
+   Ada.Text_IO.Put_Line("Success");
 
    msg.ID := (10, false);
    msg.Len := 3;
@@ -65,10 +72,17 @@ begin
       delay(0.1);
 
       BBB_CAN.Get(msg, bMsg, bOk);
+      if bMsg then
+         Ada.Text_IO.Put_Line("Received CAN msg, ID=" & Integer'Image(Integer(msg.ID.Identifier)) & " length=" & msg.Len'Img & " data(1)=" & Integer'Image(Integer(msg.Data(1))));
+      else
+         Ada.Text_IO.Put_Line("No message read");
+      end if;
 
       if bMsg then
          if Integer(msg.ID.Identifier) = 15 then
             msg.ID.Identifier := AVR.AT90CAN128.CAN.CAN_Identifier(16);
+
+            Ada.Text_IO.Put_Line("Sending CAN msg, ID=" & Integer'Image(Integer(msg.ID.Identifier)) & " length=" & msg.Len'Img & " data(1)=" & Integer'Image(Integer(msg.Data(1))));
             BBB_CAN.Send(msg);
          end if;
       end if;
