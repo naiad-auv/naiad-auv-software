@@ -64,19 +64,22 @@ package body UartWrapper is
    end UartRead;
 
 
-   procedure UartReadSpecificAmount (this : in out CUartHandler; iBytesToRead : in Integer; iNumBytesRead : out Integer;sStringRead : out string) is
+   procedure UartReadSpecificAmount (this : in out CUartHandler; iBytesToRead : in Integer; iNumBytesRead : out Integer; sStringRead : out string) is
       returnString : string(1.. this.bufferSize);
       buffer : Ada.Streams.Stream_Element_Array(1 .. Ada.Streams.Stream_Element_Offset(iBytesToRead));
       bytesRead : Ada.Streams.Stream_Element_Offset;
    begin
-      Gnat.Serial_Communications.Read(this.serialHandler,buffer, bytesRead);
+      Gnat.Serial_Communications.Read(this.serialHandler, buffer, bytesRead);
 
       for i in 1 .. bytesRead loop
          returnString(Integer(i)) := Character'Val (Integer (Buffer (i)));
       end loop;
 
       iNumBytesRead := Integer(bytesRead);
-      sStringRead := returnString(1..iNumBytesRead);
+
+      if iNumBytesRead > 0 then
+         sStringRead := returnString(1..iNumBytesRead);
+      end if;
    end UartReadSpecificAmount;
 
    procedure UartEcho (this : in out CUartHandler; iBytesToRead : in Integer; iNumBytesRead : out integer; sStringToBeWritten : string; dWaitTime : Duration; sStringRead : out string) is

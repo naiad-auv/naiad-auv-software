@@ -11,6 +11,7 @@
 
 ---------------------------------------------------------------------------
 
+with Ada.Text_IO;
 with UartWrapper;
 with GNAT.Serial_Communications;
 with CAN_Link_Utils;
@@ -28,7 +29,8 @@ package body BBB_CAN is
    procedure Init(sPort : String; baud : GNAT.Serial_Communications.Data_Rate) is
    begin
       --initiates UART commiunication:
-      pxUart := UartWrapper.pxCreate(GNAT.Serial_Communications.Port_Name("/dev/" & sPort), baud, 0.001, 100);
+      Ada.Text_IO.Put_Line("Opening " & "/dev/" & sPort & ", baudrate: " & baud'Img);
+      pxUart := UartWrapper.pxCreate("/dev/ttyACM1", Gnat.Serial_Communications.B9600, 1.0, 100);
    end Init;
 
 --     function Handshake return Boolean is
@@ -72,8 +74,11 @@ package body BBB_CAN is
       procedure ReadFromUART(sBuffer : out String; bReadComplete : out Boolean) is
          iBytesRead : Integer;
       begin
+
          if iNumTempBytes = 0 then
+
             Usart_Read(sTempBuffer, CAN_Link_Utils.HEADLEN, iBytesRead);
+
             if iBytesRead = CAN_Link_Utils.HEADLEN then
                sBuffer := sTempBuffer;
                bReadComplete := true;
