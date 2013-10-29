@@ -85,7 +85,6 @@ package body Navigation.Dispatcher is
          end if;
       end if;
 
-
       return tfThrusterValues;
    end tfGet_Thruster_Values;
 

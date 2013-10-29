@@ -98,10 +98,10 @@ package body Math.Planes is
       raise Exception_Handling.NullPointer;
    end fAngle_Between_In_Degrees;
 
-   procedure Log_Plane(this : in CPlane) is
-   begin
-      Ada.Text_IO.Put_Line("Plane normal: " & float'Image(this.xGet_Normal_Vector.fGet_X) & ", " & float'Image(this.xGet_Normal_Vector.fGet_Y) & ", " & float'Image(this.xGet_Normal_Vector.fGet_Z) & ".");
-   end Log_Plane;
+--     procedure Log_Plane(this : in CPlane) is
+--     begin
+--        Ada.Text_IO.Put_Line("Plane normal: " & float'Image(this.xGet_Normal_Vector.fGet_X) & ", " & float'Image(this.xGet_Normal_Vector.fGet_Y) & ", " & float'Image(this.xGet_Normal_Vector.fGet_Z) & ".");
+--     end Log_Plane;
 
 
    function xGet_Intersection_Vector_Between (xLeftOperandPlane : in CPlane; xRightOperandPlane : in CPlane) return Math.Vectors.CVector is
