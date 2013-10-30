@@ -57,7 +57,8 @@ package body Navigation.Thrusters is
          if this.pxNextThruster /= null then
             this.pxNextThruster.Change_Thruster_Effects(iThrusterIndex - 1, tfThrusterEffects);
          else
-            raise Exception_Handling.IndexOutOfBounds;
+            Exception_Handling.Raise_Exception(E       => Exception_Handling.IndexOutOfBounds'Identity,
+                                               Message => "Navigation.Thrusters.Change_Thruster_Effects");
          end if;
 
       end if;

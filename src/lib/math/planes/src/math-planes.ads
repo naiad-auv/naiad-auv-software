@@ -1,8 +1,12 @@
+with Exception_Handling;
 with Math;
 with Math.Vectors;-- use Math.Vectors;
 with Ada.Finalization;
 with Ada.Text_IO;
+with System;
+with Math.Angles;
 with Ada.Unchecked_Deallocation;
+with Ada.Exceptions;
 
 -- Planes package for classes and functionality regarding planes. A plane object is stored in a pCPlane variable and is created with the pxCreate function.
 package Math.Planes is

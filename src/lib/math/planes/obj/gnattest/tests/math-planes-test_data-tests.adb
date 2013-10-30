@@ -20,12 +20,23 @@ package body Math.Planes.Test_Data.Tests is
 
       pragma Unreferenced (Gnattest_T);
 
+      pxPlane : Math.Planes.pCPlane;
+      xPlane : Math.Planes.CPlane := Math.Planes.xCreate(xNormalVector       => Math.Vectors.xCreate(fX => 3.4,
+                                                                                                     fY => -2.4,
+                                                                                                     fZ => 5.2),
+                                                         fDistanceFromOrigin => 4.3);
    begin
+      
 
-      AUnit.Assertions.Assert
-        (Gnattest_Generated.Default_Assert_Value,
-         "Test not implemented.");
+      pxPlane := xPlane.pxGet_Allocated_Copy;
+      
+      AUnit.Assertions.Assert(Condition => pxPlane /= null,
+                              Message   => "Memory test failed, pointer is null after allocation.");      
 
+      Math.Planes.Free(pxPlaneToDeallocate => pxPlane);
+      AUnit.Assertions.Assert(Condition => pxPlane = null,
+                              Message   => "Memory test failed, pointer is not null after deallocation.");      
+      
 --  begin read only
    end Test_Free;
 --  end read only
@@ -85,10 +96,8 @@ package body Math.Planes.Test_Data.Tests is
 
    begin
 
-      AUnit.Assertions.Assert
-        (Gnattest_Generated.Default_Assert_Value,
-         "Test not implemented.");
-
+      null;
+      
 --  begin read only
    end Test_1_xGet_Intersection_Vector_Between;
 --  end read only

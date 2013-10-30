@@ -51,7 +51,13 @@ package body Math.Quaternions is
                                           fAngleInDegrees => fAngleInDegrees);
       end if;
 
-      raise Exception_Handling.NullPointer;
+
+      Exception_Handling.Raise_Exception(E       => Exception_Handling.NullPointer'Identity,
+                                         Message => "Math.Quaternions.xCreate (pxAxisVector : in Math.Vectors.pCVector; fAngleInDegrees : in float) return CQuaternion");
+      return CQuaternion'(fX => 0.0,
+                          fY => 0.0,
+                          fZ => 0.0,
+                          fW => 0.0);
    end xCreate;
 
    function pxGet_Allocated_Copy (this : in CQuaternion) return pCQuaternion is
@@ -76,7 +82,12 @@ package body Math.Quaternions is
          return xLeftOperandQuaternion * pxRightOperandQuaternion.all;
       end if;
 
-      raise Exception_Handling.NullPointer;
+      Exception_Handling.Raise_Exception(E       => Exception_Handling.NullPointer'Identity,
+                                         Message => "Math.Quaternions.""*"" (xLeftOperandQuaternion : in CQuaternion; pxRightOperandQuaternion : in pCQuaternion) return CQuaternion");
+      return CQuaternion'(fX => 0.0,
+                          fY => 0.0,
+                          fZ => 0.0,
+                          fW => 0.0);
    end "*";
 
    function "*" (pxLeftOperandQuaternion : in pCQuaternion; xRightOperandQuaternion : in CQuaternion) return CQuaternion is
@@ -85,7 +96,12 @@ package body Math.Quaternions is
          return pxLeftOperandQuaternion.all * xRightOperandQuaternion;
       end if;
 
-      raise Exception_Handling.NullPointer;
+      Exception_Handling.Raise_Exception(E       => Exception_Handling.NullPointer'Identity,
+                                         Message => "Math.Quaternions.""*"" (pxLeftOperandQuaternion : in pCQuaternion; xRightOperandQuaternion : in CQuaternion) return CQuaternion");
+      return CQuaternion'(fX => 0.0,
+                          fY => 0.0,
+                          fZ => 0.0,
+                          fW => 0.0);
    end "*";
 
    function "*" (pxLeftOperandQuaternion, pxRightOperandQuaternion : in pCQuaternion) return CQuaternion is
@@ -94,7 +110,12 @@ package body Math.Quaternions is
          return pxLeftOperandQuaternion.all * pxRightOperandQuaternion.all;
       end if;
 
-      raise Exception_Handling.NullPointer;
+      Exception_Handling.Raise_Exception(E       => Exception_Handling.NullPointer'Identity,
+                                         Message => "Math.Quaternions.""*"" (pxLeftOperandQuaternion, pxRightOperandQuaternion : in pCQuaternion) return CQuaternion");
+      return CQuaternion'(fX => 0.0,
+                          fY => 0.0,
+                          fZ => 0.0,
+                          fW => 0.0);
    end "*";
 
    function "=" (xLeftOperandQuaternion, xRightOperandQuaternion : in CQuaternion) return boolean is
@@ -119,7 +140,9 @@ package body Math.Quaternions is
          return fGet_Dot_Product(pxLeftOperandQuaternion.all, xRightOperandQuaternion);
       end if;
 
-      raise Exception_Handling.NullPointer;
+      Exception_Handling.Raise_Exception(E       => Exception_Handling.NullPointer'Identity,
+                                         Message => "Math.Quaternions.fGet_Dot_Product (pxLeftOperandQuaternion : in pCQuaternion; xRightOperandQuaternion : in CQuaternion) return float");
+      return 0.0;
    end fGet_Dot_Product;
 
    function fGet_Dot_Product (xLeftOperandQuaternion : in CQuaternion; pxRightOperandQuaternion : in pCQuaternion) return float is
@@ -128,7 +151,9 @@ package body Math.Quaternions is
          return fGet_Dot_Product(xLeftOperandQuaternion, pxRightOperandQuaternion.all);
       end if;
 
-      raise Exception_Handling.NullPointer;
+      Exception_Handling.Raise_Exception(E       => Exception_Handling.NullPointer'Identity,
+                                         Message => "Math.Quaternions.fGet_Dot_Product (xLeftOperandQuaternion : in CQuaternion; pxRightOperandQuaternion : in pCQuaternion) return float");
+      return 0.0;
    end fGet_Dot_Product;
 
    function fGet_Dot_Product (pxLeftOperandQuaternion, pxRightOperandQuaternion : in pCQuaternion) return float is
@@ -137,7 +162,9 @@ package body Math.Quaternions is
          return fGet_Dot_Product(pxLeftOperandQuaternion.all, pxRightOperandQuaternion.all);
       end if;
 
-      raise Exception_Handling.NullPointer;
+      Exception_Handling.Raise_Exception(E       => Exception_Handling.NullPointer'Identity,
+                                         Message => "Math.Quaternions.fGet_Dot_Product (pxLeftOperandQuaternion, pxRightOperandQuaternion : in pCQuaternion) return float");
+      return 0.0;
    end fGet_Dot_Product;
 
    function xGet_Normalized (this : in CQuaternion) return CQuaternion is
@@ -145,7 +172,8 @@ package body Math.Quaternions is
    begin
 
       if this.fGet_Length_Squared = 0.0 then
-         raise Exception_Handling.DivisionByZero;
+         Exception_Handling.Raise_Exception(E       => Exception_Handling.DivisionByZero'Identity,
+                                            Message => "Math.Quaternions.xGet_Normalized (this : in CQuaternion) return CQuaternion");
       end if;
 
       fLength := this.fGet_Length;

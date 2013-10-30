@@ -39,7 +39,9 @@ package body Math.Vectors is
          return pxLeftOperandVector.all + xRightOperandVector;
       end if;
 
-      raise Exception_Handling.NullPointer;
+      Exception_Handling.Raise_Exception(E       => Exception_Handling.NullPointer'Identity,
+                                         Message => """+"" (pxLeftOperandVector : in pCVector; xRightOperandVector : in CVector) return CVector");
+      return xRightOperandVector;
    end "+";
 
    function "+" (xLeftOperandVector : in CVector; pxRightOperandVector : in pCVector) return CVector is
@@ -48,7 +50,9 @@ package body Math.Vectors is
          return xLeftOperandVector + pxRightOperandVector.all;
       end if;
 
-      raise Exception_Handling.NullPointer;
+      Exception_Handling.Raise_Exception(E       => Exception_Handling.NullPointer'Identity,
+                                         Message => """+"" (xLeftOperandVector : in CVector; pxRightOperandVector : in pCVector) return CVector");
+      return xLeftOperandVector;
    end "+";
 
    function "+" (pxLeftOperandVector, pxRightOperandVector : in pCVector) return CVector is
@@ -57,7 +61,9 @@ package body Math.Vectors is
          return pxLeftOperandVector.all + pxRightOperandVector.all;
       end if;
 
-      raise Exception_Handling.NullPointer;
+      Exception_Handling.Raise_Exception(E       => Exception_Handling.NullPointer'Identity,
+                                         Message => """+"" (pxLeftOperandVector, pxRightOperandVector : in pCVector) return CVector");
+      return pxLeftOperandVector.all;
    end "+";
 
 

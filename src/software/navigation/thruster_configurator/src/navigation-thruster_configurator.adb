@@ -77,6 +77,10 @@ package body Navigation.Thruster_Configurator is
       Perform_Gauss_Jordan_Elimination_On(tfExtendedMatrix => tfExtendedMatrix);
 
       this.tfInverseMatrixForThrusterConfiguration := tfGet_Inverse_Part_Of(tfExtendedMatrix => tfExtendedMatrix);
+   exception
+      when E : others =>
+         Exception_Handling.Reraise_Exception(E       => E,
+                                              Message => "Navigation.Thruster_Configurator.Set_Inverse(this : in out CThrusterConfigurator)");
    end Set_Inverse;
 
 
@@ -231,7 +235,8 @@ package body Navigation.Thruster_Configurator is
                                                                  iColumn          => iRowAndColumn);
 
          if bMatrix_Has_No_Inverse(tfExtendedMatrix(iRowWithMaxComponent, iRowAndColumn)) then
-            raise Exception_Handling.SingularMatrix;
+            Exception_Handling.Raise_Exception(E       => Exception_Handling.SingularMatrix'Identity,
+                                               Message => "Navigation.Thruster_Configurator.Perform_Gauss_Jordan_Elimination_On(tfExtendedMatrix : in out TExtendedMatrix)");
          end if;
 
          if iRowWithMaxComponent /= iRowAndColumn then

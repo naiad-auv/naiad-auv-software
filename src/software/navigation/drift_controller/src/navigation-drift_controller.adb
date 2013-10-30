@@ -93,6 +93,11 @@ package body Navigation.Drift_Controller is
 
       this.pxLastAbsolutePosition.Copy_From(xSourceVector => this.pxCurrentAbsolutePosition.all);
 
+   exception
+      when E : others =>
+         Exception_Handling.Reraise_Exception(E       => E,
+                                              Message => "Navigation.Drift_Controller.Update_Current_Errors (this : in CDriftController)");
+
    end Update_Current_Errors;
 
    ------------------------------------
