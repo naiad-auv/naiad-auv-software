@@ -3,5 +3,5 @@ with "../tcp.gpr";
 project Listener is
     for Source_Dirs use ("src");
     for Object_Dir use "obj";
-    for Main use ("sockets-tcp-listener-main.adb");
+    for Main use ("sockets_tcp_listener_main.adb");
 end Listener;
