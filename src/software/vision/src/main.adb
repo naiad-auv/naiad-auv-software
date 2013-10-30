@@ -271,13 +271,13 @@ begin
          processingWrap.showContours(contourOut => iContourLocation,contourId  => -1 ,thickness  => 3 );
 
          processingWrap.cvtColor(iContourLocation,iGreyScaleLocation, iGreyFilter);
-         processingWrap.gaussianBlur(iGreyScaleLocation, iGaussianBlurLocation, 10, GaussianSigmaX, GaussianSigmaY);
-         processingWrap.HoughLinesP(iGaussianBlurLocation);
+         --processingWrap.gaussianBlur(iGreyScaleLocation, iGaussianBlurLocation, 10, GaussianSigmaX, GaussianSigmaY);
+         --processingWrap.HoughLinesP(iGaussianBlurLocation);
          --CoreWrap.imshow(New_String("sending this to tracking?"), iGreyScaleLocation);
          --CoreWrap.waitKey(0);
 
          processingWrap.approxPolyDP(1.2, 1);
-
+	 processingWrap.estPosition;
          processingWrap.goodFeatures(iGreyScaleLocation);
          processingWrap.objectTracking;
          if velCount>0 then
@@ -285,7 +285,7 @@ begin
          processingWrap.GaussianBlurSharpener(1,3,3);
             estVel:=processingWrap.estimateVelocity;
          end if;
-         velCount:=velCount+1;
+         velCount:=1;
       end if;
 
       --write image to file

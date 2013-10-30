@@ -302,7 +302,7 @@ void Processing_Wrap::showContours(int contourOut, int contourId = -1, int thick
 {
     img.at(contourOut)=img.at(26).clone();
     cv::drawContours(img.at(contourOut), contours, contourId, cv::Scalar(0,0,255), thickness, CV_AA );
-    cv::imshow("contours", img.at(contourOut));
+    //cv::imshow("contours", img.at(contourOut));
 }
 
  
@@ -657,25 +657,24 @@ float Processing_Wrap::estimateVelocity(void)
 	std::vector<unsigned char> status;
 	std::vector<float> err;
 	
-	int counter=0,distanceCounter=0,distance=0;
+	int counter=0,distance=0;
         float accumulatedDistance=0,averageDistance=0;
         std::vector<float> distanceStore;
     
     //check if big features detected
     if (features_next.size()>0)
     {
-		std::cout<<"big feature detector estimates velocity as: \t";
+		std::cout<<"object detector estimates velocity as: \t";
 		for (int i=0;i<features_next.size();i++)
 		{
 			distance=sqrt((features_next.at(0).x-features_prev.at(0).x)*(features_next.at(0).x-features_prev.at(0).x) + (features_next.at(0).y-features_prev.at(0).y)*(features_next.at(0).y-features_prev.at(0).y));
 			distanceStore.push_back(distance);
 			accumulatedDistance=accumulatedDistance+distance;
-			distanceCounter++;
 		}
     }
     else
     {
-		std::cout<<"little feature detector estimates velocity as: \t";
+		std::cout<<"particle detector estimates velocity as: \t";
 				
 		particle_features_prev=particle_features_nxt;
 		cv::cvtColor(img.at(2),img.at(4),6);
@@ -690,16 +689,51 @@ float Processing_Wrap::estimateVelocity(void)
 			distance=sqrt((particle_features_nxt.at(0).x-particle_features_prev.at(0).x)*(particle_features_nxt.at(0).x-particle_features_prev.at(0).x) + (particle_features_nxt.at(0).y-particle_features_prev.at(0).y)*(particle_features_nxt.at(0).y-particle_features_prev.at(0).y));
 			distanceStore.push_back(distance);
 			accumulatedDistance=accumulatedDistance+distance;
-			distanceCounter++;
         }
     }
-    averageDistance=accumulatedDistance/distanceCounter;
+    averageDistance=accumulatedDistance/particle_features_prev.size();
     estVel=averageDistance/FRAME_RATE;
     std::cout<<estVel<<"pixels per second \n";
     
     return estVel;
 }
 
+
+///////////////////////          ///////////////////////////////////////////
+
+void Processing_Wrap::estPosition(void)
+{
+	int xCentre,xAccumulated,yAccumulated,xAverage,yAverage;
+	
+	xCentre=512;
+	
+	if (features_next.size()>0)
+	{
+		std::cout<<"object detected!!\n";
+		//calc average position of feature detected
+		for (int i=0;i<features_next.size();i++)
+		{
+			xAccumulated=xAccumulated+features_next.at(i).x;
+			yAccumulated=yAccumulated+features_next.at(i).y;
+		}
+		xAverage=xAccumulated/features_next.size();
+		yAverage=yAccumulated/features_next.size();
+		
+		//udate position of auv
+		if (xAverage<xCentre)
+		{
+			std::cout<<"Action: \t Go left\n\n";
+		}
+		if (xAverage>xCentre)
+		{
+			std::cout<<"Action: \t Go Right\n\n";
+		}
+	}
+	else
+	{
+		std::cout<<"no object detected\n Action: \t No action required\n\n";
+	}
+}
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
 
