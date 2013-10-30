@@ -82,6 +82,7 @@ procedure main is
 
    --est vel
    estVel:float;
+
    velCount:integer:=1;
 
    CoreWrap : aliased Class_Core_Wrap.Core_Wrap;
@@ -271,15 +272,12 @@ begin
          processingWrap.showContours(contourOut => iContourLocation,contourId  => -1 ,thickness  => 3 );
 
          processingWrap.cvtColor(iContourLocation,iGreyScaleLocation, iGreyFilter);
-         --processingWrap.gaussianBlur(iGreyScaleLocation, iGaussianBlurLocation, 10, GaussianSigmaX, GaussianSigmaY);
-         --processingWrap.HoughLinesP(iGaussianBlurLocation);
-         --CoreWrap.imshow(New_String("sending this to tracking?"), iGreyScaleLocation);
-         --CoreWrap.waitKey(0);
 
          processingWrap.approxPolyDP(1.2, 1);
 	 processingWrap.estPosition;
          processingWrap.goodFeatures(iGreyScaleLocation);
          processingWrap.objectTracking;
+
          if velCount>0 then
          processingWrap.GaussianBlurSharpener(iImageSource,2,3);
          processingWrap.GaussianBlurSharpener(1,3,3);

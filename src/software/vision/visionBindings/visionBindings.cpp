@@ -44,6 +44,7 @@ std::vector<cv::Point2f> particle_features_prev, particle_features_nxt;
 
 void Core_Wrap::img_buffer()
 {
+
     char strStorage[50]; // enough to hold all numbers up to 64-bits
     int bufSize=0;
    
@@ -310,31 +311,33 @@ void Processing_Wrap::showContours(int contourOut, int contourId = -1, int thick
 
 void Processing_Wrap::HoughLinesP(int src)
 {
-    std::vector<cv::Vec4i> houLineStorage;
-    double rho =1;
-    double theta =    3.14/180;
-    int threshold = 10;
-    double minLineLength,maxLineGap;
- 
-    //std::cout<<"before hough lines";
-    //cv::waitKey(0);
-    cv::HoughLinesP(img.at(src), houLineStorage, rho, theta, threshold, minLineLength=250,  maxLineGap=0 );
-    //std::cout<<"after hough lines";
-    //cv::waitKey(0);
-    if (houLineStorage.size()>0)
-    {
-        std::cout<<"line detected\n"<<houLineStorage.size();
-        for(int i=0;i<houLineStorage.size();i++)
-        {
-            std::cout<<"line detected\n"<<houLineStorage[i][0]<<"\t"<<houLineStorage[i][1]<<"\t"<<houLineStorage[i][2]<<"\t"<<houLineStorage[i][3];
-        }
-     
-        //std::cout<<"line detected\n"<<houLineStorage(1);
-        //std::cout<<"line detected\n"<<houLineStorage(2);
-     
-        cv::waitKey(0);
-    } 
+	std::vector<cv::Vec4i> houLineStorage;
+	double rho =1;
+	double theta =	3.14/180;
+	int threshold = 10;
+	double minLineLength,maxLineGap;
+	
+	//std::cout<<"before hough lines";
+	//cv::waitKey(0);
+	cv::HoughLinesP(img.at(src), houLineStorage, rho, theta, threshold, minLineLength=250,  maxLineGap=0 );
+	//std::cout<<"after hough lines";
+	//cv::waitKey(0);
+	if (houLineStorage.size()>0)
+	{
+		std::cout<<"line detected\n"<<houLineStorage.size();
+		for(int i=0;i<houLineStorage.size();i++)
+		{
+			std::cout<<"line detected\n"<<houLineStorage[i][0]<<"\t"<<houLineStorage[i][1]<<"\t"<<houLineStorage[i][2]<<"\t"<<houLineStorage[i][3];
+		}
+		
+		//std::cout<<"line detected\n"<<houLineStorage(1);
+		//std::cout<<"line detected\n"<<houLineStorage(2);
+		
+		cv::waitKey(0);
+	}	
 }
+
+
 ////////////////////////// APPROX POLY //////////////////////////////////////////////////////
  
 void Processing_Wrap::approxPolyDP(double epsilon, bool closed)
@@ -743,6 +746,8 @@ void Processing_Wrap::estPosition(void)
 		std::cout<<"no object detected\n Action: \t No action required\n\n";
 	}
 }
+
+
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
 
