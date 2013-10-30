@@ -87,6 +87,8 @@ virtual void goodFeatures(int src);
 
 virtual float estimateVelocity(void);
 
+virtual void GaussianBlurSharpener(int src,int destination,int accuracy);
+
 Processing_Wrap();
 };
 

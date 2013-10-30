@@ -7,7 +7,7 @@
 #include<vector>
 #include<string>
 #include<queue>
-   
+ 
 std::vector<cv::Mat> img(IMAGE_STORE_SIZE);
 std::vector<cv::Vec3f> circles;
 std::vector<cv::Vec2f> lines;
@@ -15,23 +15,24 @@ std::vector<cv::Mat> contours;
 std::vector<cv::Mat> particleContours;
 cv::VideoCapture cap;
 std::vector<cv::Mat> channels;
-   
+ 
 std::queue <cv::Mat> imageBuf; // Declare a queue
 //int imageName=0;
 int imageName=0;
-   
+ 
 cv::vector<cv::Mat> BGR;
 cv::Mat blueHistVals;
 cv::Mat greenHistVals;
 cv::Mat redHistVals;
 cv::MatND hist;
-   
+ 
 std::vector<cv::Point> circleCenters;
 std::vector<cv::Point> rectangleCenters;
 std::vector<cv::Point> triangleCenters;
 
 std::vector<cv::Point2f> features_prev, features_next;
-   
+std::vector<cv::Point2f> particle_features_prev, particle_features_nxt;
+ 
 /*********************************************************************************************************************
 *               START CORE WRAP                                                                                        *
 *********************************************************************************************************************/
@@ -45,35 +46,35 @@ void Core_Wrap::img_buffer()
 {
     char strStorage[50]; // enough to hold all numbers up to 64-bits
     int bufSize=0;
-     
+   
     std::string folderPath = "/home/vision/Documents/project/cdt508/Robosub2012_logging/Loggning/log 3/Bottom/";
     //std::string folderPath = "//home/bork/Data/cdt508/Robosub2012_logging/Loggning/log 3/Bottom/";
     //std::string folderPath = "/home/gerard/Documents/project/cdt508/Robosub2012_logging/Loggning/log 3/Bottom/";
-   
+ 
     std::string result;
     std::string imageType = ".jpg";
-     
+   
     if (imageBuf.size()==0)//load image, then pop image and enter do loop
     {
         sprintf(strStorage, "%d", imageName);//imageName global, set to 1, and increases as prog scrolls through images in folder
           result = folderPath + strStorage + imageType;
           cv::Mat F=cv::imread(result,1);//<0 unchanged, 0 greyscale, >0 rgb
           imageBuf.push(F);
-         
+       
           //for tracking, need to store previous image somewhere
           imageName++;
           sprintf(strStorage, "%d", imageName);//imageName global, set to 1, and increases as prog scrolls through images in folder
           result = folderPath + strStorage + imageType;
           F=cv::imread(result,1);//<0 unchanged, 0 greyscale, >0 rgb
           imageBuf.push(F);
-         
+       
         img.at(0)=imageBuf.front();//get new current image for position 0
           imageBuf.pop();
      }
      img.at(1)=img.at(0).clone();//store previous image at position 1
      img.at(0)=imageBuf.front();//get new current image for position 0
      imageBuf.pop();
-       
+     
      //load buffer
      do{
         sprintf(strStorage, "%d", imageName);
@@ -83,45 +84,45 @@ void Core_Wrap::img_buffer()
         imageName=imageName+1;
         bufSize=imageBuf.size();
         }while (bufSize<IMAGE_BUFFER_SIZE);
-      
+    
         std::cout<<"image "<<imageName;
 }
-   
-   
+ 
+ 
 ///////////////////////////////////// PRINT INTERFACES.C.INT ////////////////////////////////////////////
-   
+ 
 void Core_Wrap::printNum(int num)
 {
-    std::cout<<"\n number entered is:\t"<<num;   
+    std::cout<<"\n number entered is:\t"<<num; 
 }
-   
-   
+ 
+ 
 ///////////////////////////////////// ADD IMAGE TO VECTOR img ////////////////////////////////////////////
-   
+ 
 void Core_Wrap::push_back(char * src)
 {
     img.push_back(cv::imread(src));
 }
-   
-   
+ 
+ 
 ///////////////////////////////////// READ IN IMAGE ////////////////////////////////////////////
-   
+ 
 void Core_Wrap::imread(char * name)
 {
     cv::imread(name);
 }
-   
-   
+ 
+ 
 ///////////////////////////////////// STORE IMAGE IN img AT src POSITION ////////////////////////////////////////////
-   
+ 
 void Core_Wrap::imstore(int src, char * name)
 {
     img.at(src)=cv::imread(name);
 }
-   
-   
+ 
+ 
 ///////////////////////////////////// WRITE IMAGE TO FILE ////////////////////////////////////////////
-   
+ 
 int Core_Wrap::imwrite(char * name, int src)
 {
     if (cv::imwrite(name, img.at(src)))
@@ -129,62 +130,62 @@ int Core_Wrap::imwrite(char * name, int src)
     else
         return 0;
 }
-   
-   
+ 
+ 
 ///////////////////////////////////// DISPLAY IMAGE ////////////////////////////////////////////
-   
+ 
 void Core_Wrap::imshow(char * name, int src)
 {
     cv::imshow(name, img.at(src));
 }
-   
-   
+ 
+ 
 ///////////////////////////////////// WAIT FOR KEY PRESS ////////////////////////////////////////////
-   
+ 
 void Core_Wrap::waitKey(int time)
 {
     cv::waitKey(time);
 }
-   
-   
+ 
+ 
 ///////////////////////////////////// FIND SIZE OF IMAGE AT img.at(src)  ////////////////////////////////////////////
-   
+ 
 int Core_Wrap::size(void)
 {
     return img.size();
 }
-   
-   
+ 
+ 
 Core_Wrap::Core_Wrap(){}
 /*********************************************************************************************************************
 *               END CORE WRAP                                                                                        *
 *********************************************************************************************************************/
-   
-   
+ 
+ 
 /*********************************************************************************************************************
 *               START PROCESSING WRAP                                                                                *
 *********************************************************************************************************************/
-   
+ 
 ////////////////////////////////////////  CONVERT FUNCTION /////////////////////////////////////////////////////
-   
+ 
 void Processing_Wrap::cvtColor(int src, int dst, int filter)
 {
     cv::cvtColor(img.at(src), img.at(dst), filter);
 }
-   
-   
+ 
+ 
 //////////////////////////////////////// CANNY  /////////////////////////////////////////////////////
 // NB Canny works on an input greyscale image
-   
+ 
 void Processing_Wrap::Canny(int src, int dst, int lThresh, int hThresh, int kernelSize)
 {
     cv::Canny(img.at(src), img.at(dst), lThresh, hThresh, kernelSize);
 }
-   
-   
+ 
+ 
 //////////////////////////////////////HOUGH CIRCLES//////////////////////////////////////////////////////////////
 // Takes in source image index, stores result in circles vector defined above
-   
+ 
 void Processing_Wrap::HoughCircles(int src,int inverseRatioOfResolution,int minDistBetweenCenters,int cannyUpThres, int centerDetectionThreshold, int minRadius,int maxRadius )
 {
     int circCount;
@@ -193,18 +194,18 @@ void Processing_Wrap::HoughCircles(int src,int inverseRatioOfResolution,int minD
     circCount=circles.size();
     std::cout<<"circles:\t\t"<<circCount<<std::endl;
 }
-   
-   
+ 
+ 
 ///////////////////////////////DRAW CIRCLES ///////////////////////////////////////////////
 // Draw the hough circles detected, Gets input from circles vector defined above,
 // NB This function will be removed, only used for testing
-   
+ 
 void Processing_Wrap::DrawHoughCircles(int src)
 {
     int i;
     //cv::Mat F=img.at(src).clone();
     img.at(24)=img.at(src).clone();
-     
+   
     for( size_t i = 0; i < circles.size(); i++ )
     {
         cv::Point center(cvRound(circles[i][0]), cvRound(circles[i][1]));
@@ -215,13 +216,13 @@ void Processing_Wrap::DrawHoughCircles(int src)
         cv::circle( img.at(24), center, radius, cv::Scalar(0,0,255), 3, 8, 0 );
      }
 }
-   
+ 
 void Processing_Wrap::FindCircleCenters(void)
 {
     for(int i=0; i<circles.size();i++)
     {
         cv::Point center(cvRound(circles[i][0]), cvRound(circles[i][1]));
-        circleCenters.push_back(center);   
+        circleCenters.push_back(center); 
     }
     std::cout<<"centers are \t\t"<<circleCenters;
 }
@@ -232,7 +233,7 @@ void Processing_Wrap::FindCircleCenters(void)
 // value for each picture
 //NB "print" has to be changed to "add to a storage vector" if it is decided that this function
 //is needed. At the minute it is surplus to requirements but this will more than likely change
-   
+ 
 void Processing_Wrap::LabelPoints(int src)
 {
     int x,y;
@@ -240,7 +241,7 @@ void Processing_Wrap::LabelPoints(int src)
     cv::Size dim = img.at(src).size();
     cv::Mat F = img.at(src).clone();
     cv::Scalar intensity;
-   
+ 
     for(int heightIndex=0;heightIndex<dim.height;++heightIndex)
     {
         std::cout<<"change height";
@@ -253,50 +254,50 @@ void Processing_Wrap::LabelPoints(int src)
     std::cout<<"height"<<dim.height<<"width"<<dim.width;
     cv::waitKey(0);
 }
-   
-   
+ 
+ 
 ////////////////////////////////////HOUGH LINES////////////////////////////////////////////
 
 void Processing_Wrap::HoughLines(int src, int rho, float theta, int intersectionThreshold)
 {
-    cv::HoughLines( img.at(src), lines, rho, theta, intersectionThreshold, 0, 0 );     
+    cv::HoughLines( img.at(src), lines, rho, theta, intersectionThreshold, 0, 0 );   
 }
-   
-   
+ 
+ 
 ///////////////////////////////DRAW HOUGH LINES////////////////////////////////////////////
-   
+ 
 void Processing_Wrap::DrawHoughLines(int cdst)
 {
     int i;
-   
+ 
     for( size_t i = 0; i < lines.size(); i++ )
     {
         float rho = lines[i][0], theta = lines[i][1];
         cv::Point pt1, pt2;
         double a = cos(theta), b = sin(theta);
         double x0 = a*rho, y0 = b *rho;
-   
+ 
         pt1.x = cvRound(x0 + 1000*(-b));
         pt1.y = cvRound(y0 + 1000*(a));
         pt2.x = cvRound(x0 + 1000*(-b));
         pt2.y = cvRound(y0 + 1000*(a));
         line( img.at(cdst), pt1, pt2, cv::Scalar(0,0,255), 10, CV_AA);
-        cv::imshow("liney", img.at(cdst));     
+        cv::imshow("liney", img.at(cdst));   
     }
 }
 
-   
+ 
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////// Contours ////////////////////////////////////////////
-   
+ 
 void Processing_Wrap::Contours(int src)
 {
-    cv::findContours( img.at(src), contours, CV_RETR_LIST, CV_CHAIN_APPROX_NONE);   
+    cv::findContours( img.at(src), contours, CV_RETR_LIST, CV_CHAIN_APPROX_NONE); 
 }
-   
-   
+ 
+ 
 /////////////////////////////////////// DISPLAY CONTOURS ///////////////////////////////////////////
-   
+ 
 void Processing_Wrap::showContours(int contourOut, int contourId = -1, int thickness = 1)
 {
     img.at(contourOut)=img.at(26).clone();
@@ -304,7 +305,7 @@ void Processing_Wrap::showContours(int contourOut, int contourId = -1, int thick
     cv::imshow("contours", img.at(contourOut));
 }
 
-   
+ 
 ////////////////////////// HOUGH LINES P //////////////////////////////////////////////////////
 
 void Processing_Wrap::HoughLinesP(int src)
@@ -314,7 +315,7 @@ void Processing_Wrap::HoughLinesP(int src)
     double theta =    3.14/180;
     int threshold = 10;
     double minLineLength,maxLineGap;
-   
+ 
     //std::cout<<"before hough lines";
     //cv::waitKey(0);
     cv::HoughLinesP(img.at(src), houLineStorage, rho, theta, threshold, minLineLength=250,  maxLineGap=0 );
@@ -327,21 +328,21 @@ void Processing_Wrap::HoughLinesP(int src)
         {
             std::cout<<"line detected\n"<<houLineStorage[i][0]<<"\t"<<houLineStorage[i][1]<<"\t"<<houLineStorage[i][2]<<"\t"<<houLineStorage[i][3];
         }
-       
+     
         //std::cout<<"line detected\n"<<houLineStorage(1);
         //std::cout<<"line detected\n"<<houLineStorage(2);
-       
+     
         cv::waitKey(0);
-    }   
+    } 
 }
 ////////////////////////// APPROX POLY //////////////////////////////////////////////////////
-   
+ 
 void Processing_Wrap::approxPolyDP(double epsilon, bool closed)
 {
     int rectangleCount=0,triCount=0,halfRect = 0,contourCnt =0;
     std::vector<cv::Point> polys;
     cv::Mat tempStorage;
-   
+ 
     for (int i =0;i<contours.size();i++)
     {
         cv::approxPolyDP(contours[i], polys, arcLength(cv::Mat(contours[i]), true)*0.02,closed);
@@ -372,7 +373,7 @@ void Processing_Wrap::approxPolyDP(double epsilon, bool closed)
         srcMat.convertTo(tmpMat, dstMat.type());
         features_next = (std::vector<cv::Point2f>) tmpMat;
     }
-   
+ 
     std::cout<<"\n rectangles:\t\t"<<rectangleCount;
     std::cout<<"\n halfRect:\t\t"<<halfRect;
     //std::cout<<"\n rect centers:\t\t"<<rectangleCenters;
@@ -380,33 +381,33 @@ void Processing_Wrap::approxPolyDP(double epsilon, bool closed)
     std::cout<<" contour count:\t\t"<<contourCnt<<std::endl;
     //std::cout<<"triangle centers:\t"<<triangleCenters<<std::endl;
 }
-   
-   
+ 
+ 
 /////////////////////////////////////SPLIT CHANNELS ////////////////////////////////////////////
-   
+ 
 void Processing_Wrap::splitChannels(int src)
 {
     cv::split(img.at(src), channels);
     std::cout<<"\n Image split completed. \n";
 }
-   
-   
+ 
+ 
 //////////////////////////////////// BGR HISTOGRAM ////////////////////////////////////////////
-   
+ 
 void Processing_Wrap::BGRHistogram(int numSourceArray, int histDimensionality, int histSize, float range[], bool uniform, bool accumulate)
-{   
+{ 
     const float *histRange[]={range};
     const int channelToBeMeasured=0;
-   
+ 
     cv::calcHist( &channels[0], numSourceArray, channelToBeMeasured, cv::Mat(), blueHistVals, histDimensionality, &histSize, histRange, uniform, accumulate );
     cv::calcHist( &channels[1], numSourceArray, channelToBeMeasured, cv::Mat(), greenHistVals, histDimensionality, &histSize, histRange, uniform, accumulate );
     cv::calcHist( &channels[2], numSourceArray, channelToBeMeasured, cv::Mat(), redHistVals, histDimensionality, &histSize, histRange, uniform, accumulate );
 }
-   
-   
+ 
+ 
 ///////////////////////////////////// display BGR Histo/////////////////////////////////////////////
 // used to debug bgr histo, check if it works
-   
+ 
 void Processing_Wrap::showBGRHistogram(int histSize)
 {
     int histWidth = 600; int histHeight =400;
@@ -418,7 +419,7 @@ void Processing_Wrap::showBGRHistogram(int histSize)
       normalize(blueHistVals, blueHistVals, 0, histImage.rows, cv::NORM_MINMAX, -1, cv::Mat() );
       normalize(greenHistVals, greenHistVals, 0, histImage.rows, cv::NORM_MINMAX, -1, cv::Mat() );
       normalize(redHistVals, redHistVals, 0, histImage.rows, cv::NORM_MINMAX, -1, cv::Mat() );
-   
+ 
       // Draw for each channel
       for( int i = 1; i < histSize; i++ )
       {
@@ -435,27 +436,27 @@ void Processing_Wrap::showBGRHistogram(int histSize)
       cv::imshow("Histogram", histImage );
     cv::waitKey(0);
 }
-   
-   
+ 
+ 
 //////////////////////////////////// HSI HISTOGRAM ////////////////////////////////////////////
-   
+ 
 void Processing_Wrap::HSIHistogram(int src,int numSourceArray, int channels[], int histSize[],float hrange[],float srange[], int histDimensionality,bool uniform, bool accumulate)
 {
     const float *histRange[]={hrange,srange};
 
     cv::calcHist(&img.at(src),numSourceArray,channels, cv::Mat(),hist,histDimensionality, histSize,histRange,uniform,accumulate);
 }
-   
-   
+ 
+ 
 ///////////////////////////////////// display HSI Histo/////////////////////////////////////////////
 // used to debug hsi histo, check if it works
-   
-void Processing_Wrap::showHSIHistogram(int histSize[])   
-{   
+ 
+void Processing_Wrap::showHSIHistogram(int histSize[]) 
+{ 
     int hbins=histSize[0], sbins=histSize[1];
     double maxVal=0;
     int scale=10;
-   
+ 
     minMaxLoc(hist,0,&maxVal,0,0);
     cv::Mat histImg = cv::Mat::zeros(sbins*scale, hbins*10, CV_8UC3);
 
@@ -474,34 +475,34 @@ void Processing_Wrap::showHSIHistogram(int histSize[])
     cv::imshow( "H-S Histogram", histImg );
     cv::waitKey();
 }
-   
-   
+ 
+ 
 ///////////////////////  SHOW BLUE CHANNEL        ///////////////////////////////////////////
-   
+ 
 void Processing_Wrap::showBlueChannel()
 {
     std::cout<<channels[0];
 }
-   
-   
+ 
+ 
 ///////////////////////  SHOW GREEN CHANNEL        ///////////////////////////////////////////
 
 void Processing_Wrap::showGreenChannel()
 {
     std::cout<<channels[1];
 }
-   
-   
+ 
+ 
 ///////////////////////  SHOW RED CHANNEL        ///////////////////////////////////////////
-   
+ 
 void Processing_Wrap::showRedChannel()
 {
     std::cout<<channels[2];
 }
-   
-       
+ 
+     
 ///////////////////////// goodFeatures     ///////////////////////////////////////////////
-   
+ 
 void Processing_Wrap::goodFeatures(int src)
 {
     //std::cout<<"in good features";
@@ -534,42 +535,42 @@ int Processing_Wrap::thresh(int src, int blueLow, int blueUp, int greenLow, int 
     //cv::imshow("mask",mask);
     //cv::waitKey(0);
     threshOut.copyTo(outPic,mask);
-   
+ 
     img.at(26)=outPic.clone();
-       
+     
     //cv::Size s = mask.size();
     //std::cout<<s.height<<"\t"<<s.width<<"\n";
-       
+     
     return 1;
 }
-   
-   
+ 
+ 
 ///////////////////////// OPTICAL FLOW     ///////////////////////////////////////////////
-   
+ 
 void Processing_Wrap::objectTracking(void)
 {
     cv::Mat imgA,imgB;
     std::vector<unsigned char> status;
     std::vector<float> err;
-   
+ 
     if (features_prev.size()==0)
     {
         //std::cout<<"congratulations, i dont have to do anything";
     }
     else
     {
-        cv::cvtColor(img.at(0), imgA, 6); 
+        cv::cvtColor(img.at(0), imgA, 6);
         cv::cvtColor(img.at(1), imgB, 6);
         imgA.convertTo(imgA, CV_8UC1);
         imgB.convertTo(imgB, CV_8UC1);
-               
+             
         //std::cout<<"features prev"<<features_prev<<"\n features next"<<features_next;
         //cv::waitKey(0);
-   
+ 
         cv::calcOpticalFlowPyrLK(imgB,imgA,features_prev,features_next,status,err);
         //std::cout<<"ha!finished and it seems to have worked    ?";
         //cv::waitKey(0);
-       
+     
         for (int i =0; i<features_prev.size(); i++)
         {
             int line_thickness=1;
@@ -577,25 +578,25 @@ void Processing_Wrap::objectTracking(void)
             cv::Point p,q;
             double angle;
             double hypotenuse;
-           
+         
             if(status[i]==0) continue;//feature not found
-           
+         
             line_color = CV_RGB(255,0,0);
-                 
+               
             p.x =(int) features_prev[i].x;
             p.y =(int) features_prev[i].y;
             q.x =(int) features_next[i].x;
             q.y =(int) features_next[i].y;
-                 
-         
+               
+       
             angle = atan2((double) p.y -q.y, (double) p.x - q.x);
             hypotenuse = sqrt(((p.y-q.y)*(p.y-q.y))+((p.x -q.x)*(p.x -q.x)));
-                 
+               
             q.x=(int)(p.x-1 * hypotenuse * cos(angle));
             q.y=(int)(p.x-1 * hypotenuse * sin(angle));
-                 
+               
             cv::line(img.at(26),p,q,line_color, line_thickness, CV_AA,0);
-                 
+               
             p.x = (int)(q.x+9*cos(angle+3.14/4));
             p.y = (int)(q.y+9*sin(angle+3.14/4));
             cv::line(img.at(26),p,q,line_color,line_thickness,CV_AA,0);
@@ -632,102 +633,70 @@ void Processing_Wrap::roi(int src, int dst)
 }
 
 
+///////////////////////// GAUSSIAN BLUR SHARPENER     //////////////////////////////////////////////////////////////
+
+void Processing_Wrap::GaussianBlurSharpener(int src,int destination,int accuracy)
+{
+	cv::Mat tempImStorage;
+	tempImStorage=img.at(src).clone();
+	
+	for(int t=0;t<accuracy;t++)
+        {
+			cv::GaussianBlur(tempImStorage, img.at(destination), cv::Size(0, 0), 3);
+			cv::addWeighted(tempImStorage, 1.5, img.at(destination), -0.5, 0, img.at(destination));
+			tempImStorage=img.at(destination).clone();
+		}
+}
+
 ///////////////////////// ESTIMATE VELOCITY    //////////////////////////////////////////////////////////////
 
 float Processing_Wrap::estimateVelocity(void)
 {
-	int contourId=-1;
-	int thickness=1;
-    float estVel=0.0,distance=0.0;
-    //check features dtected
+    float estVel=0.0;
+    int numFeatures;
+	std::vector<unsigned char> status;
+	std::vector<float> err;
+	
+	int counter=0,distanceCounter=0,distance=0;
+        float accumulatedDistance=0,averageDistance=0;
+        std::vector<float> distanceStore;
+    
+    //check if big features detected
     if (features_next.size()>0)
     {
-        //std::cout<<"gonna estimate me some velocity";
-        //distance=dif in feature positions
-        //distance=features_prev-features_next;
-         distance=sqrt((features_next.at(0).x-features_prev.at(0).x)*(features_next.at(0).x-features_prev.at(0).x) + (features_next.at(0).y-features_prev.at(0).y)*(features_next.at(0).y-features_prev.at(0).y));
-        estVel=distance/FRAME_RATE;
-        //cv::waitKey(0);
-        std::cout<<"gonna estimate me some velocity"<<estVel<<"metres per second/n";
+		std::cout<<"big feature detector estimates velocity as: \t";
+		for (int i=0;i<features_next.size();i++)
+		{
+			distance=sqrt((features_next.at(0).x-features_prev.at(0).x)*(features_next.at(0).x-features_prev.at(0).x) + (features_next.at(0).y-features_prev.at(0).y)*(features_next.at(0).y-features_prev.at(0).y));
+			distanceStore.push_back(distance);
+			accumulatedDistance=accumulatedDistance+distance;
+			distanceCounter++;
+		}
     }
     else
     {
-		/* int largest_area=0;
-		int largest_contour_index=0;
-		cv::Rect bounding_rect;
- 
-		cv::Mat thr(img.at(0).rows,img.at(0).cols,CV_8UC1);
-		cv::Mat dst(img.at(0).rows,img.at(0).cols,CV_8UC1,cv::Scalar::all(0));
-		cv::cvtColor(img.at(0),thr,CV_BGR2GRAY); //Convert to gray
-		cv::threshold(thr, thr,25, 255,cv::THRESH_BINARY); //Threshold the gray
-  
-		cv::vector<cv::vector<cv::Point> > Interestcontours; // Vector for storing contour
-		cv::vector<cv::Vec4i> hierarchy;
- 
-		cv::findContours( thr, Interestcontours, hierarchy,CV_RETR_CCOMP, CV_CHAIN_APPROX_SIMPLE ); // Find the contours in the image
-   
-		for( int i = 0; i< Interestcontours.size(); i++ ) // iterate through each contour.
-		{
-			double a=contourArea( Interestcontours[i],false);  //  Find the area of contour
-			if(a>largest_area){
-			largest_area=a;
-			largest_contour_index=i;                //Store the index of largest contour
-			bounding_rect=boundingRect(Interestcontours[i]); // Find the bounding rectangle for biggest contour
-			} 
-		}
- 
-	cv::Scalar color( 255,255,255);
-	cv::drawContours( dst, Interestcontours,largest_contour_index, color, CV_FILLED, 8, hierarchy ); // Draw the largest contour using previously stored index.
-	rectangle(img.at(0), bounding_rect,  cv::Scalar(0,255,0),1, 8,0); 
-	cv::imshow( "src", img.at(0) );
-	cv::imshow( "largest Contour", dst );
-	cv::waitKey(0);*/
-		
-		
-		int largest_area=0;
-		int largest_contour_index=0;
-		cv::Rect bounding_rect;
-		//cv::Mat dst;	
-		cv::vector<cv::Vec4i> hierarchy;
-		cv::Mat dst(img.at(0).rows,img.at(0).cols,CV_8UC1,cv::Scalar::all(0));
-		
-		//FIND CONTOURS
-		cv::cvtColor(img.at(0), img.at(20), 6);
-		cv::Canny(img.at(20), img.at(21), 10, 255, 3);
-		cv::findContours( img.at(21), particleContours, hierarchy,CV_RETR_LIST, CV_CHAIN_APPROX_NONE);
-		img.at(23)=img.at(0).clone();
-		cv::drawContours(img.at(23), particleContours, contourId, cv::Scalar(0,0,255), thickness, CV_AA );
-		
-		cv::imshow("cannyed",img.at(23));
-		
-		//FIND LARGEST CONTOURS
-		for( int i = 0; i< particleContours.size(); i++ ) // iterate through each contour.
-		{
-			double a=contourArea( particleContours.at(i),false);  //  Find the area of contour
-			if(a>largest_area){
-			largest_area=a;
-			largest_contour_index=i;                //Store the index of largest contour
-			bounding_rect=boundingRect(particleContours.at(i)); // Find the bounding rectangle for biggest contour
-			} 
-		}
-
-	//DRAW RECTANGLE AROUND LARGEST CONTOUR
-	cv::Scalar color( 255,255,255);
-	cv::drawContours( dst, particleContours,largest_contour_index, color, CV_FILLED, 8, hierarchy );
-	rectangle(img.at(0), bounding_rect,  cv::Scalar(0,255,0),1, 8,0); 
-	cv::imshow( "src", img.at(0) );
-	
-	
-	cv::imshow( "largest Contour", dst );
-	cv::waitKey(0);
-		
-	
-       std::cout<<"particle contours"<<particleContours.at(0);
-       cv::imshow("let the stupidness begin",img.at(23));
-        //estVel=distance/FRAME_RATE;
-        estVel=0.0;
-        std::cout<<"now this is where things get interesting, we're going fast-ish?\n"<<estVel<<"metres per second/n";
+		std::cout<<"little feature detector estimates velocity as: \t";
+				
+		particle_features_prev=particle_features_nxt;
+		cv::cvtColor(img.at(2),img.at(4),6);
+		cv::cvtColor(img.at(3),img.at(5),6);
+		              
+        cv::goodFeaturesToTrack(img.at(4),particle_features_prev,numFeatures=20,0.1,0.1,cv::Mat());
+        cv::calcOpticalFlowPyrLK(img.at(5),img.at(4),particle_features_prev,particle_features_nxt,status,err);
+              
+        for (int i =0; i<particle_features_prev.size(); i++)
+        {
+			if(status[i]==0) continue;//feature not found
+			distance=sqrt((particle_features_nxt.at(0).x-particle_features_prev.at(0).x)*(particle_features_nxt.at(0).x-particle_features_prev.at(0).x) + (particle_features_nxt.at(0).y-particle_features_prev.at(0).y)*(particle_features_nxt.at(0).y-particle_features_prev.at(0).y));
+			distanceStore.push_back(distance);
+			accumulatedDistance=accumulatedDistance+distance;
+			distanceCounter++;
+        }
     }
+    averageDistance=accumulatedDistance/distanceCounter;
+    estVel=averageDistance/FRAME_RATE;
+    std::cout<<estVel<<"pixels per second \n";
+    
     return estVel;
 }
 
@@ -751,19 +720,19 @@ void Preprocessing_Wrap::VideoCaptureOpen(void)
 {
   cap.open(0);
 }
-   
+ 
 void Preprocessing_Wrap::namedWindow(char * name, int num)
 {
   cv::namedWindow(name, num);
 }
-   
+ 
 void Preprocessing_Wrap::nextFrame(int dst)
 {
   cap >> img.at(dst);
 }
-   
+ 
 Preprocessing_Wrap::Preprocessing_Wrap(){}
-   
+ 
 /*********************************************************************************************************************
 *               END PREPROCESSING WRAP                                                                                        *
 *********************************************************************************************************************/

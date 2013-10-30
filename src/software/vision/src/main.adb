@@ -26,6 +26,7 @@ procedure main is
    iDoVelocityMode : Integer;
 
    iImageSource : Interfaces.C.Int;
+   iEnhancedImageSource : Interfaces.C.int;
    iPreviousImageLocation : Interfaces.C.int;
    iImageDestination : Interfaces.C.Int;
    iCannyLocation : Interfaces.C.Int;
@@ -81,6 +82,7 @@ procedure main is
 
    --est vel
    estVel:float;
+   velCount:integer:=1;
 
    CoreWrap : aliased Class_Core_Wrap.Core_Wrap;
    processingWrap : aliased Class_Processing_Wrap.Processing_Wrap;
@@ -89,6 +91,7 @@ procedure main is
 begin
    iImageSource := 0;
    iPreviousImageLocation := 1;
+   iEnhancedImageSource :=2;
    iGreyScaleLocation :=20;
    iCannyLocation :=21;
    iHSILocation := 22;
@@ -277,7 +280,12 @@ begin
 
          processingWrap.goodFeatures(iGreyScaleLocation);
          processingWrap.objectTracking;
-         estVel:=processingWrap.estimateVelocity;
+         if velCount>0 then
+         processingWrap.GaussianBlurSharpener(iImageSource,2,3);
+         processingWrap.GaussianBlurSharpener(1,3,3);
+            estVel:=processingWrap.estimateVelocity;
+         end if;
+         velCount:=velCount+1;
       end if;
 
       --write image to file
