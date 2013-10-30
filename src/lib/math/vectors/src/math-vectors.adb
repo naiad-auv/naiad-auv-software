@@ -6,13 +6,13 @@ with Exception_Handling;
 
 package body Math.Vectors is
 
-   function pxCreate (fX, fY, fZ : float) return pCVector is
+   function xCreate (fX, fY, fZ : float) return CVector is
    begin
 
-      return new CVector'(fX => fX,
+      return CVector'(fX => fX,
                           fY => fY,
                           fZ => fZ);
-   end pxCreate;
+   end xCreate;
 
    function fLength_Squared (this : in CVector) return float is
    begin
@@ -39,7 +39,9 @@ package body Math.Vectors is
          return pxLeftOperandVector.all + xRightOperandVector;
       end if;
 
-      raise Exception_Handling.NullPointer;
+      Exception_Handling.Raise_Exception(E       => Exception_Handling.NullPointer'Identity,
+                                         Message => """+"" (pxLeftOperandVector : in pCVector; xRightOperandVector : in CVector) return CVector");
+      return xRightOperandVector;
    end "+";
 
    function "+" (xLeftOperandVector : in CVector; pxRightOperandVector : in pCVector) return CVector is
@@ -48,7 +50,9 @@ package body Math.Vectors is
          return xLeftOperandVector + pxRightOperandVector.all;
       end if;
 
-      raise Exception_Handling.NullPointer;
+      Exception_Handling.Raise_Exception(E       => Exception_Handling.NullPointer'Identity,
+                                         Message => """+"" (xLeftOperandVector : in CVector; pxRightOperandVector : in pCVector) return CVector");
+      return xLeftOperandVector;
    end "+";
 
    function "+" (pxLeftOperandVector, pxRightOperandVector : in pCVector) return CVector is
@@ -57,7 +61,9 @@ package body Math.Vectors is
          return pxLeftOperandVector.all + pxRightOperandVector.all;
       end if;
 
-      raise Exception_Handling.NullPointer;
+      Exception_Handling.Raise_Exception(E       => Exception_Handling.NullPointer'Identity,
+                                         Message => """+"" (pxLeftOperandVector, pxRightOperandVector : in pCVector) return CVector");
+      return pxLeftOperandVector.all;
    end "+";
 
 
@@ -334,12 +340,12 @@ package body Math.Vectors is
       raise Exception_Handling.NullPointer;
    end xCross_Product;
 
-   function pxGet_Copy (this : in CVector) return pCVector is
+   function pxGet_Allocated_Copy (this : in CVector) return pCVector is
    begin
-      return Math.Vectors.pxCreate(fX => this.fX,
+      return new CVector'(fX => this.fX,
                                    fY => this.fY,
                                    fZ => this.fZ);
-   end pxGet_Copy;
+   end pxGet_Allocated_Copy;
 
    procedure Copy_From (this : in out CVector; xSourceVector : in CVector) is
    begin

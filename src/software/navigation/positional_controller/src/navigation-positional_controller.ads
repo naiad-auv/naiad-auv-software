@@ -8,6 +8,7 @@ with Ada.Text_IO;
 with System.Address_Image;
 with Ada.Finalization;
 with Ada.Unchecked_Deallocation;
+with Exception_Handling;
 
 package Navigation.Positional_Controller is
 

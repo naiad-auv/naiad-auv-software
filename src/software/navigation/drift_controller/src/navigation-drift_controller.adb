@@ -30,7 +30,7 @@ package body Navigation.Drift_Controller is
       pxDriftController.pxWantedAbsolutePosition := pxWantedAbsolutePosition;
       pxDriftController.pxCurrentAbsolutePosition := pxCurrentAbsolutePosition;
       pxDriftController.pxCurrentAbsoluteOrientation := pxCurrentAbsoluteOrientation;
-      pxDriftController.pxLastAbsolutePosition := pxDriftController.pxCurrentAbsolutePosition.pxGet_Copy;
+      pxDriftController.pxLastAbsolutePosition := pxDriftController.pxCurrentAbsolutePosition.pxGet_Allocated_Copy;
       pxDriftController.pxCurrentAbsoluteOrientationInverse := pxCurrentAbsoluteOrientationInverse;
 
       pxDriftController.pxXDriftMotionComponent := Navigation.Motion_Component.pxCreate(eAxisIndex    => Navigation.Motion_Component.DriftX,
@@ -92,6 +92,11 @@ package body Navigation.Drift_Controller is
       this.pxZDriftMotionComponent.Update_Current_Error(xRelativeDriftVelocityVector.fGet_Z);
 
       this.pxLastAbsolutePosition.Copy_From(xSourceVector => this.pxCurrentAbsolutePosition.all);
+
+   exception
+      when E : others =>
+         Exception_Handling.Reraise_Exception(E       => E,
+                                              Message => "Navigation.Drift_Controller.Update_Current_Errors (this : in CDriftController)");
 
    end Update_Current_Errors;
 

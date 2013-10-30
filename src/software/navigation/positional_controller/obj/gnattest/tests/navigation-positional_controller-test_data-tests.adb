@@ -11,11 +11,32 @@ package body Navigation.Positional_Controller.Test_Data.Tests is
 
 
 --  begin read only
+   procedure Test_Free (Gnattest_T : in out Test);
+   procedure Test_Free_6e3c60 (Gnattest_T : in out Test) renames Test_Free;
+--  id:2.1/6e3c605df8c73dbc/Free/1/0/
+   procedure Test_Free (Gnattest_T : in out Test) is
+   --  navigation-positional_controller.ads:17:4:Free
+--  end read only
+
+      pragma Unreferenced (Gnattest_T);
+
+   begin
+
+      AUnit.Assertions.Assert
+        (Gnattest_Generated.Default_Assert_Value,
+         "Test not implemented.");
+
+--  begin read only
+   end Test_Free;
+--  end read only
+
+
+--  begin read only
    procedure Test_pxCreate (Gnattest_T : in out Test);
-   procedure Test_pxCreate_c4fe57 (Gnattest_T : in out Test) renames Test_pxCreate;
---  id:2.1/c4fe576a4ccc7d87/pxCreate/1/0/
+   procedure Test_pxCreate_9768c2 (Gnattest_T : in out Test) renames Test_pxCreate;
+--  id:2.1/9768c2b4e7b92b4e/pxCreate/1/0/
    procedure Test_pxCreate (Gnattest_T : in out Test) is
-   --  navigation-positional_controller.ads:12:4:pxCreate
+   --  navigation-positional_controller.ads:19:4:pxCreate
 --  end read only
 
       pragma Unreferenced (Gnattest_T);

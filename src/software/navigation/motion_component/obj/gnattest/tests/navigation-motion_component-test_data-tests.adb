@@ -11,11 +11,32 @@ package body Navigation.Motion_Component.Test_Data.Tests is
 
 
 --  begin read only
+   procedure Test_Free (Gnattest_T : in out Test);
+   procedure Test_Free_e9f3c1 (Gnattest_T : in out Test) renames Test_Free;
+--  id:2.1/e9f3c13257984f21/Free/1/0/
+   procedure Test_Free (Gnattest_T : in out Test) is
+   --  navigation-motion_component.ads:11:4:Free
+--  end read only
+
+      pragma Unreferenced (Gnattest_T);
+
+   begin
+
+      AUnit.Assertions.Assert
+        (Gnattest_Generated.Default_Assert_Value,
+         "Test not implemented.");
+
+--  begin read only
+   end Test_Free;
+--  end read only
+
+
+--  begin read only
    procedure Test_pxCreate (Gnattest_T : in out Test);
-   procedure Test_pxCreate_d9cc2b (Gnattest_T : in out Test) renames Test_pxCreate;
---  id:2.1/d9cc2b3cc5569fe8/pxCreate/1/0/
+   procedure Test_pxCreate_1ce4e5 (Gnattest_T : in out Test) renames Test_pxCreate;
+--  id:2.1/1ce4e581e8a13e3c/pxCreate/1/0/
    procedure Test_pxCreate (Gnattest_T : in out Test) is
-   --  navigation-motion_component.ads:21:4:pxCreate
+   --  navigation-motion_component.ads:36:4:pxCreate
 --  end read only
 
       pragma Unreferenced (Gnattest_T);

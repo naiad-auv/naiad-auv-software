@@ -6,9 +6,6 @@
 --  placed into Navigation.Drift_Controller.CDriftController_Test_Data.
 
 with AUnit.Assertions; use AUnit.Assertions;
-with math.Vectors; use Math.Vectors;
-with math.Matrices; use math.Matrices;
-with navigation.Motion_Component; use navigation.Motion_Component;
 
 package body Navigation.Drift_Controller.CDriftController_Test_Data.CDriftController_Tests is
 
@@ -23,121 +20,125 @@ package body Navigation.Drift_Controller.CDriftController_Test_Data.CDriftContro
 
       pragma Unreferenced (Gnattest_T);
 
-     pxDriftController : Navigation.Drift_Controller.pCDriftController;
-
-      pxCurrentPos : math.Vectors.pCVector;
-      pxWantedPos : math.Vectors.pCVector;
-      pxCurrentOrientation : math.Matrices.pCMatrix;
-
-      xThrusterControlValues : Navigation.Thrusters.TThrusterEffects;
+--       pxDriftController : Navigation.Drift_Controller.pCDriftController;
+--
+--        pxCurrentPos : math.Vectors.pCVector;
+--        pxWantedPos : math.Vectors.pCVector;
+--        pxCurrentOrientation : math.Matrices.pCMatrix;
+--
+--        xThrusterControlValues : Navigation.Thrusters.TThrusterEffects;
 
    begin
 
-      --X
-      pxCurrentPos := math.Vectors.pxCreate(0.0,0.0,0.0);
-      pxWantedPos := math.Vectors.pxCreate(1.0,0.0,0.0);
-      pxCurrentOrientation := math.Matrices.xCreate_Identity.pxGet_Copy;
+      AUnit.Assertions.Assert(Condition => False,
+                              Message   => "Needs new implementation since inverse matrix is calculated in thruster config");
 
-      pxDriftController := Navigation.Drift_Controller.pxCreate(pxCurrentAbsolutePosition    => pxCurrentPos,
-                                                                pxWantedAbsolutePosition     => pxWantedPos,
-                                                                pxCurrentAbsoluteOrientation => pxCurrentOrientation);
-
-      pxDriftController.Set_New_PID_Component_Scalings(eComponentToUpdate => Navigation.Motion_Component.AllComponents,
-                                                       xNewPIDScaling     => Navigation.PID_Controller.TPIDComponentScalings'(1.0,1.0,1.0));
-
-
-
-      pxDriftController.Update_Current_Errors;
-
-      pxCurrentPos.Copy_From(math.Vectors.pxCreate(0.1,0.0,0.0).all);
-      pxWantedPos.Copy_From(math.Vectors.pxCreate(0.1,1.0,0.0).all);
-
-      pxDriftController.Update_Current_Errors;
-
-      xThrusterControlValues := pxDriftController.xGet_Positional_Thruster_Control_Values(1.0);
-
-      AUnit.Assertions.Assert(Condition => xThrusterControlValues(thrusters.XPosition) > 0.0,
-                              Message   => "Xposition control values is not > 0.0");
-      AUnit.Assertions.Assert(Condition => abs(xThrusterControlValues(thrusters.YPosition)) = 0.0,
-                              Message   => "Yposition control values is not = 0.0");
-      AUnit.Assertions.Assert(Condition => xThrusterControlValues(thrusters.ZPosition) = 0.0,
-                              Message   => "Zposition control values is not 0.0");
-
-      Navigation.Drift_Controller.Free(pxDriftController);
-      math.Vectors.Free(pxWantedPos);
-      math.Vectors.Free(pxCurrentPos);
-      math.Matrices.Free(pxCurrentOrientation);
-
-      --Y
-
-      pxCurrentPos := math.Vectors.pxCreate(0.0,0.0,0.0);
-      pxWantedPos := math.Vectors.pxCreate(0.0,1.0,0.0);
-      pxCurrentOrientation := math.Matrices.xCreate_Identity.pxGet_Copy;
-
-      pxDriftController := Navigation.Drift_Controller.pxCreate(pxCurrentAbsolutePosition    => pxCurrentPos,
-                                                                pxWantedAbsolutePosition     => pxWantedPos,
-                                                                pxCurrentAbsoluteOrientation => pxCurrentOrientation);
-
-      pxDriftController.Set_New_PID_Component_Scalings(eComponentToUpdate => Navigation.Motion_Component.AllComponents,
-                                                       xNewPIDScaling     => Navigation.PID_Controller.TPIDComponentScalings'(1.0,1.0,1.0));
-
-
-
-      pxDriftController.Update_Current_Errors;
-
-      pxCurrentPos.Copy_From(math.Vectors.pxCreate(0.0,0.1,0.0).all);
-      pxWantedPos.Copy_From(math.Vectors.pxCreate(1.0,0.1,0.0).all);
-
-      pxDriftController.Update_Current_Errors;
-
-      xThrusterControlValues := pxDriftController.xGet_Positional_Thruster_Control_Values(1.0);
-
-      AUnit.Assertions.Assert(Condition => xThrusterControlValues(thrusters.XPosition) = 0.0,
-                              Message   => "Xposition control values is not 0.0");
-      AUnit.Assertions.Assert(Condition => abs(xThrusterControlValues(thrusters.YPosition)) > 0.0,
-                              Message   => "Yposition control values is not > 0.0");
-      AUnit.Assertions.Assert(Condition => xThrusterControlValues(thrusters.ZPosition) = 0.0,
-                              Message   => "Zposition control values is not 0.0");
-
-      Navigation.Drift_Controller.Free(pxDriftController);
-      math.Vectors.Free(pxWantedPos);
-      math.Vectors.Free(pxCurrentPos);
-      math.Matrices.Free(pxCurrentOrientation);
-
-      --Z
-      pxCurrentPos := math.Vectors.pxCreate(0.0,0.0,0.0);
-      pxWantedPos := math.Vectors.pxCreate(0.0,0.0,1.0);
-      pxCurrentOrientation := math.Matrices.xCreate_Identity.pxGet_Copy;
-
-      pxDriftController := Navigation.Drift_Controller.pxCreate(pxCurrentAbsolutePosition    => pxCurrentPos,
-                                                                pxWantedAbsolutePosition     => pxWantedPos,
-                                                                pxCurrentAbsoluteOrientation => pxCurrentOrientation);
-
-      pxDriftController.Set_New_PID_Component_Scalings(eComponentToUpdate => Navigation.Motion_Component.AllComponents,
-                                                       xNewPIDScaling     => Navigation.PID_Controller.TPIDComponentScalings'(1.0,1.0,1.0));
-
-
-
-      pxDriftController.Update_Current_Errors;
-
-      pxCurrentPos.Copy_From(math.Vectors.pxCreate(0.0,0.0,0.1).all);
-      pxWantedPos.Copy_From(math.Vectors.pxCreate(0.0,1.0,0.1).all);
-
-      pxDriftController.Update_Current_Errors;
-
-      xThrusterControlValues := pxDriftController.xGet_Positional_Thruster_Control_Values(1.0);
-
-      AUnit.Assertions.Assert(Condition => xThrusterControlValues(thrusters.XPosition) = 0.0,
-                              Message   => "Xposition control values is not 0.0");
-      AUnit.Assertions.Assert(Condition => abs(xThrusterControlValues(thrusters.YPosition)) = 0.0,
-                              Message   => "Yposition control values is not = 0.0");
-      AUnit.Assertions.Assert(Condition => xThrusterControlValues(thrusters.ZPosition) > 0.0,
-                              Message   => "Zposition control values is not > 0.0");
-
-      Navigation.Drift_Controller.Free(pxDriftController);
-      math.Vectors.Free(pxWantedPos);
-      math.Vectors.Free(pxCurrentPos);
-      math.Matrices.Free(pxCurrentOrientation);
+--        --X
+--        pxCurrentPos := math.Vectors.xCreate(0.0,0.0,0.0).pxGet_Allocated_Copy;
+--        pxWantedPos := math.Vectors.xCreate(1.0,0.0,0.0).pxGet_Allocated_Copy;
+--        pxCurrentOrientation := math.Matrices.xCreate_Identity.pxGet_Allocated_Copy;
+--
+--        pxDriftController := Navigation.Drift_Controller.pxCreate(pxCurrentAbsolutePosition    => pxCurrentPos,
+--                                                                  pxWantedAbsolutePosition     => pxWantedPos,
+--                                                                  pxCurrentAbsoluteOrientation => pxCurrentOrientation,
+--                                                                 pxCurrentAbsoluteOrientationInverse => );
+--
+--        pxDriftController.Set_New_PID_Component_Scalings(eComponentToUpdate => Navigation.Motion_Component.AllComponents,
+--                                                         xNewPIDScaling     => Navigation.PID_Controller.TPIDComponentScalings'(1.0,1.0,1.0));
+--
+--
+--
+--        pxDriftController.Update_Current_Errors;
+--
+--        pxCurrentPos.Copy_From(math.Vectors.pxCreate(0.1,0.0,0.0).all);
+--        pxWantedPos.Copy_From(math.Vectors.pxCreate(0.1,1.0,0.0).all);
+--
+--        pxDriftController.Update_Current_Errors;
+--
+--        xThrusterControlValues := pxDriftController.xGet_Positional_Thruster_Control_Values(1.0);
+--
+--        AUnit.Assertions.Assert(Condition => xThrusterControlValues(thrusters.XPosition) > 0.0,
+--                                Message   => "Xposition control values is not > 0.0");
+--        AUnit.Assertions.Assert(Condition => abs(xThrusterControlValues(thrusters.YPosition)) = 0.0,
+--                                Message   => "Yposition control values is not = 0.0");
+--        AUnit.Assertions.Assert(Condition => xThrusterControlValues(thrusters.ZPosition) = 0.0,
+--                                Message   => "Zposition control values is not 0.0");
+--
+--        Navigation.Drift_Controller.Free(pxDriftController);
+--        math.Vectors.Free(pxWantedPos);
+--        math.Vectors.Free(pxCurrentPos);
+--        math.Matrices.Free(pxCurrentOrientation);
+--
+--        --Y
+--
+--        pxCurrentPos := math.Vectors.pxCreate(0.0,0.0,0.0);
+--        pxWantedPos := math.Vectors.pxCreate(0.0,1.0,0.0);
+--        pxCurrentOrientation := math.Matrices.xCreate_Identity.pxGet_Copy;
+--
+--        pxDriftController := Navigation.Drift_Controller.pxCreate(pxCurrentAbsolutePosition    => pxCurrentPos,
+--                                                                  pxWantedAbsolutePosition     => pxWantedPos,
+--                                                                  pxCurrentAbsoluteOrientation => pxCurrentOrientation);
+--
+--        pxDriftController.Set_New_PID_Component_Scalings(eComponentToUpdate => Navigation.Motion_Component.AllComponents,
+--                                                         xNewPIDScaling     => Navigation.PID_Controller.TPIDComponentScalings'(1.0,1.0,1.0));
+--
+--
+--
+--        pxDriftController.Update_Current_Errors;
+--
+--        pxCurrentPos.Copy_From(math.Vectors.pxCreate(0.0,0.1,0.0).all);
+--        pxWantedPos.Copy_From(math.Vectors.pxCreate(1.0,0.1,0.0).all);
+--
+--        pxDriftController.Update_Current_Errors;
+--
+--        xThrusterControlValues := pxDriftController.xGet_Positional_Thruster_Control_Values(1.0);
+--
+--        AUnit.Assertions.Assert(Condition => xThrusterControlValues(thrusters.XPosition) = 0.0,
+--                                Message   => "Xposition control values is not 0.0");
+--        AUnit.Assertions.Assert(Condition => abs(xThrusterControlValues(thrusters.YPosition)) > 0.0,
+--                                Message   => "Yposition control values is not > 0.0");
+--        AUnit.Assertions.Assert(Condition => xThrusterControlValues(thrusters.ZPosition) = 0.0,
+--                                Message   => "Zposition control values is not 0.0");
+--
+--        Navigation.Drift_Controller.Free(pxDriftController);
+--        math.Vectors.Free(pxWantedPos);
+--        math.Vectors.Free(pxCurrentPos);
+--        math.Matrices.Free(pxCurrentOrientation);
+--
+--        --Z
+--        pxCurrentPos := math.Vectors.pxCreate(0.0,0.0,0.0);
+--        pxWantedPos := math.Vectors.pxCreate(0.0,0.0,1.0);
+--        pxCurrentOrientation := math.Matrices.xCreate_Identity.pxGet_Copy;
+--
+--        pxDriftController := Navigation.Drift_Controller.pxCreate(pxCurrentAbsolutePosition    => pxCurrentPos,
+--                                                                  pxWantedAbsolutePosition     => pxWantedPos,
+--                                                                  pxCurrentAbsoluteOrientation => pxCurrentOrientation);
+--
+--        pxDriftController.Set_New_PID_Component_Scalings(eComponentToUpdate => Navigation.Motion_Component.AllComponents,
+--                                                         xNewPIDScaling     => Navigation.PID_Controller.TPIDComponentScalings'(1.0,1.0,1.0));
+--
+--
+--
+--        pxDriftController.Update_Current_Errors;
+--
+--        pxCurrentPos.Copy_From(math.Vectors.pxCreate(0.0,0.0,0.1).all);
+--        pxWantedPos.Copy_From(math.Vectors.pxCreate(0.0,1.0,0.1).all);
+--
+--        pxDriftController.Update_Current_Errors;
+--
+--        xThrusterControlValues := pxDriftController.xGet_Positional_Thruster_Control_Values(1.0);
+--
+--        AUnit.Assertions.Assert(Condition => xThrusterControlValues(thrusters.XPosition) = 0.0,
+--                                Message   => "Xposition control values is not 0.0");
+--        AUnit.Assertions.Assert(Condition => abs(xThrusterControlValues(thrusters.YPosition)) = 0.0,
+--                                Message   => "Yposition control values is not = 0.0");
+--        AUnit.Assertions.Assert(Condition => xThrusterControlValues(thrusters.ZPosition) > 0.0,
+--                                Message   => "Zposition control values is not > 0.0");
+--
+--        Navigation.Drift_Controller.Free(pxDriftController);
+--        math.Vectors.Free(pxWantedPos);
+--        math.Vectors.Free(pxCurrentPos);
+--        math.Matrices.Free(pxCurrentOrientation);
 
 --  begin read only
    end Test_xGet_Positional_Thruster_Control_Values;
@@ -189,7 +190,7 @@ package body Navigation.Drift_Controller.CDriftController_Test_Data.CDriftContro
    procedure Test_Finalize_1d29f1 (Gnattest_T : in out Test_CDriftController) renames Test_Finalize;
 --  id:2.1/1d29f15228a8f8f4/Finalize/1/0/
    procedure Test_Finalize (Gnattest_T : in out Test_CDriftController) is
-   --  navigation-drift_controller.ads:52:4:Finalize
+   --  navigation-drift_controller.ads:53:4:Finalize
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -202,13 +203,15 @@ package body Navigation.Drift_Controller.CDriftController_Test_Data.CDriftContro
 
    begin
 
-      pxCurrentPos := math.Vectors.pxCreate(0.0,0.0,0.0);
-      pxWantedPos := math.Vectors.pxCreate(0.0,0.0,0.0);
-      pxCurrentOrientation := math.Matrices.xCreate_Identity.pxGet_Copy;
+      pxCurrentPos := math.Vectors.xCreate(0.0,0.0,0.0).pxGet_Allocated_Copy;
+      pxWantedPos := math.Vectors.xCreate(0.0,0.0,0.0).pxGet_Allocated_Copy;
+      pxCurrentOrientation := math.Matrices.xCreate_Identity.pxGet_Allocated_Copy;
 
       pxDriftController := Navigation.Drift_Controller.pxCreate(pxCurrentAbsolutePosition    => pxCurrentPos,
                                                                 pxWantedAbsolutePosition     => pxWantedPos,
-                                                                pxCurrentAbsoluteOrientation => pxCurrentOrientation);
+                                                                pxCurrentAbsoluteOrientation => pxCurrentOrientation,
+                                                                pxCurrentAbsoluteOrientationInverse => pxCurrentOrientation
+                                                               );
 
       pxDriftController.Finalize;
 

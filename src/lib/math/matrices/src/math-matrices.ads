@@ -51,7 +51,7 @@ package Math.Matrices is
    function xCreate_Identity return CMatrix;
    --  <summary>Creates an object of type CMatrix representing the identity matrix. Returns a pointer of type pCMatrix to the object created.</summary>
 
-   function pxCreate (tfMatrix : in TMatrix) return pCMatrix;
+   function xCreate (tfMatrix : in TMatrix) return CMatrix;
    --  <summary>Creates an object of type CMatrix from tfMatrix. Returns a pointer of type pCMatrix to the object created. This can be used to specify each element in the matrix.</summary>
    --  <parameter name="tfMatrix">The raw matrix.</parameter>
 
@@ -89,7 +89,7 @@ package Math.Matrices is
    --  <parameter name="this">The CMatrix object to get the inverse of.</parameter>
    --  <exception>Numeric_Error if the object called on has no inverse (matrix is singular).</exception>
 
-   function pxGet_Copy (this : in CMatrix) return pCMatrix;
+   function pxGet_Allocated_Copy (this : in CMatrix) return pCMatrix;
    --  <summary>Creates an object of type CMatrix with the same elements as the object called on. Returns a pointer of type pCMatrix to the object created.</summary>
    --  <parameter name="this">The CMatrix object to get a copy of.</parameter>
 

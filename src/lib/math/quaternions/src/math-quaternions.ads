@@ -14,13 +14,13 @@ package Math.Quaternions is
 
    procedure Free(pxQuaternionToDeallocate : in out pCQuaternion);
 
-   function pxCreate (xAxisVector : in Math.Vectors.CVector; fAngleInDegrees : in float) return pCQuaternion;
-   function pxCreate (pxAxisVector : in Math.Vectors.pCVector; fAngleInDegrees : in float) return pCQuaternion;
+   function xCreate (xAxisVector : in Math.Vectors.CVector; fAngleInDegrees : in float) return CQuaternion;
+   function xCreate (pxAxisVector : in Math.Vectors.pCVector; fAngleInDegrees : in float) return CQuaternion;
    --  <summary>Creates an object of type CQuaternion defining it with an axis vector and an angle in degrees of rotation around that axis. Returns a pointer of type pCQuaternion to the object created.</summary>
    --  <parameter name="pxAxisVector">The axis vector of the quaternion.</parameter>
    --  <parameter name="fAngleInDegrees">The angle (in degrees) of rotation of the quaternion.</parameter>
 
-   function pxGet_Copy (this : in CQuaternion) return pCQuaternion;
+   function pxGet_Allocated_Copy (this : in CQuaternion) return pCQuaternion;
    --  <summary>Creates an object of type CQuaternion with all components copied from the object called on. Returns a pointer of type pCQuaternion to the object created.</summary>
    --  <parameter name="this">The quaternion to copy the components from.</parameter>
 
@@ -91,7 +91,7 @@ package Math.Quaternions is
 
 private
 
-   function pxCreate (fX : in float; fY : in float; fZ : in float; fW : in float) return pCQuaternion;
+   --function xCreate (fX : in float; fY : in float; fZ : in float; fW : in float) return CQuaternion;
 
    type CQuaternion is tagged
       record

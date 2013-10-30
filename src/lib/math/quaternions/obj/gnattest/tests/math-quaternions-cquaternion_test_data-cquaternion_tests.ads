@@ -9,8 +9,14 @@ package Math.Quaternions.CQuaternion_Test_Data.CQuaternion_Tests is
    type Test_CQuaternion is new
      GNATtest_Generated.GNATtest_Standard.Math.Quaternions.CQuaternion_Test_Data.Test_CQuaternion with null record;
 
-   procedure Test_pxGet_Copy_d4ad30 (Gnattest_T : in out Test_CQuaternion);
-   --  math-quaternions.ads:23:4:pxGet_Copy
+   procedure Test_xCreate_6f8503 (Gnattest_T : in out Test_CQuaternion);
+   --  math-quaternions.ads:17:4:xCreate
+
+   procedure Test_xCreate_2f179b (Gnattest_T : in out Test_CQuaternion);
+   --  math-quaternions.ads:18:4:xCreate
+
+   procedure Test_pxGet_Allocated_Copy_b51f62 (Gnattest_T : in out Test_CQuaternion);
+   --  math-quaternions.ads:23:4:pxGet_Allocated_Copy
 
    procedure Test_Multiply_0f0e3b (Gnattest_T : in out Test_CQuaternion);
    --  math-quaternions.ads:28:4:Multiply

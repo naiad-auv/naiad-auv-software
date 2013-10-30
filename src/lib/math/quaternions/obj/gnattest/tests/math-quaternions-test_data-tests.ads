@@ -12,17 +12,8 @@ package Math.Quaternions.Test_Data.Tests is
    procedure Test_Free_01a444 (Gnattest_T : in out Test);
    --  math-quaternions.ads:15:4:Free
 
-   procedure Test_pxCreate_a90dd2 (Gnattest_T : in out Test);
-   --  math-quaternions.ads:17:4:pxCreate
-
-   procedure Test_pxCreate_937a51 (Gnattest_T : in out Test);
-   --  math-quaternions.ads:18:4:pxCreate
-
    procedure Test_fGet_Dot_Product_be0506 (Gnattest_T : in out Test);
    --  math-quaternions.ads:44:4:fGet_Dot_Product
-
-   procedure Test_pxCreate_944041 (Gnattest_T : in out Test);
-   --  math-quaternions.ads:91:4:pxCreate
 
 end Math.Quaternions.Test_Data.Tests;
 --  end read only

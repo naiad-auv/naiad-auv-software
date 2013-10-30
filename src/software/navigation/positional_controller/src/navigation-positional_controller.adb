@@ -56,6 +56,12 @@ package body Navigation.Positional_Controller is
       this.pxXMotionComponent.Update_Current_Error(xRelativeWantedPositionVector.fGet_X);
       this.pxYMotionComponent.Update_Current_Error(xRelativeWantedPositionVector.fGet_Y);
       this.pxZMotionComponent.Update_Current_Error(xRelativeWantedPositionVector.fGet_Z);
+
+   exception
+      when E : others =>
+         Exception_Handling.Reraise_Exception(E       => E,
+                                              Message => "Navigation.Positional_Controller.Update_Current_Errors (this : in CPositionalController)");
+
    end Update_Current_Errors;
 
 

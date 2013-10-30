@@ -5,6 +5,7 @@ with Ada.Numerics;
 with Ada.Exceptions;
 with System;
 with Ada.Unchecked_Deallocation;
+with Exception_Handling;
 
 
 -- Vectors package for classes, types and functionality regarding vectors. A vector object is stored in a pCVector variable and is created with the pxCreate function.
@@ -21,13 +22,13 @@ package Math.Vectors is
 
    procedure Free(pxVectorToDeallocate : in out pCVector);
 
-   function pxCreate (fX, fY, fZ : float) return pCVector;
+   function xCreate (fX, fY, fZ : float) return CVector;
    --  <summary>Creates an object of type CVector. Returns a pointer of type pCVector to the object created.</summary>
    --  <parameter name="fX">The value of the vector's X-component.</parameter>
    --  <parameter name="fY">The value of the vector's Y-component.</parameter>
    --  <parameter name="fZ">The value of the vector's Z-component.</parameter>
 
-   function pxGet_Copy (this : in CVector) return pCVector;
+   function pxGet_Allocated_Copy (this : in CVector) return pCVector;
    --  <summary>Creates an object of type CVector with the same component values as the object called on. Returns a pointer of type pCVector to the object created.</summary>
    --  <parameter name="this">The CVector object to copy the component values from.</parameter>
 
