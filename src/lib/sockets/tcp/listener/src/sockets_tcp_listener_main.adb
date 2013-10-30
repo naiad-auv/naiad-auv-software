@@ -10,6 +10,6 @@ with Ada.Text_IO;
 procedure Sockets_Tcp_Listener_Main is
 begin
     Ada.Text_IO.Put_Line("Started debugging Sockets.Tcp.Listener package.");
-    Sockets.Tcp.Listener.Run;
+    Sockets.Tcp.Listener.Task1;
     Ada.Text_IO.Put_Line("Finished debugging Sockets.Tcp.Listener package.");
 end Sockets_Tcp_Listener_Main;
