@@ -15,7 +15,7 @@ package body Math.Angles.Test_Data.Tests is
    procedure Test_fGet_Angle_Degrees_In_Range_1c8f14 (Gnattest_T : in out Test) renames Test_fGet_Angle_Degrees_In_Range;
 --  id:2.1/1c8f147d4fbef554/fGet_Angle_Degrees_In_Range/1/0/
    procedure Test_fGet_Angle_Degrees_In_Range (Gnattest_T : in out Test) is
-   --  math-angles.ads:8:4:fGet_Angle_Degrees_In_Range
+   --  math-angles.ads:10:4:fGet_Angle_Degrees_In_Range
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -47,7 +47,7 @@ package body Math.Angles.Test_Data.Tests is
    procedure Test_fGet_Angle_Radians_In_Range_73a42b (Gnattest_T : in out Test) renames Test_fGet_Angle_Radians_In_Range;
 --  id:2.1/73a42b665dbd6024/fGet_Angle_Radians_In_Range/1/0/
    procedure Test_fGet_Angle_Radians_In_Range (Gnattest_T : in out Test) is
-   --  math-angles.ads:9:4:fGet_Angle_Radians_In_Range
+   --  math-angles.ads:17:4:fGet_Angle_Radians_In_Range
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -79,7 +79,7 @@ package body Math.Angles.Test_Data.Tests is
    procedure Test_fRadians_To_Degrees_020d52 (Gnattest_T : in out Test) renames Test_fRadians_To_Degrees;
 --  id:2.1/020d52faaa612588/fRadians_To_Degrees/1/0/
    procedure Test_fRadians_To_Degrees (Gnattest_T : in out Test) is
-   --  math-angles.ads:10:4:fRadians_To_Degrees
+   --  math-angles.ads:23:4:fRadians_To_Degrees
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -111,7 +111,7 @@ package body Math.Angles.Test_Data.Tests is
    procedure Test_fDegrees_To_Radians_82d864 (Gnattest_T : in out Test) renames Test_fDegrees_To_Radians;
 --  id:2.1/82d864d89bdadfe4/fDegrees_To_Radians/1/0/
    procedure Test_fDegrees_To_Radians (Gnattest_T : in out Test) is
-   --  math-angles.ads:11:4:fDegrees_To_Radians
+   --  math-angles.ads:28:4:fDegrees_To_Radians
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -143,7 +143,7 @@ package body Math.Angles.Test_Data.Tests is
    procedure Test_fTAngle_To_FAngle_d09c7f (Gnattest_T : in out Test) renames Test_fTAngle_To_FAngle;
 --  id:2.1/d09c7fc8a4672d05/fTAngle_To_FAngle/1/0/
    procedure Test_fTAngle_To_FAngle (Gnattest_T : in out Test) is
-   --  math-angles.ads:12:4:fTAngle_To_FAngle
+   --  math-angles.ads:33:4:fTAngle_To_FAngle
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -166,7 +166,7 @@ package body Math.Angles.Test_Data.Tests is
    procedure Test_tfFAngle_To_TAngle_52086e (Gnattest_T : in out Test) renames Test_tfFAngle_To_TAngle;
 --  id:2.1/52086e37e67bb240/tfFAngle_To_TAngle/1/0/
    procedure Test_tfFAngle_To_TAngle (Gnattest_T : in out Test) is
-   --  math-angles.ads:13:4:tfFAngle_To_TAngle
+   --  math-angles.ads:38:4:tfFAngle_To_TAngle
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -183,7 +183,5 @@ package body Math.Angles.Test_Data.Tests is
 --  begin read only
    end Test_tfFAngle_To_TAngle;
 --  end read only
-
-
 
 end Math.Angles.Test_Data.Tests;

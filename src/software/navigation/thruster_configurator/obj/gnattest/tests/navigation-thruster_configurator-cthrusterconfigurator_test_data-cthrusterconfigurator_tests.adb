@@ -12,8 +12,8 @@ package body Navigation.Thruster_Configurator.CThrusterConfigurator_Test_Data.CT
 
 --  begin read only
    procedure Test_iGet_Number_Of_Thrusters (Gnattest_T : in out Test_CThrusterConfigurator);
-   procedure Test_iGet_Number_Of_Thrusters_d77f18 (Gnattest_T : in out Test_CThrusterConfigurator) renames Test_iGet_Number_Of_Thrusters;
---  id:2.1/d77f18df25a8a493/iGet_Number_Of_Thrusters/1/0/
+   procedure Test_iGet_Number_Of_Thrusters_758531 (Gnattest_T : in out Test_CThrusterConfigurator) renames Test_iGet_Number_Of_Thrusters;
+--  id:2.1/758531a54d97d684/iGet_Number_Of_Thrusters/1/0/
    procedure Test_iGet_Number_Of_Thrusters (Gnattest_T : in out Test_CThrusterConfigurator) is
    --  navigation-thruster_configurator.ads:22:4:iGet_Number_Of_Thrusters
 --  end read only
@@ -36,8 +36,8 @@ package body Navigation.Thruster_Configurator.CThrusterConfigurator_Test_Data.CT
 
 --  begin read only
    procedure Test_tfGet_Thruster_Effects_Matrix (Gnattest_T : in out Test_CThrusterConfigurator);
-   procedure Test_tfGet_Thruster_Effects_Matrix_972577 (Gnattest_T : in out Test_CThrusterConfigurator) renames Test_tfGet_Thruster_Effects_Matrix;
---  id:2.1/9725779a9fcce1b2/tfGet_Thruster_Effects_Matrix/1/0/
+   procedure Test_tfGet_Thruster_Effects_Matrix_817226 (Gnattest_T : in out Test_CThrusterConfigurator) renames Test_tfGet_Thruster_Effects_Matrix;
+--  id:2.1/81722600609c38b7/tfGet_Thruster_Effects_Matrix/1/0/
    procedure Test_tfGet_Thruster_Effects_Matrix (Gnattest_T : in out Test_CThrusterConfigurator) is
    --  navigation-thruster_configurator.ads:23:4:tfGet_Thruster_Effects_Matrix
 --  end read only
@@ -61,8 +61,8 @@ package body Navigation.Thruster_Configurator.CThrusterConfigurator_Test_Data.CT
 
 --  begin read only
    procedure Test_tfGet_Thruster_Values (Gnattest_T : in out Test_CThrusterConfigurator);
-   procedure Test_tfGet_Thruster_Values_fd2a06 (Gnattest_T : in out Test_CThrusterConfigurator) renames Test_tfGet_Thruster_Values;
---  id:2.1/fd2a061725e8db0d/tfGet_Thruster_Values/1/0/
+   procedure Test_tfGet_Thruster_Values_74bc98 (Gnattest_T : in out Test_CThrusterConfigurator) renames Test_tfGet_Thruster_Values;
+--  id:2.1/74bc98c2e1b9dfcd/tfGet_Thruster_Values/1/0/
    procedure Test_tfGet_Thruster_Values (Gnattest_T : in out Test_CThrusterConfigurator) is
    --  navigation-thruster_configurator.ads:25:4:tfGet_Thruster_Values
 --  end read only
@@ -105,10 +105,10 @@ package body Navigation.Thruster_Configurator.CThrusterConfigurator_Test_Data.CT
 
 --  begin read only
    procedure Test_tfCreate_Extended_Matrix (Gnattest_T : in out Test_CThrusterConfigurator);
-   procedure Test_tfCreate_Extended_Matrix_b5b96a (Gnattest_T : in out Test_CThrusterConfigurator) renames Test_tfCreate_Extended_Matrix;
---  id:2.1/b5b96a17803e5ede/tfCreate_Extended_Matrix/1/0/
+   procedure Test_tfCreate_Extended_Matrix_efa3f7 (Gnattest_T : in out Test_CThrusterConfigurator) renames Test_tfCreate_Extended_Matrix;
+--  id:2.1/efa3f7701a90e8a1/tfCreate_Extended_Matrix/1/0/
    procedure Test_tfCreate_Extended_Matrix (Gnattest_T : in out Test_CThrusterConfigurator) is
-   --  navigation-thruster_configurator.ads:37:4:tfCreate_Extended_Matrix
+   --  navigation-thruster_configurator.ads:36:4:tfCreate_Extended_Matrix
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -125,6 +125,69 @@ package body Navigation.Thruster_Configurator.CThrusterConfigurator_Test_Data.CT
 
 --  begin read only
    end Test_tfCreate_Extended_Matrix;
+--  end read only
+
+
+--  begin read only
+   procedure Test_Set_Inverse (Gnattest_T : in out Test_CThrusterConfigurator);
+   procedure Test_Set_Inverse_fa5849 (Gnattest_T : in out Test_CThrusterConfigurator) renames Test_Set_Inverse;
+--  id:2.1/fa584952556d1907/Set_Inverse/1/0/
+   procedure Test_Set_Inverse (Gnattest_T : in out Test_CThrusterConfigurator) is
+   --  navigation-thruster_configurator.ads:39:4:Set_Inverse
+--  end read only
+
+      pragma Unreferenced (Gnattest_T);
+
+   begin
+
+      AUnit.Assertions.Assert
+        (Gnattest_Generated.Default_Assert_Value,
+         "Test not implemented.");
+
+--  begin read only
+   end Test_Set_Inverse;
+--  end read only
+
+
+--  begin read only
+   procedure Test_tfMultiply_Values_With_Matrix (Gnattest_T : in out Test_CThrusterConfigurator);
+   procedure Test_tfMultiply_Values_With_Matrix_098e60 (Gnattest_T : in out Test_CThrusterConfigurator) renames Test_tfMultiply_Values_With_Matrix;
+--  id:2.1/098e60471dde7e61/tfMultiply_Values_With_Matrix/1/0/
+   procedure Test_tfMultiply_Values_With_Matrix (Gnattest_T : in out Test_CThrusterConfigurator) is
+   --  navigation-thruster_configurator.ads:41:4:tfMultiply_Values_With_Matrix
+--  end read only
+
+      pragma Unreferenced (Gnattest_T);
+
+   begin
+
+      AUnit.Assertions.Assert
+        (Gnattest_Generated.Default_Assert_Value,
+         "Test not implemented.");
+
+--  begin read only
+   end Test_tfMultiply_Values_With_Matrix;
+--  end read only
+
+
+--  begin read only
+   procedure Test_Finalize (Gnattest_T : in out Test_CThrusterConfigurator);
+   procedure Test_Finalize_1d29f1 (Gnattest_T : in out Test_CThrusterConfigurator) renames Test_Finalize;
+--  id:2.1/1d29f15228a8f8f4/Finalize/1/0/
+   procedure Test_Finalize (Gnattest_T : in out Test_CThrusterConfigurator) is
+   --  navigation-thruster_configurator.ads:49:4:Finalize
+--  end read only
+
+      pragma Unreferenced (Gnattest_T);
+
+   begin
+
+      AUnit.Assertions.Assert
+        (Gnattest_Generated.Default_Assert_Value,
+         "Test not implemented.");
+
+--  begin read only
+   end Test_Finalize;
 --  end read only
 
 end Navigation.Thruster_Configurator.CThrusterConfigurator_Test_Data.CThrusterConfigurator_Tests;

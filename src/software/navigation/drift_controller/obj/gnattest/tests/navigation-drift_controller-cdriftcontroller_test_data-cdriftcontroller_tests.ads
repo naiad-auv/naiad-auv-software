@@ -19,7 +19,7 @@ package Navigation.Drift_Controller.CDriftController_Test_Data.CDriftController_
    --  navigation-drift_controller.ads:31:4:Set_New_PID_Component_Scalings
 
    procedure Test_Finalize_1d29f1 (Gnattest_T : in out Test_CDriftController);
-   --  navigation-drift_controller.ads:52:4:Finalize
+   --  navigation-drift_controller.ads:53:4:Finalize
 
 end Navigation.Drift_Controller.CDriftController_Test_Data.CDriftController_Tests;
 --  end read only

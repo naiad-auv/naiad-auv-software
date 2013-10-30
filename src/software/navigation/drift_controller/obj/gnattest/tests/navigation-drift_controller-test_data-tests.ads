@@ -12,7 +12,7 @@ package Navigation.Drift_Controller.Test_Data.Tests is
    procedure Test_Free_e78edb (Gnattest_T : in out Test);
    --  navigation-drift_controller.ads:15:4:Free
 
-   procedure Test_pxCreate_3be9de (Gnattest_T : in out Test);
+   procedure Test_pxCreate_5047e3 (Gnattest_T : in out Test);
    --  navigation-drift_controller.ads:17:4:pxCreate
 
 end Navigation.Drift_Controller.Test_Data.Tests;

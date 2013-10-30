@@ -7,18 +7,18 @@ package body Navigation.Dispatcher is
 
       pxNewDispatcher.pxThrusterConfigurator := Navigation.Thruster_Configurator.pxCreate;
 
-      pxNewDispatcher.pxCurrentAbsoluteOrientation := Math.Matrices.xCreate_Identity.pxGet_Copy;
-      pxNewDispatcher.pxWantedAbsoluteOrientation := pxNewDispatcher.pxCurrentAbsoluteOrientation.pxGet_Copy;
-      pxNewDispatcher.pxCurrentAbsoluteOrientationInverse := pxNewDispatcher.pxCurrentAbsoluteOrientation.pxGet_Copy;
+      pxNewDispatcher.pxCurrentAbsoluteOrientation := Math.Matrices.xCreate_Identity.pxGet_Allocated_Copy;
+      pxNewDispatcher.pxWantedAbsoluteOrientation := pxNewDispatcher.pxCurrentAbsoluteOrientation.pxGet_Allocated_Copy;
+      pxNewDispatcher.pxCurrentAbsoluteOrientationInverse := pxNewDispatcher.pxCurrentAbsoluteOrientation.pxGet_Allocated_Copy;
 
 
-      pxNewDispatcher.pxCurrentAbsolutePosition := Math.Vectors.pxCreate(fX => 0.0,
+      pxNewDispatcher.pxCurrentAbsolutePosition := Math.Vectors.xCreate(fX => 0.0,
                                                                          fY => 0.0,
-                                                                         fZ => 0.0);
+                                                                         fZ => 0.0).pxGet_Allocated_Copy;
 
-      pxNewDispatcher.pxWantedAbsolutePosition := Math.Vectors.pxCreate(fX => 0.0,
+      pxNewDispatcher.pxWantedAbsolutePosition := Math.Vectors.xCreate(fX => 0.0,
                                                                         fY => 0.0,
-                                                                        fZ => 0.0);
+                                                                        fZ => 0.0).pxGet_Allocated_Copy;
 
       pxNewDispatcher.pxOrientationalController := Navigation.Orientational_Controller.pxCreate(pxCurrentAbsoluteOrientation => pxNewDispatcher.pxCurrentAbsoluteOrientation,
                                                                                                 pxWantedAbsoluteOrientation  => pxNewDispatcher.pxWantedAbsoluteOrientation,
@@ -86,6 +86,7 @@ package body Navigation.Dispatcher is
       end if;
 
       return tfThrusterValues;
+
    end tfGet_Thruster_Values;
 
    procedure Set_New_Component_PID_Scalings(this : in out CDispatcher; eComponentToChange : Navigation.Motion_Component.EMotionComponent;xNewPIDSCalings : in Navigation.PID_Controller.TPIDComponentScalings) is
@@ -106,7 +107,8 @@ package body Navigation.Dispatcher is
             this.pxOrientationalController.Set_New_PID_Component_Scalings(eComponentToUpdate => eComponentToChange,
                                                                           xNewPIDScaling     => xNewPIDSCalings);
          when Navigation.Motion_Component.Unknown =>
-            raise Exception_Handling.UnknownMotionComponent;
+            Ada.Exceptions.Raise_Exception(E       => Exception_Handling.UnknownMotionComponent'Identity,
+                                           Message => "CDispatcher.Set_New_Component_PID_Scalings");
       end case;
 
    end Set_New_Component_PID_Scalings;

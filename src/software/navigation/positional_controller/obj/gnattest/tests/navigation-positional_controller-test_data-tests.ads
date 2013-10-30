@@ -9,8 +9,11 @@ package Navigation.Positional_Controller.Test_Data.Tests is
    type Test is new GNATtest_Generated.GNATtest_Standard.Navigation.Positional_Controller.Test_Data.Test
    with null record;
 
-   procedure Test_pxCreate_c4fe57 (Gnattest_T : in out Test);
-   --  navigation-positional_controller.ads:12:4:pxCreate
+   procedure Test_Free_6e3c60 (Gnattest_T : in out Test);
+   --  navigation-positional_controller.ads:17:4:Free
+
+   procedure Test_pxCreate_9768c2 (Gnattest_T : in out Test);
+   --  navigation-positional_controller.ads:19:4:pxCreate
 
 end Navigation.Positional_Controller.Test_Data.Tests;
 --  end read only

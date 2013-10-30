@@ -9,14 +9,17 @@ package Navigation.Positional_Controller.CPositionalController_Test_Data.CPositi
    type Test_CPositionalController is new
      GNATtest_Generated.GNATtest_Standard.Navigation.Positional_Controller.CPositionalController_Test_Data.Test_CPositionalController with null record;
 
-   procedure Test_xGet_Positional_Thruster_Control_Values_1d7d6d (Gnattest_T : in out Test_CPositionalController);
-   --  navigation-positional_controller.ads:14:4:xGet_Positional_Thruster_Control_Values
+   procedure Test_xGet_Positional_Thruster_Control_Values_0afcd7 (Gnattest_T : in out Test_CPositionalController);
+   --  navigation-positional_controller.ads:24:4:xGet_Positional_Thruster_Control_Values
 
-   procedure Test_Update_Current_Errors_db8191 (Gnattest_T : in out Test_CPositionalController);
-   --  navigation-positional_controller.ads:16:4:Update_Current_Errors
+   procedure Test_Update_Current_Errors_a4d64d (Gnattest_T : in out Test_CPositionalController);
+   --  navigation-positional_controller.ads:29:4:Update_Current_Errors
 
-   procedure Test_Set_New_PID_Component_Scalings_90f3b2 (Gnattest_T : in out Test_CPositionalController);
-   --  navigation-positional_controller.ads:19:4:Set_New_PID_Component_Scalings
+   procedure Test_Set_New_PID_Component_Scalings_f2c0ab (Gnattest_T : in out Test_CPositionalController);
+   --  navigation-positional_controller.ads:33:4:Set_New_PID_Component_Scalings
+
+   procedure Test_Finalize_1d29f1 (Gnattest_T : in out Test_CPositionalController);
+   --  navigation-positional_controller.ads:54:4:Finalize
 
 end Navigation.Positional_Controller.CPositionalController_Test_Data.CPositionalController_Tests;
 --  end read only

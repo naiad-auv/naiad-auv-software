@@ -4,44 +4,45 @@ with Exception_Handling;
 
 package body Math.Planes is
 
-   function pxCreate (xNormalVector : in Math.Vectors.CVector; fDistanceFromOrigin : in float) return pCPlane is
+   function xCreate (xNormalVector : in Math.Vectors.CVector; fDistanceFromOrigin : in float) return CPlane is
    begin
       if xNormalVector.fLength_Squared = 0.0 then
-         raise Exception_Handling.DivisionByZero;
+         Exception_Handling.Raise_Exception(E => Exception_Handling.UndefinedPlane'Identity,
+                                            Message => "Math.Planes.pxCreate (xNormalVector : in Math.Vectors.CVector; fDistanceFromOrigin : in float)");
       end if;
 
-      return new CPlane'(fA => xNormalVector.fGet_X,
+      return CPlane'(fA => xNormalVector.fGet_X,
                          fB => xNormalVector.fGet_Y,
                          fC => xNormalVector.fGet_Z,
                          fD => fDistanceFromOrigin / xNormalVector.fLength);
-   end pxCreate;
+   end xCreate;
 
-   function pxCreate (pxNormalVector : in Math.Vectors.pCVector; fDistanceFromOrigin : in float) return pCPlane is
+   function xCreate (pxNormalVector : in Math.Vectors.pCVector; fDistanceFromOrigin : in float) return CPlane is
       use Math.Vectors;
    begin
       if pxNormalVector /= null then
-         return Math.Planes.pxCreate(xNormalVector       => pxNormalVector.all,
+         return Math.Planes.xCreate(xNormalVector       => pxNormalVector.all,
                                      fDistanceFromOrigin => fDistanceFromOrigin);
       end if;
 
       raise Exception_Handling.NullPointer;
-   end pxCreate;
+   end xCreate;
 
-   function pxGet_Copy(this : in CPlane) return pCPlane is
+   function pxGet_Allocated_Copy(this : in CPlane) return pCPlane is
    begin
       return new CPlane'(fA => this.fA,
                          fB => this.fB,
                          fC => this.fC,
                          fD => this.fD);
-   end pxGet_Copy;
+   end pxGet_Allocated_Copy;
 
    function xGet_Normal_Vector (this : in CPlane) return Math.Vectors.CVector is
       pxNormalVector : Math.Vectors.pCVector;
       xNormalVector : Math.Vectors.CVector;
    begin
-      pxNormalVector := Math.Vectors.pxCreate(fX => this.fA,
+      pxNormalVector := Math.Vectors.xCreate(fX => this.fA,
                                               fY => this.fB,
-                                              fZ => this.fC);
+                                              fZ => this.fC).pxGet_Allocated_Copy;
       xNormalVector := pxNormalVector.xGet_Normalized;
       Math.Vectors.Free(pxVectorToDeallocate => pxNormalVector);
       return xNormalVector;
@@ -51,9 +52,9 @@ package body Math.Planes is
       pxNormalVector : Math.Vectors.pCVector;
       fDistanceFromOrigin : float;
    begin
-      pxNormalVector := Math.Vectors.pxCreate(fX => this.fA,
+      pxNormalVector := Math.Vectors.xCreate(fX => this.fA,
                                               fY => this.fB,
-                                              fZ => this.fC);
+                                              fZ => this.fC).pxGet_Allocated_Copy;
       fDistanceFromOrigin := this.fD * pxNormalVector.fLength;
       Math.Vectors.Free(pxVectorToDeallocate => pxNormalVector);
 
@@ -118,14 +119,14 @@ package body Math.Planes is
 
    exception
       when Exception_Handling.DivisionByZero =>
-         pxVector := Math.Vectors.pxCreate(fX => 1.0,
+         pxVector := Math.Vectors.xCreate(fX => 1.0,
                                            fY => 0.0,
-                                           fZ => 0.0);
+                                           fZ => 0.0).pxGet_Allocated_Copy;
          if pxVector.xGet_Normalized = xLeftOperandPlane.xGet_Normal_Vector then
             Math.Vectors.Free(pxVectorToDeallocate => pxVector);
-            pxVector := Math.Vectors.pxCreate(fX => 0.0,
+            pxVector := Math.Vectors.xCreate(fX => 0.0,
                                               fY => 1.0,
-                                              fZ => 0.0);
+                                              fZ => 0.0).pxGet_Allocated_Copy;
          end if;
          xVector.Copy_From(xSourceVector => pxVector.all);
          Math.Vectors.Free(pxVectorToDeallocate => pxVector);

@@ -54,13 +54,7 @@ package body simulator.submarine is
                                                                                          fZ => 1.0);
 
    begin
-      if (pxSubmarine=null) then
-         pxSubmarine := simulator.submarine.pxCreate;
-      else
-         Free(pxSubmarine);
-         pxSubmarine := simulator.submarine.pxCreate;
-      end if;
-
+      pxSubmarine := new CSubmarine;
       tfRawMatrix := ((0.36,0.001,0.037),
                       (0.001,0.9,0.0003),
                       (0.037,0.0003,1.094));
@@ -98,12 +92,9 @@ package body simulator.submarine is
    function pxCreate return pCSubmarine is
       pxSubmarine : pCSubmarine;
    begin
-      if(pxSubmarine = null) then
-         pxSubmarine := new CSubmarine;
-      else
-         free(pxSubmarine);
-         pxSubmarine := new CSubmarine;
-      end if;
+
+      pxSubmarine := new CSubmarine;
+
       return pxSubmarine;
    end pxCreate;
 
@@ -293,7 +284,7 @@ package body simulator.submarine is
 
    procedure Set_Buoyancy_Force_Position_Vector(this : in out CSubmarine ; pxBuoyancyForcePositionVector : in math.Vectors.pCVector) is
    begin
-      if(this.pxBuoyancyForcePositionVector=null) then
+      if(this.pxBuoyancyForcePositionVector = null) then
          this.pxBuoyancyForcePositionVector := pxBuoyancyForcePositionVector.pxGet_Copy;
       else
          this.pxBuoyancyForcePositionVector.Copy_From(pxBuoyancyForcePositionVector.all);
@@ -306,7 +297,7 @@ package body simulator.submarine is
 
    procedure Set_Rotation_Friction_Vector(this : in out CSubmarine ; pxRotationFrictionVector : in math.Vectors.pCVector) is
    begin
-      if(this.pxRotationFrictionVector=null) then
+      if(this.pxRotationFrictionVector = null) then
          this.pxRotationFrictionVector := pxRotationFrictionVector.pxGet_Copy;
       else
          this.pxRotationFrictionVector.Copy_From(pxRotationFrictionVector.all);
@@ -320,7 +311,7 @@ package body simulator.submarine is
 
    procedure Set_Veclocity_Friction_Vector(this : in out CSubmarine ; pxVelocityFrictionVector : in math.Vectors.pCVector) is
    begin
-      if(this.pxVelocityFrictionVector=null) then
+      if(this.pxVelocityFrictionVector = null) then
          this.pxVelocityFrictionVector := pxVelocityFrictionVector.pxGet_Copy;
       else
          this.pxVelocityFrictionVector.Copy_From(pxVelocityFrictionVector.all);
@@ -336,7 +327,7 @@ package body simulator.submarine is
    procedure Set_Inertia_Matrix(this : in out CSubmarine; pxInertiaMatrix : in math.Matrices.pCMatrix) is
 
    begin
-      if(this.pxVelocityFrictionVector=null) then
+      if(this.pxInertiaMatrix = null) then
          this.pxInertiaMatrix := pxInertiaMatrix.pxGet_Copy;
       else
          this.pxInertiaMatrix.Copy_From(pxInertiaMatrix.all);
@@ -439,11 +430,10 @@ package body simulator.submarine is
          math.Vectors.Free(this.pxAccelerationVector);
          math.Vectors.Free(this.pxAngularAccelerationVector);
          math.Quaternions.Free(pxRotationQuaternion);
+
       else
          raise UndefinedAccelerations;
       end if;
-
-
 
       math.Quaternions.Free(pxRotationQuaternion);
    end Integrate_Submarine_Variables;
@@ -452,12 +442,9 @@ package body simulator.submarine is
 
    begin
       this.Set_Motor_Force(txMotorForce);
-      for i in 1..10 loop
-         this.Calculate_Acceleration;
-         this.Calculate_Angular_Acceleration;
-         this.Integrate_Submarine_Variables(fTimeDuration => fDeltaTime*0.1);
-      end loop;
-
+      this.Calculate_Acceleration;
+      this.Calculate_Angular_Acceleration;
+      this.Integrate_Submarine_Variables(fTimeDuration => fDeltaTime);
    end Time_Step_Motor_Force_To_Integrate;
 
    procedure Set_Gripper_Left_Status(this : in out CSubmarine ; bGripperLeft : boolean) is

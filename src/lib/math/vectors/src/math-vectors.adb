@@ -6,13 +6,13 @@ with Exception_Handling;
 
 package body Math.Vectors is
 
-   function pxCreate (fX, fY, fZ : float) return pCVector is
+   function xCreate (fX, fY, fZ : float) return CVector is
    begin
 
-      return new CVector'(fX => fX,
+      return CVector'(fX => fX,
                           fY => fY,
                           fZ => fZ);
-   end pxCreate;
+   end xCreate;
 
    function fLength_Squared (this : in CVector) return float is
    begin
@@ -334,12 +334,12 @@ package body Math.Vectors is
       raise Exception_Handling.NullPointer;
    end xCross_Product;
 
-   function pxGet_Copy (this : in CVector) return pCVector is
+   function pxGet_Allocated_Copy (this : in CVector) return pCVector is
    begin
-      return Math.Vectors.pxCreate(fX => this.fX,
+      return new CVector'(fX => this.fX,
                                    fY => this.fY,
                                    fZ => this.fZ);
-   end pxGet_Copy;
+   end pxGet_Allocated_Copy;
 
    procedure Copy_From (this : in out CVector; xSourceVector : in CVector) is
    begin

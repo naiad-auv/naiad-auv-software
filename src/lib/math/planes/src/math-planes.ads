@@ -15,14 +15,14 @@ package Math.Planes is
 
    procedure Free(pxPlaneToDeallocate : in out pCPlane);
 
-   function pxCreate (xNormalVector : in Math.Vectors.CVector; fDistanceFromOrigin : in float) return pCPlane;
-   function pxCreate (pxNormalVector : in Math.Vectors.pCVector; fDistanceFromOrigin : in float) return pCPlane;
+   function xCreate (xNormalVector : in Math.Vectors.CVector; fDistanceFromOrigin : in float) return CPlane;
+   function xCreate (pxNormalVector : in Math.Vectors.pCVector; fDistanceFromOrigin : in float) return CPlane;
    --  <summary>Creates an object of type CPlane. Returns a pointer of type pCPlane to the object created.</summary>
    --  <parameter name="pxNormalVector">The normal vector of the plane to be created.</parameter>
    --  <parameter name="fDistanceFromOrigin">The distance from origin to plane along the normal vector.</parameter>
    --  <exception>Numeric_Error, if pxNormalVector vector length = 0.0.</exception>
 
-   function pxGet_Copy(this : in CPlane) return pCPlane;
+   function pxGet_Allocated_Copy(this : in CPlane) return pCPlane;
 
    --procedure Log_Plane(this : in CPlane);
 

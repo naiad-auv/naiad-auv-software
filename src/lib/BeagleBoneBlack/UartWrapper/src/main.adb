@@ -10,10 +10,12 @@ procedure Main is
 
 begin
 
+   Ada.Text_IO.Put_Line("Testar Emils kod på BBB (läser /dev/ttyO4)");
+
    pxUart := UartWrapper.pxCreate("/dev/ttyACM1", GNAT.Serial_Communications.B9600, 1.0, 100);
 
 
-   pxUart.Uart_Write("hej jag heter emil bergstroem");
+   pxUart.Uart_Write("nils testar\n");
 
 
 
@@ -28,7 +30,7 @@ begin
 
 --   Ada.Text_IO.Put_Line(pxUart.sUartEcho(4,bytesRead,"HEJ",5.0));
 
-	Put_Line (File_Size'Image (Size ("/home/emibe/make.out")) & " bytes");
+	--Put_Line (File_Size'Image (Size ("/home/emibe/make.out")) & " bytes");
 
 
 end Main;

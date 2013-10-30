@@ -9,26 +9,29 @@ package Navigation.Orientational_Controller.COrientationalController_Test_Data.C
    type Test_COrientationalController is new
      GNATtest_Generated.GNATtest_Standard.Navigation.Orientational_Controller.COrientationalController_Test_Data.Test_COrientationalController with null record;
 
-   procedure Test_xGet_Orientational_Thruster_Control_Values_c05145 (Gnattest_T : in out Test_COrientationalController);
-   --  navigation-orientational_controller.ads:20:4:xGet_Orientational_Thruster_Control_Values
+   procedure Test_xGet_Orientational_Thruster_Control_Values_ec7316 (Gnattest_T : in out Test_COrientationalController);
+   --  navigation-orientational_controller.ads:27:4:xGet_Orientational_Thruster_Control_Values
 
-   procedure Test_Update_Current_Errors_8bd63a (Gnattest_T : in out Test_COrientationalController);
-   --  navigation-orientational_controller.ads:26:4:Update_Current_Errors
+   procedure Test_Update_Current_Errors_a4d64d (Gnattest_T : in out Test_COrientationalController);
+   --  navigation-orientational_controller.ads:33:4:Update_Current_Errors
 
-   procedure Test_Set_New_PID_Component_Scalings_29d7cb (Gnattest_T : in out Test_COrientationalController);
-   --  navigation-orientational_controller.ads:30:4:Set_New_PID_Component_Scalings
+   procedure Test_Set_New_PID_Component_Scalings_f2c0ab (Gnattest_T : in out Test_COrientationalController);
+   --  navigation-orientational_controller.ads:37:4:Set_New_PID_Component_Scalings
 
-   procedure Test_Update_Current_Planal_Error_cf72af (Gnattest_T : in out Test_COrientationalController);
-   --  navigation-orientational_controller.ads:38:4:Update_Current_Planal_Error
+   procedure Test_Update_Current_Planal_Error_64978d (Gnattest_T : in out Test_COrientationalController);
+   --  navigation-orientational_controller.ads:45:4:Update_Current_Planal_Error
 
-   procedure Test_Update_Current_Directional_Error_2d1e01 (Gnattest_T : in out Test_COrientationalController);
-   --  navigation-orientational_controller.ads:39:4:Update_Current_Directional_Error
+   procedure Test_Update_Current_Directional_Error_eb91a0 (Gnattest_T : in out Test_COrientationalController);
+   --  navigation-orientational_controller.ads:46:4:Update_Current_Directional_Error
 
-   procedure Test_xGet_Planal_Thruster_Control_Value_266f1d (Gnattest_T : in out Test_COrientationalController);
-   --  navigation-orientational_controller.ads:44:4:xGet_Planal_Thruster_Control_Value
+   procedure Test_xGet_Planal_Thruster_Control_Value_e4eedc (Gnattest_T : in out Test_COrientationalController);
+   --  navigation-orientational_controller.ads:51:4:xGet_Planal_Thruster_Control_Value
 
-   procedure Test_xGet_Directional_Thruster_Control_Value_648db9 (Gnattest_T : in out Test_COrientationalController);
-   --  navigation-orientational_controller.ads:45:4:xGet_Directional_Thruster_Control_Value
+   procedure Test_xGet_Directional_Thruster_Control_Value_538346 (Gnattest_T : in out Test_COrientationalController);
+   --  navigation-orientational_controller.ads:52:4:xGet_Directional_Thruster_Control_Value
+
+   procedure Test_Finalize_1d29f1 (Gnattest_T : in out Test_COrientationalController);
+   --  navigation-orientational_controller.ads:66:4:Finalize
 
 end Navigation.Orientational_Controller.COrientationalController_Test_Data.COrientationalController_Tests;
 --  end read only

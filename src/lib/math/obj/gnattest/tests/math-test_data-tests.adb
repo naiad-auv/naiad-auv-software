@@ -15,7 +15,7 @@ package body Math.Test_Data.Tests is
    procedure Test_DummyTest_01f4ef (Gnattest_T : in out Test) renames Test_DummyTest;
 --  id:2.1/01f4effed93d477b/DummyTest/1/0/
    procedure Test_DummyTest (Gnattest_T : in out Test) is
-   --  math.ads:2:4:DummyTest
+   --  math.ads:3:4:DummyTest
 --  end read only
 
       pragma Unreferenced (Gnattest_T);

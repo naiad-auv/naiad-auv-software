@@ -6,17 +6,16 @@
 --  placed into Navigation.Dispatcher.CDispatcher_Test_Data.
 
 with AUnit.Assertions; use AUnit.Assertions;
-with Ada.Numerics.Elementary_Functions;
 
 package body Navigation.Dispatcher.CDispatcher_Test_Data.CDispatcher_Tests is
 
 
 --  begin read only
    procedure Test_tfGet_Thruster_Values (Gnattest_T : in out Test_CDispatcher);
-   procedure Test_tfGet_Thruster_Values_503b8a (Gnattest_T : in out Test_CDispatcher) renames Test_tfGet_Thruster_Values;
---  id:2.1/503b8a91c50e9201/tfGet_Thruster_Values/1/0/
+   procedure Test_tfGet_Thruster_Values_dcfce3 (Gnattest_T : in out Test_CDispatcher) renames Test_tfGet_Thruster_Values;
+--  id:2.1/dcfce3c0d7daa49a/tfGet_Thruster_Values/1/0/
    procedure Test_tfGet_Thruster_Values (Gnattest_T : in out Test_CDispatcher) is
-   --  navigation-dispatcher.ads:18:4:tfGet_Thruster_Values
+   --  navigation-dispatcher.ads:32:4:tfGet_Thruster_Values
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -31,9 +30,9 @@ package body Navigation.Dispatcher.CDispatcher_Test_Data.CDispatcher_Tests is
    begin
 
       pxDispatcher := Navigation.Dispatcher.pxCreate;
-      pxVector := Math.Vectors.pxCreate(fX => 10.0,
+      pxVector := Math.Vectors.xCreate(fX => 10.0,
                                         fY => 0.0,
-                                        fZ => 0.0);
+                                        fZ => 0.0).pxGet_Allocated_Copy;
       pxDispatcher.Update_Wanted_Absolute_Position(xNewWantedAbsolutePosition => pxVector.all);
       Math.Vectors.Free(pxVectorToDeallocate => pxVector);
 
@@ -202,10 +201,10 @@ package body Navigation.Dispatcher.CDispatcher_Test_Data.CDispatcher_Tests is
 
 --  begin read only
    procedure Test_Set_New_Component_PID_Scalings (Gnattest_T : in out Test_CDispatcher);
-   procedure Test_Set_New_Component_PID_Scalings_444661 (Gnattest_T : in out Test_CDispatcher) renames Test_Set_New_Component_PID_Scalings;
---  id:2.1/44466181038eca33/Set_New_Component_PID_Scalings/1/0/
+   procedure Test_Set_New_Component_PID_Scalings_893439 (Gnattest_T : in out Test_CDispatcher) renames Test_Set_New_Component_PID_Scalings;
+--  id:2.1/893439b054cc7bcb/Set_New_Component_PID_Scalings/1/0/
    procedure Test_Set_New_Component_PID_Scalings (Gnattest_T : in out Test_CDispatcher) is
-   --  navigation-dispatcher.ads:21:4:Set_New_Component_PID_Scalings
+   --  navigation-dispatcher.ads:38:4:Set_New_Component_PID_Scalings
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -226,10 +225,10 @@ package body Navigation.Dispatcher.CDispatcher_Test_Data.CDispatcher_Tests is
 
 --  begin read only
    procedure Test_Update_Current_Absolute_Position (Gnattest_T : in out Test_CDispatcher);
-   procedure Test_Update_Current_Absolute_Position_32eb63 (Gnattest_T : in out Test_CDispatcher) renames Test_Update_Current_Absolute_Position;
---  id:2.1/32eb630e3d453a49/Update_Current_Absolute_Position/1/0/
+   procedure Test_Update_Current_Absolute_Position_ee3e86 (Gnattest_T : in out Test_CDispatcher) renames Test_Update_Current_Absolute_Position;
+--  id:2.1/ee3e86668c6adb8c/Update_Current_Absolute_Position/1/0/
    procedure Test_Update_Current_Absolute_Position (Gnattest_T : in out Test_CDispatcher) is
-   --  navigation-dispatcher.ads:23:4:Update_Current_Absolute_Position
+   --  navigation-dispatcher.ads:44:4:Update_Current_Absolute_Position
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -242,9 +241,9 @@ package body Navigation.Dispatcher.CDispatcher_Test_Data.CDispatcher_Tests is
    begin
       
       pxDispatcher := Navigation.Dispatcher.pxCreate;
-      pxPosition := Math.Vectors.pxCreate(fX => 1.4,
+      pxPosition := Math.Vectors.xCreate(fX => 1.4,
                                           fY => 7.4,
-                                          fZ => 2.3);
+                                          fZ => 2.3).pxGet_Allocated_Copy;
       pxDispatcher.Update_Current_Absolute_Position(xNewCurrentAbsolutePosition => pxPosition.all);
 
       AUnit.Assertions.Assert        (Condition => pxPosition.all'Address /= pxDispatcher.pxCurrentAbsolutePosition.all'Address,
@@ -260,10 +259,10 @@ package body Navigation.Dispatcher.CDispatcher_Test_Data.CDispatcher_Tests is
 
 --  begin read only
    procedure Test_Update_Wanted_Absolute_Position (Gnattest_T : in out Test_CDispatcher);
-   procedure Test_Update_Wanted_Absolute_Position_9393d4 (Gnattest_T : in out Test_CDispatcher) renames Test_Update_Wanted_Absolute_Position;
---  id:2.1/9393d44db18ed734/Update_Wanted_Absolute_Position/1/0/
+   procedure Test_Update_Wanted_Absolute_Position_93298b (Gnattest_T : in out Test_CDispatcher) renames Test_Update_Wanted_Absolute_Position;
+--  id:2.1/93298b2961698444/Update_Wanted_Absolute_Position/1/0/
    procedure Test_Update_Wanted_Absolute_Position (Gnattest_T : in out Test_CDispatcher) is
-   --  navigation-dispatcher.ads:24:4:Update_Wanted_Absolute_Position
+   --  navigation-dispatcher.ads:50:4:Update_Wanted_Absolute_Position
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -276,9 +275,9 @@ package body Navigation.Dispatcher.CDispatcher_Test_Data.CDispatcher_Tests is
    begin
       
       pxDispatcher := Navigation.Dispatcher.pxCreate;
-      pxPosition := Math.Vectors.pxCreate(fX => 1.4,
+      pxPosition := Math.Vectors.xCreate(fX => 1.4,
                                           fY => 7.4,
-                                          fZ => 2.3);
+                                          fZ => 2.3).pxGet_Allocated_Copy;
       pxDispatcher.Update_Wanted_Absolute_Position(xNewWantedAbsolutePosition => pxPosition.all);
 
       AUnit.Assertions.Assert        (Condition => pxPosition.all'Address /= pxDispatcher.pxWantedAbsolutePosition.all'Address,
@@ -294,10 +293,10 @@ package body Navigation.Dispatcher.CDispatcher_Test_Data.CDispatcher_Tests is
 
 --  begin read only
    procedure Test_Update_Current_Absolute_Orientation (Gnattest_T : in out Test_CDispatcher);
-   procedure Test_Update_Current_Absolute_Orientation_80028a (Gnattest_T : in out Test_CDispatcher) renames Test_Update_Current_Absolute_Orientation;
---  id:2.1/80028ab6f920f9d9/Update_Current_Absolute_Orientation/1/0/
+   procedure Test_Update_Current_Absolute_Orientation_f15b9b (Gnattest_T : in out Test_CDispatcher) renames Test_Update_Current_Absolute_Orientation;
+--  id:2.1/f15b9be4d738a731/Update_Current_Absolute_Orientation/1/0/
    procedure Test_Update_Current_Absolute_Orientation (Gnattest_T : in out Test_CDispatcher) is
-   --  navigation-dispatcher.ads:26:4:Update_Current_Absolute_Orientation
+   --  navigation-dispatcher.ads:55:4:Update_Current_Absolute_Orientation
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -310,7 +309,7 @@ package body Navigation.Dispatcher.CDispatcher_Test_Data.CDispatcher_Tests is
    begin
       
       pxDispatcher := Navigation.Dispatcher.pxCreate;
-      pxOrientation := Math.Matrices.xCreate_Rotation_Around_X_Axis(Math.Angles.TAngle(45.0)).pxGet_Copy;
+      pxOrientation := Math.Matrices.xCreate_Rotation_Around_X_Axis(Math.Angles.TAngle(45.0)).pxGet_Allocated_Copy;
       
       pxDispatcher.Update_Current_Absolute_Orientation(xNewCurrentAbsoluteOrientation => pxOrientation.all);
 
@@ -327,10 +326,10 @@ package body Navigation.Dispatcher.CDispatcher_Test_Data.CDispatcher_Tests is
 
 --  begin read only
    procedure Test_Update_Wanted_Absolute_Orientation (Gnattest_T : in out Test_CDispatcher);
-   procedure Test_Update_Wanted_Absolute_Orientation_69507e (Gnattest_T : in out Test_CDispatcher) renames Test_Update_Wanted_Absolute_Orientation;
---  id:2.1/69507ee66e5d9e7a/Update_Wanted_Absolute_Orientation/1/0/
+   procedure Test_Update_Wanted_Absolute_Orientation_3e0717 (Gnattest_T : in out Test_CDispatcher) renames Test_Update_Wanted_Absolute_Orientation;
+--  id:2.1/3e071723ed61198d/Update_Wanted_Absolute_Orientation/1/0/
    procedure Test_Update_Wanted_Absolute_Orientation (Gnattest_T : in out Test_CDispatcher) is
-   --  navigation-dispatcher.ads:27:4:Update_Wanted_Absolute_Orientation
+   --  navigation-dispatcher.ads:60:4:Update_Wanted_Absolute_Orientation
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -343,7 +342,7 @@ package body Navigation.Dispatcher.CDispatcher_Test_Data.CDispatcher_Tests is
    begin
       
       pxDispatcher := Navigation.Dispatcher.pxCreate;
-      pxOrientation := Math.Matrices.xCreate_Rotation_Around_X_Axis(Math.Angles.TAngle(45.0)).pxGet_Copy;
+      pxOrientation := Math.Matrices.xCreate_Rotation_Around_X_Axis(Math.Angles.TAngle(45.0)).pxGet_Allocated_Copy;
       
       pxDispatcher.Update_Wanted_Absolute_Orientation(xNewWantedAbsoluteOrientation => pxOrientation.all);
 
@@ -358,5 +357,25 @@ package body Navigation.Dispatcher.CDispatcher_Test_Data.CDispatcher_Tests is
    end Test_Update_Wanted_Absolute_Orientation;
 --  end read only
 
+
+--  begin read only
+   procedure Test_Finalize (Gnattest_T : in out Test_CDispatcher);
+   procedure Test_Finalize_1d29f1 (Gnattest_T : in out Test_CDispatcher) renames Test_Finalize;
+--  id:2.1/1d29f15228a8f8f4/Finalize/1/0/
+   procedure Test_Finalize (Gnattest_T : in out Test_CDispatcher) is
+   --  navigation-dispatcher.ads:89:4:Finalize
+--  end read only
+
+      pragma Unreferenced (Gnattest_T);
+
+   begin
+
+      AUnit.Assertions.Assert
+        (Gnattest_Generated.Default_Assert_Value,
+         "Test not implemented.");
+
+--  begin read only
+   end Test_Finalize;
+--  end read only
 
 end Navigation.Dispatcher.CDispatcher_Test_Data.CDispatcher_Tests;

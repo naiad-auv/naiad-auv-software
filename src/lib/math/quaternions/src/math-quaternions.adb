@@ -5,16 +5,16 @@ with Exception_Handling;
 
 package body Math.Quaternions is
 
-   function pxCreate (fX : in float; fY : in float; fZ : in float; fW : in float) return pCQuaternion is
-   begin
-      return new CQuaternion'(fX => fX,
-                              fY => fY,
-                              fZ => fZ,
-                              fW => fW);
-   end pxCreate;
+--     function xCreate (fX : in float; fY : in float; fZ : in float; fW : in float) return CQuaternion is
+--     begin
+--        return CQuaternion'(fX => fX,
+--                                fY => fY,
+--                                fZ => fZ,
+--                                fW => fW);
+--     end xCreate;
 
 
-   function pxCreate (xAxisVector : in Math.Vectors.CVector; fAngleInDegrees : in float) return pCQuaternion is
+   function xCreate (xAxisVector : in Math.Vectors.CVector; fAngleInDegrees : in float) return CQuaternion is
       fAngleInRadians : float;
       fNorm : float;
       fScale : float;
@@ -22,9 +22,9 @@ package body Math.Quaternions is
       fX, fY, fZ, fW : float;
    begin
       if xAxisVector.fLength_Squared /= 1.0 then
-         pxNormalizedAxisVector := xAxisVector.xGet_Normalized.pxGet_Copy;
+         pxNormalizedAxisVector := xAxisVector.xGet_Normalized.pxGet_Allocated_Copy;
       else
-         pxNormalizedAxisVector := xAxisVector.pxGet_Copy;
+         pxNormalizedAxisVector := xAxisVector.pxGet_Allocated_Copy;
       end if;
 
       fAngleInRadians := fAngleInDegrees * (Ada.Numerics.Pi / 180.0);
@@ -37,30 +37,30 @@ package body Math.Quaternions is
       fW := Ada.Numerics.Elementary_Functions.Cos(fNorm);
       Math.Vectors.Free(pxVectorToDeallocate => pxNormalizedAxisVector);
 
-      return new CQuaternion'(fX => fX,
+      return CQuaternion'(fX => fX,
                               fY => fY,
                               fZ => fZ,
                               fW => fW);
-   end pxCreate;
+   end xCreate;
 
-   function pxCreate (pxAxisVector : in Math.Vectors.pCVector; fAngleInDegrees : in float) return pCQuaternion is
+   function xCreate (pxAxisVector : in Math.Vectors.pCVector; fAngleInDegrees : in float) return CQuaternion is
       use Math.Vectors;
    begin
       if pxAxisVector /= null then
-         return Math.Quaternions.pxCreate(xAxisVector    => pxAxisVector.all,
+         return Math.Quaternions.xCreate(xAxisVector    => pxAxisVector.all,
                                           fAngleInDegrees => fAngleInDegrees);
       end if;
 
       raise Exception_Handling.NullPointer;
-   end pxCreate;
+   end xCreate;
 
-   function pxGet_Copy (this : in CQuaternion) return pCQuaternion is
+   function pxGet_Allocated_Copy (this : in CQuaternion) return pCQuaternion is
    begin
       return new CQuaternion'(fX => this.fX,
                               fY => this.fY,
                               fZ => this.fZ,
                               fW => this.fW);
-   end pxGet_Copy;
+   end pxGet_Allocated_Copy;
 
    function "*" (xLeftOperandQuaternion, xRightOperandQuaternion : in CQuaternion) return CQuaternion is
    begin
@@ -193,13 +193,13 @@ package body Math.Quaternions is
    begin
       fScale := Ada.Numerics.Elementary_Functions.Sqrt((this.fX*this.fX)+(this.fY*this.fY)+(this.fZ*this.fZ));
       if fScale = 0.0 then
-         pxAxisVector := Math.Vectors.pxCreate(fX => 1.0,
+         pxAxisVector := Math.Vectors.xCreate(fX => 1.0,
                                                fY => 0.0,
-                                               fZ => 0.0);
+                                               fZ => 0.0).pxGet_Allocated_Copy;
       else
-         pxAxisVector := Math.Vectors.pxCreate(fX => this.fX / fScale,
+         pxAxisVector := Math.Vectors.xCreate(fX => this.fX / fScale,
                                                fY => this.fY / fScale,
-                                               fZ => this.fZ / fScale);
+                                               fZ => this.fZ / fScale).pxGet_Allocated_Copy;
       end if;
 
       xAxisVector.Copy_From(xSourceVector => pxAxisVector.all);

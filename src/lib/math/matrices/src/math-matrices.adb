@@ -116,11 +116,11 @@ package body Math.Matrices is
                                 (0.0, fSinAngle, fCosAngle)));
    end xCreate_Rotation_Around_X_Axis;
 
-   function pxCreate(tfMatrix : in TMatrix) return pCMatrix
+   function xCreate(tfMatrix : in TMatrix) return CMatrix
    is
    begin
-      return new CMatrix'(tfMatrix => tfMatrix);
-   end pxCreate;
+      return CMatrix'(tfMatrix => tfMatrix);
+   end xCreate;
 
    -------------------------------------
    -- pxCreate_Rotation_Around_Y_Axis --
@@ -271,10 +271,9 @@ package body Math.Matrices is
       xRightOperandVector : in Math.Vectors.CVector)
       return Math.Vectors.CVector
    is
-      pxProductVector : Math.Vectors.pCVector;
       xProductVector : Math.Vectors.CVector;
    begin
-      pxProductVector := Math.Vectors.pxCreate(fX =>
+      xProductVector := Math.Vectors.xCreate(fX =>
                                                  ( (xLeftOperandMatrix.tfMatrix(1,1) * xRightOperandVector.fGet_X) +
                                                   (xLeftOperandMatrix.tfMatrix(1,2) * xRightOperandVector.fGet_Y) +
                                                   (xLeftOperandMatrix.tfMatrix(1,3) * xRightOperandVector.fGet_Z) ),
@@ -288,8 +287,6 @@ package body Math.Matrices is
                                                  ( (xLeftOperandMatrix.tfMatrix(3,1) * xRightOperandVector.fGet_X) +
                                                   (xLeftOperandMatrix.tfMatrix(3,2) * xRightOperandVector.fGet_Y) +
                                                   (xLeftOperandMatrix.tfMatrix(3,3) * xRightOperandVector.fGet_Z) ));
-      xProductVector.Copy_From(xSourceVector => pxProductVector.all);
-      Math.Vectors.Free(pxVectorToDeallocate => pxProductVector);
       return xProductVector;
    end "*";
 
@@ -331,15 +328,11 @@ package body Math.Matrices is
 
    function "*" (xLeftOperandMatrix : in CMatrix; xRightOperandPlane : in Math.Planes.CPlane) return Math.Planes.CPlane
    is
-      pxNewPlane : Math.Planes.pCPlane;
       xNewPlane : Math.Planes.CPlane;
 
    begin
-      pxNewPlane := Math.Planes.pxCreate(xNormalVector      => Math.Vectors.CVector(xLeftOperandMatrix * xRightOperandPlane.xGet_Normal_Vector),
+      xNewPlane := Math.Planes.xCreate(xNormalVector      => Math.Vectors.CVector(xLeftOperandMatrix * xRightOperandPlane.xGet_Normal_Vector),
                                          fDistanceFromOrigin => xRightOperandPlane.fGet_Distance_From_Origin);
-      xNewPlane.Copy_From(xSourcePlane => pxNewPlane.all);
-      Math.Planes.Free(pxPlaneToDeallocate => pxNewPlane);
-
       return xNewPlane;
    end "*";
 
@@ -539,10 +532,10 @@ package body Math.Matrices is
    -- pxGet_Copy --
    ----------------
 
-   function pxGet_Copy (this : in CMatrix) return pCMatrix is
+   function pxGet_Allocated_Copy (this : in CMatrix) return pCMatrix is
    begin
-      return Math.Matrices.pxCreate(tfMatrix => this.tfMatrix);
-   end pxGet_Copy;
+      return new CMatrix'(tfMatrix => this.tfMatrix);
+   end pxGet_Allocated_Copy;
 
    ---------------------
    -- pxGet_Transpose --
@@ -566,41 +559,29 @@ package body Math.Matrices is
 
 
    function xGet_X_Vector (this : in CMatrix) return Math.Vectors.CVector is
-      pxXVector : Math.Vectors.pCVector;
       xXVector : Math.Vectors.CVector;
    begin
-      pxXVector := Math.Vectors.pxCreate(fX => this.tfMatrix(1,1),
+      xXVector := Math.Vectors.xCreate(fX => this.tfMatrix(1,1),
                                          fY => this.tfMatrix(2,1),
                                          fZ => this.tfMatrix(3,1));
-      xXVector.Copy_From(xSourceVector => pxXVector.all);
-      Math.Vectors.Free(pxVectorToDeallocate => pxXVector);
-
       return xXVector;
    end xGet_X_Vector;
 
    function xGet_Y_Vector (this : in CMatrix) return Math.Vectors.CVector is
-      pxYVector : Math.Vectors.pCVector;
       xYVector : Math.Vectors.CVector;
    begin
-      pxYVector := Math.Vectors.pxCreate(fX => this.tfMatrix(1,2),
+      xYVector := Math.Vectors.xCreate(fX => this.tfMatrix(1,2),
                                          fY => this.tfMatrix(2,2),
                                          fZ => this.tfMatrix(3,2));
-      xYVector.Copy_From(xSourceVector => pxYVector.all);
-
-      Math.Vectors.Free(pxVectorToDeallocate => pxYVector);
       return xYVector;
    end xGet_Y_Vector;
 
    function xGet_Z_Vector (this : in CMatrix) return Math.Vectors.CVector is
-      pxZVector : Math.Vectors.pCVector;
       xZVector : Math.Vectors.CVector;
    begin
-      pxZVector := Math.Vectors.pxCreate(fX => this.tfMatrix(1,3),
+      xZVector := Math.Vectors.xCreate(fX => this.tfMatrix(1,3),
                                          fY => this.tfMatrix(2,3),
                                          fZ => this.tfMatrix(3,3));
-      xZVector.Copy_From(xSourceVector => pxZVector.all);
-
-      Math.Vectors.Free(pxVectorToDeallocate => pxZVector);
       return xZVector;
    end xGet_Z_Vector;
 

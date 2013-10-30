@@ -1,6 +1,16 @@
 with Ada.Exceptions;
+with Ada.Finalization;
 
 package Exception_Handling is
+
+   type CExceptionMsgs is new Ada.Finalization.Controlled with private;
+   type pCExceptionMsgs is access CExceptionMsgs;
+
+
+
+   pxUnhandledExceptionMsgList : pCExceptionMsgs;
+
+   procedure Free(pxObjectToDeallocate : in out pCExceptionMsgs);
 
    UnhandledException : exception;
    --  <summary>Unhandled exception, thrown after logging is performed</summary>
@@ -26,8 +36,32 @@ package Exception_Handling is
    UnknownMotionComponent : exception;
    --  <summary>Unkown motion component exception, thrown when a user tries to update the PID scalings of an undefined component</summary>
 
+   UnknownException : exception;
+
+   UndefinedPlane : exception;
+
    procedure Unhandled_Exception (E : in Ada.Exceptions.Exception_Occurrence);
    --  <summary>Handles the exception E, prints a stacktrace and raises an UnhandledException</summary>
    --  <parameter name="E">The Exception thrown</parameter>
+
+   procedure Handled_Exception;
+
+   procedure Raise_Exception (E : Ada.Exceptions.Exception_Id; Message : String := "");
+   procedure Reraise_Exception (E : Ada.Exceptions.Exception_Occurrence; Message : String := "");
+
+
+private
+   type CExceptionMsgs is new Ada.Finalization.Controlled with
+      record
+         iMessageLength : Natural;
+         sMessage : string(1 .. 1_000);
+         pxNextExceptionMsg : pCExceptionMsgs;
+      end record;
+
+   procedure Finalize(this : in out CExceptionMsgs);
+
+   procedure Add_Msg(this : in out CExceptionMsgs; Message : String := "");
+   procedure Print_Msg(this : in CExceptionMsgs; iCount : in integer);
+   procedure Save_Exception (Message : String := "");
 
 end Exception_Handling;
