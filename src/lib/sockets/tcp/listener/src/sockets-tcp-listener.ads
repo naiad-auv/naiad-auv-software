@@ -1,5 +1,5 @@
 package Sockets.Tcp.Listener is
 
-    procedure Main;
+    procedure Run;
 
 end Sockets.Tcp.Listener;

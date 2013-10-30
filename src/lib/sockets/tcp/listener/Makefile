@@ -4,4 +4,4 @@ all:
 clean:
 	rm -rf obj/*.o
 	rm -rf obj/*.ali
-	rm -rf obj/main
+	rm -rf obj/sockets-tcp-listener-main
