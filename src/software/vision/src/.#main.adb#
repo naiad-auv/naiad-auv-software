@@ -8,31 +8,25 @@ with Vision.Image_Processing;
 procedure main is
 
    --user decisions
-   iUseBuffer : Integer := 1;
-   iUseStatic : Integer := 0;
-   iShowOriginal : Integer := 1;
-   iDoGaussian : Integer := 0;
-   iDoSplit : Integer := 0;
-   iDoCvtGrey : Integer := 0;
-   iDoCvtHSI : Integer := 0;
-   iDoHistoBGR : Integer := 0;
-   iDoHistoHSI : Integer := 0;
-   iDoCanny : Integer := 0;
-   iDoThresh : Integer := 0;
-   iDoHoughCircles : Integer := 0;
-   iDoContours : Integer := 0;
-   iDoApproxPoly : Integer := 0;
-   iDoObjectTracking : Integer := 0;
-   iDoFusion : Integer := 0;
-   iDoVelocityMode : Integer :=0;
-   iInvertImage : Integer := 0;
-   iSharpenImage : Integer := 1;
-
+   iUseBuffer : Integer;
+   iUseStatic : Integer;
+   iShowOriginal : Integer;
+   iDoGaussian : Integer;
+   iDoSplit : Integer;
+   iDoCvtGrey : Integer;
+   iDoCvtHSI : Integer;
+   iDoHistoBGR : Integer;
+   iDoHistoHSI : Integer;
+   iDoCanny : Integer;
+   iDoThresh : Integer;
+   iDoHoughCircles : Integer;
+   iDoContours : Integer;
+   iDoApproxPoly : Integer;
+   iDoObjectTracking : Integer;
+   iDoVelocityMode : Integer;
 
    iImageSource : Interfaces.C.Int;
-   iEnhancedImageSource : Interfaces.C.int;
    iPreviousImageLocation : Interfaces.C.int;
-   iEnhancedPreviousImage : Interfaces.C.int;
    iImageDestination : Interfaces.C.Int;
    iCannyLocation : Interfaces.C.Int;
    iGreyScaleLocation : Interfaces.C.Int;
@@ -41,8 +35,6 @@ procedure main is
    iCirclesLocation : Interfaces.C.Int;
    iGaussianBlurLocation : Interfaces.C.int;
    iThreshedImageLocation : Interfaces.C.int;
-   iFusionOut : Interfaces.C.int;
-   iInvertImageLocation : Interfaces.C.int;
 
    iGreyFilter : Interfaces.C.Int;
    iHSIFilter : Interfaces.C.Int;
@@ -90,8 +82,6 @@ procedure main is
    --est vel
    estVel:float;
 
-   velCount:integer:=1;
-
    CoreWrap : aliased Class_Core_Wrap.Core_Wrap;
    processingWrap : aliased Class_Processing_Wrap.Processing_Wrap;
    preprocessingWrap : aliased Class_Preprocessing_Wrap.Preprocessing_Wrap;
@@ -99,10 +89,6 @@ procedure main is
 begin
    iImageSource := 0;
    iPreviousImageLocation := 1;
-   iImageDestination := 2;
-   iEnhancedImageSource := 3;
-   iEnhancedPreviousImage := 4;
-   iInvertImageLocation := 19;
    iGreyScaleLocation :=20;
    iCannyLocation :=21;
    iHSILocation := 22;
@@ -110,7 +96,6 @@ begin
    iCirclesLocation := 24;
    iGaussianBlurLocation :=25;
    iThreshedImageLocation := 26;
-   iFusionOut := 27;
 
    iGreyFilter := 6;
    iHSIFilter :=40;
@@ -161,6 +146,24 @@ begin
    --est velocity
    estVel :=0.0;
 
+   --user decisions
+   iUseBuffer := 1;
+   iUseStatic := 0;
+   iShowOriginal := 1;
+   iDoGaussian := 0;
+   iDoSplit := 0;
+   iDoCvtGrey := 0;
+   iDoCvtHSI := 0;
+   iDoHistoBGR := 0;
+   iDoHistoHSI := 0;
+   iDoCanny := 0;
+   iDoThresh := 0;
+   iDoHoughCircles := 0;
+   iDoContours := 0;
+   iDoApproxPoly := 0;
+   iDoObjectTracking := 0;
+   iDoVelocityMode := 1;
+
    -----------------------------MAIN LOOP --------------------------------------------------------
    Endless_Loop:
    loop
@@ -169,7 +172,7 @@ begin
          CoreWrap.img_buffer; --load image to img.at(0)
       elsif (iUseStatic =1) then
          --, or just read in single image NEW, READS IN IMAGE AND STORES IN INDEX "IMAGESOURCE" OF "img.at()"
-         CoreWrap.imstore(iImageSource,New_String("Square.jpg"));
+         CoreWrap.imstore(iImageSource,New_String("62.jpg"));
       end if;
 
 
@@ -265,18 +268,16 @@ begin
          processingWrap.showContours(contourOut => iContourLocation,contourId  => -1 ,thickness  => 3 );
 
          processingWrap.cvtColor(iContourLocation,iGreyScaleLocation, iGreyFilter);
+         processingWrap.gaussianBlur(iGreyScaleLocation, iGaussianBlurLocation, 10, GaussianSigmaX, GaussianSigmaY);
+         processingWrap.HoughLinesP(iGaussianBlurLocation);
+         --CoreWrap.imshow(New_String("sending this to tracking?"), iGreyScaleLocation);
+         --CoreWrap.waitKey(0);
 
          processingWrap.approxPolyDP(1.2, 1);
-	 processingWrap.estPosition;
+
          processingWrap.goodFeatures(iGreyScaleLocation);
          processingWrap.objectTracking;
-
-         if velCount>0 then
-         processingWrap.GaussianBlurSharpener(iImageSource,2,3);
-         processingWrap.GaussianBlurSharpener(1,3,3);
-            estVel:=processingWrap.estimateVelocity;
-         end if;
-         velCount:=1;
+         estVel:=processingWrap.estimateVelocity;
       end if;
 
       --write image to file
@@ -306,36 +307,6 @@ begin
       ---Approx Poly
       if (iDoApproxPoly = 1) then
          processingWrap.approxPolyDP(1.2, 1);
-      end if;
-
-
-      --Fusion
-      if (iDoFusion = 1) then
-         processingWrap.fusion(iImageSource, iFusionOut);
---           CoreWrap.imshow(New_String("why so fused?"), iFusionOut);
---           CoreWrap.waitKey(0);
---
-         --debug / test
-         processingWrap.cvtColor(iFusionOut,iGreyScaleLocation, iGreyFilter);
---           CoreWrap.imshow(New_String("fusedf gray"),iGreyScaleLocation);
---           CoreWrap.waitKey(0);
-         processingWrap.Canny(iGreyScaleLocation, iImageDestination, iCannyLowThres, iCannyHighThres, iCannyKernelSize);
-         CoreWrap.imshow(New_String("why so fused canny?"), iImageDestination);--show image for debug purposes
-         CoreWrap.waitKey(0);
-
-      end if;
-
-      --invert image
-      if (iInvertImage = 1) then
-         processingWrap.invertImage(iImageSource, iInvertImageLocation);
-         CoreWrap.imshow(New_String("why so negative?"), iInvertImageLocation);--show image for debug purposes
-         CoreWrap.waitKey(0);
-      end if;
-
-      if(iSharpenImage = 1) then
-         processingWrap.GaussianBlurSharpener(iImageSource,iEnhancedImageSource,3);
-         CoreWrap.imshow(New_String("why so sharp?"),iEnhancedImageSource);
-         CoreWrap.waitKey(0);
       end if;
 
    end loop Endless_Loop;

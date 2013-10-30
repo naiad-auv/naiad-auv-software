@@ -2,10 +2,10 @@
 #include <stdio.h>
 #include <string>
 
-
 //defines
 #define IMAGE_BUFFER_SIZE 10
 #define IMAGE_STORE_SIZE 30
+#define FRAME_RATE 1.0 //images per second
 
 
 class Core_Wrap{
@@ -47,6 +47,8 @@ virtual void FindCircleCenters(void);
 
 virtual void HoughLines(int src, int rho, float theta, int intersectionThreshold);
 
+virtual void HoughLinesP(int src);
+
 virtual void DrawHoughLines(int cdst);
 
 virtual void Contours(int src);
@@ -84,6 +86,14 @@ virtual void roi(int src, int dst);
 virtual void goodFeatures(int src);
 
 virtual void fusion(int src, int dst);
+
+virtual float estimateVelocity(void);
+
+virtual void GaussianBlurSharpener(int src,int destination,int accuracy);
+
+virtual void estPosition(void);
+
+virtual void invertImage(int src, int dst);
 
 Processing_Wrap();
 };

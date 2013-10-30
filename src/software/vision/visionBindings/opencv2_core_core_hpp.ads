@@ -415,7 +415,8 @@ package opencv2_core_core_hpp is
 
    --  skipped empty struct Vec3i
 
-   --  skipped empty struct Vec4i
+   type Vec;
+   subtype Vec4i is Vec;
 
    --  skipped empty struct Vec6i
 
