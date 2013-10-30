@@ -3,8 +3,7 @@ with "../../../pid_controller.gpr";
 project test_pid_controller is
 
    for Source_Dirs use
-     ("../../../../obj/gnattest/tests",
-      "../tests",
+     ("../tests",
       "common");
 
    package Compiler is

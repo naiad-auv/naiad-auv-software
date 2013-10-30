@@ -55,15 +55,12 @@ package body ada_main is
    E192 : Short_Integer; pragma Import (Ada, E192, "gnattest_main_suite_E");
    E194 : Short_Integer; pragma Import (Ada, E194, "navigation_E");
    E196 : Short_Integer; pragma Import (Ada, E196, "navigation__pid_controller_E");
-   E198 : Short_Integer; pragma Import (Ada, E198, "navigation__pid_controller__cpid_controller_test_data_E");
-   E202 : Short_Integer; pragma Import (Ada, E202, "navigation__pid_controller__cpid_controller_test_data__cpid_controller_tests_E");
-   E212 : Short_Integer; pragma Import (Ada, E212, "navigation__pid_controller__cpid_controller_test_data__cpid_controller_tests__suite_E");
+   E198 : Short_Integer; pragma Import (Ada, E198, "navigation__pid_controller__cpidcontroller_test_data_E");
+   E202 : Short_Integer; pragma Import (Ada, E202, "navigation__pid_controller__cpidcontroller_test_data__cpidcontroller_tests_E");
+   E212 : Short_Integer; pragma Import (Ada, E212, "navigation__pid_controller__cpidcontroller_test_data__cpidcontroller_tests__suite_E");
    E216 : Short_Integer; pragma Import (Ada, E216, "navigation__pid_controller__test_data_E");
    E218 : Short_Integer; pragma Import (Ada, E218, "navigation__pid_controller__test_data__tests_E");
    E220 : Short_Integer; pragma Import (Ada, E220, "navigation__pid_controller__test_data__tests__suite_E");
-   E222 : Short_Integer; pragma Import (Ada, E222, "navigation__test_data_E");
-   E224 : Short_Integer; pragma Import (Ada, E224, "navigation__test_data__tests_E");
-   E226 : Short_Integer; pragma Import (Ada, E226, "navigation__test_data__tests__suite_E");
 
    Local_Priority_Specific_Dispatching : constant String := "";
    Local_Interrupt_States : constant String := "";
@@ -74,198 +71,177 @@ package body ada_main is
    begin
       declare
          procedure F1;
-         pragma Import (Ada, F1, "navigation__test_data__tests__suite__finalize_body");
+         pragma Import (Ada, F1, "navigation__pid_controller__test_data__tests__suite__finalize_body");
       begin
-         E226 := E226 - 1;
+         E220 := E220 - 1;
          F1;
       end;
-      E224 := E224 - 1;
+      E218 := E218 - 1;
       declare
          procedure F2;
-         pragma Import (Ada, F2, "navigation__test_data__tests__finalize_spec");
+         pragma Import (Ada, F2, "navigation__pid_controller__test_data__tests__finalize_spec");
       begin
          F2;
       end;
-      E222 := E222 - 1;
+      E216 := E216 - 1;
       declare
          procedure F3;
-         pragma Import (Ada, F3, "navigation__test_data__finalize_spec");
+         pragma Import (Ada, F3, "navigation__pid_controller__test_data__finalize_spec");
       begin
          F3;
       end;
       declare
          procedure F4;
-         pragma Import (Ada, F4, "navigation__pid_controller__test_data__tests__suite__finalize_body");
-      begin
-         E220 := E220 - 1;
-         F4;
-      end;
-      E218 := E218 - 1;
-      declare
-         procedure F5;
-         pragma Import (Ada, F5, "navigation__pid_controller__test_data__tests__finalize_spec");
-      begin
-         F5;
-      end;
-      E216 := E216 - 1;
-      declare
-         procedure F6;
-         pragma Import (Ada, F6, "navigation__pid_controller__test_data__finalize_spec");
-      begin
-         F6;
-      end;
-      declare
-         procedure F7;
-         pragma Import (Ada, F7, "navigation__pid_controller__cpid_controller_test_data__cpid_controller_tests__suite__finalize_body");
+         pragma Import (Ada, F4, "navigation__pid_controller__cpidcontroller_test_data__cpidcontroller_tests__suite__finalize_body");
       begin
          E212 := E212 - 1;
-         F7;
+         F4;
       end;
       E202 := E202 - 1;
       declare
-         procedure F8;
-         pragma Import (Ada, F8, "navigation__pid_controller__cpid_controller_test_data__cpid_controller_tests__finalize_spec");
+         procedure F5;
+         pragma Import (Ada, F5, "navigation__pid_controller__cpidcontroller_test_data__cpidcontroller_tests__finalize_spec");
       begin
-         F8;
+         F5;
       end;
       E198 := E198 - 1;
       declare
-         procedure F9;
-         pragma Import (Ada, F9, "navigation__pid_controller__cpid_controller_test_data__finalize_spec");
+         procedure F6;
+         pragma Import (Ada, F6, "navigation__pid_controller__cpidcontroller_test_data__finalize_spec");
       begin
-         F9;
+         F6;
       end;
       E196 := E196 - 1;
       declare
-         procedure F10;
-         pragma Import (Ada, F10, "navigation__pid_controller__finalize_spec");
+         procedure F7;
+         pragma Import (Ada, F7, "navigation__pid_controller__finalize_spec");
       begin
-         F10;
+         F7;
       end;
       E083 := E083 - 1;
       declare
-         procedure F11;
-         pragma Import (Ada, F11, "aunit__test_suites__finalize_spec");
+         procedure F8;
+         pragma Import (Ada, F8, "aunit__test_suites__finalize_spec");
       begin
-         F11;
+         F8;
       end;
       E200 := E200 - 1;
       declare
-         procedure F12;
-         pragma Import (Ada, F12, "aunit__test_fixtures__finalize_spec");
+         procedure F9;
+         pragma Import (Ada, F9, "aunit__test_fixtures__finalize_spec");
       begin
-         F12;
+         F9;
       end;
       E086 := E086 - 1;
       E088 := E088 - 1;
       declare
-         procedure F13;
-         pragma Import (Ada, F13, "aunit__simple_test_cases__finalize_spec");
+         procedure F10;
+         pragma Import (Ada, F10, "aunit__simple_test_cases__finalize_spec");
       begin
-         F13;
+         F10;
       end;
       E076 := E076 - 1;
       declare
-         procedure F14;
-         pragma Import (Ada, F14, "aunit__reporter__gnattest__finalize_spec");
+         procedure F11;
+         pragma Import (Ada, F11, "aunit__reporter__gnattest__finalize_spec");
       begin
-         F14;
+         F11;
       end;
       E090 := E090 - 1;
       declare
-         procedure F15;
-         pragma Import (Ada, F15, "aunit__assertions__finalize_spec");
+         procedure F12;
+         pragma Import (Ada, F12, "aunit__assertions__finalize_spec");
       begin
-         F15;
+         F12;
       end;
       E061 := E061 - 1;
       declare
-         procedure F16;
-         pragma Import (Ada, F16, "aunit__test_results__finalize_spec");
+         procedure F13;
+         pragma Import (Ada, F13, "aunit__test_results__finalize_spec");
       begin
-         F16;
+         F13;
       end;
       declare
-         procedure F17;
-         pragma Import (Ada, F17, "aunit__test_filters__finalize_spec");
+         procedure F14;
+         pragma Import (Ada, F14, "aunit__test_filters__finalize_spec");
       begin
-         F17;
+         F14;
       end;
       declare
-         procedure F18;
-         pragma Import (Ada, F18, "aunit__tests__finalize_spec");
+         procedure F15;
+         pragma Import (Ada, F15, "aunit__tests__finalize_spec");
       begin
          E091 := E091 - 1;
-         F18;
+         F15;
       end;
       E164 := E164 - 1;
       declare
-         procedure F19;
-         pragma Import (Ada, F19, "ada__text_io__finalize_spec");
+         procedure F16;
+         pragma Import (Ada, F16, "ada__text_io__finalize_spec");
       begin
-         F19;
+         F16;
       end;
       E188 := E188 - 1;
       declare
-         procedure F20;
-         pragma Import (Ada, F20, "system__regexp__finalize_spec");
+         procedure F17;
+         pragma Import (Ada, F17, "system__regexp__finalize_spec");
       begin
-         F20;
+         F17;
       end;
       E160 := E160 - 1;
       declare
+         procedure F18;
+         pragma Import (Ada, F18, "ada__strings__unbounded__finalize_spec");
+      begin
+         F18;
+      end;
+      declare
+         procedure F19;
+         pragma Import (Ada, F19, "system__object_reader__finalize_body");
+      begin
+         E142 := E142 - 1;
+         F19;
+      end;
+      E093 := E093 - 1;
+      E146 := E146 - 1;
+      declare
+         procedure F20;
+         pragma Import (Ada, F20, "system__file_io__finalize_body");
+      begin
+         E166 := E166 - 1;
+         F20;
+      end;
+      declare
          procedure F21;
-         pragma Import (Ada, F21, "ada__strings__unbounded__finalize_spec");
+         pragma Import (Ada, F21, "system__object_reader__finalize_spec");
       begin
          F21;
       end;
       declare
          procedure F22;
-         pragma Import (Ada, F22, "system__object_reader__finalize_body");
+         pragma Import (Ada, F22, "system__file_control_block__finalize_spec");
       begin
-         E142 := E142 - 1;
+         E174 := E174 - 1;
          F22;
       end;
-      E093 := E093 - 1;
-      E146 := E146 - 1;
+      E107 := E107 - 1;
       declare
          procedure F23;
-         pragma Import (Ada, F23, "system__file_io__finalize_body");
+         pragma Import (Ada, F23, "system__pool_global__finalize_spec");
       begin
-         E166 := E166 - 1;
          F23;
       end;
       declare
          procedure F24;
-         pragma Import (Ada, F24, "system__object_reader__finalize_spec");
+         pragma Import (Ada, F24, "system__storage_pools__subpools__finalize_spec");
       begin
          F24;
       end;
       declare
          procedure F25;
-         pragma Import (Ada, F25, "system__file_control_block__finalize_spec");
+         pragma Import (Ada, F25, "system__finalization_masters__finalize_spec");
       begin
-         E174 := E174 - 1;
          F25;
-      end;
-      E107 := E107 - 1;
-      declare
-         procedure F26;
-         pragma Import (Ada, F26, "system__pool_global__finalize_spec");
-      begin
-         F26;
-      end;
-      declare
-         procedure F27;
-         pragma Import (Ada, F27, "system__storage_pools__subpools__finalize_spec");
-      begin
-         F27;
-      end;
-      declare
-         procedure F28;
-         pragma Import (Ada, F28, "system__finalization_masters__finalize_spec");
-      begin
-         F28;
       end;
       declare
          procedure Reraise_Library_Exception_If_Any;
@@ -459,12 +435,12 @@ package body ada_main is
       E194 := E194 + 1;
       Navigation.Pid_Controller'Elab_Spec;
       E196 := E196 + 1;
-      Navigation.Pid_Controller.Cpid_Controller_Test_Data'Elab_Spec;
-      Navigation.Pid_Controller.Cpid_Controller_Test_Data'Elab_Body;
+      Navigation.Pid_Controller.Cpidcontroller_Test_Data'Elab_Spec;
+      Navigation.Pid_Controller.Cpidcontroller_Test_Data'Elab_Body;
       E198 := E198 + 1;
-      Navigation.Pid_Controller.Cpid_Controller_Test_Data.Cpid_Controller_Tests'Elab_Spec;
+      Navigation.Pid_Controller.Cpidcontroller_Test_Data.Cpidcontroller_Tests'Elab_Spec;
       E202 := E202 + 1;
-      Navigation.Pid_Controller.Cpid_Controller_Test_Data.Cpid_Controller_Tests.Suite'Elab_Body;
+      Navigation.Pid_Controller.Cpidcontroller_Test_Data.Cpidcontroller_Tests.Suite'Elab_Body;
       E212 := E212 + 1;
       Navigation.Pid_Controller.Test_Data'Elab_Spec;
       E216 := E216 + 1;
@@ -472,12 +448,6 @@ package body ada_main is
       E218 := E218 + 1;
       Navigation.Pid_Controller.Test_Data.Tests.Suite'Elab_Body;
       E220 := E220 + 1;
-      Navigation.Test_Data'Elab_Spec;
-      E222 := E222 + 1;
-      Navigation.Test_Data.Tests'Elab_Spec;
-      E224 := E224 + 1;
-      Navigation.Test_Data.Tests.Suite'Elab_Body;
-      E226 := E226 + 1;
       Gnattest_Main_Suite'Elab_Body;
       E192 := E192 + 1;
    end adainit;
@@ -515,25 +485,23 @@ package body ada_main is
    end;
 
 --  BEGIN Object file/option list
-   --   /home/emibe/skola/robgit/naiad-auv-software/src/software/navigation/pid_controller/obj/gnattest/harness/gnattest_generated.o
-   --   /home/emibe/skola/robgit/naiad-auv-software/src/software/navigation/pid_controller/obj/gnattest/harness/test_runner.o
-   --   /home/emibe/skola/robgit/naiad-auv-software/src/software/navigation/obj/navigation.o
-   --   /home/emibe/skola/robgit/naiad-auv-software/src/software/navigation/pid_controller/obj/navigation-pid_controller.o
-   --   /home/emibe/skola/robgit/naiad-auv-software/src/software/navigation/pid_controller/obj/gnattest/harness/navigation-pid_controller-cpid_controller_test_data.o
-   --   /home/emibe/skola/robgit/naiad-auv-software/src/software/navigation/pid_controller/obj/gnattest/harness/navigation-pid_controller-cpid_controller_test_data-cpid_controller_tests.o
-   --   /home/emibe/skola/robgit/naiad-auv-software/src/software/navigation/pid_controller/obj/gnattest/harness/navigation-pid_controller-cpid_controller_test_data-cpid_controller_tests-suite.o
-   --   /home/emibe/skola/robgit/naiad-auv-software/src/software/navigation/pid_controller/obj/gnattest/harness/navigation-pid_controller-test_data.o
-   --   /home/emibe/skola/robgit/naiad-auv-software/src/software/navigation/pid_controller/obj/gnattest/harness/navigation-pid_controller-test_data-tests.o
-   --   /home/emibe/skola/robgit/naiad-auv-software/src/software/navigation/pid_controller/obj/gnattest/harness/navigation-pid_controller-test_data-tests-suite.o
-   --   /home/emibe/skola/robgit/naiad-auv-software/src/software/navigation/pid_controller/obj/gnattest/harness/navigation-test_data.o
-   --   /home/emibe/skola/robgit/naiad-auv-software/src/software/navigation/pid_controller/obj/gnattest/harness/navigation-test_data-tests.o
-   --   /home/emibe/skola/robgit/naiad-auv-software/src/software/navigation/pid_controller/obj/gnattest/harness/navigation-test_data-tests-suite.o
-   --   /home/emibe/skola/robgit/naiad-auv-software/src/software/navigation/pid_controller/obj/gnattest/harness/gnattest_main_suite.o
-   --   -L/home/emibe/skola/robgit/naiad-auv-software/src/software/navigation/pid_controller/obj/gnattest/harness/
-   --   -L/home/emibe/skola/robgit/naiad-auv-software/src/software/navigation/pid_controller/obj/gnattest/harness/
+   --   /home/emibe/skola/naiad-auv-software/src/software/navigation/pid_controller/obj/gnattest/harness/gnattest_generated.o
+   --   /home/emibe/skola/naiad-auv-software/src/software/navigation/pid_controller/obj/gnattest/harness/test_runner.o
+   --   /home/emibe/skola/naiad-auv-software/src/software/navigation/obj/navigation.o
+   --   /home/emibe/skola/naiad-auv-software/src/software/navigation/pid_controller/obj/navigation-pid_controller.o
+   --   /home/emibe/skola/naiad-auv-software/src/software/navigation/pid_controller/obj/gnattest/harness/navigation-pid_controller-cpidcontroller_test_data.o
+   --   /home/emibe/skola/naiad-auv-software/src/software/navigation/pid_controller/obj/gnattest/harness/navigation-pid_controller-cpidcontroller_test_data-cpidcontroller_tests.o
+   --   /home/emibe/skola/naiad-auv-software/src/software/navigation/pid_controller/obj/gnattest/harness/navigation-pid_controller-cpidcontroller_test_data-cpidcontroller_tests-suite.o
+   --   /home/emibe/skola/naiad-auv-software/src/software/navigation/pid_controller/obj/gnattest/harness/navigation-pid_controller-test_data.o
+   --   /home/emibe/skola/naiad-auv-software/src/software/navigation/pid_controller/obj/gnattest/harness/navigation-pid_controller-test_data-tests.o
+   --   /home/emibe/skola/naiad-auv-software/src/software/navigation/pid_controller/obj/gnattest/harness/navigation-pid_controller-test_data-tests-suite.o
+   --   /home/emibe/skola/naiad-auv-software/src/software/navigation/pid_controller/obj/gnattest/harness/gnattest_main_suite.o
+   --   -L/home/emibe/skola/naiad-auv-software/src/software/navigation/pid_controller/obj/gnattest/harness/
+   --   -L/home/emibe/skola/naiad-auv-software/src/software/navigation/pid_controller/obj/gnattest/harness/
    --   -L/usr/gnat/lib/aunit/native-full/
-   --   -L/home/emibe/skola/robgit/naiad-auv-software/src/software/navigation/pid_controller/obj/
-   --   -L/home/emibe/skola/robgit/naiad-auv-software/src/software/navigation/obj/
+   --   -L/home/emibe/skola/naiad-auv-software/src/software/navigation/pid_controller/obj/
+   --   -L/home/emibe/skola/naiad-auv-software/src/lib/exception_handling/obj/
+   --   -L/home/emibe/skola/naiad-auv-software/src/software/navigation/obj/
    --   -L/usr/gnat/lib/gcc/x86_64-pc-linux-gnu/4.7.4/adalib/
    --   -static
    --   -lgnat
