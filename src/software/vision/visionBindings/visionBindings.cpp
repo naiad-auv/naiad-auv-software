@@ -45,8 +45,8 @@ void Core_Wrap::img_buffer()
 	char strStorage[50]; // enough to hold all numbers up to 64-bits
 	int bufSize=0;
 	  
-	std::string folderPath = "/home/vision/Documents/project/cdt508/Robosub2012_logging/Loggning/log 3/Bottom/";
-	//std::string folderPath = "//home/bork/Data/cdt508/Robosub2012_logging/Loggning/log 3/Bottom/";
+	//std::string folderPath = "/home/vision/Documents/project/cdt508/Robosub2012_logging/Loggning/log 3/Bottom/";
+	std::string folderPath = "//home/bork/Data/cdt508/Robosub2012_logging/Loggning/log 3/Bottom/";
 	
 	std::string result;
 	std::string imageType = ".jpg";
@@ -493,7 +493,7 @@ int Processing_Wrap::thresh(int src, int blueLow, int blueUp, int greenLow, int 
 	int tolerance = 0.05;
 	int i;
 
-	cv::inRange(img.at(src), cv::Scalar(blueLow+(tolerance*blueLow), greenLow+(tolerance*greenLow), redLow+(tolerance*redLow)), cv::Scalar(blueUp+(tolerance*blueUp), greenUp+(tolerance*greenUp), redUp+(tolerance*redUp)), mask);
+	cv::inRange(img.at(src), cv::Scalar(blueLow-(tolerance*blueLow), greenLow-(tolerance*greenLow), redLow-(tolerance*redLow)), cv::Scalar(blueUp+(tolerance*blueUp), greenUp+(tolerance*greenUp), redUp+(tolerance*redUp)), mask);
 	cv::imshow("mask",mask);
 	cv::waitKey(0);
 	threshOut.copyTo(outPic,mask);
@@ -592,6 +592,29 @@ void Processing_Wrap::roi(int src, int dst)
 	G = F(cv::Range(0,0), cv::Range(100,100));
 	cv::imshow("roi", G);
 	cv::waitKey(0);
+}
+
+/////////////////////// FUSION ////////////////////////////////////////////////////////////
+
+void Processing_Wrap::fusion(int src, int dst)
+{
+	//DO STUFF
+	cv::Mat img1=img.at(src).clone(), img2, img3, img4, img5=img.at(src).clone();
+	cv::cvtColor(img5, img4, CV_BGR2HSV);
+	//cv::cvtColor(img1, img2, CV_BGR2GRAY);
+	double alpha = 1,beta = 2;
+	//cv::addWeighted(img2, alpha, img4, beta, (double)(000,000,000), img3);
+	img5.copyTo(img3,img4);
+	//img3.copyTo(img3,img4);
+	int i = 0;
+	for (i = 0; i < 100; i++)
+	{
+		//DO
+		img3.copyTo(img3,img4);
+	}
+	std::cout<<"\n loops :"<<i;
+	img.at(dst) = img3.clone();
+	
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////

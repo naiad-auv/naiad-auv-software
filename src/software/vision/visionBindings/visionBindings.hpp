@@ -83,6 +83,8 @@ virtual void roi(int src, int dst);
 
 virtual void goodFeatures(int src);
 
+virtual void fusion(int src, int dst);
+
 Processing_Wrap();
 };
 
