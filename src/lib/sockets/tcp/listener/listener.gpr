@@ -1,4 +1,4 @@
-with "../Tcp.gpr";
+with "../tcp.gpr";
 
 project Listener is
     for Source_Dirs use ("src");
