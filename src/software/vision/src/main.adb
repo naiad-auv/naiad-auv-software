@@ -26,7 +26,8 @@ procedure main is
    iDoFusion : Integer := 0;
    iDoVelocityMode : Integer :=0;
    iInvertImage : Integer := 0;
-   iSharpenImage : Integer := 1;
+   iSharpenImage : Integer := 0;
+   iCompareHistograms : Integer := 1;
 
 
    iImageSource : Interfaces.C.Int;
@@ -91,6 +92,13 @@ procedure main is
    estVel:float;
 
    velCount:integer:=1;
+
+   --hist comparison
+   iCorrelation : interfaces.c.int;
+   iChiSquare : interfaces.c.int;
+   iIntersection : interfaces.c.int;
+   iBhattacharyyaDistance : interfaces.c.int;
+   compareHistResult : interfaces.c.double;
 
    CoreWrap : aliased Class_Core_Wrap.Core_Wrap;
    processingWrap : aliased Class_Processing_Wrap.Processing_Wrap;
@@ -160,6 +168,12 @@ begin
 
    --est velocity
    estVel :=0.0;
+
+   --compare histogram
+   iCorrelation :=1;
+   iChiSquare :=2;
+   iIntersection :=3;
+   iBhattacharyyaDistance :=4;
 
    -----------------------------MAIN LOOP --------------------------------------------------------
    Endless_Loop:
@@ -337,6 +351,15 @@ begin
          CoreWrap.imshow(New_String("why so sharp?"),iEnhancedImageSource);
          CoreWrap.waitKey(0);
       end if;
+
+      if(iCompareHistograms = 1) then
+         compareHistResult:=processingWrap.compareHSVHistograms(iImageSource,iPreviousImageLocation,iChiSquare);
+--        iCorrelation : 1;
+--     iChiSquare : 2;
+--     iIntersection : 3;
+--     iBhattacharyyaDistance : 4;
+      end if;
+
 
    end loop Endless_Loop;
 end main;

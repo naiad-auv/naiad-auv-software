@@ -51,6 +51,12 @@ package visionBindings_cpp is
    hist : aliased opencv2_core_core_hpp.Class_MatND.MatND;  -- visionBindings.cpp:27
    pragma Import (C, hist, "hist");
 
+   prevHist : aliased opencv2_core_core_hpp.Class_MatND.MatND;  -- visionBindings.cpp:27
+   pragma Import (C, prevHist, "prevHist");
+
+   currentHist : aliased opencv2_core_core_hpp.Class_MatND.MatND;  -- visionBindings.cpp:27
+   pragma Import (C, currentHist, "currentHist");
+
    circleCenters : aliased cpp_4_7_4_bits_stl_vector_h.Class_vector.vector;  -- visionBindings.cpp:29
    pragma Import (C, circleCenters, "circleCenters");
 

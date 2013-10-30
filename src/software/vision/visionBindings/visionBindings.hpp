@@ -63,6 +63,8 @@ virtual void showBGRHistogram(int histSize);
 
 virtual void showHSIHistogram(int histSize[]);
 
+virtual double compareHSVHistograms(int src1,int src2,int compareMethod);
+
 virtual void approxPolyDP(double epsilon, bool closed);
 
 virtual void splitChannels(int src);

@@ -24,7 +24,7 @@ cv::vector<cv::Mat> BGR;
 cv::Mat blueHistVals;
 cv::Mat greenHistVals;
 cv::Mat redHistVals;
-cv::MatND hist;
+cv::MatND hist,prevHist,currentHist;
  
 std::vector<cv::Point> circleCenters;
 std::vector<cv::Point> rectangleCenters;
@@ -475,6 +475,40 @@ void Processing_Wrap::showHSIHistogram(int histSize[])
 }
  
  
+ ///////////////////////////////////// display HSI Histo/////////////////////////////////////////////
+// used to debug hsi histo, check if it works
+ 
+double Processing_Wrap::compareHSVHistograms(int src1,int src2,int compareMethod) 
+{
+	double result=0;
+	int channels[] = { 0, 1 };
+	cv::Mat histOne,histTwo;
+	
+  //Using 30 bins for hue and 32 for saturation
+  int h_bins = 50; int s_bins = 60;
+  int histSize[] = { h_bins, s_bins };
+
+  // hue varies from 0 to 256, saturation from 0 to 180
+  float h_ranges[] = { 0, 256 };
+  float s_ranges[] = { 0, 180 };
+
+  const float* ranges[] = { h_ranges, s_ranges };
+
+	
+	calcHist( &img.at(src1), 1, channels, cv::Mat(), histOne, 2, histSize, ranges, true, false );
+	normalize( histOne, histOne, 0, 1, cv::NORM_MINMAX, -1, cv::Mat() );
+  
+	calcHist( &img.at(src1), 1, channels, cv::Mat(), histTwo, 2, histSize, ranges, true, false );
+	normalize( histTwo, histTwo, 0, 1, cv::NORM_MINMAX, -1, cv::Mat() );
+	
+	result = compareHist( histOne, histTwo, compareMethod );
+	
+	std::cout<<"compare result is "<<result;
+	
+	return result; 
+}
+
+
 ///////////////////////  SHOW BLUE CHANNEL        ///////////////////////////////////////////
  
 void Processing_Wrap::showBlueChannel()
