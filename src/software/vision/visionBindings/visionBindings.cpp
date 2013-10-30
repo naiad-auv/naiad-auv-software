@@ -366,7 +366,7 @@ void Processing_Wrap::approxPolyDP(double epsilon, bool closed)
         }
         //std::cout<<"\n polys:\t\t"<<polys.at(0)<<std::endl;
         //tracking, convert int point to float point for optical tracking function
-        features_prev=(features_next);
+        features_prev=features_next;
         cv::Mat srcMat = cv::Mat(polys);
         cv::Mat dstMat = cv::Mat(features_next);
         cv::Mat tmpMat;
@@ -379,7 +379,15 @@ void Processing_Wrap::approxPolyDP(double epsilon, bool closed)
     //std::cout<<"\n rect centers:\t\t"<<rectangleCenters;
     std::cout<<"\n triangles:\t\t"<<triCount<<std::endl;
     std::cout<<" contour count:\t\t"<<contourCnt<<std::endl;
+    //reset features in a dumb way
+    if (polys.size()==0)
+    {
+		features_next.clear();
+	}
     //std::cout<<"triangle centers:\t"<<triangleCenters<<std::endl;
+    
+    std::cout<<"\n polys DETECTED:\t\t"<<polys.size()<<std::endl;
+    std::cout<<"size of features \n"<<features_next.size();
 }
  
  
@@ -517,7 +525,8 @@ void Processing_Wrap::goodFeatures(int src)
                                      bool useHarrisDetector=false, double k=0.04 );
     */
     cv::goodFeaturesToTrack(img.at(src),features_next,numFeatures,0.1,0.1,cv::Mat());
-    //std::cout<<"leaving good features";
+    
+    //std::cout<<"leaving good features with feature size of"<<features_next.size()<<"\n";
 }
 
 
@@ -699,7 +708,7 @@ float Processing_Wrap::estimateVelocity(void)
 }
 
 
-///////////////////////          ///////////////////////////////////////////
+///////////////////////  PRINTOUT BASED ON POSITION      ///////////////////////////////////////////
 
 void Processing_Wrap::estPosition(void)
 {
