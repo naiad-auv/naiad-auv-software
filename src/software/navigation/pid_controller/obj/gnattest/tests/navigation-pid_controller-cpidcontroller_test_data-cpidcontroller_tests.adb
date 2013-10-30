@@ -20,11 +20,20 @@ package body Navigation.PID_Controller.CPIDController_Test_Data.CPIDController_T
 
       pragma Unreferenced (Gnattest_T);
 
+      pxObject : pCPIDController;
+
+      xPIDScalints : Navigation.PID_Controller.TPIDComponentScalings := (1.0,1.0,1.0);
+
    begin
 
-      AUnit.Assertions.Assert
-        (Gnattest_Generated.Default_Assert_Value,
-         "Test not implemented.");
+      pxObject := PID_Controller.pxCreate(xPIDScalints);
+
+      pxObject.Set_New_Set_Point(123.65);
+
+      AUnit.Assertions.Assert(Condition => (abs(pxObject.fCurrentSetPoint - 123.65) < 0.0001), Message => ("Setpoint set incorrectly, expected: 123.65 actual: "
+                                                                                                           & float'Image(pxObject.fCurrentSetPoint)));
+
+      Navigation.PID_Controller.Free(pxPIDControllerToDeallocate => pxObject);
 
 --  begin read only
    end Test_Set_New_Set_Point;
@@ -41,11 +50,19 @@ package body Navigation.PID_Controller.CPIDController_Test_Data.CPIDController_T
 
       pragma Unreferenced (Gnattest_T);
 
-   begin
+      pxObject : pCPIDController;
+      xPIDScalings : Navigation.PID_Controller.TPIDComponentScalings := (1.0, -2.0, 0.0);
 
-      AUnit.Assertions.Assert
-        (Gnattest_Generated.Default_Assert_Value,
-         "Test not implemented.");
+   begin
+      pxObject := PID_Controller.pxCreate(xPIDScalings);
+
+      AUnit.Assertions.Assert(Condition => (abs(pxObject.fProportionalScale - 1.0) < 0.0001), Message => ("Proportional part set incorrectly expected 0.0, actual: "
+                                                                                                          & Float'Image(pxObject.fProportionalScale)));
+      AUnit.Assertions.Assert(Condition => (abs(pxObject.fIntegralScale + 2.0) < 0.0001), Message => ("Integral part set incorrectly, expected: -2.0 actual: "
+                                                                                                      & Float'Image(pxObject.fIntegralScale)));
+      AUnit.Assertions.Assert(Condition => (abs(pxObject.fDerivativeScale - 0.0) < 0.0001), Message => ("Derivative part set incorrectly, expected: 1.0 actual: "
+                                                                                                        & float'Image(pxObject.fDerivativeScale)));
+      Navigation.PID_Controller.Free(pxPIDControllerToDeallocate => pxObject);
 
 --  begin read only
    end Test_Set_New_PID_Component_Scalings;
@@ -62,12 +79,17 @@ package body Navigation.PID_Controller.CPIDController_Test_Data.CPIDController_T
 
       pragma Unreferenced (Gnattest_T);
 
+      pxObject : pCPIDController;
+      xPIDScalints : Navigation.PID_Controller.TPIDComponentScalings := (1.0,1.0,1.0);
+
    begin
+      pxObject := PID_Controller.pxCreate(xPIDScalints);
 
-      AUnit.Assertions.Assert
-        (Gnattest_Generated.Default_Assert_Value,
-         "Test not implemented.");
+      pxObject.Update_Current_Value_From_External_Source(100.0);
 
+      AUnit.Assertions.Assert(Condition => pxObject.fCurrentValue = 100.0,
+                              Message   => "fCurrentValue is not updated as it should");
+      Navigation.PID_Controller.Free(pxPIDControllerToDeallocate => pxObject);
 --  begin read only
    end Test_Update_Current_Value_From_External_Source;
 --  end read only
@@ -83,11 +105,38 @@ package body Navigation.PID_Controller.CPIDController_Test_Data.CPIDController_T
 
       pragma Unreferenced (Gnattest_T);
 
-   begin
 
-      AUnit.Assertions.Assert
-        (Gnattest_Generated.Default_Assert_Value,
-         "Test not implemented.");
+      pxObject : pCPIDController;
+      value : float;
+      xScalings : Navigation.PID_Controller.TPIDComponentScalings := (1.0, 2.0, 3.0);
+
+   begin
+      pxObject := PID_Controller.pxCreate(xScalings);
+
+      pxObject.Set_New_Set_Point(123.0);
+      value := pxObject.xGet_New_Control_Value(1.0);
+
+      pxObject.Reset_Controller;
+
+      AUnit.Assertions.Assert(Condition => pxObject.fCurrentValue = 0.0,
+                              Message => "Current value did not reset");
+      AUnit.Assertions.Assert(Condition => pxObject.fCurrentSetPoint = 0.0,
+                              Message => "Current set point did not reset");
+      AUnit.Assertions.Assert(Condition => pxObject.fCurrentProportionalPart = 0.0,
+                              Message => "Current proportional part did not reset");
+      AUnit.Assertions.Assert(Condition => pxObject.fCurrentIntegralPart = 0.0,
+                              Message => "Current integral part did not reset");
+      AUnit.Assertions.Assert(Condition => pxObject.fCurrentDerivativePart = 0.0,
+                              Message => "Current derivative part did not reset");
+      AUnit.Assertions.Assert(Condition => pxObject.fLastProportionalPart = 0.0,
+                              Message => "Last propoertional part did not reset");
+      AUnit.Assertions.Assert(Condition => pxObject.fDerivativeScale = 0.0,
+                              Message => "Derivative scale did not reset");
+      AUnit.Assertions.Assert(Condition => pxObject.fIntegralScale = 0.0,
+                              Message => "Integral scale did not reset");
+      AUnit.Assertions.Assert(Condition => pxObject.fProportionalScale = 0.0,
+                              Message => "Proportional scale did not reset");
+      Navigation.PID_Controller.Free(pxPIDControllerToDeallocate => pxObject);
 
 --  begin read only
    end Test_Reset_Controller;
@@ -104,11 +153,22 @@ package body Navigation.PID_Controller.CPIDController_Test_Data.CPIDController_T
 
       pragma Unreferenced (Gnattest_T);
 
-   begin
+ pxObject : pCPIDController;
+      value : float;
+      xScalings : Navigation.PID_Controller.TPIDComponentScalings := (0.001, 0.001, 0.001);
 
-      AUnit.Assertions.Assert
-        (Gnattest_Generated.Default_Assert_Value,
-         "Test not implemented.");
+   begin
+      pxObject := PID_Controller.pxCreate(xScalings);
+
+      pxObject.Set_New_Set_Point(100.0);
+      pxObject.Update_Current_Value_From_External_Source(0.0);
+
+      for i in 1 .. 100 loop
+         value := pxObject.xGet_New_Control_Value(1.0);
+         AUnit.Assertions.Assert(Condition => Value /= 0.0,
+                                 Message   => "Zero returned as a control value");
+      end loop;
+      Navigation.PID_Controller.Free(pxPIDControllerToDeallocate => pxObject);
 
 --  begin read only
    end Test_xGet_New_Control_Value;
@@ -125,11 +185,15 @@ package body Navigation.PID_Controller.CPIDController_Test_Data.CPIDController_T
 
       pragma Unreferenced (Gnattest_T);
 
+  pxObject : pCPIDController := null;
+
    begin
 
-      AUnit.Assertions.Assert
-        (Gnattest_Generated.Default_Assert_Value,
-         "Test not implemented.");
+      pxObject := PID_Controller.pxCreate(xPIDComponentScalings => Navigation.PID_Controller.TPIDComponentScalings'(1.0,2.0,3.0));
+
+      AUnit.Assertions.Assert(Condition => pxObject.fGetIntergralScale = 2.0,
+                              Message   => "fGetIntegralScale does not return 2.0");
+      Navigation.PID_Controller.Free(pxPIDControllerToDeallocate => pxObject);
 
 --  begin read only
    end Test_fGetIntergralScale;
@@ -145,12 +209,15 @@ package body Navigation.PID_Controller.CPIDController_Test_Data.CPIDController_T
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
+  pxObject : pCPIDController := null;
 
    begin
 
-      AUnit.Assertions.Assert
-        (Gnattest_Generated.Default_Assert_Value,
-         "Test not implemented.");
+      pxObject := PID_Controller.pxCreate(xPIDComponentScalings => Navigation.PID_Controller.TPIDComponentScalings'(1.0,2.0,3.0));
+
+      AUnit.Assertions.Assert(Condition => pxObject.fGetDerivativeScale = 3.0,
+                              Message   => "fGetDerivativeScale does not return 3.0");
+      Navigation.PID_Controller.Free(pxPIDControllerToDeallocate => pxObject);
 
 --  begin read only
    end Test_fGetDerivativeScale;
@@ -166,13 +233,15 @@ package body Navigation.PID_Controller.CPIDController_Test_Data.CPIDController_T
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
+pxObject : pCPIDController := null;
 
    begin
 
-      AUnit.Assertions.Assert
-        (Gnattest_Generated.Default_Assert_Value,
-         "Test not implemented.");
+      pxObject := PID_Controller.pxCreate(xPIDComponentScalings => Navigation.PID_Controller.TPIDComponentScalings'(1.0,2.0,3.0));
 
+      Aunit.Assertions.Assert(Condition => pxObject.fGetProportionalScale = 1.0,
+                              Message   => "fGetProportionalScale did not return 1.0");
+      Navigation.PID_Controller.Free(pxPIDControllerToDeallocate => pxObject);
 --  begin read only
    end Test_fGetProportionalScale;
 --  end read only
