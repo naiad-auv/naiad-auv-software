@@ -1,0 +1,48 @@
+        -:    0:Source:/home/emibe/skola/robgit/naiad-auv-software/src/software/navigation/thruster_configurator/obj/gnattest/tests/navigation-thruster_configurator-test_data-tests.ads
+        -:    0:Programs:37
+        -:    1:--  This package has been generated automatically by GNATtest.
+        -:    2:--  Do not edit any part of it, see GNATtest documentation for more details.
+        -:    3:
+        -:    4:--  begin read only
+        -:    5:with Gnattest_Generated;
+        -:    6:
+        8:    7:package Navigation.Thruster_Configurator.Test_Data.Tests is
+        -:    8:
+        4:    9:   type Test is new GNATtest_Generated.GNATtest_Standard.Navigation.Thruster_Configurator.Test_Data.Test
+        -:   10:   with null record;
+        -:   11:
+        -:   12:   procedure Test_pxCreate_bfc2d4 (Gnattest_T : in out Test);
+        -:   13:   --  navigation-thruster_configurator.ads:20:4:pxCreate
+        -:   14:
+        -:   15:   procedure Test_tfGet_Results_Vector_From_7b9cdd (Gnattest_T : in out Test);
+        -:   16:   --  navigation-thruster_configurator.ads:29:4:tfGet_Results_Vector_From
+        -:   17:
+        -:   18:   procedure Test_Remove_Component_In_Leading_Rows_54f89d (Gnattest_T : in out Test);
+        -:   19:   --  navigation-thruster_configurator.ads:30:4:Remove_Component_In_Leading_Rows
+        -:   20:
+        -:   21:   procedure Test_Remove_Component_In_Following_Rows_aa8b1c (Gnattest_T : in out Test);
+        -:   22:   --  navigation-thruster_configurator.ads:31:4:Remove_Component_In_Following_Rows
+        -:   23:
+        -:   24:   procedure Test_Scale_Row_In_Extended_Matrix_fd23ee (Gnattest_T : in out Test);
+        -:   25:   --  navigation-thruster_configurator.ads:32:4:Scale_Row_In_Extended_Matrix
+        -:   26:
+        -:   27:   procedure Test_Swap_Values_In_Extended_Matrix_d790ab (Gnattest_T : in out Test);
+        -:   28:   --  navigation-thruster_configurator.ads:33:4:Swap_Values_In_Extended_Matrix
+        -:   29:
+        -:   30:   procedure Test_Swap_Rows_In_Extended_Matrix_a9e2bf (Gnattest_T : in out Test);
+        -:   31:   --  navigation-thruster_configurator.ads:34:4:Swap_Rows_In_Extended_Matrix
+        -:   32:
+        -:   33:   procedure Test_bMatrix_Has_No_Inverse_8de23e (Gnattest_T : in out Test);
+        -:   34:   --  navigation-thruster_configurator.ads:35:4:bMatrix_Has_No_Inverse
+        -:   35:
+        -:   36:   procedure Test_Find_Row_With_Highest_Component_f24b48 (Gnattest_T : in out Test);
+        -:   37:   --  navigation-thruster_configurator.ads:36:4:Find_Row_With_Highest_Component
+        -:   38:
+        -:   39:   procedure Test_Insert_Component_Values_In_Extended_Matrix_4b91cc (Gnattest_T : in out Test);
+        -:   40:   --  navigation-thruster_configurator.ads:38:4:Insert_Component_Values_In_Extended_Matrix
+        -:   41:
+        -:   42:   procedure Test_Perform_Gauss_Jordan_Elimination_On_b05c93 (Gnattest_T : in out Test);
+        -:   43:   --  navigation-thruster_configurator.ads:39:4:Perform_Gauss_Jordan_Elimination_On
+        -:   44:
+        4:   45:end Navigation.Thruster_Configurator.Test_Data.Tests;
+        -:   46:--  end read only

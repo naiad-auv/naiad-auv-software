@@ -1,22 +1,31 @@
 <tests_mapping mode="monolith">
    <unit source_file="navigation-pid_controller.ads">
-      <test_unit target_file="navigation-pid_controller-cpid_controller_test_data-cpid_controller_tests.ads">
-         <setup file="navigation-pid_controller-cpid_controller_test_data.adb" line="4"  column="4"/>
-         <teardown file="navigation-pid_controller-cpid_controller_test_data.adb" line="8"  column="4"/>
-         <tested name="Set_New_Set_Point" line="12" column="4">
-            <test file="navigation-pid_controller-cpid_controller_test_data-cpid_controller_tests.adb" line="13" column="1" timestamp="modified"/>
+      <test_unit target_file="navigation-pid_controller-cpidcontroller_test_data-cpidcontroller_tests.ads">
+         <setup file="navigation-pid_controller-cpidcontroller_test_data.adb" line="4"  column="4"/>
+         <teardown file="navigation-pid_controller-cpidcontroller_test_data.adb" line="8"  column="4"/>
+         <tested name="Set_New_Set_Point" line="24" column="4">
+            <test file="navigation-pid_controller-cpidcontroller_test_data-cpidcontroller_tests.adb" line="13" column="1" timestamp="2013-10-30 09:58:21"/>
          </tested>
-         <tested name="Set_New_PID_Component_Scalings" line="14" column="4">
-            <test file="navigation-pid_controller-cpid_controller_test_data-cpid_controller_tests.adb" line="31" column="1" timestamp="modified"/>
+         <tested name="Set_New_PID_Component_Scalings" line="29" column="4">
+            <test file="navigation-pid_controller-cpidcontroller_test_data-cpidcontroller_tests.adb" line="34" column="1" timestamp="2013-10-30 09:58:21"/>
          </tested>
-         <tested name="Reset_Controller" line="16" column="4">
-            <test file="navigation-pid_controller-cpid_controller_test_data-cpid_controller_tests.adb" line="49" column="1" timestamp="modified"/>
+         <tested name="Update_Current_Value_From_External_Source" line="34" column="4">
+            <test file="navigation-pid_controller-cpidcontroller_test_data-cpidcontroller_tests.adb" line="55" column="1" timestamp="2013-10-30 09:58:21"/>
          </tested>
-         <tested name="xGet_New_Control_Value" line="18" column="4">
-            <test file="navigation-pid_controller-cpid_controller_test_data-cpid_controller_tests.adb" line="66" column="1" timestamp="modified"/>
+         <tested name="Reset_Controller" line="39" column="4">
+            <test file="navigation-pid_controller-cpidcontroller_test_data-cpidcontroller_tests.adb" line="76" column="1" timestamp="2013-10-30 09:58:21"/>
          </tested>
-         <tested name="xGet_New_Control_Value" line="20" column="4">
-            <test file="navigation-pid_controller-cpid_controller_test_data-cpid_controller_tests.adb" line="84" column="1" timestamp="modified"/>
+         <tested name="xGet_New_Control_Value" line="43" column="4">
+            <test file="navigation-pid_controller-cpidcontroller_test_data-cpidcontroller_tests.adb" line="97" column="1" timestamp="2013-10-30 09:58:21"/>
+         </tested>
+         <tested name="fGetIntergralScale" line="48" column="4">
+            <test file="navigation-pid_controller-cpidcontroller_test_data-cpidcontroller_tests.adb" line="118" column="1" timestamp="2013-10-30 09:58:21"/>
+         </tested>
+         <tested name="fGetDerivativeScale" line="52" column="4">
+            <test file="navigation-pid_controller-cpidcontroller_test_data-cpidcontroller_tests.adb" line="139" column="1" timestamp="2013-10-30 09:58:21"/>
+         </tested>
+         <tested name="fGetProportionalScale" line="56" column="4">
+            <test file="navigation-pid_controller-cpidcontroller_test_data-cpidcontroller_tests.adb" line="160" column="1" timestamp="2013-10-30 09:58:21"/>
          </tested>
          <dangling>
          </dangling>
@@ -24,19 +33,11 @@
       <test_unit target_file="navigation-pid_controller-test_data-tests.ads">
          <setup file="navigation-pid_controller-test_data.adb" line="3"  column="4"/>
          <teardown file="navigation-pid_controller-test_data.adb" line="9"  column="4"/>
-         <tested name="pxCreate" line="10" column="4">
-            <test file="navigation-pid_controller-test_data-tests.adb" line="13" column="1" timestamp="modified"/>
+         <tested name="Free" line="10" column="4">
+            <test file="navigation-pid_controller-test_data-tests.adb" line="13" column="1" timestamp="2013-10-30 09:58:21"/>
          </tested>
-         <dangling>
-         </dangling>
-      </test_unit>
-   </unit>
-   <unit source_file="navigation.ads">
-      <test_unit target_file="navigation-test_data-tests.ads">
-         <setup file="navigation-test_data.adb" line="3"  column="4"/>
-         <teardown file="navigation-test_data.adb" line="9"  column="4"/>
-         <tested name="DummyTest" line="2" column="4">
-            <test file="navigation-test_data-tests.adb" line="13" column="1" timestamp="modified"/>
+         <tested name="pxCreate" line="20" column="4">
+            <test file="navigation-pid_controller-test_data-tests.adb" line="34" column="1" timestamp="2013-10-30 09:58:21"/>
          </tested>
          <dangling>
          </dangling>

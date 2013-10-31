@@ -23,7 +23,7 @@ package body Math.Vectors.Test_Data.Tests.Suite is
    Case_9_1_Test_Equal_bc9ae7 : aliased Runner_1.Test_Case;
    Case_10_1_Test_fDot_Product_c7f274 : aliased Runner_1.Test_Case;
    Case_11_1_Test_pxCross_Product_66fc3c : aliased Runner_1.Test_Case;
-   Case_12_1_Test_fAngle_Between_4e296f : aliased Runner_1.Test_Case;
+   Case_12_1_Test_fAngle_Between_In_Radians_bc2ea1 : aliased Runner_1.Test_Case;
 
    function Suite return AUnit.Test_Suites.Access_Test_Suite is
    begin
@@ -73,9 +73,9 @@ package body Math.Vectors.Test_Data.Tests.Suite is
          "math-vectors.ads:30:4:",
          Test_pxCross_Product_66fc3c'Access);
       Runner_1.Create
-        (Case_12_1_Test_fAngle_Between_4e296f,
+        (Case_12_1_Test_fAngle_Between_In_Radians_bc2ea1,
          "math-vectors.ads:31:4:",
-         Test_fAngle_Between_4e296f'Access);
+         Test_fAngle_Between_In_Radians_bc2ea1'Access);
 
       Result.Add_Test (Case_1_1_Test_pxCreate_a64900'Access);
       Result.Add_Test (Case_2_1_Test_Plus_9b1a3c'Access);
@@ -88,7 +88,7 @@ package body Math.Vectors.Test_Data.Tests.Suite is
       Result.Add_Test (Case_9_1_Test_Equal_bc9ae7'Access);
       Result.Add_Test (Case_10_1_Test_fDot_Product_c7f274'Access);
       Result.Add_Test (Case_11_1_Test_pxCross_Product_66fc3c'Access);
-      Result.Add_Test (Case_12_1_Test_fAngle_Between_4e296f'Access);
+      Result.Add_Test (Case_12_1_Test_fAngle_Between_In_Radians_bc2ea1'Access);
 
       return Result'Access;
 

@@ -10,7 +10,7 @@ package Math.Test_Data.Tests is
    with null record;
 
    procedure Test_DummyTest_01f4ef (Gnattest_T : in out Test);
-   --  math.ads:2:4:DummyTest
+   --  math.ads:3:4:DummyTest
 
 end Math.Test_Data.Tests;
 --  end read only

@@ -1,0 +1,118 @@
+<tests_mapping mode="monolith">
+   <unit source_file="simulator-submarine.ads">
+      <test_unit target_file="simulator-submarine-csubmarine_test_data-csubmarine_tests.ads">
+         <setup file="simulator-submarine-csubmarine_test_data.adb" line="4"  column="4"/>
+         <teardown file="simulator-submarine-csubmarine_test_data.adb" line="8"  column="4"/>
+         <tested name="pxGet_Position_Vector" line="20" column="4">
+            <test file="simulator-submarine-csubmarine_test_data-csubmarine_tests.adb" line="13" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="pxGet_Velocity_Vector" line="21" column="4">
+            <test file="simulator-submarine-csubmarine_test_data-csubmarine_tests.adb" line="42" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="pxGet_Orientation_Matrix" line="22" column="4">
+            <test file="simulator-submarine-csubmarine_test_data-csubmarine_tests.adb" line="68" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="pxGet_Angular_Velocity_Vector" line="23" column="4">
+            <test file="simulator-submarine-csubmarine_test_data-csubmarine_tests.adb" line="95" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="pxGet_Motor_Values" line="24" column="4">
+            <test file="simulator-submarine-csubmarine_test_data-csubmarine_tests.adb" line="122" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="Set_Position_Vector" line="26" column="4">
+            <test file="simulator-submarine-csubmarine_test_data-csubmarine_tests.adb" line="153" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="Set_Orientation_Matrix" line="27" column="4">
+            <test file="simulator-submarine-csubmarine_test_data-csubmarine_tests.adb" line="177" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="Set_Velocity_Vector" line="28" column="4">
+            <test file="simulator-submarine-csubmarine_test_data-csubmarine_tests.adb" line="201" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="Set_Angular_Velocity_Vector" line="29" column="4">
+            <test file="simulator-submarine-csubmarine_test_data-csubmarine_tests.adb" line="225" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="Set_Motor_Info" line="31" column="4">
+            <test file="simulator-submarine-csubmarine_test_data-csubmarine_tests.adb" line="249" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="Set_Motor_Force" line="32" column="4">
+            <test file="simulator-submarine-csubmarine_test_data-csubmarine_tests.adb" line="279" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="Set_Weight" line="34" column="4">
+            <test file="simulator-submarine-csubmarine_test_data-csubmarine_tests.adb" line="305" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="Set_Buoyancy_Force" line="35" column="4">
+            <test file="simulator-submarine-csubmarine_test_data-csubmarine_tests.adb" line="328" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="Set_Buoyancy_Force_Position_Vector" line="36" column="4">
+            <test file="simulator-submarine-csubmarine_test_data-csubmarine_tests.adb" line="350" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="Set_Rotation_Friction_Vector" line="37" column="4">
+            <test file="simulator-submarine-csubmarine_test_data-csubmarine_tests.adb" line="375" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="Set_Veclocity_Friction_Vector" line="38" column="4">
+            <test file="simulator-submarine-csubmarine_test_data-csubmarine_tests.adb" line="399" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="Set_Inertia_Matrix" line="40" column="4">
+            <test file="simulator-submarine-csubmarine_test_data-csubmarine_tests.adb" line="423" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="Calculate_Acceleration" line="42" column="4">
+            <test file="simulator-submarine-csubmarine_test_data-csubmarine_tests.adb" line="449" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="Calculate_Angular_Acceleration" line="43" column="4">
+            <test file="simulator-submarine-csubmarine_test_data-csubmarine_tests.adb" line="505" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="Integrate_Submarine_Variables" line="44" column="4">
+            <test file="simulator-submarine-csubmarine_test_data-csubmarine_tests.adb" line="559" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="Time_Step_Motor_Force_To_Integrate" line="46" column="4">
+            <test file="simulator-submarine-csubmarine_test_data-csubmarine_tests.adb" line="647" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="Set_Gripper_Left_Status" line="48" column="4">
+            <test file="simulator-submarine-csubmarine_test_data-csubmarine_tests.adb" line="673" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="Set_Gripper_Right_Status" line="49" column="4">
+            <test file="simulator-submarine-csubmarine_test_data-csubmarine_tests.adb" line="701" column="1" timestamp="2013-10-28 06:54:36"/>
+         </tested>
+         <tested name="Set_Dropper_Left_Status" line="50" column="4">
+            <test file="simulator-submarine-csubmarine_test_data-csubmarine_tests.adb" line="722" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="Set_Dropper_Right_Status" line="51" column="4">
+            <test file="simulator-submarine-csubmarine_test_data-csubmarine_tests.adb" line="745" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="Set_Depth" line="52" column="4">
+            <test file="simulator-submarine-csubmarine_test_data-csubmarine_tests.adb" line="771" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="bGet_Gripper_Left_Status" line="54" column="4">
+            <test file="simulator-submarine-csubmarine_test_data-csubmarine_tests.adb" line="795" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="bGet_Gripper_Right_Status" line="55" column="4">
+            <test file="simulator-submarine-csubmarine_test_data-csubmarine_tests.adb" line="820" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="bGet_Dropper_Left_Status" line="56" column="4">
+            <test file="simulator-submarine-csubmarine_test_data-csubmarine_tests.adb" line="845" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="bGet_Dropper_Right_Status" line="57" column="4">
+            <test file="simulator-submarine-csubmarine_test_data-csubmarine_tests.adb" line="869" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="fGet_Depth" line="58" column="4">
+            <test file="simulator-submarine-csubmarine_test_data-csubmarine_tests.adb" line="894" column="1" timestamp="modified"/>
+         </tested>
+         <dangling>
+         </dangling>
+      </test_unit>
+      <test_unit target_file="simulator-submarine-test_data-tests.ads">
+         <setup file="simulator-submarine-test_data.adb" line="3"  column="4"/>
+         <teardown file="simulator-submarine-test_data.adb" line="9"  column="4"/>
+         <tested name="pxCreate_Naiad" line="15" column="4">
+            <test file="simulator-submarine-test_data-tests.adb" line="13" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="pxCreate" line="17" column="4">
+            <test file="simulator-submarine-test_data-tests.adb" line="72" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="Free" line="18" column="4">
+            <test file="simulator-submarine-test_data-tests.adb" line="93" column="1" timestamp="2013-10-28 06:54:36"/>
+         </tested>
+         <dangling>
+         </dangling>
+      </test_unit>
+   </unit>
+</tests_mapping>

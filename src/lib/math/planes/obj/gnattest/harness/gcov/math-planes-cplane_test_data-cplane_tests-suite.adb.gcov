@@ -1,0 +1,100 @@
+        -:    0:Source:/home/evr/git/naiad-auv-software/src/lib/math/planes/obj/gnattest/harness/math-planes-cplane_test_data-cplane_tests-suite.adb
+        -:    0:Programs:25
+        -:    1:--  This package has been generated automatically by GNATtest.
+        -:    2:--  Do not edit any part of it, see GNATtest documentation for more details.
+        -:    3:
+        -:    4:--  begin read only
+        -:    5:with AUnit.Test_Caller;
+        -:    6:with Gnattest_Generated;
+        -:    7:
+        6:    8:package body Math.Planes.CPlane_Test_Data.CPlane_Tests.Suite is
+        -:    9:
+        -:   10:   package Runner_1 is new AUnit.Test_Caller
+        -:   11:     (GNATtest_Generated.GNATtest_Standard.Math.Planes.CPlane_Test_Data.CPlane_Tests.Test_CPlane);
+        -:   12:
+        2:   13:   Result : aliased AUnit.Test_Suites.Test_Suite;
+        -:   14:
+        2:   15:   Case_1_1_Test_xCreate_4dc581 : aliased Runner_1.Test_Case;
+        2:   16:   Case_2_1_Test_xCreate_d3d096 : aliased Runner_1.Test_Case;
+        2:   17:   Case_3_1_Test_pxGet_Allocated_Copy_123053 : aliased Runner_1.Test_Case;
+        2:   18:   Case_4_1_Test_xGet_Normal_Vector_a98d33 : aliased Runner_1.Test_Case;
+        2:   19:   Case_5_1_Test_fGet_Distance_From_Origin_1b1e67 : aliased Runner_1.Test_Case;
+        2:   20:   Case_6_1_Test_fAngle_Between_In_Degrees_c567f3 : aliased Runner_1.Test_Case;
+        2:   21:   Case_7_1_Test_fAngle_Between_In_Degrees_3326a2 : aliased Runner_1.Test_Case;
+        2:   22:   Case_8_1_Test_fAngle_Between_In_Degrees_39c39e : aliased Runner_1.Test_Case;
+        2:   23:   Case_9_1_Test_xGet_Intersection_Vector_Between_fcb85d : aliased Runner_1.Test_Case;
+        2:   24:   Case_10_1_Test_xGet_Intersection_Vector_Between_a801a4 : aliased Runner_1.Test_Case;
+        2:   25:   Case_11_1_Test_xGet_Intersection_Vector_Between_1e6db6 : aliased Runner_1.Test_Case;
+        2:   26:   Case_12_1_Test_Copy_From_aaf146 : aliased Runner_1.Test_Case;
+        -:   27:
+        2:   28:   function Suite return AUnit.Test_Suites.Access_Test_Suite is
+        -:   29:   begin
+        -:   30:
+        2:   31:      Runner_1.Create
+        -:   32:        (Case_1_1_Test_xCreate_4dc581,
+        -:   33:         "math-planes.ads:18:4:",
+        -:   34:         Test_xCreate_4dc581'Access);
+        2:   35:      Runner_1.Create
+        -:   36:        (Case_2_1_Test_xCreate_d3d096,
+        -:   37:         "math-planes.ads:19:4:",
+        -:   38:         Test_xCreate_d3d096'Access);
+        2:   39:      Runner_1.Create
+        -:   40:        (Case_3_1_Test_pxGet_Allocated_Copy_123053,
+        -:   41:         "math-planes.ads:25:4:",
+        -:   42:         Test_pxGet_Allocated_Copy_123053'Access);
+        2:   43:      Runner_1.Create
+        -:   44:        (Case_4_1_Test_xGet_Normal_Vector_a98d33,
+        -:   45:         "math-planes.ads:29:4:",
+        -:   46:         Test_xGet_Normal_Vector_a98d33'Access);
+        2:   47:      Runner_1.Create
+        -:   48:        (Case_5_1_Test_fGet_Distance_From_Origin_1b1e67,
+        -:   49:         "math-planes.ads:33:4:",
+        -:   50:         Test_fGet_Distance_From_Origin_1b1e67'Access);
+        2:   51:      Runner_1.Create
+        -:   52:        (Case_6_1_Test_fAngle_Between_In_Degrees_c567f3,
+        -:   53:         "math-planes.ads:38:4:",
+        -:   54:         Test_fAngle_Between_In_Degrees_c567f3'Access);
+        2:   55:      Runner_1.Create
+        -:   56:        (Case_7_1_Test_fAngle_Between_In_Degrees_3326a2,
+        -:   57:         "math-planes.ads:39:4:",
+        -:   58:         Test_fAngle_Between_In_Degrees_3326a2'Access);
+        2:   59:      Runner_1.Create
+        -:   60:        (Case_8_1_Test_fAngle_Between_In_Degrees_39c39e,
+        -:   61:         "math-planes.ads:41:4:",
+        -:   62:         Test_fAngle_Between_In_Degrees_39c39e'Access);
+        2:   63:      Runner_1.Create
+        -:   64:        (Case_9_1_Test_xGet_Intersection_Vector_Between_fcb85d,
+        -:   65:         "math-planes.ads:46:4:",
+        -:   66:         Test_xGet_Intersection_Vector_Between_fcb85d'Access);
+        2:   67:      Runner_1.Create
+        -:   68:        (Case_10_1_Test_xGet_Intersection_Vector_Between_a801a4,
+        -:   69:         "math-planes.ads:47:4:",
+        -:   70:         Test_xGet_Intersection_Vector_Between_a801a4'Access);
+        2:   71:      Runner_1.Create
+        -:   72:        (Case_11_1_Test_xGet_Intersection_Vector_Between_1e6db6,
+        -:   73:         "math-planes.ads:49:4:",
+        -:   74:         Test_xGet_Intersection_Vector_Between_1e6db6'Access);
+        2:   75:      Runner_1.Create
+        -:   76:        (Case_12_1_Test_Copy_From_aaf146,
+        -:   77:         "math-planes.ads:56:4:",
+        -:   78:         Test_Copy_From_aaf146'Access);
+        -:   79:
+        2:   80:      Result.Add_Test (Case_1_1_Test_xCreate_4dc581'Access);
+        2:   81:      Result.Add_Test (Case_2_1_Test_xCreate_d3d096'Access);
+        2:   82:      Result.Add_Test (Case_3_1_Test_pxGet_Allocated_Copy_123053'Access);
+        2:   83:      Result.Add_Test (Case_4_1_Test_xGet_Normal_Vector_a98d33'Access);
+        2:   84:      Result.Add_Test (Case_5_1_Test_fGet_Distance_From_Origin_1b1e67'Access);
+        2:   85:      Result.Add_Test (Case_6_1_Test_fAngle_Between_In_Degrees_c567f3'Access);
+        2:   86:      Result.Add_Test (Case_7_1_Test_fAngle_Between_In_Degrees_3326a2'Access);
+        2:   87:      Result.Add_Test (Case_8_1_Test_fAngle_Between_In_Degrees_39c39e'Access);
+        2:   88:      Result.Add_Test (Case_9_1_Test_xGet_Intersection_Vector_Between_fcb85d'Access);
+        2:   89:      Result.Add_Test (Case_10_1_Test_xGet_Intersection_Vector_Between_a801a4'Access);
+        2:   90:      Result.Add_Test (Case_11_1_Test_xGet_Intersection_Vector_Between_1e6db6'Access);
+        2:   91:      Result.Add_Test (Case_12_1_Test_Copy_From_aaf146'Access);
+        -:   92:
+        2:   93:      return Result'Access;
+        -:   94:
+        -:   95:   end Suite;
+        -:   96:
+        2:   97:end Math.Planes.CPlane_Test_Data.CPlane_Tests.Suite;
+        -:   98:--  end read only

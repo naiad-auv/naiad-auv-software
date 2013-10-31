@@ -3,32 +3,43 @@
       <test_unit target_file="navigation-dispatcher-cdispatcher_test_data-cdispatcher_tests.ads">
          <setup file="navigation-dispatcher-cdispatcher_test_data.adb" line="4"  column="4"/>
          <teardown file="navigation-dispatcher-cdispatcher_test_data.adb" line="8"  column="4"/>
-         <tested name="pxGet_New_Thruster_Control_Values" line="16" column="4">
-            <test file="navigation-dispatcher-cdispatcher_test_data-cdispatcher_tests.adb" line="13" column="1" timestamp="2013-10-07 10:28:41"/>
+         <tested name="tfGet_Thruster_Values" line="18" column="4">
+            <test file="navigation-dispatcher-cdispatcher_test_data-cdispatcher_tests.adb" line="13" column="1" timestamp="2013-10-21 08:03:19"/>
          </tested>
-         <tested name="Set_New_Component_PID_Scalings" line="18" column="4">
-            <test file="navigation-dispatcher-cdispatcher_test_data-cdispatcher_tests.adb" line="34" column="1" timestamp="2013-10-07 10:28:41"/>
+         <tested name="Set_New_Component_PID_Scalings" line="21" column="4">
+            <test file="navigation-dispatcher-cdispatcher_test_data-cdispatcher_tests.adb" line="34" column="1" timestamp="2013-10-21 08:03:19"/>
          </tested>
-         <tested name="Update_Current_Position" line="20" column="4">
-            <test file="navigation-dispatcher-cdispatcher_test_data-cdispatcher_tests.adb" line="55" column="1" timestamp="2013-10-07 10:28:41"/>
+         <tested name="Update_Current_Absolute_Position" line="23" column="4">
+            <test file="navigation-dispatcher-cdispatcher_test_data-cdispatcher_tests.adb" line="55" column="1" timestamp="2013-10-21 08:03:19"/>
          </tested>
-         <tested name="Update_Wanted_Position" line="21" column="4">
-            <test file="navigation-dispatcher-cdispatcher_test_data-cdispatcher_tests.adb" line="76" column="1" timestamp="2013-10-07 10:28:41"/>
+         <tested name="Update_Wanted_Absolute_Position" line="24" column="4">
+            <test file="navigation-dispatcher-cdispatcher_test_data-cdispatcher_tests.adb" line="76" column="1" timestamp="2013-10-21 08:03:19"/>
          </tested>
-         <tested name="Update_Current_Orientation" line="23" column="4">
-            <test file="navigation-dispatcher-cdispatcher_test_data-cdispatcher_tests.adb" line="97" column="1" timestamp="2013-10-07 10:28:41"/>
+         <tested name="Update_Current_Absolute_Orientation" line="26" column="4">
+            <test file="navigation-dispatcher-cdispatcher_test_data-cdispatcher_tests.adb" line="97" column="1" timestamp="2013-10-21 08:03:19"/>
          </tested>
-         <tested name="Update_Wanted_Orientation" line="24" column="4">
-            <test file="navigation-dispatcher-cdispatcher_test_data-cdispatcher_tests.adb" line="118" column="1" timestamp="2013-10-07 10:28:41"/>
+         <tested name="Update_Wanted_Absolute_Orientation" line="27" column="4">
+            <test file="navigation-dispatcher-cdispatcher_test_data-cdispatcher_tests.adb" line="118" column="1" timestamp="2013-10-21 08:03:19"/>
          </tested>
          <dangling>
+            <test file="navigation-dispatcher-cdispatcher_test_data-cdispatcher_tests.adb" line="138" column="1"/>
+            <test file="navigation-dispatcher-cdispatcher_test_data-cdispatcher_tests.adb" line="158" column="1"/>
+            <test file="navigation-dispatcher-cdispatcher_test_data-cdispatcher_tests.adb" line="178" column="1"/>
+            <test file="navigation-dispatcher-cdispatcher_test_data-cdispatcher_tests.adb" line="198" column="1"/>
+            <test file="navigation-dispatcher-cdispatcher_test_data-cdispatcher_tests.adb" line="218" column="1"/>
          </dangling>
       </test_unit>
       <test_unit target_file="navigation-dispatcher-test_data-tests.ads">
          <setup file="navigation-dispatcher-test_data.adb" line="3"  column="4"/>
          <teardown file="navigation-dispatcher-test_data.adb" line="9"  column="4"/>
-         <tested name="pxCreate" line="14" column="4">
-            <test file="navigation-dispatcher-test_data-tests.adb" line="13" column="1" timestamp="2013-10-07 10:28:41"/>
+         <tested name="pxCreate" line="15" column="4">
+            <test file="navigation-dispatcher-test_data-tests.adb" line="13" column="1" timestamp="2013-10-21 08:03:19"/>
+         </tested>
+         <tested name="Scale_Thruster_Values" line="32" column="4">
+            <test file="navigation-dispatcher-test_data-tests.adb" line="34" column="1" timestamp="2013-10-21 08:03:19"/>
+         </tested>
+         <tested name="bThruster_Values_Need_Scaling" line="33" column="4">
+            <test file="navigation-dispatcher-test_data-tests.adb" line="55" column="1" timestamp="2013-10-21 08:03:19"/>
          </tested>
          <dangling>
          </dangling>

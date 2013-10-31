@@ -2,29 +2,49 @@ with Ada.Numerics;
 with Ada.Numerics.Elementary_Functions;
 with Math.Angles;
 with Ada.Text_IO;
-
+with Exception_Handling;
 
 package body Math.Matrices is
 
 
    function fGet_Determinant (this : in CMatrix) return float is
-      pxXVector : Math.Vectors.pCVector;
-      pxYVector : Math.Vectors.pCVector;
-      pxZVector : Math.Vectors.pCVector;
-      pxMatrix : pCMatrix;
+      xXVector : Math.Vectors.CVector;
+      xYVector : Math.Vectors.CVector;
+      xZVector : Math.Vectors.CVector;
+      xMatrix : CMatrix;
+      fDeterminant : float;
    begin
-      pxXVector := Math.Vectors.pxCreate(1.0,0.0,0.0);
-      pxYVector := Math.Vectors.pxCreate(0.0,1.0,0.0);
-      pxZVector := Math.Vectors.pxCreate(0.0,0.0,1.0);
-      pxMatrix := Math.Matrices.pxCreate(this.tfMatrix);
+      xMatrix := Math.Matrices.xCreate_Identity;
+      xXVector := xMatrix.xGet_X_Vector;
+      xYVector := xMatrix.xGet_Y_Vector;
+      xZVector := xMatrix.xGet_Z_Vector;
+      xMatrix.Copy_From(xSourceMatrix => this);
 
-      pxXVector := pxMatrix * pxXVector;
-      pxYVector := pxMatrix * pxYVector;
-      pxZVector := pxMatrix * pxZVector;
+      xXVector.Copy_From(xSourceVector => xMatrix * xXVector);
+      xYVector.Copy_From(xSourceVector => xMatrix * xYVector);
+      xZVector.Copy_From(xSourceVector => xMatrix * xZVector);
 
-      return Math.Vectors.fDot_Product(pxXVector, Math.Vectors.pxCross_Product(pxYVector, pxZVector));
+      fDeterminant := Math.Vectors.fDot_Product(xXVector, Math.Vectors.xCross_Product(xYVector, xZVector));
+
+--        Math.Vectors.Free(pxVectorToDeallocate => pxXVector);
+--        Math.Vectors.Free(pxVectorToDeallocate => pxYVector);
+--        Math.Vectors.Free(pxVectorToDeallocate => pxZVector);
+--        Math.Matrices.Free(pxMatrixToDeallocate => pxMatrix);
+
+      return fDeterminant;
    end fGet_Determinant;
 
+   procedure Copy_From(this : in out CMatrix; xSourceMatrix : in CMatrix) is
+   begin
+      for i in 1 .. 3
+      loop
+         for j in 1 .. 3
+         loop
+            this.tfMatrix(i,j) := xSourceMatrix.tfMatrix(i,j);
+         end loop;
+
+      end loop;
+   end Copy_From;
 
    ------------------------------
    -- pxCreate_From_Quaternion --
@@ -34,9 +54,7 @@ package body Math.Matrices is
       return this.tfMatrix;
    end tfGet_Raw_Matrix;
 
-   function pxCreate_From_Quaternion
-     (pxFromQuaternion : in Math.Quaternions.pCQuaternion)
-      return pCMatrix
+   function xCreate_From_Quaternion (xFromQuaternion : in Math.Quaternions.CQuaternion) return CMatrix
    is
       tfMatrix : TMatrix;
       fA : float;
@@ -45,20 +63,15 @@ package body Math.Matrices is
       fD : float;
    begin
 
-
-      if 1.0 - pxFromQuaternion.fGet_Length_Squared > 0.0001 then
-         Ada.Text_IO.Put_Line("Length: " & float'Image(pxFromQuaternion.fGet_Length_Squared));
-         raise Numeric_Error;
+      if 1.0 - xFromQuaternion.fGet_Length_Squared > 0.0001 then
+         Exception_Handling.Raise_Exception(E       => Exception_Handling.NotUnitQuaternion'Identity,
+                                            Message => "Math.Matrices.xCreate_From_Quaternion (xFromQuaternion : in Math.Quaternions.CQuaternion) return CMatrix");
       end if;
 
-      fA := pxFromQuaternion.fGet_W;
-      fB := pxFromQuaternion.fGet_X;
-      fC := pxFromQuaternion.fGet_Y;
-      fD := pxFromQuaternion.fGet_Z;
-
---      1-2*(fC*fC+fD*fD), 2*(fB*fC-fA*fD),   2*(fB*fD+fA*fC),
---  	2*(fB*fC+fA*fD),   1-2*(fB*fB+fD*fD), 2*(fC*fD-fA*fB),
---  	2*(fB*fD-fA*fC),   2*(fC*fD+fA*fB),   1-2*(fB*fB+fC*fC));
+      fA := xFromQuaternion.fGet_W;
+      fB := xFromQuaternion.fGet_X;
+      fC := xFromQuaternion.fGet_Y;
+      fD := xFromQuaternion.fGet_Z;
 
       tfMatrix(1,1) := 1.0-2.0*(fC*fC+fD*fD);
       tfMatrix(1,2) := 2.0*(fB*fC-fA*fD);
@@ -72,183 +85,190 @@ package body Math.Matrices is
       tfMatrix(3,2) := 2.0*(fC*fD+fA*fB);
       tfMatrix(3,3) := 1.0-2.0*(fB*fB+fC*fC);
 
-      return Math.Matrices.pxCreate(tfMatrix);
-   end pxCreate_From_Quaternion;
+      return CMatrix'(tfMatrix => tfMatrix);
+   end xCreate_From_Quaternion;
+
+   function xCreate_From_Quaternion (pxFromQuaternion : in Math.Quaternions.pCQuaternion) return CMatrix is
+      use Math.Quaternions;
+   begin
+      if pxFromQuaternion /= null then
+         return xCreate_From_Quaternion(xFromQuaternion => pxFromQuaternion.all);
+      end if;
+
+      Exception_Handling.Raise_Exception(E       => Exception_Handling.NullPointer'Identity,
+                                         Message => "Math.Matrices.xCreate_From_Quaternion (pxFromQuaternion : in Math.Quaternions.pCQuaternion) return CMatrix");
+      return CMatrix'(tfMatrix => (others => (others => 0.0)));
+   end xCreate_From_Quaternion;
 
    -------------------------------------
    -- pxCreate_Rotation_Around_X_Axis --
    -------------------------------------
 
-   function pxCreate_Rotation_Around_X_Axis
-     (tfAngleInDegrees : in Math.Angles.TAngle)
-      return pCMatrix
-   is
-      pxNewMatrix : pCMatrix;
+   function xCreate_Rotation_Around_X_Axis (tfAngleInDegrees : in Math.Angles.TAngle) return CMatrix is
       fCosAngle : float;
       fSinAngle : float;
       fAngleInRadians : float;
+
    begin
       fAngleInRadians := Math.Angles.fDegrees_To_Radians(Math.Angles.fTAngle_To_FAngle(tfAngleInDegrees));
       fCosAngle := Ada.Numerics.Elementary_Functions.Cos(fAngleInRadians);
       fSinAngle := Ada.Numerics.Elementary_Functions.Sin(fAngleInRadians);
 
-      pxNewMatrix := new CMatrix;
-
-      pxNewMatrix.tfMatrix := ( (1.0, 0.0, 0.0),
+      return CMatrix'(tfMatrix => ( (1.0, 0.0, 0.0),
                                 (0.0, fCosAngle, -fSinAngle),
-                                (0.0, fSinAngle, fCosAngle));
-      return pxNewMatrix;
-   end pxCreate_Rotation_Around_X_Axis;
+                                (0.0, fSinAngle, fCosAngle)));
+   end xCreate_Rotation_Around_X_Axis;
 
-
-   function pxCreate
-     (tfMatrix : in TMatrix)
-      return pCMatrix
+   function xCreate(tfMatrix : in TMatrix) return CMatrix
    is
-      pxNewMatrix : pCMatrix;
    begin
-      pxNewMatrix := new CMatrix;
-      pxNewMatrix.tfMatrix := tfMatrix;
-      return pxNewMatrix;
-   end pxCreate;
-
+      return CMatrix'(tfMatrix => tfMatrix);
+   end xCreate;
 
    -------------------------------------
    -- pxCreate_Rotation_Around_Y_Axis --
    -------------------------------------
 
-   function pxCreate_Rotation_Around_Y_Axis
-     (tfAngleInDegrees : in Math.Angles.TAngle)
-      return pCMatrix
-   is
-      pxNewMatrix : pCMatrix;
+   function xCreate_Rotation_Around_Y_Axis (tfAngleInDegrees : in Math.Angles.TAngle) return CMatrix is
       fCosAngle : float;
       fSinAngle : float;
       fAngleInRadians : float;
+
    begin
       fAngleInRadians := Math.Angles.fDegrees_To_Radians(Math.Angles.fTAngle_To_FAngle(tfAngleInDegrees));
       fCosAngle := Ada.Numerics.Elementary_Functions.Cos(fAngleInRadians);
       fSinAngle := Ada.Numerics.Elementary_Functions.Sin(fAngleInRadians);
 
-      pxNewMatrix := new CMatrix;
 
-      pxNewMatrix.tfMatrix := ( (fCosAngle, 0.0, fSinAngle),
+      return CMatrix'(tfMatrix => ( (fCosAngle, 0.0, fSinAngle),
                                 (0.0, 1.0, 0.0),
-                                (-fSinAngle, 0.0, fCosAngle));
-      return pxNewMatrix;
-   end pxCreate_Rotation_Around_Y_Axis;
-
+                                (-fSinAngle, 0.0, fCosAngle)));
+   end xCreate_Rotation_Around_Y_Axis;
 
    -------------------------------------
    -- pxCreate_Rotation_Around_Z_Axis --
    -------------------------------------
 
-   function pxCreate_Rotation_Around_Z_Axis
-     (tfAngleInDegrees : in Math.Angles.TAngle)
-      return pCMatrix
-   is
-      pxNewMatrix : pCMatrix;
+   function xCreate_Rotation_Around_Z_Axis (tfAngleInDegrees : in Math.Angles.TAngle) return CMatrix is
       fCosAngle : float;
       fSinAngle : float;
       fAngleInRadians : float;
+
    begin
       fAngleInRadians := Math.Angles.fDegrees_To_Radians(Math.Angles.fTAngle_To_FAngle(tfAngleInDegrees));
       fCosAngle := Ada.Numerics.Elementary_Functions.Cos(fAngleInRadians);
       fSinAngle := Ada.Numerics.Elementary_Functions.Sin(fAngleInRadians);
 
-      pxNewMatrix := new CMatrix;
-
-      pxNewMatrix.tfMatrix := ( (fCosAngle, -fSinAngle, 0.0),
+      return CMatrix'(tfMatrix => ( (fCosAngle, -fSinAngle, 0.0),
                                 (fSinAngle, fCosAngle, 0.0),
-                                (0.0, 0.0, 1.0));
-      return pxNewMatrix;
-   end pxCreate_Rotation_Around_Z_Axis;
-
-
+                                (0.0, 0.0, 1.0)));
+   end xCreate_Rotation_Around_Z_Axis;
 
    -----------------------
    -- pxCreate_Identity --
    -----------------------
 
-   function pxCreate_Identity return pCMatrix is
-      pxNewMatrix : pCMatrix;
+   function xCreate_Identity return CMatrix is
    begin
-      pxNewMatrix := new CMatrix;
-      pxNewMatrix.tfMatrix := ((1.0,0.0,0.0),(0.0,1.0,0.0),(0.0,0.0,1.0));
-      return pxNewMatrix;
-   end pxCreate_Identity;
+     return CMatrix'(tfMatrix => ((1.0,0.0,0.0),(0.0,1.0,0.0),(0.0,0.0,1.0)));
+   end xCreate_Identity;
 
-
-
-
-   function "=" (pxLeftOperandMatrix : in pCMatrix; pxRightOperandMatrix : in pCMatrix) return boolean is
+   function "=" (xLeftOperandMatrix : in CMatrix; xRightOperandMatrix : in CMatrix) return boolean is
    begin
-      for iY in 1 .. 3
+      for i in 1 .. 3
       loop
-         for iX in 1 .. 3
+         for j in 1 .. 3
          loop
-            if abs(pxLeftOperandMatrix.tfMatrix(iY, iX) - pxRightOperandMatrix.tfMatrix(iY, iX)) > 0.000001 then
+            if abs(xLeftOperandMatrix.tfMatrix(i,j) - xRightOperandMatrix.tfMatrix(i,j)) > fMATRIX_PRECISION then
                return false;
             end if;
-         end loop;
-      end loop;
-      return true;
 
-      exception
-         when CONSTRAINT_ERROR => return false;
+         end loop;
+
+      end loop;
+
+      return true;
    end "=";
 
-
-
    ---------
    -- "*" --
    ---------
 
-   function "*"
-     (pxLeftOperandMatrix : in pCMatrix;
-      pxRightOperandMatrix : in pCMatrix)
-      return pCMatrix
-   is
+   function "*" (xLeftOperandMatrix : in CMatrix; xRightOperandMatrix : in CMatrix) return CMatrix is
       tfMatrix : TMatrix;
+
    begin
-      tfMatrix := (( (pxLeftOperandMatrix.tfMatrix(1,1) * pxRightOperandMatrix.tfMatrix(1,1)) +
-                   (pxLeftOperandMatrix.tfMatrix(1,2) * pxRightOperandMatrix.tfMatrix(2,1)) +
-                   (pxLeftOperandMatrix.tfMatrix(1,3) * pxRightOperandMatrix.tfMatrix(3,1)),
+      tfMatrix := (( (xLeftOperandMatrix.tfMatrix(1,1) * xRightOperandMatrix.tfMatrix(1,1)) +
+                   (xLeftOperandMatrix.tfMatrix(1,2) * xRightOperandMatrix.tfMatrix(2,1)) +
+                   (xLeftOperandMatrix.tfMatrix(1,3) * xRightOperandMatrix.tfMatrix(3,1)),
 
-                   (pxLeftOperandMatrix.tfMatrix(1,1) * pxRightOperandMatrix.tfMatrix(1,2)) +
-                   (pxLeftOperandMatrix.tfMatrix(1,2) * pxRightOperandMatrix.tfMatrix(2,2)) +
-                   (pxLeftOperandMatrix.tfMatrix(1,3) * pxRightOperandMatrix.tfMatrix(3,2)),
+                   (xLeftOperandMatrix.tfMatrix(1,1) * xRightOperandMatrix.tfMatrix(1,2)) +
+                   (xLeftOperandMatrix.tfMatrix(1,2) * xRightOperandMatrix.tfMatrix(2,2)) +
+                   (xLeftOperandMatrix.tfMatrix(1,3) * xRightOperandMatrix.tfMatrix(3,2)),
 
-                   (pxLeftOperandMatrix.tfMatrix(1,1) * pxRightOperandMatrix.tfMatrix(1,3)) +
-                   (pxLeftOperandMatrix.tfMatrix(1,2) * pxRightOperandMatrix.tfMatrix(2,3)) +
-                   (pxLeftOperandMatrix.tfMatrix(1,3) * pxRightOperandMatrix.tfMatrix(3,3))),
+                   (xLeftOperandMatrix.tfMatrix(1,1) * xRightOperandMatrix.tfMatrix(1,3)) +
+                   (xLeftOperandMatrix.tfMatrix(1,2) * xRightOperandMatrix.tfMatrix(2,3)) +
+                   (xLeftOperandMatrix.tfMatrix(1,3) * xRightOperandMatrix.tfMatrix(3,3))),
 
-                   ( (pxLeftOperandMatrix.tfMatrix(2,1) * pxRightOperandMatrix.tfMatrix(1,1)) +
-                   (pxLeftOperandMatrix.tfMatrix(2,2) * pxRightOperandMatrix.tfMatrix(2,1)) +
-                   (pxLeftOperandMatrix.tfMatrix(2,3) * pxRightOperandMatrix.tfMatrix(3,1)),
+                   ( (xLeftOperandMatrix.tfMatrix(2,1) * xRightOperandMatrix.tfMatrix(1,1)) +
+                   (xLeftOperandMatrix.tfMatrix(2,2) * xRightOperandMatrix.tfMatrix(2,1)) +
+                   (xLeftOperandMatrix.tfMatrix(2,3) * xRightOperandMatrix.tfMatrix(3,1)),
 
-                   (pxLeftOperandMatrix.tfMatrix(2,1) * pxRightOperandMatrix.tfMatrix(1,2)) +
-                   (pxLeftOperandMatrix.tfMatrix(2,2) * pxRightOperandMatrix.tfMatrix(2,2)) +
-                   (pxLeftOperandMatrix.tfMatrix(2,3) * pxRightOperandMatrix.tfMatrix(3,2)),
+                   (xLeftOperandMatrix.tfMatrix(2,1) * xRightOperandMatrix.tfMatrix(1,2)) +
+                   (xLeftOperandMatrix.tfMatrix(2,2) * xRightOperandMatrix.tfMatrix(2,2)) +
+                   (xLeftOperandMatrix.tfMatrix(2,3) * xRightOperandMatrix.tfMatrix(3,2)),
 
-                   (pxLeftOperandMatrix.tfMatrix(2,1) * pxRightOperandMatrix.tfMatrix(1,3)) +
-                   (pxLeftOperandMatrix.tfMatrix(2,2) * pxRightOperandMatrix.tfMatrix(2,3)) +
-                   (pxLeftOperandMatrix.tfMatrix(2,3) * pxRightOperandMatrix.tfMatrix(3,3))),
+                   (xLeftOperandMatrix.tfMatrix(2,1) * xRightOperandMatrix.tfMatrix(1,3)) +
+                   (xLeftOperandMatrix.tfMatrix(2,2) * xRightOperandMatrix.tfMatrix(2,3)) +
+                   (xLeftOperandMatrix.tfMatrix(2,3) * xRightOperandMatrix.tfMatrix(3,3))),
 
-                  ( (pxLeftOperandMatrix.tfMatrix(3,1) * pxRightOperandMatrix.tfMatrix(1,1)) +
-                   (pxLeftOperandMatrix.tfMatrix(3,2) * pxRightOperandMatrix.tfMatrix(2,1)) +
-                   (pxLeftOperandMatrix.tfMatrix(3,3) * pxRightOperandMatrix.tfMatrix(3,1)),
+                  ( (xLeftOperandMatrix.tfMatrix(3,1) * xRightOperandMatrix.tfMatrix(1,1)) +
+                   (xLeftOperandMatrix.tfMatrix(3,2) * xRightOperandMatrix.tfMatrix(2,1)) +
+                   (xLeftOperandMatrix.tfMatrix(3,3) * xRightOperandMatrix.tfMatrix(3,1)),
 
-                   (pxLeftOperandMatrix.tfMatrix(3,1) * pxRightOperandMatrix.tfMatrix(1,2)) +
-                   (pxLeftOperandMatrix.tfMatrix(3,2) * pxRightOperandMatrix.tfMatrix(2,2)) +
-                   (pxLeftOperandMatrix.tfMatrix(3,3) * pxRightOperandMatrix.tfMatrix(3,2)),
+                   (xLeftOperandMatrix.tfMatrix(3,1) * xRightOperandMatrix.tfMatrix(1,2)) +
+                   (xLeftOperandMatrix.tfMatrix(3,2) * xRightOperandMatrix.tfMatrix(2,2)) +
+                   (xLeftOperandMatrix.tfMatrix(3,3) * xRightOperandMatrix.tfMatrix(3,2)),
 
-                   (pxLeftOperandMatrix.tfMatrix(3,1) * pxRightOperandMatrix.tfMatrix(1,3)) +
-                   (pxLeftOperandMatrix.tfMatrix(3,2) * pxRightOperandMatrix.tfMatrix(2,3)) +
-                   (pxLeftOperandMatrix.tfMatrix(3,3) * pxRightOperandMatrix.tfMatrix(3,3)))
+                   (xLeftOperandMatrix.tfMatrix(3,1) * xRightOperandMatrix.tfMatrix(1,3)) +
+                   (xLeftOperandMatrix.tfMatrix(3,2) * xRightOperandMatrix.tfMatrix(2,3)) +
+                   (xLeftOperandMatrix.tfMatrix(3,3) * xRightOperandMatrix.tfMatrix(3,3)))
 
                   );
-      return Math.Matrices.pxCreate(tfMatrix => tfMatrix);
+      return CMatrix'(tfMatrix => tfMatrix);
+   end "*";
+
+   function "*" (pxLeftOperandMatrix : in pCMatrix; xRightOperandMatrix : in CMatrix) return CMatrix is
+   begin
+      if pxLeftOperandMatrix /= null then
+         return pxLeftOperandMatrix.all * xRightOperandMatrix;
+      end if;
+
+      Exception_Handling.Raise_Exception(E       => Exception_Handling.NullPointer'Identity,
+                                         Message => """*"" (pxLeftOperandMatrix : in pCMatrix; xRightOperandMatrix : in CMatrix) return CMatrix");
+      return CMatrix'(tfMatrix => (others => (others => 0.0)));
+   end "*";
+
+   function "*" (xLeftOperandMatrix : in CMatrix; pxRightOperandMatrix : in pCMatrix) return CMatrix is
+   begin
+      if pxRightOperandMatrix /= null then
+         return xLeftOperandMatrix * pxRightOperandMatrix.all;
+      end if;
+
+      Exception_Handling.Raise_Exception(E       => Exception_Handling.NullPointer'Identity,
+                                         Message => """*"" (xLeftOperandMatrix : in CMatrix; pxRightOperandMatrix : in pCMatrix) return CMatrix");
+      return CMatrix'(tfMatrix => (others => (others => 0.0)));
+   end "*";
+
+   function "*" (pxLeftOperandMatrix : in pCMatrix; pxRightOperandMatrix : in pCMatrix) return CMatrix is
+   begin
+      if pxLeftOperandMatrix /= null and then pxRightOperandMatrix /= null then
+         return pxLeftOperandMatrix.all * pxRightOperandMatrix.all;
+      end if;
+
+      Exception_Handling.Raise_Exception(E       => Exception_Handling.NullPointer'Identity,
+                                         Message => """*"" (pxLeftOperandMatrix : in pCMatrix; pxRightOperandMatrix : in pCMatrix) return CMatrix");
+      return CMatrix'(tfMatrix => (others => (others => 0.0)));
    end "*";
 
    ---------
@@ -256,28 +276,64 @@ package body Math.Matrices is
    ---------
 
    function "*"
-     (pxLeftOperandMatrix : in pCMatrix;
-      pxRightOperandVector : in Math.Vectors.pCVector)
-      return Math.Vectors.pCVector
+     (xLeftOperandMatrix : in CMatrix;
+      xRightOperandVector : in Math.Vectors.CVector)
+      return Math.Vectors.CVector
    is
-      pxProductVector : Math.Vectors.pCVector;
+      xProductVector : Math.Vectors.CVector;
    begin
-      pxProductVector := Math.Vectors.pxCreate(fX =>
-                                                 ( (pxLeftOperandMatrix.tfMatrix(1,1) * pxRightOperandVector.fGet_X) +
-                                                  (pxLeftOperandMatrix.tfMatrix(1,2) * pxRightOperandVector.fGet_Y) +
-                                                  (pxLeftOperandMatrix.tfMatrix(1,3) * pxRightOperandVector.fGet_Z) ),
+      xProductVector := Math.Vectors.xCreate(fX =>
+                                                 ( (xLeftOperandMatrix.tfMatrix(1,1) * xRightOperandVector.fGet_X) +
+                                                  (xLeftOperandMatrix.tfMatrix(1,2) * xRightOperandVector.fGet_Y) +
+                                                  (xLeftOperandMatrix.tfMatrix(1,3) * xRightOperandVector.fGet_Z) ),
 
                                                fY =>
-                                                 ( (pxLeftOperandMatrix.tfMatrix(2,1) * pxRightOperandVector.fGet_X) +
-                                                  (pxLeftOperandMatrix.tfMatrix(2,2) * pxRightOperandVector.fGet_Y) +
-                                                  (pxLeftOperandMatrix.tfMatrix(2,3) * pxRightOperandVector.fGet_Z) ),
+                                                 ( (xLeftOperandMatrix.tfMatrix(2,1) * xRightOperandVector.fGet_X) +
+                                                  (xLeftOperandMatrix.tfMatrix(2,2) * xRightOperandVector.fGet_Y) +
+                                                  (xLeftOperandMatrix.tfMatrix(2,3) * xRightOperandVector.fGet_Z) ),
 
                                                fZ =>
-                                                 ( (pxLeftOperandMatrix.tfMatrix(3,1) * pxRightOperandVector.fGet_X) +
-                                                  (pxLeftOperandMatrix.tfMatrix(3,2) * pxRightOperandVector.fGet_Y) +
-                                                  (pxLeftOperandMatrix.tfMatrix(3,3) * pxRightOperandVector.fGet_Z) ));
+                                                 ( (xLeftOperandMatrix.tfMatrix(3,1) * xRightOperandVector.fGet_X) +
+                                                  (xLeftOperandMatrix.tfMatrix(3,2) * xRightOperandVector.fGet_Y) +
+                                                  (xLeftOperandMatrix.tfMatrix(3,3) * xRightOperandVector.fGet_Z) ));
+      return xProductVector;
+   end "*";
 
-      return pxProductVector;
+   function "*" (pxLeftOperandMatrix : in pCMatrix; xRightOperandVector : in Math.Vectors.CVector) return Math.Vectors.CVector is
+   begin
+      if pxLeftOperandMatrix /= null then
+         return pxLeftOperandMatrix.all * xRightOperandVector;
+      end if;
+
+      Exception_Handling.Raise_Exception(E       => Exception_Handling.NullPointer'Identity,
+                                         Message => """*"" (pxLeftOperandMatrix : in pCMatrix; xRightOperandVector : in Math.Vectors.CVector) return Math.Vectors.CVector");
+      return xRightOperandVector;
+   end "*";
+
+   function "*" (xLeftOperandMatrix : in CMatrix; pxRightOperandVector : in Math.Vectors.pCVector) return Math.Vectors.CVector is
+      use Math.Vectors;
+
+   begin
+      if pxRightOperandVector /= null then
+         return xLeftOperandMatrix * pxRightOperandVector.all;
+      end if;
+
+      Exception_Handling.Raise_Exception(E       => Exception_Handling.NullPointer'Identity,
+                                         Message => """*"" (xLeftOperandMatrix : in CMatrix; pxRightOperandVector : in Math.Vectors.pCVector) return Math.Vectors.CVector");
+      return pxRightOperandVector.all;
+   end "*";
+
+   function "*" (pxLeftOperandMatrix : in pCMatrix; pxRightOperandVector : in Math.Vectors.pCVector) return Math.Vectors.CVector is
+      use Math.Vectors;
+
+   begin
+      if pxLeftOperandMatrix /= null and then pxRightOperandVector /= null then
+         return pxLeftOperandMatrix.all * pxRightOperandVector.all;
+      end if;
+
+      Exception_Handling.Raise_Exception(E       => Exception_Handling.NullPointer'Identity,
+                                         Message => """*"" (pxLeftOperandMatrix : in pCMatrix; pxRightOperandVector : in Math.Vectors.pCVector) return Math.Vectors.CVector");
+      return pxRightOperandVector.all;
    end "*";
 
 
@@ -285,16 +341,56 @@ package body Math.Matrices is
    -- "*" --
    ---------
 
-   function "*"
-     (pxLeftOperandMatrix : in pCMatrix;
-      pxRightOperandPlane : in Math.Planes.pCPlane)
-      return Math.Planes.pCPlane
+   function "*" (xLeftOperandMatrix : in CMatrix; xRightOperandPlane : in Math.Planes.CPlane) return Math.Planes.CPlane
    is
-      pxNewNormal : Math.Vectors.pCVector;
+      xNewPlane : Math.Planes.CPlane;
+
    begin
-      pxNewNormal := pxLeftOperandMatrix * pxRightOperandPlane.pxGet_Normal_Vector;
-      return Math.Planes.pxCreate(pxNormalVector      => pxNewNormal,
-                                  fDistanceFromOrigin => pxRightOperandPlane.fGet_Distance_From_Origin);
+      xNewPlane := Math.Planes.xCreate(xNormalVector      => Math.Vectors.CVector(xLeftOperandMatrix * xRightOperandPlane.xGet_Normal_Vector),
+                                         fDistanceFromOrigin => xRightOperandPlane.fGet_Distance_From_Origin);
+      return xNewPlane;
+   exception
+      when E : others =>
+         Exception_Handling.Reraise_Exception(E       => E,
+                                              Message => "Math.Matrices.""*"" (xLeftOperandMatrix : in CMatrix; xRightOperandPlane : in Math.Planes.CPlane) return Math.Planes.CPlane");
+      return xNewPlane;
+   end "*";
+
+   function "*" (pxLeftOperandMatrix : in pCMatrix; pxRightOperandPlane : in Math.Planes.pCPlane) return Math.Planes.CPlane is
+      use Math.Planes;
+
+   begin
+      if pxLeftOperandMatrix /= null and then pxRightOperandPlane /= null then
+         return pxLeftOperandMatrix.all * pxRightOperandPlane.all;
+      end if;
+
+      Exception_Handling.Raise_Exception(E       => Exception_Handling.NullPointer'Identity,
+                                         Message => "Math.Matrices.""*"" (pxLeftOperandMatrix : in pCMatrix; pxRightOperandPlane : in Math.Planes.pCPlane) return Math.Planes.CPlane");
+      return pxRightOperandPlane.all;
+   end "*";
+
+   function "*" (xLeftOperandMatrix : in CMatrix; pxRightOperandPlane : in Math.Planes.pCPlane) return Math.Planes.CPlane is
+      use Math.Planes;
+
+   begin
+      if pxRightOperandPlane /= null then
+         return xLeftOperandMatrix * pxRightOperandPlane.all;
+      end if;
+
+      Exception_Handling.Raise_Exception(E       => Exception_Handling.NullPointer'Identity,
+                                         Message => "Math.Matrices.""*"" (xLeftOperandMatrix : in CMatrix; pxRightOperandPlane : in Math.Planes.pCPlane) return Math.Planes.CPlane");
+      return pxRightOperandPlane.all;
+   end "*";
+
+   function "*" (pxLeftOperandMatrix : in pCMatrix; xRightOperandPlane : in Math.Planes.CPlane) return Math.Planes.CPlane is
+   begin
+      if pxLeftOperandMatrix /= null then
+         return pxLeftOperandMatrix.all * xRightOperandPlane;
+      end if;
+
+      Exception_Handling.Raise_Exception(E       => Exception_Handling.NullPointer'Identity,
+                                         Message => "Math.Matrices.""*"" (pxLeftOperandMatrix : in pCMatrix; xRightOperandPlane : in Math.Planes.CPlane) return Math.Planes.CPlane");
+      return xRightOperandPlane;
    end "*";
 
    -------------------
@@ -316,18 +412,18 @@ package body Math.Matrices is
          Swap_Values_In_Extended_Matrix(fValue1 => tfExtendedMatrix(iRow1,col),
                                         fValue2 => tfExtendedMatrix(iRow2,col));
       end loop;
+
    end Swap_Rows_In_Extended_Matrix;
 
    procedure Scale_Row_In_Extended_Matrix(tfExtendedMatrix : in out TExtendedMatrix; iStartingColumn : in integer) is
       iY : integer := iStartingColumn;
+
    begin
       for iX in reverse iStartingColumn .. 6
       loop
          tfExtendedMatrix(iY, iX) := tfExtendedMatrix(iY, iX) / tfExtendedMatrix(iY, iStartingColumn);
       end loop;
-      if tfExtendedMatrix(iY, iY) /= 1.0 then
-         raise Numeric_Error;
-      end if;
+
    end Scale_Row_In_Extended_Matrix;
 
    procedure Remove_Component_In_Following_Rows(tfExtendedMatrix : in out TExtendedMatrix; iRow : in integer) is
@@ -338,7 +434,9 @@ package body Math.Matrices is
          loop
             tfExtendedMatrix(iY, iX) := tfExtendedMatrix(iY, iX) - (tfExtendedMatrix(iRow, iX) * tfExtendedMatrix(iY, iRow));
          end loop;
+
       end loop;
+
    end Remove_Component_In_Following_Rows;
 
 
@@ -350,18 +448,23 @@ package body Math.Matrices is
          loop
             tfExtendedMatrix(iY, iX) := tfExtendedMatrix(iY, iX) - (tfExtendedMatrix(iRow, iX) * tfExtendedMatrix(iY, iRow));
          end loop;
+
       end loop;
+
    end Remove_Component_In_Leading_Rows;
 
    function Find_Row_With_Highest_Component(tfExtendedMatrix : in TExtendedMatrix; iColumn : in integer) return integer is
       iMaxValueComponent : integer := iColumn;
+
    begin
       for iRow in iColumn+1 .. 3
       loop
          if abs(tfExtendedMatrix(iRow, iColumn)) > abs(tfExtendedMatrix(iMaxValueComponent, iColumn)) then
             iMaxValueComponent := iRow;
          end if;
+
       end loop;
+
       return iMaxValueComponent;
    end Find_Row_With_Highest_Component;
 
@@ -370,6 +473,7 @@ package body Math.Matrices is
       if abs(fValue) > 0.0 then
          return false;
       end if;
+
       return true;
    end bMatrix_Has_No_Inverse;
 
@@ -382,9 +486,9 @@ package body Math.Matrices is
       loop
          iRowWithMaxComponent := Find_Row_With_Highest_Component(tfExtendedMatrix => tfExtendedMatrix,
                                                                  iColumn          => iRowAndColumn);
-
          if bMatrix_Has_No_Inverse(tfExtendedMatrix(iRowWithMaxComponent, iRowAndColumn)) then
-            raise Numeric_Error;
+            Exception_Handling.Raise_Exception(E       => Exception_Handling.SingularMatrix'Identity,
+                                               Message => "Math.Matrices.Perform_Gauss_Jordan_Elimination_On(tfExtendedMatrix : in out TExtendedMatrix)");
          end if;
 
          if iRowWithMaxComponent /= iRowAndColumn then
@@ -393,11 +497,8 @@ package body Math.Matrices is
                                          iRow2            => iRowWithMaxComponent);
          end if;
 
-
          Scale_Row_In_Extended_Matrix(tfExtendedMatrix => tfExtendedMatrix,
                                       iStartingColumn  => iRowAndColumn);
-
-
 
          Remove_Component_In_Following_Rows(tfExtendedMatrix => tfExtendedMatrix,
                                             iRow             => iRowAndColumn);
@@ -411,6 +512,7 @@ package body Math.Matrices is
 
    function tfGet_Inverse_Part_From(tfExtendedMatrix : in TExtendedMatrix) return TMatrix is
       tfInverse : TMatrix;
+
    begin
       for iY in 1 .. 3
       loop
@@ -418,6 +520,7 @@ package body Math.Matrices is
          loop
             tfInverse(iY, iX) := tfExtendedMatrix(iY, iX+3);
          end loop;
+
       end loop;
 
       return tfInverse;
@@ -426,6 +529,7 @@ package body Math.Matrices is
 
    function tfCreate_Extended_Matrix_From(tfMatrix : in TMatrix) return TExtendedMatrix is
       tfExtendedMatrix : TExtendedMatrix;
+
    begin
       for iY in 1 .. 3
       loop
@@ -434,39 +538,45 @@ package body Math.Matrices is
             tfExtendedMatrix(iY, iX) := tfMatrix(iY, iX);
             tfExtendedMatrix(iY, iX+3) := 0.0;
          end loop;
+
          tfExtendedMatrix(iY,iY+3) := 1.0;
       end loop;
+
       return tfExtendedMatrix;
    end tfCreate_Extended_Matrix_From;
 
-
-   function pxGet_Inverse (this : in CMatrix) return pCMatrix is
+   function xGet_Inverse (this : in CMatrix) return CMatrix is
       tfExtendedMatrix : TExtendedMatrix;
    begin
       tfExtendedMatrix := tfCreate_Extended_Matrix_From(tfMatrix => this.tfMatrix);
 
       Perform_Gauss_Jordan_Elimination_On(tfExtendedMatrix => tfExtendedMatrix);
 
-      return Math.Matrices.pxCreate(tfMatrix => tfGet_Inverse_Part_From(tfExtendedMatrix => tfExtendedMatrix));
-   end pxGet_Inverse;
+      return CMatrix'(tfMatrix => tfGet_Inverse_Part_From(tfExtendedMatrix => tfExtendedMatrix));
+
+   exception
+      when E : others =>
+         Exception_Handling.Reraise_Exception(E       => E,
+                                              Message => "Math.Matrices.xGet_Inverse (this : in CMatrix) return CMatrix");
+         return CMatrix'(tfMatrix => (others => (others => 0.0)));
+   end xGet_Inverse;
 
    ----------------
    -- pxGet_Copy --
    ----------------
 
-   function pxGet_Copy (this : in CMatrix) return pCMatrix is
+   function pxGet_Allocated_Copy (this : in CMatrix) return pCMatrix is
    begin
-      return Math.Matrices.pxCreate(tfMatrix => this.tfMatrix);
-   end pxGet_Copy;
+      return new CMatrix'(tfMatrix => this.tfMatrix);
+   end pxGet_Allocated_Copy;
 
    ---------------------
    -- pxGet_Transpose --
    ---------------------
 
-   function pxGet_Transpose (this : in CMatrix) return pCMatrix is
+   function xGet_Transpose (this : in CMatrix) return CMatrix is
       tfTranspose : TMatrix;
    begin
-
 
       for i in 1 .. 3
       loop
@@ -474,36 +584,44 @@ package body Math.Matrices is
          loop
             tfTranspose(i,j) := this.tfMatrix(j,i);
          end loop;
+
       end loop;
 
-      return Math.Matrices.pxCreate(tfTranspose);
-   end pxGet_Transpose;
+      return CMatrix'(tfMatrix => tfTranspose);
+   end xGet_Transpose;
 
 
-   function pxGet_X_Vector (this : in CMatrix) return Math.Vectors.pCVector is
-      pxXVector : Math.Vectors.pCVector;
+   function xGet_X_Vector (this : in CMatrix) return Math.Vectors.CVector is
+      xXVector : Math.Vectors.CVector;
    begin
-      pxXVector := Math.Vectors.pxCreate(fX => this.tfMatrix(1,1),
-                                         fY => this.tfMatrix(1,2),
-                                         fZ => this.tfMatrix(1,3));
-      return pxXVector;
-   end pxGet_X_Vector;
+      xXVector := Math.Vectors.xCreate(fX => this.tfMatrix(1,1),
+                                         fY => this.tfMatrix(2,1),
+                                         fZ => this.tfMatrix(3,1));
+      return xXVector;
+   end xGet_X_Vector;
 
-   function pxGet_Y_Vector (this : in CMatrix) return Math.Vectors.pCVector is
-      pxYVector : Math.Vectors.pCVector;
+   function xGet_Y_Vector (this : in CMatrix) return Math.Vectors.CVector is
+      xYVector : Math.Vectors.CVector;
    begin
-      pxYVector := Math.Vectors.pxCreate(fX => this.tfMatrix(2,1),
+      xYVector := Math.Vectors.xCreate(fX => this.tfMatrix(1,2),
                                          fY => this.tfMatrix(2,2),
-                                         fZ => this.tfMatrix(2,3));
-      return pxYVector;
-   end pxGet_Y_Vector;
+                                         fZ => this.tfMatrix(3,2));
+      return xYVector;
+   end xGet_Y_Vector;
 
-   function pxGet_Z_Vector (this : in CMatrix) return Math.Vectors.pCVector is
-      pxZVector : Math.Vectors.pCVector;
+   function xGet_Z_Vector (this : in CMatrix) return Math.Vectors.CVector is
+      xZVector : Math.Vectors.CVector;
    begin
-      pxZVector := Math.Vectors.pxCreate(fX => this.tfMatrix(3,1),
-                                         fY => this.tfMatrix(3,2),
+      xZVector := Math.Vectors.xCreate(fX => this.tfMatrix(1,3),
+                                         fY => this.tfMatrix(2,3),
                                          fZ => this.tfMatrix(3,3));
-      return pxZVector;
-   end pxGet_Z_Vector;
+      return xZVector;
+   end xGet_Z_Vector;
+
+   procedure Free(pxMatrixToDeallocate : in out pCMatrix) is
+      procedure Dealloc is new Ada.Unchecked_Deallocation(CMatrix, pCMatrix);
+   begin
+      Dealloc(pxMatrixToDeallocate);
+   end Free;
+
 end Math.Matrices;

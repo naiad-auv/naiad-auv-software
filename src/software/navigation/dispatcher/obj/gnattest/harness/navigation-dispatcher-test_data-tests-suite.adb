@@ -13,16 +13,28 @@ package body Navigation.Dispatcher.Test_Data.Tests.Suite is
    Result : aliased AUnit.Test_Suites.Test_Suite;
 
    Case_1_1_Test_pxCreate_63d5f9 : aliased Runner_1.Test_Case;
+   Case_2_1_Test_Scale_Thruster_Values_6606ca : aliased Runner_1.Test_Case;
+   Case_3_1_Test_bThruster_Values_Need_Scaling_46c697 : aliased Runner_1.Test_Case;
 
    function Suite return AUnit.Test_Suites.Access_Test_Suite is
    begin
 
       Runner_1.Create
         (Case_1_1_Test_pxCreate_63d5f9,
-         "navigation-dispatcher.ads:14:4:",
+         "navigation-dispatcher.ads:15:4:",
          Test_pxCreate_63d5f9'Access);
+      Runner_1.Create
+        (Case_2_1_Test_Scale_Thruster_Values_6606ca,
+         "navigation-dispatcher.ads:32:4:",
+         Test_Scale_Thruster_Values_6606ca'Access);
+      Runner_1.Create
+        (Case_3_1_Test_bThruster_Values_Need_Scaling_46c697,
+         "navigation-dispatcher.ads:33:4:",
+         Test_bThruster_Values_Need_Scaling_46c697'Access);
 
       Result.Add_Test (Case_1_1_Test_pxCreate_63d5f9'Access);
+      Result.Add_Test (Case_2_1_Test_Scale_Thruster_Values_6606ca'Access);
+      Result.Add_Test (Case_3_1_Test_bThruster_Values_Need_Scaling_46c697'Access);
 
       return Result'Access;
 

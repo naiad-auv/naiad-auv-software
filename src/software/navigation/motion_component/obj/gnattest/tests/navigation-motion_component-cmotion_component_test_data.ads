@@ -9,7 +9,7 @@ with GNATtest_Generated;
 
 package Navigation.Motion_Component.CMotion_Component_Test_Data is
 
-   type CMotion_Component_Access is access all GNATtest_Generated.GNATtest_Standard.Navigation.Motion_Component.CMotion_Component'Class;
+   type CMotion_Component_Access is access all GNATtest_Generated.GNATtest_Standard.Navigation.Motion_Component.CMotionComponent'Class;
 
 --  begin read only
    type Test_CMotion_Component is new AUnit.Test_Fixtures.Test_Fixture

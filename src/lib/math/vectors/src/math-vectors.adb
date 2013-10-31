@@ -1,27 +1,24 @@
--- Vector package for Project Naiad
--- Written by Per-Erik Måhl, 2013
-
 with Ada.Numerics.Elementary_Functions;
-
+with Ada.Unchecked_Deallocation;
 with System;
-
 with Ada.Text_IO;
+with Exception_Handling;
 
 package body Math.Vectors is
 
-   function pxCreate (fX, fY, fZ : float) return pCVector is
-      pxNew_Vector : pCVector := new CVector;
+   function xCreate (fX, fY, fZ : float) return CVector is
    begin
-      pxNew_Vector.fX := fX;
-      pxNew_Vector.fY := fY;
-      pxNew_Vector.fZ := fZ;
-      return pxNew_Vector;
-   end pxCreate;
 
+      return CVector'(fX => fX,
+                          fY => fY,
+                          fZ => fZ);
+   end xCreate;
 
    function fLength_Squared (this : in CVector) return float is
    begin
-      return (this.fX**2) + (this.fY**2) + (this.fZ**2);
+      return (this.fX**2) +
+        (this.fY**2) +
+        (this.fZ**2);
    end fLength_Squared;
 
    function fLength (this : in CVector) return float is
@@ -29,54 +26,206 @@ package body Math.Vectors is
       return Ada.Numerics.Elementary_Functions.Sqrt(this.fLength_Squared);
    end fLength;
 
-
-   function "*" (pxLeftOperandVector, pxRightOperandVector : in pCVector) return pCVector is
-      pxProductVector : pCVector;
+   function "+" (xLeftOperandVector, xRightOperandVector : in CVector) return CVector is
    begin
-      pxProductVector := pxCreate(fX => pxLeftOperandVector.fX * pxRightOperandVector.fX,
-                                  fY => pxLeftOperandVector.fY * pxRightOperandVector.fY,
-                                  fZ => pxLeftOperandVector.fZ * pxRightOperandVector.fZ);
-      return pxProductVector;
+      return CVector'(fX => xLeftOperandVector.fX + xRightOperandVector.fX,
+                      fY => xLeftOperandVector.fY + xRightOperandVector.fY,
+                      fZ => xLeftOperandVector.fZ + xRightOperandVector.fZ);
+   end "+";
+
+   function "+" (pxLeftOperandVector : in pCVector; xRightOperandVector : in CVector) return CVector is
+   begin
+      if pxLeftOperandVector /= null then
+         return pxLeftOperandVector.all + xRightOperandVector;
+      end if;
+
+      Exception_Handling.Raise_Exception(E       => Exception_Handling.NullPointer'Identity,
+                                         Message => "Math.Vectors.""+"" (pxLeftOperandVector : in pCVector; xRightOperandVector : in CVector) return CVector");
+      return xRightOperandVector;
+   end "+";
+
+   function "+" (xLeftOperandVector : in CVector; pxRightOperandVector : in pCVector) return CVector is
+   begin
+      if pxRightOperandVector /= null then
+         return xLeftOperandVector + pxRightOperandVector.all;
+      end if;
+
+      Exception_Handling.Raise_Exception(E       => Exception_Handling.NullPointer'Identity,
+                                         Message => "Math.Vectors.""+"" (xLeftOperandVector : in CVector; pxRightOperandVector : in pCVector) return CVector");
+      return xLeftOperandVector;
+   end "+";
+
+   function "+" (pxLeftOperandVector, pxRightOperandVector : in pCVector) return CVector is
+   begin
+      if pxLeftOperandVector /= null and then pxRightOperandVector /= null then
+         return pxLeftOperandVector.all + pxRightOperandVector.all;
+      end if;
+
+      Exception_Handling.Raise_Exception(E       => Exception_Handling.NullPointer'Identity,
+                                         Message => "Math.Vectors.""+"" (pxLeftOperandVector, pxRightOperandVector : in pCVector) return CVector");
+      return pxLeftOperandVector.all;
+   end "+";
+
+
+   function "-" (xOperandVector : in CVector) return CVector is
+   begin
+      return CVector'(fX => -xOperandVector.fX,
+                      fY => -xOperandVector.fY,
+                      fZ => -xOperandVector.fZ);
+   end "-";
+
+   function "-" (pxOperandVector : in pCVector) return CVector is
+   begin
+      if pxOperandVector /= null then
+         return -pxOperandVector.all;
+      end if;
+
+      Exception_Handling.Raise_Exception(E       => Exception_Handling.NullPointer'Identity,
+                                         Message => "Math.Vectors.""-"" (pxOperandVector : in pCVector) return CVector");
+      return pxOperandVector.all;
+   end "-";
+
+   function "-" (xLeftOperandVector, xRightOperandVector : in CVector) return CVector is
+   begin
+      return xLeftOperandVector + (-xRightOperandVector);
+   end "-";
+
+   function "-" (pxLeftOperandVector : in pCVector; xRightOperandVector : in CVector) return CVector is
+   begin
+      if pxLeftOperandVector /= null then
+         return pxLeftOperandVector.all - xRightOperandVector;
+      end if;
+
+      Exception_Handling.Raise_Exception(E       => Exception_Handling.NullPointer'Identity,
+                                         Message => "Math.Vectors.""-"" (pxLeftOperandVector : in pCVector; xRightOperandVector : in CVector) return CVector");
+      return xRightOperandVector;
+   end "-";
+
+   function "-" (xLeftOperandVector : in CVector; pxRightOperandVector : in pCVector) return CVector is
+   begin
+      if pxRightOperandVector /= null then
+         return xLeftOperandVector - pxRightOperandVector.all;
+      end if;
+
+      Exception_Handling.Raise_Exception(E       => Exception_Handling.NullPointer'Identity,
+                                         Message => "Math.Vectors.""-"" (xLeftOperandVector : in CVector; pxRightOperandVector : in pCVector) return CVector");
+      return xLeftOperandVector;
+   end "-";
+
+   function "-" (pxLeftOperandVector, pxRightOperandVector : in pCVector) return CVector is
+   begin
+      if pxLeftOperandVector /= null and then pxRightOperandVector /= null then
+         return pxLeftOperandVector.all - pxRightOperandVector.all;
+      end if;
+
+      Exception_Handling.Raise_Exception(E       => Exception_Handling.NullPointer'Identity,
+                                         Message => "Math.Vectors.""-"" (pxLeftOperandVector, pxRightOperandVector : in pCVector) return CVector");
+      return pxLeftOperandVector.all;
+   end "-";
+
+   function "*" (xLeftOperandVector, xRightOperandVector : in CVector) return CVector is
+   begin
+      return CVector'(fX => xLeftOperandVector.fX * xRightOperandVector.fX,
+                      fY => xLeftOperandVector.fY * xRightOperandVector.fY,
+                      fZ => xLeftOperandVector.fZ * xRightOperandVector.fZ);
    end "*";
 
-   function "*" (pxLeftOperandVector : in pCVector; fRightOperand : in float) return pCVector is
-      pxScaledVector : pCVector;
+   function "*" (pxLeftOperandVector : in pCVector; xRightOperandVector : in CVector) return CVector is
    begin
-      pxScaledVector := pxCreate(fX => pxLeftOperandVector.fX * fRightOperand,
-                                 fY => pxLeftOperandVector.fY * fRightOperand,
-                                 fZ => pxLeftOperandVector.fZ * fRightOperand);
-      return pxScaledVector;
+      if pxLeftOperandVector /= null then
+         return pxLeftOperandVector.all * xRightOperandVector;
+      end if;
+
+      Exception_Handling.Raise_Exception(E       => Exception_Handling.NullPointer'Identity,
+                                         Message => "Math.Vectors.""*"" (pxLeftOperandVector : in pCVector; xRightOperandVector : in CVector) return CVector");
+      return xRightOperandVector;
    end "*";
 
-   function "*" (fLeftOperand : in float; pxRightOperandVector : in pCVector) return pCVector is
-      pxScaledVector : pCVector;
+   function "*" (xLeftOperandVector : in CVector; pxRightOperandVector : in pCVector) return CVector is
    begin
-      pxScaledVector := pxCreate(fX => pxRightOperandVector.fX * fLeftOperand,
-                                 fY => pxRightOperandVector.fY * fLeftOperand,
-                                 fZ => pxRightOperandVector.fZ * fLeftOperand);
-      return pxScaledVector;
+      if pxRightOperandVector /= null then
+         return xLeftOperandVector * pxRightOperandVector.all;
+      end if;
+
+      Exception_Handling.Raise_Exception(E       => Exception_Handling.NullPointer'Identity,
+                                         Message => "Math.Vectors.""*"" (xLeftOperandVector : in CVector; pxRightOperandVector : in pCVector) return CVector");
+      return xLeftOperandVector;
    end "*";
 
-   function "/" (pxLeftOperandVector : in pCVector; fRightOperand : in float) return pCVector is
+   function "*" (pxLeftOperandVector, pxRightOperandVector : in pCVector) return CVector is
+   begin
+      if pxLeftOperandVector /= null and then pxRightOperandVector /= null then
+         return pxLeftOperandVector.all * pxRightOperandVector.all;
+      end if;
+
+      Exception_Handling.Raise_Exception(E       => Exception_Handling.NullPointer'Identity,
+                                         Message => "Math.Vectors.""*"" (pxLeftOperandVector, pxRightOperandVector : in pCVector) return CVector");
+      return pxLeftOperandVector.all;
+   end "*";
+
+   function "*" (xLeftOperandVector : in CVector; fRightOperand : in float) return CVector is
+   begin
+
+      return CVector'(fX => xLeftOperandVector.fX * fRightOperand,
+                      fY => xLeftOperandVector.fY * fRightOperand,
+                      fZ => xLeftOperandVector.fZ * fRightOperand);
+   end "*";
+
+   function "*" (pxLeftOperandVector : in pCVector; fRightOperand : in float) return CVector is
+   begin
+      if pxLeftOperandVector /= null then
+         return pxLeftOperandVector.all * fRightOperand;
+      end if;
+
+      Exception_Handling.Raise_Exception(E       => Exception_Handling.NullPointer'Identity,
+                                         Message => "Math.Vectors.""*"" (pxLeftOperandVector : in pCVector; fRightOperand : in float) return CVector");
+      return pxLeftOperandVector.all;
+   end "*";
+
+   function "*" (fLeftOperand : in float; xRightOperandVector : in CVector) return CVector is
+   begin
+      return xRightOperandVector * fLeftOperand;
+   end "*";
+
+   function "*" (fLeftOperand : in float; pxRightOperandVector : in pCVector) return CVector is
+   begin
+      return pxRightOperandVector * fLeftOperand;
+   exception
+      when E : others =>
+         Exception_Handling.Reraise_Exception(E       => E,
+                                              Message => "Math.Vectors.""*"" (fLeftOperand : in float; pxRightOperandVector : in pCVector) return CVector");
+         return pxRightOperandVector.all;
+   end "*";
+
+   function "/" (xLeftOperandVector : in CVector; fRightOperand : in float) return CVector is
       fScaleFactor : float;
    begin
-      if fRightOperand = 0.0 then
-         raise Numeric_Error;
+      if abs(fRightOperand) = 0.0 then
+      Exception_Handling.Raise_Exception(E       => Exception_Handling.DivisionByZero'Identity,
+                                         Message => "Math.Vectors.""/"" (xLeftOperandVector : in CVector; fRightOperand : in float) return CVector");
       end if;
 
       fScaleFactor := 1.0 / fRightOperand;
-      return pxLeftOperandVector * fScaleFactor;
+
+      return xLeftOperandVector * fScaleFactor;
    end "/";
 
-   function "=" (pxLeftOperandVector : in pCVector; pxRightOperandVector : in pCVector) return boolean is
-      use System;
+   function "/" (pxLeftOperandVector : in pCVector; fRightOperand : in float) return CVector is
    begin
-      return abs(pxLeftOperandVector.fX - pxRightOperandVector.fX) < 0.0001 and
-        abs(pxLeftOperandVector.fY - pxRightOperandVector.fY) < 0.0001 and
-        abs(pxLeftOperandVector.fZ - pxRightOperandVector.fZ) < 0.0001;
+      if pxLeftOperandVector /= null then
+         return pxLeftOperandVector.all / fRightOperand;
+      end if;
 
-   exception
-         when CONSTRAINT_ERROR => return false;
+      Exception_Handling.Raise_Exception(E       => Exception_Handling.NullPointer'Identity,
+                                         Message => "Math.Vectors.""/"" (pxLeftOperandVector : in pCVector; fRightOperand : in float) return CVector");
+      return pxLeftOperandVector.all;
+   end "/";
+
+   function "=" (xLeftOperandVector : in CVector; xRightOperandVector : in CVector) return boolean is
+   begin
+      return abs(xLeftOperandVector.fX - xRightOperandVector.fX) < fVECTOR_PRECISION and
+      abs(xLeftOperandVector.fY - xRightOperandVector.fY) < fVECTOR_PRECISION and
+      abs(xLeftOperandVector.fZ - xRightOperandVector.fZ) < fVECTOR_PRECISION;
    end "=";
 
    function fGet_X (this : in CVector) return float is
@@ -95,97 +244,185 @@ package body Math.Vectors is
    end fGet_Z;
 
 
-
-
-
-
-   function "+" (pxLeftOperandVector, pxRightOperandVector : in pCVector) return pCVector is
-      pxSumVector : pCVector;
+   function fDot_Product (xLeftOperandVector : in CVector; xRightOperandVector : in CVector) return float is
    begin
-      pxSumVector := pxCreate(fX => pxLeftOperandVector.fX + pxRightOperandVector.fX,
-                              fY => pxLeftOperandVector.fY + pxRightOperandVector.fY,
-                              fZ => pxLeftOperandVector.fZ + pxRightOperandVector.fZ);
-      return pxSumVector;
-   end "+";
-
-   function "-" (pxOperandVector : in pCVector) return pCVector is
-      pxNegatedVector : pCVector;
-   begin
-      pxNegatedVector := pxCreate(fX => -pxOperandVector.fX,
-                                  fY => -pxOperandVector.fY,
-                                  fZ => -pxOperandVector.fZ);
-      return pxNegatedVector;
-   end "-";
-
-   function "-" (pxLeftOperandVector, pxRightOperandVector : in pCVector) return pCVector is
-   begin
-      return pxLeftOperandVector + (-pxRightOperandVector);
-   end "-";
-
-   function fDot_Product (pxLeftOperandVector : in pCVector; pxRightOperandVector : in pCVector) return float is
-      fDotProduct : float;
-   begin
-      fDotProduct := (pxLeftOperandVector.fX * pxRightOperandVector.fX)
-        + (pxLeftOperandVector.fY * pxRightOperandVector.fY)
-        + (pxLeftOperandVector.fZ * pxRightOperandVector.fZ);
-      return fDotProduct;
+      return (xLeftOperandVector.fX * xRightOperandVector.fX)
+        + (xLeftOperandVector.fY * xRightOperandVector.fY)
+        + (xLeftOperandVector.fZ * xRightOperandVector.fZ);
    end fDot_Product;
 
+   function fDot_Product (pxLeftOperandVector : in pCVector; xRightOperandVector : in CVector) return float is
+   begin
+      if pxLeftOperandVector /= null then
+         return fDot_Product(pxLeftOperandVector.all, xRightOperandVector);
+      end if;
 
-   function fAngle_Between_In_Radians (pxLeftOperandVector, pxRightOperandVector : in pCVector) return float is
+      Exception_Handling.Raise_Exception(E       => Exception_Handling.NullPointer'Identity,
+                                         Message => "Math.Vectors.fDot_Product (pxLeftOperandVector : in pCVector; xRightOperandVector : in CVector) return float");
+      return 0.0;
+   end fDot_Product;
+
+   function fDot_Product (xLeftOperandVector : in CVector; pxRightOperandVector : in pCVector) return float is
+   begin
+      if pxRightOperandVector /= null then
+         return fDot_Product(xLeftOperandVector, pxRightOperandVector.all);
+      end if;
+
+      Exception_Handling.Raise_Exception(E       => Exception_Handling.NullPointer'Identity,
+                                         Message => "Math.Vectors.fDot_Product (xLeftOperandVector : in CVector; pxRightOperandVector : in pCVector) return float");
+      return 0.0;
+   end fDot_Product;
+
+   function fDot_Product (pxLeftOperandVector : in pCVector; pxRightOperandVector : in pCVector) return float is
+   begin
+      if pxLeftOperandVector /= null and then pxRightOperandVector /= null then
+         return fDot_Product(pxLeftOperandVector.all, pxRightOperandVector.all);
+      end if;
+
+      Exception_Handling.Raise_Exception(E       => Exception_Handling.NullPointer'Identity,
+                                         Message => "Math.Vectors.fDot_Product (pxLeftOperandVector : in pCVector; pxRightOperandVector : in pCVector) return float");
+      return 0.0;
+   end fDot_Product;
+
+   function fAngle_Between_In_Radians (xLeftOperandVector, xRightOperandVector : in CVector) return float is
       fDotProduct : float;
    begin
-      fDotProduct := Math.Vectors.fDot_Product(pxLeftOperandVector  => pxLeftOperandVector,
-                                               pxRightOperandVector => pxRightOperandVector);
-      fDotProduct := fDotProduct / (pxLeftOperandVector.fLength * pxRightOperandVector.fLength);
-      if fDotProduct > 1.0 then
-         fDotProduct := 1.0;
+      if abs(xLeftOperandVector.fLength_Squared) = 0.0 or abs(xRightOperandVector.fLength_Squared) = 0.0 then
+         Exception_Handling.Raise_Exception(E       => Exception_Handling.DivisionByZero'Identity,
+                                            Message => "Math.Vectors.fAngle_Between_In_Radians (xLeftOperandVector, xRightOperandVector : in CVector) return float");
       end if;
+
+      fDotProduct := Math.Vectors.fDot_Product(xLeftOperandVector, xRightOperandVector);
+
+      fDotProduct := fDotProduct / (xLeftOperandVector.fLength * xRightOperandVector.fLength);
+
+      fDotProduct := float'Min(float'Max(fDotProduct,-1.0),1.0);
 
       return Ada.Numerics.Elementary_Functions.Arccos(fDotProduct);
    end fAngle_Between_In_Radians;
 
+   function fAngle_Between_In_Radians (xLeftOperandVector : in CVector; pxRightOperandVector : in pCVector) return float is
+   begin
+      if pxRightOperandVector /= null then
+         return fAngle_Between_In_Radians(xLeftOperandVector, pxRightOperandVector.all);
+      end if;
 
-   function pxGet_Normalized (this : in CVector) return pCVector is
-      pxNormalizedVector : pCVector;
+      Exception_Handling.Raise_Exception(E       => Exception_Handling.NullPointer'Identity,
+                                         Message => "Math.Vectors.fAngle_Between_In_Radians (xLeftOperandVector : in CVector; pxRightOperandVector : in pCVector) return float");
+      return 0.0;
+   exception
+      when Exception_Handling.NullPointer =>
+         raise Exception_Handling.NullPointer;
+      when E : others =>
+         Exception_Handling.Reraise_Exception(E       => E,
+                                              Message => "Math.Vectors.fAngle_Between_In_Radians (xLeftOperandVector : in CVector; pxRightOperandVector : in pCVector) return float");
+         return 0.0;
+   end fAngle_Between_In_Radians;
+
+   function fAngle_Between_In_Radians (pxLeftOperandVector : in pCVector; xRightOperandVector : in CVector) return float is
+   begin
+      if pxLeftOperandVector /= null then
+         return fAngle_Between_In_Radians(pxLeftOperandVector.all, xRightOperandVector);
+      end if;
+
+      Exception_Handling.Raise_Exception(E       => Exception_Handling.NullPointer'Identity,
+                                         Message => "Math.Vectors.fAngle_Between_In_Radians (pxLeftOperandVector : in pCVector; xRightOperandVector : in CVector) return float");
+      return 0.0;
+   exception
+      when Exception_Handling.NullPointer =>
+         raise Exception_Handling.NullPointer;
+      when E : others =>
+         Exception_Handling.Reraise_Exception(E       => E,
+                                              Message => "Math.Vectors.fAngle_Between_In_Radians (pxLeftOperandVector : in pCVector; xRightOperandVector : in CVector) return float");
+         return 0.0;
+   end fAngle_Between_In_Radians;
+
+   function fAngle_Between_In_Radians (pxLeftOperandVector, pxRightOperandVector : in pCVector) return float is
+   begin
+      if pxLeftOperandVector /= null and then pxRightOperandVector /= null then
+         return fAngle_Between_In_Radians(pxLeftOperandVector.all, pxRightOperandVector.all);
+      end if;
+
+      Exception_Handling.Raise_Exception(E       => Exception_Handling.NullPointer'Identity,
+                                         Message => "Math.Vectors.fAngle_Between_In_Radians (pxLeftOperandVector, pxRightOperandVector : in pCVector) return float");
+      return 0.0;
+   exception
+      when Exception_Handling.NullPointer =>
+         raise Exception_Handling.NullPointer;
+      when E : others =>
+         Exception_Handling.Reraise_Exception(E       => E,
+                                              Message => "Math.Vectors.fAngle_Between_In_Radians (pxLeftOperandVector, pxRightOperandVector : in pCVector) return float");
+         return 0.0;
+   end fAngle_Between_In_Radians;
+
+   function xGet_Normalized (this : in CVector) return CVector is
    begin
       if this.fLength_Squared = 0.0 then
-         raise Numeric_Error;
+         Exception_Handling.Raise_Exception(E       => Exception_Handling.DivisionByZero'Identity,
+                                            Message => "Math.Vectors.xGet_Normalized (this : in CVector) return CVector");
       end if;
 
-      pxNormalizedVector := this / this.fLength;
-      return pxNormalizedVector;
-   end pxGet_Normalized;
+      return this / this.fLength;
+   end xGet_Normalized;
 
-   function pxCross_Product (pxLeftOperandVector : in pCVector; pxRightOperandVector : in pCVector) return pCVector is
-      pxCrossProductVector : pCVector;
+   function xCross_Product (xLeftOperandVector : in CVector; xRightOperandVector : in CVector) return CVector is
    begin
-      pxCrossProductVector := Math.Vectors.pxCreate(fX => (pxLeftOperandVector.fY * pxRightOperandVector.fZ) - (pxLeftOperandVector.fZ * pxRightOperandVector.fY),
-                                                          fY => (pxLeftOperandVector.fZ * pxRightOperandVector.fX) - (pxLeftOperandVector.fX * pxRightOperandVector.fZ),
-                                                          fZ => (pxLeftOperandVector.fX * pxRightOperandVector.fY) - (pxLeftOperandVector.fY * pxRightOperandVector.fX));
-      return pxCrossProductVector;
-   end pxCross_Product;
+      return CVector'(fX => (xLeftOperandVector.fY * xRightOperandVector.fZ) - (xLeftOperandVector.fZ * xRightOperandVector.fY),
+                      fY => (xLeftOperandVector.fZ * xRightOperandVector.fX) - (xLeftOperandVector.fX * xRightOperandVector.fZ),
+                      fZ => (xLeftOperandVector.fX * xRightOperandVector.fY) - (xLeftOperandVector.fY * xRightOperandVector.fX));
+   end xCross_Product;
 
-
-   function "/" (xLeftOperandVector : in CVector; fRightOperand : in float) return pCVector is
+   function xCross_Product (pxLeftOperandVector : in pCVector; pxRightOperandVector : in pCVector) return CVector is
    begin
-      if fRightOperand = 0.0 then
-         raise Numeric_Error;
+      if pxLeftOperandVector /= null and then pxRightOperandVector /= null then
+         return xCross_Product(pxLeftOperandVector.all, pxRightOperandVector.all);
       end if;
 
-      return Math.Vectors.pxCreate(fX => xLeftOperandVector.fX / fRightOperand,
-                                         fY => xLeftOperandVector.fY / fRightOperand,
-                                         fZ => xLeftOperandVector.fZ / fRightOperand);
-   end "/";
+      Exception_Handling.Raise_Exception(E       => Exception_Handling.NullPointer'Identity,
+                                         Message => "Math.Vectors.xCross_Product (pxLeftOperandVector : in pCVector; pxRightOperandVector : in pCVector) return CVector");
+      return pxLeftOperandVector.all;
+   end xCross_Product;
 
-   function pxGet_Copy (this : in CVector) return pCVector is
-      pxCopy : pCVector;
+   function xCross_Product (pxLeftOperandVector : in pCVector; xRightOperandVector : in CVector) return CVector is
    begin
-      pxCopy := Math.Vectors.pxCreate(fX => this.fX,
-                                            fY => this.fY,
-                                            fZ => this.fZ);
-      return pxCopy;
-   end pxGet_Copy;
+      if pxLeftOperandVector /= null then
+         return xCross_Product(pxLeftOperandVector.all, xRightOperandVector);
+      end if;
 
+      Exception_Handling.Raise_Exception(E       => Exception_Handling.NullPointer'Identity,
+                                         Message => "Math.Vectors.xCross_Product (pxLeftOperandVector : in pCVector; xRightOperandVector : in CVector) return CVector");
+      return xRightOperandVector;
+   end xCross_Product;
+
+   function xCross_Product (xLeftOperandVector : in CVector; pxRightOperandVector : in pCVector) return CVector is
+   begin
+      if pxRightOperandVector /= null then
+         return xCross_Product(xLeftOperandVector, pxRightOperandVector);
+      end if;
+
+      Exception_Handling.Raise_Exception(E       => Exception_Handling.NullPointer'Identity,
+                                         Message => "Math.Vectors.xCross_Product (xLeftOperandVector : in CVector; pxRightOperandVector : in pCVector) return CVector");
+      return xLeftOperandVector;
+   end xCross_Product;
+
+   function pxGet_Allocated_Copy (this : in CVector) return pCVector is
+   begin
+      return new CVector'(fX => this.fX,
+                                   fY => this.fY,
+                                   fZ => this.fZ);
+   end pxGet_Allocated_Copy;
+
+   procedure Copy_From (this : in out CVector; xSourceVector : in CVector) is
+   begin
+      this.fX := xSourceVector.fX;
+      this.fY := xSourceVector.fY;
+      this.fZ := xSourceVector.fZ;
+   end Copy_From;
+
+   procedure Free(pxVectorToDeallocate : in out pCVector) is
+      procedure Dealloc is new Ada.Unchecked_Deallocation(CVector, pCVector);
+   begin
+      Dealloc(pxVectorToDeallocate);
+   end Free;
 
 end Math.Vectors;

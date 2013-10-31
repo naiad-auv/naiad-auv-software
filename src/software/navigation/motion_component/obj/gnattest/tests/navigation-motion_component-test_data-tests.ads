@@ -9,8 +9,11 @@ package Navigation.Motion_Component.Test_Data.Tests is
    type Test is new GNATtest_Generated.GNATtest_Standard.Navigation.Motion_Component.Test_Data.Test
    with null record;
 
-   procedure Test_pxCreate_d9cc2b (Gnattest_T : in out Test);
-   --  navigation-motion_component.ads:21:4:pxCreate
+   procedure Test_Free_e9f3c1 (Gnattest_T : in out Test);
+   --  navigation-motion_component.ads:11:4:Free
+
+   procedure Test_pxCreate_1ce4e5 (Gnattest_T : in out Test);
+   --  navigation-motion_component.ads:36:4:pxCreate
 
 end Navigation.Motion_Component.Test_Data.Tests;
 --  end read only
