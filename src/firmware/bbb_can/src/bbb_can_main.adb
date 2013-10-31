@@ -66,14 +66,18 @@ begin
    msg.ID := (10, false);
    msg.Len := 3;
    msg.Data := (1, 1, 1, 1, 1, 1, 1, 1);
-   BBB_CAN.Send(msg);
+  -- BBB_CAN.Send(msg);
 
    loop
-      delay(0.1);
+
+
+      BBB_CAN.Send(msg);
+
+      delay(5.0);
 
       BBB_CAN.Get(msg, bMsg, bOk);
       if bMsg then
-         Ada.Text_IO.Put_Line("Received CAN msg, ID=" & Integer'Image(Integer(msg.ID.Identifier)) & " length=" & msg.Len'Img & " data(1)=" & Integer'Image(Integer(msg.Data(1))));
+         Ada.Text_IO.Put_Line("Received CAN message: ID=" & Integer'Image(Integer(msg.ID.Identifier)) & ", length=" & msg.Len'Img & ", data(1)=" & Integer'Image(Integer(msg.Data(1))));
       else
          Ada.Text_IO.Put_Line("No message read");
       end if;
@@ -82,7 +86,7 @@ begin
          if Integer(msg.ID.Identifier) = 15 then
             msg.ID.Identifier := AVR.AT90CAN128.CAN.CAN_Identifier(16);
 
-            Ada.Text_IO.Put_Line("Sending CAN msg, ID=" & Integer'Image(Integer(msg.ID.Identifier)) & " length=" & msg.Len'Img & " data(1)=" & Integer'Image(Integer(msg.Data(1))));
+            Ada.Text_IO.Put_Line("Sending CAN message: ID=" & Integer'Image(Integer(msg.ID.Identifier)) & ", length=" & msg.Len'Img & ", data(1)=" & Integer'Image(Integer(msg.Data(1))));
             BBB_CAN.Send(msg);
          end if;
       end if;

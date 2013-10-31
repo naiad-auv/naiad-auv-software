@@ -15,6 +15,9 @@ with Ada.Text_IO;
 with UartWrapper;
 with GNAT.Serial_Communications;
 with CAN_Link_Utils;
+with Exception_Handling;
+
+with Queue;
 
 package body BBB_CAN is
    pragma Suppress (All_Checks);
@@ -30,7 +33,7 @@ package body BBB_CAN is
    begin
       --initiates UART commiunication:
       Ada.Text_IO.Put_Line("Opening " & "/dev/" & sPort & ", baudrate: " & baud'Img);
-      pxUart := UartWrapper.pxCreate("/dev/ttyACM1", Gnat.Serial_Communications.B9600, 1.0, 100);
+      pxUart := UartWrapper.pxCreate("/dev/" & sPort, baud, 1.0, 100);
    end Init;
 
 --     function Handshake return Boolean is
@@ -78,6 +81,8 @@ package body BBB_CAN is
          if iNumTempBytes = 0 then
 
             Usart_Read(sTempBuffer, CAN_Link_Utils.HEADLEN, iBytesRead);
+
+            Ada.Text_IO.Put_Line("ReadFromUART, iNumTempBytes = 0, iBytesRead=" & iBytesRead'Img);
 
             if iBytesRead = CAN_Link_Utils.HEADLEN then
                sBuffer := sTempBuffer;
@@ -149,8 +154,19 @@ package body BBB_CAN is
    end Usart_Write;
 
    procedure Usart_Read(sBuffer : out String; iSize : Integer; iBytesRead : out Integer) is
+
+      sTempBuffer : String(1.. Queue.iSIZE - Queue.iDataAvailable - 1);
+      sTempBytesRead : Integer;
+      sBytes : Integer;
+
    begin
-      pxUart.UartReadSpecificAmount(iSize, iBytesRead, sBuffer);
+      pxUart.UartReadSpecificAmount(Queue.iSIZE - Queue.iDataAvailable - 1, sTempBytesRead, sTempBuffer);
+
+      Queue.Write(sTempBuffer, sTempBytesRead, sBytes);
+
+      if sBytes < sTempBytesRead then
+         Exception_Handling.
+
    end Usart_Read;
 
    procedure Usart_Read_Inf_Block(sBuffer : out String; iSize : Integer) is
