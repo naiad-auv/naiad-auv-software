@@ -78,4 +78,7 @@ package visionBindings_cpp is
    particle_features_nxt : aliased cpp_4_7_4_bits_stl_vector_h.Class_vector.vector;  -- visionBindings.cpp:34
    pragma Import (C, particle_features_nxt, "particle_features_nxt");
 
+   templateStore : aliased cpp_4_7_4_bits_stl_vector_h.Class_vector.vector;  -- visionBindings.cpp:36
+   pragma Import (C, templateStore, "templateStore");
+
 end visionBindings_cpp;

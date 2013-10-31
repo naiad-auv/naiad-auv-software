@@ -33,6 +33,8 @@ std::vector<cv::Point> triangleCenters;
 std::vector<cv::Point2f> features_prev, features_next;
 std::vector<cv::Point2f> particle_features_prev, particle_features_nxt;
  
+std::vector<cv::Mat> templateStore; 
+ 
 /*********************************************************************************************************************
 *               START CORE WRAP                                                                                        *
 *********************************************************************************************************************/
@@ -100,9 +102,9 @@ void Core_Wrap::printNum(int num)
  
 ///////////////////////////////////// ADD IMAGE TO VECTOR img ////////////////////////////////////////////
  
-void Core_Wrap::push_back(char * src)
+void Core_Wrap::push_back_templeteStore(char * src)
 {
-    img.push_back(cv::imread(src));
+    templateStore.push_back(cv::imread(src));
 }
  
  
@@ -794,11 +796,20 @@ void Processing_Wrap::invertImage(int src, int dst)
 
 
 ///////////////////////////////////// IMAGE MATCHING/////////////////////////////////////////////
-/* 
-void Processing_Wrap::matchImage(int src,int dest,int matchMethod) 
+
+void Processing_Wrap::matchImage(int src) 
 {
-	cv::matchTemplate(img.at(src),templateStore,img.at(dest),matchMethod);
-}*/
+	int	templeteStoreSize=templateStore.size();
+	
+	std::vector<cv::Mat> results(templeteStoreSize);
+	
+	
+	
+	for (int i=0;i<templateStore.size();i++)
+	{
+		cv::matchTemplate(img.at(src),templateStore.at(i),results[i],CV_TM_SQDIFF_NORMED);
+	}
+}
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////

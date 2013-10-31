@@ -374,6 +374,9 @@ begin
 --     iBhattacharyyaDistance : 4;
       end if;
 
+      if(iMatchTemplete =1) then
+         processingWrap.matchTemplate(iImageSource);
+      end if;
 
    end loop Endless_Loop;
 end main;
