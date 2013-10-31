@@ -38,9 +38,17 @@ package body Math.Quaternions is
       Math.Vectors.Free(pxVectorToDeallocate => pxNormalizedAxisVector);
 
       return CQuaternion'(fX => fX,
-                              fY => fY,
-                              fZ => fZ,
-                              fW => fW);
+                          fY => fY,
+                          fZ => fZ,
+                          fW => fW);
+   exception
+      when E : others =>
+         Exception_Handling.Reraise_Exception(E       => E,
+                                              Message => "Math.Quaternions.xCreate (xAxisVector : in Math.Vectors.CVector; fAngleInDegrees : in float) return CQuaternion");
+         return CQuaternion'(fX => fX,
+                             fY => fY,
+                             fZ => fZ,
+                             fW => fW);
    end xCreate;
 
    function xCreate (pxAxisVector : in Math.Vectors.pCVector; fAngleInDegrees : in float) return CQuaternion is

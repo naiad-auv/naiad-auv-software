@@ -42,15 +42,18 @@ package body Math.Planes is
    end pxGet_Allocated_Copy;
 
    function xGet_Normal_Vector (this : in CPlane) return Math.Vectors.CVector is
-      pxNormalVector : Math.Vectors.pCVector;
       xNormalVector : Math.Vectors.CVector;
    begin
-      pxNormalVector := Math.Vectors.xCreate(fX => this.fA,
+      xNormalVector := Math.Vectors.xCreate(fX => this.fA,
                                               fY => this.fB,
-                                              fZ => this.fC).pxGet_Allocated_Copy;
-      xNormalVector := pxNormalVector.xGet_Normalized;
-      Math.Vectors.Free(pxVectorToDeallocate => pxNormalVector);
+                                              fZ => this.fC);
+      xNormalVector := xNormalVector.xGet_Normalized;
       return xNormalVector;
+   exception
+      when E : others =>
+         Exception_Handling.Reraise_Exception(E       => E,
+                                              Message => "Math.Planes.xGet_Normal_Vector (this : in CPlane) return Math.Vectors.CVector");
+         return xNormalVector;
    end xGet_Normal_Vector;
 
    function fGet_Distance_From_Origin (this : in CPlane) return float is
@@ -75,6 +78,11 @@ package body Math.Planes is
       fAngleInDegrees :=  fAngleInRadians * (180.0 / Ada.Numerics.Pi);
 
       return fAngleInDegrees;
+   exception
+      when E : others =>
+         Exception_Handling.Reraise_Exception(E       => E,
+                                              Message => "Math.Planes.fAngle_Between_In_Degrees (xLeftOperandPlane : in CPlane; xRightOperandPlane : in CPlane) return float");
+      return 0.0;
    end fAngle_Between_In_Degrees;
 
    function fAngle_Between_In_Degrees (pxLeftOperandPlane : in pCPlane; pxRightOperandPlane : in pCPlane) return float is

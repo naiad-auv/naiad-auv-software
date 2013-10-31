@@ -1,3 +1,4 @@
+with "../../src/lib/math/vectors/vectors.gpr";
 with "../../src/lib/exception_handling/exception_handling.gpr";
 with "../../src/software/navigation/thrusters/thrusters.gpr";
 with "../../src/software/navigation/thruster_configurator/thruster_configurator.gpr";

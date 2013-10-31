@@ -37,6 +37,11 @@ package body Navigation.Dispatcher is
       --Ada.Text_IO.Put_Line("CAP: " & System.Address_Image(pxNewDispatcher.pxCurrentAbsolutePosition.all'Address));
       --Ada.Text_IO.Put_Line("WAP: " & System.Address_Image(pxNewDispatcher.pxWantedAbsolutePosition.all'Address));
       return pxNewDispatcher;
+   exception
+      when E : others =>
+         Exception_Handling.Reraise_Exception(E       => E,
+                                              Message => "Navigation.Dispatcher.pxCreate return pCDispatcher");
+         return pxNewDispatcher;
    end pxCreate;
 
    function tfGet_Thruster_Values(this : in CDispatcher; fDeltaTime : in float) return Navigation.Thrusters.TThrusterValuesArray is
