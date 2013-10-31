@@ -36,6 +36,9 @@ package Exception_Handling is
    UnknownMotionComponent : exception;
    --  <summary>Unkown motion component exception, thrown when a user tries to update the PID scalings of an undefined component</summary>
 
+   BufferOverflow : exception;
+   --  <summary>Data was written to a buffer that did not have enough free space</summary>
+
    UnknownException : exception;
 
    UndefinedPlane : exception;
