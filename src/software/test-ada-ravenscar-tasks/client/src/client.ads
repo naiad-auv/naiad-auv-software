@@ -1,3 +1,3 @@
 package Client is
-    task Agent;
+    task type Agent;
 end Client;
