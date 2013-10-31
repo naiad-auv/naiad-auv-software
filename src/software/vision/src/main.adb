@@ -8,26 +8,27 @@ with Vision.Image_Processing;
 procedure main is
 
    --user decisions
-   iUseBuffer : Integer := 1;
+   iUseBuffer : Integer := 0;
    iUseStatic : Integer := 0;
-   iShowOriginal : Integer := 1;
+   iShowOriginal : Integer := 0;
    iDoGaussian : Integer := 0;
    iDoSplit : Integer := 0;
    iDoCvtGrey : Integer := 0;
-   iDoCvtHSI : Integer := 0;
+   iDoCvtHSI : Integer := 1;
    iDoHistoBGR : Integer := 0;
    iDoHistoHSI : Integer := 0;
    iDoCanny : Integer := 0;
-   iDoThresh : Integer := 0;
+   iDoThresh : Integer := 1;
    iDoHoughCircles : Integer := 0;
-   iDoContours : Integer := 0;
+   iDoContours : Integer := 1;
    iDoApproxPoly : Integer := 0;
    iDoObjectTracking : Integer := 0;
    iDoFusion : Integer := 0;
    iDoVelocityMode : Integer :=0;
    iInvertImage : Integer := 0;
    iSharpenImage : Integer := 0;
-   iCompareHistograms : Integer := 1;
+   iCompareHistograms : Integer := 0;
+   iMakeMovie : Integer := 1;
 
 
    iImageSource : Interfaces.C.Int;
@@ -99,6 +100,9 @@ procedure main is
    iIntersection : interfaces.c.int;
    iBhattacharyyaDistance : interfaces.c.int;
    compareHistResult : interfaces.c.double;
+
+   --video
+   videoOpen : integer:=0;
 
    CoreWrap : aliased Class_Core_Wrap.Core_Wrap;
    processingWrap : aliased Class_Processing_Wrap.Processing_Wrap;
@@ -184,6 +188,16 @@ begin
       elsif (iUseStatic =1) then
          --, or just read in single image NEW, READS IN IMAGE AND STORES IN INDEX "IMAGESOURCE" OF "img.at()"
          CoreWrap.imstore(iImageSource,New_String("Square.jpg"));
+      elsif (iMakeMovie = 1) then
+         --capture from video
+         if (videoOpen=0) then
+            preprocessingWrap.VideoCaptureOpen;
+            videoOpen:=1;
+         end if;
+
+         preprocessingWrap.nextFrame(iImageSource);
+         CoreWrap.imshow(New_String("test video"), iImageSource);
+         CoreWrap.waitKey(0);
       end if;
 
 
@@ -211,7 +225,7 @@ begin
 
       --test thresh
       if (iDoThresh = 1) then
-         ret := processingWrap.thresh(iHSILocation, 10, 70, 50, 255, 50, 255);
+         ret := processingWrap.thresh(iHSILocation, 114, 142, 135, 255, 135, 255);
          CoreWrap.imshow(New_String("why so after mask?"),iThreshedImageLocation);
       end if;
 
@@ -309,10 +323,10 @@ begin
 
       --CONTOURS
       if (iDoContours = 1) then
-         processingWrap.cvtColor(iImageSource,iGreyScaleLocation, iGreyFilter);
+         processingWrap.cvtColor(iThreshedImageLocation,iGreyScaleLocation, iGreyFilter);
          processingWrap.Canny(iGreyScaleLocation,iCannyLocation, iCannyLowThres, iCannyHighThres, iCannyKernelSize);
          processingWrap.Contours(iCannyLocation);
-         processingWrap.showContours(contourOut => iContourLocation,contourId  => -1 ,thickness  => 3 );
+         processingWrap.showContours(contourOut => iContourLocation,contourId  => -1 ,thickness  => 1 );
          CoreWrap.imshow(New_String("Whats with the contours?"),iContourLocation);
          CoreWrap.waitKey(0);
       end if;

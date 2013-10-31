@@ -2,31 +2,28 @@ pragma Ada_2005;
 pragma Style_Checks (Off);
 
 with Interfaces.C; use Interfaces.C;
-with cpp_4_7_4_bits_basic_ios_h;
-with cpp_4_7_4_streambuf;
-with cpp_4_7_4_istream;
-with cpp_4_7_4_ostream;
-with cpp_4_7_4_sstream;
 
 package cpp_4_7_4_iosfwd is
 
-   subtype ios is cpp_4_7_4_bits_basic_ios_h.Class_basic_ios.basic_ios;
+   --  skipped empty struct ios_base
 
-   subtype streambuf is cpp_4_7_4_streambuf.Class_basic_streambuf.basic_streambuf;
+   --  skipped empty struct ios
 
-   subtype istream is cpp_4_7_4_istream.Class_basic_istream.basic_istream;
+   --  skipped empty struct streambuf
 
-   subtype ostream is cpp_4_7_4_ostream.Class_basic_ostream.basic_ostream;
+   --  skipped empty struct istream
 
-   subtype iostream is cpp_4_7_4_istream.Class_basic_iostream.basic_iostream;
+   --  skipped empty struct ostream
 
-   subtype stringbuf is cpp_4_7_4_sstream.Class_basic_stringbuf.basic_stringbuf;
+   --  skipped empty struct iostream
 
-   subtype istringstream is cpp_4_7_4_sstream.Class_basic_istringstream.basic_istringstream;
+   --  skipped empty struct stringbuf
 
-   subtype ostringstream is cpp_4_7_4_sstream.Class_basic_ostringstream.basic_ostringstream;
+   --  skipped empty struct istringstream
 
-   subtype stringstream is cpp_4_7_4_sstream.Class_basic_stringstream.basic_stringstream;
+   --  skipped empty struct ostringstream
+
+   --  skipped empty struct stringstream
 
    --  skipped empty struct filebuf
 
@@ -36,23 +33,23 @@ package cpp_4_7_4_iosfwd is
 
    --  skipped empty struct fstream
 
-   subtype wios is cpp_4_7_4_bits_basic_ios_h.Class_basic_ios.basic_ios;
+   --  skipped empty struct wios
 
-   subtype wstreambuf is cpp_4_7_4_streambuf.Class_basic_streambuf.basic_streambuf;
+   --  skipped empty struct wstreambuf
 
-   subtype wistream is cpp_4_7_4_istream.Class_basic_istream.basic_istream;
+   --  skipped empty struct wistream
 
-   subtype wostream is cpp_4_7_4_ostream.Class_basic_ostream.basic_ostream;
+   --  skipped empty struct wostream
 
-   subtype wiostream is cpp_4_7_4_istream.Class_basic_iostream.basic_iostream;
+   --  skipped empty struct wiostream
 
-   subtype wstringbuf is cpp_4_7_4_sstream.Class_basic_stringbuf.basic_stringbuf;
+   --  skipped empty struct wstringbuf
 
-   subtype wistringstream is cpp_4_7_4_sstream.Class_basic_istringstream.basic_istringstream;
+   --  skipped empty struct wistringstream
 
-   subtype wostringstream is cpp_4_7_4_sstream.Class_basic_ostringstream.basic_ostringstream;
+   --  skipped empty struct wostringstream
 
-   subtype wstringstream is cpp_4_7_4_sstream.Class_basic_stringstream.basic_stringstream;
+   --  skipped empty struct wstringstream
 
    --  skipped empty struct wfilebuf
 
