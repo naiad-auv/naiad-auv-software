@@ -15,6 +15,9 @@ with Ada.Text_IO;
 with UartWrapper;
 with GNAT.Serial_Communications;
 with CAN_Link_Utils;
+with Exception_Handling;
+
+with Queue;
 
 package body BBB_CAN is
    pragma Suppress (All_Checks);
@@ -29,8 +32,8 @@ package body BBB_CAN is
    procedure Init(sPort : String; baud : GNAT.Serial_Communications.Data_Rate) is
    begin
       --initiates UART commiunication:
-      Ada.Text_IO.Put_Line("Opening " & "/dev/" & sPort & ", baudrate: " & baud'Img);
-      pxUart := UartWrapper.pxCreate("/dev/ttyACM1", Gnat.Serial_Communications.B9600, 1.0, 100);
+    --  Ada.Text_IO.Put_Line("Opening " & "/dev/" & sPort & ", baudrate: " & baud'Img);
+      pxUart := UartWrapper.pxCreate(GNAT.Serial_Communications.Port_Name("/dev/" & sPort), baud, 0.2, 100);
    end Init;
 
 --     function Handshake return Boolean is
@@ -79,6 +82,8 @@ package body BBB_CAN is
 
             Usart_Read(sTempBuffer, CAN_Link_Utils.HEADLEN, iBytesRead);
 
+         --   Ada.Text_IO.Put_Line("ReadFromUART, iNumTempBytes = 0, iBytesRead=" & iBytesRead'Img);
+
             if iBytesRead = CAN_Link_Utils.HEADLEN then
                sBuffer := sTempBuffer;
                bReadComplete := true;
@@ -109,6 +114,11 @@ package body BBB_CAN is
                return;
             end if;
          end if;
+
+      Exception
+         when E : others =>
+            Exception_Handling.Reraise_Exception(E       => E,
+                                                 Message => "BBB_CAN.ReadFromUART(sBuffer : out String; bReadComplete : out Boolean)");
       end ReadFromUART;
 
       sHeadBuf     : String(1..CAN_Link_Utils.HEADLEN);
@@ -118,6 +128,9 @@ package body BBB_CAN is
    begin
 
       ReadFromUART(sHeadBuf, bReadComplete);
+
+    --  Ada.Text_IO.Put_Line("ReadFromUART done");
+
       if not bReadComplete then
          bMsgReceived 	 := false;
          bUARTChecksumOK := false;
@@ -131,7 +144,10 @@ package body BBB_CAN is
          declare
             sData : String(1..Integer(msg.Len));
          begin
+
+          --  Ada.Text_IO.Put_Line("Usart_Read_Inf_Block begins");
             Usart_Read_Inf_Block(sData, Integer(msg.Len));
+          --  Ada.Text_IO.Put_Line("Usart_Read_Inf_Block done");
 
             CAN_Link_Utils.Bytes_To_Message_Data(sData, msg, u8ActualChecksum);
          end;
@@ -139,6 +155,11 @@ package body BBB_CAN is
       else
          bUARTChecksumOK := true; --if there is no data in the message, the checksum is defined as ok
       end if;
+
+     Exception
+         when E : others =>
+            Exception_Handling.Reraise_Exception(E       => E,
+                                                 Message => "BBB_CAN.Get(msg : out AVR.AT90CAN128.CAN.CAN_Message; bMsgReceived : out Boolean; bUARTChecksumOK : out Boolean)");
    end Get;
 
    --------- private functions ------------------------------------
@@ -149,8 +170,28 @@ package body BBB_CAN is
    end Usart_Write;
 
    procedure Usart_Read(sBuffer : out String; iSize : Integer; iBytesRead : out Integer) is
+
+      sTempBuffer : String(1.. Queue.iSIZE - Queue.iDataAvailable - 1);
+      iTempBytesRead : Integer;
+      iBytes : Integer;
+
    begin
-      pxUart.UartReadSpecificAmount(iSize, iBytesRead, sBuffer);
+      pxUart.UartReadSpecificAmount(Queue.iSIZE - Queue.iDataAvailable - 1, iTempBytesRead, sTempBuffer);
+
+      if iTempBytesRead > 0 then
+         --This line adds everything read from the COM Port except the last end of transmission (EOT) character
+         Queue.Write(sTempBuffer(sTempBuffer'First..sTempBuffer'Last-1), iTempBytesRead - 1, iBytes);
+
+         if iBytes /= iTempBytesRead - 1 then
+
+          --  Ada.Text_IO.Put_Line("iBytes=" & iBytes'Img & ", iTempBytesRead=" & iTempBytesRead'Img);
+
+            Exception_Handling.Raise_Exception(E       => Exception_Handling.BufferOverflow'Identity,
+                                               Message => "BBB_CAN.Usart_Read(sBuffer : out String; iSize : Integer; iBytesRead : out Integer)");
+         end if;
+      end if;
+
+      Queue.Read(sBuffer, iBytesRead, iSize);
    end Usart_Read;
 
    procedure Usart_Read_Inf_Block(sBuffer : out String; iSize : Integer) is
@@ -159,12 +200,25 @@ package body BBB_CAN is
       iTotalBytes : Integer := 0;
    begin
       while iTotalBytes < iSize loop
-         pxUart.UartReadSpecificAmount(iSize - iTotalBytes, iBytesRead, sTemp);
+         --  pxUart.UartReadSpecificAmount(iSize - iTotalBytes, iBytesRead, sTemp);
+
+      --   Ada.Text_IO.Put_Line("Usart_Read begins in Usart_Read_Inf_Block with:");
+      --   Ada.Text_IO.Put_Line("iSize - iTotalBytes = " & Integer'Image(iSize - iTotalBytes));
+
+         Usart_Read(sTemp, iSize - iTotalBytes, iBytesRead);
+
+      --   Ada.Text_IO.Put_Line("Usart_Read done in Usart_Read_Inf_Block");
+
          for i in 1 .. iBytesRead loop
             sBuffer(i + iTotalBytes) := sTemp(i);
          end loop;
          iTotalBytes := iTotalBytes + iBytesRead;
       end loop;
+
+   Exception
+      when E : others =>
+         Exception_Handling.Reraise_Exception(E       => E,
+                                              Message => "BBB_CAN.Usart_Read_Inf_Block(sBuffer : out String; iSize : Integer)");
    end Usart_Read_Inf_Block;
 
 end BBB_CAN;
