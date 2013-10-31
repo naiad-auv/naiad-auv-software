@@ -8,9 +8,9 @@ with Vision.Image_Processing;
 procedure main is
 
    --user decisions
-   iUseBuffer : Integer := 0;
+   iUseBuffer : Integer := 1;
    iUseStatic : Integer := 0;
-   iShowOriginal : Integer := 0;
+   iShowOriginal : Integer := 1;
    iDoGaussian : Integer := 0;
    iDoSplit : Integer := 0;
    iDoCvtGrey : Integer := 0;
@@ -28,7 +28,7 @@ procedure main is
    iInvertImage : Integer := 0;
    iSharpenImage : Integer := 0;
    iCompareHistograms : Integer := 0;
-   iMakeMovie : Integer := 1;
+   iMakeMovie : Integer := 0;
 
 
    iImageSource : Interfaces.C.Int;
@@ -225,7 +225,7 @@ begin
 
       --test thresh
       if (iDoThresh = 1) then
-         ret := processingWrap.thresh(iHSILocation, 114, 142, 135, 255, 135, 255);
+         ret := processingWrap.thresh(iHSILocation, 10, 60, 50, 255, 50, 255);
          CoreWrap.imshow(New_String("why so after mask?"),iThreshedImageLocation);
       end if;
 

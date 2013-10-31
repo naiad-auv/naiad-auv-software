@@ -553,14 +553,20 @@ int Processing_Wrap::thresh(int src, int blueLow, int blueUp, int greenLow, int 
     int tolerance = 0.05;
     int i;
 
-	//cv::inRange(img.at(src), cv::Scalar(blueLow-(tolerance*blueLow), greenLow-(tolerance*greenLow), redLow-(tolerance*redLow)), cv::Scalar(blueUp+(tolerance*blueUp), greenUp+(tolerance*greenUp), redUp+(tolerance*redUp)), mask);
 	
-	cv::inRange(img.at(src), cv::Scalar(0, 135, 135), cv::Scalar(20, 255, 255), dstA);
-	cv::inRange(img.at(src), cv::Scalar(159, 135, 135), cv::Scalar(179, 255, 255), dstB);
-	cv::bitwise_or(dstA, dstB, mask);
-	
+	if ((blueUp == 0)&&(greenUp == 0)&&(redUp == 255))
+	{
+		cv::inRange(img.at(src), cv::Scalar(0, 135, 135), cv::Scalar(20, 255, 255), dstA);
+		cv::inRange(img.at(src), cv::Scalar(159, 135, 135), cv::Scalar(179, 255, 255), dstB);
+		cv::bitwise_or(dstA, dstB, mask);
+	}
+	else
+	{
+		cv::inRange(img.at(src), cv::Scalar(blueLow-(tolerance*blueLow), greenLow-(tolerance*greenLow), redLow-(tolerance*redLow)), cv::Scalar(blueUp+(tolerance*blueUp), greenUp+(tolerance*greenUp), redUp+(tolerance*redUp)), mask);
+	}
 	//cv::imshow("mask",mask);
 	//cv::waitKey(0);
+
 	threshOut.copyTo(outPic,mask);
 	
 	img.at(26)=outPic.clone();
