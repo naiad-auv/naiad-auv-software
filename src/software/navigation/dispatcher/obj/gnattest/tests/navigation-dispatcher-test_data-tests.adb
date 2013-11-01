@@ -15,7 +15,7 @@ package body Navigation.Dispatcher.Test_Data.Tests is
    procedure Test_Free_5d4c1b (Gnattest_T : in out Test) renames Test_Free;
 --  id:2.1/5d4c1b0dc9fef7ec/Free/1/0/
    procedure Test_Free (Gnattest_T : in out Test) is
-   --  navigation-dispatcher.ads:26:4:Free
+   --  navigation-dispatcher.ads:20:4:Free
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -36,7 +36,7 @@ package body Navigation.Dispatcher.Test_Data.Tests is
    procedure Test_pxCreate_63d5f9 (Gnattest_T : in out Test) renames Test_pxCreate;
 --  id:2.1/63d5f95e2bbbc09f/pxCreate/1/0/
    procedure Test_pxCreate (Gnattest_T : in out Test) is
-   --  navigation-dispatcher.ads:29:4:pxCreate
+   --  navigation-dispatcher.ads:23:4:pxCreate
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -74,7 +74,7 @@ package body Navigation.Dispatcher.Test_Data.Tests is
    procedure Test_Scale_Thruster_Values_6606ca (Gnattest_T : in out Test) renames Test_Scale_Thruster_Values;
 --  id:2.1/6606ca72337d293d/Scale_Thruster_Values/1/0/
    procedure Test_Scale_Thruster_Values (Gnattest_T : in out Test) is
-   --  navigation-dispatcher.ads:68:4:Scale_Thruster_Values
+   --  navigation-dispatcher.ads:62:4:Scale_Thruster_Values
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -113,7 +113,7 @@ package body Navigation.Dispatcher.Test_Data.Tests is
    procedure Test_bThruster_Values_Need_Scaling_46c697 (Gnattest_T : in out Test) renames Test_bThruster_Values_Need_Scaling;
 --  id:2.1/46c697de398e29c3/bThruster_Values_Need_Scaling/1/0/
    procedure Test_bThruster_Values_Need_Scaling (Gnattest_T : in out Test) is
-   --  navigation-dispatcher.ads:69:4:bThruster_Values_Need_Scaling
+   --  navigation-dispatcher.ads:63:4:bThruster_Values_Need_Scaling
 --  end read only
 
       pragma Unreferenced (Gnattest_T);

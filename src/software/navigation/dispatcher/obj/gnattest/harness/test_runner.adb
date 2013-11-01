@@ -10,6 +10,7 @@ with GNAT.Command_Line; use GNAT.Command_Line;
 
 with Gnattest_Generated;
 
+
 procedure Test_Runner is
    procedure Runner is new AUnit.Run.Test_Runner (Suite);
    Reporter : AUnit.Reporter.GNATtest.GNATtest_Reporter;

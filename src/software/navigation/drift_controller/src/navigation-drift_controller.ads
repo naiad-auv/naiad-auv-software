@@ -24,7 +24,7 @@ package Navigation.Drift_Controller is
    --  <parameter name="this">The CPositionalController to do the calculations upon.</parameter>
    --  <parameter name="fDeltaTime">The time difference since the last calculation.</parameter>
 
-   procedure Update_Current_Errors (this : in CDriftController);
+   procedure Update_Current_Errors (this : in CDriftController; fDeltaTime : float);
    --  <summary>Cascades the difference between the current orientation and the wanted orientation to all motion components</summary>
    --  <parameter name="this">The CPositionalController object that holds the objects that needs to be updated</parameter>
 

@@ -80,7 +80,7 @@ package body Navigation.Orientational_Controller is
 
    function fGet_Planal_Error (xCurrentRelativePlane : in Math.Planes.CPlane; xWantedRelativePlane : in Math.Planes.CPlane) return float is
    begin
-      return Math.Angles.fDegrees_To_Radians(Math.Planes.fAngle_Between_In_Degrees(xCurrentRelativePlane, xWantedRelativePlane));
+      return Math.Planes.fAngle_Between_In_Radians(xCurrentRelativePlane, xWantedRelativePlane);
    exception
       when E : others =>
          Exception_Handling.Reraise_Exception(E       => E,
@@ -131,7 +131,7 @@ package body Navigation.Orientational_Controller is
 
 
 
-      fAngleBetweenPlanesInDegrees := Math.Planes.fAngle_Between_In_Degrees(xCurrentRelativePlane, xWantedRelativePlane);
+      fAngleBetweenPlanesInDegrees := Math.Angles.fRadians_To_Degrees(Math.Planes.fAngle_Between_In_Radians(xCurrentRelativePlane, xWantedRelativePlane));
       xNewCurrentToWantedPlaneRotation := Math.Quaternions.xCreate(xAxisVector => Math.Planes.xGet_Intersection_Vector_Between(xCurrentRelativePlane, xWantedRelativePlane),
                                                                    fAngleInDegrees => fAngleBetweenPlanesInDegrees);
 

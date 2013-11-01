@@ -15,7 +15,7 @@ package body Navigation.Orientational_Controller.Test_Data.Tests is
    procedure Test_Free_e23ec6 (Gnattest_T : in out Test) renames Test_Free;
 --  id:2.1/e23ec6022931e50d/Free/1/0/
    procedure Test_Free (Gnattest_T : in out Test) is
-   --  navigation-orientational_controller.ads:20:4:Free
+   --  navigation-orientational_controller.ads:22:4:Free
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -36,7 +36,7 @@ package body Navigation.Orientational_Controller.Test_Data.Tests is
    procedure Test_pxCreate_fcd516 (Gnattest_T : in out Test) renames Test_pxCreate;
 --  id:2.1/fcd516d1ef10cef2/pxCreate/1/0/
    procedure Test_pxCreate (Gnattest_T : in out Test) is
-   --  navigation-orientational_controller.ads:22:4:pxCreate
+   --  navigation-orientational_controller.ads:24:4:pxCreate
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -83,7 +83,7 @@ package body Navigation.Orientational_Controller.Test_Data.Tests is
    procedure Test_fGet_Directional_Error_3df5b3 (Gnattest_T : in out Test) renames Test_fGet_Directional_Error;
 --  id:2.1/3df5b3dea6636632/fGet_Directional_Error/1/0/
    procedure Test_fGet_Directional_Error (Gnattest_T : in out Test) is
-   --  navigation-orientational_controller.ads:48:4:fGet_Directional_Error
+   --  navigation-orientational_controller.ads:50:4:fGet_Directional_Error
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -103,7 +103,7 @@ package body Navigation.Orientational_Controller.Test_Data.Tests is
    procedure Test_fGet_Planal_Error_9256bd (Gnattest_T : in out Test) renames Test_fGet_Planal_Error;
 --  id:2.1/9256bd0e986fcd8c/fGet_Planal_Error/1/0/
    procedure Test_fGet_Planal_Error (Gnattest_T : in out Test) is
-   --  navigation-orientational_controller.ads:49:4:fGet_Planal_Error
+   --  navigation-orientational_controller.ads:51:4:fGet_Planal_Error
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
