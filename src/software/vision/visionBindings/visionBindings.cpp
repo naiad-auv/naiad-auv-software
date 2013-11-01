@@ -11,7 +11,10 @@
 std::vector<cv::Mat> img(IMAGE_STORE_SIZE);
 std::vector<cv::Vec3f> circles;
 std::vector<cv::Vec2f> lines;
+
 std::vector<cv::Mat> contours;
+std::vector<cv::Mat> templeteContours;
+
 std::vector<cv::Mat> particleContours;
 cv::VideoCapture cap;
 std::vector<cv::Mat> channels;
@@ -797,18 +800,122 @@ void Processing_Wrap::invertImage(int src, int dst)
 
 ///////////////////////////////////// IMAGE MATCHING/////////////////////////////////////////////
 
-void Processing_Wrap::matchImage(int src) 
+void Processing_Wrap::matchImage(int src,int matchMethod) 
 {
 	int	templeteStoreSize=templateStore.size();
 	
-	std::vector<cv::Mat> results(templeteStoreSize);
 	
+	//cv::Mat results;
+	double results;
 	
+	int match_method=0;
+	//contour templete
+	cv::cvtColor(templateStore.at(0),templateStore.at(1),6);
+	cv::Canny(templateStore.at(1), templateStore.at(2), 100, 300, 3);
+	cv::imshow("cannied",templateStore.at(2));
+	cv::waitKey(0);
+	cv::findContours( templateStore.at(2), templeteContours, CV_RETR_LIST, CV_CHAIN_APPROX_NONE);
+	cv::drawContours(templateStore.at(0), templeteContours, -1, cv::Scalar(255,255,0), 1, CV_AA ); 
 	
-	for (int i=0;i<templateStore.size();i++)
+	////////////////draw square contour from templete////////////////////////
+	std::vector<cv::Point> squarePoints  = (std::vector<cv::Point>)templeteContours[0];
+	int numOfContoursInSquare=squarePoints.size();
+	const int *numOfPointsInTempleteContour = &numOfContoursInSquare;
+	cv::Point testArray1[1][squarePoints.size()];
+	
+	for (int a=0;a<squarePoints.size();a++)
 	{
-		cv::matchTemplate(img.at(src),templateStore.at(i),results[i],CV_TM_SQDIFF_NORMED);
+		testArray1[0][a]=squarePoints[a];
 	}
+	const cv::Point* tester1[1] = { testArray1[0] };
+	cv::fillPoly(templateStore.at(0), tester1, numOfPointsInTempleteContour, 1, cv::Scalar(255,255,0), 8, 0, cv::Point() );
+	cv::imshow("pack up",templateStore.at(0));
+	cv::waitKey(0);
+	
+	//contour image
+	cv::cvtColor(img.at(0),img.at(1),6);
+	cv::Canny(img.at(1), img.at(2), 100, 300, 3);
+	cv::imshow("cannied",img.at(2));
+	cv::waitKey(0);
+	cv::findContours( img.at(2), contours, CV_RETR_LIST, CV_CHAIN_APPROX_NONE);
+	cv::drawContours(img.at(0), contours, -1, cv::Scalar(0,0,255), 1, CV_AA );
+	
+		////////////////draw image contour from templete////////////////////////
+	std::vector<cv::Point> imagePoints  = (std::vector<cv::Point>)contours[2];
+	int numOfContoursInImage=imagePoints.size();
+	const int *numOfPointsInImageContour = &numOfContoursInImage;
+	cv::Point testArray2[1][squarePoints.size()];
+	
+	for (int b=0;b<imagePoints.size();b++)
+	{
+		testArray2[0][b]=imagePoints[b];
+	}
+	const cv::Point* tester2[1] = { testArray2[0] };
+	cv::fillPoly(img.at(0), tester2, numOfPointsInImageContour, 1, cv::Scalar(25,55,200), 8, 0, cv::Point() );
+	cv::imshow("pack up2 ",img.at(0));
+	cv::waitKey(0);
+	
+	//display images
+	cv::imshow("templete to match",templateStore.at(0));
+	cv::imshow("original image",img.at(0));
+	cv::waitKey(0);
+	//for (int tempIndex=0;tempIndex<templateStore.size();tempIndex++)
+	//{
+		//cv::matchTemplate(img.at(src),templateStore.at(0),results,matchMethod);
+	std::cout<<"before madness"<<contours.size()<<"\t"<<templeteContours.size();
+	cv::waitKey(0);
+	std::vector<double> resultsVector;
+	double bestMatch=1;
+	int bestMatchIndex;
+	for (int i=0;i<contours.size();i++)
+	{
+		results=cv::matchShapes(contours[i], templeteContours[1], CV_CONTOURS_MATCH_I1,0);
+		resultsVector.push_back(results);
+		if (results<bestMatch)
+		{
+			bestMatch=results;
+			bestMatchIndex=i;
+		}
+	}
+	for (int j=0;j<resultsVector.size();j++)
+	{
+		std::cout<<"results are:"<<resultsVector.at(j)<<"\n";
+	}
+	std::cout<<"best results are "<<bestMatch<<"at"<<bestMatchIndex;
+	cv::waitKey(0);
+	int numContoursFound=sizeof(contours[bestMatchIndex]);
+	std::cout<<"points are:"<<contours[bestMatchIndex]<<"and there are this many"<<numContoursFound;
+	cv::waitKey(0);
+	std::vector<cv::Point> bestMatchContour1 = (std::vector<cv::Point>)contours[bestMatchIndex];
+	
+	
+	std::cout<<"now lets try this:"<<bestMatchContour1[0];
+	cv::waitKey(0);
+	
+	cv::Point testArray[1][sizeof(contours[bestMatchIndex])];
+	for (int k=0;k<sizeof(contours[bestMatchIndex]);k++)
+	{
+		testArray[0][k]=bestMatchContour1[k];
+	}
+	
+	std::cout<<"and now this:"<<testArray[0][0];
+	cv::waitKey(0);
+	
+	const cv::Point* tester[1] = { testArray[0] };
+	
+	//const cv::Point* tester = &bestMatchContour1;
+	const int *numOfPoints = &numContoursFound;
+	//cv::polylines(img.at(0)  /*image where to plot*/, &tester /*the points (centroids in your case)*/ ,&numContoursFound /*number of points*/,1,true /*contour is not closed shape*/, cv::Scalar(255,255,255),3, CV_AA, 0);
+	
+	
+	cv::fillPoly(img.at(0), tester, numOfPoints, 1, cv::Scalar(255,255,255), 8, 0, cv::Point() );
+	cv::imshow("TTTTIIIIIIIIIIIIIIIIIITTTTTTTTTTANNNNNNNNNNNNNNNNNNIIIIIIIIUUUUUUUUUMMMMMMMMMMMMMM",img.at(0));
+	//}
+	
+  std::cout<<"i think i done something";
+  //cv::imshow( "test results A", img.at(0) );
+  cv::waitKey(0);
+	
 }
 
 

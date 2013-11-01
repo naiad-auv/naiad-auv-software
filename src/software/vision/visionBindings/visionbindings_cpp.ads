@@ -18,67 +18,70 @@ package visionBindings_cpp is
    lines : aliased cpp_4_7_4_bits_stl_vector_h.Class_vector.vector;  -- visionBindings.cpp:13
    pragma Import (C, lines, "lines");
 
-   contours : aliased cpp_4_7_4_bits_stl_vector_h.Class_vector.vector;  -- visionBindings.cpp:14
+   contours : aliased cpp_4_7_4_bits_stl_vector_h.Class_vector.vector;  -- visionBindings.cpp:15
    pragma Import (C, contours, "contours");
 
-   particleContours : aliased cpp_4_7_4_bits_stl_vector_h.Class_vector.vector;  -- visionBindings.cpp:15
+   templeteContours : aliased cpp_4_7_4_bits_stl_vector_h.Class_vector.vector;  -- visionBindings.cpp:16
+   pragma Import (C, templeteContours, "templeteContours");
+
+   particleContours : aliased cpp_4_7_4_bits_stl_vector_h.Class_vector.vector;  -- visionBindings.cpp:18
    pragma Import (C, particleContours, "particleContours");
 
-   cap : aliased opencv2_highgui_highgui_hpp.Class_VideoCapture.VideoCapture;  -- visionBindings.cpp:16
+   cap : aliased opencv2_highgui_highgui_hpp.Class_VideoCapture.VideoCapture;  -- visionBindings.cpp:19
    pragma Import (C, cap, "cap");
 
-   channels : aliased cpp_4_7_4_bits_stl_vector_h.Class_vector.vector;  -- visionBindings.cpp:17
+   channels : aliased cpp_4_7_4_bits_stl_vector_h.Class_vector.vector;  -- visionBindings.cpp:20
    pragma Import (C, channels, "channels");
 
-   imageBuf : aliased cpp_4_7_4_bits_stl_queue_h.Class_queue.queue;  -- visionBindings.cpp:19
+   imageBuf : aliased cpp_4_7_4_bits_stl_queue_h.Class_queue.queue;  -- visionBindings.cpp:22
    pragma Import (C, imageBuf, "imageBuf");
 
-   imageName : aliased int;  -- visionBindings.cpp:21
+   imageName : aliased int;  -- visionBindings.cpp:24
    pragma Import (C, imageName, "imageName");
 
-   BGR : aliased cpp_4_7_4_bits_stl_vector_h.Class_vector.vector;  -- visionBindings.cpp:23
+   BGR : aliased cpp_4_7_4_bits_stl_vector_h.Class_vector.vector;  -- visionBindings.cpp:26
    pragma Import (C, BGR, "BGR");
 
-   blueHistVals : aliased opencv2_core_core_hpp.Class_Mat.Mat;  -- visionBindings.cpp:24
+   blueHistVals : aliased opencv2_core_core_hpp.Class_Mat.Mat;  -- visionBindings.cpp:27
    pragma Import (C, blueHistVals, "blueHistVals");
 
-   greenHistVals : aliased opencv2_core_core_hpp.Class_Mat.Mat;  -- visionBindings.cpp:25
+   greenHistVals : aliased opencv2_core_core_hpp.Class_Mat.Mat;  -- visionBindings.cpp:28
    pragma Import (C, greenHistVals, "greenHistVals");
 
-   redHistVals : aliased opencv2_core_core_hpp.Class_Mat.Mat;  -- visionBindings.cpp:26
+   redHistVals : aliased opencv2_core_core_hpp.Class_Mat.Mat;  -- visionBindings.cpp:29
    pragma Import (C, redHistVals, "redHistVals");
 
-   hist : aliased opencv2_core_core_hpp.Class_MatND.MatND;  -- visionBindings.cpp:27
+   hist : aliased opencv2_core_core_hpp.Class_MatND.MatND;  -- visionBindings.cpp:30
    pragma Import (C, hist, "hist");
 
-   prevHist : aliased opencv2_core_core_hpp.Class_MatND.MatND;  -- visionBindings.cpp:27
+   prevHist : aliased opencv2_core_core_hpp.Class_MatND.MatND;  -- visionBindings.cpp:30
    pragma Import (C, prevHist, "prevHist");
 
-   currentHist : aliased opencv2_core_core_hpp.Class_MatND.MatND;  -- visionBindings.cpp:27
+   currentHist : aliased opencv2_core_core_hpp.Class_MatND.MatND;  -- visionBindings.cpp:30
    pragma Import (C, currentHist, "currentHist");
 
-   circleCenters : aliased cpp_4_7_4_bits_stl_vector_h.Class_vector.vector;  -- visionBindings.cpp:29
+   circleCenters : aliased cpp_4_7_4_bits_stl_vector_h.Class_vector.vector;  -- visionBindings.cpp:32
    pragma Import (C, circleCenters, "circleCenters");
 
-   rectangleCenters : aliased cpp_4_7_4_bits_stl_vector_h.Class_vector.vector;  -- visionBindings.cpp:30
+   rectangleCenters : aliased cpp_4_7_4_bits_stl_vector_h.Class_vector.vector;  -- visionBindings.cpp:33
    pragma Import (C, rectangleCenters, "rectangleCenters");
 
-   triangleCenters : aliased cpp_4_7_4_bits_stl_vector_h.Class_vector.vector;  -- visionBindings.cpp:31
+   triangleCenters : aliased cpp_4_7_4_bits_stl_vector_h.Class_vector.vector;  -- visionBindings.cpp:34
    pragma Import (C, triangleCenters, "triangleCenters");
 
-   features_prev : aliased cpp_4_7_4_bits_stl_vector_h.Class_vector.vector;  -- visionBindings.cpp:33
+   features_prev : aliased cpp_4_7_4_bits_stl_vector_h.Class_vector.vector;  -- visionBindings.cpp:36
    pragma Import (C, features_prev, "features_prev");
 
-   features_next : aliased cpp_4_7_4_bits_stl_vector_h.Class_vector.vector;  -- visionBindings.cpp:33
+   features_next : aliased cpp_4_7_4_bits_stl_vector_h.Class_vector.vector;  -- visionBindings.cpp:36
    pragma Import (C, features_next, "features_next");
 
-   particle_features_prev : aliased cpp_4_7_4_bits_stl_vector_h.Class_vector.vector;  -- visionBindings.cpp:34
+   particle_features_prev : aliased cpp_4_7_4_bits_stl_vector_h.Class_vector.vector;  -- visionBindings.cpp:37
    pragma Import (C, particle_features_prev, "particle_features_prev");
 
-   particle_features_nxt : aliased cpp_4_7_4_bits_stl_vector_h.Class_vector.vector;  -- visionBindings.cpp:34
+   particle_features_nxt : aliased cpp_4_7_4_bits_stl_vector_h.Class_vector.vector;  -- visionBindings.cpp:37
    pragma Import (C, particle_features_nxt, "particle_features_nxt");
 
-   templateStore : aliased cpp_4_7_4_bits_stl_vector_h.Class_vector.vector;  -- visionBindings.cpp:36
+   templateStore : aliased cpp_4_7_4_bits_stl_vector_h.Class_vector.vector;  -- visionBindings.cpp:39
    pragma Import (C, templateStore, "templateStore");
 
 end visionBindings_cpp;

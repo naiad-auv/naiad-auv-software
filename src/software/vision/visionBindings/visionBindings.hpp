@@ -10,7 +10,7 @@
 
 class Core_Wrap{
 
-virtual void push_back_templateStore(char * src);
+virtual void push_back_templeteStore(char * src);
 
 virtual void imread(char * name);
 
@@ -97,7 +97,7 @@ virtual void estPosition(void);
 
 virtual void invertImage(int src, int dst);
 
-virtual void matchImage(int src);
+virtual void matchImage(int src,int matchMethod);
 
 Processing_Wrap();
 };

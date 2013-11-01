@@ -8,27 +8,28 @@ with Vision.Image_Processing;
 procedure main is
 
    --user decisions
-   iUseBuffer : Integer := 0;
-   iUseStatic : Integer := 0;
-   iShowOriginal : Integer := 0;
+   iDoUseBuffer : Integer := 0;
+   iDoUseStatic : Integer := 1;
+   iDoShowOriginal : Integer := 1;
    iDoGaussian : Integer := 0;
    iDoSplit : Integer := 0;
    iDoCvtGrey : Integer := 0;
-   iDoCvtHSI : Integer := 1;
+   iDoCvtHSI : Integer := 0;
    iDoHistoBGR : Integer := 0;
    iDoHistoHSI : Integer := 0;
    iDoCanny : Integer := 0;
-   iDoThresh : Integer := 1;
+   iDoThresh : Integer := 0;
    iDoHoughCircles : Integer := 0;
-   iDoContours : Integer := 1;
+   iDoContours : Integer := 0;
    iDoApproxPoly : Integer := 0;
    iDoObjectTracking : Integer := 0;
    iDoFusion : Integer := 0;
    iDoVelocityMode : Integer :=0;
-   iInvertImage : Integer := 0;
-   iSharpenImage : Integer := 0;
-   iCompareHistograms : Integer := 0;
-   iMakeMovie : Integer := 1;
+   iDoInvertImage : Integer := 0;
+   iDoSharpenImage : Integer := 0;
+   iDoCompareHistograms : Integer := 0;
+   iDoMakeMovie : Integer := 0;
+   iDoMatchTemplete : Integer := 1;
 
 
    iImageSource : Interfaces.C.Int;
@@ -183,12 +184,12 @@ begin
    Endless_Loop:
    loop
       --GET IMAGE-- read from buffer
-      if (iUseBuffer = 1) then
+      if (iDoUseBuffer = 1) then
          CoreWrap.img_buffer; --load image to img.at(0)
-      elsif (iUseStatic =1) then
+      elsif (iDoUseStatic =1) then
          --, or just read in single image NEW, READS IN IMAGE AND STORES IN INDEX "IMAGESOURCE" OF "img.at()"
-         CoreWrap.imstore(iImageSource,New_String("Square.jpg"));
-      elsif (iMakeMovie = 1) then
+         CoreWrap.imstore(iImageSource,New_String("shapes2.jpg"));
+      elsif (iDoMakeMovie = 1) then
          --capture from video
          if (videoOpen=0) then
             preprocessingWrap.VideoCaptureOpen;
@@ -211,7 +212,7 @@ begin
       end if;
 
       --display image source
-      if (iShowOriginal = 1) then
+      if (iDoShowOriginal = 1) then
          CoreWrap.imshow(New_String("Why so normal?"), iImageSource);--show image for debug purposes
          CoreWrap.waitKey(400);
       end if;
@@ -354,19 +355,19 @@ begin
       end if;
 
       --invert image
-      if (iInvertImage = 1) then
+      if (iDoInvertImage = 1) then
          processingWrap.invertImage(iImageSource, iInvertImageLocation);
          CoreWrap.imshow(New_String("why so negative?"), iInvertImageLocation);--show image for debug purposes
          CoreWrap.waitKey(0);
       end if;
 
-      if(iSharpenImage = 1) then
+      if(iDoSharpenImage = 1) then
          processingWrap.GaussianBlurSharpener(iImageSource,iEnhancedImageSource,3);
          CoreWrap.imshow(New_String("why so sharp?"),iEnhancedImageSource);
          CoreWrap.waitKey(0);
       end if;
 
-      if(iCompareHistograms = 1) then
+      if(iDoCompareHistograms = 1) then
          compareHistResult:=processingWrap.compareHSVHistograms(iImageSource,iPreviousImageLocation,iChiSquare);
 --        iCorrelation : 1;
 --     iChiSquare : 2;
@@ -374,8 +375,12 @@ begin
 --     iBhattacharyyaDistance : 4;
       end if;
 
-      if(iMatchTemplete =1) then
-         processingWrap.matchTemplate(iImageSource);
+      if(iDoMatchTemplete =1) then
+         CoreWrap.push_back_templeteStore(New_String("shapes.jpg"));
+         CoreWrap.push_back_templeteStore(New_String("templete2.jpg"));
+         CoreWrap.push_back_templeteStore(New_String("templete3.jpg"));
+         CoreWrap.push_back_templeteStore(New_String("templete4.jpg"));
+         processingWrap.matchImage(iImageSource,5);
       end if;
 
    end loop Endless_Loop;
