@@ -25,12 +25,21 @@ package body Navigation.Orientational_Controller is
       --Ada.Text_IO.Put_Line("CAO: " & System.Address_Image(pxOrientationalController.pxCurrentAbsoluteOrientation.all'Address));
       --Ada.Text_IO.Put_Line("WAO: " & System.Address_Image(pxOrientationalController.pxWantedAbsoluteOrientation.all'Address));
       return pxOrientationalController;
+   exception
+      when E : others =>
+         Exception_Handling.Reraise_Exception(E       => E,
+                                              Message => "Navigation.Orientational_Controller.pxCreate (pxCurrentAbsoluteOrientation : in Math.Matrices.pCMatrix; pxWantedAbsoluteOrientation : in Math.Matrices.pCMatrix; pxCurrentAbsoluteOrientationInverse : in Math.Matrices.pCMatrix) return pCOrientationalController");
+         return pxOrientationalController;
    end pxCreate;
 
    procedure Update_Current_Errors (this : in out COrientationalController) is
    begin
       this.Update_Current_Planal_Error;
       this.Update_Current_Directional_Error;
+   exception
+      when E : others =>
+         Exception_Handling.Reraise_Exception(E       => E,
+                                              Message => "Navigation.Orientational_Controller.Update_Current_Errors (this : in out COrientationalController)");
    end Update_Current_Errors;
 
 
@@ -62,11 +71,21 @@ package body Navigation.Orientational_Controller is
    function fGet_Directional_Error (xCurrentRelativeDirectionVector : in Math.Vectors.CVector; xWantedRelativeDirectionVector : in Math.Vectors.CVector) return float is
    begin
       return Math.Vectors.fAngle_Between_In_Radians(xWantedRelativeDirectionVector, xCurrentRelativeDirectionVector);
+   exception
+      when E : others =>
+         Exception_Handling.Reraise_Exception(E       => E,
+                                              Message => "Navigation.Orientational_Controller.fGet_Directional_Error (xCurrentRelativeDirectionVector : in Math.Vectors.CVector; xWantedRelativeDirectionVector : in Math.Vectors.CVector) return float");
+         return 0.0;
    end fGet_Directional_Error;
 
    function fGet_Planal_Error (xCurrentRelativePlane : in Math.Planes.CPlane; xWantedRelativePlane : in Math.Planes.CPlane) return float is
    begin
       return Math.Angles.fDegrees_To_Radians(Math.Planes.fAngle_Between_In_Degrees(xCurrentRelativePlane, xWantedRelativePlane));
+   exception
+      when E : others =>
+         Exception_Handling.Reraise_Exception(E       => E,
+                                              Message => "Navigation.Orientational_Controller.fGet_Planal_Error (xCurrentRelativePlane : in Math.Planes.CPlane; xWantedRelativePlane : in Math.Planes.CPlane) return float");
+         return 0.0;
    end fGet_Planal_Error;
 
    function xGet_Planal_Thruster_Control_Value (this : in COrientationalController; fDeltaTime : in float) return Navigation.Thrusters.TThrusterEffects is
@@ -96,35 +115,35 @@ package body Navigation.Orientational_Controller is
 
       xWantedRelativePlane : Math.Planes.CPlane;
       xCurrentRelativePlane : Math.Planes.CPlane;
-      pxCurrentRelativePlane : Math.Planes.pCPlane;
       fAngleBetweenPlanesInDegrees : float;
 
-      pxNewCurrentToWantedPlaneRotation : Math.Quaternions.pCQuaternion;
+      xNewCurrentToWantedPlaneRotation : Math.Quaternions.CQuaternion;
 
    begin
       xCurrentRelativeOrientation := Math.Matrices.xCreate_Identity;
       xWantedRelativeOrientation := this.pxCurrentAbsoluteOrientationInverse.all * this.pxWantedAbsoluteOrientation.all;
 
 
-      pxCurrentRelativePlane := Math.Planes.xCreate(xNormalVector      => Math.Vectors.xCross_Product(xCurrentRelativeOrientation.xGet_X_Vector, xCurrentRelativeOrientation.xGet_Y_Vector),
-                                                     fDistanceFromOrigin => 0.0).pxGet_Allocated_Copy;
-      xCurrentRelativePlane.Copy_From(xSourcePlane => pxCurrentRelativePlane.all);
-      Math.Planes.Free(pxPlaneToDeallocate => pxCurrentRelativePlane);
+      xCurrentRelativePlane := Math.Planes.xCreate(xNormalVector      => Math.Vectors.xCross_Product(xCurrentRelativeOrientation.xGet_X_Vector, xCurrentRelativeOrientation.xGet_Y_Vector),
+                                                     fDistanceFromOrigin => 0.0);
       xWantedRelativePlane := xWantedRelativeOrientation * xCurrentRelativePlane;
 
 
 
 
       fAngleBetweenPlanesInDegrees := Math.Planes.fAngle_Between_In_Degrees(xCurrentRelativePlane, xWantedRelativePlane);
-      pxNewCurrentToWantedPlaneRotation := Math.Quaternions.xCreate(xAxisVector => Math.Planes.xGet_Intersection_Vector_Between(xCurrentRelativePlane, xWantedRelativePlane),
-                                                                     fAngleInDegrees => fAngleBetweenPlanesInDegrees).pxGet_Allocated_Copy;
+      xNewCurrentToWantedPlaneRotation := Math.Quaternions.xCreate(xAxisVector => Math.Planes.xGet_Intersection_Vector_Between(xCurrentRelativePlane, xWantedRelativePlane),
+                                                                   fAngleInDegrees => fAngleBetweenPlanesInDegrees);
 
 
-      this.pxCurrentToWantedPlaneRotation.Copy_From(xSourceQuaternion => pxNewCurrentToWantedPlaneRotation.all);
-
-      Math.Quaternions.Free(pxQuaternionToDeallocate => pxNewCurrentToWantedPlaneRotation);
+      this.pxCurrentToWantedPlaneRotation.Copy_From(xSourceQuaternion => xNewCurrentToWantedPlaneRotation);
 
       this.pxPlanalMotionComponent.Update_Current_Error(fGet_Planal_Error(xCurrentRelativePlane, xWantedRelativePlane));
+   exception
+      when E : others =>
+         Exception_Handling.Reraise_Exception(E       => E,
+                                              Message => "Navigation.Orientational_Controller.Update_Current_Planal_Error (this : in out COrientationalController)");
+
    end Update_Current_Planal_Error;
 
    procedure Update_Current_Directional_Error (this : in COrientationalController) is
@@ -140,6 +159,10 @@ package body Navigation.Orientational_Controller is
       xCurrentDirectionVectorOnWantedPlane := Math.Matrices.xCreate_From_Quaternion(this.pxCurrentToWantedPlaneRotation) * xCurrentRelativeOrientation.xGet_X_Vector;
 
       this.pxDirectionalMotionComponent.Update_Current_Error(fGet_Directional_Error(xCurrentDirectionVectorOnWantedPlane, xWantedRelativeOrientation.xGet_X_Vector));
+   exception
+      when E : others =>
+         Exception_Handling.Reraise_Exception(E       => E,
+                                              Message => "Navigation.Orientational_Controller.Update_Current_Directional_Error (this : in COrientationalController)");
    end Update_Current_Directional_Error;
 
    procedure Free(pxOrientationalControllerToDeallocate : in out pCOrientationalController) is

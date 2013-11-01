@@ -22,10 +22,8 @@ package body Math.Planes.CPlane_Test_Data.CPlane_Tests is
 
    begin
 
-      AUnit.Assertions.Assert
-        (Gnattest_Generated.Default_Assert_Value,
-         "Test not implemented.");
-
+      null;
+      
 --  begin read only
    end Test_1_xCreate;
 --  end read only
@@ -43,10 +41,8 @@ package body Math.Planes.CPlane_Test_Data.CPlane_Tests is
 
    begin
 
-      AUnit.Assertions.Assert
-        (Gnattest_Generated.Default_Assert_Value,
-         "Test not implemented.");
-
+      null;
+      
 --  begin read only
    end Test_2_xCreate;
 --  end read only
@@ -61,12 +57,32 @@ package body Math.Planes.CPlane_Test_Data.CPlane_Tests is
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
+      use System;
+      
+      xPlane : Math.Planes.CPlane;
+      pxPlaneOne : Math.Planes.pCPlane;
+      pxPlaneTwo : Math.Planes.pCPlane;
 
    begin
 
-      AUnit.Assertions.Assert
-        (Gnattest_Generated.Default_Assert_Value,
-         "Test not implemented.");
+      xPlane := Math.Planes.xCreate(xNormalVector       => Math.Vectors.xCreate(fX => 1.0,
+                                                                                    fY => 45.0,
+                                                                                    fZ => -21.0),
+                                        fDistanceFromOrigin => 12.3);
+      pxPlaneOne := xPlane.pxGet_Allocated_Copy;
+      pxPlaneTwo := xPlane.pxGet_Allocated_Copy;
+      
+
+      AUnit.Assertions.Assert(Condition => pxPlaneOne.all = pxPlaneTwo.all,
+                              Message   => "CPlane.pxGet_Allocated_Copy failed, plane one not equal to plane two.");
+      AUnit.Assertions.Assert(Condition => pxPlaneOne.all = xPlane,
+                              Message   => "CPlane.pxGet_Allocated_Copy failed, plane one not equal to original plane.");
+      AUnit.Assertions.Assert(Condition => pxPlaneOne.all'Address /= pxPlaneTwo.all'Address,
+                              Message   => "CPlane.pxGet_Allocated_Copy failed, allocated copies have same address.");
+
+      
+         Math.Planes.Free(pxPlaneToDeallocate => pxPlaneOne);
+         Math.Planes.Free(pxPlaneToDeallocate => pxPlaneTwo);      
 
 --  begin read only
    end Test_pxGet_Allocated_Copy;
@@ -83,12 +99,28 @@ package body Math.Planes.CPlane_Test_Data.CPlane_Tests is
 
       pragma Unreferenced (Gnattest_T);
 
+      pxTestPlane : pCPlane;
+      pxTestNormal : Math.Vectors.pCVector;
+      use Math.Vectors;
+
+--      fExpectedAX : float := 0.980581;
+--      fExpectedBY : float := 0.0;
+--      fExpectedCZ : float := -0.196116;
+
    begin
 
-      AUnit.Assertions.Assert
-        (Gnattest_Generated.Default_Assert_Value,
-         "Test not implemented.");
+      pxTestNormal := Math.Vectors.xCreate(fX => 5.0,
+                                            fY => 0.0,
+                                            fZ => -1.0).pxGet_Allocated_Copy;
+      pxTestPlane := Math.Planes.xCreate(pxNormalVector      => pxTestNormal,
+                                          fDistanceFromOrigin => 0.0).pxGet_Allocated_Copy;
+      pxTestNormal.Copy_From(xSourceVector => pxTestNormal.xGet_Normalized);
 
+      AUnit.Assertions.Assert(Condition => pxTestNormal.all = pxTestPlane.xGet_Normal_Vector,
+                              Message   => "CPlane.xGet_Normal_Vector failed. Value: " & float'image(pxTestPlane.xGet_Normal_Vector.fGet_X) & float'image(pxTestPlane.xGet_Normal_Vector.fGet_Y) & float'image(pxTestPlane.xGet_Normal_Vector.fGet_Z) & ". Expected: " & float'image(pxTestNormal.fGet_X) & float'image(pxTestNormal.fGet_Y) & float'image(pxTestNormal.fGet_Z) );
+
+      Math.Vectors.Free(pxVectorToDeallocate => pxTestNormal);
+      Math.Planes.Free(pxPlaneToDeallocate => pxTestPlane);
 --  begin read only
    end Test_xGet_Normal_Vector;
 --  end read only
@@ -138,10 +170,7 @@ package body Math.Planes.CPlane_Test_Data.CPlane_Tests is
       pragma Unreferenced (Gnattest_T);
 
    begin
-
-      AUnit.Assertions.Assert
-        (Gnattest_Generated.Default_Assert_Value,
-         "Test not implemented.");
+      null;
 
 --  begin read only
    end Test_1_fAngle_Between_In_Degrees;
@@ -160,9 +189,7 @@ package body Math.Planes.CPlane_Test_Data.CPlane_Tests is
 
    begin
 
-      AUnit.Assertions.Assert
-        (Gnattest_Generated.Default_Assert_Value,
-         "Test not implemented.");
+      null;
 
 --  begin read only
    end Test_2_fAngle_Between_In_Degrees;
@@ -179,12 +206,27 @@ package body Math.Planes.CPlane_Test_Data.CPlane_Tests is
 
       pragma Unreferenced (Gnattest_T);
 
+      pxPlaneOne : Math.Planes.pCPlane;
+      pxPlaneTwo : Math.Planes.pCPlane;
+
    begin
 
-      AUnit.Assertions.Assert
-        (Gnattest_Generated.Default_Assert_Value,
-         "Test not implemented.");
+      pxPlaneOne := Math.Planes.xCreate(xNormalVector       => Math.Vectors.xCreate(fX => 1.0,
+                                                                                    fY => 0.0,
+                                                                                    fZ => 0.0),
+                                        fDistanceFromOrigin => 0.0).pxGet_Allocated_Copy;
+      pxPlaneTwo := Math.Planes.xCreate(xNormalVector       => Math.Vectors.xCreate(fX => 0.0,
+                                                                                    fY => -2.0,
+                                                                                    fZ => 0.0),
+                                        fDistanceFromOrigin => -4.0).pxGet_Allocated_Copy;
+      
 
+      AUnit.Assertions.Assert(Condition => Math.Planes.fAngle_Between_In_Degrees(pxPlaneOne, pxPlaneTwo) = 90.0,
+                              Message   => "Planes.fAngle_Between_In_Degrees failed, planes should be perpendicular.");
+
+      
+         Math.Planes.Free(pxPlaneToDeallocate => pxPlaneOne);
+         Math.Planes.Free(pxPlaneToDeallocate => pxPlaneTwo);      
 --  begin read only
    end Test_3_fAngle_Between_In_Degrees;
 --  end read only
@@ -202,9 +244,7 @@ package body Math.Planes.CPlane_Test_Data.CPlane_Tests is
 
    begin
 
-      AUnit.Assertions.Assert
-        (Gnattest_Generated.Default_Assert_Value,
-         "Test not implemented.");
+      null;
 
 --  begin read only
    end Test_1_xGet_Intersection_Vector_Between;
@@ -223,9 +263,7 @@ package body Math.Planes.CPlane_Test_Data.CPlane_Tests is
 
    begin
 
-      AUnit.Assertions.Assert
-        (Gnattest_Generated.Default_Assert_Value,
-         "Test not implemented.");
+      null;
 
 --  begin read only
    end Test_2_xGet_Intersection_Vector_Between;
@@ -242,11 +280,75 @@ package body Math.Planes.CPlane_Test_Data.CPlane_Tests is
 
       pragma Unreferenced (Gnattest_T);
 
+      pxPlaneOne : Math.Planes.pCPlane;
+      pxPlaneTwo : Math.Planes.pCPlane;
+      xIntersect : Math.Vectors.CVector;
    begin
+      
+      pxPlaneOne := Math.Planes.xCreate(xNormalVector       => Math.Vectors.xCreate(fX => 1.0,
+                                                                                    fY => 0.0,
+                                                                                    fZ => 0.0),
+                                        fDistanceFromOrigin => 5.0).pxGet_Allocated_Copy;
+      pxPlaneTwo := Math.Planes.xCreate(xNormalVector       => Math.Vectors.xCreate(fX => 1.0,
+                                                                                    fY => 0.0,
+                                                                                    fZ => 0.0),
+                                        fDistanceFromOrigin => 5.0).pxGet_Allocated_Copy;
+      
+      
+      xIntersect := Math.Planes.xGet_Intersection_Vector_Between(pxPlaneOne, pxPlaneTwo);
+          
+      AUnit.Assertions.Assert(Condition => xIntersect.fGet_X = 0.0,
+                              Message   => "Planes.xGet_Intersection_Vector_Between failed, vector not in both planes.");
+      AUnit.Assertions.Assert(Condition => abs(xIntersect.fGet_Y) > 0.0 or abs(xIntersect.fGet_Z) > 0.0,
+                              Message   => "Planes.xGet_Intersection_Vector_Between failed, vector is zero.");    
+      
+      pxPlaneOne.Copy_From(xSourcePlane => Math.Planes.xCreate(xNormalVector       => Math.Vectors.xCreate(fX => 3.0,
+                                                                                    fY => 0.0,
+                                                                                    fZ => 0.0),
+                                                               fDistanceFromOrigin => 5.0));
+      pxPlaneTwo.Copy_From(xSourcePlane => Math.Planes.xCreate(xNormalVector       => Math.Vectors.xCreate(fX => 0.0,
+                                                                                    fY => 4.0,
+                                                                                    fZ => 0.0),
+                                        fDistanceFromOrigin => 10.0));      
+      
+      xIntersect := Math.Planes.xGet_Intersection_Vector_Between(pxPlaneOne.all, pxPlaneTwo);
 
-      AUnit.Assertions.Assert
-        (Gnattest_Generated.Default_Assert_Value,
-         "Test not implemented.");
+      AUnit.Assertions.Assert(Condition => Math.Angles.fRadians_To_Degrees(Math.Vectors.fAngle_Between_In_Radians(xIntersect, pxPlaneOne.xGet_Normal_Vector)) = 90.0,
+                              Message   => "Planes.xGet_Intersection_Vector_Between failed, intersection vector is not perpendicular to plane one's normal");
+      AUnit.Assertions.Assert(Condition => Math.Angles.fRadians_To_Degrees(Math.Vectors.fAngle_Between_In_Radians(xIntersect, pxPlaneTwo.xGet_Normal_Vector)) = 90.0,
+                              Message   => "Planes.xGet_Intersection_Vector_Between failed, intersection vector is not perpendicular to plane two's normal");
+      
+      
+      
+      pxPlaneOne.Copy_From(xSourcePlane => Math.Planes.xCreate(xNormalVector       => Math.Vectors.xCreate(fX => 0.0,
+                                                                                    fY => 0.0,
+                                                                                    fZ => 4.0),
+                                                               fDistanceFromOrigin => 5.0));
+      pxPlaneTwo.Copy_From(xSourcePlane => Math.Planes.xCreate(xNormalVector       => Math.Vectors.xCreate(fX => 0.0,
+                                                                                    fY => 0.0,
+                                                                                    fZ => 10.0),
+                                        fDistanceFromOrigin => 10.0));      
+      
+      xIntersect := Math.Planes.xGet_Intersection_Vector_Between(pxPlaneOne, pxPlaneTwo.all);
+
+      AUnit.Assertions.Assert(Condition => False,
+                              Message   => "Planes.xGet_Intersection_Vector_Between failed, should've raised exception.");
+
+   exception
+      when Exception_Handling.NoIntersectionBetweenPlanes =>
+         Math.Planes.Free(pxPlaneToDeallocate => pxPlaneOne);
+         Math.Planes.Free(pxPlaneToDeallocate => pxPlaneTwo);
+         null; -- test passed
+      when E : others =>
+         AUnit.Assertions.Assert(Condition => False,
+                                 Message   => "Planes.xGet_Intersection_Vector_Between failed, wrong exception raised. Raised: " & Ada.Exceptions.Exception_Name(E));
+         Math.Planes.Free(pxPlaneToDeallocate => pxPlaneOne);
+         Math.Planes.Free(pxPlaneToDeallocate => pxPlaneTwo);
+         
+         
+      
+            
+
 
 --  begin read only
    end Test_3_xGet_Intersection_Vector_Between;
@@ -262,53 +364,30 @@ package body Math.Planes.CPlane_Test_Data.CPlane_Tests is
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
+      use System;
+      
+      xPlaneOriginal : Math.Planes.CPlane;
+      xPlaneCopy : Math.Planes.CPlane;
 
    begin
 
-      AUnit.Assertions.Assert
-        (Gnattest_Generated.Default_Assert_Value,
-         "Test not implemented.");
+      xPlaneOriginal := Math.Planes.xCreate(xNormalVector       => Math.Vectors.xCreate(fX => 1.0,
+                                                                                        fY => 0.0,
+                                                                                        fZ => 0.0),
+                                            fDistanceFromOrigin => 5.0);
+      xPlaneCopy.Copy_From(xSourcePlane => xPlaneOriginal);
+
+      AUnit.Assertions.Assert(Condition => xPlaneOriginal = xPlaneCopy,
+                              Message   => "CPlane.Copy_From failed, planes not equal after copy.");
+      AUnit.Assertions.Assert(Condition => xPlaneOriginal'Address /= xPlaneCopy'Address,
+                              Message   => "CPlane.Copy_From failed, addresses are equal.");
+      
 
 --  begin read only
    end Test_Copy_From;
 --  end read only
 
 
---  begin read only
-   --  procedure Test_pxGet_Normal_Vector (Gnattest_T : in out Test);
-   --  procedure Test_pxGet_Normal_Vector_4c7399 (Gnattest_T : in out Test) renames Test_pxGet_Normal_Vector;
---  id:2.1/4c7399a6c0ba5408/pxGet_Normal_Vector/0/1/
-   --  procedure Test_pxGet_Normal_Vector (Gnattest_T : in out Test) is
---  end read only
---  
---        pragma Unreferenced (Gnattest_T);
---  
---        pxTestPlane : pCPlane;
---        pxTestNormal : Math.Vectors.pCVector;
---        use Math.Vectors;
---  
---  --      fExpectedAX : float := 0.980581;
---  --      fExpectedBY : float := 0.0;
---  --      fExpectedCZ : float := -0.196116;
---  
---     begin
---  
---        pxTestNormal := Math.Vectors.xCreate(fX => 5.0,
---                                              fY => 0.0,
---                                              fZ => -1.0).pxGet_Allocated_Copy;
---        pxTestPlane := Math.Planes.xCreate(pxNormalVector      => pxTestNormal,
---                                            fDistanceFromOrigin => 0.0).pxGet_Allocated_Copy;
---        pxTestNormal.Copy_From(xSourceVector => pxTestNormal.xGet_Normalized);
---  
---        AUnit.Assertions.Assert(Condition => pxTestNormal.all = pxTestPlane.xGet_Normal_Vector,
---                                Message   => "CPlane.pxGet_Normal_Vector failed. Value: " & float'image(pxTestPlane.xGet_Normal_Vector.fGet_X) & float'image(pxTestPlane.xGet_Normal_Vector.fGet_Y) & float'image(pxTestPlane.xGet_Normal_Vector.fGet_Z) & ". Expected: " & float'image(pxTestNormal.fGet_X) & float'image(pxTestNormal.fGet_Y) & float'image(pxTestNormal.fGet_Z) );
---  
---        Math.Vectors.Free(pxVectorToDeallocate => pxTestNormal);
---        Math.Planes.Free(pxPlaneToDeallocate => pxTestPlane);
---  
---  
---  begin read only
-   --  end Test_pxGet_Normal_Vector;
---  end read only
+
 
 end Math.Planes.CPlane_Test_Data.CPlane_Tests;

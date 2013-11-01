@@ -37,6 +37,11 @@ package body Navigation.Dispatcher is
       --Ada.Text_IO.Put_Line("CAP: " & System.Address_Image(pxNewDispatcher.pxCurrentAbsolutePosition.all'Address));
       --Ada.Text_IO.Put_Line("WAP: " & System.Address_Image(pxNewDispatcher.pxWantedAbsolutePosition.all'Address));
       return pxNewDispatcher;
+   exception
+      when E : others =>
+         Exception_Handling.Reraise_Exception(E       => E,
+                                              Message => "Navigation.Dispatcher.pxCreate return pCDispatcher");
+         return pxNewDispatcher;
    end pxCreate;
 
    function tfGet_Thruster_Values(this : in CDispatcher; fDeltaTime : in float) return Navigation.Thrusters.TThrusterValuesArray is
@@ -54,7 +59,7 @@ package body Navigation.Dispatcher is
 
       this.pxPositionalController.Update_Current_Errors;
       this.pxOrientationalController.Update_Current_Errors;
-      this.pxDriftController.Update_Current_Errors;
+      this.pxDriftController.Update_Current_Errors(fDeltaTime);
 
 
 
@@ -87,6 +92,11 @@ package body Navigation.Dispatcher is
 
       return tfThrusterValues;
 
+   exception
+      when E : others =>
+         Exception_Handling.Reraise_Exception(E       => E,
+                                              Message => "Navigation.Dispatcher.tfGet_Thruster_Values(this : in CDispatcher; fDeltaTime : in float) return Navigation.Thrusters.TThrusterValuesArray");
+         return tfThrusterValues;
    end tfGet_Thruster_Values;
 
    procedure Set_New_Component_PID_Scalings(this : in out CDispatcher; eComponentToChange : Navigation.Motion_Component.EMotionComponent;xNewPIDSCalings : in Navigation.PID_Controller.TPIDComponentScalings) is
@@ -108,7 +118,7 @@ package body Navigation.Dispatcher is
                                                                           xNewPIDScaling     => xNewPIDSCalings);
          when Navigation.Motion_Component.Unknown =>
             Ada.Exceptions.Raise_Exception(E       => Exception_Handling.UnknownMotionComponent'Identity,
-                                           Message => "CDispatcher.Set_New_Component_PID_Scalings");
+                                           Message => "Navigation.Dispatcher.Set_New_Component_PID_Scalings(this : in out CDispatcher; eComponentToChange : Navigation.Motion_Component.EMotionComponent;xNewPIDSCalings : in Navigation.PID_Controller.TPIDComponentScalings)");
       end case;
 
    end Set_New_Component_PID_Scalings;

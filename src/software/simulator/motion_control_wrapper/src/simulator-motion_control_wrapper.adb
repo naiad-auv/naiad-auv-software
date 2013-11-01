@@ -43,12 +43,13 @@ package body simulator.Motion_Control_Wrapper is
       tfMotorValuesSubmarine : out simulator.submarine.TMotorForce ;
       fDeltaTime : in float) is
 
-
-      tfMotorValuesTThrustesValuesArray : navigation.Thrusters.TThrusterValuesArray(1..6);
+      tfMotorValuesTThrustesValuesArray : navigation.Thrusters.TThrusterValuesArray;
    begin
       this.pxDispatcher.Update_Current_Absolute_Position(pxNewCurrentAbsolutePosition.pxGet_Copy.all);
       this.pxDispatcher.Update_Current_Absolute_Orientation(pxNewCurrentOrientation.pxGet_Copy.all);
+
       tfMotorValuesTThrustesValuesArray := this.pxDispatcher.tfGet_Thruster_Values(fDeltaTime => fDeltaTime);
+
       tfMotorValuesSubmarine(1) := tfMotorValuesTThrustesValuesArray(1)*6.8*9.82*0.01;
       tfMotorValuesSubmarine(2) := tfMotorValuesTThrustesValuesArray(2)*6.8*9.82*0.01;
       tfMotorValuesSubmarine(3) := tfMotorValuesTThrustesValuesArray(3)*6.8*9.82*0.01;
@@ -68,8 +69,24 @@ package body simulator.Motion_Control_Wrapper is
                                      pxWantedOrientation : in math.Matrices.pCMatrix ) is
 
    begin
+      this.pxWantedPositionVector := pxWantedPosition.pxGet_Copy;
+      this.pxWantedOrientationMatrix := pxWantedOrientation.pxGet_Copy;
+
       this.pxDispatcher.Update_Wanted_Absolute_Position(pxWantedPosition.all);
       this.pxDispatcher.Update_Wanted_Absolute_Orientation(pxWantedOrientation.all);
    end Update_Wanted_Position;
+
+   function pxGet_Wanted_Position(this : in CWrapDispatcher) return math.Vectors.pCVector is
+
+   begin
+     return this.pxWantedPositionVector.pxGet_Copy;
+   end pxGet_Wanted_Position;
+
+   function pxGet_Wanted_Orientation(this : in CWrapDispatcher) return math.Matrices.pCMatrix is
+
+   begin
+      return this.pxWantedOrientationMatrix;
+   end pxget_wanted_orientation;
+
 
 end simulator.Motion_Control_Wrapper;

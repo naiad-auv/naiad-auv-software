@@ -65,7 +65,7 @@ package body Navigation.Drift_Controller is
    -- Update_Current_Errors --
    ---------------------------
 
-   procedure Update_Current_Errors (this : in CDriftController) is
+   procedure Update_Current_Errors (this : in CDriftController; fDeltaTime : float) is
       use Math.Vectors;
       use Math.Matrices;
 
@@ -80,7 +80,12 @@ package body Navigation.Drift_Controller is
          xAbsoluteDirectionVector := xAbsoluteDirectionVector.xGet_Normalized;
       end if;
 
-      xAbsoluteVelocityVector := this.pxCurrentAbsolutePosition.all - this.pxLastAbsolutePosition.all;
+      if fDeltaTime = 0.0 then
+         Exception_Handling.Raise_Exception(E       => Exception_Handling.DivisionByZero'Identity,
+                                            Message => "Navigation.Drift_Controller.Update_Current_Errors (this : in CDriftController; fDeltaTime : float)");
+      end if;
+
+      xAbsoluteVelocityVector := (this.pxCurrentAbsolutePosition.all - this.pxLastAbsolutePosition.all) / fDeltaTime;
 
       fDriftComponent := Math.Vectors.fDot_Product(xAbsoluteVelocityVector, xAbsoluteDirectionVector);
 
@@ -92,6 +97,13 @@ package body Navigation.Drift_Controller is
       this.pxZDriftMotionComponent.Update_Current_Error(xRelativeDriftVelocityVector.fGet_Z);
 
       this.pxLastAbsolutePosition.Copy_From(xSourceVector => this.pxCurrentAbsolutePosition.all);
+
+      exception
+         when Exception_Handling.DivisionByZero =>
+            raise Exception_Handling.DivisionByZero;
+      when E : others =>
+         Exception_Handling.Reraise_Exception(E       => E,
+                                              Message => "Navigation.Drift_Controller.Update_Current_Errors (this : in CDriftController; fDeltaTime : float)");
 
    end Update_Current_Errors;
 

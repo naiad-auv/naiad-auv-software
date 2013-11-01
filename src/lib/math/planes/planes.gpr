@@ -1,3 +1,4 @@
+with "../angles/angles.gpr";
 with "../../exception_handling/exception_handling.gpr";
 with "../math.gpr";
 with "../vectors/vectors.gpr";

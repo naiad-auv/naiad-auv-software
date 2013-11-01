@@ -19,12 +19,21 @@ package body Navigation.PID_Controller.Test_Data.Tests is
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
+  pxObject : pCPIDController := null;
 
+      xPIDScalings : Navigation.PID_Controller.TPIDComponentScalings := (1.0,1.0,1.0);
    begin
 
-      AUnit.Assertions.Assert
-        (Gnattest_Generated.Default_Assert_Value,
-         "Test not implemented.");
+      pxObject := PID_Controller.pxCreate(xPIDScalings);
+
+      AUnit.Assertions.Assert(Condition => (pxObject /= null),
+                              Message => "PID_Controller.pxCreate does not return an instance to an object");
+
+      Navigation.PID_Controller.Free(pxObject);
+
+
+      AUnit.Assertions.Assert(Condition => (pxObject = null),
+                              Message => "PID_Controller.pxCreate is not null after deconstruction");
 
 --  begin read only
    end Test_Free;
@@ -39,13 +48,14 @@ package body Navigation.PID_Controller.Test_Data.Tests is
    --  navigation-pid_controller.ads:20:4:pxCreate
 --  end read only
 
-      pragma Unreferenced (Gnattest_T);
+   pragma Unreferenced (Gnattest_T);
 
       pxObject : pCPIDController := null;
 
+      xPIDScalings : Navigation.PID_Controller.TPIDComponentScalings := (1.0,1.0,1.0);
    begin
 
-      pxObject := PID_Controller.pxCreate;
+      pxObject := PID_Controller.pxCreate(xPIDScalings);
 
       AUnit.Assertions.Assert(Condition => (pxObject /= null),
                               Message => "PID_Controller.pxCreate does not return an instance to an object");
@@ -55,38 +65,6 @@ package body Navigation.PID_Controller.Test_Data.Tests is
 
 --  begin read only
    end Test_pxCreate;
---  end read only
-
-
---  begin read only
-   --  procedure Test_pxCreate (Gnattest_T : in out Test);
-   --  procedure Test_pxCreate_b51f41 (Gnattest_T : in out Test) renames Test_pxCreate;
---  id:2.1/b51f41e7835014fc/pxCreate/0/1/
-   --  procedure Test_pxCreate (Gnattest_T : in out Test) is
---  end read only
---  
---        pragma Unreferenced (Gnattest_T);
---  
---        pxObject : pCPIDController := null;
---  
---     begin
---  
---        pxObject := PID_Controller.pxCreate(xPIDComponentScalings => Navigation.PID_Controller.TPIDComponentScalings'(1.0,2.0,3.0));
---  
---        AUnit.Assertions.Assert(Condition => (pxObject /= null),
---                                Message => "PID_Controller.pxCreate does not return an instance to an object");
---  
---  
---        AUnit.Assertions.Assert(Condition => pxObject.fGetProportionalScale = 1.0,
---                                Message   => "proportional scale is incorrect after construction");
---        AUnit.Assertions.Assert(Condition => pxObject.fGetIntergralScale = 2.0,
---                                Message   => "integral scale is incorrect after construction");
---        AUnit.Assertions.Assert(Condition => pxObject.fGetDerivativeScale = 3.0,
---                                Message   => "derivative scale is incorrect after construction");
---        Navigation.PID_Controller.Free(pxPIDControllerToDeallocate => pxObject);
---  
---  begin read only
-   --  end Test_pxCreate;
 --  end read only
 
 end Navigation.PID_Controller.Test_Data.Tests;
