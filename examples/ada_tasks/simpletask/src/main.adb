@@ -4,8 +4,6 @@ with Ada.Text_IO;
 
 procedure Main is
 
-    task Task_One;
-
     task body Task_One is
         i: Integer := 1;
     begin
