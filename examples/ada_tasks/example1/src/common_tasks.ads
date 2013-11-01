@@ -1,3 +1,5 @@
+pragma Profile(Ravenscar);
+
 package Common_Tasks is
     task Task_one is
         -- null
