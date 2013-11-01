@@ -9,6 +9,7 @@ b__test_runner.adb
 b__test_runner.ads
 test_runner
 
+project_pragmas
 /build
 # When we restructure our testing structure obj/ can be added to ignore file.
 # The problem now is that the test projects are put in the obj/ folder.
