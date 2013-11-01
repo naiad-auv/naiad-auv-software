@@ -4,7 +4,7 @@ with Ada.Text_IO;
 
 procedure Main is
 
-    task type Task_One;
+    task Task_One;
 
     task body Task_One is
         i: Integer := 1;
