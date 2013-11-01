@@ -5,7 +5,7 @@
 -- This code is loosly based on the router.adb file from the Vasa project.
 
 -- Written by Nils Brynedal Ignell for the Naiad AUV project
--- Last changed (yyyy-mm-dd): 2013-10-28
+-- Last changed (yyyy-mm-dd): 2013-11-01
 
 -- TODO: Hardware testing
 ---------------------------------------------------------------------------
@@ -36,7 +36,7 @@ package BBB_CAN is
 
 private
 
-   procedure Usart_Read(sBuffer : out String; iSize : Integer; iBytesRead : out Integer);
+   procedure Usart_Read(sBuffer : out String; iSize : Integer; bBytesRead : out Boolean);
 
    procedure Usart_Write(sBuffer : String; iSize : Integer);
 

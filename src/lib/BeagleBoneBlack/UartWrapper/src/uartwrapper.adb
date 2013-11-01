@@ -1,4 +1,4 @@
-with  Ada.Text_IO;
+--with  Ada.Text_IO;
 
 package body UartWrapper is
 
@@ -29,17 +29,28 @@ package body UartWrapper is
    ----------------
 
    procedure Uart_Write (this : in out CUartHandler; sStringToBeWritten : string; iLengthOfString : Integer; bAppendEOT : Boolean := false) is
-      buffer : Ada.Streams.Stream_Element_Array(1 .. Ada.Streams.Stream_Element_Offset(iLengthOfString + 1));
    begin
-      for i in 1 .. Ada.Streams.Stream_Element_Offset(iLengthOfString) loop
-         buffer(i) := Ada.Streams.Stream_Element(Character'Pos(sStringToBeWritten(Integer(i))));
-      end loop;
 
       if bAppendEOT then
-         buffer(Ada.Streams.Stream_Element_Offset(iLengthOfString + 1)) := Ada.Streams.Stream_Element(4);
+         declare
+            buffer : Ada.Streams.Stream_Element_Array(1 .. Ada.Streams.Stream_Element_Offset(iLengthOfString + 1));
+         begin
+            for i in 1 .. Ada.Streams.Stream_Element_Offset(iLengthOfString) loop
+               buffer(i) := Ada.Streams.Stream_Element(Character'Pos(sStringToBeWritten(Integer(i))));
+            end loop;
+            buffer(Ada.Streams.Stream_Element_Offset(iLengthOfString + 1)) := Ada.Streams.Stream_Element(4);
+            Gnat.Serial_Communications.Write(this.serialHandler, buffer);
+         end;
+      else
+         declare
+            buffer : Ada.Streams.Stream_Element_Array(1 .. Ada.Streams.Stream_Element_Offset(iLengthOfString));
+         begin
+            for i in 1 .. Ada.Streams.Stream_Element_Offset(iLengthOfString) loop
+               buffer(i) := Ada.Streams.Stream_Element(Character'Pos(sStringToBeWritten(Integer(i))));
+            end loop;
+            Gnat.Serial_Communications.Write(this.serialHandler, buffer);
+         end;
       end if;
-
-      Gnat.Serial_Communications.Write(this.serialHandler, buffer);
    end Uart_Write;
 
    procedure Uart_Write (this : in out CUartHandler; stringToBeWritten : string)is
