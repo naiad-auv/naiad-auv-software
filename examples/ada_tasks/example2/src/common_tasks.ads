@@ -1,3 +1,3 @@
 package Common_Tasks is
-    task Task_one;
+    task Task_One;
 end Common_Tasks;
