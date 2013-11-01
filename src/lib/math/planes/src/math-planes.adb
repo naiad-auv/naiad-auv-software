@@ -69,54 +69,50 @@ package body Math.Planes is
       return abs(fDistanceFromOrigin);
    end fGet_Distance_From_Origin;
 
-   function fAngle_Between_In_Degrees (xLeftOperandPlane : in CPlane; xRightOperandPlane : in CPlane) return float is
-      fAngleInRadians : float;
-      fAngleInDegrees : float;
+   function fAngle_Between_In_Radians (xLeftOperandPlane : in CPlane; xRightOperandPlane : in CPlane) return float is
    begin
-      fAngleInRadians := Math.Vectors.fAngle_Between_In_Radians(xLeftOperandPlane.xGet_Normal_Vector,
+      return Math.Vectors.fAngle_Between_In_Radians(xLeftOperandPlane.xGet_Normal_Vector,
                                                                 xRightOperandPlane.xGet_Normal_Vector);
-      fAngleInDegrees :=  fAngleInRadians * (180.0 / Ada.Numerics.Pi);
 
-      return fAngleInDegrees;
    exception
       when E : others =>
          Exception_Handling.Reraise_Exception(E       => E,
-                                              Message => "Math.Planes.fAngle_Between_In_Degrees (xLeftOperandPlane : in CPlane; xRightOperandPlane : in CPlane) return float");
+                                              Message => "Math.Planes.fAngle_Between_In_Radians (xLeftOperandPlane : in CPlane; xRightOperandPlane : in CPlane) return float");
       return 0.0;
-   end fAngle_Between_In_Degrees;
+   end fAngle_Between_In_Radians;
 
-   function fAngle_Between_In_Degrees (pxLeftOperandPlane : in pCPlane; pxRightOperandPlane : in pCPlane) return float is
+   function fAngle_Between_In_Radians (pxLeftOperandPlane : in pCPlane; pxRightOperandPlane : in pCPlane) return float is
    begin
       if pxLeftOperandPlane /= null and then pxRightOperandPlane /= null then
-         return fAngle_Between_In_Degrees(pxLeftOperandPlane.all, pxRightOperandPlane.all);
+         return fAngle_Between_In_Radians(pxLeftOperandPlane.all, pxRightOperandPlane.all);
       end if;
 
       Exception_Handling.Raise_Exception(E       => Exception_Handling.NullPointer'Identity,
-                                         Message => "Math.Planes.fAngle_Between_In_Degrees (pxLeftOperandPlane : in pCPlane; pxRightOperandPlane : in pCPlane) return float");
+                                         Message => "Math.Planes.fAngle_Between_In_Radians (pxLeftOperandPlane : in pCPlane; pxRightOperandPlane : in pCPlane) return float");
       return 0.0;
-   end fAngle_Between_In_Degrees;
+   end fAngle_Between_In_Radians;
 
-   function fAngle_Between_In_Degrees (pxLeftOperandPlane : in pCPlane; xRightOperandPlane : in CPlane) return float is
+   function fAngle_Between_In_Radians (pxLeftOperandPlane : in pCPlane; xRightOperandPlane : in CPlane) return float is
    begin
       if pxLeftOperandPlane /= null then
-         return fAngle_Between_In_Degrees(pxLeftOperandPlane.all, xRightOperandPlane);
+         return fAngle_Between_In_Radians(pxLeftOperandPlane.all, xRightOperandPlane);
       end if;
 
       Exception_Handling.Raise_Exception(E       => Exception_Handling.NullPointer'Identity,
-                                         Message => "Math.Planes.fAngle_Between_In_Degrees (pxLeftOperandPlane : in pCPlane; xRightOperandPlane : in CPlane) return float");
+                                         Message => "Math.Planes.fAngle_Between_In_Radians (pxLeftOperandPlane : in pCPlane; xRightOperandPlane : in CPlane) return float");
       return 0.0;
-   end fAngle_Between_In_Degrees;
+   end fAngle_Between_In_Radians;
 
-   function fAngle_Between_In_Degrees (xLeftOperandPlane : in CPlane; pxRightOperandPlane : in pCPlane) return float is
+   function fAngle_Between_In_Radians (xLeftOperandPlane : in CPlane; pxRightOperandPlane : in pCPlane) return float is
    begin
       if pxRightOperandPlane /= null then
-         return fAngle_Between_In_Degrees(xLeftOperandPlane, pxRightOperandPlane.all);
+         return fAngle_Between_In_Radians(xLeftOperandPlane, pxRightOperandPlane.all);
       end if;
 
       Exception_Handling.Raise_Exception(E       => Exception_Handling.NullPointer'Identity,
-                                         Message => "Math.Planes.fAngle_Between_In_Degrees (xLeftOperandPlane : in CPlane; pxRightOperandPlane : in pCPlane) return float");
+                                         Message => "Math.Planes.fAngle_Between_In_Radians (xLeftOperandPlane : in CPlane; pxRightOperandPlane : in pCPlane) return float");
       return 0.0;
-   end fAngle_Between_In_Degrees;
+   end fAngle_Between_In_Radians;
 
 --     procedure Log_Plane(this : in CPlane) is
 --     begin

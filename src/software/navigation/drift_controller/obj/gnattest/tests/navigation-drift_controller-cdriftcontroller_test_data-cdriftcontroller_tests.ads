@@ -12,7 +12,7 @@ package Navigation.Drift_Controller.CDriftController_Test_Data.CDriftController_
    procedure Test_xGet_Positional_Thruster_Control_Values_0afcd7 (Gnattest_T : in out Test_CDriftController);
    --  navigation-drift_controller.ads:22:4:xGet_Positional_Thruster_Control_Values
 
-   procedure Test_Update_Current_Errors_a4d64d (Gnattest_T : in out Test_CDriftController);
+   procedure Test_Update_Current_Errors_b360ac (Gnattest_T : in out Test_CDriftController);
    --  navigation-drift_controller.ads:27:4:Update_Current_Errors
 
    procedure Test_Set_New_PID_Component_Scalings_f2c0ab (Gnattest_T : in out Test_CDriftController);

@@ -20,11 +20,33 @@ package body Navigation.Motion_Component.CMotionComponent_Test_Data.CMotionCompo
 
       pragma Unreferenced (Gnattest_T);
 
+      pxMotionComponent : Navigation.Motion_Component.pCMotionComponent;
+      xPidScalings : Navigation.PID_Controller.TPIDComponentScalings := (1.0, 2.0, 3.0);
+      xComponentIndex : Navigation.Motion_Component.EMotionComponent := X;
+
+      xCurrentComponentControlValue : Navigation.Motion_Component.TComponentControlValue;
    begin
 
-      AUnit.Assertions.Assert
-        (Gnattest_Generated.Default_Assert_Value,
-         "Test not implemented.");
+      pxMotionComponent := Navigation.Motion_Component.pxCreate(xComponentIndex, xPidScalings);
+      pxMotionComponent.Update_Current_Error(100.0);
+
+      xCurrentComponentControlValue := pxMotionComponent.xGet_New_Component_Control_Value(1.0);
+
+      AUnit.Assertions.Assert(Condition => xCurrentComponentControlValue.xMotionComponent = X,
+                              Message => "Incorrect component value when getting new control value");
+
+      AUnit.Assertions.Assert(Condition => xCurrentComponentControlValue.fValue /= 0.0,
+                              Message => "abo");
+      Navigation.Motion_Component.Free(pxMotionComponentToDeallocate => pxMotionComponent);
+
+      xPidScalings := Navigation.PID_Controller.TPIDComponentScalings'(0.0, 0.0, 0.0);
+      xComponentIndex := Direction;
+      pxMotionComponent := Navigation.Motion_Component.pxCreate(xComponentIndex, xPidScalings);
+      pxMotionComponent.Update_Current_Error(0.0);
+      xCurrentComponentControlValue := pxMotionComponent.xGet_New_Component_Control_Value(0.25);
+      AUnit.Assertions.Assert(Condition => xCurrentComponentControlValue.fValue = 0.0,
+                              Message => "abo");
+
 
 --  begin read only
    end Test_xGet_New_Component_Control_Value;
@@ -41,11 +63,28 @@ package body Navigation.Motion_Component.CMotionComponent_Test_Data.CMotionCompo
 
       pragma Unreferenced (Gnattest_T);
 
+      pxMotionComponent : Navigation.Motion_Component.pCMotionComponent;
+      xPidScalings : Navigation.PID_Controller.TPIDComponentScalings := (1.0, 2.0, 3.0);
+      xComponentIndex : Navigation.Motion_Component.EMotionComponent := X;
+
+      xNewPidScalings : Navigation.PID_Controller.TPIDComponentScalings := (4.0, 5.0, 6.0);
+
    begin
 
-      AUnit.Assertions.Assert
-        (Gnattest_Generated.Default_Assert_Value,
-         "Test not implemented.");
+      pxMotionComponent := Navigation.Motion_Component.pxCreate(xComponentIndex, xPidScalings);
+
+      pxMotionComponent.Set_New_PID_Component_Scalings(xNewPidScalings);
+
+      AUnit.Assertions.Assert(Condition => pxMotionComponent.pxComponentPIDController.fGetProportionalScale = 4.0,
+                              Message => "Proportional scale in component pid controller not set correctly");
+
+      AUnit.Assertions.Assert(Condition => pxMotionComponent.pxComponentPIDController.fGetIntergralScale = 5.0,
+                              Message => "Integral scale in component pid controller not set correctly wanted: , actual: " & Float'Image(pxMotionComponent.pxComponentPIDController.fGetIntergralScale));
+
+      AUnit.Assertions.Assert(Condition => pxMotionComponent.pxComponentPIDController.fGetDerivativeScale = 6.0,
+                              Message => "Derivative scale in component pid controller not set correctly");
+
+      Navigation.Motion_Component.Free(pxMotionComponentToDeallocate => pxMotionComponent);
 
 --  begin read only
    end Test_Set_New_PID_Component_Scalings;
@@ -62,12 +101,19 @@ package body Navigation.Motion_Component.CMotionComponent_Test_Data.CMotionCompo
 
       pragma Unreferenced (Gnattest_T);
 
+      pxMotionComponent : Navigation.Motion_Component.pCMotionComponent;
+      xPidScalings : Navigation.PID_Controller.TPIDComponentScalings := (1.0, 2.0, 3.0);
+      xComponentIndex : Navigation.Motion_Component.EMotionComponent := X;
+
    begin
 
-      AUnit.Assertions.Assert
-        (Gnattest_Generated.Default_Assert_Value,
-         "Test not implemented.");
+      pxMotionComponent := Navigation.Motion_Component.pxCreate(xComponentIndex, xPidScalings);
 
+      pxMotionComponent.Update_Current_Error(-24.0);
+
+      AUnit.Assertions.Assert(Condition => pxMotionComponent.fCurrentError = -24.0,
+                              Message => "fCurrentError value is set incorrectly");
+      Navigation.Motion_Component.Free(pxMotionComponentToDeallocate => pxMotionComponent);
 --  begin read only
    end Test_Update_Current_Error;
 --  end read only
@@ -83,11 +129,26 @@ package body Navigation.Motion_Component.CMotionComponent_Test_Data.CMotionCompo
 
       pragma Unreferenced (Gnattest_T);
 
+
+      pxMotionComponent : Navigation.Motion_Component.pCMotionComponent;
+      xPidScalings : Navigation.PID_Controller.TPIDComponentScalings := (1.0, 2.0, 3.0);
+      xComponentIndex : Navigation.Motion_Component.EMotionComponent := X;
+
    begin
 
-      AUnit.Assertions.Assert
-        (Gnattest_Generated.Default_Assert_Value,
-         "Test not implemented.");
+      pxMotionComponent := Navigation.Motion_Component.pxCreate(xComponentIndex, xPidScalings);
+
+      pxMotionComponent.Update_Current_Error(123.0);
+
+
+      pxMotionComponent.Reset_Component;
+
+
+      AUnit.Assertions.Assert(Condition => pxMotionComponent.fCurrentError = 0.0,
+                              Message => "fCurrentError is not reset");
+
+      Navigation.Motion_Component.Free(pxMotionComponentToDeallocate => pxMotionComponent);
+
 
 --  begin read only
    end Test_Reset_Component;

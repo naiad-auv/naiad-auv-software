@@ -147,8 +147,8 @@ package body Navigation.Drift_Controller.CDriftController_Test_Data.CDriftContro
 
 --  begin read only
    procedure Test_Update_Current_Errors (Gnattest_T : in out Test_CDriftController);
-   procedure Test_Update_Current_Errors_a4d64d (Gnattest_T : in out Test_CDriftController) renames Test_Update_Current_Errors;
---  id:2.1/a4d64d73d258bef8/Update_Current_Errors/1/0/
+   procedure Test_Update_Current_Errors_b360ac (Gnattest_T : in out Test_CDriftController) renames Test_Update_Current_Errors;
+--  id:2.1/b360ac59afac4dd5/Update_Current_Errors/1/0/
    procedure Test_Update_Current_Errors (Gnattest_T : in out Test_CDriftController) is
    --  navigation-drift_controller.ads:27:4:Update_Current_Errors
 --  end read only
@@ -194,6 +194,9 @@ package body Navigation.Drift_Controller.CDriftController_Test_Data.CDriftContro
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
+
+      use Math.Vectors;
+      use Navigation.Motion_Component;
 
       pxDriftController : Navigation.Drift_Controller.pCDriftController;
 
