@@ -8,8 +8,8 @@ with Vision.Image_Processing;
 procedure main is
 
    --user decisions
-   iUseBuffer : Integer := 1;
-   iUseStatic : Integer := 0;
+   iUseBuffer : Integer := 0;
+   iUseStatic : Integer := 1;
    iShowOriginal : Integer := 1;
    iDoGaussian : Integer := 0;
    iDoSplit : Integer := 0;
@@ -187,7 +187,7 @@ begin
          CoreWrap.img_buffer; --load image to img.at(0)
       elsif (iUseStatic =1) then
          --, or just read in single image NEW, READS IN IMAGE AND STORES IN INDEX "IMAGESOURCE" OF "img.at()"
-         CoreWrap.imstore(iImageSource,New_String("Square.jpg"));
+         CoreWrap.imstore(iImageSource,New_String("wheel.png"));
       elsif (iMakeMovie = 1) then
          --capture from video
          if (videoOpen=0) then
