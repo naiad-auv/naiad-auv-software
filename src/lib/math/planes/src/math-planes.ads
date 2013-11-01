@@ -39,10 +39,10 @@ package Math.Planes is
    --  <parameter name="this">Represents the plane which the distance will be read from.</parameter>
 
 
-   function fAngle_Between_In_Degrees (xLeftOperandPlane : in CPlane; pxRightOperandPlane : in pCPlane) return float;
-   function fAngle_Between_In_Degrees (pxLeftOperandPlane : in pCPlane; xRightOperandPlane : in CPlane) return float;
-   function fAngle_Between_In_Degrees (pxLeftOperandPlane : in pCPlane; pxRightOperandPlane : in pCPlane) return float;
-   function fAngle_Between_In_Degrees (xLeftOperandPlane : in CPlane; xRightOperandPlane : in CPlane) return float;
+   function fAngle_Between_In_Radians (xLeftOperandPlane : in CPlane; pxRightOperandPlane : in pCPlane) return float;
+   function fAngle_Between_In_Radians (pxLeftOperandPlane : in pCPlane; xRightOperandPlane : in CPlane) return float;
+   function fAngle_Between_In_Radians (pxLeftOperandPlane : in pCPlane; pxRightOperandPlane : in pCPlane) return float;
+   function fAngle_Between_In_Radians (xLeftOperandPlane : in CPlane; xRightOperandPlane : in CPlane) return float;
    --  <summary>Returns the closest angle in degrees between the two planes.</summary>
    --  <parameter name="pxLeftOperandPlane">Represents the left operand plane.</parameter>
    --  <parameter name="pxRightOperandPlane">Represents the right operand plane.</parameter>
