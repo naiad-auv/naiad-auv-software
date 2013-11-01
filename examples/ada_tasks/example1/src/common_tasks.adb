@@ -1,5 +1,3 @@
-pragma Profile(Ravenscar);
-
 with Ada.Text_IO;
 
 package body Common_Tasks is
