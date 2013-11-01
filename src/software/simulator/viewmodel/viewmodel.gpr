@@ -1,3 +1,4 @@
+with "../pid_errors/pid_errors.gpr";
 with "../simulator.gpr";
 with "../model/model.gpr";
 

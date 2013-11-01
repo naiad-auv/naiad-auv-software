@@ -52,10 +52,10 @@ package body simulator.Motion_Control_Wrapper.Test_Data.Tests is
 
    begin
       pxWrapDispatcher := simulator.Motion_Control_Wrapper.pxCreate_Wrap_Dispatcher;
-      pxWrapDispatcher.Update_Wanted_Position(pxWantedPosition => math.Vectors.pxCreate(1.0,2.1,0.7),pxWantedOrientation => math.Matrices.pxCreate_Rotation_Around_X_Axis(15.7)*math.Matrices.pxCreate_Rotation_Around_Y_Axis(13.7));
+      pxWrapDispatcher.Update_Wanted_Position(pxWantedPosition => math.Vectors.xCreate(1.0,2.1,0.7).pxGet_Allocated_Copy,pxWantedOrientation => math.Matrices.pxGet_Allocated_Copy(math.Matrices.xCreate_Rotation_Around_X_Axis(15.7)*math.Matrices.xCreate_Rotation_Around_Y_Axis(13.7)));
 
-      pxWrapDispatcher.Update_Values(pxNewCurrentAbsolutePosition => math.Vectors.pxCreate(1.0,2.1,0.7),
-                                     pxNewCurrentOrientation      => math.Matrices.pxCreate_Rotation_Around_X_Axis(13.6),
+      pxWrapDispatcher.Update_Values(pxNewCurrentAbsolutePosition => math.Vectors.xCreate(1.0,2.1,0.7).pxGet_Allocated_Copy,
+                                     pxNewCurrentOrientation      => math.Matrices.xCreate_Rotation_Around_X_Axis(13.6).pxGet_Allocated_Copy,
                                      tfMotorValuesSubmarine       => tMotors,
                                      fDeltaTime                   => 0.01);
 
@@ -77,7 +77,7 @@ package body simulator.Motion_Control_Wrapper.Test_Data.Tests is
       pxWrapDispatcher : simulator.Motion_Control_Wrapper.pCWrapDispatcher;
    begin
       pxWrapDispatcher := simulator.Motion_Control_Wrapper.pxCreate_Wrap_Dispatcher;
-      pxWrapDispatcher.Update_Wanted_Position(pxWantedPosition => math.Vectors.pxCreate(1.0,2.1,0.7),pxWantedOrientation => math.Matrices.pxCreate_Rotation_Around_X_Axis(15.7));
+      pxWrapDispatcher.Update_Wanted_Position(pxWantedPosition => math.Vectors.xCreate(1.0,2.1,0.7).pxGet_Allocated_Copy,pxWantedOrientation => math.Matrices.xCreate_Rotation_Around_X_Axis(15.7).pxGet_Allocated_Copy);
 
 --  begin read only
    end Test_Update_Wanted_Position;
