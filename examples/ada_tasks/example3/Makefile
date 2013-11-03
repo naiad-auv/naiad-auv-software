@@ -1,4 +1,7 @@
 .PHONY: clean
+.PHONY: all
+
+ubuntu: all
 
 ravenscar: clean
 	echo "pragma Profile(Ravenscar);" > project_pragmas
