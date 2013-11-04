@@ -18,24 +18,24 @@ package body Math.Quaternions is
       fAngleInRadians : float;
       fNorm : float;
       fScale : float;
-      pxNormalizedAxisVector : Math.Vectors.pCVector;
+      xNormalizedAxisVector : Math.Vectors.CVector;
       fX, fY, fZ, fW : float;
    begin
       if xAxisVector.fLength_Squared /= 1.0 then
-         pxNormalizedAxisVector := xAxisVector.xGet_Normalized.pxGet_Allocated_Copy;
+         xNormalizedAxisVector := xAxisVector.xGet_Normalized;
       else
-         pxNormalizedAxisVector := xAxisVector.pxGet_Allocated_Copy;
+         xNormalizedAxisVector := xAxisVector;
       end if;
 
       fAngleInRadians := fAngleInDegrees * (Ada.Numerics.Pi / 180.0);
       fNorm :=fAngleInRadians / 2.0;
       fScale := Ada.Numerics.Elementary_Functions.Sin(fNorm);
 
-      fX := fScale * pxNormalizedAxisVector.fGet_X;
-      fY := fScale * pxNormalizedAxisVector.fGet_Y;
-      fZ := fScale * pxNormalizedAxisVector.fGet_Z;
+      fX := fScale * xNormalizedAxisVector.fGet_X;
+      fY := fScale * xNormalizedAxisVector.fGet_Y;
+      fZ := fScale * xNormalizedAxisVector.fGet_Z;
       fW := Ada.Numerics.Elementary_Functions.Cos(fNorm);
-      Math.Vectors.Free(pxVectorToDeallocate => pxNormalizedAxisVector);
+      --Math.Vectors.Free(pxVectorToDeallocate => pxNormalizedAxisVector);
 
       return CQuaternion'(fX => fX,
                           fY => fY,
