@@ -3,6 +3,9 @@ with Ada.Text_IO;
 
 package body Common_Tasks is
 
+    -- Example from "Concurrent and Real-Time Programming
+    -- in Ada by Alan Burns and Andy Wellings
+    -- pp. 440 - 441, ISBN: 978-0-521-86697-2
     task body Cyclic is
         use Ada.Real_Time;
         i: Integer := 1;
