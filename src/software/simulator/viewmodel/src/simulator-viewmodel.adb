@@ -3,6 +3,10 @@ with ada.Unchecked_Deallocation;
 
 package body Simulator.ViewModel is
 
+   ----------
+   -- Free --
+   ----------
+
    procedure Free(pxViewModel : in out pCViewModel) is
       procedure Dealloc is new Ada.Unchecked_Deallocation(CViewModel, pCViewModel);
    begin
@@ -95,7 +99,62 @@ package body Simulator.ViewModel is
    function fGet_Pid_Errors(this : in CViewModel ; eErrorComponent : in EMotionComponent) return float is
    begin
       return this.pxPidErrors.fGet_PID_Error_For_Component(simulator.Pid_Errors.EMotionComponent(eErrorComponent));
-   end;
+   end fGet_Pid_Errors;
+
+   -------------------------------------------------
+   -- fGet_Selected_Pid_Scaling_Proprotional_Part --
+   -------------------------------------------------
+
+   function fGet_Selected_Pid_Scaling_Proprotional_Part(this : in CViewModel) return float is
+   begin
+      return this.txPidScalings(this.eSelectedPid).fProportionalScale;
+   end fGet_Selected_Pid_Scaling_Proprotional_Part;
+
+   ------------------------------------------------
+   -- fGet_Selected_Pid_Scaling_Integrating_Part --
+   ------------------------------------------------
+
+   function fGet_Selected_Pid_Scaling_Integrating_Part(this : in CViewModel) return float is
+   begin
+      return this.txPidScalings(this.eSelectedPid).fIntegralScale;
+   end fGet_Selected_Pid_Scaling_Integrating_Part;
+
+   ------------------------------------------------
+   -- fGet_Selected_Pid_Scaling_Derivative_Part --
+   ------------------------------------------------
+
+   function fGet_Selected_Pid_Scaling_Derivative_Part(this : in CViewModel) return float is
+   begin
+      return this.txPidScalings(this.eSelectedPid).fDerivativeScale;
+   end fGet_Selected_Pid_Scaling_Derivative_Part;
+
+
+   ----------------------
+   -- Set_Selected_Pid --
+   ----------------------
+
+   procedure Set_Selected_Pid(this : in out CviewModel; eSelectedPid : EMotionComponent) is
+   begin
+      this.eSelectedPid := eSelectedPid;
+   end Set_Selected_Pid;
+
+
+   -------------------------------
+   -- Set_Value_Of_Selected_Pid --
+   -------------------------------
+
+   procedure Set_Value_Of_Selected_Pid(this : in out CViewModel; fProporitonalPart : float; fIntegratingPart : float; fDerivativePart:float) is
+
+   begin
+      this.txPidScalings(this.eSelectedPid).fProportionalScale := fProporitonalPart;
+      this.txPidScalings(this.eSelectedPid).fIntegralScale := fIntegratingPart;
+      this.txPidScalings(this.eSelectedPid).fDerivativeScale := fDerivativePart;
+
+      this.pxModel.Set_Pid_Scaling(xComponentScaling => simulator.Model.TPIDComponentScalings(this.txPidScalings(this.eSelectedPid)),
+                                   eComponentToScale => simulator.Model.EMotionComponent(this.eSelectedPid));
+   end Set_Value_Of_Selected_Pid;
+
+
 
    -----------------------
    -- Update_View_Model --
@@ -111,6 +170,19 @@ package body Simulator.ViewModel is
 
       --this.pOwnerUpdateProcedure;
    end Update_View_Model;
+
+   procedure Restart(this : in CViewModel) is
+
+   begin
+      this.pxModel.Restart;
+      for i in this.txPidScalings'Range loop
+         this.pxModel.Set_Pid_Scaling(xComponentScaling => simulator.Model.TPIDComponentScalings(this.txPidScalings(i)),
+                                      eComponentToScale => simulator.Model.EMotionComponent(i));
+      end loop;
+
+
+   end Restart;
+
 
 
 end Simulator.ViewModel;

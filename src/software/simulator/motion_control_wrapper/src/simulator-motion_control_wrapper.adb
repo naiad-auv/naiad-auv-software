@@ -88,5 +88,24 @@ package body simulator.Motion_Control_Wrapper is
       return this.pxWantedOrientationMatrix;
    end pxget_wanted_orientation;
 
+   procedure Update_Pid_Scaling(this : in CWrapDispatcher ; xComponentScaling : TPIDComponentScalings; eComponentToScale : EMotionComponent) is
+
+   begin
+      this.pxDispatcher.Set_New_Component_PID_Scalings(eComponentToChange => navigation.Motion_Component.EMotionComponent(eComponentToScale),
+                                                       xNewPIDSCalings    => navigation.PID_Controller.TPIDComponentScalings(xComponentScaling));
+
+   end Update_Pid_Scaling;
+
+
+   procedure Restart(this : in out CWrapDispatcher) is
+   begin
+      Navigation.Dispatcher.Free(pxDispatcherToDeallocate => this.pxDispatcher);
+      this.pxDispatcher := Navigation.Dispatcher.pxCreate;
+      this.pxDispatcher.Update_Wanted_Absolute_Position(xNewWantedAbsolutePosition => this.pxWantedPositionVector.all);
+      this.pxDispatcher.Update_Wanted_Absolute_Orientation(xNewWantedAbsoluteOrientation => this.pxWantedOrientationMatrix.all);
+   end Restart;
+
+
+
 
 end simulator.Motion_Control_Wrapper;
