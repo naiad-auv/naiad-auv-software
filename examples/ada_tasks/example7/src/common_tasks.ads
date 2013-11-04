@@ -10,11 +10,7 @@ package Common_Tasks is
         pragma Priority(Pri);
     end Tcp_Sender_Type;
 
-    task type Tcp_Listener_Type(Pri : System.Priority;
-                        Cycle_Time : Positive;
-                        Task_ID : Positive;
-                        Increment_By : Positive) is
-        pragma Priority(Pri);
+    task type Tcp_Listener_Type(Task_ID : Positive) is
     end Tcp_Listener_Type;
     -- Example partly from "Concurrent and Real-Time Programming
     -- in Ada by Alan Burns and Andy Wellings
