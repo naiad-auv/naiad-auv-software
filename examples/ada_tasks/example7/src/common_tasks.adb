@@ -65,6 +65,17 @@ package body Common_Tasks is
         return Result;
     end Get_Message;
 
+    --------------------
+    -- Mangle_Message --
+    --------------------
+    -- TODO: Define how to mangle all messages.
+    -- Before transmitting a message the message must be scanned for CRLF/CRLF
+    -- combination and if it detects one...pad it somehow. The step must be to
+    -- add CRLF/CRLF to the end.
+    --
+    -- The receiving end must then parse the entire message until it detects
+    -- the CRLF/CRLF.
+
     -- Example from "Concurrent and Real-Time Programming
     -- in Ada by Alan Burns and Andy Wellings
     -- pp. 131 - 132, ISBN: 978-0-521-86697-2
@@ -238,7 +249,6 @@ package body Common_Tasks is
             if Selector_Status = GNAT.Sockets.Completed then
                 Message_Length := Read_Request(Client_Socket);
 
-                Ada.Text_IO.Put_Line ("DEBUG: Message Length from Read_Request" & Natural'Image(Message_Length));
                 declare
                     Message : String(1 .. Message_Length) := Get_Message(Message_Length);
                 begin
@@ -260,7 +270,7 @@ package body Common_Tasks is
         Ada.Text_IO.Put_Line("Task Tcp_Listener - End");
     end Tcp_Listener_Type;
 
-    Tcp_Sender : Tcp_Sender_Type(20, 2000000, 1, 3);
+    Tcp_Sender : Tcp_Sender_Type(20, 1000000, 1, 3);
     Tcp_Listener: Tcp_Listener_Type(1);
 
 end Common_Tasks;
