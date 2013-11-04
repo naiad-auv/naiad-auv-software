@@ -26,7 +26,9 @@ package body simulator.Motion_Control_Wrapper is
       pxWrapper.pxDispatcher.Set_New_Component_PID_Scalings(eComponentToChange => Navigation.Motion_Component.DriftY,
                                                             xNewPIDSCalings    => (1.0,1.0,1.0));
       pxWrapper.pxDispatcher.Set_New_Component_PID_Scalings(eComponentToChange => Navigation.Motion_Component.DriftZ,
-                                                  xNewPIDSCalings    => (1.0,1.0,1.0));
+                                                            xNewPIDSCalings    => (1.0,1.0,1.0));
+      pxWrapper.pxWantedPositionVector:=math.Vectors.xCreate(0.0,0.0,0.0).pxGet_Allocated_Copy;
+      pxWrapper.pxWantedOrientationMatrix:= math.Matrices.xCreate_Identity.pxGet_Allocated_Copy;
 
       return pxWrapper;
 
