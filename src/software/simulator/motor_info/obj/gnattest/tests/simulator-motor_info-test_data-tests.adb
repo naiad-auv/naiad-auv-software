@@ -20,26 +20,13 @@ package body Simulator.Motor_Info.Test_Data.Tests is
 
       pragma Unreferenced (Gnattest_T);
 
-      pxMotorInfo : simulator.Motor_Info.pCMotorInfo := simulator.Motor_Info.pxCreate(pxPositionVector => math.Vectors.pxCreate(0.1,3.5,0.9),
-                                                                                      pxForceVector    => math.Vectors.pxCreate(3.1,1.5,4.9));
-      pxPositionVector : math.Vectors.pCVector;
-      pxForceVector : math.Vectors.pCVector;
-      pxTorqueVector : math.Vectors.pCVector;
-      f : float;
+      pxMotorInfo : simulator.Motor_Info.pCMotorInfo := simulator.Motor_Info.pxCreate(pxPositionVector => math.Vectors.pxGet_Allocated_Copy(math.Vectors.xCreate(0.1,3.5,0.9)),
+                                                                                      pxForceVector    => math.Vectors.pxGet_Allocated_Copy(math.Vectors.xCreate(3.1,1.5,4.9)));
    begin
-      pxPositionVector := pxMotorInfo.pxPositionVector;
-      pxForceVector := pxMotorInfo.pxForceVector;
-      pxTorqueVector := pxMotorInfo.pxTorqueVector;
 
-      math.Vectors.Free(pxMotorInfo.pxPositionVector);
-      begin
-         f := pxPositionVector.fGet_X;
-         Aunit.Assertions.Assert(Condition => false,
-                                 Message   => "PositionVector not dealocated");
-      exception
-            when Constraint_Error =>
-            null;
-      end;
+      motor_info.Free(pxMotorInfo);
+      Aunit.Assertions.Assert(Condition => pxMotorInfo = null,
+                              Message   => "PositionVector not dealocated");
 
 
 
@@ -65,13 +52,13 @@ package body Simulator.Motor_Info.Test_Data.Tests is
       pxTorqueVector : Math.Vectors.pCVector;
    begin
 
-      pxForceVector := Math.Vectors.pxCreate(fX => 5.0,
+      pxForceVector := math.Vectors.pxGet_Allocated_Copy(Math.Vectors.xCreate(fX => 5.0,
                                              fY => 10.0,
-                                             fZ => -20.0);
-      pxPositionVector := Math.Vectors.pxCreate(fX => 15.0,
+                                             fZ => -20.0));
+      pxPositionVector := math.Vectors.pxGet_Allocated_Copy(Math.Vectors.xCreate(fX => 15.0,
                                                 fY => 0.0,
-                                                fZ => 162.0);
-      pxTorqueVector := math.Vectors.pxGet_Copy(Math.Vectors.xCross_Product(pxLeftOperandVector  => pxPositionVector,
+                                                fZ => 162.0));
+      pxTorqueVector := math.Vectors.pxGet_Allocated_Copy(Math.Vectors.xCross_Product(pxLeftOperandVector  => pxPositionVector,
                                                      pxRightOperandVector => pxForceVector));
 
       pxNewMotorInfo := Simulator.Motor_Info.pxCreate(pxPositionVector => pxPositionVector,
@@ -109,12 +96,13 @@ package body Simulator.Motor_Info.Test_Data.Tests is
       pxPositionVector : Math.Vectors.pCVector;
    begin
 
-      pxForceVector := Math.Vectors.pxCreate(fX => 5.0,
+      pxForceVector := math.Vectors.pxGet_Allocated_Copy(Math.Vectors.xCreate(fX => 5.0,
                                              fY => 10.0,
-                                             fZ => -20.0);
-      pxPositionVector := Math.Vectors.pxCreate(fX => 15.0,
+                                             fZ => -20.0));
+      pxPositionVector := math.Vectors.pxGet_Allocated_Copy(Math.Vectors.xCreate(fX => 15.0,
                                                 fY => 0.0,
-                                                fZ => 162.0);
+                                                fZ => 162.0));
+
 
       pxNewMotorInfo := Simulator.Motor_Info.pxCreate(pxPositionVector => pxPositionVector,
                                                       pxForceVector    => pxForceVector);
@@ -124,24 +112,27 @@ package body Simulator.Motor_Info.Test_Data.Tests is
                               Message   => "CMotorInfo.Equal Failed, non correct comparison1");
 
 
-      pxForceVector := Math.Vectors.pxCreate(fX => 5.0,
-                                             fY => 1.0,
-                                             fZ => -20.0);
-      pxPositionVector := Math.Vectors.pxCreate(fX => 15.0,
+      pxForceVector := math.Vectors.pxGet_Allocated_Copy(Math.Vectors.xCreate(fX => 5.0,
+                                             fY => 10.0,
+                                             fZ => -20.0));
+      pxPositionVector := math.Vectors.pxGet_Allocated_Copy(Math.Vectors.xCreate(fX => 15.0,
                                                 fY => 0.0,
-                                                fZ => 162.0);
+                                                fZ => 161.0));
+
+
       pxNewMotorInfoTwo := Simulator.Motor_Info.pxCreate(pxPositionVector => pxPositionVector,
                                                          pxForceVector    => pxForceVector);
 
       AUnit.Assertions.Assert(Simulator.Motor_Info."="( pxNewMotorInfo.all , pxNewMotorInfoTwo.all ) = false ,
                               Message   => "CMotorInfo.Equal Failed, non correct comparison2");
 
-      pxForceVector := Math.Vectors.pxCreate(fX => 5.0,
+      pxForceVector := math.Vectors.pxGet_Allocated_Copy(Math.Vectors.xCreate(fX => 5.0,
                                              fY => 10.0,
-                                             fZ => -20.0);
-      pxPositionVector := Math.Vectors.pxCreate(fX => 15.0,
-                                                fY => 1.0,
-                                                fZ => 162.0);
+                                             fZ => -20.0));
+      pxPositionVector := math.Vectors.pxGet_Allocated_Copy(Math.Vectors.xCreate(fX => 15.0,
+                                                fY => 0.0,
+                                                fZ => 162.0));
+
       AUnit.Assertions.Assert(Simulator.Motor_Info."="( pxNewMotorInfo.all , pxNewMotorInfoTwo.all ) = false ,
                               Message   => "CMotorInfo.Equal Failed, non correct comparison");
 --  begin read only
