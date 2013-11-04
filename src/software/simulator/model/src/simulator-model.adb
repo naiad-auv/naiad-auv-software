@@ -24,8 +24,8 @@ package body Simulator.Model is
    procedure Update_Model (this : in out CModel; fDeltaTime : float) is
       tfMotorValuesSubmarine : simulator.submarine.TMotorForce;
    begin
-      this.pxMotionControlWrapper.Update_Values(pxNewCurrentAbsolutePosition => this.pxSubmarine.pxGet_Position_Vector,
-                                                pxNewCurrentOrientation      => this.pxSubmarine.pxGet_Orientation_Matrix,
+      this.pxMotionControlWrapper.Update_Values(xNewCurrentAbsolutePosition => this.pxSubmarine.xGet_Position_Vector,
+                                                xNewCurrentOrientation      => this.pxSubmarine.xGet_Orientation_Matrix,
                                                 tfMotorValuesSubmarine       => tfMotorValuesSubmarine,
                                                 fDeltaTime                   => fDeltaTime);
 
@@ -39,31 +39,31 @@ package body Simulator.Model is
 
    function xGet_Current_Submarine_Positional_Vector(this : in CModel) return Math.Vectors.CVector is
    begin
-      return this.pxSubmarine.pxGet_Position_Vector.all;
+      return this.pxSubmarine.xGet_Position_Vector;
    end xGet_Current_Submarine_Positional_Vector;
 
    function xGet_Wanted_Submarine_Positional_Vector(this : in CModel) return Math.Vectors.CVector is
 
    begin
-      return this.pxMotionControlWrapper.pxGet_Wanted_Position.all;
+      return this.pxMotionControlWrapper.xGet_Wanted_Position;
    end xGet_Wanted_Submarine_Positional_Vector;
 
    function xGet_Wanted_Submarine_Orientation_Matrix(this : in CModel) return Math.Matrices.CMatrix is
    begin
-      return this.pxMotionControlWrapper.pxGet_Wanted_Orientation.all;
+      return this.pxMotionControlWrapper.xGet_Wanted_Orientation;
    end xGet_Wanted_Submarine_Orientation_Matrix;
 
 
    function xGet_Current_Submarine_Orientation_Matrix(this : in CModel) return math.Matrices.CMatrix is
 
    begin
-      return this.pxSubmarine.pxGet_Orientation_Matrix.all;
+      return this.pxSubmarine.xGet_Orientation_Matrix;
 
    end xGet_Current_Submarine_Orientation_Matrix;
 
    function xGet_Current_Submarine_Velocity_Vector(this : in CModel) return Math.Vectors.CVector is
    begin
-      return this.pxSubmarine.pxGet_Velocity_Vector.all;
+      return this.pxSubmarine.xGet_Velocity_Vector;
    end xGet_Current_Submarine_Velocity_Vector;
 
    procedure Set_Pid_Scaling(this : CModel ; xComponentScaling:TPIDComponentScalings;eComponentToScale : EMotionComponent) is
@@ -84,8 +84,8 @@ package body Simulator.Model is
 
    procedure Set_Wanted_Position_And_Orientation(this : in CModel; xWantedPosition : math.Vectors.CVector; xWantedOrientation : math.Matrices.CMatrix) is
    begin
-      this.pxMotionControlWrapper.Update_Wanted_Position(pxWantedPosition    => xWantedPosition.pxGet_Allocated_Copy,
-                                                         pxWantedOrientation => xWantedOrientation.pxGet_Allocated_Copy);
+      this.pxMotionControlWrapper.Update_Wanted_Position(xWantedPosition    => xWantedPosition,
+                                                         xWantedOrientation => xWantedOrientation);
    end Set_Wanted_Position_And_Orientation;
 
 

@@ -40,15 +40,15 @@ package body simulator.Motion_Control_Wrapper is
 
    procedure Update_Values
      (this : in out CWrapDispatcher;
-      pxNewCurrentAbsolutePosition : in math.Vectors.pCVector;
-      pxNewCurrentOrientation : in math.Matrices.pCMatrix;
+      xNewCurrentAbsolutePosition : in math.Vectors.CVector;
+      xNewCurrentOrientation : in math.Matrices.CMatrix;
       tfMotorValuesSubmarine : out simulator.submarine.TMotorForce ;
       fDeltaTime : in float) is
 
       tfMotorValuesTThrustesValuesArray : navigation.Thrusters.TThrusterValuesArray;
    begin
-      this.pxDispatcher.Update_Current_Absolute_Position(pxNewCurrentAbsolutePosition.all);
-      this.pxDispatcher.Update_Current_Absolute_Orientation(pxNewCurrentOrientation.all);
+      this.pxDispatcher.Update_Current_Absolute_Position(xNewCurrentAbsolutePosition);
+      this.pxDispatcher.Update_Current_Absolute_Orientation(xNewCurrentOrientation);
 
       tfMotorValuesTThrustesValuesArray := this.pxDispatcher.tfGet_Thruster_Values(fDeltaTime => fDeltaTime);
 
@@ -63,32 +63,32 @@ package body simulator.Motion_Control_Wrapper is
 
 
    ------------------------------
-   -- pxUpdate_Wanted_Position --
+   -- Update_Wanted_Position --
    ------------------------------
 
    procedure Update_Wanted_Position (this : in out CWrapDispatcher;
-                                      pxWantedPosition : in math.Vectors.pCVector ;
-                                     pxWantedOrientation : in math.Matrices.pCMatrix ) is
+                                     xWantedPosition : in math.Vectors.CVector ;
+                                     xWantedOrientation : in math.Matrices.CMatrix) is
 
    begin
-      this.pxWantedPositionVector := pxWantedPosition.pxGet_Allocated_Copy;
-      this.pxWantedOrientationMatrix := pxWantedOrientation.pxGet_Allocated_Copy;
+      this.pxWantedPositionVector.Copy_From(xWantedPosition);
+      this.pxWantedOrientationMatrix.Copy_From(xWantedOrientation);
 
-      this.pxDispatcher.Update_Wanted_Absolute_Position(pxWantedPosition.all);
-      this.pxDispatcher.Update_Wanted_Absolute_Orientation(pxWantedOrientation.all);
+      this.pxDispatcher.Update_Wanted_Absolute_Position(xWantedPosition);
+      this.pxDispatcher.Update_Wanted_Absolute_Orientation(xWantedOrientation);
    end Update_Wanted_Position;
 
-   function pxGet_Wanted_Position(this : in CWrapDispatcher) return math.Vectors.pCVector is
+   function xGet_Wanted_Position(this : in CWrapDispatcher) return math.Vectors.CVector is
 
    begin
-     return this.pxWantedPositionVector.pxGet_Allocated_Copy;
-   end pxGet_Wanted_Position;
+     return this.pxWantedPositionVector.all;
+   end xGet_Wanted_Position;
 
-   function pxGet_Wanted_Orientation(this : in CWrapDispatcher) return math.Matrices.pCMatrix is
+   function xGet_Wanted_Orientation(this : in CWrapDispatcher) return math.Matrices.CMatrix is
 
    begin
-      return this.pxWantedOrientationMatrix;
-   end pxget_wanted_orientation;
+      return this.pxWantedOrientationMatrix.all;
+   end xGet_Wanted_Orientation;
 
    procedure Update_Pid_Scaling(this : in CWrapDispatcher ; xComponentScaling : TPIDComponentScalings; eComponentToScale : EMotionComponent) is
 

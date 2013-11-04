@@ -18,27 +18,27 @@ package simulator.submarine is
    function pxCreate return pCSubmarine;
 
    procedure Free(pxSubmarine : in out pCSubmarine);
-   function pxGet_Position_Vector(this : in CSubmarine) return math.Vectors.pCVector;
-   function pxGet_Velocity_Vector(this : in CSubmarine) return math.Vectors.pCVector;
-   function pxGet_Orientation_Matrix(this : in CSubmarine) return math.Matrices.pCMatrix;
-   function pxGet_Angular_Velocity_Vector(this : in CSubmarine) return math.Vectors.pCVector;
-   function pxGet_Motor_Values(this : in CSubmarine) return TMotorForce;
+   function xGet_Position_Vector(this : in CSubmarine) return math.Vectors.CVector;
+   function xGet_Velocity_Vector(this : in CSubmarine) return math.Vectors.CVector;
+   function xGet_Orientation_Matrix(this : in CSubmarine) return math.Matrices.CMatrix;
+   function xGet_Angular_Velocity_Vector(this : in CSubmarine) return math.Vectors.CVector;
+   function xGet_Motor_Values(this : in CSubmarine) return TMotorForce;
 
-   procedure Set_Position_Vector(this : in out CSubmarine ; pxPositionVector : in math.Vectors.pCVector);
-   procedure Set_Orientation_Matrix(this : in out CSubmarine; pxOrientationMatrix : in Math.Matrices.pCMatrix);
-   procedure Set_Velocity_Vector(this : in out CSubmarine; pxVelocityVector : in Math.Vectors.pCVector);
-   procedure Set_Angular_Velocity_Vector(this : in out CSubmarine; pxAngularVelocityVector : in Math.Vectors.pCVector);
+   procedure Set_Position_Vector(this : in out CSubmarine ; xPositionVector : in math.Vectors.CVector);
+   procedure Set_Orientation_Matrix(this : in out CSubmarine; xOrientationMatrix : in Math.Matrices.CMatrix);
+   procedure Set_Velocity_Vector(this : in out CSubmarine; xVelocityVector : in Math.Vectors.CVector);
+   procedure Set_Angular_Velocity_Vector(this : in out CSubmarine; xAngularVelocityVector : in Math.Vectors.CVector);
 
    procedure Set_Motor_Info(this : in out CSubmarine; txMotorInfo : in TMotors);
    procedure Set_Motor_Force(this : in out CSubmarine; txMotorForce : in TmotorForce);
 
    procedure Set_Weight(this : in out CSubmarine; fWeight : in float);
    procedure Set_Buoyancy_Force(this : in out CSubmarine; fBuoyancyForce : in float);
-   procedure Set_Buoyancy_Force_Position_Vector(this : in out CSubmarine; pxBuoyancyForcePositionVector : in math.Vectors.pCVector);
-   procedure Set_Rotation_Friction_Vector(this : in out CSubmarine; pxRotationFrictionVector : in math.Vectors.pCVector);
-   procedure Set_Veclocity_Friction_Vector(this : in out CSubmarine; pxVelocityFrictionVector : in math.Vectors.pCVector);
+   procedure Set_Buoyancy_Force_Position_Vector(this : in out CSubmarine; xBuoyancyForcePositionVector : in math.Vectors.CVector);
+   procedure Set_Rotation_Friction_Vector(this : in out CSubmarine; xRotationFrictionVector : in math.Vectors.CVector);
+   procedure Set_Veclocity_Friction_Vector(this : in out CSubmarine; xVelocityFrictionVector : in math.Vectors.CVector);
 
-   procedure Set_Inertia_Matrix(this : in out CSubmarine; pxInertiaMatrix : in math.Matrices.pCMatrix);
+   procedure Set_Inertia_Matrix(this : in out CSubmarine; xInertiaMatrix : in math.Matrices.CMatrix);
 
    procedure Calculate_Acceleration(this : in out CSubmarine);
    procedure Calculate_Angular_Acceleration(this : in out CSubmarine);
