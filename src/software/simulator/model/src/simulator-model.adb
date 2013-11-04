@@ -4,7 +4,7 @@ package body Simulator.Model is
    -- pxCreate --
    --------------
 
-   function pxCreate(pOwnerUpdateProcedure : pTProcedure) return pcModel is
+   function pxCreate return pcModel is
       pxModel : Simulator.Model.pCModel;
 
    begin
@@ -12,7 +12,7 @@ package body Simulator.Model is
 
       pxModel.pxSubmarine := Simulator.submarine.pxCreate_Naiad;
       pxModel.pxMotionControlWrapper := Simulator.Motion_Control_Wrapper.pxCreate_Wrap_Dispatcher;
-      pxModel.pOwnerUpdateProcedure := pOwnerUpdateProcedure;
+      --pxModel.pOwnerUpdateProcedure := pOwnerUpdateProcedure;
 
       return pxModel;
    end pxCreate;
@@ -21,10 +21,16 @@ package body Simulator.Model is
    -- UpdateModel --
    -----------------
 
-   procedure Update_Model (this : in out CModel) is
+   procedure Update_Model (this : in out CModel; fDeltaTime : float) is
+      tfMotorValuesSubmarine : simulator.submarine.TMotorForce;
    begin
-      null;
-      --this.pOwnerUpdateProcedure;
+      this.pxMotionControlWrapper.Update_Values(pxNewCurrentAbsolutePosition => this.pxSubmarine.pxGet_Position_Vector,
+                                                pxNewCurrentOrientation      => this.pxSubmarine.pxGet_Orientation_Matrix,
+                                                tfMotorValuesSubmarine       => tfMotorValuesSubmarine,
+                                                fDeltaTime                   => fDeltaTime);
+
+      this.pxSubmarine.Time_Step_Motor_Force_To_Integrate(txMotorForce => tfMotorValuesSubmarine,
+                                                          fDeltaTime   => fDeltaTime);
    end Update_Model;
 
    -------------------------------------------
@@ -60,6 +66,24 @@ package body Simulator.Model is
    begin
       return this.pxSubmarine.pxGet_Velocity_Vector.all;
    end xGet_Current_Submarine_Velocity_Vector;
+
+   procedure Set_Pid_Scaling(this : CModel ; xComponentScaling:TPIDComponentScalings;eComponentToScale : EMotionComponent) is
+
+   begin
+      this.pxMotionControlWrapper.Update_Pid_Scaling(xComponentScaling => simulator.Motion_Control_Wrapper.TPIDComponentScalings(xComponentScaling),
+                                                     eComponentToScale => simulator.Motion_Control_Wrapper.EMotionComponent(eComponentToScale));
+   end Set_Pid_Scaling;
+
+   procedure Restart(this : in out CModel) is
+
+   begin
+      this.pxMotionControlWrapper.Restart;
+      simulator.submarine.Free(this.pxSubmarine);
+      this.pxSubmarine := simulator.submarine.pxCreate_Naiad;
+   end;
+
+
+
 
 
 
