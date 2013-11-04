@@ -7,6 +7,7 @@ with Math.Quaternions;
 with Math.Angles;
 with Navigation.Thrusters;
 with simulator.Pid_Errors;
+with Exception_Handling;
 --with Simulator.Update_Interface;
 
 
@@ -53,6 +54,8 @@ package Simulator.ViewModel is
    procedure Restart(this : in CViewModel);
 
    procedure Update_View_Model(this : in CViewModel; fDeltaTime : in float);
+   procedure Set_Wanted_Position_And_Orientation(this : in CViewModel; fPositionX : float ;  fPositionY : float ; fPositionZ : float ; fOrientationR : float ;fOrientationP : float ;fOrientationY : float);
+
 
 --     overriding
 --     procedure Update(this : in CViewModel);

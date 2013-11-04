@@ -12,12 +12,11 @@ package simulator.submarine is
 
    type TMotors is array (1..6) of Simulator.Motor_Info.pCMotorInfo;
    type TMotorForce is array (1..6) of Float;
-
    function pxCreate_Naiad return pCSubmarine;
 
    function pxCreate return pCSubmarine;
-
    procedure Free(pxSubmarine : in out pCSubmarine);
+
    function xGet_Position_Vector(this : in CSubmarine) return math.Vectors.CVector;
    function xGet_Velocity_Vector(this : in CSubmarine) return math.Vectors.CVector;
    function xGet_Orientation_Matrix(this : in CSubmarine) return math.Matrices.CMatrix;

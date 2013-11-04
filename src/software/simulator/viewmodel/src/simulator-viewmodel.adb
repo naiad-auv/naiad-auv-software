@@ -28,6 +28,10 @@ package body Simulator.ViewModel is
       pxNewViewModel.pxModel := Simulator.Model.pxCreate;
 
       return pxNewViewModel;
+   exception
+      when E : others =>
+         Exception_Handling.Unhandled_Exception(E);
+         return null;
    end pxCreate;
 
 
@@ -44,6 +48,10 @@ package body Simulator.ViewModel is
       pxNewViewModel.pxModel := pxModel;
 
       return pxNewViewModel;
+         exception
+      when E : others =>
+         Exception_Handling.Unhandled_Exception(E);
+         return null;
    end pxCreate;
 
    -----------------------------------
@@ -55,6 +63,10 @@ package body Simulator.ViewModel is
    begin
       xPositionVector := this.pxModel.xGet_Current_Submarine_Positional_Vector;
       return xPositionVector;
+   exception
+      when E : others =>
+         Exception_Handling.Unhandled_Exception(E);
+         return xPositionVector;
    end xGet_Submarine_Current_Position;
 
 
@@ -67,6 +79,10 @@ package body Simulator.ViewModel is
    begin
       xWantedPositionVector := this.pxModel.xGet_Wanted_Submarine_Positional_Vector;
       return xWantedPositionVector;
+   exception
+      when E : others =>
+         Exception_Handling.Unhandled_Exception(E);
+         return xWantedPositionVector;
    end xGet_Submarine_Wanted_Position;
 
 
@@ -79,6 +95,10 @@ package body Simulator.ViewModel is
    begin
       xCurrentOrientationMatrix := this.pxModel.xGet_Current_Submarine_Orientation_Matrix;
       return xCurrentOrientationMatrix;
+   exception
+      when E : others =>
+         Exception_Handling.Unhandled_Exception(E);
+         return xCurrentOrientationMatrix;
    end xGet_Submarine_Current_Orientation;
 
    -------------------------------------
@@ -89,6 +109,10 @@ package body Simulator.ViewModel is
    begin
       xCurrentWantedMatrix := this.pxModel.xGet_Wanted_Submarine_Orientation_Matrix;
       return xCurrentWantedMatrix;
+         exception
+      when E : others =>
+         Exception_Handling.Unhandled_Exception(E);
+         return xCurrentWantedMatrix;
    end xGet_Submarine_Wanted_Orientation;
 
    ---------------------
@@ -98,6 +122,11 @@ package body Simulator.ViewModel is
    function fGet_Pid_Errors(this : in CViewModel ; eErrorComponent : in EMotionComponent) return float is
    begin
       return this.pxPidErrors.fGet_PID_Error_For_Component(simulator.Pid_Errors.EMotionComponent(eErrorComponent));
+               exception
+      when E : others =>
+         Exception_Handling.Unhandled_Exception(E);
+         return this.pxPidErrors.fGet_PID_Error_For_Component(simulator.Pid_Errors.EMotionComponent(eErrorComponent));
+
    end fGet_Pid_Errors;
 
    -------------------------------------------------
@@ -107,6 +136,10 @@ package body Simulator.ViewModel is
    function fGet_Selected_Pid_Scaling_Proprotional_Part(this : in CViewModel) return float is
    begin
       return this.txPidScalings(this.eSelectedPid).fProportionalScale;
+               exception
+      when E : others =>
+         Exception_Handling.Unhandled_Exception(E);
+         return this.txPidScalings(this.eSelectedPid).fProportionalScale;
    end fGet_Selected_Pid_Scaling_Proprotional_Part;
 
    ------------------------------------------------
@@ -116,6 +149,10 @@ package body Simulator.ViewModel is
    function fGet_Selected_Pid_Scaling_Integrating_Part(this : in CViewModel) return float is
    begin
       return this.txPidScalings(this.eSelectedPid).fIntegralScale;
+      exception
+      when E : others =>
+         Exception_Handling.Unhandled_Exception(E);
+      return this.txPidScalings(this.eSelectedPid).fIntegralScale;
    end fGet_Selected_Pid_Scaling_Integrating_Part;
 
    ------------------------------------------------
@@ -124,6 +161,10 @@ package body Simulator.ViewModel is
 
    function fGet_Selected_Pid_Scaling_Derivative_Part(this : in CViewModel) return float is
    begin
+      return this.txPidScalings(this.eSelectedPid).fDerivativeScale;
+            exception
+      when E : others =>
+         Exception_Handling.Unhandled_Exception(E);
       return this.txPidScalings(this.eSelectedPid).fDerivativeScale;
    end fGet_Selected_Pid_Scaling_Derivative_Part;
 
@@ -135,6 +176,9 @@ package body Simulator.ViewModel is
    procedure Set_Selected_Pid(this : in out CviewModel; eSelectedPid : EMotionComponent) is
    begin
       this.eSelectedPid := eSelectedPid;
+            exception
+      when E : others =>
+         Exception_Handling.Unhandled_Exception(E);
    end Set_Selected_Pid;
 
 
@@ -151,6 +195,9 @@ package body Simulator.ViewModel is
 
       this.pxModel.Set_Pid_Scaling(xComponentScaling => simulator.Model.TPIDComponentScalings(this.txPidScalings(this.eSelectedPid)),
                                    eComponentToScale => simulator.Model.EMotionComponent(this.eSelectedPid));
+            exception
+      when E : others =>
+         Exception_Handling.Unhandled_Exception(E);
    end Set_Value_Of_Selected_Pid;
 
 
@@ -167,8 +214,9 @@ package body Simulator.ViewModel is
                                      xCurrentAbsoluteOrientation => this.pxModel.xGet_Current_Submarine_Orientation_Matrix,
                                      xWantedAbsoluteOrientation  => this.pxModel.xGet_Wanted_Submarine_Orientation_Matrix);
       this.pxModel.Update_Model(fDeltaTime => fDeltaTime);
-
-      --this.pOwnerUpdateProcedure;
+            exception
+      when E : others =>
+         Exception_Handling.Unhandled_Exception(E);
    end Update_View_Model;
 
    procedure Restart(this : in CViewModel) is
@@ -180,7 +228,9 @@ package body Simulator.ViewModel is
                                       eComponentToScale => simulator.Model.EMotionComponent(i));
       end loop;
 
-
+      exception
+      when E : others =>
+         Exception_Handling.Unhandled_Exception(E);
    end Restart;
 
 
@@ -194,6 +244,9 @@ package body Simulator.ViewModel is
    begin
       this.pxModel.Set_Wanted_Position_And_Orientation(xWantedPosition    => xWantedPosition,
                                                        xWantedOrientation => xWantedOrientation);
+            exception
+      when E : others =>
+         Exception_Handling.Unhandled_Exception(E);
    end Set_Wanted_Position_And_Orientation;
 
 
