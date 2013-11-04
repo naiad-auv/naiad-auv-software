@@ -3,7 +3,7 @@ with Ada.Text_IO;
 
 package body Common_Tasks is
 
-    -- Task Two
+    -- Task One
     task body Task_One is
         use Ada.Real_Time;
 
