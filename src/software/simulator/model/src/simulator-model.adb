@@ -4,7 +4,7 @@ package body Simulator.Model is
    -- pxCreate --
    --------------
 
-   function pxCreate(pOwnerUpdateProcedure : pTProcedure) return pcModel is
+   function pxCreate return pcModel is
       pxModel : Simulator.Model.pCModel;
 
    begin
@@ -12,7 +12,7 @@ package body Simulator.Model is
 
       pxModel.pxSubmarine := Simulator.submarine.pxCreate_Naiad;
       pxModel.pxMotionControlWrapper := Simulator.Motion_Control_Wrapper.pxCreate_Wrap_Dispatcher;
-      pxModel.pOwnerUpdateProcedure := pOwnerUpdateProcedure;
+      --pxModel.pOwnerUpdateProcedure := pOwnerUpdateProcedure;
 
       return pxModel;
    end pxCreate;

@@ -19,14 +19,14 @@ package body Simulator.ViewModel is
    -- pxCreate --
    --------------
 
-   function pxCreate (pOwnerUpdateProcedure : pTProcedure) return pCViewModel is
+   function pxCreate return pCViewModel is
       pxNewViewModel : Simulator.ViewModel.pCViewModel;
 
    begin
       pxNewViewModel := new Simulator.ViewModel.CViewModel;
       pxNewViewModel.pxPidErrors := Simulator.Pid_Errors.pxCreate;
   --    pxNewViewModel.pxModel := Simulator.Model.pxCreate(pOwnerUpdateProcedure => pxNewViewModel.Update_View_Model'Access);
-      pxNewViewModel.pOwnerUpdateProcedure := pOwnerUpdateProcedure;
+      --pxNewViewModel.pOwnerUpdateProcedure := pOwnerUpdateProcedure;
 
       return pxNewViewModel;
    end pxCreate;
@@ -36,7 +36,7 @@ package body Simulator.ViewModel is
    -- pxCreate --
    --------------
 
-    function pxCreate (pxModel : Simulator.Model.pCModel ; pOwnerUpdateProcedure : pTProcedure) return pcViewModel is
+    function pxCreate (pxModel : Simulator.Model.pCModel) return pcViewModel is
       pxNewViewModel : Simulator.ViewModel.pCViewModel;
 
    begin
@@ -160,13 +160,14 @@ package body Simulator.ViewModel is
    -- Update_View_Model --
    -----------------------
 
-   procedure Update_View_Model(this : in CViewModel) is
+   procedure Update_View_Model(this : in CViewModel; fDeltaTime : in float) is
    begin
       this.pxPidErrors.Update_Errors(xCurrentAbsolutePosition    => this.pxModel.xGet_Current_Submarine_Positional_Vector,
                                      xWantedAbsolutePosition     => this.pxModel.xGet_Wanted_Submarine_Positional_Vector,
                                      xVelocityVector             => this.pxModel.xGet_Current_Submarine_Velocity_Vector,
                                      xCurrentAbsoluteOrientation => this.pxModel.xGet_Current_Submarine_Orientation_Matrix,
                                      xWantedAbsoluteOrientation  => this.pxModel.xGet_Wanted_Submarine_Orientation_Matrix);
+      this.pxModel.Update_Model(fDeltaTime => fDeltaTime);
 
       --this.pOwnerUpdateProcedure;
    end Update_View_Model;
@@ -182,6 +183,7 @@ package body Simulator.ViewModel is
 
 
    end Restart;
+
 
 
 

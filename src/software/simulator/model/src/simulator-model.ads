@@ -4,17 +4,18 @@ with Math.Vectors;
 with math.Matrices;
 with math.Planes;
 with Simulator.Pid_Errors;
+--with Simulator.Update_Interface;
 
 package Simulator.Model is
 
    type pTProcedure is access procedure;
 
-   type CModel is tagged private;
+   type CModel is tagged private; --new Simulator.Update_Interface.CWithUpdate with private;
    type pCModel is access CModel;
 
    type TPIDComponentScalings is new simulator.Motion_Control_Wrapper.TPIDComponentScalings;
    type EMotionComponent is new simulator.Motion_Control_Wrapper.EMotionComponent;
-   function pxCreate(pOwnerUpdateProcedure : pTProcedure) return pcModel;
+   function pxCreate return pcModel;
 
    procedure Update_Model(this : in out CModel; fDeltaTime : float);
 
@@ -27,11 +28,14 @@ package Simulator.Model is
    procedure Set_Pid_Scaling(this : CModel ; xComponentScaling:TPIDComponentScalings;eComponentToScale : EMotionComponent);
    procedure Restart(this : in out CModel);
 
+--     overriding
+--     procedure Update(this : in CModel);
+
 private
    --procedure On_Update;
-   type CModel is tagged
+   type CModel is tagged --new Simulator.Update_Interface.CWithUpdate with
       record
-         pOwnerUpdateProcedure : pTProcedure;
+         --pxOwner : access Simulator.Update_Interface.CWithUpdate'Class;
          pxSubmarine : Simulator.submarine.pCSubmarine;
          pxMotionControlWrapper : Simulator.Motion_Control_Wrapper.pCWrapDispatcher;
       end record;

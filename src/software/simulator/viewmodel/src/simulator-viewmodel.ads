@@ -7,6 +7,7 @@ with Math.Quaternions;
 with Math.Angles;
 with Navigation.Thrusters;
 with simulator.Pid_Errors;
+--with Simulator.Update_Interface;
 
 
 
@@ -19,9 +20,9 @@ package Simulator.ViewModel is
 
 
 
-   type pTProcedure is new simulator.Model.pTProcedure;
+ --  type pTProcedure is new simulator.Model.pTProcedure;
 
-   type CViewModel is tagged private;
+   type CViewModel is tagged private; --new Simulator.Update_Interface.CWithUpdate with private;
    type pCViewModel is access CViewModel;
 
    type EMotionComponent is new Simulator.Pid_Errors.EMotionComponent;
@@ -30,8 +31,8 @@ package Simulator.ViewModel is
 
    type TVectorComponents is new Navigation.Thrusters.EThrusterEffectsComponents range Navigation.Thrusters.XRotation .. Navigation.Thrusters.ZRotation;
 
-   function pxCreate (pOwnerUpdateProcedure : pTProcedure) return pCViewModel;
-   function pxCreate (pxModel : Simulator.Model.pCModel ; pOwnerUpdateProcedure : pTProcedure) return pcViewModel;
+   function pxCreate return pCViewModel;
+   function pxCreate (pxModel : Simulator.Model.pCModel) return pcViewModel;
 
    procedure Free(pxViewModel : in out pCViewModel);
 
@@ -51,15 +52,17 @@ package Simulator.ViewModel is
    procedure Set_Value_Of_Selected_Pid(this : in out CViewModel; fProporitonalPart : float; fIntegratingPart : float; fDerivativePart:float);
    procedure Restart(this : in CViewModel);
 
+   procedure Update_View_Model(this : in CViewModel; fDeltaTime : in float);
 
-   procedure Update_View_Model(this : in CViewModel);
+--     overriding
+--     procedure Update(this : in CViewModel);
 
 private
-   type CViewModel is tagged
+   type CViewModel is tagged --new Simulator.Update_Interface.CWithUpdate with
       record
+         --pxOwner : access Simulator.Update_Interface.CWithUpdate'Class;
          txPidScalings : txPIDComponentScalingArray;
          eSelectedPid : EMotionComponent;
-         pOwnerUpdateProcedure : pTProcedure;
          pxPidErrors : simulator.Pid_Errors.pCPidErrors;
          pxModel : Simulator.Model.pCModel;
       end record;
