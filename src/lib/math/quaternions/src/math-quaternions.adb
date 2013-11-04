@@ -2,6 +2,7 @@ with Math.Vectors;
 with Ada.Numerics.Elementary_Functions;
 with Ada.Numerics;
 with Exception_Handling;
+with Ada.Text_IO;
 
 package body Math.Quaternions is
 
@@ -21,21 +22,26 @@ package body Math.Quaternions is
       xNormalizedAxisVector : Math.Vectors.CVector;
       fX, fY, fZ, fW : float;
    begin
+
+      Ada.Text_IO.Put_Line("Lol 1");
       if xAxisVector.fLength_Squared /= 1.0 then
          xNormalizedAxisVector := xAxisVector.xGet_Normalized;
       else
          xNormalizedAxisVector := xAxisVector;
       end if;
+      Ada.Text_IO.Put_Line("Lol 2");
 
       fAngleInRadians := fAngleInDegrees * (Ada.Numerics.Pi / 180.0);
       fNorm :=fAngleInRadians / 2.0;
       fScale := Ada.Numerics.Elementary_Functions.Sin(fNorm);
+      Ada.Text_IO.Put_Line("Lol 3");
 
       fX := fScale * xNormalizedAxisVector.fGet_X;
       fY := fScale * xNormalizedAxisVector.fGet_Y;
       fZ := fScale * xNormalizedAxisVector.fGet_Z;
       fW := Ada.Numerics.Elementary_Functions.Cos(fNorm);
       --Math.Vectors.Free(pxVectorToDeallocate => pxNormalizedAxisVector);
+      Ada.Text_IO.Put_Line("Lol 4");
 
       return CQuaternion'(fX => fX,
                           fY => fY,
