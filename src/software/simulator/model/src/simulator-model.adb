@@ -49,7 +49,6 @@ package body Simulator.Model is
    end xGet_Wanted_Submarine_Positional_Vector;
 
    function xGet_Wanted_Submarine_Orientation_Matrix(this : in CModel) return Math.Matrices.CMatrix is
-
    begin
       return this.pxMotionControlWrapper.pxGet_Wanted_Orientation.all;
    end xGet_Wanted_Submarine_Orientation_Matrix;
@@ -81,6 +80,13 @@ package body Simulator.Model is
       simulator.submarine.Free(this.pxSubmarine);
       this.pxSubmarine := simulator.submarine.pxCreate_Naiad;
    end;
+
+
+   procedure Set_Wanted_Position_And_Orientation(this : in CModel; xWantedPosition : math.Vectors.CVector; xWantedOrientation : math.Matrices.CMatrix) is
+   begin
+      this.pxMotionControlWrapper.Update_Wanted_Position(pxWantedPosition    => xWantedPosition.pxGet_Allocated_Copy,
+                                                         pxWantedOrientation => xWantedOrientation.pxGet_Allocated_Copy);
+   end Set_Wanted_Position_And_Orientation;
 
 
 

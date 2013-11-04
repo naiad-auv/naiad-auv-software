@@ -25,8 +25,7 @@ package body Simulator.ViewModel is
    begin
       pxNewViewModel := new Simulator.ViewModel.CViewModel;
       pxNewViewModel.pxPidErrors := Simulator.Pid_Errors.pxCreate;
-  --    pxNewViewModel.pxModel := Simulator.Model.pxCreate(pOwnerUpdateProcedure => pxNewViewModel.Update_View_Model'Access);
-      --pxNewViewModel.pOwnerUpdateProcedure := pOwnerUpdateProcedure;
+      pxNewViewModel.pxModel := Simulator.Model.pxCreate;
 
       return pxNewViewModel;
    end pxCreate;
@@ -183,6 +182,19 @@ package body Simulator.ViewModel is
 
 
    end Restart;
+
+
+   procedure Set_Wanted_Position_And_Orientation(this : in CViewModel; fPositionX : float ;  fPositionY : float ; fPositionZ : float ; fOrientationR : float ;fOrientationP : float ;fOrientationY : float) is
+      use math.Matrices;
+      xWantedPosition : math.Vectors.CVector := math.Vectors.xCreate(fX => fPositionX,
+                                                                      fY => fPositionY,
+                                                                      fZ => fPositionZ);
+      xWantedOrientation : math.Matrices.CMatrix := math.Matrices.xCreate_Rotation_Around_Z_Axis(math.Angles.TAngle(fOrientationY))*math.Matrices.xCreate_Rotation_Around_Y_Axis(math.Angles.TAngle(fOrientationP))*math.Matrices.xCreate_Rotation_Around_X_Axis(math.Angles.TAngle(fOrientationR));
+
+   begin
+      this.pxModel.Set_Wanted_Position_And_Orientation(xWantedPosition    => xWantedPosition,
+                                                       xWantedOrientation => xWantedOrientation);
+   end Set_Wanted_Position_And_Orientation;
 
 
 

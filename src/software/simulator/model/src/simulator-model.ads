@@ -25,6 +25,8 @@ package Simulator.Model is
    function xGet_Wanted_Submarine_Orientation_Matrix(this : in CModel) return Math.Matrices.CMatrix;
    function xGet_Current_Submarine_Velocity_Vector(this : in CModel) return Math.Vectors.CVector;
 
+   procedure Set_Wanted_Position_And_Orientation(this : in CModel; xWantedPosition : math.Vectors.CVector; xWantedOrientation : math.Matrices.CMatrix);
+
    procedure Set_Pid_Scaling(this : CModel ; xComponentScaling:TPIDComponentScalings;eComponentToScale : EMotionComponent);
    procedure Restart(this : in out CModel);
 
