@@ -13,6 +13,34 @@ package cpp_4_7_4_ext_alloc_traits_h is
       pragma Import (CPP, uu_alloc_traits);
 
       function allocate (uu_a : access cpp_4_7_4_bits_allocator_h.Class_allocator.allocator; uu_n : size_type) return pointer;  -- /usr/gnat/lib/gcc/x86_64-pc-linux-gnu/4.7.4/../../../../include/c++/4.7.4/ext/alloc_traits.h:195
+      pragma Import (CPP, allocate, "_ZN9__gnu_cxx14__alloc_traitsISaIdEE8allocateERS1_m");
+
+      procedure deallocate
+        (uu_a : access cpp_4_7_4_bits_allocator_h.Class_allocator.allocator;
+         uu_p : pointer;
+         uu_n : size_type);  -- /usr/gnat/lib/gcc/x86_64-pc-linux-gnu/4.7.4/../../../../include/c++/4.7.4/ext/alloc_traits.h:198
+      pragma Import (CPP, deallocate, "_ZN9__gnu_cxx14__alloc_traitsISaIdEE10deallocateERS1_Pdm");
+
+      procedure destroy (uu_a : access cpp_4_7_4_bits_allocator_h.Class_allocator.allocator; uu_p : pointer);  -- /usr/gnat/lib/gcc/x86_64-pc-linux-gnu/4.7.4/../../../../include/c++/4.7.4/ext/alloc_traits.h:205
+      pragma Import (CPP, destroy, "_ZN9__gnu_cxx14__alloc_traitsISaIdEE7destroyERS1_Pd");
+
+      function max_size (uu_a : access constant cpp_4_7_4_bits_allocator_h.Class_allocator.allocator) return size_type;  -- /usr/gnat/lib/gcc/x86_64-pc-linux-gnu/4.7.4/../../../../include/c++/4.7.4/ext/alloc_traits.h:208
+      pragma Import (CPP, max_size, "_ZN9__gnu_cxx14__alloc_traitsISaIdEE8max_sizeERKS1_");
+
+      --  skipped func _S_select_on_copy
+
+      --  skipped func _S_on_swap
+
+   end;
+   use uu_alloc_traits_Class_allocator.allocator;
+
+   package uu_alloc_traits_Class_allocator.allocator is
+      type uu_alloc_traits is limited record
+         null;
+      end record;
+      pragma Import (CPP, uu_alloc_traits);
+
+      function allocate (uu_a : access cpp_4_7_4_bits_allocator_h.Class_allocator.allocator; uu_n : size_type) return pointer;  -- /usr/gnat/lib/gcc/x86_64-pc-linux-gnu/4.7.4/../../../../include/c++/4.7.4/ext/alloc_traits.h:195
       pragma Import (CPP, allocate, "_ZN9__gnu_cxx14__alloc_traitsISaIN2cv3VecIiLi4EEEEE8allocateERS4_m");
 
       procedure deallocate

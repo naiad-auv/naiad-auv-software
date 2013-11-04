@@ -79,7 +79,7 @@ package opencv2_flann_miniflann_hpp is
          names : System.Address;
          types : access cpp_4_7_4_bits_stl_vector_h.Class_vector.vector;
          strValues : System.Address;
-         numValues : System.Address);  -- /usr/include/opencv2/flann/miniflann.hpp:75
+         numValues : access cpp_4_7_4_bits_stl_vector_h.Class_vector.vector);  -- /usr/include/opencv2/flann/miniflann.hpp:75
       pragma Import (CPP, getAll, "_ZNK2cv5flann11IndexParams6getAllERSt6vectorISsSaISsEERS2_IiSaIiEES5_RS2_IdSaIdEE");
    end;
    use Class_IndexParams;

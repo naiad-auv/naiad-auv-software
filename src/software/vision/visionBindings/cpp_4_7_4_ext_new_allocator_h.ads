@@ -12,6 +12,51 @@ limited with opencv2_imgproc_imgproc_hpp;
 
 package cpp_4_7_4_ext_new_allocator_h is
 
+   package new_allocator_double is
+      type new_allocator is limited record
+         null;
+      end record;
+      pragma Import (CPP, new_allocator);
+
+      function New_new_allocator return new_allocator;  -- /usr/gnat/lib/gcc/x86_64-pc-linux-gnu/4.7.4/../../../../include/c++/4.7.4/ext/new_allocator.h:69
+      pragma CPP_Constructor (New_new_allocator, "_ZN9__gnu_cxx13new_allocatorIdEC1Ev");
+
+      procedure Delete_new_allocator (this : access new_allocator);  -- /usr/gnat/lib/gcc/x86_64-pc-linux-gnu/4.7.4/../../../../include/c++/4.7.4/ext/new_allocator.h:76
+      pragma Import (CPP, Delete_new_allocator, "_ZN9__gnu_cxx13new_allocatorIdED1Ev");
+
+      function address (this : access constant new_allocator; uu_x : reference) return pointer;  -- /usr/gnat/lib/gcc/x86_64-pc-linux-gnu/4.7.4/../../../../include/c++/4.7.4/ext/new_allocator.h:79
+      pragma Import (CPP, address, "_ZNK9__gnu_cxx13new_allocatorIdE7addressERd");
+
+      function address (this : access constant new_allocator; uu_x : const_reference) return const_pointer;  -- /usr/gnat/lib/gcc/x86_64-pc-linux-gnu/4.7.4/../../../../include/c++/4.7.4/ext/new_allocator.h:83
+      pragma Import (CPP, address, "_ZNK9__gnu_cxx13new_allocatorIdE7addressERKd");
+
+      function allocate
+        (this : access new_allocator;
+         uu_n : size_type;
+         arg3 : System.Address) return pointer;  -- /usr/gnat/lib/gcc/x86_64-pc-linux-gnu/4.7.4/../../../../include/c++/4.7.4/ext/new_allocator.h:89
+      pragma Import (CPP, allocate, "_ZN9__gnu_cxx13new_allocatorIdE8allocateEmPKv");
+
+      procedure deallocate
+        (this : access new_allocator;
+         uu_p : pointer;
+         arg3 : size_type);  -- /usr/gnat/lib/gcc/x86_64-pc-linux-gnu/4.7.4/../../../../include/c++/4.7.4/ext/new_allocator.h:99
+      pragma Import (CPP, deallocate, "_ZN9__gnu_cxx13new_allocatorIdE10deallocateEPdm");
+
+      function max_size (this : access constant new_allocator) return size_type;  -- /usr/gnat/lib/gcc/x86_64-pc-linux-gnu/4.7.4/../../../../include/c++/4.7.4/ext/new_allocator.h:103
+      pragma Import (CPP, max_size, "_ZNK9__gnu_cxx13new_allocatorIdE8max_sizeEv");
+
+      procedure construct
+        (this : access new_allocator;
+         uu_p : pointer;
+         uu_val : access double);  -- /usr/gnat/lib/gcc/x86_64-pc-linux-gnu/4.7.4/../../../../include/c++/4.7.4/ext/new_allocator.h:119
+      pragma Import (CPP, construct, "_ZN9__gnu_cxx13new_allocatorIdE9constructEPdRKd");
+
+      procedure destroy (this : access new_allocator; uu_p : pointer);  -- /usr/gnat/lib/gcc/x86_64-pc-linux-gnu/4.7.4/../../../../include/c++/4.7.4/ext/new_allocator.h:123
+      pragma Import (CPP, destroy, "_ZN9__gnu_cxx13new_allocatorIdE7destroyEPd");
+
+   end;
+   use new_allocator_double;
+
    package new_allocator_Class_Vec.Vec is
       type new_allocator is limited record
          null;

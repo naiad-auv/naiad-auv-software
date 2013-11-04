@@ -168,7 +168,7 @@ package opencv2_objdetect_objdetect_hpp is
       cascade : access CvHaarClassifierCascade;
       storage : access opencv2_core_types_c_h.CvMemStorage;
       rejectLevels : access cpp_4_7_4_bits_stl_vector_h.Class_vector.vector;
-      levelWeightds : System.Address;
+      levelWeightds : access cpp_4_7_4_bits_stl_vector_h.Class_vector.vector;
       scale_factor : double;
       min_neighbors : int;
       flags : int;
@@ -195,21 +195,21 @@ package opencv2_objdetect_objdetect_hpp is
       groupThreshold : int;
       eps : double;
       weights : access cpp_4_7_4_bits_stl_vector_h.Class_vector.vector;
-      levelWeights : System.Address);  -- /usr/include/opencv2/objdetect/objdetect.hpp:291
+      levelWeights : access cpp_4_7_4_bits_stl_vector_h.Class_vector.vector);  -- /usr/include/opencv2/objdetect/objdetect.hpp:291
    pragma Import (CPP, groupRectangles, "_ZN2cv15groupRectanglesERSt6vectorINS_5Rect_IiEESaIS2_EEidPS0_IiSaIiEEPS0_IdSaIdEE");
 
    procedure groupRectangles
      (rectList : System.Address;
       rejectLevels : access cpp_4_7_4_bits_stl_vector_h.Class_vector.vector;
-      levelWeights : System.Address;
+      levelWeights : access cpp_4_7_4_bits_stl_vector_h.Class_vector.vector;
       groupThreshold : int;
       eps : double);  -- /usr/include/opencv2/objdetect/objdetect.hpp:292
    pragma Import (CPP, groupRectangles, "_ZN2cv15groupRectanglesERSt6vectorINS_5Rect_IiEESaIS2_EERS0_IiSaIiEERS0_IdSaIdEEid");
 
    procedure groupRectangles_meanshift
      (rectList : System.Address;
-      foundWeights : System.Address;
-      foundScales : System.Address;
+      foundWeights : access cpp_4_7_4_bits_stl_vector_h.Class_vector.vector;
+      foundScales : access cpp_4_7_4_bits_stl_vector_h.Class_vector.vector;
       detectThreshold : double;
       winDetSize : opencv2_core_core_hpp.Class_Size.Size);  -- /usr/include/opencv2/objdetect/objdetect.hpp:294
    pragma Import (CPP, groupRectangles_meanshift, "_ZN2cv25groupRectangles_meanshiftERSt6vectorINS_5Rect_IiEESaIS2_EERS0_IdSaIdEES8_dNS_5Size_IiEE");
@@ -333,7 +333,7 @@ package opencv2_objdetect_objdetect_hpp is
          image : access constant opencv2_core_core_hpp.Class_Mat.Mat;
          objects : System.Address;
          rejectLevels : access cpp_4_7_4_bits_stl_vector_h.Class_vector.vector;
-         levelWeights : System.Address;
+         levelWeights : access cpp_4_7_4_bits_stl_vector_h.Class_vector.vector;
          scaleFactor : double;
          minNeighbors : int;
          flags : int;
@@ -364,7 +364,7 @@ package opencv2_objdetect_objdetect_hpp is
          factor : double;
          candidates : System.Address;
          rejectLevels : access cpp_4_7_4_bits_stl_vector_h.Class_vector.vector;
-         levelWeights : System.Address;
+         levelWeights : access cpp_4_7_4_bits_stl_vector_h.Class_vector.vector;
          outputRejectLevels : Extensions.bool) return Extensions.bool;  -- /usr/include/opencv2/objdetect/objdetect.hpp:364
       pragma Import (CPP, detectSingleScale, "_ZN2cv17CascadeClassifier17detectSingleScaleERKNS_3MatEiNS_5Size_IiEEiidRSt6vectorINS_5Rect_IiEESaIS8_EERS6_IiSaIiEERS6_IdSaIdEEb");
 
@@ -474,7 +474,7 @@ package opencv2_objdetect_objdetect_hpp is
         (this : access constant HOGDescriptor;
          img : access constant opencv2_core_core_hpp.Class_Mat.Mat;
          foundLocations : access cpp_4_7_4_bits_stl_vector_h.Class_vector.vector;
-         weights : System.Address;
+         weights : access cpp_4_7_4_bits_stl_vector_h.Class_vector.vector;
          hitThreshold : double;
          winStride : opencv2_core_core_hpp.Class_Size.Size;
          padding : opencv2_core_core_hpp.Class_Size.Size;
@@ -495,7 +495,7 @@ package opencv2_objdetect_objdetect_hpp is
         (this : access constant HOGDescriptor;
          img : access constant opencv2_core_core_hpp.Class_Mat.Mat;
          foundLocations : System.Address;
-         foundWeights : System.Address;
+         foundWeights : access cpp_4_7_4_bits_stl_vector_h.Class_vector.vector;
          hitThreshold : double;
          winStride : opencv2_core_core_hpp.Class_Size.Size;
          padding : opencv2_core_core_hpp.Class_Size.Size;

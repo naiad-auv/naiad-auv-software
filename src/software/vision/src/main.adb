@@ -188,7 +188,7 @@ begin
          CoreWrap.img_buffer; --load image to img.at(0)
       elsif (iDoUseStatic =1) then
          --, or just read in single image NEW, READS IN IMAGE AND STORES IN INDEX "IMAGESOURCE" OF "img.at()"
-         CoreWrap.imstore(iImageSource,New_String("shapes2.jpg"));
+         CoreWrap.imstore(iImageSource,New_String("Square.jpg"));
       elsif (iDoMakeMovie = 1) then
          --capture from video
          if (videoOpen=0) then
@@ -376,11 +376,11 @@ begin
       end if;
 
       if(iDoMatchTemplete =1) then
-         CoreWrap.push_back_templeteStore(New_String("shapes.jpg"));
+         CoreWrap.push_back_templeteStore(New_String("wonkyTriangle.jpg"));
          CoreWrap.push_back_templeteStore(New_String("templete2.jpg"));
          CoreWrap.push_back_templeteStore(New_String("templete3.jpg"));
          CoreWrap.push_back_templeteStore(New_String("templete4.jpg"));
-         processingWrap.matchImage(iImageSource,5);
+         processingWrap.matchImage(iImageSource);
       end if;
 
    end loop Endless_Loop;

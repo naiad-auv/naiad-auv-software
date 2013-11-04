@@ -97,7 +97,7 @@ virtual void estPosition(void);
 
 virtual void invertImage(int src, int dst);
 
-virtual void matchImage(int src,int matchMethod);
+virtual void matchImage(int src);
 
 Processing_Wrap();
 };

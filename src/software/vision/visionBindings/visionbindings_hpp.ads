@@ -237,13 +237,10 @@ package visionBindings_hpp is
          dst : int);  -- visionBindings.cpp:793
       pragma Import (CPP, invertImage, "_ZN15Processing_Wrap11invertImageEii");
 
-      procedure matchImage
-        (this : access Processing_Wrap;
-         src : int;
-         matchMethod : int);  -- visionBindings.cpp:803
-      pragma Import (CPP, matchImage, "_ZN15Processing_Wrap10matchImageEii");
+      procedure matchImage (this : access Processing_Wrap; src : int);  -- visionBindings.cpp:803
+      pragma Import (CPP, matchImage, "_ZN15Processing_Wrap10matchImageEi");
 
-      function New_Processing_Wrap return Processing_Wrap;  -- visionBindings.cpp:854
+      function New_Processing_Wrap return Processing_Wrap;  -- visionBindings.cpp:890
       pragma CPP_Constructor (New_Processing_Wrap, "_ZN15Processing_WrapC1Ev");
 
 
@@ -255,19 +252,19 @@ package visionBindings_hpp is
       end record;
       pragma Import (CPP, Preprocessing_Wrap);
 
-      procedure VideoCaptureOpen (this : access Preprocessing_Wrap);  -- visionBindings.cpp:866
+      procedure VideoCaptureOpen (this : access Preprocessing_Wrap);  -- visionBindings.cpp:902
       pragma Import (CPP, VideoCaptureOpen, "_ZN18Preprocessing_Wrap16VideoCaptureOpenEv");
 
       procedure namedWindow
         (this : access Preprocessing_Wrap;
          name : Interfaces.C.Strings.chars_ptr;
-         num : int);  -- visionBindings.cpp:871
+         num : int);  -- visionBindings.cpp:907
       pragma Import (CPP, namedWindow, "_ZN18Preprocessing_Wrap11namedWindowEPci");
 
-      procedure nextFrame (this : access Preprocessing_Wrap; dst : int);  -- visionBindings.cpp:876
+      procedure nextFrame (this : access Preprocessing_Wrap; dst : int);  -- visionBindings.cpp:912
       pragma Import (CPP, nextFrame, "_ZN18Preprocessing_Wrap9nextFrameEi");
 
-      function New_Preprocessing_Wrap return Preprocessing_Wrap;  -- visionBindings.cpp:881
+      function New_Preprocessing_Wrap return Preprocessing_Wrap;  -- visionBindings.cpp:917
       pragma CPP_Constructor (New_Preprocessing_Wrap, "_ZN18Preprocessing_WrapC1Ev");
 
 
