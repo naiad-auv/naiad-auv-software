@@ -4,6 +4,7 @@ with math.Vectors;use Math.Vectors;
 with Math.Matrices;use Math.Matrices;
 with Simulator.Motor_Info; use Simulator.Motor_Info;
 with Ada.Unchecked_Deallocation;
+with Exception_Handling;
 
 package body simulator.submarine is
 
@@ -430,6 +431,10 @@ package body simulator.submarine is
       else
          raise UndefinedAccelerations;
       end if;
+   exception
+      when E : others =>
+         Exception_Handling.Reraise_Exception(E       => E,
+                                              Message => "Simulator.submarine.Integrate_Submarine_Variables (this : in out CSubmarine; fTimeDuration : in float)");
    end Integrate_Submarine_Variables;
 
    procedure Time_Step_Motor_Force_To_Integrate(this : in out CSubmarine ; txMotorForce : in TmotorForce; fDeltaTime : in float) is
