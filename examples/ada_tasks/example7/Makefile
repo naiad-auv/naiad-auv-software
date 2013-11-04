@@ -18,4 +18,4 @@ all: clean
 clean:
 	rm -rf obj/*.o
 	rm -rf obj/*.ali
-	rm -rf obj/main
+	rm -rf obj/add_five obj/subtract_three
