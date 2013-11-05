@@ -1,3 +1,3 @@
 all: force
-	gnatmake -g -gnata -gnatwu ./src/simulator `gtkada-config`
+	gnatmake -g -gnata -gnatwu ./src/main `gtkada-config`
 force:

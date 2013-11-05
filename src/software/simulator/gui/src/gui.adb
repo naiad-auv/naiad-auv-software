@@ -5,6 +5,9 @@ with Gtkada.Builder;
 with Exception_Handling;
 with Callbacks;
 
+with Ada.Text_IO;
+with Glib.Error;
+
 package body GUI is
 
    procedure Start_GUI is
@@ -17,8 +20,10 @@ package body GUI is
       Gtk.Main.Init;
 
       Gtk_New (xBuilder);
-      xError := Add_From_File (xBuilder, "NaiadGui.glade");
+      xError := Add_From_File (xBuilder, "NaiadGUI.glade");
       if xError /= null then
+         Ada.Text_IO.Put("Error while loading .glade: ");
+         Ada.Text_IO.Put(Glib.Error.Get_Message(xError));
          Error_Free (xError);
          return;
       end if;
