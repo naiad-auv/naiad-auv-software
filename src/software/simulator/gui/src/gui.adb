@@ -2,13 +2,12 @@ with Gtk.Main;
 with Glib.Error;
 with Gtk.Widget;
 with Gtkada.Builder;
-with Simulator_Callbacks;
-
-with Ada.Text_IO; use Ada.Text_IO;
+with Exception_Handling;
+with Callbacks;
 
 package body GUI is
 
-   procedure Start_GUI(pxDatabase : Database.pTDatabase) is
+   procedure Start_GUI is
       use Glib.Error;
       use Gtkada.Builder;
 
@@ -16,59 +15,64 @@ package body GUI is
       xError   : Glib.Error.GError;
    begin
       Gtk.Main.Init;
-      Simulator_Callbacks.Set_Database(pxDatabase);
 
       Gtk_New (xBuilder);
-      xError := Add_From_File (xBuilder, "NaiadSimulator.glade");
+      xError := Add_From_File (xBuilder, "NaiadGui.glade");
       if xError /= null then
-         Ada.Text_IO.Put_Line ("Error : " & Get_Message (xError));
          Error_Free (xError);
          return;
       end if;
 
       Register_Handler
         (Builder      => xBuilder,
-         Handler_Name => "Main_Quit",
-         Handler      => Simulator_Callbacks.Quit'Access);
+         Handler_Name => "mainQuit",
+         Handler      => Callbacks.Quit'Access);
 
       Register_Handler
         (Builder      => xBuilder,
-         Handler_Name => "File_Exit",
-         Handler      => Simulator_Callbacks.Quit'Access);
+         Handler_Name => "fileQuit",
+         Handler      => Callbacks.Quit'Access);
 
       Register_Handler
         (Builder      => xBuilder,
-         Handler_Name => "Init_Draw",
-         Handler      => Simulator_Callbacks.Start_Draw_Timeout'Access);
+         Handler_Name => "initDraw",
+         Handler      => Callbacks.Draw_Timeout'Access);
 
       Register_Handler
         (Builder      => xBuilder,
-         Handler_Name => "Init_Sensors",
-         Handler      => Simulator_Callbacks.Start_Sensor_Timeout'Access);
+         Handler_Name => "restartSimulation",
+         Handler      => Callbacks.Restart_Simulation'Access);
 
       Register_Handler
         (Builder      => xBuilder,
-         Handler_Name => "Init_Actuators",
-         Handler      => Simulator_Callbacks.Start_Actuator_Timeout'Access);
+         Handler_Name => "updateGoal",
+         Handler      => Callbacks.Update_Wanted_Position'Access);
 
       Register_Handler
         (Builder      => xBuilder,
-         Handler_Name => "Change_Goal",
-         Handler      => Simulator_Callbacks.Change_Goal'Access);
+         Handler_Name => "updatePidConstants",
+         Handler      => Callbacks.Update_Pid_Constants'Access);
 
       Register_Handler
         (Builder      => xBuilder,
-         Handler_Name => "Change_Pid",
-         Handler      => Simulator_Callbacks.Change_Pid'Access);
+         Handler_Name => "changedPid",
+         Handler      => Callbacks.Selected_Pid_Changed'Access);
+
+      Register_Handler
+        (Builder      => xBuilder,
+         Handler_Name => "initPid",
+         Handler      => Callbacks.Init_Pid'Access);
 
       Do_Connect (xBuilder);
 
-      Gtk.Widget.Show_All (Get_Widget (xBuilder, "main_window"));
+      Gtk.Widget.Show_All (Get_Widget (xBuilder, "mainWindow"));
       Gtk.Main.Main;
 
-      Put_Line("Exited cleanly");
-
       Unref (xBuilder);
+
+   exception
+      when E : others =>
+         Exception_Handling.Unhandled_Exception(E => E);
 
    end Start_GUI;
 

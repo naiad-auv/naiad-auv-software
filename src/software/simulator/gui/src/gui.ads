@@ -1,7 +1,6 @@
-with Database;
 
 package GUI is
 
-   procedure Start_GUI(pxDatabase : Database.pTDatabase);
+   procedure Start_GUI;
 
 end GUI;
