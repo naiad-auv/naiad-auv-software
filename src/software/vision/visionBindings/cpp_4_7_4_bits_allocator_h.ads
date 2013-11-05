@@ -5,7 +5,7 @@ with Interfaces.C; use Interfaces.C;
 
 package cpp_4_7_4_bits_allocator_h is
 
-   package uu_alloc_neq_unknown254288_0 is
+   package uu_alloc_neq_unknown53584_0 is
       type uu_alloc_neq is limited record
          null;
       end record;
@@ -14,7 +14,7 @@ package cpp_4_7_4_bits_allocator_h is
       --  skipped func _S_do_it
 
    end;
-   use uu_alloc_neq_unknown254288_0;
+   use uu_alloc_neq_unknown53584_0;
 
 
 

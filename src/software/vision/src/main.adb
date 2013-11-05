@@ -20,7 +20,7 @@ procedure main is
    iDoCanny : Integer := 0;
    iDoThresh : Integer := 1;
    iDoHoughCircles : Integer := 0;
-   iDoContours : Integer := 1;
+   iDoContours : Integer := 0;
    iDoApproxPoly : Integer := 0;
    iDoObjectTracking : Integer := 0;
    iDoFusion : Integer := 0;
@@ -187,7 +187,7 @@ begin
          CoreWrap.img_buffer; --load image to img.at(0)
       elsif (iUseStatic =1) then
          --, or just read in single image NEW, READS IN IMAGE AND STORES IN INDEX "IMAGESOURCE" OF "img.at()"
-         CoreWrap.imstore(iImageSource,New_String("wheel.png"));
+         CoreWrap.imstore(iImageSource,New_String("parachute.jpg"));
       elsif (iMakeMovie = 1) then
          --capture from video
          if (videoOpen=0) then
@@ -225,7 +225,7 @@ begin
 
       --test thresh
       if (iDoThresh = 1) then
-         ret := processingWrap.thresh(iHSILocation, 10, 60, 50, 255, 50, 255);
+         ret := processingWrap.thresh(iHSILocation, iThreshedImageLocation, 0, 0, 0, 0, 0, 255);
          CoreWrap.imshow(New_String("why so after mask?"),iThreshedImageLocation);
       end if;
 
@@ -267,7 +267,7 @@ begin
       --USE OBJECT TRACKING
       if(iDoObjectTracking = 1) then
          processingWrap.cvtColor(iImageSource, iHSILocation, iHSIFilter);
-         ret := processingWrap.thresh(iHSILocation, 10, 70, 50, 255, 50, 255);
+         ret := processingWrap.thresh(iHSILocation, iThreshedImageLocation, 10, 70, 50, 255, 50, 255);
 
          processingWrap.cvtColor(iThreshedImageLocation,iGreyScaleLocation, iGreyFilter);
          processingWrap.Canny(iGreyScaleLocation,iCannyLocation, iCannyLowThres, iCannyHighThres, iCannyKernelSize);
@@ -285,7 +285,7 @@ begin
       --USE VELOCITY MODE
       if(iDoVelocityMode =1) then
          processingWrap.cvtColor(iImageSource, iHSILocation, iHSIFilter);
-         ret := processingWrap.thresh(iHSILocation, 30, 60, 50, 255, 50, 255);
+         ret := processingWrap.thresh(iHSILocation, iThreshedImageLocation, 30, 60, 50, 255, 50, 255);
 
          processingWrap.cvtColor(iThreshedImageLocation,iGreyScaleLocation, iGreyFilter);
          processingWrap.Canny(iGreyScaleLocation,iCannyLocation, iCannyLowThres, iCannyHighThres, iCannyKernelSize);

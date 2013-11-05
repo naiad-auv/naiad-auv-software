@@ -73,7 +73,7 @@ virtual void showBlueChannel();
 
 virtual void showGreenChannel();
 
-virtual int thresh(int src, int blueLow, int blueUp, int greenLow, int greenUp, int redLow, int redUp);
+virtual int thresh(int src, int dst, int blueLow, int blueUp, int greenLow, int greenUp, int redLow, int redUp);
 
 virtual void showRedChannel();
 

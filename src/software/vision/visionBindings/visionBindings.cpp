@@ -547,9 +547,9 @@ void Processing_Wrap::goodFeatures(int src)
 
 ///////////////////////// THRESHOLD FUNCTION     ///////////////////////////////////////////////
 
-int Processing_Wrap::thresh(int src, int blueLow, int blueUp, int greenLow, int greenUp, int redLow, int redUp)
+int Processing_Wrap::thresh(int src, int dst, int blueLow, int blueUp, int greenLow, int greenUp, int redLow, int redUp)
 {
-    cv::Mat mask,threshOut = img.at(src).clone(), outPic, dstA, dstB;
+    cv::Mat mask,threshOut = img.at(src).clone(), outPic, dstA, dstB,dstC,dstD;
     int tolerance = 0.05;
     int i;
 
@@ -558,7 +558,13 @@ int Processing_Wrap::thresh(int src, int blueLow, int blueUp, int greenLow, int 
 	{
 		cv::inRange(img.at(src), cv::Scalar(0, 135, 135), cv::Scalar(20, 255, 255), dstA);
 		cv::inRange(img.at(src), cv::Scalar(159, 135, 135), cv::Scalar(179, 255, 255), dstB);
-		cv::bitwise_or(dstA, dstB, mask);
+		cv::bitwise_or(dstA, dstB, dstC);
+		cv::inRange(dstC,cv::Scalar(0,0,0),cv::Scalar(0,119,255),dstD); //Orange thresh
+		
+		mask = 255-dstD; //invert mask
+		
+		cv::imshow("mask",mask);
+		cv::waitKey(0);
 	}
 	else
 	{
@@ -569,7 +575,7 @@ int Processing_Wrap::thresh(int src, int blueLow, int blueUp, int greenLow, int 
 
 	threshOut.copyTo(outPic,mask);
 	
-	img.at(26)=outPic.clone();
+	img.at(dst)=outPic.clone();
 		
 	//cv::Size s = mask.size();
 	//std::cout<<s.height<<"\t"<<s.width<<"\n";
