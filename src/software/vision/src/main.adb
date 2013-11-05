@@ -1,15 +1,15 @@
 with visionBindings_hpp; use visionBindings_hpp;
 with interfaces.C.strings; use interfaces.C.strings;
 with interfaces.C; use interfaces.C;
-with Ada.Text_IO; use Ada.Text_IO;
-with Ada.Integer_Text_IO; use Ada.Integer_Text_IO;
-with Vision.Image_Processing;
+--with Ada.Text_IO; use Ada.Text_IO;
+--with Ada.Integer_Text_IO; use Ada.Integer_Text_IO;
+--with Vision.Image_Processing;
 
 procedure main is
 
    --user decisions
-   iDoUseBuffer : Integer := 0;
-   iDoUseStatic : Integer := 1;
+   iDoUseBuffer : Integer := 1;
+   iDoUseStatic : Integer := 0;
    iDoShowOriginal : Integer := 1;
    iDoGaussian : Integer := 0;
    iDoSplit : Integer := 0;
@@ -46,6 +46,11 @@ procedure main is
    iThreshedImageLocation : Interfaces.C.int;
    iFusionOut : Interfaces.C.int;
    iInvertImageLocation : Interfaces.C.int;
+   iTemplate1 : Interfaces.C.int;
+   iTemplate2 : Interfaces.C.int;
+   iTemplate3 : Interfaces.C.int;
+   iTemplate4 : Interfaces.C.int;
+   itemplateTempStorage : Interfaces.C.int;
 
    iGreyFilter : Interfaces.C.Int;
    iHSIFilter : Interfaces.C.Int;
@@ -105,6 +110,12 @@ procedure main is
    --video
    videoOpen : integer:=0;
 
+   --templates
+   iTemplateSize : integer := 4;
+   templateIndex : integer := 1;
+   loadTemplates : integer :=0;
+   iTemplate :interfaces.c.int := 30;
+
    CoreWrap : aliased Class_Core_Wrap.Core_Wrap;
    processingWrap : aliased Class_Processing_Wrap.Processing_Wrap;
    preprocessingWrap : aliased Class_Preprocessing_Wrap.Preprocessing_Wrap;
@@ -115,6 +126,7 @@ begin
    iImageDestination := 2;
    iEnhancedImageSource := 3;
    iEnhancedPreviousImage := 4;
+   itemplateTempStorage := 18;
    iInvertImageLocation := 19;
    iGreyScaleLocation :=20;
    iCannyLocation :=21;
@@ -124,6 +136,10 @@ begin
    iGaussianBlurLocation :=25;
    iThreshedImageLocation := 26;
    iFusionOut := 27;
+   iTemplate1 := 30;
+   iTemplate2 := 31;
+   iTemplate3 := 32;
+   iTemplate4 := 33;
 
    iGreyFilter := 6;
    iHSIFilter :=40;
@@ -179,6 +195,9 @@ begin
    iChiSquare :=2;
    iIntersection :=3;
    iBhattacharyyaDistance :=4;
+
+
+
 
    -----------------------------MAIN LOOP --------------------------------------------------------
    Endless_Loop:
@@ -296,13 +315,13 @@ begin
          processingWrap.cvtColor(iContourLocation,iGreyScaleLocation, iGreyFilter);
 
          processingWrap.approxPolyDP(1.2, 1);
-	 processingWrap.estPosition;
+         processingWrap.estPosition;
          processingWrap.goodFeatures(iGreyScaleLocation);
          processingWrap.objectTracking;
 
          if velCount>0 then
-         processingWrap.GaussianBlurSharpener(iImageSource,2,3);
-         processingWrap.GaussianBlurSharpener(1,3,3);
+            processingWrap.GaussianBlurSharpener(iImageSource,2,3);
+            processingWrap.GaussianBlurSharpener(1,3,3);
             estVel:=processingWrap.estimateVelocity;
          end if;
          velCount:=1;
@@ -341,13 +360,13 @@ begin
       --Fusion
       if (iDoFusion = 1) then
          processingWrap.fusion(iImageSource, iFusionOut);
---           CoreWrap.imshow(New_String("why so fused?"), iFusionOut);
---           CoreWrap.waitKey(0);
---
+         --           CoreWrap.imshow(New_String("why so fused?"), iFusionOut);
+         --           CoreWrap.waitKey(0);
+         --
          --debug / test
          processingWrap.cvtColor(iFusionOut,iGreyScaleLocation, iGreyFilter);
---           CoreWrap.imshow(New_String("fusedf gray"),iGreyScaleLocation);
---           CoreWrap.waitKey(0);
+         --           CoreWrap.imshow(New_String("fusedf gray"),iGreyScaleLocation);
+         --           CoreWrap.waitKey(0);
          processingWrap.Canny(iGreyScaleLocation, iImageDestination, iCannyLowThres, iCannyHighThres, iCannyKernelSize);
          CoreWrap.imshow(New_String("why so fused canny?"), iImageDestination);--show image for debug purposes
          CoreWrap.waitKey(0);
@@ -369,17 +388,51 @@ begin
 
       if(iDoCompareHistograms = 1) then
          compareHistResult:=processingWrap.compareHSVHistograms(iImageSource,iPreviousImageLocation,iChiSquare);
---        iCorrelation : 1;
---     iChiSquare : 2;
---     iIntersection : 3;
---     iBhattacharyyaDistance : 4;
+         --        iCorrelation : 1;
+         --     iChiSquare : 2;
+         --     iIntersection : 3;
+         --     iBhattacharyyaDistance : 4;
       end if;
 
       if(iDoMatchTemplete =1) then
-         CoreWrap.push_back_templeteStore(New_String("wonkyTriangle.jpg"));
-         CoreWrap.push_back_templeteStore(New_String("templete2.jpg"));
-         CoreWrap.push_back_templeteStore(New_String("templete3.jpg"));
-         CoreWrap.push_back_templeteStore(New_String("templete4.jpg"));
+         if (loadTemplates = 0) then
+            CoreWrap.imstore(iTemplate1,New_String("redTrident.jpg"));
+            CoreWrap.imstore(iTemplate2,New_String("redSword.jpg"));
+            CoreWrap.imstore(iTemplate3,New_String("redHoneycomb.jpg"));
+            CoreWrap.imstore(iTemplate4,New_String("redCircle.jpg"));
+            --cleanup templates
+            for iTemplateIndex in 1 .. iTemplateSize loop
+               coreWrap.imshow(New_String("template"),iTemplate);
+               coreWrap.waitKey(0);
+
+               processingWrap.cvtColor(iTemplate, itemplateTempStorage, iHSIFilter);
+               ret := processingWrap.thresh(itemplateTempStorage, 30, 60, 50, 255, 50, 255);
+               coreWrap.imshow(New_String("template threshed"),itemplateTempStorage);
+               coreWrap.waitKey(0);
+
+               processingWrap.cvtColor(itemplateTempStorage,itemplateTempStorage, iGreyFilter);
+               processingWrap.Canny(itemplateTempStorage,itemplateTempStorage, iCannyLowThres, iCannyHighThres, iCannyKernelSize);
+               processingWrap.Contours(itemplateTempStorage);
+               processingWrap.showContours(contourOut => itemplateTempStorage,contourId  => -1 ,thickness  => 3 );
+               coreWrap.imshow(New_String("template so far.."),itemplateTempStorage);
+               coreWrap.waitKey(0);
+               iTemplate:=iTemplate+1;
+            end loop;
+         end if;
+         loadTemplates:=1;
+
+         processingWrap.cvtColor(iImageSource, iHSILocation, iHSIFilter);
+         ret := processingWrap.thresh(iHSILocation, 30, 60, 50, 255, 50, 255);
+
+         processingWrap.cvtColor(iThreshedImageLocation,iGreyScaleLocation, iGreyFilter);
+         processingWrap.Canny(iGreyScaleLocation,iCannyLocation, iCannyLowThres, iCannyHighThres, iCannyKernelSize);
+         processingWrap.Contours(iCannyLocation);
+         processingWrap.showContours(contourOut => iContourLocation,contourId  => -1 ,thickness  => 3 );
+         coreWrap.imshow(New_String("so far.."),iContourLocation);
+         coreWrap.waitKey(0);
+
+
+
          processingWrap.matchImage(iImageSource);
       end if;
 

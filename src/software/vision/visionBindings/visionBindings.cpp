@@ -21,7 +21,7 @@ std::vector<cv::Mat> channels;
  
 std::queue <cv::Mat> imageBuf; // Declare a queue
 //int imageName=0;
-int imageName=0;
+int imageName=1;
  
 cv::vector<cv::Mat> BGR;
 cv::Mat blueHistVals;
@@ -36,7 +36,7 @@ std::vector<cv::Point> triangleCenters;
 std::vector<cv::Point2f> features_prev, features_next;
 std::vector<cv::Point2f> particle_features_prev, particle_features_nxt;
  
-std::vector<cv::Mat> templateStore; 
+std::vector<cv::Mat> templateStore;
  
 /*********************************************************************************************************************
 *               START CORE WRAP                                                                                        *
@@ -51,35 +51,37 @@ void Core_Wrap::img_buffer()
 {
     char strStorage[50]; // enough to hold all numbers up to 64-bits
     int bufSize=0;
-   
+  
     //std::string folderPath = "/home/vision/Documents/project/cdt508/Robosub2012_logging/Loggning/log 3/Bottom/";
     //std::string folderPath = "//home/bork/Data/cdt508/Robosub2012_logging/Loggning/log 3/Bottom/";
-    std::string folderPath = "/home/gerard/Documents/project/cdt508/Robosub2012_logging/Loggning/log 3/Bottom/";
+    //std::string folderPath = "/home/gerard/Documents/project/cdt508/Robosub2012_logging/Loggning/log 3/Bottom/";
+    //std::string folderPath = "/home/gerard/Downloads/pix/";
+	std::string folderPath = "/home/vision/Downloads/pix/";
  
     std::string result;
     std::string imageType = ".jpg";
-   
+  
     if (imageBuf.size()==0)//load image, then pop image and enter do loop
     {
-		sprintf(strStorage, "%d", imageName);//imageName global, set to 1, and increases as prog scrolls through images in folder
+        sprintf(strStorage, "%d", imageName);//imageName global, set to 1, and increases as prog scrolls through images in folder
         result = folderPath + strStorage + imageType;
         cv::Mat F=cv::imread(result,1);//<0 unchanged, 0 greyscale, >0 rgb
         imageBuf.push(F);
-       
+      
         //for tracking, need to store previous image somewhere
         imageName++;
         sprintf(strStorage, "%d", imageName);//imageName global, set to 1, and increases as prog scrolls through images in folder
         result = folderPath + strStorage + imageType;
         F=cv::imread(result,1);//<0 unchanged, 0 greyscale, >0 rgb
         imageBuf.push(F);
-       
+      
         img.at(0)=imageBuf.front();//get new current image for position 0
         imageBuf.pop();
      }
      img.at(1)=img.at(0).clone();//store previous image at position 1
      img.at(0)=imageBuf.front();//get new current image for position 0
      imageBuf.pop();
-     
+    
      //load buffer
      do
      {
@@ -90,16 +92,16 @@ void Core_Wrap::img_buffer()
         imageName=imageName+1;
         bufSize=imageBuf.size();
      }while (bufSize<IMAGE_BUFFER_SIZE);
-    
+   
      std::cout<<"image "<<imageName;
 }
- 
+
  
 ///////////////////////////////////// PRINT INTERFACES.C.INT ////////////////////////////////////////////
  
 void Core_Wrap::printNum(int num)
 {
-    std::cout<<"\n number entered is:\t"<<num; 
+    std::cout<<"\n number entered is:\t"<<num;
 }
  
  
@@ -206,9 +208,9 @@ void Processing_Wrap::HoughCircles(int src,int inverseRatioOfResolution,int minD
 void Processing_Wrap::DrawHoughCircles(int src)
 {
     int i;
-    
-    img.at(24)=img.at(src).clone();
    
+    img.at(24)=img.at(src).clone();
+  
     for( size_t i = 0; i < circles.size(); i++ )
     {
         cv::Point center(cvRound(circles[i][0]), cvRound(circles[i][1]));
@@ -225,7 +227,7 @@ void Processing_Wrap::FindCircleCenters(void)
     for(int i=0; i<circles.size();i++)
     {
         cv::Point center(cvRound(circles[i][0]), cvRound(circles[i][1]));
-        circleCenters.push_back(center); 
+        circleCenters.push_back(center);
     }
     std::cout<<"centers are \t\t"<<circleCenters;
 }
@@ -263,7 +265,7 @@ void Processing_Wrap::LabelPoints(int src)
 
 void Processing_Wrap::HoughLines(int src, int rho, float theta, int intersectionThreshold)
 {
-    cv::HoughLines( img.at(src), lines, rho, theta, intersectionThreshold, 0, 0 );   
+    cv::HoughLines( img.at(src), lines, rho, theta, intersectionThreshold, 0, 0 );  
 }
  
  
@@ -285,7 +287,7 @@ void Processing_Wrap::DrawHoughLines(int cdst)
         pt2.x = cvRound(x0 + 1000*(-b));
         pt2.y = cvRound(y0 + 1000*(a));
         line( img.at(cdst), pt1, pt2, cv::Scalar(0,0,255), 10, CV_AA);
-        cv::imshow("liney", img.at(cdst));   
+        cv::imshow("liney", img.at(cdst));  
     }
 }
 
@@ -295,7 +297,7 @@ void Processing_Wrap::DrawHoughLines(int cdst)
  
 void Processing_Wrap::Contours(int src)
 {
-    cv::findContours( img.at(src), contours, CV_RETR_LIST, CV_CHAIN_APPROX_NONE); 
+    cv::findContours( img.at(src), contours, CV_RETR_LIST, CV_CHAIN_APPROX_NONE);
 }
  
  
@@ -312,22 +314,22 @@ void Processing_Wrap::showContours(int contourOut, int contourId = -1, int thick
 
 void Processing_Wrap::HoughLinesP(int src)
 {
-	std::vector<cv::Vec4i> houLineStorage;
-	double rho =1;
-	double theta =	3.14/180;
-	int threshold = 10;
-	double minLineLength,maxLineGap;
-	
-	cv::HoughLinesP(img.at(src), houLineStorage, rho, theta, threshold, minLineLength=250,  maxLineGap=0 );
-	if (houLineStorage.size()>0)
-	{
-		std::cout<<"line detected\n"<<houLineStorage.size();
-		for(int i=0;i<houLineStorage.size();i++)
-		{
-			std::cout<<"line detected\n"<<houLineStorage[i][0]<<"\t"<<houLineStorage[i][1]<<"\t"<<houLineStorage[i][2]<<"\t"<<houLineStorage[i][3];
-		}
-		cv::waitKey(0);
-	}	
+    std::vector<cv::Vec4i> houLineStorage;
+    double rho =1;
+    double theta =    3.14/180;
+    int threshold = 10;
+    double minLineLength,maxLineGap;
+   
+    cv::HoughLinesP(img.at(src), houLineStorage, rho, theta, threshold, minLineLength=250,  maxLineGap=0 );
+    if (houLineStorage.size()>0)
+    {
+        std::cout<<"line detected\n"<<houLineStorage.size();
+        for(int i=0;i<houLineStorage.size();i++)
+        {
+            std::cout<<"line detected\n"<<houLineStorage[i][0]<<"\t"<<houLineStorage[i][1]<<"\t"<<houLineStorage[i][2]<<"\t"<<houLineStorage[i][3];
+        }
+        cv::waitKey(0);
+    }   
 }
 
 
@@ -377,10 +379,10 @@ void Processing_Wrap::approxPolyDP(double epsilon, bool closed)
     //reset features in a dumb way
     if (polys.size()==0)
     {
-		features_next.clear();
-	}
+        features_next.clear();
+    }
     //std::cout<<"triangle centers:\t"<<triangleCenters<<std::endl;
-    
+   
     std::cout<<"\n polys DETECTED:\t\t"<<polys.size()<<std::endl;
     std::cout<<"size of features \n"<<features_next.size();
 }
@@ -398,7 +400,7 @@ void Processing_Wrap::splitChannels(int src)
 //////////////////////////////////// BGR HISTOGRAM ////////////////////////////////////////////
  
 void Processing_Wrap::BGRHistogram(int numSourceArray, int histDimensionality, int histSize, float range[], bool uniform, bool accumulate)
-{ 
+{
     const float *histRange[]={range};
     const int channelToBeMeasured=0;
  
@@ -454,8 +456,8 @@ void Processing_Wrap::HSIHistogram(int src,int numSourceArray, int channels[], i
 ///////////////////////////////////// display HSI Histo/////////////////////////////////////////////
 // used to debug hsi histo, check if it works
  
-void Processing_Wrap::showHSIHistogram(int histSize[]) 
-{ 
+void Processing_Wrap::showHSIHistogram(int histSize[])
+{
     int hbins=histSize[0], sbins=histSize[1];
     double maxVal=0;
     int scale=10;
@@ -483,12 +485,12 @@ void Processing_Wrap::showHSIHistogram(int histSize[])
  ///////////////////////////////////// display HSI Histo/////////////////////////////////////////////
 // used to debug hsi histo, check if it works
  
-double Processing_Wrap::compareHSVHistograms(int src1,int src2,int compareMethod) 
+double Processing_Wrap::compareHSVHistograms(int src1,int src2,int compareMethod)
 {
-	double result=0;
-	int channels[] = { 0, 1 };
-	cv::Mat histOne,histTwo;
-	
+    double result=0;
+    int channels[] = { 0, 1 };
+    cv::Mat histOne,histTwo;
+   
   //Using 30 bins for hue and 32 for saturation
   int h_bins = 50; int s_bins = 60;
   int histSize[] = { h_bins, s_bins };
@@ -499,18 +501,18 @@ double Processing_Wrap::compareHSVHistograms(int src1,int src2,int compareMethod
 
   const float* ranges[] = { h_ranges, s_ranges };
 
-	
-	calcHist( &img.at(src1), 1, channels, cv::Mat(), histOne, 2, histSize, ranges, true, false );
-	normalize( histOne, histOne, 0, 1, cv::NORM_MINMAX, -1, cv::Mat() );
-  
-	calcHist( &img.at(src1), 1, channels, cv::Mat(), histTwo, 2, histSize, ranges, true, false );
-	normalize( histTwo, histTwo, 0, 1, cv::NORM_MINMAX, -1, cv::Mat() );
-	
-	result = compareHist( histOne, histTwo, compareMethod );
-	
-	std::cout<<"compare result is "<<result;
-	
-	return result; 
+   
+    calcHist( &img.at(src1), 1, channels, cv::Mat(), histOne, 2, histSize, ranges, true, false );
+    normalize( histOne, histOne, 0, 1, cv::NORM_MINMAX, -1, cv::Mat() );
+ 
+    calcHist( &img.at(src1), 1, channels, cv::Mat(), histTwo, 2, histSize, ranges, true, false );
+    normalize( histTwo, histTwo, 0, 1, cv::NORM_MINMAX, -1, cv::Mat() );
+   
+    result = compareHist( histOne, histTwo, compareMethod );
+   
+    std::cout<<"compare result is "<<result;
+   
+    return result;
 }
 
 
@@ -537,7 +539,7 @@ void Processing_Wrap::showRedChannel()
     std::cout<<channels[2];
 }
  
-     
+    
 ///////////////////////// goodFeatures     ///////////////////////////////////////////////
  
 void Processing_Wrap::goodFeatures(int src)
@@ -552,30 +554,30 @@ void Processing_Wrap::goodFeatures(int src)
 
 ///////////////////////// THRESHOLD FUNCTION     ///////////////////////////////////////////////
 
-int Processing_Wrap::thresh(int src, int blueLow, int blueUp, int greenLow, int greenUp, int redLow, int redUp)
+int Processing_Wrap::thresh(int src,int dst, int blueLow, int blueUp, int greenLow, int greenUp, int redLow, int redUp)
 {
     cv::Mat mask,threshOut = img.at(src).clone(), outPic, dstA, dstB;
     int tolerance = 0.05;
     int i;
 
-	//cv::inRange(img.at(src), cv::Scalar(blueLow-(tolerance*blueLow), greenLow-(tolerance*greenLow), redLow-(tolerance*redLow)), cv::Scalar(blueUp+(tolerance*blueUp), greenUp+(tolerance*greenUp), redUp+(tolerance*redUp)), mask);
-	
-	cv::inRange(img.at(src), cv::Scalar(0, 135, 135), cv::Scalar(20, 255, 255), dstA);
-	cv::inRange(img.at(src), cv::Scalar(159, 135, 135), cv::Scalar(179, 255, 255), dstB);
-	cv::bitwise_or(dstA, dstB, mask);
-	
-	//cv::imshow("mask",mask);
-	//cv::waitKey(0);
-	threshOut.copyTo(outPic,mask);
-	
-	img.at(26)=outPic.clone();
-		
-	//cv::Size s = mask.size();
-	//std::cout<<s.height<<"\t"<<s.width<<"\n";
-		
-	return 1;
+    //cv::inRange(img.at(src), cv::Scalar(blueLow-(tolerance*blueLow), greenLow-(tolerance*greenLow), redLow-(tolerance*redLow)), cv::Scalar(blueUp+(tolerance*blueUp), greenUp+(tolerance*greenUp), redUp+(tolerance*redUp)), mask);
+   
+    cv::inRange(img.at(src), cv::Scalar(0, 135, 135), cv::Scalar(20, 255, 255), dstA);
+    cv::inRange(img.at(src), cv::Scalar(159, 135, 135), cv::Scalar(179, 255, 255), dstB);
+    cv::bitwise_or(dstA, dstB, mask);
+   
+    //cv::imshow("mask",mask);
+    //cv::waitKey(0);
+    threshOut.copyTo(outPic,mask);
+   
+    img.at(dst)=outPic.clone();
+       
+    //cv::Size s = mask.size();
+    //std::cout<<s.height<<"\t"<<s.width<<"\n";
+       
+    return 1;
 }
-	  
+     
 
 ///////////////////////// OPTICAL FLOW     ///////////////////////////////////////////////
  
@@ -591,14 +593,14 @@ void Processing_Wrap::objectTracking(void)
         cv::cvtColor(img.at(1), imgB, 6);
         imgA.convertTo(imgA, CV_8UC1);
         imgB.convertTo(imgB, CV_8UC1);
-             
+            
         //std::cout<<"features prev"<<features_prev<<"\n features next"<<features_next;
         //cv::waitKey(0);
  
         cv::calcOpticalFlowPyrLK(imgB,imgA,features_prev,features_next,status,err);
         //std::cout<<"ha!finished and it seems to have worked    ?";
         //cv::waitKey(0);
-     
+    
         for (int i =0; i<features_prev.size(); i++)
         {
             int line_thickness=1;
@@ -606,25 +608,25 @@ void Processing_Wrap::objectTracking(void)
             cv::Point p,q;
             double angle;
             double hypotenuse;
-         
+        
             if(status[i]==0) continue;//feature not found
-         
+        
             line_color = CV_RGB(255,0,0);
-               
+              
             p.x =(int) features_prev[i].x;
             p.y =(int) features_prev[i].y;
             q.x =(int) features_next[i].x;
             q.y =(int) features_next[i].y;
-               
-       
+              
+      
             angle = atan2((double) p.y -q.y, (double) p.x - q.x);
             hypotenuse = sqrt(((p.y-q.y)*(p.y-q.y))+((p.x -q.x)*(p.x -q.x)));
-               
+              
             q.x=(int)(p.x-1 * hypotenuse * cos(angle));
             q.y=(int)(p.x-1 * hypotenuse * sin(angle));
-               
+              
             cv::line(img.at(26),p,q,line_color, line_thickness, CV_AA,0);
-               
+              
             p.x = (int)(q.x+9*cos(angle+3.14/4));
             p.y = (int)(q.y+9*sin(angle+3.14/4));
             cv::line(img.at(26),p,q,line_color,line_thickness,CV_AA,0);
@@ -665,15 +667,15 @@ void Processing_Wrap::roi(int src, int dst)
 
 void Processing_Wrap::GaussianBlurSharpener(int src,int destination,int accuracy)
 {
-	cv::Mat tempImStorage;
-	tempImStorage=img.at(src).clone();
-	
-	for(int t=0;t<accuracy;t++)
+    cv::Mat tempImStorage;
+    tempImStorage=img.at(src).clone();
+   
+    for(int t=0;t<accuracy;t++)
         {
-			cv::GaussianBlur(tempImStorage, img.at(destination), cv::Size(0, 0), 3);
-			cv::addWeighted(tempImStorage, 1.5, img.at(destination), -0.5, 0, img.at(destination));
-			tempImStorage=img.at(destination).clone();
-		}
+            cv::GaussianBlur(tempImStorage, img.at(destination), cv::Size(0, 0), 3);
+            cv::addWeighted(tempImStorage, 1.5, img.at(destination), -0.5, 0, img.at(destination));
+            tempImStorage=img.at(destination).clone();
+        }
 }
 
 ///////////////////////// ESTIMATE VELOCITY    //////////////////////////////////////////////////////////////
@@ -682,47 +684,47 @@ float Processing_Wrap::estimateVelocity(void)
 {
     float estVel=0.0;
     int numFeatures;
-	std::vector<unsigned char> status;
-	std::vector<float> err;
-	
-	int counter=0,distance=0;
+    std::vector<unsigned char> status;
+    std::vector<float> err;
+   
+    int counter=0,distance=0;
         float accumulatedDistance=0,averageDistance=0;
         std::vector<float> distanceStore;
-    
+   
     //check if big features detected
     if (features_next.size()>0)
     {
-		std::cout<<"object detector estimates velocity as: \t";
-		for (int i=0;i<features_next.size();i++)
-		{
-			distance=sqrt((features_next.at(0).x-features_prev.at(0).x)*(features_next.at(0).x-features_prev.at(0).x) + (features_next.at(0).y-features_prev.at(0).y)*(features_next.at(0).y-features_prev.at(0).y));
-			distanceStore.push_back(distance);
-			accumulatedDistance=accumulatedDistance+distance;
-		}
+        std::cout<<"object detector estimates velocity as: \t";
+        for (int i=0;i<features_next.size();i++)
+        {
+            distance=sqrt((features_next.at(0).x-features_prev.at(0).x)*(features_next.at(0).x-features_prev.at(0).x) + (features_next.at(0).y-features_prev.at(0).y)*(features_next.at(0).y-features_prev.at(0).y));
+            distanceStore.push_back(distance);
+            accumulatedDistance=accumulatedDistance+distance;
+        }
     }
     else
     {
-		std::cout<<"particle detector estimates velocity as: \t";
-				
-		particle_features_prev=particle_features_nxt;
-		cv::cvtColor(img.at(2),img.at(4),6);
-		cv::cvtColor(img.at(3),img.at(5),6);
-		              
+        std::cout<<"particle detector estimates velocity as: \t";
+               
+        particle_features_prev=particle_features_nxt;
+        cv::cvtColor(img.at(2),img.at(4),6);
+        cv::cvtColor(img.at(3),img.at(5),6);
+                     
         cv::goodFeaturesToTrack(img.at(4),particle_features_prev,numFeatures=20,0.1,0.1,cv::Mat());
         cv::calcOpticalFlowPyrLK(img.at(5),img.at(4),particle_features_prev,particle_features_nxt,status,err);
-              
+             
         for (int i =0; i<particle_features_prev.size(); i++)
         {
-			if(status[i]==0) continue;//feature not found
-			distance=sqrt((particle_features_nxt.at(0).x-particle_features_prev.at(0).x)*(particle_features_nxt.at(0).x-particle_features_prev.at(0).x) + (particle_features_nxt.at(0).y-particle_features_prev.at(0).y)*(particle_features_nxt.at(0).y-particle_features_prev.at(0).y));
-			distanceStore.push_back(distance);
-			accumulatedDistance=accumulatedDistance+distance;
+            if(status[i]==0) continue;//feature not found
+            distance=sqrt((particle_features_nxt.at(0).x-particle_features_prev.at(0).x)*(particle_features_nxt.at(0).x-particle_features_prev.at(0).x) + (particle_features_nxt.at(0).y-particle_features_prev.at(0).y)*(particle_features_nxt.at(0).y-particle_features_prev.at(0).y));
+            distanceStore.push_back(distance);
+            accumulatedDistance=accumulatedDistance+distance;
         }
     }
     averageDistance=accumulatedDistance/particle_features_prev.size();
     estVel=averageDistance/FRAME_RATE;
     std::cout<<estVel<<"pixels per second \n";
-    
+   
     return estVel;
 }
 
@@ -731,36 +733,36 @@ float Processing_Wrap::estimateVelocity(void)
 
 void Processing_Wrap::estPosition(void)
 {
-	int xCentre,xAccumulated,yAccumulated,xAverage,yAverage;
-	
-	xCentre=512;
-	
-	if (features_next.size()>0)
-	{
-		std::cout<<"object detected!!\n";
-		//calc average position of feature detected
-		for (int i=0;i<features_next.size();i++)
-		{
-			xAccumulated=xAccumulated+features_next.at(i).x;
-			yAccumulated=yAccumulated+features_next.at(i).y;
-		}
-		xAverage=xAccumulated/features_next.size();
-		yAverage=yAccumulated/features_next.size();
-		
-		//udate position of auv
-		if (xAverage<xCentre)
-		{
-			std::cout<<"Action: \t Go left\n\n";
-		}
-		if (xAverage>xCentre)
-		{
-			std::cout<<"Action: \t Go Right\n\n";
-		}
-	}
-	else
-	{
-		std::cout<<"no object detected\n Action: \t No action required\n\n";
-	}
+    int xCentre,xAccumulated,yAccumulated,xAverage,yAverage;
+   
+    xCentre=512;
+   
+    if (features_next.size()>0)
+    {
+        std::cout<<"object detected!!\n";
+        //calc average position of feature detected
+        for (int i=0;i<features_next.size();i++)
+        {
+            xAccumulated=xAccumulated+features_next.at(i).x;
+            yAccumulated=yAccumulated+features_next.at(i).y;
+        }
+        xAverage=xAccumulated/features_next.size();
+        yAverage=yAccumulated/features_next.size();
+       
+        //udate position of auv
+        if (xAverage<xCentre)
+        {
+            std::cout<<"Action: \t Go left\n\n";
+        }
+        if (xAverage>xCentre)
+        {
+            std::cout<<"Action: \t Go Right\n\n";
+        }
+    }
+    else
+    {
+        std::cout<<"no object detected\n Action: \t No action required\n\n";
+    }
 }
 
 
@@ -768,23 +770,23 @@ void Processing_Wrap::estPosition(void)
 
 void Processing_Wrap::fusion(int src, int dst)
 {
-	//DO STUFF
-	cv::Mat img1=img.at(src).clone(), img2, img3, img4, img5=img.at(src).clone();
-	cv::cvtColor(img5, img4, CV_BGR2HSV);
-	//cv::cvtColor(img1, img2, CV_BGR2GRAY);
-	double alpha = 1,beta = 2;
-	//cv::addWeighted(img2, alpha, img4, beta, (double)(000,000,000), img3);
-	img5.copyTo(img3,img4);
-	//img3.copyTo(img3,img4);
-	int i = 0;
-	for (i = 0; i < 100; i++)
-	{
-		//DO
-		img3.copyTo(img3,img4);
-	}
-	std::cout<<"\n loops :"<<i;
-	img.at(dst) = img3.clone();
-	
+    //DO STUFF
+    cv::Mat img1=img.at(src).clone(), img2, img3, img4, img5=img.at(src).clone();
+    cv::cvtColor(img5, img4, CV_BGR2HSV);
+    //cv::cvtColor(img1, img2, CV_BGR2GRAY);
+    double alpha = 1,beta = 2;
+    //cv::addWeighted(img2, alpha, img4, beta, (double)(000,000,000), img3);
+    img5.copyTo(img3,img4);
+    //img3.copyTo(img3,img4);
+    int i = 0;
+    for (i = 0; i < 100; i++)
+    {
+        //DO
+        img3.copyTo(img3,img4);
+    }
+    std::cout<<"\n loops :"<<i;
+    img.at(dst) = img3.clone();
+   
 }
 
 
@@ -792,7 +794,7 @@ void Processing_Wrap::fusion(int src, int dst)
 
 void Processing_Wrap::invertImage(int src, int dst)
 {
-	cv::Mat mrWhite(img.at(src).rows,img.at(src).cols,CV_8UC3,cv::Scalar(255,255,255));
+    cv::Mat mrWhite(img.at(src).rows,img.at(src).cols,CV_8UC3,cv::Scalar(255,255,255));
     cv::addWeighted(mrWhite, 1.0, img.at(src), -1.0, 0, img.at(dst));
     cv::cvtColor(img.at(dst),img.at(dst),6);
 }
@@ -800,84 +802,84 @@ void Processing_Wrap::invertImage(int src, int dst)
 
 ///////////////////////////////////// IMAGE MATCHING/////////////////////////////////////////////
 
-void Processing_Wrap::matchImage(int src) 
+void Processing_Wrap::matchImage(int src)
 {
-	int	templeteStoreSize=templateStore.size();
-	double results;
-	
-	cv::imshow("templete to match",templateStore.at(0));
-	//contour templete
-	cv::cvtColor(templateStore.at(0),templateStore.at(1),6);
-	cv::Canny(templateStore.at(1), templateStore.at(2), 50, 150, 3);
-	cv::imshow("cannied templete",templateStore.at(2));
-	cv::waitKey(0);
-	cv::findContours( templateStore.at(2), templeteContours, CV_RETR_EXTERNAL, CV_CHAIN_APPROX_NONE);
-	cv::drawContours(templateStore.at(0), templeteContours, -1, cv::Scalar(255,255,0), 1, CV_AA ); 
-	std::cout<<"size of templete contours\t"<<templeteContours.size()<<"\n";
-	cv::waitKey(0);
-	
-	////////////////draw square contour from templete////////////////////////
-	std::vector<cv::Point> squarePoints  = (std::vector<cv::Point>)templeteContours[0];
-	int numOfContoursInSquare=squarePoints.size();
-	const int *numOfPointsInTempleteContour = &numOfContoursInSquare;
-	cv::Point testArray1[1][squarePoints.size()];
-	
-	for (int a=0;a<squarePoints.size();a++)
-	{
-		testArray1[0][a]=squarePoints[a];
-	}
-	const cv::Point* tester1[1] = { testArray1[0] };
-	cv::fillPoly(templateStore.at(0), tester1, numOfPointsInTempleteContour, 1, cv::Scalar(0,255,0), 8, 0, cv::Point() );
-	cv::imshow("contour to search for",templateStore.at(0));
-	cv::waitKey(0);
-	
-	//contour image
-	cv::cvtColor(img.at(0),img.at(1),6);
-	cv::Canny(img.at(1), img.at(2), 50, 150, 3);
-	cv::imshow("cannied base image",img.at(2));
-	cv::findContours( img.at(2), contours, CV_RETR_EXTERNAL, CV_CHAIN_APPROX_NONE);
-	cv::drawContours(img.at(0), contours, -1, cv::Scalar(255,255,0), 1, CV_AA );
-	cv::imshow("drawn contours on base image",img.at(0));
-	std::cout<<"num of contours in base image \t"<<contours.size()<<"\n";
-	cv::waitKey(0);
-	
-	std::vector<double> resultsVector;
-	double bestMatch=10;
-	int bestMatchIndex;
-	for (int i=0;i<contours.size();i++)
-	{
-		results=cv::matchShapes(contours[i], templeteContours[0], CV_CONTOURS_MATCH_I1,0);
-		resultsVector.push_back(results);
-		if (results<bestMatch)
-		{
-			bestMatch=results;
-			bestMatchIndex=i;
-		}
-	}
-	for (int j=0;j<resultsVector.size();j++)
-	{
-		std::cout<<"results are: \t"<<resultsVector.at(j)<<"\n";
-	}
-	std::cout<<"best results are \t"<<bestMatch<<"at"<<bestMatchIndex<<"\n";
-	cv::waitKey(0);
-	
-	int numContoursFound=sizeof(contours[bestMatchIndex]);
-	std::vector<cv::Point> bestMatchContour1 = (std::vector<cv::Point>)contours[bestMatchIndex];
-	int testA= bestMatchContour1.size();
-	const int *testB = &testA;
-	
-	cv::Point testArray[1][bestMatchContour1.size()];
-	for (int k=0;k<bestMatchContour1.size();k++)
-	{
-		testArray[0][k]=bestMatchContour1[k];
-	}
-		
-	const cv::Point* tester[1] = { testArray[0] };
-	
-	cv::fillPoly(img.at(0), tester, testB, 1, cv::Scalar(0,255,0), 8, 0, cv::Point() );
+    int    templeteStoreSize=templateStore.size();
+    double results;
+   
+    cv::imshow("templete to match",templateStore.at(0));
+    //contour templete
+    cv::cvtColor(templateStore.at(0),templateStore.at(1),6);
+    cv::Canny(templateStore.at(1), templateStore.at(2), 50, 150, 3);
+    cv::imshow("cannied templete",templateStore.at(2));
+    cv::waitKey(0);
+    cv::findContours( templateStore.at(2), templeteContours, CV_RETR_EXTERNAL, CV_CHAIN_APPROX_NONE);
+    cv::drawContours(templateStore.at(0), templeteContours, -1, cv::Scalar(255,255,0), 1, CV_AA );
+    std::cout<<"size of templete contours\t"<<templeteContours.size()<<"\n";
+    cv::waitKey(0);
+   
+    ////////////////draw square contour from templete////////////////////////
+    std::vector<cv::Point> squarePoints  = (std::vector<cv::Point>)templeteContours[0];
+    int numOfContoursInSquare=squarePoints.size();
+    const int *numOfPointsInTempleteContour = &numOfContoursInSquare;
+    cv::Point testArray1[1][squarePoints.size()];
+   
+    for (int a=0;a<squarePoints.size();a++)
+    {
+        testArray1[0][a]=squarePoints[a];
+    }
+    const cv::Point* tester1[1] = { testArray1[0] };
+    cv::fillPoly(templateStore.at(0), tester1, numOfPointsInTempleteContour, 1, cv::Scalar(0,255,0), 8, 0, cv::Point() );
+    cv::imshow("contour to search for",templateStore.at(0));
+    cv::waitKey(0);
+   
+    //contour image
+    cv::cvtColor(img.at(0),img.at(1),6);
+    cv::Canny(img.at(1), img.at(2), 50, 150, 3);
+    cv::imshow("cannied base image",img.at(2));
+    cv::findContours( img.at(2), contours, CV_RETR_EXTERNAL, CV_CHAIN_APPROX_NONE);
+    cv::drawContours(img.at(0), contours, -1, cv::Scalar(255,255,0), 1, CV_AA );
+    cv::imshow("drawn contours on base image",img.at(0));
+    std::cout<<"num of contours in base image \t"<<contours.size()<<"\n";
+    cv::waitKey(0);
+   
+    std::vector<double> resultsVector;
+    double bestMatch=10;
+    int bestMatchIndex;
+    for (int i=0;i<contours.size();i++)
+    {
+        results=cv::matchShapes(contours[i], templeteContours[0], CV_CONTOURS_MATCH_I1,0);
+        resultsVector.push_back(results);
+        if (results<bestMatch)
+        {
+            bestMatch=results;
+            bestMatchIndex=i;
+        }
+    }
+    for (int j=0;j<resultsVector.size();j++)
+    {
+        std::cout<<"results are: \t"<<resultsVector.at(j)<<"\n";
+    }
+    std::cout<<"best results are \t"<<bestMatch<<"at"<<bestMatchIndex<<"\n";
+    cv::waitKey(0);
+   
+    int numContoursFound=sizeof(contours[bestMatchIndex]);
+    std::vector<cv::Point> bestMatchContour1 = (std::vector<cv::Point>)contours[bestMatchIndex];
+    int testA= bestMatchContour1.size();
+    const int *testB = &testA;
+   
+    cv::Point testArray[1][bestMatchContour1.size()];
+    for (int k=0;k<bestMatchContour1.size();k++)
+    {
+        testArray[0][k]=bestMatchContour1[k];
+    }
+       
+    const cv::Point* tester[1] = { testArray[0] };
+   
+    cv::fillPoly(img.at(0), tester, testB, 1, cv::Scalar(0,255,0), 8, 0, cv::Point() );
 
-	cv::imshow("TTTTIIIIIIIIIIIIIIIIIITTTTTTTTTTANNNNNNNNNNNNNNNNNNIIIIIIIIUUUUUUUUUMMMMMMMMMMMMMM",img.at(0));
-	cv::waitKey(0);
+    cv::imshow("TTTTIIIIIIIIIIIIIIIIIITTTTTTTTTTANNNNNNNNNNNNNNNNNNIIIIIIIIUUUUUUUUUMMMMMMMMMMMMMM",img.at(0));
+    cv::waitKey(0);
 }
 
 

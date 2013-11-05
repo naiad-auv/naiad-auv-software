@@ -4,8 +4,9 @@
 
 //defines
 #define IMAGE_BUFFER_SIZE 10
-#define IMAGE_STORE_SIZE 30
 #define FRAME_RATE 1.0 //images per second
+#define NUMBER_OF_TEMPLATES 4
+#define IMAGE_STORE_SIZE 40
 
 
 class Core_Wrap{
