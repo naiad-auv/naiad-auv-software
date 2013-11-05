@@ -36,7 +36,7 @@ package visionBindings_cpp is
    imageBuf : aliased cpp_4_7_4_bits_stl_queue_h.Class_queue.queue;  -- visionBindings.cpp:22
    pragma Import (C, imageBuf, "imageBuf");
 
-   imageName : aliased int;  -- visionBindings.cpp:24
+   imageName : aliased int;  -- visionBindings.cpp:23
    pragma Import (C, imageName, "imageName");
 
    BGR : aliased cpp_4_7_4_bits_stl_vector_h.Class_vector.vector;  -- visionBindings.cpp:26

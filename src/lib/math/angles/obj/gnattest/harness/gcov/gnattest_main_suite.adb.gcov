@@ -1,0 +1,23 @@
+        -:    0:Source:/home/evr/git/naiad-auv-software/src/lib/math/angles/obj/gnattest/harness/gnattest_main_suite.adb
+        -:    0:Programs:24
+        -:    1:--  This package has been generated automatically by GNATtest.
+        -:    2:--  Do not edit any part of it, see GNATtest documentation for more details.
+        -:    3:
+        -:    4:--  begin read only
+        -:    5:with Math.Angles.Test_Data.Tests.Suite;
+        -:    6:
+        4:    7:package body Gnattest_Main_Suite is
+        -:    8:
+        4:    9:   Result : aliased AUnit.Test_Suites.Test_Suite;
+        -:   10:
+        4:   11:   function Suite return AUnit.Test_Suites.Access_Test_Suite is
+        -:   12:   begin
+        -:   13:
+        4:   14:      Result.Add_Test (Math.Angles.Test_Data.Tests.Suite.Suite);
+        -:   15:
+        4:   16:      return Result'Access;
+        -:   17:
+        -:   18:   end Suite;
+        -:   19:
+        4:   20:end Gnattest_Main_Suite;
+        -:   21:--  end read only

@@ -1,0 +1,31 @@
+        -:    0:Source:/home/emibe/skola/robgit/naiad-auv-software/src/software/navigation/thrusters/src/navigation-thrusters.ads
+        -:    0:Programs:37
+        8:    1:package Navigation.Thrusters is
+    #####:    2:   type CThruster is tagged private;
+        -:    3:   type pCThruster is access CThruster;
+        -:    4:
+        -:    5:   type EThrusterEffectsComponents is (XPosition, YPosition, ZPosition, XRotation, YRotation, ZRotation);
+    #####:    6:   type TThrusterEffects is array (XPosition .. ZRotation) of float;
+    #####:    7:   type TThrusterEffectsMatrix is array (POSITIVE range <>) of TThrusterEffects;
+    #####:    8:   type TThrusterValuesArray is array (POSITIVE range <>) of float;
+        -:    9:
+        -:   10:   function pxCreate (tfThrusterEffects : in TThrusterEffects) return pCThruster;
+        -:   11:
+        -:   12:   function iGet_Count (this : in CThruster) return integer;
+        -:   13:   procedure Add_Thruster_With_Effects (this : in out CThruster; tfThrusterEffects : in TThrusterEffects);
+        -:   14:   function txGet_Thruster_Effects_Matrix (this : in CThruster) return TThrusterEffectsMatrix;
+        -:   15:
+        -:   16:   procedure Change_Thruster_Effects (this : in out CThruster; iThrusterIndex : integer; tfThrusterEffects : in TThrusterEffects);
+        -:   17:   function tfMake_Thruster_Effects (fXPosition, fYPosition, FZPosition, fXRotation, fYRotation, fZRotation : in float) return TThrusterEffects;
+        -:   18:   function "+" (tfLeftOperand : in TThrusterEffects; tfRightOperand : in TThrusterEffects) return TThrusterEffects;
+        -:   19:
+        -:   20:private
+        -:   21:   procedure Put_Thruster_Effects_Into_Matrix (this : in CThruster; txThrusterEffectsMatrix : in out TThrusterEffectsMatrix; iThrusterIndex : in integer);
+        -:   22:
+      148:   23:   type CThruster is tagged
+        -:   24:      record
+        -:   25:         pxNextThruster : pCThruster;
+        -:   26:         tfThrusterEffects : TThrusterEffects;
+        -:   27:      end record;
+        -:   28:
+        4:   29:end Navigation.Thrusters;

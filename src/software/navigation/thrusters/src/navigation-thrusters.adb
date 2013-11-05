@@ -1,15 +1,17 @@
+with Exception_Handling;
+
 package body Navigation.Thrusters is
 
    --------------
    -- pxCreate --
    --------------
 
-   function pxCreate return pCThruster is
+   function pxCreate (tfThrusterEffects : in TThrusterEffects) return pCThruster is
       pxNewThruster : pCThruster;
    begin
       pxNewThruster := new CThruster;
       pxNewThruster.pxNextThruster := null;
-      pxNewThruster.tfThrusterEffects := (others => 0.0);
+      pxNewThruster.tfThrusterEffects := tfThrusterEffects;
       return pxNewThruster;
    end pxCreate;
 
@@ -22,6 +24,7 @@ package body Navigation.Thrusters is
       if this.pxNextThruster /= null then
          return this.pxNextThruster.iGet_Count + 1;
       end if;
+
       return 1;
    end iGet_Count;
 
@@ -35,19 +38,18 @@ package body Navigation.Thrusters is
    is
    begin
       if this.pxNextThruster = null then
-         this.pxNextThruster := pxCreate;
-         this.pxNextThruster.tfThrusterEffects := tfThrusterEffects;
+         this.pxNextThruster := pxCreate(tfThrusterEffects);
       else
          this.pxNextThruster.Add_Thruster_With_Effects(tfThrusterEffects);
       end if;
    end Add_Thruster_With_Effects;
-
 
    procedure Change_Thruster_Effects
      (this : in out CThruster;
       iThrusterIndex : in integer;
       tfThrusterEffects : in TThrusterEffects)
    is
+
    begin
       if iThrusterIndex - 1 = 0 then
          this.tfThrusterEffects := tfThrusterEffects;
@@ -55,9 +57,12 @@ package body Navigation.Thrusters is
          if this.pxNextThruster /= null then
             this.pxNextThruster.Change_Thruster_Effects(iThrusterIndex - 1, tfThrusterEffects);
          else
-            raise Numeric_Error; -- index out of range
+            Exception_Handling.Raise_Exception(E       => Exception_Handling.IndexOutOfBounds'Identity,
+                                               Message => "Navigation.Thrusters.Change_Thruster_Effects");
          end if;
+
       end if;
+
    end;
 
    -----------------------------------
@@ -68,8 +73,9 @@ package body Navigation.Thrusters is
      (this : in CThruster)
       return TThrusterEffectsMatrix
    is
-      txThrusterEffectsMatrix : TThrusterEffectsMatrix(1 .. this.iGet_Count);
+      txThrusterEffectsMatrix : TThrusterEffectsMatrix;
    begin
+      txThrusterEffectsMatrix := (others => (others => 0.0));
       this.Put_Thruster_Effects_Into_Matrix(txThrusterEffectsMatrix, 1);
       return txThrusterEffectsMatrix;
    end txGet_Thruster_Effects_Matrix;
@@ -90,6 +96,7 @@ package body Navigation.Thrusters is
       tfNewThrusterEffects(XRotation) := fXRotation;
       tfNewThrusterEffects(YRotation) := fYRotation;
       tfNewThrusterEffects(ZRotation) := fZRotation;
+
       return tfNewThrusterEffects;
    end tfMake_Thruster_Effects;
 
@@ -107,9 +114,11 @@ package body Navigation.Thrusters is
       loop
          txThrusterEffectsMatrix(iThrusterIndex)(i) := this.tfThrusterEffects(i);
       end loop;
+
       if this.pxNextThruster /= null then
          this.pxNextThruster.Put_Thruster_Effects_Into_Matrix(txThrusterEffectsMatrix, iThrusterIndex + 1);
       end if;
+
    end Put_Thruster_Effects_Into_Matrix;
 
    function "+" (tfLeftOperand : in TThrusterEffects; tfRightOperand : in TThrusterEffects) return TThrusterEffects is
@@ -124,5 +133,20 @@ package body Navigation.Thrusters is
    end "+";
 
 
+   procedure Free(pxThrusterToDeallocate : in out pCThruster) is
+
+      procedure Dealloc is new Ada.Unchecked_Deallocation(CThruster, pCThruster);
+
+   begin
+      Dealloc(pxThrusterToDeallocate);
+   end Free;
+
+   procedure Finalize(this : in out CThruster) is
+   begin
+      if this.pxNextThruster /= null then
+         Free(this.pxNextThruster);
+      end if;
+
+   end Finalize;
 
 end Navigation.Thrusters;

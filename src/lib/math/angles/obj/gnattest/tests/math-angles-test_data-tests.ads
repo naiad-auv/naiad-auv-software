@@ -10,22 +10,22 @@ package Math.Angles.Test_Data.Tests is
    with null record;
 
    procedure Test_fGet_Angle_Degrees_In_Range_1c8f14 (Gnattest_T : in out Test);
-   --  math-angles.ads:8:4:fGet_Angle_Degrees_In_Range
+   --  math-angles.ads:10:4:fGet_Angle_Degrees_In_Range
 
    procedure Test_fGet_Angle_Radians_In_Range_73a42b (Gnattest_T : in out Test);
-   --  math-angles.ads:9:4:fGet_Angle_Radians_In_Range
+   --  math-angles.ads:17:4:fGet_Angle_Radians_In_Range
 
    procedure Test_fRadians_To_Degrees_020d52 (Gnattest_T : in out Test);
-   --  math-angles.ads:10:4:fRadians_To_Degrees
+   --  math-angles.ads:23:4:fRadians_To_Degrees
 
    procedure Test_fDegrees_To_Radians_82d864 (Gnattest_T : in out Test);
-   --  math-angles.ads:11:4:fDegrees_To_Radians
+   --  math-angles.ads:28:4:fDegrees_To_Radians
 
    procedure Test_fTAngle_To_FAngle_d09c7f (Gnattest_T : in out Test);
-   --  math-angles.ads:12:4:fTAngle_To_FAngle
+   --  math-angles.ads:33:4:fTAngle_To_FAngle
 
    procedure Test_tfFAngle_To_TAngle_52086e (Gnattest_T : in out Test);
-   --  math-angles.ads:13:4:tfFAngle_To_TAngle
+   --  math-angles.ads:38:4:tfFAngle_To_TAngle
 
 end Math.Angles.Test_Data.Tests;
 --  end read only

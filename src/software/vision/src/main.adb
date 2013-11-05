@@ -8,8 +8,8 @@ with interfaces.C; use interfaces.C;
 procedure main is
 
    --user decisions
-   iDoUseBuffer : Integer := 1;
-   iDoUseStatic : Integer := 0;
+   iDoUseBuffer : Integer := 0;
+   iDoUseStatic : Integer := 1;
    iDoShowOriginal : Integer := 1;
    iDoGaussian : Integer := 0;
    iDoSplit : Integer := 0;
@@ -245,7 +245,7 @@ begin
 
       --test thresh
       if (iDoThresh = 1) then
-         ret := processingWrap.thresh(iHSILocation, 114, 142, 135, 255, 135, 255);
+         ret := processingWrap.thresh(iHSILocation, iThreshedImageLocation, 0, 0, 0, 0, 0, 255);
          CoreWrap.imshow(New_String("why so after mask?"),iThreshedImageLocation);
       end if;
 
@@ -287,7 +287,7 @@ begin
       --USE OBJECT TRACKING
       if(iDoObjectTracking = 1) then
          processingWrap.cvtColor(iImageSource, iHSILocation, iHSIFilter);
-         ret := processingWrap.thresh(iHSILocation, 10, 70, 50, 255, 50, 255);
+         ret := processingWrap.thresh(iHSILocation, iThreshedImageLocation, 10, 70, 50, 255, 50, 255);
 
          processingWrap.cvtColor(iThreshedImageLocation,iGreyScaleLocation, iGreyFilter);
          processingWrap.Canny(iGreyScaleLocation,iCannyLocation, iCannyLowThres, iCannyHighThres, iCannyKernelSize);
@@ -305,7 +305,7 @@ begin
       --USE VELOCITY MODE
       if(iDoVelocityMode =1) then
          processingWrap.cvtColor(iImageSource, iHSILocation, iHSIFilter);
-         ret := processingWrap.thresh(iHSILocation, 30, 60, 50, 255, 50, 255);
+         ret := processingWrap.thresh(iHSILocation, iThreshedImageLocation, 30, 60, 50, 255, 50, 255);
 
          processingWrap.cvtColor(iThreshedImageLocation,iGreyScaleLocation, iGreyFilter);
          processingWrap.Canny(iGreyScaleLocation,iCannyLocation, iCannyLowThres, iCannyHighThres, iCannyKernelSize);
@@ -406,7 +406,7 @@ begin
                coreWrap.waitKey(0);
 
                processingWrap.cvtColor(iTemplate, itemplateTempStorage, iHSIFilter);
-               ret := processingWrap.thresh(itemplateTempStorage, 30, 60, 50, 255, 50, 255);
+               ret := processingWrap.thresh(itemplateTempStorage, itemplateTempStorage, 30, 60, 50, 255, 50, 255);
                coreWrap.imshow(New_String("template threshed"),itemplateTempStorage);
                coreWrap.waitKey(0);
 
@@ -422,7 +422,7 @@ begin
          loadTemplates:=1;
 
          processingWrap.cvtColor(iImageSource, iHSILocation, iHSIFilter);
-         ret := processingWrap.thresh(iHSILocation, 30, 60, 50, 255, 50, 255);
+         ret := processingWrap.thresh(iHSILocation,iHSILocation, 30, 60, 50, 255, 50, 255);
 
          processingWrap.cvtColor(iThreshedImageLocation,iGreyScaleLocation, iGreyFilter);
          processingWrap.Canny(iGreyScaleLocation,iCannyLocation, iCannyLowThres, iCannyHighThres, iCannyKernelSize);

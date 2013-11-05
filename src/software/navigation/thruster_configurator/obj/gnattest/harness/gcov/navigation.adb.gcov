@@ -1,0 +1,9 @@
+        -:    0:Source:/home/emibe/skola/robgit/naiad-auv-software/src/software/navigation/src/navigation.adb
+        -:    0:Programs:37
+        -:    1:package body Navigation is
+    #####:    2:   function DummyTest return boolean is
+        -:    3:   begin
+    #####:    4:      return true;
+        -:    5:   end DummyTest;
+        -:    6:
+        -:    7:end Navigation;

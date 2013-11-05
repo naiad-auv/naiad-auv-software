@@ -1,0 +1,135 @@
+        -:    0:Source:/home/emibe/skola/robgit/naiad-auv-software/src/lib/math/vectors/src/math-vectors.ads
+        -:    0:Programs:37
+        -:    1:-- Vector package for Project Naiad
+        -:    2:-- Written by Per-Erik Måhl, 2013
+        -:    3:with Math;
+        -:    4:with Ada.Numerics;
+        -:    5:with Ada.Exceptions;
+        -:    6:with System;
+        -:    7:with Ada.Finalization;
+        -:    8:
+        -:    9:-- Vectors package for classes, types and functionality regarding vectors. A vector object is stored in a pCVector variable and is created with the pxCreate function.
+       12:   10:package Math.Vectors is
+    #####:   11:   type CVector is new Ada.Finalization.Controlled with private;
+        -:   12:   --  <summary>Class for vector.</summary>
+        -:   13:
+       12:   14:   type pCVector is access CVector;
+        -:   15:   --  <summary>Pointer type for object of type CVector. Objects of type CVector should always be stored in variables of this type.</summary>
+        -:   16:
+        -:   17:   --type gpCVector is access all CVector;
+        -:   18:
+        -:   19:   function pxCreate (fX, fY, fZ : float) return pCVector;
+        -:   20:   --  <summary>Creates an object of type CVector. Returns a pointer of type pCVector to the object created.</summary>
+        -:   21:   --  <parameter name="fX">The value of the vector's X-component.</parameter>
+        -:   22:   --  <parameter name="fY">The value of the vector's Y-component.</parameter>
+        -:   23:   --  <parameter name="fZ">The value of the vector's Z-component.</parameter>
+        -:   24:
+        -:   25:   function pxGet_Copy (this : in CVector) return pCVector;
+        -:   26:   --  <summary>Creates an object of type CVector with the same component values as the object called on. Returns a pointer of type pCVector to the object created.</summary>
+        -:   27:   --  <parameter name="this">The CVector object to copy the component values from.</parameter>
+        -:   28:
+        -:   29:   function pxGet_Normalized (this : in CVector) return pCVector;
+        -:   30:   --  <summary>Creates an object of type CVector which is equal to the normalized vector of the object called on. Returns a pointer of type pCVector to the object created.</summary>
+        -:   31:   --  <parameter name="this">The CVector object to base the normalized vector on.</parameter>
+        -:   32:   --  <exception>Numeric_Error, if vector length = 0.0.</exception>
+        -:   33:
+        -:   34:   function fLength_Squared (this : in CVector) return float;
+        -:   35:   --  <summary>Returns the length of the vector squared.</summary>
+        -:   36:   --  <parameter name="this">The CVector object to calculate the length of.</parameter>
+        -:   37:
+        -:   38:   function fLength (this : in CVector) return float;
+        -:   39:   --  <summary>Returns the length of the vector.</summary>
+        -:   40:   --  <parameter name="this">The CVector object to calculate the length of.</parameter>
+        -:   41:
+        -:   42:   function "+" (pxLeftOperandVector, pxRightOperandVector : in pCVector) return pCVector;
+        -:   43:   --  <summary>Creates an object of type CVector with each component the sum of the two operand vectors' components. Returns a pointer of type pCVector to the object created.</summary>
+        -:   44:   --  <parameter name="pxLeftOperandVector">The CVector object representing the left operand.</parameter>
+        -:   45:   --  <parameter name="pxRightOperandVector">The CVector object representing the right operand.</parameter>
+        -:   46:
+        -:   47:   function "-" (pxLeftOperandVector, pxRightOperandVector : in pCVector) return pCVector;
+        -:   48:   --  <summary>Creates an object of type CVector with each component the difference of the two operand vectors' components. Returns a pointer of type pCVector to the object created.</summary>
+        -:   49:   --  <parameter name="pxLeftOperandVector">The CVector object representing the left operand.</parameter>
+        -:   50:   --  <parameter name="pxRightOperandVector">The CVector object representing the right operand.</parameter>
+        -:   51:
+        -:   52:   function "-" (pxOperandVector : in pCVector) return pCVector;
+        -:   53:   --  <summary>Creates an object of type CVector which has all the operand vector's components negated. Returns a pointer of type pCVector to the object created.</summary>
+        -:   54:   --  <parameter name="pxOperandVector">The CVector object to negate.</parameter>
+        -:   55:
+        -:   56:   function "*" (pxLeftOperandVector, pxRightOperandVector : in pCVector) return pCVector;
+        -:   57:   --  <summary>Creates an object of type CVector with each component the product of the two operand vectors' components. Returns a pointer of type pCVector to the object created.</summary>
+        -:   58:   --  <parameter name="pxLeftOperandVector">The CVector object representing the left operand.</parameter>
+        -:   59:   --  <parameter name="pxRightOperandVector">The CVector object representing the right operand.</parameter>
+        -:   60:
+        -:   61:   function "*" (pxLeftOperandVector : in pCVector; fRightOperand : in float) return pCVector;
+        -:   62:   --  <summary>Creates an object of type CVector with each component scaled with the right operand. Returns a pointer of type pCVector to the object created.</summary>
+        -:   63:   --  <parameter name="pxLeftOperandVector">The CVector object representing the left operand.</parameter>
+        -:   64:   --  <parameter name="fRightOperand">A floating point number saying how much the vector should be scaled.</parameter>
+        -:   65:
+        -:   66:   function "*" (fLeftOperand : in float; pxRightOperandVector : in pCVector) return pCVector;
+        -:   67:   --  <summary>Creates an object of type CVector with each component scaled with the left operand. Returns a pointer of type pCVector to the object created.</summary>
+        -:   68:   --  <parameter name="fLeftOperand">A floating point number saying how much the vector should be scaled.</parameter>
+        -:   69:   --  <parameter name="pxRightOperandVector">The CVector object representing the right operand.</parameter>
+        -:   70:
+        -:   71:   function "/" (pxLeftOperandVector : in pCVector; fRightOperand : in float) return pCVector;
+        -:   72:   --  <summary>Creates an object of type CVector with each component divided by the right operand. Returns a pointer of type pCVector to the object created.</summary>
+        -:   73:   --  <parameter name="pxLeftOperandVector">The CVector object representing left operand.</parameter>
+        -:   74:   --  <parameter name="fRightOperand">A floating point number representing the denominator.</parameter>
+        -:   75:   --  <exception>Numeric_Error, if fRightOperand = 0.0.</exception>
+        -:   76:
+        -:   77:   function "=" (pxLeftOperandVector : in pCVector; pxRightOperandVector : in pCVector) return boolean;
+        -:   78:   --  <summary>Returns true if the vectors are equal, false otherwise.</summary>
+        -:   79:   --  <parameter name="pxLeftOperandVector">The CVector object representing left operand.</parameter>
+        -:   80:   --  <parameter name="pxRightOperandVector">The CVector object representing right operand.</parameter>
+        -:   81:
+        -:   82:
+        -:   83:   function fDot_Product (pxLeftOperandVector : in pCVector; pxRightOperandVector : in pCVector) return float;
+        -:   84:   --  <summary>Calculates and returns the dot product between two vectors.</summary>
+        -:   85:   --  <parameter name="pxLeftOperandVector">The CVector object representing left operand.</parameter>
+        -:   86:   --  <parameter name="pxRightOperandVector">The CVector object representing right operand.</parameter>
+        -:   87:
+        -:   88:   function pxCross_Product (pxLeftOperandVector : in pCVector; pxRightOperandVector : in pCVector) return pCVector;
+        -:   89:   --  <summary>Creates an object of type CVector which is the cross product between the two vectors. Returns a pointer of type pCVector to the object created.</summary>
+        -:   90:   --  <parameter name="pxLeftOperandVector">The CVector object representing left operand.</parameter>
+        -:   91:   --  <parameter name="pxRightOperandVector">The CVector object representing right operand.</parameter>
+        -:   92:
+        -:   93:   function fAngle_Between_In_Radians (pxLeftOperandVector, pxRightOperandVector : in pCVector) return float;
+        -:   94:   --  <summary>Calculates and returns the angle in radians between two vectors.</summary>
+        -:   95:   --  <parameter name="pxLeftOperandVector">The CVector object representing left operand.</parameter>
+        -:   96:   --  <parameter name="pxRightOperandVector">The CVector object representing right operand.</parameter>
+        -:   97:
+        -:   98:
+        -:   99:   function fGet_X (this : in CVector) return float;
+        -:  100:   --  <summary>Returns the X-component of the vector.</summary>
+        -:  101:   --  <parameter name="this">The CVector object to get the X-component from.</parameter>
+        -:  102:
+        -:  103:   function fGet_Y (this : in CVector) return float;
+        -:  104:   --  <summary>Returns the Y-component of the vector.</summary>
+        -:  105:   --  <parameter name="this">The CVector object to get the Y-component from.</parameter>
+        -:  106:
+        -:  107:   function fGet_Z (this : in CVector) return float;
+        -:  108:   --  <summary>Returns the Z-component of the vector.</summary>
+        -:  109:   --  <parameter name="this">The CVector object to get the Z-component from.</parameter>
+        -:  110:
+        -:  111:   procedure Copy_From(this : in out CVector; pxSourceVector : in pCVector);
+        -:  112:   --  <summary>Copies the components from source vector and puts into this vector.</summary>
+        -:  113:   --  <parameter name="this">The CVector object to copy the component values to.</parameter>
+        -:  114:   --  <parameter name="pxSourceVector">The CVector object to copy the component values from.</parameter>
+        -:  115:
+        -:  116:private
+        4:  117:   type CVector is new Ada.Finalization.Controlled with
+        -:  118:      record
+        -:  119:         fX : float;
+        -:  120:         fY : float;
+        -:  121:         fZ : float;
+        -:  122:         pxNextStorageUnit : pCVector;
+        -:  123:         bReusable : boolean := false;
+        -:  124:      end record;
+        -:  125:
+        -:  126:   pxStorageList : pCVector := null;
+        -:  127:   iCount : integer := 0;
+        -:  128:
+        -:  129:   -- used in pxGet_Normalized to allow division by a vector's length without pointer
+        -:  130:   function "/" (xLeftOperandVector : in CVector; fRightOperand : in float) return pCVector;
+        -:  131:
+        -:  132:
+        4:  133:end Math.Vectors;

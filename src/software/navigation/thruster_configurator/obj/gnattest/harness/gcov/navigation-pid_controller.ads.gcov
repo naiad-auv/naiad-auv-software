@@ -1,0 +1,78 @@
+        -:    0:Source:/home/emibe/skola/robgit/naiad-auv-software/src/software/navigation/pid_controller/src/navigation-pid_controller.ads
+        -:    0:Programs:37
+        -:    1:with Navigation;
+        -:    2:
+        8:    3:package Navigation.PID_Controller is
+        -:    4:
+    #####:    5:   type CPIDController is tagged private;
+        -:    6:   type pCPIDController is access CPIDController;
+        -:    7:
+        -:    8:
+    #####:    9:   type TPIDComponentScalings is
+        -:   10:	record
+        -:   11:         fProportionalScale : float;
+        -:   12:         fIntegralScale : float;
+        -:   13:	 fDerivativeScale : float;
+        -:   14:	end record;
+        -:   15:
+        -:   16:   function pxCreate return pCPIDController;
+        -:   17:   --  <summary>Creates an object of type CPIDController without setting the scaling components for the object in question</summary>
+        -:   18:
+        -:   19:   function pxCreate(xPIDComponentScalings : TPIDComponentScalings) return pCPIDController;
+        -:   20:   --  <summary>Creates an object of type CPIDController and sets the scaling components for the object in question</summary>
+        -:   21:   --  <parameter name="xPIDComponentScalings">The TPIDComponetScalings object to use as scaling components for the object.</parameter>
+        -:   22:
+        -:   23:   procedure Set_New_Set_Point(this : in out CPIDController; fNewSetPoint : in float);
+        -:   24:   --  <summary>Changes the value the PID controller should stabilize around</summary>
+        -:   25:   --  <parameter name="this">The CPIDController object to set the value upon.</parameter>
+        -:   26:   --  <parameter name="fNewSetPoint">The value to set.</parameter>
+        -:   27:
+        -:   28:   procedure Set_New_PID_Component_Scalings(this : in out CPIDController; xNewScalings : TPIDComponentScalings);
+        -:   29:   --  <summary>Sets new component scalings on the CPIDcontroller in question</summary>
+        -:   30:   --  <parameter name="this">The CPIDController object to set new scaling components upon.</parameter>
+        -:   31:   --  <parameter name="xNewScalings">The TPIDComponetScalings object to set for the object.</parameter>
+        -:   32:
+        -:   33:   procedure Update_Current_Value_From_External_Source(this : in out CPIDController; fValue : float);
+        -:   34:   --  <summary>Updates the current value on the CPIDController</summary>
+        -:   35:   --  <parameter name="this">The CPIDController to update.</parameter>
+        -:   36:   --  <parameter name="fValue">The new current value to set upon the CPIDController</parameter>
+        -:   37:
+        -:   38:   procedure Reset_Controller(this : in out CPIDController);
+        -:   39:   --  <summary>Resets a CPIDController to its initial values</summary>
+        -:   40:   --  <parameter name="this">The CPIDController to reset.</parameter>
+        -:   41:
+        -:   42:   function xGet_New_Control_Value(this : in out CPIDController; fDeltaTime : float) return float;
+        -:   43:   --  <summary>Calculates a new control value for a CPIDController</summary>
+        -:   44:   --  <parameter name="this">The CPIDController to do the calculations upon.</parameter>
+        -:   45:   --  <parameter name="fDeltaTime">The time difference since the last calculation.</parameter>
+        -:   46:
+        -:   47:   function fGetIntergralScale(this : in out CPIDController) return float;
+        -:   48:   --  <summary>Gets the scaling componet for the integral part.</summary>
+        -:   49:   --  <parameter name=" : ">The CPIDController to retrive the scaling from.</parameter>
+        -:   50:
+        -:   51:   function fGetDerivativeScale(this : in out CPIDController) return float;
+        -:   52:   --  <summary>Gets the scaling componet for the derivative part.</summary>
+        -:   53:   --  <parameter name=" : ">The CPIDController to retrive the scaling from.</parameter>
+        -:   54:
+        -:   55:   function fGetProportionalScale(this : in out CPIDController) return float;
+        -:   56:   --  <summary>Gets the scaling componet for the proportional part.</summary>
+        -:   57:   --  <parameter name=" : ">The CPIDController to retrive the scaling from.</parameter>
+        -:   58:
+        -:   59:private
+        4:   60:   type CPIDController is tagged
+        -:   61:      record
+        -:   62:         fCurrentValue : float;
+        -:   63:         fCurrentSetPoint: float;
+        -:   64:
+        -:   65:         fCurrentProportionalPart : float;
+        -:   66:         fCurrentIntegralPart : float;
+        -:   67:         fCurrentDerivativePart : float;
+        -:   68:
+        -:   69:         fLastProportionalPart : float;
+        -:   70:
+        -:   71:         fDerivativeScale : float;
+        -:   72:         fIntegralScale : float;
+        -:   73:         fProportionalScale : float;
+        -:   74:      end record;
+        -:   75:
+        4:   76:end Navigation.PID_Controller;
