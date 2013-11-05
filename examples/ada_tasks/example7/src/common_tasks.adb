@@ -5,11 +5,11 @@ with Ada.Streams;
 
 package body Common_Tasks is
     CRLF : constant String := ASCII.CR & ASCII.LF;
-    PORT : constant GNAT.Sockets.Port_Type := 50000;
     Tmp : Ada.Streams.Stream_Element_Array (1 .. 65535);
-    DST_ADDRESS : constant String := "127.0.0.1";
-    SRC_ADDRESS : constant String := "127.0.0.1";
-    LOCALHOST : constant String := "127.0.0.1";
+    LISTEN_ON_ADDRESS : constant String := "127.0.0.1";
+    LISTEN_ON_PORT : constant GNAT.Sockets.Port_Type := 30000;
+    SEND_TO_ADDRESS : constant String := "127.0.0.1";
+    SEND_TO_PORT: constant GNAT.Sockets.Port_Type := 30000;
 
     ------------------
     -- Read_Request --
@@ -89,11 +89,6 @@ package body Common_Tasks is
         begin
             The_Data := New_Value;
         end Write;
-
-        procedure Increment(By : Integer) is
-        begin
-            The_Data := The_Data + By;
-        end Increment;
     end Shared_Integer;
 
     -- Example partly from "Concurrent and Real-Time Programming
@@ -142,8 +137,8 @@ package body Common_Tasks is
 
         Remote_Address.Addr :=  GNAT.Sockets.Addresses(
                                       GNAT.Sockets.Get_Host_By_Name(
-                                          DST_ADDRESS), 1);
-        Remote_Address.Port := PORT;
+                                          SEND_TO_ADDRESS), 1);
+        Remote_Address.Port := SEND_TO_PORT;
 
         Next_Period := Ada.Real_Time.Clock + Period;
         loop
@@ -192,8 +187,8 @@ package body Common_Tasks is
         Listener_Socket  : GNAT.Sockets.Socket_Type;
         Listener_Address : constant GNAT.Sockets.Sock_Addr_Type := (
          Family => GNAT.Sockets.Family_Inet,
-         Addr   => GNAT.Sockets.Inet_Addr ("127.0.0.1"),
-         Port   => 50000
+         Addr   => GNAT.Sockets.Inet_Addr (LISTEN_ON_ADDRESS),
+         Port   => LISTEN_ON_PORT
         );
         Client_Socket   : GNAT.Sockets.Socket_Type;
         Client_Address  : GNAT.Sockets.Sock_Addr_Type;
