@@ -3,24 +3,36 @@
       <test_unit target_file="simulator-motion_control_wrapper-cwrapdispatcher_test_data-cwrapdispatcher_tests.ads">
          <setup file="simulator-motion_control_wrapper-cwrapdispatcher_test_data.adb" line="4"  column="4"/>
          <teardown file="simulator-motion_control_wrapper-cwrapdispatcher_test_data.adb" line="8"  column="4"/>
+         <tested name="Update_Pid_Scaling" line="23" column="4">
+            <test file="simulator-motion_control_wrapper-cwrapdispatcher_test_data-cwrapdispatcher_tests.adb" line="13" column="1" timestamp="2013-11-04 13:30:17"/>
+         </tested>
+         <tested name="Update_Values" line="25" column="4">
+            <test file="simulator-motion_control_wrapper-cwrapdispatcher_test_data-cwrapdispatcher_tests.adb" line="34" column="1" timestamp="2013-11-04 13:30:17"/>
+         </tested>
+         <tested name="Restart" line="32" column="4">
+            <test file="simulator-motion_control_wrapper-cwrapdispatcher_test_data-cwrapdispatcher_tests.adb" line="55" column="1" timestamp="2013-11-04 13:30:17"/>
+         </tested>
+         <tested name="Update_Wanted_Position" line="33" column="4">
+            <test file="simulator-motion_control_wrapper-cwrapdispatcher_test_data-cwrapdispatcher_tests.adb" line="76" column="1" timestamp="2013-11-04 13:30:17"/>
+         </tested>
+         <tested name="xGet_Wanted_Position" line="36" column="4">
+            <test file="simulator-motion_control_wrapper-cwrapdispatcher_test_data-cwrapdispatcher_tests.adb" line="97" column="1" timestamp="2013-11-04 13:30:17"/>
+         </tested>
+         <tested name="xGet_Wanted_Orientation" line="37" column="4">
+            <test file="simulator-motion_control_wrapper-cwrapdispatcher_test_data-cwrapdispatcher_tests.adb" line="118" column="1" timestamp="2013-11-04 13:30:17"/>
+         </tested>
          <dangling>
          </dangling>
       </test_unit>
       <test_unit target_file="simulator-motion_control_wrapper-test_data-tests.ads">
          <setup file="simulator-motion_control_wrapper-test_data.adb" line="3"  column="4"/>
          <teardown file="simulator-motion_control_wrapper-test_data.adb" line="9"  column="4"/>
-         <tested name="pxCreate_Wrap_Dispatcher" line="13" column="4">
-            <test file="simulator-motion_control_wrapper-test_data-tests.adb" line="13" column="1" timestamp="2013-10-22 09:46:19"/>
-         </tested>
-         <tested name="Update_Values" line="15" column="4">
-            <test file="simulator-motion_control_wrapper-test_data-tests.adb" line="34" column="1" timestamp="2013-10-22 09:46:19"/>
-         </tested>
-         <tested name="Update_Wanted_Position" line="21" column="4">
-            <test file="simulator-motion_control_wrapper-test_data-tests.adb" line="55" column="1" timestamp="2013-10-22 09:46:19"/>
+         <tested name="pxCreate_Wrap_Dispatcher" line="19" column="4">
+            <test file="simulator-motion_control_wrapper-test_data-tests.adb" line="13" column="1" timestamp="modified"/>
          </tested>
          <dangling>
-            <test file="simulator-motion_control_wrapper-test_data-tests.adb" line="75" column="1"/>
-            <test file="simulator-motion_control_wrapper-test_data-tests.adb" line="95" column="1"/>
+            <test file="simulator-motion_control_wrapper-test_data-tests.adb" line="38" column="1"/>
+            <test file="simulator-motion_control_wrapper-test_data-tests.adb" line="56" column="1"/>
          </dangling>
       </test_unit>
    </unit>

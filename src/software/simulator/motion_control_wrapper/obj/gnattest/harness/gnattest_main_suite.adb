@@ -2,6 +2,7 @@
 --  Do not edit any part of it, see GNATtest documentation for more details.
 
 --  begin read only
+with simulator.Motion_Control_Wrapper.CWrapDispatcher_Test_Data.CWrapDispatcher_Tests.Suite;
 with simulator.Motion_Control_Wrapper.Test_Data.Tests.Suite;
 
 package body Gnattest_Main_Suite is
@@ -11,6 +12,7 @@ package body Gnattest_Main_Suite is
    function Suite return AUnit.Test_Suites.Access_Test_Suite is
    begin
 
+      Result.Add_Test (simulator.Motion_Control_Wrapper.CWrapDispatcher_Test_Data.CWrapDispatcher_Tests.Suite.Suite);
       Result.Add_Test (simulator.Motion_Control_Wrapper.Test_Data.Tests.Suite.Suite);
 
       return Result'Access;

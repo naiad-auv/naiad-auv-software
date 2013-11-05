@@ -10,13 +10,7 @@ package simulator.Motion_Control_Wrapper.Test_Data.Tests is
    with null record;
 
    procedure Test_pxCreate_Wrap_Dispatcher_0b4a1b (Gnattest_T : in out Test);
-   --  simulator-motion_control_wrapper.ads:13:4:pxCreate_Wrap_Dispatcher
-
-   procedure Test_Update_Values_2c215f (Gnattest_T : in out Test);
-   --  simulator-motion_control_wrapper.ads:15:4:Update_Values
-
-   procedure Test_Update_Wanted_Position_270ca9 (Gnattest_T : in out Test);
-   --  simulator-motion_control_wrapper.ads:21:4:Update_Wanted_Position
+   --  simulator-motion_control_wrapper.ads:19:4:pxCreate_Wrap_Dispatcher
 
 end simulator.Motion_Control_Wrapper.Test_Data.Tests;
 --  end read only

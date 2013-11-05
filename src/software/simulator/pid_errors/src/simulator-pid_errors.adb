@@ -1,4 +1,5 @@
 with Ada.Unchecked_Deallocation;
+with Exception_Handling;
 
 package body Simulator.Pid_Errors is
 
@@ -74,6 +75,10 @@ package body Simulator.Pid_Errors is
 
       this.tfPIDErrors(Direction) := math.Vectors.fAngle_Between_In_Radians(xCurrentDirectionVectorOnWantedPlane, xWantedRelativeOrientation.xGet_X_Vector);
 
+   exception
+      when E : others =>
+         Exception_Handling.Reraise_Exception(E       => E,
+                                              Message => "Simulator.Pid_Errors.Update_Current_Orientational_Errors (this : in out simulator.Pid_Errors.CPidErrors ; xCurrentAbsoluteOrientationInverse : math.Matrices.CMatrix ; xWantedAbsoluteOrientation : math.Matrices.CMatrix)");
 end Update_Current_Orientational_Errors;
 
 
