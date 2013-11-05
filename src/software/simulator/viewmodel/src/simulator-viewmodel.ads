@@ -17,6 +17,8 @@ package Simulator.ViewModel is
 
    type TPIDComponentScalings is new simulator.Model.TPIDComponentScalings;
 
+   type iMotorIndex is new simulator.Model.iMotorIndex;
+
 
 
 
@@ -46,6 +48,8 @@ package Simulator.ViewModel is
    function fGet_Selected_Pid_Scaling_Proprotional_Part(this : in CViewModel) return float;
    function fGet_Selected_Pid_Scaling_Integrating_Part(this : in CViewModel) return float;
    function fGet_Selected_Pid_Scaling_Derivative_Part(this : in CViewModel) return float;
+   function fGet_Motor_Force(this : in CViewModel; iIndexMotor  : iMotorIndex) return float;
+
 
    function fGet_Pid_Errors(this : in CViewModel ; eErrorComponent : in EMotionComponent) return float;
 
