@@ -413,21 +413,13 @@ package body simulator.submarine is
    begin
 
       if this.pxAccelerationVector /= null and this.pxAngularAccelerationVector /= null then
-<<<<<<< HEAD
          xDeltaRotationMovement := this.pxAngularVelocityVector*fTimeDuration;
+         Put_Line("xDeltaMovement X: " & xDeltaRotationMovement.fGet_X'Img & " Y: " & xDeltaRotationMovement.fGet_Y'img & " Z: " & xDeltaRotationMovement.fGet_Z'img);
 
          if xDeltaRotationMovement.fLength_Squared /= 0.0 then
 
             xRotationQuaternion := math.Quaternions.xCreate(xAxisVector    => xDeltaRotationMovement,
                                                               fAngleInDegrees => math.Angles.fRadians_To_Degrees(fAngle => xDeltaRotationMovement.fLength));
-=======
-         xDeltaMovement := this.pxAngularVelocityVector*fTimeDuration;
-         Put_Line("xDeltaMovement X: " & xDeltaMovement.fGet_X'Img & " Y: " & xDeltaMovement.fGet_Y'img & " Z: " & xDeltaMovement.fGet_Z'img);
-
-         if xDeltaMovement.fLength_Squared /= 0.0 then
-            xRotationQuaternion := math.Quaternions.xCreate(xAxisVector    => xDeltaMovement,
-                                                            fAngleInDegrees => math.Angles.fRadians_To_Degrees(fAngle => xDeltaMovement.fLength));
->>>>>>> d3062a92cf1a00cfffbcf63392ebff09ac9da602
             this.pxOrientationMatrix.Copy_From(math.Matrices.xCreate_From_Quaternion(xFromQuaternion => xRotationQuaternion) * this.pxOrientationMatrix);
 
          end if;
