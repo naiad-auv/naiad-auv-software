@@ -89,11 +89,14 @@ package body Simulator_Callbacks is
    end Draw_Map;
 
    function Draw_Pid (Area : in Gtk.Drawing_Area.Gtk_Drawing_Area) return Boolean is
-      xWindowForPid : Gdk.Window.Gdk_Window;
+	use Gtk.Drawing_Area;      
+
+	xWindowForPid : Gdk.Window.Gdk_Window;
       xBlackColor   : Gdk.GC.Gdk_GC;
       xBlueColor : Gdk.GC.Gdk_GC;
       xCustomColor : Gdk.Color.Gdk_Color;
    begin
+	
       xWindowForPid := Gtk.Drawing_Area.Get_Window (Area);
 
       if (iPidCounter > 600) then
@@ -108,6 +111,8 @@ package body Simulator_Callbacks is
 
       -- Set Colors
       Gdk.GC.Gdk_New (xBlackColor, xWindowForPid);
+      Gdk.GC.Set_Foreground(xBlackColor, Gdk.Color.Black (Gtk.Widget.Get_Default_Colormap));
+      Gdk.GC.Set_Foreground(xBlackColor, Gdk.Color.Black (Gtk.Widget.Get_Default_Colormap));
       Gdk.GC.Set_Foreground(xBlackColor, Gdk.Color.Black (Gtk.Widget.Get_Default_Colormap));
       Gdk.Color.Set_Rgb(xCustomColor,0,0,65535);
       Gdk.GC.Gdk_New (xBlueColor, xWindowForPid);
@@ -465,5 +470,4 @@ package body Simulator_Callbacks is
    exception
       when others => NULL;
    end Change_Pid;
-
 end Simulator_Callbacks;

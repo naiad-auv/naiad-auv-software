@@ -1,4 +1,4 @@
-with "C:/GtkAda/lib/gnat/gtkada";
+with "gtkada";
 
 project GUI is
 
@@ -14,7 +14,7 @@ project GUI is
    end Builder;
 
    package Compiler is
-            for Default_Switches ("ada") use ("-O2", "-gnat05");
+      for Default_Switches ("ada") use ("-O2", "-gnat05");
    end Compiler;
 
    package Linker is
@@ -22,4 +22,14 @@ project GUI is
       for Default_Switches ("ada") use ("-mwindows");
    end Linker;
 
+   case Library_Type is
+
+      when "static" =>
+         for Main use ("simulator.adb");
+
+      when "relocatable" =>
+
+   end case;
+
 end GUI;
+
