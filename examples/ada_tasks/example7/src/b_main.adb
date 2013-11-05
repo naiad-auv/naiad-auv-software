@@ -1,9 +1,9 @@
 with Ada.Text_IO;
-with Common_Tasks;
+with B_Common_Tasks;
 
-procedure Main is
+procedure B_Main is
 
 begin
     Ada.Text_IO.Put_Line("Main - Started");
     -- Wait for threads to terminate.
-end Main;
+end B_Main;

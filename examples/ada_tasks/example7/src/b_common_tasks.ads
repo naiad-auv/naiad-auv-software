@@ -1,7 +1,7 @@
 with Ada.Real_Time;
 with System;
 
-package Common_Tasks is
+package B_Common_Tasks is
 
     task type Tcp_Sender_Type(Pri : System.Priority;
                         Cycle_Time : Positive;
@@ -46,4 +46,4 @@ package Common_Tasks is
     Tcp_Input_Data : Shared_Integer(0);
     Tcp_Output_Data : Shared_Integer(0);
 
-end Common_Tasks;
+end B_Common_Tasks;
