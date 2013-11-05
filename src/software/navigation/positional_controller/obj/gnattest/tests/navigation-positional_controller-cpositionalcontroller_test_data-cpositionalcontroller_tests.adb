@@ -24,10 +24,10 @@ package body Navigation.Positional_Controller.CPositionalController_Test_Data.CP
 
       pxPositionalController : Navigation.Positional_Controller.pCPositionalController;
 
-      pxNewWanted : Math.Vectors.pCVector := Math.Vectors.pxCreate(5.0,5.0,5.0);
+      pxNewWanted : Math.Vectors.pCVector := Math.Vectors.xCreate(5.0,5.0,5.0).pxGet_Allocated_Copy;
 
-      pxCurrentPosition : Math.Vectors.pCVector := Math.Vectors.pxCreate(0.0,0.0,0.0);
-      pxCurrentOrientation : Math.Matrices.pCMatrix := Math.Matrices.xCreate_Identity.pxGet_Copy;
+      pxCurrentPosition : Math.Vectors.pCVector := Math.Vectors.xCreate(0.0,0.0,0.0).pxGet_Allocated_Copy;
+      pxCurrentOrientation : Math.Matrices.pCMatrix := Math.Matrices.xCreate_Identity.pxGet_Allocated_Copy;
 
       pxPositionalScalings : Navigation.PID_Controller.TPIDComponentScalings := (1.0,1.0,1.0);
 
@@ -37,13 +37,15 @@ package body Navigation.Positional_Controller.CPositionalController_Test_Data.CP
 
       pxPositionalController := Navigation.Positional_Controller.pxCreate(pxCurrentAbsolutePosition    => pxCurrentPosition,
                                                                           pxWantedAbsolutePosition     => pxNewWanted,
-                                                                          pxCurrentAbsoluteOrientation => pxCurrentOrientation);
+                                                                          pxCurrentAbsoluteOrientation => pxCurrentOrientation,
+                                                                          pxCurrentAbsoluteOrientationInverse => pxCurrentOrientation.xGet_Inverse.pxGet_Allocated_Copy);
 
       pxPositionalController.Set_New_PID_Component_Scalings(Navigation.Motion_Component.AllComponents, pxPositionalScalings);
 
       pxPositionalController.Update_Current_Errors;
 
-      xPositionalControlValues := pxPositionalController.xGet_Positional_Thruster_Control_Values(1.0);
+      pxPositionalController.Get_Positional_Thruster_Control_Values(fDeltaTime               => 1.0,
+                                                                    xPositionalControlValues => xPositionalControlValues);
 
       AUnit.Assertions.Assert(Condition => abs(xPositionalControlValues(Thrusters.XPosition)) > 0.00001,
                               Message => "PositionalControlvalue component 1 is 0");
@@ -79,6 +81,7 @@ package body Navigation.Positional_Controller.CPositionalController_Test_Data.CP
 
 	--TODO måste ha mocking för att kunna testa
 --  begin read only
+      null;
    end Test_Update_Current_Errors;
 --  end read only
 
@@ -98,6 +101,7 @@ package body Navigation.Positional_Controller.CPositionalController_Test_Data.CP
       --TODO måste ha mocking för att kunna testa
 
 --  begin read only
+      null;
    end Test_Set_New_PID_Component_Scalings;
 --  end read only
 

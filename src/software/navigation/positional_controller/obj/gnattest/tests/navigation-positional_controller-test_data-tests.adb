@@ -46,10 +46,10 @@ package body Navigation.Positional_Controller.Test_Data.Tests is
 
       pxPositionalController : Navigation.Positional_Controller.pCPositionalController;
 
-      pxNewWanted : Math.Vectors.pCVector := Math.Vectors.pxCreate(5.0,5.0,5.0);
+      pxNewWanted : Math.Vectors.pCVector := Math.Vectors.xCreate(5.0,5.0,5.0).pxGet_Allocated_Copy;
 
-      pxCurrentPosition : Math.Vectors.pCVector := Math.Vectors.pxCreate(0.0,0.0,0.0);
-      pxCurrentOrientation : Math.Matrices.pCMatrix := Math.Matrices.xCreate_Identity.pxGet_Copy;
+      pxCurrentPosition : Math.Vectors.pCVector := Math.Vectors.xCreate(0.0,0.0,0.0).pxGet_Allocated_Copy;
+      pxCurrentOrientation : Math.Matrices.pCMatrix := Math.Matrices.xCreate_Identity.pxGet_Allocated_Copy;
 
 
 
@@ -57,7 +57,8 @@ package body Navigation.Positional_Controller.Test_Data.Tests is
 
       pxPositionalController := Navigation.Positional_Controller.pxCreate(pxCurrentAbsolutePosition    => pxCurrentPosition,
                                                                           pxWantedAbsolutePosition     => pxNewWanted,
-                                                                          pxCurrentAbsoluteOrientation => pxCurrentOrientation);
+                                                                          pxCurrentAbsoluteOrientation => pxCurrentOrientation,
+                                                                          pxCurrentAbsoluteOrientationInverse => pxCurrentOrientation.xGet_Inverse.xGet_Inverse.pxGet_Allocated_Copy);
 
       AUnit.Assertions.Assert(Condition => pxPositionalController /= null,
                               Message => "pxPositionalController is not pointing towards on object");

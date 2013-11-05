@@ -1,9 +1,6 @@
-<<<<<<< HEAD
+with "../viewmodel/viewmodel.gpr";
+with "../../../lib/exception_handling/exception_handling.gpr";
 with "gtkada";
-=======
-with "..\..\..\lib\exception_handling\exception_handling.gpr";
-with "..\viewmodel\viewmodel.gpr";
-with "C:/GtkAda/lib/gnat/gtkada";
 
 project GUI is
 
@@ -12,7 +9,7 @@ project GUI is
    Library_Type : Gtkada_Kind_Type := external ("LIBRARY_TYPE", "static");
    for Source_Dirs use ("src");
    for Object_Dir use "obj";
-   for Exec_Dir use "obj";
+   for Exec_Dir use ".";
 
    package Builder is
       for Default_Switches ("ada") use ("-s");

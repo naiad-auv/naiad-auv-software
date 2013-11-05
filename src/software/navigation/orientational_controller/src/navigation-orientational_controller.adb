@@ -44,13 +44,13 @@ package body Navigation.Orientational_Controller is
 
 
 
-   function xGet_Orientational_Thruster_Control_Values (this : in out COrientationalController; fDeltaTime : in float) return Navigation.Thrusters.TThrusterEffects is
+   procedure Get_Orientational_Thruster_Control_Values (this : in out COrientationalController; fDeltaTime : in float; xOrientationalControlValues : out Navigation.Thrusters.TThrusterEffects) is
       use Navigation.Thrusters;
 
    begin
 
-      return  this.xGet_Planal_Thruster_Control_Value(fDeltaTime) + this.xGet_Directional_Thruster_Control_Value(fDeltaTime);
-   end xGet_Orientational_Thruster_Control_Values;
+      xOrientationalControlValues :=  this.xGet_Planal_Thruster_Control_Value(fDeltaTime) + this.xGet_Directional_Thruster_Control_Value(fDeltaTime);
+   end Get_Orientational_Thruster_Control_Values;
 
    procedure Set_New_PID_Component_Scalings(this : in COrientationalController; eComponentToUpdate : Navigation.Motion_Component.EMotionComponent; xNewPIDScaling : Navigation.PID_Controller.TPIDComponentScalings) is
    begin
@@ -90,21 +90,26 @@ package body Navigation.Orientational_Controller is
 
    function xGet_Planal_Thruster_Control_Value (this : in COrientationalController; fDeltaTime : in float) return Navigation.Thrusters.TThrusterEffects is
       xRotationAxis : Math.Vectors.CVector;
-      fControlValueScaling : float;
+      xComponentControlValue : Navigation.Motion_Component.TComponentControlValue;
    begin
 
-      fControlValueScaling := this.pxPlanalMotionComponent.xGet_New_Component_Control_Value(fDeltaTime).fValue;
+      this.pxPlanalMotionComponent.Get_New_Component_Control_Value(fDeltaTime => fDeltaTime,
+                                                                   xComponentControlValue => xComponentControlValue);
       xRotationAxis := this.pxCurrentToWantedPlaneRotation.xGet_Axis_Vector;
 
-      return (Navigation.Thrusters.XRotation => xRotationAxis.fGet_X * fControlValueScaling,
-              Navigation.Thrusters.YRotation => xRotationAxis.fGet_Y * fControlValueScaling,
+      return (Navigation.Thrusters.XRotation => xRotationAxis.fGet_X * xComponentControlValue.fValue,
+              Navigation.Thrusters.YRotation => xRotationAxis.fGet_Y * xComponentControlValue.fValue,
               others => 0.0);
    end xGet_Planal_Thruster_Control_Value;
 
    function xGet_Directional_Thruster_Control_Value (this : in COrientationalController; fDeltaTime : in float) return Navigation.Thrusters.TThrusterEffects is
-   begin
+       xComponentControlValue : Navigation.Motion_Component.TComponentControlValue;
+  begin
 
-      return (Navigation.Thrusters.ZRotation => this.pxDirectionalMotionComponent.xGet_New_Component_Control_Value(fDeltaTime).fValue,
+      this.pxDirectionalMotionComponent.Get_New_Component_Control_Value(fDeltaTime             => fDeltaTime,
+                                                                        xComponentControlValue => xComponentControlValue);
+
+      return (Navigation.Thrusters.ZRotation => xComponentControlValue.fValue,
               others => 0.0);
    end xGet_Directional_Thruster_Control_Value;
 

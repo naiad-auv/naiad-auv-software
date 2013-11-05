@@ -364,15 +364,45 @@ package body Navigation.Dispatcher.CDispatcher_Test_Data.CDispatcher_Tests is
 --  id:2.1/1d29f15228a8f8f4/Finalize/1/0/
    procedure Test_Finalize (Gnattest_T : in out Test_CDispatcher) is
    --  navigation-dispatcher.ads:83:4:Finalize
---  end read only
+   --  end read only
+   
+      use Math.Matrices;
+      use Math.Vectors;
+      use Navigation.Thruster_Configurator;
+      use Navigation.Drift_Controller;
+      use Navigation.Positional_Controller;
+      use Navigation.Orientational_Controller;
 
       pragma Unreferenced (Gnattest_T);
-
+     
+      pxDispatcher : pCDispatcher;
    begin
+      
+      pxDispatcher := Navigation.Dispatcher.pxCreate;
 
-      AUnit.Assertions.Assert
-        (Gnattest_Generated.Default_Assert_Value,
-         "Test not implemented.");
+      AUnit.Assertions.Assert(Condition => pxDispatcher /= null,
+                              Message   => "pxDispatcher is null after construction");
+      
+      pxDispatcher.Finalize;
+      
+      AUnit.Assertions.Assert(Condition => pxDispatcher.pxThrusterConfigurator = null,
+                              Message   => "pxThrusterConfigurator is not null after finalization");
+      AUnit.Assertions.Assert(Condition => pxDispatcher.pxOrientationalController = null,
+                              Message   => "pxOrientationalController is not null after finalization");
+      AUnit.Assertions.Assert(Condition => pxDispatcher.pxPositionalController = null,
+                              Message   => "pxPositionalController is not null after finalization");
+      AUnit.Assertions.Assert(Condition => pxDispatcher.pxDriftController = null,
+                              Message   => "pxDriftController is not null after finalization");
+      AUnit.Assertions.Assert(Condition => pxDispatcher.pxCurrentAbsolutePosition = null,
+                              Message   => "pxCurrentAbsolutePosition is not null after finalization");
+      AUnit.Assertions.Assert(Condition => pxDispatcher.pxWantedAbsolutePosition = null,
+                              Message   => "pxCurrentAbsolutePosition is not null after finalization");
+      AUnit.Assertions.Assert(Condition => pxDispatcher.pxCurrentAbsoluteOrientation = null,
+                              Message   => "pxCurrentAbsoluteOrientation is not null after finalization");
+      AUnit.Assertions.Assert(Condition => pxDispatcher.pxWantedAbsoluteOrientation = null,
+                              Message   => "pxWantedAbsoluteOrientation is not null after finalization");
+      AUnit.Assertions.Assert(Condition => pxDispatcher.pxCurrentAbsoluteOrientationInverse = null,
+                              Message   => "pxCurrentAbsoluteOrientationInverse is not null after finalization");
 
 --  begin read only
    end Test_Finalize;

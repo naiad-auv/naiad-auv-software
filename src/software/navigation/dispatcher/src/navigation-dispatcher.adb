@@ -63,9 +63,12 @@ package body Navigation.Dispatcher is
 
 
 
-      tfPositionalValues := this.pxPositionalController.xGet_Positional_Thruster_Control_Values(fDeltaTime);
-      tfOrientationalValues := this.pxOrientationalController.xGet_Orientational_Thruster_Control_Values(fDeltaTime);
-      tfDriftValues := this.pxDriftController.xGet_Positional_Thruster_Control_Values(fDeltaTime);
+      this.pxPositionalController.Get_Positional_Thruster_Control_Values(fDeltaTime               => fDeltaTime,
+                                                                         xPositionalControlValues => tfPositionalValues);
+      this.pxOrientationalController.Get_Orientational_Thruster_Control_Values(fDeltaTime => fDeltaTime,
+                                                                               xOrientationalControlValues => tfOrientationalValues);
+      this.pxDriftController.Get_Positional_Thruster_Control_Values(fDeltaTime => fDeltaTime,
+                                                                    xDriftControllerControlValues => tfDriftValues);
 
 
 
@@ -194,26 +197,37 @@ package body Navigation.Dispatcher is
       if this.pxThrusterConfigurator /= null then
          Navigation.Thruster_Configurator.Free(pxThrusterConfiguratorToDeallocate => this.pxThrusterConfigurator);
       end if;
+
       if this.pxOrientationalController /= null then
          Navigation.Orientational_Controller.Free(pxOrientationalControllerToDeallocate => this.pxOrientationalController);
       end if;
+
       if this.pxPositionalController /= null then
          Navigation.Positional_Controller.Free(pxPositionalControllerToDeallocate => this.pxPositionalController);
       end if;
+
       if this.pxDriftController /= null then
          Navigation.Drift_Controller.Free(pxDriftControllerToDeallocate => this.pxDriftController);
       end if;
+
       if this.pxCurrentAbsolutePosition /= null then
          Math.Vectors.Free(pxVectorToDeallocate => this.pxCurrentAbsolutePosition);
       end if;
+
       if this.pxWantedAbsolutePosition /= null then
          Math.Vectors.Free(pxVectorToDeallocate => this.pxWantedAbsolutePosition);
       end if;
+
       if this.pxCurrentAbsoluteOrientation /= null then
          Math.Matrices.Free(pxMatrixToDeallocate => this.pxCurrentAbsoluteOrientation);
       end if;
+
       if this.pxWantedAbsoluteOrientation /= null then
          Math.Matrices.Free(pxMatrixToDeallocate => this.pxWantedAbsoluteOrientation);
+      end if;
+
+      if this.pxCurrentAbsoluteOrientationInverse /= null then
+         Math.Matrices.Free(pxMatrixToDeallocate => this.pxCurrentAbsoluteOrientationInverse);
       end if;
    end Finalize;
 

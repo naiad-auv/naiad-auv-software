@@ -18,13 +18,27 @@ package body Navigation.Orientational_Controller.Test_Data.Tests is
    --  navigation-orientational_controller.ads:22:4:Free
 --  end read only
 
+      use Math.Matrices;
       pragma Unreferenced (Gnattest_T);
+
+     pxOrientationalController : Navigation.Orientational_Controller.pCOrientationalController;
+
+      pxCurrentOrientation : Math.Matrices.pCMatrix := Math.Matrices.xCreate_Identity.pxGet_Allocated_Copy;
+      pxWantedOrientation : Math.Matrices.pCMatrix := Math.Matrices.CMatrix(Math.Matrices.xCreate_Rotation_Around_X_Axis(50.0) * Math.Matrices.xCreate_Rotation_Around_Y_Axis(50.0) * Math.Matrices.xCreate_Rotation_Around_Z_Axis(50.0)).pxGet_Allocated_Copy;
 
    begin
 
-      AUnit.Assertions.Assert
-        (Gnattest_Generated.Default_Assert_Value,
-         "Test not implemented.");
+      pxOrientationalController := Navigation.Orientational_Controller.pxCreate(pxCurrentOrientation, pxWantedOrientation, pxCurrentOrientation.xGet_Inverse.pxGet_Allocated_Copy);
+
+
+      AUnit.Assertions.Assert(Condition => pxOrientationalController /= null,
+                              Message   => "OrientationalController is null after construction");
+
+      Navigation.Orientational_Controller.Free(pxOrientationalController);
+
+
+      AUnit.Assertions.Assert(Condition => pxOrientationalController = null,
+                              Message   => "OrientationalController is not null after deconstruction");
 
 --  begin read only
    end Test_Free;
@@ -47,12 +61,12 @@ package body Navigation.Orientational_Controller.Test_Data.Tests is
 
       pxOrientationalController : Navigation.Orientational_Controller.pCOrientationalController;
 
-      pxCurrentOrientation : Math.Matrices.pCMatrix := Math.Matrices.xCreate_Identity.pxGet_Copy;
-      pxWantedOrientation : Math.Matrices.pCMatrix := Math.Matrices.CMatrix(Math.Matrices.xCreate_Rotation_Around_X_Axis(50.0) * Math.Matrices.xCreate_Rotation_Around_Y_Axis(50.0) * Math.Matrices.xCreate_Rotation_Around_Z_Axis(50.0)).pxGet_Copy;
+      pxCurrentOrientation : Math.Matrices.pCMatrix := Math.Matrices.xCreate_Identity.pxGet_Allocated_Copy;
+      pxWantedOrientation : Math.Matrices.pCMatrix := Math.Matrices.CMatrix(Math.Matrices.xCreate_Rotation_Around_X_Axis(50.0) * Math.Matrices.xCreate_Rotation_Around_Y_Axis(50.0) * Math.Matrices.xCreate_Rotation_Around_Z_Axis(50.0)).pxGet_Allocated_Copy;
 
    begin
 
-      pxOrientationalController := Navigation.Orientational_Controller.pxCreate(pxCurrentOrientation, pxWantedOrientation);
+      pxOrientationalController := Navigation.Orientational_Controller.pxCreate(pxCurrentOrientation, pxWantedOrientation, pxCurrentOrientation.xGet_Inverse.pxGet_Allocated_Copy);
 
       AUnit.Assertions.Assert(Condition => pxOrientationalController /= null,
                               Message   => "OrientationalController is null after construction");

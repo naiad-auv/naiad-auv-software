@@ -22,7 +22,7 @@ package body Navigation.Positional_Controller.CPositionalController_Test_Data.CP
       Runner_1.Create
         (Case_1_1_Test_xGet_Positional_Thruster_Control_Values_1d7d6d,
          "navigation-positional_controller.ads:14:4:",
-         Test_xGet_Positional_Thruster_Control_Values_1d7d6d'Access);
+         Test_xGet_Positional_Thruster_Control_Values_b5ee7d'Access);
       Runner_1.Create
         (Case_2_1_Test_Update_Current_Errors_db8191,
          "navigation-positional_controller.ads:16:4:",

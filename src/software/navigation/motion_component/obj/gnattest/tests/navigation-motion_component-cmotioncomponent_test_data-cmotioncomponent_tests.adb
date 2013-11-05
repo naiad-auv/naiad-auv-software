@@ -6,6 +6,7 @@
 --  placed into Navigation.Motion_Component.CMotionComponent_Test_Data.
 
 with AUnit.Assertions; use AUnit.Assertions;
+with Navigation.PID_Controller;
 
 package body Navigation.Motion_Component.CMotionComponent_Test_Data.CMotionComponent_Tests is
 
@@ -30,7 +31,8 @@ package body Navigation.Motion_Component.CMotionComponent_Test_Data.CMotionCompo
       pxMotionComponent := Navigation.Motion_Component.pxCreate(xComponentIndex, xPidScalings);
       pxMotionComponent.Update_Current_Error(100.0);
 
-      xCurrentComponentControlValue := pxMotionComponent.xGet_New_Component_Control_Value(1.0);
+      pxMotionComponent.Get_New_Component_Control_Value(fDeltaTime             => 1.0,
+                                                        xComponentControlValue => xCurrentComponentControlValue);
 
       AUnit.Assertions.Assert(Condition => xCurrentComponentControlValue.xMotionComponent = X,
                               Message => "Incorrect component value when getting new control value");
@@ -43,7 +45,9 @@ package body Navigation.Motion_Component.CMotionComponent_Test_Data.CMotionCompo
       xComponentIndex := Direction;
       pxMotionComponent := Navigation.Motion_Component.pxCreate(xComponentIndex, xPidScalings);
       pxMotionComponent.Update_Current_Error(0.0);
-      xCurrentComponentControlValue := pxMotionComponent.xGet_New_Component_Control_Value(0.25);
+
+      pxMotionComponent.Get_New_Component_Control_Value(fDeltaTime 		=> 0.25,
+                                                         xComponentControlValue => xCurrentComponentControlValue);
       AUnit.Assertions.Assert(Condition => xCurrentComponentControlValue.fValue = 0.0,
                               Message => "abo");
 
@@ -163,13 +167,25 @@ package body Navigation.Motion_Component.CMotionComponent_Test_Data.CMotionCompo
    --  navigation-motion_component.ads:71:4:Finalize
 --  end read only
 
+      use Navigation.PID_Controller;
+
       pragma Unreferenced (Gnattest_T);
+
+      pxMotionComponent : Navigation.Motion_Component.pCMotionComponent;
+      xPidScalings : Navigation.PID_Controller.TPIDComponentScalings := (1.0, 2.0, 3.0);
+      xComponentIndex : Navigation.Motion_Component.EMotionComponent := X;
 
    begin
 
-      AUnit.Assertions.Assert
-        (Gnattest_Generated.Default_Assert_Value,
-         "Test not implemented.");
+      pxMotionComponent := Navigation.Motion_Component.pxCreate(xComponentIndex, xPidScalings);
+
+      pxMotionComponent.Update_Current_Error(123.0);
+
+      pxMotionComponent.Finalize;
+
+      AUnit.Assertions.Assert(Condition => pxMotionComponent.pxComponentPIDController = null,
+                              Message   => "PIDcontroller in motion component is not null after finalization");
+
 
 --  begin read only
    end Test_Finalize;

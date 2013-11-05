@@ -47,7 +47,8 @@ package body Navigation.Orientational_Controller.COrientationalController_Test_D
 
       pxOrientationalController.Update_Current_Errors;
 
-      xThrusterControlValues := pxOrientationalController.xGet_Orientational_Thruster_Control_Values(1.0);
+      pxOrientationalController.Get_Orientational_Thruster_Control_Values(fDeltaTime                  => 1.0,
+                                                                          xOrientationalControlValues => xThrusterControlValues);
 
       for i in xThrusterControlValues'Range loop
          if xThrusterControlValues(i) /= 0.0 then
@@ -229,7 +230,7 @@ package body Navigation.Orientational_Controller.COrientationalController_Test_D
 
    begin
 
-      pxOrientationalController := Navigation.Orientational_Controller.pxCreate(pxCurrentOrientation, pxWantedOrientation);
+      pxOrientationalController := Navigation.Orientational_Controller.pxCreate(pxCurrentOrientation, pxWantedOrientation, pxCurrentOrientation.xGet_Inverse.pxGet_Allocated_Copy);
 
 
       pxOrientationalController.Set_New_PID_Component_Scalings(eComponentToUpdate => Navigation.Motion_Component.AllComponents,
@@ -268,13 +269,36 @@ package body Navigation.Orientational_Controller.COrientationalController_Test_D
    --  navigation-orientational_controller.ads:68:4:Finalize
 --  end read only
 
+      use Math.Matrices;
+      use Navigation.Motion_Component;
+      use Math.Quaternions;
+
       pragma Unreferenced (Gnattest_T);
+
+      pxOrientationalController : Navigation.Orientational_Controller.pCOrientationalController;
+
+      pxCurrentOrientation : Math.Matrices.pCMatrix := Math.Matrices.xCreate_Identity.pxGet_Allocated_Copy;
+      pxWantedOrientation : Math.Matrices.pCMatrix := Math.Matrices.CMatrix(Math.Matrices.xCreate_Rotation_Around_X_Axis(50.0) * Math.Matrices.xCreate_Rotation_Around_Y_Axis(50.0) * Math.Matrices.xCreate_Rotation_Around_Z_Axis(50.0)).pxGet_Allocated_Copy;
 
    begin
 
-      AUnit.Assertions.Assert
-        (Gnattest_Generated.Default_Assert_Value,
-         "Test not implemented.");
+      pxOrientationalController := Navigation.Orientational_Controller.pxCreate(pxCurrentOrientation, pxWantedOrientation, pxCurrentOrientation.xGet_Inverse.pxGet_Allocated_Copy);
+
+      AUnit.Assertions.Assert(Condition => pxOrientationalController /= null,
+                              Message   => "pxOrientationalController is null after construction");
+
+      pxOrientationalController.Finalize;
+
+      AUnit.Assertions.Assert(Condition => pxOrientationalController.pxPlanalMotionComponent = null,
+                              Message   => "pxPlanalMotionComponent is not null after finalization");
+
+      AUnit.Assertions.Assert(Condition => pxOrientationalController.pxDirectionalMotionComponent = null,
+                              Message   => "pxDirectionalMotionComponent is not null after finalization");
+
+      AUnit.Assertions.Assert(Condition => pxOrientationalController.pxCurrentToWantedPlaneRotation = null,
+                              Message   => "pxCurrentToWantedPlaneRotation is not null after finalization");
+
+
 
 --  begin read only
    end Test_Finalize;
