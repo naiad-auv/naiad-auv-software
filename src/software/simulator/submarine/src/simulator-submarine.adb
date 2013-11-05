@@ -5,7 +5,7 @@ with Math.Matrices;use Math.Matrices;
 with Simulator.Motor_Info; use Simulator.Motor_Info;
 with Ada.Unchecked_Deallocation;
 with Exception_Handling;
-
+with Ada.Text_IO; use Ada.Text_IO;
 package body simulator.submarine is
 
    --------------------
@@ -59,6 +59,7 @@ package body simulator.submarine is
       tfRawMatrix := ((0.36,0.001,0.037),
                       (0.001,0.9,0.0003),
                       (0.037,0.0003,1.094));
+
       pxSubmarine.pxInertiaMatrix := math.Matrices.pxGet_Allocated_Copy(Math.Matrices.xCreate(tfMatrix => tfRawMatrix));
 
 
@@ -412,12 +413,21 @@ package body simulator.submarine is
    begin
 
       if this.pxAccelerationVector /= null and this.pxAngularAccelerationVector /= null then
+<<<<<<< HEAD
          xDeltaRotationMovement := this.pxAngularVelocityVector*fTimeDuration;
 
          if xDeltaRotationMovement.fLength_Squared /= 0.0 then
 
             xRotationQuaternion := math.Quaternions.xCreate(xAxisVector    => xDeltaRotationMovement,
                                                               fAngleInDegrees => math.Angles.fRadians_To_Degrees(fAngle => xDeltaRotationMovement.fLength));
+=======
+         xDeltaMovement := this.pxAngularVelocityVector*fTimeDuration;
+         Put_Line("xDeltaMovement X: " & xDeltaMovement.fGet_X'Img & " Y: " & xDeltaMovement.fGet_Y'img & " Z: " & xDeltaMovement.fGet_Z'img);
+
+         if xDeltaMovement.fLength_Squared /= 0.0 then
+            xRotationQuaternion := math.Quaternions.xCreate(xAxisVector    => xDeltaMovement,
+                                                            fAngleInDegrees => math.Angles.fRadians_To_Degrees(fAngle => xDeltaMovement.fLength));
+>>>>>>> d3062a92cf1a00cfffbcf63392ebff09ac9da602
             this.pxOrientationMatrix.Copy_From(math.Matrices.xCreate_From_Quaternion(xFromQuaternion => xRotationQuaternion) * this.pxOrientationMatrix);
 
          end if;

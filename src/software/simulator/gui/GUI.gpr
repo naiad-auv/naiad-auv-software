@@ -1,3 +1,5 @@
+with "..\..\..\lib\exception_handling\exception_handling.gpr";
+with "..\viewmodel\viewmodel.gpr";
 with "C:/GtkAda/lib/gnat/gtkada";
 
 project GUI is
@@ -7,14 +9,14 @@ project GUI is
    Library_Type : Gtkada_Kind_Type := external ("LIBRARY_TYPE", "static");
    for Source_Dirs use ("src");
    for Object_Dir use "obj";
-   for Exec_Dir use ".";
+   for Exec_Dir use "obj";
 
    package Builder is
       for Default_Switches ("ada") use ("-s");
    end Builder;
 
    package Compiler is
-            for Default_Switches ("ada") use ("-O2", "-gnat05");
+      for Default_Switches ("ada") use ("-O2", "-gnat05");
    end Compiler;
 
    package Linker is
@@ -22,4 +24,14 @@ project GUI is
       for Default_Switches ("ada") use ("-mwindows");
    end Linker;
 
+   case Library_Type is
+
+      when "static" =>
+         for Main use ("main.adb");
+
+      when "relocatable" =>
+
+   end case;
+
 end GUI;
+
