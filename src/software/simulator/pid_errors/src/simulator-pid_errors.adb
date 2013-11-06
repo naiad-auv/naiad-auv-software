@@ -66,14 +66,14 @@ package body Simulator.Pid_Errors is
       fAngleBetweenPlanesInRadians := Math.Planes.fAngle_Between_In_Radians(xCurrentRelativePlane, xWantedRelativePlane);
 
 
-      this.tfPIDErrors(Plane) := fAngleBetweenPlanesInRadians;
+    --  this.tfPIDErrors(Plane) := fAngleBetweenPlanesInRadians;
 
       xNewCurrentToWantedPlaneRotation := Math.Quaternions.xCreate(xAxisVector => Math.Planes.xGet_Intersection_Vector_Between(xCurrentRelativePlane, xWantedRelativePlane),
                                                                    fAngleInDegrees => math.Angles.fRadians_To_Degrees(fAngleBetweenPlanesInRadians));
 
       xCurrentDirectionVectorOnWantedPlane := Math.Matrices.xCreate_From_Quaternion(xNewCurrentToWantedPlaneRotation) * xCurrentRelativeOrientation.xGet_X_Vector;
 
-      this.tfPIDErrors(Direction) := math.Vectors.fAngle_Between_In_Radians(xCurrentDirectionVectorOnWantedPlane, xWantedRelativeOrientation.xGet_X_Vector);
+   --   this.tfPIDErrors(Direction) := math.Vectors.fAngle_Between_In_Radians(xCurrentDirectionVectorOnWantedPlane, xWantedRelativeOrientation.xGet_X_Vector);
 
    exception
       when E : others =>

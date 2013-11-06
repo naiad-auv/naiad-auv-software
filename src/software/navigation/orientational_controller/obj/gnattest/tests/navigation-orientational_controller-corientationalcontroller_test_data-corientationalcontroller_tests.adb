@@ -47,9 +47,7 @@ package body Navigation.Orientational_Controller.COrientationalController_Test_D
 
       pxOrientationalController.Update_Current_Errors;
 
-      pxOrientationalController.Get_Orientational_Thruster_Control_Values(fDeltaTime                  => 1.0,
-                                                                          xOrientationalControlValues => xThrusterControlValues);
-
+      xThrusterControlValues := pxOrientationalController.xGet_Orientational_Thruster_Control_Values(1.0);
       for i in xThrusterControlValues'Range loop
          if xThrusterControlValues(i) /= 0.0 then
             bAtleasteOneControlValue := true;
@@ -263,14 +261,14 @@ package body Navigation.Orientational_Controller.COrientationalController_Test_D
 
       pxOrientationalController.Finalize;
 
-      AUnit.Assertions.Assert(Condition => pxOrientationalController.pxPlanalMotionComponent = null,
-                              Message   => "pxPlanalMotionComponent is not null after finalization");
+      AUnit.Assertions.Assert(Condition => pxOrientationalController.pxXRotMotionComponent = null,
+                              Message   => "pxXRotMotionComponent is not null after finalization");
 
-      AUnit.Assertions.Assert(Condition => pxOrientationalController.pxDirectionalMotionComponent = null,
-                              Message   => "pxDirectionalMotionComponent is not null after finalization");
+      AUnit.Assertions.Assert(Condition => pxOrientationalController.pxYRotMotionComponent = null,
+                              Message   => "pxYRotMotionComponent is not null after finalization");
 
-      AUnit.Assertions.Assert(Condition => pxOrientationalController.pxCurrentToWantedPlaneRotation = null,
-                              Message   => "pxCurrentToWantedPlaneRotation is not null after finalization");
+      AUnit.Assertions.Assert(Condition => pxOrientationalController.pxZRotMotionComponent = null,
+                              Message   => "pxZRotMotionComponent is not null after finalization");
 
 
 
