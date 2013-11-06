@@ -24,15 +24,6 @@ package Navigation.Motion_Component is
    --  <parameter name="xMotionComponent">The component origin of the control value.</parameter>
 
 
-   type TOrientationalControlValues is array (Direction .. Plane) of Navigation.Motion_Component.TComponentControlValue;
-   --  <summary>TOrientationalControlValues of type TComponentControlValue in range [Direction, Plane].</summary>
-
-   type TPositionalControlValues is array (X .. Z) of Navigation.Motion_Component.TComponentControlValue;
-   --  <summary>TPositionalControlValues of type TComponentControlValue in range [X, Z].</summary>
-
-   type TControlValues is array (X .. Plane) of Navigation.Motion_Component.TComponentControlValue;
-   --  <summary>TControlValues of type TComponentControlValue in range [X, Plane].</summary>
-
    function pxCreate (eAxisIndex : EMotionComponent; xPIDScalings : Navigation.PID_Controller.TPIDComponentScalings) return pCMotionComponent;
    --  <summary>Creates an object of type CMotionComponent and sets the scaling components for the object in question</summary>
    --  <parameter name="xPIDScalings">The TPIDComponetScalings object to use as scaling components for the motion component.</parameter>

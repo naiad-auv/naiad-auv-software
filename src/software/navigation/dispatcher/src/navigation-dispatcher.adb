@@ -105,12 +105,14 @@ package body Navigation.Dispatcher is
          when Navigation.Motion_Component.X .. Navigation.Motion_Component.Z =>
             this.pxPositionalController.Set_New_PID_Component_Scalings(eComponentToUpdate => eComponentToChange,
                                                                        xNewPIDScaling     => xNewPIDSCalings);
-         when Navigation.Motion_Component.Direction .. Navigation.Motion_Component.Plane =>
+         when Navigation.Motion_Component.RotationX .. Navigation.Motion_Component.RotationZ =>
             this.pxOrientationalController.Set_New_PID_Component_Scalings(eComponentToUpdate => eComponentToChange,
                                                                           xNewPIDScaling     => xNewPIDSCalings);
          when Navigation.Motion_Component.DriftX .. Navigation.Motion_Component.DriftZ =>
             this.pxDriftController.Set_New_PID_Component_Scalings(eComponentToUpdate => eComponentToChange,
                                                                   xNewPIDScaling     => xNewPIDSCalings);
+         when Navigation.Motion_Component.SpinX .. Navigation.Motion_Component.SpinZ =>
+            null;
          when Navigation.Motion_Component.AllComponents =>
             this.pxPositionalController.Set_New_PID_Component_Scalings(eComponentToUpdate => eComponentToChange,
                                                                        xNewPIDScaling     => xNewPIDSCalings);

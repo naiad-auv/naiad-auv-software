@@ -38,17 +38,12 @@ package body Navigation.Positional_Controller is
       xZControlValue : Navigation.Motion_Component.TComponentControlValue;
    begin
 
-      this.pxXMotionComponent.Get_New_Component_Control_Value(fDeltaTime             => fDeltaTime,
-                                                              xComponentControlValue => xXControlValue);
-
-      this.pxYMotionComponent.Get_New_Component_Control_Value(fDeltaTime             => fDeltaTime,
-                                                              xComponentControlValue => xYControlValue);
-
-      this.pxZMotionComponent.Get_New_Component_Control_Value(fDeltaTime             => fDeltaTime,
-                                                              xComponentControlValue => xZControlValue);
+      xXControlValue := this.pxXMotionComponent.xGet_New_Component_Control_Value(fDeltaTime);
+      xYControlValue := this.pxYMotionComponent.xGet_New_Component_Control_Value(fDeltaTime);
+      xZControlValue := this.pxZMotionComponent.xGet_New_Component_Control_Value(fDeltaTime);
 
       return Navigation.Thrusters.TThrusterEffects'(Navigation.Thrusters.XPosition => xXControlValue.fValue,
-                                                                         Navigation.Thrusters.YPosition => xYControlValue.fValue,
+                                                    Navigation.Thrusters.YPosition => xYControlValue.fValue,
                                                                          Navigation.Thrusters.ZPosition => xZControlValue.fValue,
                                                                          others => 0.0);
    end xGet_Positional_Thruster_Control_Values;
