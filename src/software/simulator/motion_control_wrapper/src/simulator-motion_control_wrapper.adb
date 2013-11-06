@@ -17,9 +17,11 @@ package body simulator.Motion_Control_Wrapper is
                                                             xNewPIDSCalings    => (0.0,0.0,0.0));
       pxWrapper.pxDispatcher.Set_New_Component_PID_Scalings(eComponentToChange => Navigation.Motion_Component.Z,
                                                             xNewPIDSCalings    => (0.0,0.0,0.0));
-      pxWrapper.pxDispatcher.Set_New_Component_PID_Scalings(eComponentToChange => Navigation.Motion_Component.Direction,
+      pxWrapper.pxDispatcher.Set_New_Component_PID_Scalings(eComponentToChange => Navigation.Motion_Component.RotationX,
                                                             xNewPIDSCalings    => (0.0,0.0,0.0));
-      pxWrapper.pxDispatcher.Set_New_Component_PID_Scalings(eComponentToChange => Navigation.Motion_Component.Plane,
+      pxWrapper.pxDispatcher.Set_New_Component_PID_Scalings(eComponentToChange => Navigation.Motion_Component.RotationY,
+                                                            xNewPIDSCalings    => (0.0,0.0,0.0));
+      pxWrapper.pxDispatcher.Set_New_Component_PID_Scalings(eComponentToChange => Navigation.Motion_Component.RotationZ,
                                                             xNewPIDSCalings    => (0.0,0.0,0.0));
       pxWrapper.pxDispatcher.Set_New_Component_PID_Scalings(eComponentToChange => Navigation.Motion_Component.DriftX,
                                                             xNewPIDSCalings    => (0.0,0.0,0.0));
