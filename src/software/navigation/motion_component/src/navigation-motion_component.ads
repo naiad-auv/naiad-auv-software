@@ -11,7 +11,7 @@ package Navigation.Motion_Component is
    procedure Free(pxMotionComponentToDeallocate : in out pCMotionComponent);
 
 
-   type EMotionComponent is (Unknown, X, Y, Z, Direction, Plane, DriftX, DriftY, DriftZ, AllComponents);
+   type EMotionComponent is (Unknown, X, Y, Z, RotationX, RotationY, RotationZ, DriftX, DriftY, DriftZ, SpinX, SpinY, SpinZ, AllComponents);
    --  <summary>EMotionComponent is an enum with the range [Unknown, X, Y, Z, Direction, Plane, AllComponents].</summary>
 
    type TComponentControlValue is
