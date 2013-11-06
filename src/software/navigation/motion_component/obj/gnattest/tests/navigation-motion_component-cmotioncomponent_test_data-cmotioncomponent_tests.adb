@@ -31,8 +31,7 @@ package body Navigation.Motion_Component.CMotionComponent_Test_Data.CMotionCompo
       pxMotionComponent := Navigation.Motion_Component.pxCreate(xComponentIndex, xPidScalings);
       pxMotionComponent.Update_Current_Error(100.0);
 
-      pxMotionComponent.Get_New_Component_Control_Value(fDeltaTime             => 1.0,
-                                                        xComponentControlValue => xCurrentComponentControlValue);
+      xCurrentComponentControlValue  := pxMotionComponent.xGet_New_Component_Control_Value(fDeltaTime => 1.0);
 
       AUnit.Assertions.Assert(Condition => xCurrentComponentControlValue.xMotionComponent = X,
                               Message => "Incorrect component value when getting new control value");
@@ -46,8 +45,7 @@ package body Navigation.Motion_Component.CMotionComponent_Test_Data.CMotionCompo
       pxMotionComponent := Navigation.Motion_Component.pxCreate(xComponentIndex, xPidScalings);
       pxMotionComponent.Update_Current_Error(0.0);
 
-      pxMotionComponent.Get_New_Component_Control_Value(fDeltaTime 		=> 0.25,
-                                                         xComponentControlValue => xCurrentComponentControlValue);
+      xCurrentComponentControlValue := pxMotionComponent.xGet_New_Component_Control_Value(fDeltaTime => 0.25);
       AUnit.Assertions.Assert(Condition => xCurrentComponentControlValue.fValue = 0.0,
                               Message => "abo");
 
