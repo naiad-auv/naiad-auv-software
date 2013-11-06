@@ -93,42 +93,40 @@ package body Navigation.Orientational_Controller.Test_Data.Tests is
 
 
 --  begin read only
-   procedure Test_fGet_Directional_Error (Gnattest_T : in out Test);
-   procedure Test_fGet_Directional_Error_3df5b3 (Gnattest_T : in out Test) renames Test_fGet_Directional_Error;
---  id:2.1/3df5b3dea6636632/fGet_Directional_Error/1/0/
-   procedure Test_fGet_Directional_Error (Gnattest_T : in out Test) is
-   --  navigation-orientational_controller.ads:50:4:fGet_Directional_Error
+   --  procedure Test_fGet_Directional_Error (Gnattest_T : in out Test_);
+   --  procedure Test_fGet_Directional_Error_3df5b3 (Gnattest_T : in out Test_) renames Test_fGet_Directional_Error;
+--  id:2.1/3df5b3dea6636632/fGet_Directional_Error/1/1/
+   --  procedure Test_fGet_Directional_Error (Gnattest_T : in out Test_) is
+--  end read only
+--  
+--        pragma Unreferenced (Gnattest_T);
+--  
+--     begin
+--  
+--        --TODO, untestable before mocks
+--        null;
+--  
+--  begin read only
+   --  end Test_fGet_Directional_Error;
 --  end read only
 
-      pragma Unreferenced (Gnattest_T);
-
-   begin
-
-      --TODO, untestable before mocks
-      null;
 
 --  begin read only
-   end Test_fGet_Directional_Error;
+   --  procedure Test_fGet_Planal_Error (Gnattest_T : in out Test_);
+   --  procedure Test_fGet_Planal_Error_9256bd (Gnattest_T : in out Test_) renames Test_fGet_Planal_Error;
+--  id:2.1/9256bd0e986fcd8c/fGet_Planal_Error/1/1/
+   --  procedure Test_fGet_Planal_Error (Gnattest_T : in out Test_) is
 --  end read only
-
-
+--  
+--        pragma Unreferenced (Gnattest_T);
+--  
+--     begin
+--  
+--        --TODO, untestable before mocks
+--        null;
+--  
 --  begin read only
-   procedure Test_fGet_Planal_Error (Gnattest_T : in out Test);
-   procedure Test_fGet_Planal_Error_9256bd (Gnattest_T : in out Test) renames Test_fGet_Planal_Error;
---  id:2.1/9256bd0e986fcd8c/fGet_Planal_Error/1/0/
-   procedure Test_fGet_Planal_Error (Gnattest_T : in out Test) is
-   --  navigation-orientational_controller.ads:51:4:fGet_Planal_Error
---  end read only
-
-      pragma Unreferenced (Gnattest_T);
-
-   begin
-
-      --TODO, untestable before mocks
-      null;
-
---  begin read only
-   end Test_fGet_Planal_Error;
+   --  end Test_fGet_Planal_Error;
 --  end read only
 
 end Navigation.Orientational_Controller.Test_Data.Tests;
