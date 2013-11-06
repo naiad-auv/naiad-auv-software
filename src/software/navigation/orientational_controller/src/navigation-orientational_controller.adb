@@ -45,7 +45,7 @@ package body Navigation.Orientational_Controller is
 
 
 
-   function Get_Orientational_Thruster_Control_Values (this : in COrientationalController; fDeltaTime : in float) return Navigation.Thrusters.TThrusterEffects is
+   function xGet_Orientational_Thruster_Control_Values (this : in COrientationalController; fDeltaTime : in float) return Navigation.Thrusters.TThrusterEffects is
       use Navigation.Thrusters;
       xOrientationalControlValues : Navigation.Thrusters.TThrusterEffects;
    begin
