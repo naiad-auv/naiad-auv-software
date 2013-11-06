@@ -26,7 +26,7 @@ package Navigation.Orientational_Controller is
    --  <parameter name="pxCurrentAbsoluteOrientation">A reference to the current absolute orientation</parameter>
    --  <parameter name="pxWantedAbsoluteOrientation">A reference to the wanted absolute orientation</parameter>
 
-   procedure Get_Orientational_Thruster_Control_Values (this : in out COrientationalController; fDeltaTime : in float; xOrientationalControlValues : out Navigation.Thrusters.TThrusterEffects);
+   function xGet_Orientational_Thruster_Control_Values (this : in COrientationalController; fDeltaTime : in float) return Navigation.Thrusters.TThrusterEffects;
    --  <summary>Calculates thruster control values for all thrusters and scales them accordingly</summary>
    --  <parameter name="this">The COrientationalController to do the calculations upon.</parameter>
    --  <parameter name="fDeltaTime">The time difference since the last calculation.</parameter>
@@ -44,14 +44,13 @@ package Navigation.Orientational_Controller is
 
 private
 
-   procedure Update_Current_Planal_Error (this : in out COrientationalController);
-   procedure Update_Current_Directional_Error (this : in COrientationalController);
+   procedure Update_Current_X_Rotation_Error (this : in COrientationalController);
+   procedure Update_Current_Y_Rotation_Error (this : in COrientationalController);
+   procedure Update_Current_Z_Rotation_Error (this : in COrientationalController);
 
-   function fGet_Directional_Error (xCurrentRelativeDirectionVector : in Math.Vectors.CVector; xWantedRelativeDirectionVector : in Math.Vectors.CVector) return float;
-   function fGet_Planal_Error (xCurrentRelativePlane : in Math.Planes.CPlane; xWantedRelativePlane : in Math.Planes.CPlane) return float;
-
-   function xGet_Planal_Thruster_Control_Value (this : in COrientationalController; fDeltaTime : in float) return Navigation.Thrusters.TThrusterEffects;
-   function xGet_Directional_Thruster_Control_Value (this : in COrientationalController; fDeltaTime : in float) return Navigation.Thrusters.TThrusterEffects;
+   function xGet_X_Rotation_Thruster_Control_Value (this : in COrientationalController; fDeltaTime : in float) return Navigation.Thrusters.TThrusterEffects;
+   function xGet_Y_Rotation_Thruster_Control_Value (this : in COrientationalController; fDeltaTime : in float) return Navigation.Thrusters.TThrusterEffects;
+   function xGet_Z_Rotation_Thruster_Control_Value (this : in COrientationalController; fDeltaTime : in float) return Navigation.Thrusters.TThrusterEffects;
 
    type COrientationalController is new Ada.Finalization.Controlled with
       record
@@ -59,10 +58,9 @@ private
          pxWantedAbsoluteOrientation : Math.Matrices.pCMatrix;
          pxCurrentAbsoluteOrientationInverse : Math.Matrices.pCMatrix;
 
-         pxPlanalMotionComponent: Navigation.Motion_Component.pCMotionComponent;
-         pxDirectionalMotionComponent : Navigation.Motion_Component.pCMotionComponent;
-
-         pxCurrentToWantedPlaneRotation : Math.Quaternions.pCQuaternion;
+         pxXRotMotionComponent : Navigation.Motion_Component.pCMotionComponent;
+         pxYRotMotionComponent : Navigation.Motion_Component.pCMotionComponent;
+         pxZRotMotionComponent : Navigation.Motion_Component.pCMotionComponent;
       end record;
 
    procedure Finalize(this : in out COrientationalController);

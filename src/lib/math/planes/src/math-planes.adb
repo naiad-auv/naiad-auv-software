@@ -71,6 +71,11 @@ package body Math.Planes is
 
    function fAngle_Between_In_Radians (xLeftOperandPlane : in CPlane; xRightOperandPlane : in CPlane) return float is
    begin
+      if xLeftOperandPlane.xGet_Normal_Vector = xRightOperandPlane.xGet_Normal_Vector or
+        xLeftOperandPlane.xGet_Normal_Vector = -xRightOperandPlane.xGet_Normal_Vector then
+         return 0.0;
+      end if;
+
       return Math.Vectors.fAngle_Between_In_Radians(xLeftOperandPlane.xGet_Normal_Vector,
                                                                 xRightOperandPlane.xGet_Normal_Vector);
 

@@ -34,8 +34,9 @@ package body Navigation.Orientational_Controller is
 
    procedure Update_Current_Errors (this : in out COrientationalController) is
    begin
-      this.Update_Current_Planal_Error;
-      this.Update_Current_Directional_Error;
+      this.Update_Current_X_Rotation_Error;
+      this.Update_Current_Y_Rotation_Error;
+      this.Update_Current_Z_Rotation_Error;
    exception
       when E : others =>
          Exception_Handling.Reraise_Exception(E       => E,
@@ -44,13 +45,16 @@ package body Navigation.Orientational_Controller is
 
 
 
-   procedure Get_Orientational_Thruster_Control_Values (this : in out COrientationalController; fDeltaTime : in float; xOrientationalControlValues : out Navigation.Thrusters.TThrusterEffects) is
+   function Get_Orientational_Thruster_Control_Values (this : in COrientationalController; fDeltaTime : in float) return Navigation.Thrusters.TThrusterEffects is
       use Navigation.Thrusters;
-
+      xOrientationalControlValues : Navigation.Thrusters.TThrusterEffects;
    begin
 
-      xOrientationalControlValues :=  this.xGet_Planal_Thruster_Control_Value(fDeltaTime) + this.xGet_Directional_Thruster_Control_Value(fDeltaTime);
-   end Get_Orientational_Thruster_Control_Values;
+      xOrientationalControlValues :=  this.xGet_X_Rotation_Thruster_Control_Value(fDeltaTime) +
+        this.xGet_Y_Rotation_Thruster_Control_Value(fDeltaTime) +
+        this.xGet_Z_Rotation_Thruster_Control_Value(fDeltaTime);
+      return xOrientationalControlValues;
+   end xGet_Orientational_Thruster_Control_Values;
 
    procedure Set_New_PID_Component_Scalings(this : in COrientationalController; eComponentToUpdate : Navigation.Motion_Component.EMotionComponent; xNewPIDScaling : Navigation.PID_Controller.TPIDComponentScalings) is
    begin
@@ -67,26 +71,6 @@ package body Navigation.Orientational_Controller is
       end case;
    end Set_New_PID_Component_Scalings;
 
-
-   function fGet_Directional_Error (xCurrentRelativeDirectionVector : in Math.Vectors.CVector; xWantedRelativeDirectionVector : in Math.Vectors.CVector) return float is
-   begin
-      return Math.Vectors.fAngle_Between_In_Radians(xWantedRelativeDirectionVector, xCurrentRelativeDirectionVector);
-   exception
-      when E : others =>
-         Exception_Handling.Reraise_Exception(E       => E,
-                                              Message => "Navigation.Orientational_Controller.fGet_Directional_Error (xCurrentRelativeDirectionVector : in Math.Vectors.CVector; xWantedRelativeDirectionVector : in Math.Vectors.CVector) return float");
-         return 0.0;
-   end fGet_Directional_Error;
-
-   function fGet_Planal_Error (xCurrentRelativePlane : in Math.Planes.CPlane; xWantedRelativePlane : in Math.Planes.CPlane) return float is
-   begin
-      return Math.Planes.fAngle_Between_In_Radians(xCurrentRelativePlane, xWantedRelativePlane);
-   exception
-      when E : others =>
-         Exception_Handling.Reraise_Exception(E       => E,
-                                              Message => "Navigation.Orientational_Controller.fGet_Planal_Error (xCurrentRelativePlane : in Math.Planes.CPlane; xWantedRelativePlane : in Math.Planes.CPlane) return float");
-         return 0.0;
-   end fGet_Planal_Error;
 
    function xGet_Planal_Thruster_Control_Value (this : in COrientationalController; fDeltaTime : in float) return Navigation.Thrusters.TThrusterEffects is
       xRotationAxis : Math.Vectors.CVector;
@@ -113,14 +97,14 @@ package body Navigation.Orientational_Controller is
               others => 0.0);
    end xGet_Directional_Thruster_Control_Value;
 
-   procedure Update_Current_Planal_Error (this : in out COrientationalController) is
+   procedure Update_Current_Z_Rotation_Error (this : in COrientationalController) is
       use Math.Matrices;
       xWantedRelativeOrientation : Math.Matrices.CMatrix;
       xCurrentRelativeOrientation : Math.Matrices.CMatrix;
 
       xWantedRelativePlane : Math.Planes.CPlane;
       xCurrentRelativePlane : Math.Planes.CPlane;
-      fAngleBetweenPlanesInDegrees : float;
+      fAngleBetweenPlanesInRadians : float;
 
       xNewCurrentToWantedPlaneRotation : Math.Quaternions.CQuaternion;
 
@@ -129,14 +113,14 @@ package body Navigation.Orientational_Controller is
       xWantedRelativeOrientation := this.pxCurrentAbsoluteOrientationInverse.all * this.pxWantedAbsoluteOrientation.all;
 
 
-      xCurrentRelativePlane := Math.Planes.xCreate(xNormalVector      => Math.Vectors.xCross_Product(xCurrentRelativeOrientation.xGet_X_Vector, xCurrentRelativeOrientation.xGet_Y_Vector),
+      xCurrentRelativePlane := Math.Planes.xCreate(xNormalVector      => xCurrentRelativeOrientation.xGet_Z_Vector,
                                                      fDistanceFromOrigin => 0.0);
       xWantedRelativePlane := xWantedRelativeOrientation * xCurrentRelativePlane;
 
 
 
-
-      fAngleBetweenPlanesInDegrees := Math.Angles.fRadians_To_Degrees(Math.Planes.fAngle_Between_In_Radians(xCurrentRelativePlane, xWantedRelativePlane));
+      fAngleBetweenPlanesInRadians := Math.Planes.fAngle_Between_In_Radians(xCurrentRelativePlane, xWantedRelativePlane);
+      if abs(fAngleBetweenPlanesInRadians) = 0.0 then
       xNewCurrentToWantedPlaneRotation := Math.Quaternions.xCreate(xAxisVector => Math.Planes.xGet_Intersection_Vector_Between(xCurrentRelativePlane, xWantedRelativePlane),
                                                                    fAngleInDegrees => fAngleBetweenPlanesInDegrees);
 
@@ -149,7 +133,7 @@ package body Navigation.Orientational_Controller is
          Exception_Handling.Reraise_Exception(E       => E,
                                               Message => "Navigation.Orientational_Controller.Update_Current_Planal_Error (this : in out COrientationalController)");
 
-   end Update_Current_Planal_Error;
+   end Update_Current_Z_Rotation_Error;
 
    procedure Update_Current_Directional_Error (this : in COrientationalController) is
       use Math.Matrices;
@@ -180,14 +164,14 @@ package body Navigation.Orientational_Controller is
       use Navigation.Motion_Component;
       use Math.Quaternions;
    begin
-      if this.pxPlanalMotionComponent /= null then
-         Navigation.Motion_Component.Free(pxMotionComponentToDeallocate => this.pxPlanalMotionComponent);
+      if this.pxXRotMotionComponent /= null then
+         Navigation.Motion_Component.Free(pxMotionComponentToDeallocate => this.pxXRotMotionComponent);
       end if;
-      if this.pxDirectionalMotionComponent /= null then
-         Navigation.Motion_Component.Free(pxMotionComponentToDeallocate => this.pxDirectionalMotionComponent);
+      if this.pxYRotMotionComponent /= null then
+         Navigation.Motion_Component.Free(pxMotionComponentToDeallocate => this.pxYRotMotionComponent);
       end if;
-      if this.pxCurrentToWantedPlaneRotation /= null then
-         Math.Quaternions.Free(pxQuaternionToDeallocate => this.pxCurrentToWantedPlaneRotation);
+      if this.pxZRotMotionComponent /= null then
+         Navigation.Motion_Component.Free(pxMotionComponentToDeallocate => this.pxZRotMotionComponent);
       end if;
    end Finalize;
 
