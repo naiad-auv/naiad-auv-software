@@ -38,7 +38,7 @@ package Navigation.Motion_Component is
    --  <parameter name="xPIDScalings">The TPIDComponetScalings object to use as scaling components for the motion component.</parameter>
 --  <parameter name="eAxisIndex">The index of the axis.</parameter>
 
-   procedure Get_New_Component_Control_Value (this : in out CMotionComponent; fDeltaTime : float; xComponentControlValue : out TComponentControlValue);
+   function xGet_New_Component_Control_Value (this : in CMotionComponent; fDeltaTime : float) return TComponentControlValue;
    --  <summary>Calculates a new control value for a CMotionComponent</summary>
    --  <parameter name="this">The CMotionComponent to do the calculations upon.</parameter>
    --  <parameter name="fDeltaTime">The time difference since the last calculation.</parameter>

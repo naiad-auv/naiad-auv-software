@@ -14,15 +14,16 @@ package body Navigation.Motion_Component is
       return pxMotionComponent;
    end pxCreate;
 
-   procedure Get_New_Component_Control_Value (this : in out CMotionComponent; fDeltaTime : float; xComponentControlValue : out TComponentControlValue) is
-   	fNewControlValue : float;
+  
+   function xGet_New_Component_Control_Value (this : in CMotionComponent; fDeltaTime : float) return TComponentControlValue is
+      fNewControlValue : float;
    begin
       this.pxComponentPIDController.Get_New_Control_Value(fDeltaTime    => fDeltaTime,
-                                                                              fControlValue => fNewControlValue);
+                                                          fControlValue => fNewControlValue);
  
-      xComponentControlValue := TComponentControlValue'(fNewControlValue, this.eComponentIndex);
+      return TComponentControlValue'(fNewControlValue, this.eComponentIndex);
       
-   end Get_New_Component_Control_Value;
+   end xGet_New_Component_Control_Value;
 
    procedure Set_New_PID_Component_Scalings (this : in out CMotionComponent; xNewScalings : Navigation.PID_Controller.TPIDComponentScalings) is
    begin

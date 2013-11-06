@@ -32,7 +32,7 @@ package body Navigation.Positional_Controller is
 
    end pxCreate;
 
-   procedure Get_Positional_Thruster_Control_Values (this : in out CPositionalController; fDeltaTime : float; xPositionalControlValues : out Navigation.Thrusters.TThrusterEffects) is
+   function xGet_Positional_Thruster_Control_Values(this : in CPositionalController; fDeltaTime : float) return Navigation.Thrusters.TThrusterEffects is
       xXControlValue : Navigation.Motion_Component.TComponentControlValue;
       xYControlValue : Navigation.Motion_Component.TComponentControlValue;
       xZControlValue : Navigation.Motion_Component.TComponentControlValue;
@@ -47,11 +47,11 @@ package body Navigation.Positional_Controller is
       this.pxZMotionComponent.Get_New_Component_Control_Value(fDeltaTime             => fDeltaTime,
                                                               xComponentControlValue => xZControlValue);
 
-      xPositionalControlValues := Navigation.Thrusters.TThrusterEffects'(Navigation.Thrusters.XPosition => xXControlValue.fValue,
+      return Navigation.Thrusters.TThrusterEffects'(Navigation.Thrusters.XPosition => xXControlValue.fValue,
                                                                          Navigation.Thrusters.YPosition => xYControlValue.fValue,
                                                                          Navigation.Thrusters.ZPosition => xZControlValue.fValue,
                                                                          others => 0.0);
-   end Get_Positional_Thruster_Control_Values;
+   end xGet_Positional_Thruster_Control_Values;
 
 
 
