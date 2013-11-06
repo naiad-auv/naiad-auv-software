@@ -129,13 +129,14 @@ package body Navigation.Orientational_Controller is
          xNewCurrentToWantedPlaneRotation := Math.Quaternions.xCreate(xAxisVector => Math.Planes.xGet_Intersection_Vector_Between(xCurrentRelativePlane, xWantedRelativePlane),
                                                                       fAngleInDegrees => Math.Angles.fRadians_To_Degrees(fAngleBetweenPlanesInRadians));
          xCurrentXVector := Math.Matrices.xCreate_From_Quaternion(xNewCurrentToWantedPlaneRotation) * xCurrentXVector;
-
-         fError := Math.Vectors.fAngle_Between_In_Radians(xCurrentXVector, xWantedXVector);
-
-         if Math.Vectors.fDot_Product(xWantedXVector, Math.Vectors.xCross_Product(xCurrentXVector, xWantedRelativePlane.xGet_Normal_Vector)) < 0.0 then
-            fError := fError * (-1.0);
-         end if;
       end if;
+
+      fError := Math.Vectors.fAngle_Between_In_Radians(xCurrentXVector, xWantedXVector);
+
+      if Math.Vectors.fDot_Product(xWantedXVector, Math.Vectors.xCross_Product(xCurrentXVector, xWantedRelativePlane.xGet_Normal_Vector)) < 0.0 then
+         fError := fError * (-1.0);
+      end if;
+
 
       this.pxZRotMotionComponent.Update_Current_Error(fError);
    exception
@@ -181,12 +182,12 @@ package body Navigation.Orientational_Controller is
          xNewCurrentToWantedPlaneRotation := Math.Quaternions.xCreate(xAxisVector => Math.Planes.xGet_Intersection_Vector_Between(xCurrentRelativePlane, xWantedRelativePlane),
                                                                       fAngleInDegrees => Math.Angles.fRadians_To_Degrees(fAngleBetweenPlanesInRadians));
          xCurrentZVector := Math.Matrices.xCreate_From_Quaternion(xNewCurrentToWantedPlaneRotation) * xCurrentZVector;
+      end if;
 
-         fError := Math.Vectors.fAngle_Between_In_Radians(xCurrentZVector, xWantedZVector);
+      fError := Math.Vectors.fAngle_Between_In_Radians(xCurrentZVector, xWantedZVector);
 
-         if Math.Vectors.fDot_Product(xWantedZVector, Math.Vectors.xCross_Product(xCurrentZVector, xWantedRelativePlane.xGet_Normal_Vector)) < 0.0 then
-            fError := fError * (-1.0);
-         end if;
+      if Math.Vectors.fDot_Product(xWantedZVector, Math.Vectors.xCross_Product(xCurrentZVector, xWantedRelativePlane.xGet_Normal_Vector)) < 0.0 then
+         fError := fError * (-1.0);
       end if;
 
       this.pxZRotMotionComponent.Update_Current_Error(fError);
@@ -234,12 +235,12 @@ package body Navigation.Orientational_Controller is
          xNewCurrentToWantedPlaneRotation := Math.Quaternions.xCreate(xAxisVector => Math.Planes.xGet_Intersection_Vector_Between(xCurrentRelativePlane, xWantedRelativePlane),
                                                                       fAngleInDegrees => Math.Angles.fRadians_To_Degrees(fAngleBetweenPlanesInRadians));
          xCurrentYVector := Math.Matrices.xCreate_From_Quaternion(xNewCurrentToWantedPlaneRotation) * xCurrentYVector;
+      end if;
 
-         fError := Math.Vectors.fAngle_Between_In_Radians(xCurrentYVector, xWantedYVector);
+      fError := Math.Vectors.fAngle_Between_In_Radians(xCurrentYVector, xWantedYVector);
 
-         if Math.Vectors.fDot_Product(xWantedYVector, Math.Vectors.xCross_Product(xCurrentYVector, xWantedRelativePlane.xGet_Normal_Vector)) < 0.0 then
-            fError := fError * (-1.0);
-         end if;
+      if Math.Vectors.fDot_Product(xWantedYVector, Math.Vectors.xCross_Product(xCurrentYVector, xWantedRelativePlane.xGet_Normal_Vector)) < 0.0 then
+         fError := fError * (-1.0);
       end if;
 
       this.pxZRotMotionComponent.Update_Current_Error(fError);
