@@ -11,7 +11,7 @@ package Navigation.Motion_Component is
    procedure Free(pxMotionComponentToDeallocate : in out pCMotionComponent);
 
 
-   type EMotionComponent is (Unknown, X, Y, Z, Direction, Plane, DriftX, DriftY, DriftZ, AllComponents);
+   type EMotionComponent is (Unknown, X, Y, Z, RotationX, RotationY, RotationZ, DriftX, DriftY, DriftZ, SpinX, SpinY, SpinZ, AllComponents);
    --  <summary>EMotionComponent is an enum with the range [Unknown, X, Y, Z, Direction, Plane, AllComponents].</summary>
 
    type TComponentControlValue is
@@ -24,21 +24,12 @@ package Navigation.Motion_Component is
    --  <parameter name="xMotionComponent">The component origin of the control value.</parameter>
 
 
-   type TOrientationalControlValues is array (Direction .. Plane) of Navigation.Motion_Component.TComponentControlValue;
-   --  <summary>TOrientationalControlValues of type TComponentControlValue in range [Direction, Plane].</summary>
-
-   type TPositionalControlValues is array (X .. Z) of Navigation.Motion_Component.TComponentControlValue;
-   --  <summary>TPositionalControlValues of type TComponentControlValue in range [X, Z].</summary>
-
-   type TControlValues is array (X .. Plane) of Navigation.Motion_Component.TComponentControlValue;
-   --  <summary>TControlValues of type TComponentControlValue in range [X, Plane].</summary>
-
    function pxCreate (eAxisIndex : EMotionComponent; xPIDScalings : Navigation.PID_Controller.TPIDComponentScalings) return pCMotionComponent;
    --  <summary>Creates an object of type CMotionComponent and sets the scaling components for the object in question</summary>
    --  <parameter name="xPIDScalings">The TPIDComponetScalings object to use as scaling components for the motion component.</parameter>
 --  <parameter name="eAxisIndex">The index of the axis.</parameter>
 
-   function xGet_New_Component_Control_Value(this : in out CMotionComponent; fDeltaTime : float) return TComponentControlValue;
+   function xGet_New_Component_Control_Value (this : in CMotionComponent; fDeltaTime : float) return TComponentControlValue;
    --  <summary>Calculates a new control value for a CMotionComponent</summary>
    --  <parameter name="this">The CMotionComponent to do the calculations upon.</parameter>
    --  <parameter name="fDeltaTime">The time difference since the last calculation.</parameter>

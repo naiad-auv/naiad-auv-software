@@ -49,16 +49,21 @@ package body Navigation.Drift_Controller is
    -- xGet_Positional_Thruster_Control_Values --
    ---------------------------------------------
 
-   function xGet_Positional_Thruster_Control_Values
-     (this : in out CDriftController;
-      fDeltaTime : float)
-      return Navigation.Thrusters.TThrusterEffects
-   is
+   function xGet_Positional_Thruster_Control_Values(this : in CDriftController; fDeltaTime : float) return Navigation.Thrusters.TThrusterEffects is
+
+	xXComponentControlValue : Navigation.Motion_Component.TComponentControlValue;
+	xYComponentControlValue : Navigation.Motion_Component.TComponentControlValue;
+	xZComponentControlValue : Navigation.Motion_Component.TComponentControlValue;
    begin
-      return Navigation.Thrusters.TThrusterEffects'(Navigation.Thrusters.XPosition => this.pxXDriftMotionComponent.xGet_New_Component_Control_Value(fDeltaTime).fValue,
-              Navigation.Thrusters.YPosition => this.pxYDriftMotionComponent.xGet_New_Component_Control_Value(fDeltatime).fValue,
-              Navigation.Thrusters.ZPosition => this.pxZDriftMotionComponent.xGet_New_Component_Control_Value(fDeltaTime).fValue,
-              others => 0.0);
+
+      xXComponentControlValue := this.pxXDriftMotionComponent.xGet_New_Component_Control_Value(fDeltaTime             => fDeltaTime);
+      xYComponentControlValue := this.pxYDriftMotionComponent.xGet_New_Component_Control_Value(fDeltaTime             => fDeltaTime);
+      xZComponentControlValue := this.pxZDriftMotionComponent.xGet_New_Component_Control_Value(fDeltaTime             => fDeltaTime);
+
+      return Navigation.Thrusters.TThrusterEffects'(Navigation.Thrusters.XPosition => xXComponentControlValue.fValue,
+                                                    Navigation.Thrusters.YPosition => xYComponentControlValue.fValue,
+                                                    Navigation.Thrusters.ZPosition => xZComponentControlValue.fValue,
+                                                    others => 0.0);
    end xGet_Positional_Thruster_Control_Values;
 
    ---------------------------

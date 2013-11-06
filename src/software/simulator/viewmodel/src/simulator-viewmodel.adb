@@ -168,6 +168,15 @@ package body Simulator.ViewModel is
       return this.txPidScalings(this.eSelectedPid).fDerivativeScale;
    end fGet_Selected_Pid_Scaling_Derivative_Part;
 
+   ----------------------
+   -- fGet_Motor_Force --
+   ----------------------
+
+   function fGet_Motor_Force(this : in CViewModel; iIndexMotor  : iMotorIndex) return float is
+   begin
+      return this.pxModel.fGet_Motor_Force(simulator.Model.iMotorIndex(iIndexMotor));
+   end fGet_Motor_Force;
+
 
    ----------------------
    -- Set_Selected_Pid --
@@ -219,6 +228,10 @@ package body Simulator.ViewModel is
          Exception_Handling.Unhandled_Exception(E);
    end Update_View_Model;
 
+   -------------
+   -- Restart --
+   -------------
+
    procedure Restart(this : in CViewModel) is
 
    begin
@@ -233,6 +246,9 @@ package body Simulator.ViewModel is
          Exception_Handling.Unhandled_Exception(E);
    end Restart;
 
+   -----------------------------------------
+   -- Set_Wanted_Position_And_Orientation --
+   -----------------------------------------
 
    procedure Set_Wanted_Position_And_Orientation(this : in CViewModel; fPositionX : float ;  fPositionY : float ; fPositionZ : float ; fOrientationR : float ;fOrientationP : float ;fOrientationY : float) is
       use math.Matrices;

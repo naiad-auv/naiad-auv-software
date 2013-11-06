@@ -41,8 +41,6 @@ package body Navigation.PID_Controller is
       this.fDerivativeScale := xNewScalings.fDerivativeScale;
    end Set_New_PID_Component_Scalings;
 
-
-
    procedure Update_Current_Value_From_External_Source(this : in out CPIDController; fValue : float) is
    begin
       this.fCurrentValue := fValue;
@@ -64,11 +62,9 @@ package body Navigation.PID_Controller is
       this.fProportionalScale := 0.0;
    end Reset_Controller;
 
-   function xGet_New_Control_Value (this : in out CPIDController; fDeltaTime : float) return float is
+   procedure Get_New_Control_Value (this : in out CPIDController; fDeltaTime : float; fControlValue : out float) is
       fLastError : float := this.fCurrentProportionalPart;
-      output : float;
    begin
-
 
       this.fCurrentProportionalPart := this.fCurrentSetPoint - this.fCurrentValue;
 
@@ -78,12 +74,11 @@ package body Navigation.PID_Controller is
       this.fCurrentIntegralPart := this.fCurrentIntegralPart + this.fCurrentProportionalPart;
 
 
-      output := this.fCurrentIntegralPart * this.fIntegralScale + this.fCurrentDerivativePart * this.fDerivativeScale + this.fCurrentProportionalPart * this.fProportionalScale;
+      fControlValue := this.fCurrentIntegralPart * this.fIntegralScale + this.fCurrentDerivativePart * this.fDerivativeScale + this.fCurrentProportionalPart * this.fProportionalScale;
 
       this.fLastProportionalPart := this.fCurrentProportionalPart;
 
-      return output;
-   end xGet_New_Control_Value;
+   end Get_New_Control_Value;
 
 
    function fGetIntergralScale (this : in CPIDController) return float is

@@ -14,10 +14,12 @@ package body Navigation.Motion_Component is
       return pxMotionComponent;
    end pxCreate;
 
-   function xGet_New_Component_Control_Value (this : in out CMotionComponent; fDeltaTime : float) return TComponentControlValue is
-   	fNewControlValue : float;
+  
+   function xGet_New_Component_Control_Value (this : in CMotionComponent; fDeltaTime : float) return TComponentControlValue is
+      fNewControlValue : float;
    begin
-      fNewControlValue := this.pxComponentPIDController.xGet_New_Control_Value(fDeltaTime);
+      this.pxComponentPIDController.Get_New_Control_Value(fDeltaTime    => fDeltaTime,
+                                                          fControlValue => fNewControlValue);
  
       return TComponentControlValue'(fNewControlValue, this.eComponentIndex);
       
