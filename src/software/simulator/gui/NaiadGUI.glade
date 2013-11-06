@@ -69,19 +69,16 @@
         <col id="0" translatable="yes">Z Position</col>
       </row>
       <row>
-        <col id="0" translatable="yes">Planar</col>
+        <col id="0" translatable="yes">X Rotation</col>
       </row>
       <row>
-        <col id="0" translatable="yes">Directional</col>
+        <col id="0" translatable="yes">Y Rotation</col>
       </row>
       <row>
-        <col id="0" translatable="yes">X Drift</col>
+        <col id="0" translatable="yes">Z Rotation</col>
       </row>
       <row>
-        <col id="0" translatable="yes">Y  Drift</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">Z Drift</col>
+	<col id="0" translatable="yes">All</col>
       </row>
     </data>
   </object>

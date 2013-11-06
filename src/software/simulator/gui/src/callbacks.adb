@@ -468,16 +468,14 @@ package body Callbacks is
             xViewmodel.Set_Selected_Pid(Y);
          when 2 =>
             xViewmodel.Set_Selected_Pid(Z);
-     --    when 3 =>
- --           xViewmodel.Set_Selected_Pid(Plane);
-     --    when 4 =>
-   --         xViewmodel.Set_Selected_Pid(Direction);
-         when 5 =>
-            xViewmodel.Set_Selected_Pid(DriftX);
-         when 6 =>
-            xViewmodel.Set_Selected_Pid(DriftY);
-         when 7 =>
-            xViewmodel.Set_Selected_Pid(DriftZ);
+         when 3 =>
+            xViewmodel.Set_Selected_Pid(RotationX);
+         When 4 =>
+            xViewmodel.Set_Selected_Pid(RotationY);
+         When 5 =>
+            xViewmodel.Set_Selected_Pid(RotationZ);
+         When 6 =>
+            xViewmodel.Set_Selected_Pid(AllComponents);
          when others =>
             null;
       end case;
