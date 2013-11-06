@@ -49,29 +49,22 @@ package body Navigation.Drift_Controller is
    -- xGet_Positional_Thruster_Control_Values --
    ---------------------------------------------
 
-   procedure Get_Positional_Thruster_Control_Values
-     (this : in out CDriftController;
-      fDeltaTime : float;
-      xDriftControllerControlValues : out Navigation.Thrusters.TThrusterEffects)
+   function xGet_Positional_Thruster_Control_Values(this : in CDriftController; fDeltaTime : float) return Navigation.Thrusters.TThrusterEffects is
 
-   is
 	xXComponentControlValue : Navigation.Motion_Component.TComponentControlValue;
 	xYComponentControlValue : Navigation.Motion_Component.TComponentControlValue;
 	xZComponentControlValue : Navigation.Motion_Component.TComponentControlValue;
    begin
 
-      this.pxXDriftMotionComponent.Get_New_Component_Control_Value(fDeltaTime             => fDeltaTime,
-                                                                   xComponentControlValue => xXComponentControlValue);
-      this.pxYDriftMotionComponent.Get_New_Component_Control_Value(fDeltaTime             => fDeltaTime,
-                                                                   xComponentControlValue => xYComponentControlValue);
-      this.pxZDriftMotionComponent.Get_New_Component_Control_Value(fDeltaTime             => fDeltaTime,
-                                                                   xComponentControlValue => xZComponentControlValue);
+      xXComponentControlValue := this.pxXDriftMotionComponent.xGet_New_Component_Control_Value(fDeltaTime             => fDeltaTime);
+      xYComponentControlValue := this.pxYDriftMotionComponent.xGet_New_Component_Control_Value(fDeltaTime             => fDeltaTime);
+      xZComponentControlValue := this.pxZDriftMotionComponent.xGet_New_Component_Control_Value(fDeltaTime             => fDeltaTime);
 
-      xDriftControllerControlValues := Navigation.Thrusters.TThrusterEffects'(Navigation.Thrusters.XPosition => xXComponentControlValue.fValue,
+      return Navigation.Thrusters.TThrusterEffects'(Navigation.Thrusters.XPosition => xXComponentControlValue.fValue,
                                                     Navigation.Thrusters.YPosition => xYComponentControlValue.fValue,
                                                     Navigation.Thrusters.ZPosition => xZComponentControlValue.fValue,
                                                     others => 0.0);
-   end Get_Positional_Thruster_Control_Values;
+   end xGet_Positional_Thruster_Control_Values;
 
    ---------------------------
    -- Update_Current_Errors --
