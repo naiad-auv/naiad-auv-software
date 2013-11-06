@@ -26,7 +26,7 @@ package body Simulator.Model is
    begin
       this.pxMotionControlWrapper.Update_Values(xNewCurrentAbsolutePosition => this.pxSubmarine.xGet_Position_Vector,
                                                 xNewCurrentOrientation      => this.pxSubmarine.xGet_Orientation_Matrix,
-                                                tfMotorValuesSubmarine       => tfMotorValuesSubmarine,
+                                                tfMotorValuesSubmarine       => tfMotorValuesSubmarine, --out
                                                 fDeltaTime                   => fDeltaTime);
 
       this.pxSubmarine.Time_Step_Motor_Force_To_Integrate(txMotorForce => tfMotorValuesSubmarine,
@@ -105,11 +105,12 @@ package body Simulator.Model is
    -------------
 
    procedure Restart(this : in out CModel) is
-
+      pxNewSubmarine : simulator.submarine.pCSubmarine;
    begin
       this.pxMotionControlWrapper.Restart;
+      pxNewSubmarine := simulator.submarine.pxCreate_Naiad;
       simulator.submarine.Free(this.pxSubmarine);
-      this.pxSubmarine := simulator.submarine.pxCreate_Naiad;
+      this.pxSubmarine := pxNewSubmarine;
    end;
 
    -----------------------------------------
