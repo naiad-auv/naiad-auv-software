@@ -41,7 +41,7 @@ package body Navigation.Motion_Component.CMotionComponent_Test_Data.CMotionCompo
       Navigation.Motion_Component.Free(pxMotionComponentToDeallocate => pxMotionComponent);
 
       xPidScalings := Navigation.PID_Controller.TPIDComponentScalings'(0.0, 0.0, 0.0);
-      xComponentIndex := Direction;
+      xComponentIndex := RotationX;
       pxMotionComponent := Navigation.Motion_Component.pxCreate(xComponentIndex, xPidScalings);
       pxMotionComponent.Update_Current_Error(0.0);
 
