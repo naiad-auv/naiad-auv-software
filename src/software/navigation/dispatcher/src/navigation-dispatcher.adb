@@ -63,9 +63,9 @@ package body Navigation.Dispatcher is
 
 
 
-      tfPositionalValues := this.pxPositionalController.xGet_Positional_Thruster_Control_Values(fDeltaTime);
-      tfOrientationalValues := this.pxOrientationalController.xGet_Orientational_Thruster_Control_Values(fDeltaTime);
-      tfDriftValues := this.pxDriftController.xGet_Positional_Thruster_Control_Values(fDeltaTime);
+      tfPositionalValues := this.pxPositionalController.xGet_Positional_Thruster_Control_Values(fDeltaTime               => fDeltaTime);
+      tfOrientationalValues := this.pxOrientationalController.xGet_Orientational_Thruster_Control_Values(fDeltaTime => fDeltaTime);
+      tfDriftValues := this.pxDriftController.xGet_Positional_Thruster_Control_Values(fDeltaTime => fDeltaTime);
 
 
 
@@ -105,12 +105,14 @@ package body Navigation.Dispatcher is
          when Navigation.Motion_Component.X .. Navigation.Motion_Component.Z =>
             this.pxPositionalController.Set_New_PID_Component_Scalings(eComponentToUpdate => eComponentToChange,
                                                                        xNewPIDScaling     => xNewPIDSCalings);
-         when Navigation.Motion_Component.Direction .. Navigation.Motion_Component.Plane =>
+         when Navigation.Motion_Component.RotationX .. Navigation.Motion_Component.RotationZ =>
             this.pxOrientationalController.Set_New_PID_Component_Scalings(eComponentToUpdate => eComponentToChange,
                                                                           xNewPIDScaling     => xNewPIDSCalings);
          when Navigation.Motion_Component.DriftX .. Navigation.Motion_Component.DriftZ =>
             this.pxDriftController.Set_New_PID_Component_Scalings(eComponentToUpdate => eComponentToChange,
                                                                   xNewPIDScaling     => xNewPIDSCalings);
+         when Navigation.Motion_Component.SpinX .. Navigation.Motion_Component.SpinZ =>
+            null;
          when Navigation.Motion_Component.AllComponents =>
             this.pxPositionalController.Set_New_PID_Component_Scalings(eComponentToUpdate => eComponentToChange,
                                                                        xNewPIDScaling     => xNewPIDSCalings);
@@ -194,26 +196,37 @@ package body Navigation.Dispatcher is
       if this.pxThrusterConfigurator /= null then
          Navigation.Thruster_Configurator.Free(pxThrusterConfiguratorToDeallocate => this.pxThrusterConfigurator);
       end if;
+
       if this.pxOrientationalController /= null then
          Navigation.Orientational_Controller.Free(pxOrientationalControllerToDeallocate => this.pxOrientationalController);
       end if;
+
       if this.pxPositionalController /= null then
          Navigation.Positional_Controller.Free(pxPositionalControllerToDeallocate => this.pxPositionalController);
       end if;
+
       if this.pxDriftController /= null then
          Navigation.Drift_Controller.Free(pxDriftControllerToDeallocate => this.pxDriftController);
       end if;
+
       if this.pxCurrentAbsolutePosition /= null then
          Math.Vectors.Free(pxVectorToDeallocate => this.pxCurrentAbsolutePosition);
       end if;
+
       if this.pxWantedAbsolutePosition /= null then
          Math.Vectors.Free(pxVectorToDeallocate => this.pxWantedAbsolutePosition);
       end if;
+
       if this.pxCurrentAbsoluteOrientation /= null then
          Math.Matrices.Free(pxMatrixToDeallocate => this.pxCurrentAbsoluteOrientation);
       end if;
+
       if this.pxWantedAbsoluteOrientation /= null then
          Math.Matrices.Free(pxMatrixToDeallocate => this.pxWantedAbsoluteOrientation);
+      end if;
+
+      if this.pxCurrentAbsoluteOrientationInverse /= null then
+         Math.Matrices.Free(pxMatrixToDeallocate => this.pxCurrentAbsoluteOrientationInverse);
       end if;
    end Finalize;
 

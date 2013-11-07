@@ -32,12 +32,20 @@ package body Navigation.Positional_Controller is
 
    end pxCreate;
 
-   function xGet_Positional_Thruster_Control_Values (this : in out CPositionalController; fDeltaTime : float) return Navigation.Thrusters.TThrusterEffects is
+   function xGet_Positional_Thruster_Control_Values(this : in CPositionalController; fDeltaTime : float) return Navigation.Thrusters.TThrusterEffects is
+      xXControlValue : Navigation.Motion_Component.TComponentControlValue;
+      xYControlValue : Navigation.Motion_Component.TComponentControlValue;
+      xZControlValue : Navigation.Motion_Component.TComponentControlValue;
    begin
-      return Navigation.Thrusters.TThrusterEffects'(Navigation.Thrusters.XPosition => this.pxXMotionComponent.xGet_New_Component_Control_Value(fDeltaTime).fValue,
-              Navigation.Thrusters.YPosition => this.pxYMotionComponent.xGet_New_Component_Control_Value(fDeltatime).fValue,
-              Navigation.Thrusters.ZPosition => this.pxZMotionComponent.xGet_New_Component_Control_Value(fDeltaTime).fValue,
-              others => 0.0);
+
+      xXControlValue := this.pxXMotionComponent.xGet_New_Component_Control_Value(fDeltaTime);
+      xYControlValue := this.pxYMotionComponent.xGet_New_Component_Control_Value(fDeltaTime);
+      xZControlValue := this.pxZMotionComponent.xGet_New_Component_Control_Value(fDeltaTime);
+
+      return Navigation.Thrusters.TThrusterEffects'(Navigation.Thrusters.XPosition => xXControlValue.fValue,
+                                                    Navigation.Thrusters.YPosition => xYControlValue.fValue,
+                                                                         Navigation.Thrusters.ZPosition => xZControlValue.fValue,
+                                                                         others => 0.0);
    end xGet_Positional_Thruster_Control_Values;
 
 

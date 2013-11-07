@@ -12,8 +12,6 @@ with Navigation.PID_Controller;
 package simulator.Motion_Control_Wrapper is
 
    type TPIDComponentScalings is new navigation.PID_Controller.TPIDComponentScalings;
-
-
    type CWrapDispatcher is tagged private;
    type pCWrapDispatcher is access CWrapDispatcher;
    type EMotionComponent is new navigation.Motion_Component.EMotionComponent;

@@ -114,7 +114,8 @@ package body Navigation.PID_Controller.CPIDController_Test_Data.CPIDController_T
       pxObject := PID_Controller.pxCreate(xScalings);
 
       pxObject.Set_New_Set_Point(123.0);
-      value := pxObject.xGet_New_Control_Value(1.0);
+      pxObject.Get_New_Control_Value(fDeltaTime    => 1.0,
+                                     fControlValue => value);
 
       pxObject.Reset_Controller;
 
@@ -164,7 +165,8 @@ package body Navigation.PID_Controller.CPIDController_Test_Data.CPIDController_T
       pxObject.Update_Current_Value_From_External_Source(0.0);
 
       for i in 1 .. 100 loop
-         value := pxObject.xGet_New_Control_Value(1.0);
+         pxObject.Get_New_Control_Value(fDeltaTime    => 1.0,
+                                                 fControlValue => value);
          AUnit.Assertions.Assert(Condition => Value /= 0.0,
                                  Message   => "Zero returned as a control value");
       end loop;

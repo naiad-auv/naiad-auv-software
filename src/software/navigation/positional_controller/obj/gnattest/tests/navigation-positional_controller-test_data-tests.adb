@@ -15,16 +15,34 @@ package body Navigation.Positional_Controller.Test_Data.Tests is
    procedure Test_Free_6e3c60 (Gnattest_T : in out Test) renames Test_Free;
 --  id:2.1/6e3c605df8c73dbc/Free/1/0/
    procedure Test_Free (Gnattest_T : in out Test) is
-   --  navigation-positional_controller.ads:17:4:Free
+   --  navigation-positional_controller.ads:18:4:Free
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
 
+ 	pxPositionalController : Navigation.Positional_Controller.pCPositionalController;
+
+      pxNewWanted : Math.Vectors.pCVector := Math.Vectors.xCreate(5.0,5.0,5.0).pxGet_Allocated_Copy;
+
+      pxCurrentPosition : Math.Vectors.pCVector := Math.Vectors.xCreate(0.0,0.0,0.0).pxGet_Allocated_Copy;
+      pxCurrentOrientation : Math.Matrices.pCMatrix := Math.Matrices.xCreate_Identity.pxGet_Allocated_Copy;
+
+
+
    begin
 
-      AUnit.Assertions.Assert
-        (Gnattest_Generated.Default_Assert_Value,
-         "Test not implemented.");
+      pxPositionalController := Navigation.Positional_Controller.pxCreate(pxCurrentAbsolutePosition    => pxCurrentPosition,
+                                                                          pxWantedAbsolutePosition     => pxNewWanted,
+                                                                          pxCurrentAbsoluteOrientation => pxCurrentOrientation,
+                                                                          pxCurrentAbsoluteOrientationInverse => pxCurrentOrientation.xGet_Inverse.pxGet_Allocated_Copy);
+
+      AUnit.Assertions.Assert(Condition => pxPositionalController /= null,
+                              Message   => "pxPositionalController is null after construction");
+
+      Navigation.Positional_Controller.Free(pxPositionalController);
+
+      AUnit.Assertions.Assert(Condition => pxPositionalController = null,
+                              Message   => "pxPositionalController is not null after deconstruction");
 
 --  begin read only
    end Test_Free;
@@ -36,20 +54,20 @@ package body Navigation.Positional_Controller.Test_Data.Tests is
    procedure Test_pxCreate_9768c2 (Gnattest_T : in out Test) renames Test_pxCreate;
 --  id:2.1/9768c2b4e7b92b4e/pxCreate/1/0/
    procedure Test_pxCreate (Gnattest_T : in out Test) is
-   --  navigation-positional_controller.ads:19:4:pxCreate
+   --  navigation-positional_controller.ads:20:4:pxCreate
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
 
-      use Math.Vectors;
+     use Math.Vectors;
       use Navigation.Motion_Component;
 
       pxPositionalController : Navigation.Positional_Controller.pCPositionalController;
 
-      pxNewWanted : Math.Vectors.pCVector := Math.Vectors.pxCreate(5.0,5.0,5.0);
+   pxNewWanted : Math.Vectors.pCVector := Math.Vectors.xCreate(5.0,5.0,5.0).pxGet_Allocated_Copy;
 
-      pxCurrentPosition : Math.Vectors.pCVector := Math.Vectors.pxCreate(0.0,0.0,0.0);
-      pxCurrentOrientation : Math.Matrices.pCMatrix := Math.Matrices.xCreate_Identity.pxGet_Copy;
+      pxCurrentPosition : Math.Vectors.pCVector := Math.Vectors.xCreate(0.0,0.0,0.0).pxGet_Allocated_Copy;
+      pxCurrentOrientation : Math.Matrices.pCMatrix := Math.Matrices.xCreate_Identity.pxGet_Allocated_Copy;
 
 
 
@@ -57,7 +75,8 @@ package body Navigation.Positional_Controller.Test_Data.Tests is
 
       pxPositionalController := Navigation.Positional_Controller.pxCreate(pxCurrentAbsolutePosition    => pxCurrentPosition,
                                                                           pxWantedAbsolutePosition     => pxNewWanted,
-                                                                          pxCurrentAbsoluteOrientation => pxCurrentOrientation);
+                                                                          pxCurrentAbsoluteOrientation => pxCurrentOrientation,
+                                                                          pxCurrentAbsoluteOrientationInverse => pxCurrentOrientation.xGet_Inverse.pxGet_Allocated_Copy);
 
       AUnit.Assertions.Assert(Condition => pxPositionalController /= null,
                               Message => "pxPositionalController is not pointing towards on object");
@@ -81,8 +100,6 @@ package body Navigation.Positional_Controller.Test_Data.Tests is
       Math.Vectors.Free(pxVectorToDeallocate => pxNewWanted);
       Math.Vectors.Free(pxVectorToDeallocate => pxCurrentPosition);
       Math.Matrices.Free(pxMatrixToDeallocate => pxCurrentOrientation);
-
-
 --  begin read only
    end Test_pxCreate;
 --  end read only

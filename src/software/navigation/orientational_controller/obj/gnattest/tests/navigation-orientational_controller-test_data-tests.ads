@@ -15,11 +15,5 @@ package Navigation.Orientational_Controller.Test_Data.Tests is
    procedure Test_pxCreate_fcd516 (Gnattest_T : in out Test);
    --  navigation-orientational_controller.ads:24:4:pxCreate
 
-   procedure Test_fGet_Directional_Error_3df5b3 (Gnattest_T : in out Test);
-   --  navigation-orientational_controller.ads:50:4:fGet_Directional_Error
-
-   procedure Test_fGet_Planal_Error_9256bd (Gnattest_T : in out Test);
-   --  navigation-orientational_controller.ads:51:4:fGet_Planal_Error
-
 end Navigation.Orientational_Controller.Test_Data.Tests;
 --  end read only

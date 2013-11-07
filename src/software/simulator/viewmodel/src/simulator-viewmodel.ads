@@ -7,6 +7,7 @@ with Math.Quaternions;
 with Math.Angles;
 with Navigation.Thrusters;
 with simulator.Pid_Errors;
+with Exception_Handling;
 --with Simulator.Update_Interface;
 
 
@@ -15,6 +16,8 @@ with simulator.Pid_Errors;
 package Simulator.ViewModel is
 
    type TPIDComponentScalings is new simulator.Model.TPIDComponentScalings;
+
+   type iMotorIndex is new simulator.Model.iMotorIndex;
 
 
 
@@ -27,7 +30,7 @@ package Simulator.ViewModel is
 
    type EMotionComponent is new Simulator.Pid_Errors.EMotionComponent;
 
-   type txPIDComponentScalingArray is array (X .. DriftZ) of TPIDComponentScalings;
+   type txPIDComponentScalingArray is array (X .. AllComponents) of TPIDComponentScalings;
 
    type TVectorComponents is new Navigation.Thrusters.EThrusterEffectsComponents range Navigation.Thrusters.XRotation .. Navigation.Thrusters.ZRotation;
 
@@ -45,6 +48,8 @@ package Simulator.ViewModel is
    function fGet_Selected_Pid_Scaling_Proprotional_Part(this : in CViewModel) return float;
    function fGet_Selected_Pid_Scaling_Integrating_Part(this : in CViewModel) return float;
    function fGet_Selected_Pid_Scaling_Derivative_Part(this : in CViewModel) return float;
+   function fGet_Motor_Force(this : in CViewModel; iIndexMotor  : iMotorIndex) return float;
+
 
    function fGet_Pid_Errors(this : in CViewModel ; eErrorComponent : in EMotionComponent) return float;
 
@@ -53,6 +58,8 @@ package Simulator.ViewModel is
    procedure Restart(this : in CViewModel);
 
    procedure Update_View_Model(this : in CViewModel; fDeltaTime : in float);
+   procedure Set_Wanted_Position_And_Orientation(this : in CViewModel; fPositionX : float ;  fPositionY : float ; fPositionZ : float ; fOrientationR : float ;fOrientationP : float ;fOrientationY : float);
+
 
 --     overriding
 --     procedure Update(this : in CViewModel);

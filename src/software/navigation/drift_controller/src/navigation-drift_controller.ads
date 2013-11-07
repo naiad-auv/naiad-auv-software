@@ -19,7 +19,7 @@ package Navigation.Drift_Controller is
    --  <parameter name="pxCurrentAbsoluteOrientation">A reference to the current absolute position</parameter>
    --  <parameter name="pxWantedAbsoluteOrientation">A reference to the wanted absolute position</parameter>
 
-   function xGet_Positional_Thruster_Control_Values(this : in out CDriftController; fDeltaTime : float) return Navigation.Thrusters.TThrusterEffects;
+   function xGet_Positional_Thruster_Control_Values(this : in CDriftController; fDeltaTime : float) return Navigation.Thrusters.TThrusterEffects;
    --  <summary>Calculates thruster control values for all thrusters and scales them accordingly</summary>
    --  <parameter name="this">The CPositionalController to do the calculations upon.</parameter>
    --  <parameter name="fDeltaTime">The time difference since the last calculation.</parameter>

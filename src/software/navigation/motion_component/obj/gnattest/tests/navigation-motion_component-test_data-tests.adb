@@ -20,11 +20,21 @@ package body Navigation.Motion_Component.Test_Data.Tests is
 
       pragma Unreferenced (Gnattest_T);
 
+      pxMotionComponent : Navigation.Motion_Component.pCMotionComponent;
+      xPidScalings : Navigation.PID_Controller.TPIDComponentScalings := (1.0, 2.0, 3.0);
+      xComponentIndex : Navigation.Motion_Component.EMotionComponent := X;
+
    begin
 
-      AUnit.Assertions.Assert
-        (Gnattest_Generated.Default_Assert_Value,
-         "Test not implemented.");
+      pxMotionComponent := Navigation.Motion_Component.pxCreate(xComponentIndex, xPidScalings);
+
+      AUnit.Assertions.Assert(Condition => pxMotionComponent /= null,
+                              Message   => "pxMotionComponent is null after construction");
+
+      Navigation.Motion_Component.Free(pxMotionComponent);
+
+      AUnit.Assertions.Assert(Condition => pxMotionComponent = null,
+                                       Message 	=> "pxMotionComponent is not null after deconstruction");
 
 --  begin read only
    end Test_Free;
