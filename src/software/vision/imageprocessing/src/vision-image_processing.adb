@@ -49,5 +49,32 @@ package body Vision.Image_Processing is
       CoreWrap.imshow(New_String("why so after mask?"),iThreshedImageLocation);
    end Threshold_Image;
 
+   procedure Invert_Image(iImageSource, iInvertImageLocation: in Interfaces.C.int) is
+   begin
+      processingWrap.invertImage(iImageSource, iInvertImageLocation);
+      CoreWrap.imshow(New_String("why so negative?"), iInvertImageLocation);--show image for debug purposes
+      CoreWrap.waitKey(0);
+   end Invert_Image;
+
+   procedure Hough_Circles(iImageSource,iGreyScaleLocation,iCirclesLocation,inverseRatioOfResolution, minDistBetweenCenters, houghCannyUpThres, centerDetectionThreshold, minRadius, maxRadius: in Interfaces.C.Int) is
+   begin
+      processingWrap.cvtColor(iImageSource,iGreyScaleLocation, 6);
+      processingWrap.HoughCircles(iGreyScaleLocation, inverseRatioOfResolution, minDistBetweenCenters, houghCannyUpThres, centerDetectionThreshold, minRadius, maxRadius);
+      processingWrap.DrawHoughCircles(iImageSource,iCirclesLocation);
+      CoreWrap.imshow(New_String("why so circly?"), iCirclesLocation);--show image for debug purposes
+      processingWrap.FindCircleCenters;
+      CoreWrap.waitKey(0);
+   end Hough_Circles;
+
+   procedure Apply_Contours(iImageSource,iGreyScaleLocation,iContourLocation,iCannyLocation, iCannyLowThres, iCannyHighThres, iCannyKernelSize : in Interfaces.C.Int) is
+   begin
+         processingWrap.cvtColor(iImageSource,iGreyScaleLocation, 6);
+         processingWrap.Canny(iGreyScaleLocation,iCannyLocation, iCannyLowThres, iCannyHighThres, iCannyKernelSize);
+         processingWrap.Contours(iCannyLocation);
+         processingWrap.showContours(iImageSource,contourOut => iContourLocation,contourId  => -1 ,thickness  => 1 );
+         CoreWrap.imshow(New_String("Whats with the contours?"),iContourLocation);
+      CoreWrap.waitKey(0);
+   end Apply_Contours;
+
 
 end Vision.Image_Processing;

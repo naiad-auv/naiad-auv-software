@@ -206,20 +206,20 @@ void Processing_Wrap::HoughCircles(int src,int inverseRatioOfResolution,int minD
 // Draw the hough circles detected, Gets input from circles vector defined above,
 // NB This function will be removed, only used for testing
  
-void Processing_Wrap::DrawHoughCircles(int src)
+void Processing_Wrap::DrawHoughCircles(int src,int dest)
 {
     int i;
    
-    img.at(24)=img.at(src).clone();
+    img.at(dest)=img.at(src).clone();
   
     for( size_t i = 0; i < circles.size(); i++ )
     {
         cv::Point center(cvRound(circles[i][0]), cvRound(circles[i][1]));
         int radius = cvRound(circles[i][2]);
         // circle center im source, center of circle, radius, color, thickness, linetype, shift
-        cv::circle( img.at(24), center, 3, cv::Scalar(0,255,0), -1, 8, 0 );
+        cv::circle( img.at(dest), center, 3, cv::Scalar(0,255,0), -1, 8, 0 );
         // circle outline
-        cv::circle( img.at(24), center, radius, cv::Scalar(0,0,255), 3, 8, 0 );
+        cv::circle( img.at(dest), center, radius, cv::Scalar(0,0,255), 3, 8, 0 );
      }
 }
  

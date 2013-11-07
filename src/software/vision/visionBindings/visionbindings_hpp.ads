@@ -94,8 +94,11 @@ package visionBindings_hpp is
          maxRadius : int);  -- visionBindings.cpp:198
       pragma Import (CPP, HoughCircles, "_ZN15Processing_Wrap12HoughCirclesEiiiiiii");
 
-      procedure DrawHoughCircles (this : access Processing_Wrap; src : int);  -- visionBindings.cpp:209
-      pragma Import (CPP, DrawHoughCircles, "_ZN15Processing_Wrap16DrawHoughCirclesEi");
+      procedure DrawHoughCircles
+        (this : access Processing_Wrap;
+         src : int;
+         dest : int);  -- visionBindings.cpp:209
+      pragma Import (CPP, DrawHoughCircles, "_ZN15Processing_Wrap16DrawHoughCirclesEii");
 
       procedure FindCircleCenters (this : access Processing_Wrap);  -- visionBindings.cpp:226
       pragma Import (CPP, FindCircleCenters, "_ZN15Processing_Wrap17FindCircleCentersEv");

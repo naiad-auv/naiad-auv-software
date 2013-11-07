@@ -9,8 +9,8 @@ with Vision.Image_Preprocessing;
 procedure main is
 
    --user decisions
-   iDoUseBuffer : Integer := 1;
-   iDoUseStatic : Integer := 0;
+   iDoUseBuffer : Integer := 0;
+   iDoUseStatic : Integer := 1;
    iDoShowOriginal : Integer := 1;
    iDoGaussian : Integer := 0;
    iDoSplit : Integer := 0;
@@ -26,7 +26,7 @@ procedure main is
    iDoObjectTracking : Integer := 0;
    iDoFusion : Integer := 0;
    iDoVelocityMode : Integer :=0;
-   iDoInvertImage : Integer := 0;
+   iDoInvertImage : Integer := 0; --iDoCreateNegativity
    iDoSharpenImage : Integer := 0;
    iDoCompareHistograms : Integer := 0;
    iDoMakeMovie : Integer := 0;
@@ -47,7 +47,7 @@ procedure main is
    iCirclesLocation : Interfaces.C.Int:=10;
    iGaussianBlurLocation : Interfaces.C.int:=11;
    iThreshedImageLocation : Interfaces.C.int:=12;
-   iFusionOut : Interfaces.C.int:=13;
+   iFusionOutLocation : Interfaces.C.int:=13;
 
    itemplateTempStorage : Interfaces.C.int:=20;
    iTemplate1 : Interfaces.C.int:=21;
@@ -102,20 +102,18 @@ procedure main is
    iRedUp : interfaces.C.Int := 255;
 
    --Gaussian
-   GaussianKerSize : interfaces.c.int:=31;
-   GaussianSigmaX : interfaces.c.double:=0.0;
-   GaussianSigmaY : interfaces.c.double:=0.0;
+   iGaussianKerSize : interfaces.c.int:=31;
+   dGaussianSigmaX : interfaces.c.double:=0.0;
+   dGaussianSigmaY : interfaces.c.double:=0.0;
+   iSharpenAccuracy : interfaces.c.int :=1;
 
    --est vel
    estVel:float:=0.0;
    velCount:integer:=1;
 
    --hist comparison
-   iCorrelation : interfaces.c.int:=1;
-   iChiSquare : interfaces.c.int:=2;
-   iIntersection : interfaces.c.int:=3;
-   iBhattacharyyaDistance : interfaces.c.int:=4;
    compareHistResult : interfaces.c.double;
+   iHistogramCompareMethod : Interfaces.C.int := 1;--iCorrelation : 1;iChiSquare : 2;iIntersection : 3;iBhattacharyyaDistance : 4;
 
    --video
    videoOpen : integer:=0;
@@ -157,7 +155,7 @@ begin
       if (iDoUseBuffer = 1) then -- read from buffer
          CoreWrap.img_buffer;
       elsif (iDoUseStatic =1) then --read in single image
-         CoreWrap.imstore(iImageSource,New_String("shapes3.jpg"));
+         CoreWrap.imstore(iImageSource,New_String("circle2.jpg"));
       elsif (iDoMakeMovie = 1) then --capture from video
          Vision.Image_Preprocessing.Capture_Video(iImageSource,iWaitTime,videoOpen);
          videoOpen:=1;
@@ -185,7 +183,7 @@ begin
 
       --Gaussian Blur
       if (iDoGaussian = 1) then
-         Vision.Image_Processing.Gaussian_Blur(iImageSource, iGaussianBlurLocation, GaussianKerSize, GaussianSigmaX, GaussianSigmaY);
+         Vision.Image_Processing.Gaussian_Blur(iImageSource, iGaussianBlurLocation, iGaussianKerSize, dGaussianSigmaX, dGaussianSigmaY);
       end if;
 
       --threshold image, apply mask
@@ -209,6 +207,41 @@ begin
          processingWrap.cvtColor(iImageSource, iHSILocation, iHSIFilter);
          processingWrap.HSIHistogram(iHSILocation,hsiNumSourceArray,channels(1)'Access,hsiSize(1)'Access,hrange(1)'Access,srange(1)'Access,histDimensionality,uniform,accumulate);
          processingWrap.showHSIHistogram(hsiSize(1)'Access);
+      end if;
+
+      --compare histograms
+      if(iDoCompareHistograms = 1) then
+         compareHistResult:=processingWrap.compareHSVHistograms(iImageSource,iPreviousImageLocation,iHistogramCompareMethod);
+      end if;
+
+       --invert image
+      if (iDoInvertImage = 1) then
+         Vision.Image_Processing.Invert_Image(iImageSource, iInvertImageLocation);
+      end if;
+
+      --sharpen image
+      if(iDoSharpenImage = 1) then
+         Vision.Image_Preprocessing.Gaussian_Sharpen_Image(iImageSource,iEnhancedImageSource,iSharpenAccuracy);
+      end if;
+
+      --hough circles
+      if (iDoHoughCircles = 1) then
+         Vision.Image_Processing.Hough_Circles(iImageSource,iGreyScaleLocation,iCirclesLocation,inverseRatioOfResolution, minDistBetweenCenters, houghCannyUpThres, centerDetectionThreshold, minRadius, maxRadius);
+      end if;
+
+      --Contour Analysis
+      if (iDoContours = 1) then
+         Vision.Image_Processing.Apply_Contours(iImageSource,iGreyScaleLocation,iContourLocation,iCannyLocation, iCannyLowThres, iCannyHighThres, iCannyKernelSize);
+      end if;
+
+      ---Approx Poly
+      if (iDoApproxPoly = 1) then
+         processingWrap.approxPolyDP(1.2, 1);
+      end if;
+
+      --Fusion
+      if (iDoFusion = 1) then
+         Vision.Image_Preprocessing.Fusion(iImageSource,iFusionOutLocation);
       end if;
 
       --USE OBJECT TRACKING
@@ -256,70 +289,6 @@ begin
 
       --write image to file
       --ret := CoreWrap.imwrite(New_String("CannyOut.jpg"),2 );
-
-      --HOUGH CIRCLES
-      if (iDoHoughCircles = 1) then
-         processingWrap.cvtColor(iImageSource,iGreyScaleLocation, iGreyFilter);
-         processingWrap.HoughCircles(iGreyScaleLocation, inverseRatioOfResolution, minDistBetweenCenters, houghCannyUpThres, centerDetectionThreshold, minRadius, maxRadius);
-         processingWrap.DrawHoughCircles(iImageSource);
-         CoreWrap.imshow(New_String("why so circly?"), iCirclesLocation);--show image for debug purposes
-         processingWrap.FindCircleCenters;
-         CoreWrap.waitKey(0);
-         ret := CoreWrap.imwrite(New_String("HoughOut.jpg"), 1 );
-      end if;
-
-      --CONTOURS
-      if (iDoContours = 1) then
-         processingWrap.cvtColor(iThreshedImageLocation,iGreyScaleLocation, iGreyFilter);
-         processingWrap.Canny(iGreyScaleLocation,iCannyLocation, iCannyLowThres, iCannyHighThres, iCannyKernelSize);
-         processingWrap.Contours(iCannyLocation);
-         processingWrap.showContours(iThreshedImageLocation,contourOut => iContourLocation,contourId  => -1 ,thickness  => 1 );
-         CoreWrap.imshow(New_String("Whats with the contours?"),iContourLocation);
-         CoreWrap.waitKey(0);
-      end if;
-
-      ---Approx Poly
-      if (iDoApproxPoly = 1) then
-         processingWrap.approxPolyDP(1.2, 1);
-      end if;
-
-
-      --Fusion
-      if (iDoFusion = 1) then
-         processingWrap.fusion(iImageSource, iFusionOut);
-         --           CoreWrap.imshow(New_String("why so fused?"), iFusionOut);
-         --           CoreWrap.waitKey(0);
-         --
-         --debug / test
-         processingWrap.cvtColor(iFusionOut,iGreyScaleLocation, iGreyFilter);
-         --           CoreWrap.imshow(New_String("fusedf gray"),iGreyScaleLocation);
-         --           CoreWrap.waitKey(0);
-         processingWrap.Canny(iGreyScaleLocation, iImageDestination, iCannyLowThres, iCannyHighThres, iCannyKernelSize);
-         CoreWrap.imshow(New_String("why so fused canny?"), iImageDestination);--show image for debug purposes
-         CoreWrap.waitKey(0);
-
-      end if;
-
-      --invert image
-      if (iDoInvertImage = 1) then
-         processingWrap.invertImage(iImageSource, iInvertImageLocation);
-         CoreWrap.imshow(New_String("why so negative?"), iInvertImageLocation);--show image for debug purposes
-         CoreWrap.waitKey(0);
-      end if;
-
-      if(iDoSharpenImage = 1) then
-         processingWrap.GaussianBlurSharpener(iImageSource,iEnhancedImageSource,3);
-         CoreWrap.imshow(New_String("why so sharp?"),iEnhancedImageSource);
-         CoreWrap.waitKey(0);
-      end if;
-
-      if(iDoCompareHistograms = 1) then
-         compareHistResult:=processingWrap.compareHSVHistograms(iImageSource,iPreviousImageLocation,iChiSquare);
-         --        iCorrelation : 1;
-         --     iChiSquare : 2;
-         --     iIntersection : 3;
-         --     iBhattacharyyaDistance : 4;
-      end if;
 
       if(iDoMatchTemplete =1) then
          if (loadTemplates = 0) then

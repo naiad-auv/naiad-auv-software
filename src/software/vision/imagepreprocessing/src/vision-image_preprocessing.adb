@@ -29,4 +29,18 @@ package body Vision.Image_Preprocessing is
       CoreWrap.waitKey(iWaitTime);
    end Capture_Video;
 
+   procedure Gaussian_Sharpen_Image(iImageSource,iEnhancedImageSource,iSharpenAccuracy : in Interfaces.C.Int) is
+   begin
+      processingWrap.GaussianBlurSharpener(iImageSource,iEnhancedImageSource,iSharpenAccuracy);
+      CoreWrap.imshow(New_String("why so sharp?"),iEnhancedImageSource);
+      CoreWrap.waitKey(0);
+   end Gaussian_Sharpen_Image;
+
+   procedure Fusion(iImageSource,iFusionOutLocation : in Interfaces.C.int) is
+   begin
+      processingWrap.fusion(iImageSource, iFusionOutLocation);
+      CoreWrap.imshow(New_String("why so fused?"), iFusionOutLocation);
+      CoreWrap.waitKey(0);
+   end Fusion;
+
 end Vision.Image_Preprocessing;

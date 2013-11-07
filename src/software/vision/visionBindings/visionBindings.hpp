@@ -42,7 +42,7 @@ virtual void Canny(int src, int dst, int lThresh, int hThresh, int kernelSize);
 
 virtual void HoughCircles(int src,int inverseRatioOfResolution,int minDistBetweenCenters,int cannyUpThres, int centerDetectionThreshold, int minRadius,int maxRadius );
 
-virtual void DrawHoughCircles(int src);
+virtual void DrawHoughCircles(int src,int dest);
 
 virtual void FindCircleCenters(void);
 
