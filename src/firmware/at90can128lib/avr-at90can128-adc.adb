@@ -53,10 +53,9 @@ package body AVR.AT90CAN128.ADC is
    --------------------- Initialization for ADC registers -------------------------------------------
 
    procedure ADC_Init(u8Pin : Interfaces.Unsigned_8) is
-      temp : TChannelSelection := channelSelection;
    begin
-      temp(Integer(u8Pin)) := true;
-      ADC_Init(temp);
+      channelSelection(Integer(u8Pin)) := true;
+      ADC_Init(channelSelection);
    end ADC_Init;
 
 
