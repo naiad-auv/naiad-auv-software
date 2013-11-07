@@ -40,7 +40,7 @@ package Navigation.PID_Controller is
    --  <summary>Resets a CPIDController to its initial values</summary>
    --  <parameter name="this">The CPIDController to reset.</parameter>
 
-   function xGet_New_Control_Value(this : in out CPIDController; fDeltaTime : float) return float;
+   procedure Get_New_Control_Value(this : in out CPIDController; fDeltaTime : float; fControlValue : out float);
    --  <summary>Calculates a new control value for a CPIDController</summary>
    --  <parameter name="this">The CPIDController to do the calculations upon.</parameter>
    --  <parameter name="fDeltaTime">The time difference since the last calculation.</parameter>

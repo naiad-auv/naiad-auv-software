@@ -23,23 +23,21 @@ package body Simulator.Motor_Info.CMotorInfo_Test_Data.CMotorInfo_Tests is
       pxNewMotorInfo : pCMotorInfo;
       pxForceVector : Math.Vectors.pCVector;
       pxPositionVector : Math.Vectors.pCVector;
-      pxTorqueVector : Math.Vectors.pCVector;
+      xTorqueVector : Math.Vectors.CVector;
    begin
-      pxForceVector := Math.Vectors.pxCreate(fX => 5.0,
+      pxForceVector := math.Vectors.pxGet_Allocated_Copy(Math.Vectors.xCreate(fX => 5.0,
                                              fY => 10.0,
-                                             fZ => -20.0);
-      pxPositionVector := Math.Vectors.pxCreate(fX => 15.0,
+                                             fZ => -20.0));
+      pxPositionVector := math.Vectors.pxGet_Allocated_Copy(Math.Vectors.xCreate(fX => 15.0,
                                                 fY => 0.0,
-                                                fZ => 162.0);
-      pxTorqueVector := Math.Vectors.pxGet_Copy(Math.Vectors.xCross_Product(pxLeftOperandVector  => pxPositionVector,
-                                                     pxRightOperandVector => pxForceVector));
+                                                fZ => 162.0));
+      xTorqueVector := Math.Vectors.xCross_Product(pxLeftOperandVector  => pxPositionVector,
+                                                   pxRightOperandVector => pxForceVector);
 
-      pxNewMotorInfo := Simulator.Motor_Info.pxCreate(pxPositionVector => pxPositionVector,
-                                                      pxForceVector    => pxForceVector);
+      pxNewMotorInfo := Simulator.Motor_Info.pxCreate(xPositionVector => pxPositionVector.all,
+                                                      xForceVector    => pxForceVector.all);
 
-      AUnit.Assertions.Assert(Condition => pxNewMotorInfo.pxGet_Force_Vector'Address /= pxNewMotorInfo.pxForceVector'Address,
-                              Message   => "CMotorInfo.pxGet_Force_Vector Failed, Pointer from object and return pointers adresses match");
-      AUnit.Assertions.Assert(Condition => math.Vectors."="(pxNewMotorInfo.pxGet_Force_Vector.all, pxNewMotorInfo.pxForceVector.all),
+      AUnit.Assertions.Assert(Condition => math.Vectors."="(pxNewMotorInfo.xGet_Force_Vector, pxNewMotorInfo.pxForceVector.all),
                               Message   => "CMotorInfo.pxGet_Force_Vector Failed, Incorrect Value");
 
 
@@ -64,21 +62,19 @@ package body Simulator.Motor_Info.CMotorInfo_Test_Data.CMotorInfo_Tests is
       pxPositionVector : Math.Vectors.pCVector;
       pxTorqueVector : Math.Vectors.pCVector;
    begin
-      pxForceVector := Math.Vectors.pxCreate(fX => 5.0,
+      pxForceVector := math.Vectors.pxGet_Allocated_Copy(Math.Vectors.xCreate(fX => 5.0,
                                              fY => 10.0,
-                                             fZ => -20.0);
-      pxPositionVector := Math.Vectors.pxCreate(fX => 15.0,
+                                             fZ => -20.0));
+      pxPositionVector := math.Vectors.pxGet_Allocated_Copy(Math.Vectors.xCreate(fX => 15.0,
                                                 fY => 0.0,
-                                                fZ => 162.0);
-      pxTorqueVector := math.Vectors.pxGet_Copy(Math.Vectors.xCross_Product(pxLeftOperandVector  => pxPositionVector,
+                                                fZ => 162.0));
+      pxTorqueVector := math.Vectors.pxGet_Allocated_Copy(Math.Vectors.xCross_Product(pxLeftOperandVector  => pxPositionVector,
                                                      pxRightOperandVector => pxForceVector));
 
-      pxNewMotorInfo := Simulator.Motor_Info.pxCreate(pxPositionVector => pxPositionVector,
-                                                      pxForceVector    => pxForceVector);
+      pxNewMotorInfo := Simulator.Motor_Info.pxCreate(xPositionVector => pxPositionVector.all,
+                                                      xForceVector    => pxForceVector.all);
 
-      AUnit.Assertions.Assert(Condition => pxNewMotorInfo.pxGet_Position_Vector'Address /= pxNewMotorInfo.pxPositionVector'Address,
-                              Message   => "CMotorInfo.pxGet_Position_Vector Failed, Pointer from object and return pointers adresses match");
-      AUnit.Assertions.Assert(Condition => math.Vectors."="(pxNewMotorInfo.pxGet_Position_Vector.all, pxNewMotorInfo.pxPositionVector.all),
+      AUnit.Assertions.Assert(Condition => math.Vectors."="(pxNewMotorInfo.xGet_Position_Vector, pxNewMotorInfo.pxPositionVector.all),
                               Message   => "CMotorInfo.pxGet_Position_Vector Failed, Incorrect Value");
 
 
@@ -102,21 +98,19 @@ package body Simulator.Motor_Info.CMotorInfo_Test_Data.CMotorInfo_Tests is
       pxPositionVector : Math.Vectors.pCVector;
       pxTorqueVector : Math.Vectors.pCVector;
    begin
-      pxForceVector := Math.Vectors.pxCreate(fX => 5.0,
+      pxForceVector := math.Vectors.pxGet_Allocated_Copy(Math.Vectors.xCreate(fX => 5.0,
                                              fY => 10.0,
-                                             fZ => -20.0);
-      pxPositionVector := Math.Vectors.pxCreate(fX => 15.0,
+                                             fZ => -20.0));
+      pxPositionVector := math.Vectors.pxGet_Allocated_Copy(Math.Vectors.xCreate(fX => 15.0,
                                                 fY => 0.0,
-                                                fZ => 162.0);
-      pxTorqueVector := math.Vectors.pxGet_Copy(Math.Vectors.xCross_Product(pxLeftOperandVector  => pxPositionVector,
+                                                fZ => 162.0));
+      pxTorqueVector := math.Vectors.pxGet_Allocated_Copy(Math.Vectors.xCross_Product(pxLeftOperandVector  => pxPositionVector,
                                                      pxRightOperandVector => pxForceVector));
 
-      pxNewMotorInfo := Simulator.Motor_Info.pxCreate(pxPositionVector => pxPositionVector,
-                                                      pxForceVector    => pxForceVector);
+      pxNewMotorInfo := Simulator.Motor_Info.pxCreate(xPositionVector => pxPositionVector.all,
+                                                      xForceVector    => pxForceVector.all);
 
-      AUnit.Assertions.Assert(Condition => pxNewMotorInfo.pxGet_Torque_Vector'Address /= pxNewMotorInfo.pxTorqueVector'Address,
-                              Message   => "CMotorInfo.pxGet_Torque_Vector Failed, Pointer from object and return pointers adresses match");
-      AUnit.Assertions.Assert(Condition => math.Vectors."="(pxNewMotorInfo.pxGet_Torque_Vector.all, pxNewMotorInfo.pxTorqueVector.all),
+      AUnit.Assertions.Assert(Condition => math.Vectors."="(pxNewMotorInfo.xGet_Torque_Vector, pxNewMotorInfo.pxTorqueVector.all),
                               Message   => "CMotorInfo.pxGet_Torque_Vector Failed, Incorrect Value");
 
 
@@ -139,21 +133,19 @@ package body Simulator.Motor_Info.CMotorInfo_Test_Data.CMotorInfo_Tests is
       pxPositionVector : Math.Vectors.pCVector;
       pxTorqueVector : Math.Vectors.pCVector;
    begin
-      pxForceVector := Math.Vectors.pxCreate(fX => 5.0,
+      pxForceVector := math.Vectors.pxGet_Allocated_Copy(Math.Vectors.xCreate(fX => 5.0,
                                              fY => 10.0,
-                                             fZ => -20.0);
-      pxPositionVector := Math.Vectors.pxCreate(fX => 15.0,
+                                             fZ => -20.0));
+      pxPositionVector := math.Vectors.pxGet_Allocated_Copy(Math.Vectors.xCreate(fX => 15.0,
                                                 fY => 0.0,
-                                                fZ => 162.0);
-      pxTorqueVector := Math.Vectors.pxGet_Copy(Math.Vectors.xCross_Product(pxLeftOperandVector  => pxPositionVector,
+                                                fZ => 162.0));
+      pxTorqueVector := Math.Vectors.pxGet_Allocated_Copy(Math.Vectors.xCross_Product(pxLeftOperandVector  => pxPositionVector,
                                                      pxRightOperandVector => pxForceVector));
 
-      pxNewMotorInfo := Simulator.Motor_Info.pxCreate(pxPositionVector => pxPositionVector,
-                                                      pxForceVector    => pxForceVector);
+      pxNewMotorInfo := Simulator.Motor_Info.pxCreate(xPositionVector => pxPositionVector.all,
+                                                      xForceVector    => pxForceVector.all);
       pxCopyNewMotorInfo := pxNewMotorInfo.pxGet_Copy;
 
-      AUnit.Assertions.Assert(Condition => pxNewMotorInfo.pxForceVector'Address /= pxCopyNewMotorInfo.pxForceVector'Address,
-                              Message   => "CMotorInfo.pxGet_Copy Failed, Pointer adresses match");
       AUnit.Assertions.Assert(Condition => math.Vectors."="(pxNewMotorInfo.pxForceVector.all, pxCopyNewMotorInfo.pxForceVector.all),
                               Message   => "CMotorInfo.pxGet_Copy Failed, Incorrect Value");
 

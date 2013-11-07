@@ -1,3 +1,5 @@
+with "../../../lib/exception_handling/exception_handling.gpr";
+with "../pid_errors/pid_errors.gpr";
 with "../simulator.gpr";
 with "../model/model.gpr";
 

@@ -1,0 +1,9 @@
+project Queue is
+
+   for Exec_Dir use "target";
+   for Source_Dirs use ("src");
+   for Source_Files use ("queue.adb", "queue.ads", "queue_main.adb");
+   for Main use ("queue_main.adb");
+
+end Queue;
+

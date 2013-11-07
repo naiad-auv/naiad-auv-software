@@ -1,0 +1,15 @@
+with "../../../lib/exception_handling/exception_handling.gpr";
+with "../../navigation/motion_component/motion_component.gpr";
+with "../simulator.gpr";
+with "../../../lib/math/vectors/vectors.gpr";
+with "../../../lib/math/quaternions/quaternions.gpr";
+with "../../../lib/math/planes/planes.gpr";
+with "../../../lib/math/matrices/matrices.gpr";
+
+project Pid_Errors is
+
+   for Source_Dirs use ("src");
+   for Object_Dir use "obj";
+
+end Pid_Errors;
+

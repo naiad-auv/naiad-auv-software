@@ -6,16 +6,14 @@ with Math.Vectors;
 with Navigation.PID_Controller;
 with Math.Matrices;
 with Navigation.Thrusters;
-with System;
-with Ada.Text_IO;
-with System.Address_Image;
-with System.Pool_Local;
-with Math.Angles;
 with Navigation.Drift_Controller;
 with Ada.Finalization;
 with Ada.Unchecked_Deallocation;
 with Exception_Handling;
-with Ada.Exceptions;
+
+-- for tests
+with System;
+with Math.Angles;
 
 
 package Navigation.Dispatcher is
