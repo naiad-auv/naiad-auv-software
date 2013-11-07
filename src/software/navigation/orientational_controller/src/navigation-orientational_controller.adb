@@ -32,7 +32,7 @@ package body Navigation.Orientational_Controller is
          return pxOrientationalController;
    end pxCreate;
 
-   procedure Update_Current_Errors (this : in out COrientationalController) is
+   procedure Update_Current_Errors (this : in COrientationalController) is
    begin
       this.Update_Current_X_Rotation_Error;
       this.Update_Current_Y_Rotation_Error;
@@ -93,7 +93,7 @@ package body Navigation.Orientational_Controller is
               others => 0.0);
    end xGet_Z_Rotation_Thruster_Control_Value;
 
-   procedure Update_Current_Z_Rotation_Error (this : in out COrientationalController) is
+   procedure Update_Current_Z_Rotation_Error (this : in COrientationalController) is
       use Math.Matrices;
       xWantedRelativeOrientation : Math.Matrices.CMatrix;
       xCurrentRelativeOrientation : Math.Matrices.CMatrix;
@@ -147,7 +147,7 @@ package body Navigation.Orientational_Controller is
 
    end Update_Current_Z_Rotation_Error;
 
-   procedure Update_Current_Y_Rotation_Error (this : in out COrientationalController) is
+   procedure Update_Current_Y_Rotation_Error (this : in COrientationalController) is
       use Math.Matrices;
       xWantedRelativeOrientation : Math.Matrices.CMatrix;
       xCurrentRelativeOrientation : Math.Matrices.CMatrix;
@@ -201,7 +201,7 @@ package body Navigation.Orientational_Controller is
    end Update_Current_Y_Rotation_Error;
 
 
-   procedure Update_Current_X_Rotation_Error (this : in out COrientationalController) is
+   procedure Update_Current_X_Rotation_Error (this : in COrientationalController) is
       use Math.Matrices;
       xWantedRelativeOrientation : Math.Matrices.CMatrix;
       xCurrentRelativeOrientation : Math.Matrices.CMatrix;

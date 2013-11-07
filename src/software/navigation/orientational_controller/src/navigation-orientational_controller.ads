@@ -37,7 +37,7 @@ package Navigation.Orientational_Controller is
    --  <parameter name="fDeltaTime">The time difference since the last calculation.</parameter>
 
 
-   procedure Update_Current_Errors (this : in out COrientationalController);
+   procedure Update_Current_Errors (this : in COrientationalController);
    --  <summary>Cascades the difference between the current orientation and the wanted orientation to all motion components</summary>
    --  <parameter name="this">The COrientationalController object that holds the objects that needs to be updated</parameter>
 
@@ -49,9 +49,9 @@ package Navigation.Orientational_Controller is
 
 private
 
-   procedure Update_Current_X_Rotation_Error (this : in out COrientationalController);
-   procedure Update_Current_Y_Rotation_Error (this : in out COrientationalController);
-   procedure Update_Current_Z_Rotation_Error (this : in out COrientationalController);
+   procedure Update_Current_X_Rotation_Error (this : in COrientationalController);
+   procedure Update_Current_Y_Rotation_Error (this : in COrientationalController);
+   procedure Update_Current_Z_Rotation_Error (this : in COrientationalController);
 
    function xGet_X_Rotation_Thruster_Control_Value (this : in COrientationalController; fDeltaTime : in float) return Navigation.Thrusters.TThrusterEffects;
    function xGet_Y_Rotation_Thruster_Control_Value (this : in COrientationalController; fDeltaTime : in float) return Navigation.Thrusters.TThrusterEffects;
