@@ -3,7 +3,8 @@ with interfaces.C.strings; use interfaces.C.strings;
 with interfaces.C; use interfaces.C;
 with Ada.Text_IO; use Ada.Text_IO;
 --with Ada.Integer_Text_IO; use Ada.Integer_Text_IO;
---with Vision.Image_Processing;
+with Vision.Image_Processing;
+with Vision.Image_Preprocessing;
 
 procedure main is
 
@@ -62,7 +63,6 @@ procedure main is
    iCannyKernelSize :Interfaces.C.int:=3;
    iCannyLowThres : Interfaces.C.int:=20;
    iCannyHighThres : Interfaces.C.int:=200;
-   ret : Interfaces.C.int;
 
    --hough cirlces variables
    inverseRatioOfResolution : Interfaces.C.int:=1;
@@ -90,10 +90,16 @@ procedure main is
    uniform : interfaces.C.unsigned_char:=1;
    accumulate : interfaces.C.unsigned_char:=0;
 
-   --thres
+   --threshold
    confirmThres : integer:=0;
    lowLimit :interfaces.C.int:=200;
    upLimit :interfaces.C.int:=250;
+   iBlueLow : interfaces.C.Int := 0;
+   iBlueUp : interfaces.C.Int := 0;
+   iGreenLow : interfaces.C.Int := 0;
+   iGreenUp : interfaces.C.Int := 0;
+   iRedLow : interfaces.C.Int := 0;
+   iRedUp : interfaces.C.Int := 255;
 
    --Gaussian
    GaussianKerSize : interfaces.c.int:=31;
@@ -121,6 +127,10 @@ procedure main is
    iTemplate :interfaces.c.int;--MUST BE SET TO FIRST TEMPLETE POSITION
    bestTempleteMatchFound : interfaces.c.int;
 
+   --wait time when displaying images
+   iWaitTime : interfaces.c.int := 0;
+   ret : interfaces.c.int;
+
    CoreWrap : aliased Class_Core_Wrap.Core_Wrap;
    processingWrap : aliased Class_Processing_Wrap.Processing_Wrap;
    preprocessingWrap : aliased Class_Preprocessing_Wrap.Preprocessing_Wrap;
@@ -143,48 +153,44 @@ begin
    -----------------------------MAIN LOOP --------------------------------------------------------
    Endless_Loop:
    loop
-      --GET IMAGE-- read from buffer
-      if (iDoUseBuffer = 1) then
-         CoreWrap.img_buffer; --load image to img.at(0)
-      elsif (iDoUseStatic =1) then
-         --, or just read in single image NEW, READS IN IMAGE AND STORES IN INDEX "IMAGESOURCE" OF "img.at()"
+      --Get image
+      if (iDoUseBuffer = 1) then -- read from buffer
+         CoreWrap.img_buffer;
+      elsif (iDoUseStatic =1) then --read in single image
          CoreWrap.imstore(iImageSource,New_String("shapes3.jpg"));
-      elsif (iDoMakeMovie = 1) then
-         --capture from video
-         if (videoOpen=0) then
-            preprocessingWrap.VideoCaptureOpen;
-            videoOpen:=1;
-         end if;
-
-         preprocessingWrap.nextFrame(iImageSource);
-         CoreWrap.imshow(New_String("test video"), iImageSource);
-         CoreWrap.waitKey(0);
-      end if;
-
-      --convert image to hsi
-      if (iDoCvtHSI = 1) then
-         processingWrap.cvtColor(iImageSource, iHSILocation, iHSIFilter);
-         CoreWrap.imshow(New_String("Why so HSI?"),iHSILocation);
-         CoreWrap.waitKey(0);
+      elsif (iDoMakeMovie = 1) then --capture from video
+         Vision.Image_Preprocessing.Capture_Video(iImageSource,iWaitTime,videoOpen);
+         videoOpen:=1;
       end if;
 
       --display image source
       if (iDoShowOriginal = 1) then
-         CoreWrap.imshow(New_String("Why so normal?"), iImageSource);--show image for debug purposes
-         CoreWrap.waitKey(400);
+         Vision.Image_Preprocessing.Show_Original_Image(iImageSource,iWaitTime);
+      end if;
+
+      --convert image to greyscale
+      if (iDoCvtGrey = 1) then
+         Vision.Image_Processing.Convert_To_Greyscale(iImageSource,iGreyScaleLocation,iGreyFilter);
+      end if;
+
+      --canny image
+      if (iDoCanny = 1) then
+         Vision.Image_Processing.Canny(iImageSource,iGreyScaleLocation,iCannyLocation,iCannyLowThres, iCannyHighThres, iCannyKernelSize);
+      end if;
+
+      --convert image to hsi
+      if (iDoCvtHSI = 1) then
+         Vision.Image_Processing.Convert_To_HSI(iImageSource, iHSILocation, iHSIFilter);
       end if;
 
       --Gaussian Blur
       if (iDoGaussian = 1) then
-         processingWrap.gaussianBlur(iImageSource, iGaussianBlurLocation, GaussianKerSize, GaussianSigmaX, GaussianSigmaY);
-         CoreWrap.imshow(New_String("Why so Gaussian?"), iGaussianBlurLocation);--show image for debug purposes
-         CoreWrap.waitKey(0);
+         Vision.Image_Processing.Gaussian_Blur(iImageSource, iGaussianBlurLocation, GaussianKerSize, GaussianSigmaX, GaussianSigmaY);
       end if;
 
-      --test thresh
+      --threshold image, apply mask
       if (iDoThresh = 1) then
-         ret := processingWrap.thresh(iHSILocation, iThreshedImageLocation, 0, 0, 0, 0, 0, 255);
-         CoreWrap.imshow(New_String("why so after mask?"),iThreshedImageLocation);
+         Vision.Image_Processing.Threshold_Image(iImageSource,iHSILocation, iThreshedImageLocation, iBlueLow, iBlueUp, iGreenLow, iGreenUp, iRedLow, iRedUp);
       end if;
 
       --split channels of image
@@ -205,27 +211,10 @@ begin
          processingWrap.showHSIHistogram(hsiSize(1)'Access);
       end if;
 
-      --CLEAN IMAGE--to be implemented
-
-      --CONVERT IMAGE TO GREYSCALE
-      if (iDoCvtGrey = 1) then
-         processingWrap.cvtColor(iImageSource,iGreyScaleLocation, iGreyFilter);
-         CoreWrap.imshow(New_String("why so grey?"), iGreyScaleLocation);--show image for debug purposes
-         CoreWrap.waitKey(0);
-      end if;
-
-      --USE CANNY ON GREYSCALE IMAGE
-      if (iDoCanny = 1) then
-         processingWrap.cvtColor(iImageSource,iGreyScaleLocation, iGreyFilter);
-         processingWrap.Canny(iGreyScaleLocation,iCannyLocation, iCannyLowThres, iCannyHighThres, iCannyKernelSize);
-         CoreWrap.imshow(New_String("why so canny?"), iCannyLocation);--show image for debug purposes
-         CoreWrap.waitKey(0);
-      end if;
-
       --USE OBJECT TRACKING
       if(iDoObjectTracking = 1) then
          processingWrap.cvtColor(iImageSource, iHSILocation, iHSIFilter);
-         ret := processingWrap.thresh(iHSILocation, iThreshedImageLocation, 10, 70, 50, 255, 50, 255);
+         processingWrap.thresh(iHSILocation, iThreshedImageLocation, 10, 70, 50, 255, 50, 255);
 
          processingWrap.cvtColor(iThreshedImageLocation,iGreyScaleLocation, iGreyFilter);
          processingWrap.Canny(iGreyScaleLocation,iCannyLocation, iCannyLowThres, iCannyHighThres, iCannyKernelSize);
@@ -243,7 +232,7 @@ begin
       --USE VELOCITY MODE
       if(iDoVelocityMode =1) then
          processingWrap.cvtColor(iImageSource, iHSILocation, iHSIFilter);
-         ret := processingWrap.thresh(iHSILocation, iThreshedImageLocation, 30, 60, 50, 255, 50, 255);
+         processingWrap.thresh(iHSILocation, iThreshedImageLocation, 30, 60, 50, 255, 50, 255);
 
          processingWrap.cvtColor(iThreshedImageLocation,iGreyScaleLocation, iGreyFilter);
          processingWrap.Canny(iGreyScaleLocation,iCannyLocation, iCannyLowThres, iCannyHighThres, iCannyKernelSize);
@@ -346,7 +335,7 @@ begin
                processingWrap.enhanceColors(iTemplate,iTemplate,1,30.0);
                processingWrap.GaussianBlurSharpener(iTemplate,iTemplate,2);
                processingWrap.cvtColor(iTemplate, itemplateTempStorage, iHSIFilter);
-               ret := processingWrap.thresh(itemplateTempStorage, itemplateTempStorage, 0, 0, 0, 0, 50, 255);
+               processingWrap.thresh(itemplateTempStorage, itemplateTempStorage, 0, 0, 0, 0, 50, 255);
                processingWrap.gaussianBlur(itemplateTempStorage,itemplateTempStorage,11,0.0,0.0);
                processingWrap.GaussianBlurSharpener(itemplateTempStorage,itemplateTempStorage,4);
                processingWrap.cvtColor(itemplateTempStorage,itemplateTempStorage, iGreyFilter);
@@ -361,7 +350,7 @@ begin
          --cleanup source image
          processingWrap.enhanceColors(iImageSource,iImageSource,1,30.0);
          processingWrap.cvtColor(iImageSource, iHSILocation, iHSIFilter);
-         ret := processingWrap.thresh(iHSILocation,iThreshedImageLocation, 0, 0, 0, 0, 50, 255);
+         processingWrap.thresh(iHSILocation,iThreshedImageLocation, 0, 0, 0, 0, 50, 255);
 
          processingWrap.gaussianBlur(iThreshedImageLocation,iThreshedImageLocation,11,0.0,0.0);
          processingWrap.GaussianBlurSharpener(iThreshedImageLocation,iThreshedImageLocation,4);

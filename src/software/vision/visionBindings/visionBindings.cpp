@@ -555,7 +555,7 @@ void Processing_Wrap::goodFeatures(int src)
 
 ///////////////////////// THRESHOLD FUNCTION     ///////////////////////////////////////////////
 
-int Processing_Wrap::thresh(int src, int dst, int blueLow, int blueUp, int greenLow, int greenUp, int redLow, int redUp)
+void Processing_Wrap::thresh(int src, int dst, int blueLow, int blueUp, int greenLow, int greenUp, int redLow, int redUp)
 {
     cv::Mat mask,threshOut = img.at(src).clone(), outPic, dstA, dstB,dstC,dstD;
     cv::Mat mrWhite(img.at(src).rows,img.at(src).cols,CV_8UC3,cv::Scalar(255,255,255));
@@ -588,7 +588,6 @@ int Processing_Wrap::thresh(int src, int dst, int blueLow, int blueUp, int green
 	//cv::Size s = mask.size();
 	//std::cout<<s.height<<"\t"<<s.width<<"\n";
 		
-	return 1;
 }
 	
 	  
