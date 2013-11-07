@@ -10,5 +10,6 @@ package Vision.Image_Processing is
    procedure Invert_Image(iImageSource, iInvertImageLocation: in Interfaces.C.int);
    procedure Hough_Circles(iImageSource,iGreyScaleLocation,iCirclesLocation,inverseRatioOfResolution, minDistBetweenCenters, houghCannyUpThres, centerDetectionThreshold, minRadius, maxRadius: in Interfaces.C.Int);
    procedure Apply_Contours(iImageSource,iGreyScaleLocation,iContourLocation,iCannyLocation, iCannyLowThres, iCannyHighThres, iCannyKernelSize : in Interfaces.C.Int);
+   procedure Track_Object(iContourLocation,iGreyScaleLocation: in Interfaces.C.Int);
 
 end Vision.Image_Processing;

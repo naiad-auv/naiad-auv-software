@@ -52,12 +52,12 @@ void Core_Wrap::img_buffer()
     char strStorage[50]; // enough to hold all numbers up to 64-bits
     int bufSize=0;
   
-    //std::string folderPath = "/home/vision/Documents/project/cdt508/Robosub2012_logging/Loggning/log 3/Bottom/";
+    std::string folderPath = "/home/vision/Documents/project/cdt508/Robosub2012_logging/Loggning/log 3/Bottom/";
     //std::string folderPath = "//home/bork/Data/cdt508/Robosub2012_logging/Loggning/log 3/Bottom/";
     //std::string folderPath = "/home/gerard/Documents/project/cdt508/Robosub2012_logging/Loggning/log 3/Bottom/";
     
     //std::string folderPath = "/home/gerard/Downloads/pix/";
-	std::string folderPath = "/home/vision/Downloads/pix/";
+	//std::string folderPath = "/home/vision/Downloads/pix/";
     
     std::string result;
     std::string imageType = ".jpg";
@@ -593,7 +593,7 @@ void Processing_Wrap::thresh(int src, int dst, int blueLow, int blueUp, int gree
 	  
 ///////////////////////// OPTICAL FLOW     ///////////////////////////////////////////////
  
-void Processing_Wrap::objectTracking(void)
+void Processing_Wrap::objectTracking(int src)
 {
     cv::Mat imgA,imgB; //local copies of greyscales
     std::vector<unsigned char> status;
@@ -637,16 +637,16 @@ void Processing_Wrap::objectTracking(void)
             q.x=(int)(p.x-1 * hypotenuse * cos(angle));
             q.y=(int)(p.x-1 * hypotenuse * sin(angle));
               
-            cv::line(img.at(26),p,q,line_color, line_thickness, CV_AA,0);
+            cv::line(img.at(src),p,q,line_color, line_thickness, CV_AA,0);
               
             p.x = (int)(q.x+9*cos(angle+3.14/4));
             p.y = (int)(q.y+9*sin(angle+3.14/4));
-            cv::line(img.at(26),p,q,line_color,line_thickness,CV_AA,0);
+            cv::line(img.at(src),p,q,line_color,line_thickness,CV_AA,0);
             p.x = (int)(q.x+9*cos(angle-3.14/4));
             p.y = (int)(q.y+9*sin(angle-3.14/4));
-            cv::line(img.at(26),p,q,line_color,line_thickness,CV_AA,0);
+            cv::line(img.at(src),p,q,line_color,line_thickness,CV_AA,0);
         }
-        cv::imshow("why so tracking?",img.at(26));
+        cv::imshow("why so tracking?",img.at(src));
     }
 }
 

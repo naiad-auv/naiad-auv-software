@@ -206,8 +206,8 @@ package visionBindings_hpp is
          sigmaY : double);  -- visionBindings.cpp:656
       pragma Import (CPP, gaussianBlur, "_ZN15Processing_Wrap12gaussianBlurEiiidd");
 
-      procedure objectTracking (this : access Processing_Wrap);  -- visionBindings.cpp:596
-      pragma Import (CPP, objectTracking, "_ZN15Processing_Wrap14objectTrackingEv");
+      procedure objectTracking (this : access Processing_Wrap; src : int);  -- visionBindings.cpp:596
+      pragma Import (CPP, objectTracking, "_ZN15Processing_Wrap14objectTrackingEi");
 
       procedure roi
         (this : access Processing_Wrap;

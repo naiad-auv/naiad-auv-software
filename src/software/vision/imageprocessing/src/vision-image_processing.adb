@@ -76,5 +76,13 @@ package body Vision.Image_Processing is
       CoreWrap.waitKey(0);
    end Apply_Contours;
 
+   procedure Track_Object(iContourLocation,iGreyScaleLocation: in Interfaces.C.Int) is
+   begin
+      processingWrap.cvtColor(iContourLocation,iGreyScaleLocation, 6);
+      processingWrap.approxPolyDP(1.2, 1);
+      processingWrap.goodFeatures(iGreyScaleLocation);
+      processingWrap.objectTracking(iContourLocation);
+   end Track_Object;
+
 
 end Vision.Image_Processing;

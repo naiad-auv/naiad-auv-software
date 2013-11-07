@@ -82,7 +82,7 @@ virtual void LabelPoints(int src);
 
 virtual void gaussianBlur(int src, int dest, int kersize, double sigmaX, double sigmaY);
 
-virtual void objectTracking(void);
+virtual void objectTracking(int src);
 
 virtual void roi(int src, int dst);
 

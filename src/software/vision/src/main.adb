@@ -9,8 +9,8 @@ with Vision.Image_Preprocessing;
 procedure main is
 
    --user decisions
-   iDoUseBuffer : Integer := 0;
-   iDoUseStatic : Integer := 1;
+   iDoUseBuffer : Integer := 1;
+   iDoUseStatic : Integer := 0;
    iDoShowOriginal : Integer := 1;
    iDoGaussian : Integer := 0;
    iDoSplit : Integer := 0;
@@ -30,7 +30,7 @@ procedure main is
    iDoSharpenImage : Integer := 0;
    iDoCompareHistograms : Integer := 0;
    iDoMakeMovie : Integer := 0;
-   iDoMatchTemplete : Integer := 1;
+   iDoMatchTemplete : Integer := 0;
 
    --image locations
    iImageSource : Interfaces.C.Int :=0;
@@ -246,20 +246,9 @@ begin
 
       --USE OBJECT TRACKING
       if(iDoObjectTracking = 1) then
-         processingWrap.cvtColor(iImageSource, iHSILocation, iHSIFilter);
-         processingWrap.thresh(iHSILocation, iThreshedImageLocation, 10, 70, 50, 255, 50, 255);
-
-         processingWrap.cvtColor(iThreshedImageLocation,iGreyScaleLocation, iGreyFilter);
-         processingWrap.Canny(iGreyScaleLocation,iCannyLocation, iCannyLowThres, iCannyHighThres, iCannyKernelSize);
-         processingWrap.Contours(iCannyLocation);
-         processingWrap.showContours(iThreshedImageLocation,contourOut => iContourLocation,contourId  => -1 ,thickness  => 3 );
-
-         processingWrap.cvtColor(iContourLocation,iGreyScaleLocation, iGreyFilter);
-
-         processingWrap.approxPolyDP(1.2, 1);
-
-         processingWrap.goodFeatures(iGreyScaleLocation);
-         processingWrap.objectTracking;
+         Vision.Image_Processing.Threshold_Image(iImageSource,iHSILocation, iThreshedImageLocation, 10, 70, 50, 255, 50, 255);
+         Vision.Image_Processing.Apply_Contours(iThreshedImageLocation,iGreyScaleLocation,iContourLocation,iCannyLocation, iCannyLowThres, iCannyHighThres, iCannyKernelSize);
+         Vision.Image_Processing.Track_Object(iContourLocation,iGreyScaleLocation);
       end if;
 
       --USE VELOCITY MODE
@@ -277,7 +266,7 @@ begin
          processingWrap.approxPolyDP(1.2, 1);
          processingWrap.estPosition;
          processingWrap.goodFeatures(iGreyScaleLocation);
-         processingWrap.objectTracking;
+         processingWrap.objectTracking(iImageSource);--this line needs fixing
 
          if velCount>0 then
             processingWrap.GaussianBlurSharpener(iImageSource,2,3);
