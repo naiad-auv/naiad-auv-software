@@ -72,7 +72,7 @@ package body Vision.Image_Processing is
          processingWrap.Canny(iGreyScaleLocation,iCannyLocation, iCannyLowThres, iCannyHighThres, iCannyKernelSize);
          processingWrap.Contours(iCannyLocation);
          processingWrap.showContours(iImageSource,contourOut => iContourLocation,contourId  => -1 ,thickness  => 1 );
-         CoreWrap.imshow(New_String("Whats with the contours?"),iContourLocation);
+         CoreWrap.imshow(New_String("Why with the contours?"),iContourLocation);
       CoreWrap.waitKey(0);
    end Apply_Contours;
 

@@ -30,7 +30,7 @@ procedure main is
    iDoSharpenImage : Integer := 0;
    iDoCompareHistograms : Integer := 0;
    iDoMakeMovie : Integer := 0;
-   iDoMatchTemplete : Integer := 0;
+   iDoMatchTemplete : Integer := 1;
    iDoWriteImageToFile : Integer :=0;
    iDoEnhanceColors : Integer :=0;
 
@@ -285,26 +285,10 @@ begin
 
 
       if(iDoMatchTemplete =1) then
-         if (loadTemplates = 0) then
-            --load templates
-            CoreWrap.imstore(iTemplate1,New_String("redTrident.jpg"));
-            CoreWrap.imstore(iTemplate2,New_String("redSword.jpg"));
-            CoreWrap.imstore(iTemplate3,New_String("redHoneycomb.jpg"));
-            CoreWrap.imstore(iTemplate4,New_String("redCircle.jpg"));
-
-            --cleanup templates
+         if (loadTemplates = 0) then --load and cleanup templates
+            Vision.Image_Preprocessing.Load_Templates(iTemplate1,iTemplate2,iTemplate3,iTemplate4);
             iTemplate:=iTemplate1;
-            for iTemplateIndex in 1 .. iTemplateSize loop
-               processingWrap.enhanceColors(iTemplate,iTemplate,1,30.0);
-               processingWrap.GaussianBlurSharpener(iTemplate,iTemplate,2);
-               processingWrap.cvtColor(iTemplate, itemplateTempStorage, iHSIFilter);
-               processingWrap.thresh(itemplateTempStorage, itemplateTempStorage, 0, 0, 0, 0, 50, 255);
-               processingWrap.gaussianBlur(itemplateTempStorage,itemplateTempStorage,11,0.0,0.0);
-               processingWrap.GaussianBlurSharpener(itemplateTempStorage,itemplateTempStorage,4);
-               processingWrap.cvtColor(itemplateTempStorage,itemplateTempStorage, iGreyFilter);
-               processingWrap.Canny(itemplateTempStorage,iTemplate, 100, 300, iCannyKernelSize);
-               iTemplate:=iTemplate+1;
-            end loop;
+            Vision.Image_Preprocessing.Cleanup_Templates(iTemplate,itemplateTempStorage,iTemplateSize);
          end if;
          loadTemplates:=1;
          Put_Line("exit loop");

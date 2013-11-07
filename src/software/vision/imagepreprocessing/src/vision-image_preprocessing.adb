@@ -25,7 +25,7 @@ package body Vision.Image_Preprocessing is
       end if;
 
       preprocessingWrap.nextFrame(iImageSource);
-      CoreWrap.imshow(New_String("test video"), iImageSource);
+      CoreWrap.imshow(New_String("why so video"), iImageSource);
       CoreWrap.waitKey(iWaitTime);
    end Capture_Video;
 
@@ -46,9 +46,33 @@ package body Vision.Image_Preprocessing is
    procedure Enhance_Colors(iImageSource,iImageDestination,iEnhanceChannel : in Interfaces.C.Int;iEnhanceLevel : in Interfaces.C.Double) is
    begin
       processingWrap.enhanceColors(iImageSource,iImageDestination,iEnhanceChannel,iEnhanceLevel);
-      CoreWrap.imshow(New_String("enhanced image.jpg"),iImageDestination);
+      CoreWrap.imshow(New_String("Why so enhanced?"),iImageDestination);
       CoreWrap.waitKey(0);
    end Enhance_Colors;
 
+   procedure Load_Templates (iTemplate1,iTemplate2,iTemplate3,iTemplate4 : in Interfaces.C.int) is
+   begin
+      CoreWrap.imstore(iTemplate1,New_String("redTrident.jpg"));
+      CoreWrap.imstore(iTemplate2,New_String("redSword.jpg"));
+      CoreWrap.imstore(iTemplate3,New_String("redHoneycomb.jpg"));
+      CoreWrap.imstore(iTemplate4,New_String("redCircle.jpg"));
+   end Load_Templates;
+
+   procedure Cleanup_Templates(iTemplate,itemplateTempStorage : in Interfaces.C.int;iTemplateSize : in Integer) is
+   tempIndex : interfaces.c.int := iTemplate;
+   begin
+      for iTemplateIndex in 1 .. iTemplateSize loop
+         processingWrap.enhanceColors(iTemplate,iTemplate,1,30.0);
+         processingWrap.GaussianBlurSharpener(iTemplate,iTemplate,2);
+         processingWrap.cvtColor(iTemplate, itemplateTempStorage, 40);
+         processingWrap.thresh(itemplateTempStorage, itemplateTempStorage, 0, 0, 0, 0, 50, 255);
+         processingWrap.gaussianBlur(itemplateTempStorage,itemplateTempStorage,11,0.0,0.0);
+         processingWrap.GaussianBlurSharpener(itemplateTempStorage,itemplateTempStorage,4);
+         processingWrap.cvtColor(itemplateTempStorage,itemplateTempStorage, 6);
+         processingWrap.Canny(itemplateTempStorage,iTemplate, 100, 300, 3);
+         --iTemplate:=iTemplate+1;
+         tempIndex:=tempIndex+1;
+      end loop;
+   end Cleanup_Templates;
 
 end Vision.Image_Preprocessing;
