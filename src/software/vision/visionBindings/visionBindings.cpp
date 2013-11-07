@@ -304,9 +304,9 @@ void Processing_Wrap::Contours(int src)
  
 /////////////////////////////////////// DISPLAY CONTOURS ///////////////////////////////////////////
  
-void Processing_Wrap::showContours(int contourOut, int contourId = -1, int thickness = 1)
+void Processing_Wrap::showContours(int src, int contourOut, int contourId = -1, int thickness = 1)
 {
-    img.at(contourOut)=img.at(26).clone();
+    img.at(contourOut)=img.at(src).clone();
     cv::drawContours(img.at(contourOut), contours, contourId, cv::Scalar(0,0,255), thickness, CV_AA );
 }
 
@@ -558,7 +558,8 @@ void Processing_Wrap::goodFeatures(int src)
 int Processing_Wrap::thresh(int src, int dst, int blueLow, int blueUp, int greenLow, int greenUp, int redLow, int redUp)
 {
     cv::Mat mask,threshOut = img.at(src).clone(), outPic, dstA, dstB,dstC,dstD;
-    int tolerance = 0.05;
+    cv::Mat mrWhite(img.at(src).rows,img.at(src).cols,CV_8UC3,cv::Scalar(255,255,255));
+    int tolerance = 0.02;
     int i;
 
 	if ((blueUp == 0)&&(greenUp == 0)&&(redUp == 255))
@@ -580,7 +581,7 @@ int Processing_Wrap::thresh(int src, int dst, int blueLow, int blueUp, int green
 	//cv::imshow("mask",mask);
 	//cv::waitKey(0);
 
-	threshOut.copyTo(outPic,mask);
+	mrWhite.copyTo(outPic,mask);
 	
 	img.at(dst)=outPic.clone();
 		
@@ -814,92 +815,160 @@ void Processing_Wrap::invertImage(int src, int dst)
 
 ///////////////////////////////////// IMAGE MATCHING/////////////////////////////////////////////
 
-void Processing_Wrap::matchImage(int src)
+int Processing_Wrap::matchImage(int src)
 {
-    int    templeteStoreSize=templateStore.size();
     double results;
-   
-    cv::imshow("templete to match",templateStore.at(0));
-    //contour templete
-    cv::cvtColor(templateStore.at(0),templateStore.at(1),6);
-    cv::Canny(templateStore.at(1), templateStore.at(2), 50, 150, 3);
-    cv::imshow("cannied templete",templateStore.at(2));
-    cv::waitKey(0);
-    cv::findContours( templateStore.at(2), templeteContours, CV_RETR_EXTERNAL, CV_CHAIN_APPROX_NONE);
-    cv::drawContours(templateStore.at(0), templeteContours, -1, cv::Scalar(255,255,0), 1, CV_AA );
-    std::cout<<"size of templete contours\t"<<templeteContours.size()<<"\n";
-    cv::waitKey(0);
-   
-    ////////////////draw square contour from templete////////////////////////
-    std::vector<cv::Point> squarePoints  = (std::vector<cv::Point>)templeteContours[0];
-    int numOfContoursInSquare=squarePoints.size();
-    const int *numOfPointsInTempleteContour = &numOfContoursInSquare;
-    cv::Point testArray1[1][squarePoints.size()];
-   
-    for (int a=0;a<squarePoints.size();a++)
-    {
-        testArray1[0][a]=squarePoints[a];
-    }
-    const cv::Point* tester1[1] = { testArray1[0] };
-    cv::fillPoly(templateStore.at(0), tester1, numOfPointsInTempleteContour, 1, cv::Scalar(0,255,0), 8, 0, cv::Point() );
-    cv::imshow("contour to search for",templateStore.at(0));
-    cv::waitKey(0);
-   
-    //contour image
-    cv::cvtColor(img.at(0),img.at(1),6);
-    cv::Canny(img.at(1), img.at(2), 50, 150, 3);
-    cv::imshow("cannied base image",img.at(2));
-    cv::findContours( img.at(2), contours, CV_RETR_EXTERNAL, CV_CHAIN_APPROX_NONE);
+    int templateStoreIndex=30;
+    int bestShapeMatch=0; 
+    std::vector<double> resultsVector;
+	double bestMatch=10;
+	int bestMatchIndex;
+    
+    ///contour base image
+    cv::findContours( img.at(src), contours, CV_RETR_EXTERNAL, CV_CHAIN_APPROX_NONE);
     cv::drawContours(img.at(0), contours, -1, cv::Scalar(255,255,0), 1, CV_AA );
+    
+    ///show image and num of contours found for debug
     cv::imshow("drawn contours on base image",img.at(0));
     std::cout<<"num of contours in base image \t"<<contours.size()<<"\n";
     cv::waitKey(0);
-   
-    std::vector<double> resultsVector;
-    double bestMatch=10;
-    int bestMatchIndex;
-    for (int i=0;i<contours.size();i++)
-    {
-        results=cv::matchShapes(contours[i], templeteContours[0], CV_CONTOURS_MATCH_I1,0);
-        resultsVector.push_back(results);
-        if (results<bestMatch)
-        {
-            bestMatch=results;
-            bestMatchIndex=i;
-        }
+    
+	///find biggest contour by finding contourn with biggest area 
+	int largest_area=0;
+	int largest_contour_index=0;
+	
+	for( int i = 0; i< contours.size(); i++ ) // iterate through each contour.
+	{
+		double a=contourArea( contours[i],false);  //  Find the area of contour
+		if(a>largest_area)
+		{
+			largest_area=a;
+			largest_contour_index=i;                //Store the index of largest contour
+		} 
     }
-    for (int j=0;j<resultsVector.size();j++)
+	
+    ///check for match
+    for (int templateindex=0;templateindex<NUMBER_OF_TEMPLATES;templateindex++)
     {
-        std::cout<<"results are: \t"<<resultsVector.at(j)<<"\n";
-    }
-    std::cout<<"best results are \t"<<bestMatch<<"at"<<bestMatchIndex<<"\n";
-    cv::waitKey(0);
-   
-    int numContoursFound=sizeof(contours[bestMatchIndex]);
-    std::vector<cv::Point> bestMatchContour1 = (std::vector<cv::Point>)contours[bestMatchIndex];
-    int testA= bestMatchContour1.size();
-    const int *testB = &testA;
-   
-    cv::Point testArray[1][bestMatchContour1.size()];
-    for (int k=0;k<bestMatchContour1.size();k++)
-    {
-        testArray[0][k]=bestMatchContour1[k];
-    }
-       
-    const cv::Point* tester[1] = { testArray[0] };
-   
-    cv::fillPoly(img.at(0), tester, testB, 1, cv::Scalar(0,255,0), 8, 0, cv::Point() );
-
-    cv::imshow("TTTTIIIIIIIIIIIIIIIIIITTTTTTTTTTANNNNNNNNNNNNNNNNNNIIIIIIIIUUUUUUUUUMMMMMMMMMMMMMM",img.at(0));
-    cv::waitKey(0);
+		///contour templete
+		cv::findContours( img.at(templateStoreIndex), templeteContours, CV_RETR_EXTERNAL, CV_CHAIN_APPROX_NONE);
+		
+		///find best match
+		results=cv::matchShapes(contours[largest_contour_index], templeteContours[0], CV_CONTOURS_MATCH_I3,0);
+		resultsVector.push_back(results);
+		if ((results<bestMatch)&&(results!=0))
+		{
+			bestMatch=results;
+			bestShapeMatch=templateStoreIndex;
+		}
+		templateStoreIndex++;
+	}
+	///print results
+	if (bestMatch<0.1)
+	{ std::cout<<"Good match found!!\n";}
+	return bestShapeMatch;
 }
 
 
-///////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////// IMAGE MATCHING/////////////////////////////////////////////
+
+void Processing_Wrap::classifyMatch(int bestTemplateMatch)
+{
+	if (bestTemplateMatch==30)
+	{
+		std::cout<<"Trident\n";
+		cv::waitKey(0);
+	}
+	if (bestTemplateMatch==31)
+	{
+		std::cout<<"Sword\n";
+		cv::waitKey(0);
+	}
+	if (bestTemplateMatch==32)
+	{
+		std::cout<<"Honeycomb\n";
+		cv::waitKey(0);
+	}
+	if (bestTemplateMatch==33)
+	{
+		std::cout<<"Circle\n";
+		cv::waitKey(0);
+	}
+}
+////////////////////////////// fill in poly func //////////////////////////////////////////
+//redundant now, used for debuging match shapes, saving in case needed in future
+
+void Processing_Wrap::fillInPoly(void)
+
+{
+	///draw square contour from templete
+		/*std::vector<cv::Point> squarePoints  = (std::vector<cv::Point>)templeteContours[0];
+		int numOfContoursInSquare=squarePoints.size();
+		const int *numOfPointsInTempleteContour = &numOfContoursInSquare;
+		cv::Point testArray1[1][squarePoints.size()];
+   
+		for (int a=0;a<squarePoints.size();a++)
+		{
+			testArray1[0][a]=squarePoints[a];
+		}
+		const cv::Point* tester1[1] = { testArray1[0] };
+		cv::fillPoly(img.at(35), tester1, numOfPointsInTempleteContour, 1, cv::Scalar(0,255,0), 8, 0, cv::Point() );
+		cv::imshow("contour to search for",img.at(35));
+		cv::waitKey(0);*/ 
+		
+	///fill in contour on base image
+	   /*int numContoursFound=sizeof(contours[largest_contour_index]);
+	   std::vector<cv::Point> bestMatchContour1 = (std::vector<cv::Point>)contours[largest_contour_index];
+	   int testA= bestMatchContour1.size();
+	   const int *testB = &testA;
+   
+		cv::Point testArray[1][bestMatchContour1.size()];
+		for (int k=0;k<bestMatchContour1.size();k++)
+		{
+			testArray[0][k]=bestMatchContour1[k];
+		}
+       
+		const cv::Point* tester[1] = { testArray[0] };
+   
+		cv::fillPoly(img.at(0), tester, testB, 1, cv::Scalar(0,255,0), 8, 0, cv::Point() );
+
+		cv::imshow("TTTTIIIIIIIIIIIIIIIIIITTTTTTTTTTANNNNNNNNNNNNNNNNNNIIIIIIIIUUUUUUUUUMMMMMMMMMMMMMM",img.at(0));
+		cv::waitKey(0);*/
+}
 
 
+/////////////////////////////// ENHANCE COLORS IN IMAGE ////////////////////////////////////
+ 
+void Processing_Wrap::enhanceColors(int src,int dest,int channel,double level)
+{
+	///convert image to hsv
+	cv::Mat tempImage=img.at(src).clone();
+	cv::cvtColor(tempImage, tempImage, CV_BGR2HSV);    
 
+	///enhance image by Level
+	for (int i=0; i < tempImage.rows ; i++)
+	{
+		for(int j=0; j < tempImage.cols; j++)
+		{
+             tempImage.at<cv::Vec3b>(i,j)[channel] += level;
+		}
+	}
+
+	///convert image back to bgr
+	cv::cvtColor(tempImage, tempImage, CV_HSV2BGR);
+	img.at(dest)=tempImage.clone();
+}
+
+
+/////////////////////////////// CLONE IMAGE ////////////////////////////////////
+
+void Processing_Wrap::cloneImage(int src,int dst)
+{
+	img.at(dst)=img.at(src).clone();
+}
+
+/////////////////////////////////////
+/////////////////////////////////////
 Processing_Wrap::Processing_Wrap(){}
 /*********************************************************************************************************************
 *               END PROCESSING WRAP                                                                                  *

@@ -1,15 +1,15 @@
 with visionBindings_hpp; use visionBindings_hpp;
 with interfaces.C.strings; use interfaces.C.strings;
 with interfaces.C; use interfaces.C;
---with Ada.Text_IO; use Ada.Text_IO;
+with Ada.Text_IO; use Ada.Text_IO;
 --with Ada.Integer_Text_IO; use Ada.Integer_Text_IO;
 --with Vision.Image_Processing;
 
 procedure main is
 
    --user decisions
-   iDoUseBuffer : Integer := 0;
-   iDoUseStatic : Integer := 1;
+   iDoUseBuffer : Integer := 1;
+   iDoUseStatic : Integer := 0;
    iDoShowOriginal : Integer := 1;
    iDoGaussian : Integer := 0;
    iDoSplit : Integer := 0;
@@ -115,6 +115,7 @@ procedure main is
    templateIndex : integer := 1;
    loadTemplates : integer :=0;
    iTemplate :interfaces.c.int := 30;
+   bestTempleteMatchFound : interfaces.c.int;
 
    CoreWrap : aliased Class_Core_Wrap.Core_Wrap;
    processingWrap : aliased Class_Processing_Wrap.Processing_Wrap;
@@ -207,7 +208,7 @@ begin
          CoreWrap.img_buffer; --load image to img.at(0)
       elsif (iDoUseStatic =1) then
          --, or just read in single image NEW, READS IN IMAGE AND STORES IN INDEX "IMAGESOURCE" OF "img.at()"
-         CoreWrap.imstore(iImageSource,New_String("Square.jpg"));
+         CoreWrap.imstore(iImageSource,New_String("shapes3.jpg"));
       elsif (iDoMakeMovie = 1) then
          --capture from video
          if (videoOpen=0) then
@@ -292,7 +293,7 @@ begin
          processingWrap.cvtColor(iThreshedImageLocation,iGreyScaleLocation, iGreyFilter);
          processingWrap.Canny(iGreyScaleLocation,iCannyLocation, iCannyLowThres, iCannyHighThres, iCannyKernelSize);
          processingWrap.Contours(iCannyLocation);
-         processingWrap.showContours(contourOut => iContourLocation,contourId  => -1 ,thickness  => 3 );
+         processingWrap.showContours(iThreshedImageLocation,contourOut => iContourLocation,contourId  => -1 ,thickness  => 3 );
 
          processingWrap.cvtColor(iContourLocation,iGreyScaleLocation, iGreyFilter);
 
@@ -310,7 +311,7 @@ begin
          processingWrap.cvtColor(iThreshedImageLocation,iGreyScaleLocation, iGreyFilter);
          processingWrap.Canny(iGreyScaleLocation,iCannyLocation, iCannyLowThres, iCannyHighThres, iCannyKernelSize);
          processingWrap.Contours(iCannyLocation);
-         processingWrap.showContours(contourOut => iContourLocation,contourId  => -1 ,thickness  => 3 );
+         processingWrap.showContours(iThreshedImageLocation,contourOut => iContourLocation,contourId  => -1 ,thickness  => 3 );
 
          processingWrap.cvtColor(iContourLocation,iGreyScaleLocation, iGreyFilter);
 
@@ -346,7 +347,7 @@ begin
          processingWrap.cvtColor(iThreshedImageLocation,iGreyScaleLocation, iGreyFilter);
          processingWrap.Canny(iGreyScaleLocation,iCannyLocation, iCannyLowThres, iCannyHighThres, iCannyKernelSize);
          processingWrap.Contours(iCannyLocation);
-         processingWrap.showContours(contourOut => iContourLocation,contourId  => -1 ,thickness  => 1 );
+         processingWrap.showContours(iThreshedImageLocation,contourOut => iContourLocation,contourId  => -1 ,thickness  => 1 );
          CoreWrap.imshow(New_String("Whats with the contours?"),iContourLocation);
          CoreWrap.waitKey(0);
       end if;
@@ -396,44 +397,40 @@ begin
 
       if(iDoMatchTemplete =1) then
          if (loadTemplates = 0) then
+            --load templates
             CoreWrap.imstore(iTemplate1,New_String("redTrident.jpg"));
             CoreWrap.imstore(iTemplate2,New_String("redSword.jpg"));
             CoreWrap.imstore(iTemplate3,New_String("redHoneycomb.jpg"));
             CoreWrap.imstore(iTemplate4,New_String("redCircle.jpg"));
+
             --cleanup templates
             for iTemplateIndex in 1 .. iTemplateSize loop
-               coreWrap.imshow(New_String("template"),iTemplate);
-               coreWrap.waitKey(0);
-
+               processingWrap.enhanceColors(iTemplate,iTemplate,1,30.0);
+               processingWrap.GaussianBlurSharpener(iTemplate,iTemplate,2);
                processingWrap.cvtColor(iTemplate, itemplateTempStorage, iHSIFilter);
-               ret := processingWrap.thresh(itemplateTempStorage, itemplateTempStorage, 30, 60, 50, 255, 50, 255);
-               coreWrap.imshow(New_String("template threshed"),itemplateTempStorage);
-               coreWrap.waitKey(0);
-
+               ret := processingWrap.thresh(itemplateTempStorage, itemplateTempStorage, 0, 0, 0, 0, 50, 255);
+               processingWrap.gaussianBlur(itemplateTempStorage,itemplateTempStorage,11,0.0,0.0);
+               processingWrap.GaussianBlurSharpener(itemplateTempStorage,itemplateTempStorage,4);
                processingWrap.cvtColor(itemplateTempStorage,itemplateTempStorage, iGreyFilter);
-               processingWrap.Canny(itemplateTempStorage,itemplateTempStorage, iCannyLowThres, iCannyHighThres, iCannyKernelSize);
-               processingWrap.Contours(itemplateTempStorage);
-               processingWrap.showContours(contourOut => itemplateTempStorage,contourId  => -1 ,thickness  => 3 );
-               coreWrap.imshow(New_String("template so far.."),itemplateTempStorage);
-               coreWrap.waitKey(0);
+               processingWrap.Canny(itemplateTempStorage,iTemplate, 100, 300, iCannyKernelSize);
                iTemplate:=iTemplate+1;
             end loop;
          end if;
          loadTemplates:=1;
+         Put_Line("exit loop");
+         --coreWrap.waitKey(0);
 
+         --cleanup source image
+         processingWrap.enhanceColors(iImageSource,iImageSource,1,30.0);
          processingWrap.cvtColor(iImageSource, iHSILocation, iHSIFilter);
-         ret := processingWrap.thresh(iHSILocation,iHSILocation, 30, 60, 50, 255, 50, 255);
+         ret := processingWrap.thresh(iHSILocation,iThreshedImageLocation, 0, 0, 0, 0, 50, 255);
 
+         processingWrap.gaussianBlur(iThreshedImageLocation,iThreshedImageLocation,11,0.0,0.0);
+         processingWrap.GaussianBlurSharpener(iThreshedImageLocation,iThreshedImageLocation,4);
          processingWrap.cvtColor(iThreshedImageLocation,iGreyScaleLocation, iGreyFilter);
-         processingWrap.Canny(iGreyScaleLocation,iCannyLocation, iCannyLowThres, iCannyHighThres, iCannyKernelSize);
-         processingWrap.Contours(iCannyLocation);
-         processingWrap.showContours(contourOut => iContourLocation,contourId  => -1 ,thickness  => 3 );
-         coreWrap.imshow(New_String("so far.."),iContourLocation);
-         coreWrap.waitKey(0);
-
-
-
-         processingWrap.matchImage(iImageSource);
+         processingWrap.Canny(iGreyScaleLocation,iCannyLocation, 100, 300, iCannyKernelSize);
+         bestTempleteMatchFound:=processingWrap.matchImage(iCannyLocation);
+         processingWrap.classifyMatch(bestTempleteMatchFound);
       end if;
 
    end loop Endless_Loop;

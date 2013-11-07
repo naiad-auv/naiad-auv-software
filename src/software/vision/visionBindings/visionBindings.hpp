@@ -54,7 +54,7 @@ virtual void DrawHoughLines(int cdst);
 
 virtual void Contours(int src);
 
-virtual void showContours(int contourOut, int contourId, int thickness);
+virtual void showContours(int src,int contourOut, int contourId, int thickness);
 
 virtual void BGRHistogram(int numSourceArray, int histDimensionality, int histSize, float range[],bool uniform, bool accumulate);
 
@@ -98,7 +98,15 @@ virtual void estPosition(void);
 
 virtual void invertImage(int src, int dst);
 
-virtual void matchImage(int src);
+virtual int matchImage(int src);
+
+virtual void cloneImage(int src,int dst);
+
+virtual void enhanceColors(int src,int dest,int channel,double level);
+
+virtual void fillInPoly(void);//possibly redundant function, leaving in as might be useful when testing the system
+
+virtual void classifyMatch(int bestMatch);
 
 Processing_Wrap();
 };
