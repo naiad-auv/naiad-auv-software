@@ -3,6 +3,7 @@ with Math.Vectors; --use Math.Vectors;
 --with System; use System;
 with Ada.Exceptions;
 with Ada.Unchecked_Deallocation;
+with Math.Elementary;
 
 -- Quaternions package for classes and functionality regarding quaternions. A quaternion object is stored in a pCQuaternion variable and is created with the pxCreate functions.
 package Math.Quaternions is

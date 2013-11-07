@@ -3,6 +3,9 @@ with Math.Vectors;
 --with Ada.Numerics;
 with Exception_Handling;
 --with Ada.Text_IO;
+with Math.Angles;
+
+
 
 package body Math.Quaternions is
 
@@ -31,15 +34,15 @@ package body Math.Quaternions is
       end if;
       --Ada.Text_IO.Put_Line("Lol 2");
 
-      fAngleInRadians := fAngleInDegrees * (Ada.Numerics.Pi / 180.0);
+      fAngleInRadians := fAngleInDegrees * (Math.Angles.Pi / 180.0);
       fNorm :=fAngleInRadians / 2.0;
-      fScale := Ada.Numerics.Elementary_Functions.Sin(fNorm);
+      fScale := Math.Elementary.Sin(fNorm);
       --Ada.Text_IO.Put_Line("Lol 3");
 
       fX := fScale * xNormalizedAxisVector.fGet_X;
       fY := fScale * xNormalizedAxisVector.fGet_Y;
       fZ := fScale * xNormalizedAxisVector.fGet_Z;
-      fW := Ada.Numerics.Elementary_Functions.Cos(fNorm);
+      fW := Math.Elementary.Cos(fNorm);
       --Math.Vectors.Free(pxVectorToDeallocate => pxNormalizedAxisVector);
       --Ada.Text_IO.Put_Line("Lol 4");
 
@@ -200,7 +203,7 @@ package body Math.Quaternions is
 
    function fGet_Length (this : in CQuaternion) return float is
    begin
-      return Ada.Numerics.Elementary_Functions.Sqrt((this.fX*this.fX) + (this.fY*this.fY) + (this.fZ*this.fZ) + (this.fW*this.fW));
+      return Math.Elementary.Sqrt((this.fX*this.fX) + (this.fY*this.fY) + (this.fZ*this.fZ) + (this.fW*this.fW));
    end fGet_Length;
 
    function fGet_Length_Squared (this : in CQuaternion) return float is
@@ -233,7 +236,7 @@ package body Math.Quaternions is
       pxAxisVector : Math.Vectors.pCVector;
       xAxisVector : Math.Vectors.CVector;
    begin
-      fScale := Ada.Numerics.Elementary_Functions.Sqrt((this.fX*this.fX)+(this.fY*this.fY)+(this.fZ*this.fZ));
+      fScale := Math.Elementary.Sqrt((this.fX*this.fX)+(this.fY*this.fY)+(this.fZ*this.fZ));
       if fScale = 0.0 then
          pxAxisVector := Math.Vectors.xCreate(fX => 1.0,
                                                fY => 0.0,
@@ -252,7 +255,7 @@ package body Math.Quaternions is
 
    function fGet_Angle_In_Degrees (this : in CQuaternion) return float is
    begin
-      return ((2.0*180.0)/Ada.Numerics.Pi) * Ada.Numerics.Elementary_Functions.Arccos(this.fW);
+      return ((2.0*180.0)/Math.Angles.Pi) * Math.Elementary.Acos(this.fW);
    end fGet_Angle_In_Degrees;
 
    procedure Copy_From(this : in out CQuaternion; xSourceQuaternion : in CQuaternion) is

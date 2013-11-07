@@ -1,12 +1,12 @@
 -- Vector package for Project Naiad
 -- Written by Per-Erik Måhl, 2013
 with Math;
-with Ada.Numerics;
+--with Ada.Numerics;
 with Ada.Exceptions;
-with System;
+--with System;
 with Ada.Unchecked_Deallocation;
 with Exception_Handling;
-
+with Math.Elementary;
 
 -- Vectors package for classes, types and functionality regarding vectors. A vector object is stored in a pCVector variable and is created with the pxCreate function.
 package Math.Vectors is

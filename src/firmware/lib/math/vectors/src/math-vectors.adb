@@ -1,6 +1,5 @@
-with Ada.Numerics.Elementary_Functions;
 with Ada.Unchecked_Deallocation;
-with System;
+--with System;
 with Ada.Text_IO;
 with Exception_Handling;
 
@@ -23,7 +22,7 @@ package body Math.Vectors is
 
    function fLength (this : in CVector) return float is
    begin
-      return Ada.Numerics.Elementary_Functions.Sqrt(this.fLength_Squared);
+      return Math.Elementary.Sqrt(this.fLength_Squared);
    end fLength;
 
    function "+" (xLeftOperandVector, xRightOperandVector : in CVector) return CVector is
@@ -298,7 +297,7 @@ package body Math.Vectors is
 
       fDotProduct := float'Min(float'Max(fDotProduct,-1.0),1.0);
 
-      return Ada.Numerics.Elementary_Functions.Arccos(fDotProduct);
+      return Math.Elementary.Acos(fDotProduct);
    end fAngle_Between_In_Radians;
 
    function fAngle_Between_In_Radians (xLeftOperandVector : in CVector; pxRightOperandVector : in pCVector) return float is
