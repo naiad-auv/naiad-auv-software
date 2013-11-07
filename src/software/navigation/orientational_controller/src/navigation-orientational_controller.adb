@@ -93,7 +93,7 @@ package body Navigation.Orientational_Controller is
               others => 0.0);
    end xGet_Z_Rotation_Thruster_Control_Value;
 
-   procedure Update_Current_Z_Rotation_Error (this : in COrientationalController) is
+   procedure Update_Current_Z_Rotation_Error (this : in out COrientationalController) is
       use Math.Matrices;
       xWantedRelativeOrientation : Math.Matrices.CMatrix;
       xCurrentRelativeOrientation : Math.Matrices.CMatrix;
@@ -133,11 +133,12 @@ package body Navigation.Orientational_Controller is
 
       fError := Math.Vectors.fAngle_Between_In_Radians(xCurrentXVector, xWantedXVector);
 
-      if Math.Vectors.fDot_Product(xWantedXVector, Math.Vectors.xCross_Product(xCurrentXVector, xWantedRelativePlane.xGet_Normal_Vector)) < 0.0 then
+      if Math.Vectors.fDot_Product(xWantedXVector, Math.Vectors.xCross_Product(xCurrentXVector, xWantedRelativePlane.xGet_Normal_Vector)) > 0.0 then
          fError := fError * (-1.0);
       end if;
 
 
+     --this.fZRotError := fError;
       this.pxZRotMotionComponent.Update_Current_Error(fError);
    exception
       when E : others =>
@@ -146,7 +147,7 @@ package body Navigation.Orientational_Controller is
 
    end Update_Current_Z_Rotation_Error;
 
-   procedure Update_Current_Y_Rotation_Error (this : in COrientationalController) is
+   procedure Update_Current_Y_Rotation_Error (this : in out COrientationalController) is
       use Math.Matrices;
       xWantedRelativeOrientation : Math.Matrices.CMatrix;
       xCurrentRelativeOrientation : Math.Matrices.CMatrix;
@@ -186,11 +187,12 @@ package body Navigation.Orientational_Controller is
 
       fError := Math.Vectors.fAngle_Between_In_Radians(xCurrentZVector, xWantedZVector);
 
-      if Math.Vectors.fDot_Product(xWantedZVector, Math.Vectors.xCross_Product(xCurrentZVector, xWantedRelativePlane.xGet_Normal_Vector)) < 0.0 then
+      if Math.Vectors.fDot_Product(xWantedZVector, Math.Vectors.xCross_Product(xCurrentZVector, xWantedRelativePlane.xGet_Normal_Vector)) > 0.0 then
          fError := fError * (-1.0);
       end if;
 
-      this.pxZRotMotionComponent.Update_Current_Error(fError);
+      --this.fYRotError := fError;
+      this.pxYRotMotionComponent.Update_Current_Error(fError);
    exception
       when E : others =>
          Exception_Handling.Reraise_Exception(E       => E,
@@ -199,7 +201,7 @@ package body Navigation.Orientational_Controller is
    end Update_Current_Y_Rotation_Error;
 
 
-   procedure Update_Current_X_Rotation_Error (this : in COrientationalController) is
+   procedure Update_Current_X_Rotation_Error (this : in out COrientationalController) is
       use Math.Matrices;
       xWantedRelativeOrientation : Math.Matrices.CMatrix;
       xCurrentRelativeOrientation : Math.Matrices.CMatrix;
@@ -239,17 +241,20 @@ package body Navigation.Orientational_Controller is
 
       fError := Math.Vectors.fAngle_Between_In_Radians(xCurrentYVector, xWantedYVector);
 
-      if Math.Vectors.fDot_Product(xWantedYVector, Math.Vectors.xCross_Product(xCurrentYVector, xWantedRelativePlane.xGet_Normal_Vector)) < 0.0 then
+      if Math.Vectors.fDot_Product(xWantedYVector, Math.Vectors.xCross_Product(xCurrentYVector, xWantedRelativePlane.xGet_Normal_Vector)) > 0.0 then
          fError := fError * (-1.0);
       end if;
 
-      this.pxZRotMotionComponent.Update_Current_Error(fError);
+      --this.fXRotError := fError;
+      this.pxXRotMotionComponent.Update_Current_Error(fError);
    exception
       when E : others =>
          Exception_Handling.Reraise_Exception(E       => E,
                                               Message => "Navigation.Orientational_Controller.Update_Current_X_Rotation_Error (this : in COrientationalController)");
 
    end Update_Current_X_Rotation_Error;
+
+
 
    procedure Free(pxOrientationalControllerToDeallocate : in out pCOrientationalController) is
       procedure Dealloc is new Ada.Unchecked_Deallocation(COrientationalController, pCOrientationalController);

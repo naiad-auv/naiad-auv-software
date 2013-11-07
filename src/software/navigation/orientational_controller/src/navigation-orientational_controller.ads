@@ -14,6 +14,11 @@ with Ada.Finalization;
 with Ada.Unchecked_Deallocation;
 with System;
 
+
+-- for tests
+with Ada.Numerics;
+--with Ada.Text_IO;
+
 package Navigation.Orientational_Controller is
 
    type COrientationalController is new Ada.Finalization.Controlled with private;
@@ -44,9 +49,9 @@ package Navigation.Orientational_Controller is
 
 private
 
-   procedure Update_Current_X_Rotation_Error (this : in COrientationalController);
-   procedure Update_Current_Y_Rotation_Error (this : in COrientationalController);
-   procedure Update_Current_Z_Rotation_Error (this : in COrientationalController);
+   procedure Update_Current_X_Rotation_Error (this : in out COrientationalController);
+   procedure Update_Current_Y_Rotation_Error (this : in out COrientationalController);
+   procedure Update_Current_Z_Rotation_Error (this : in out COrientationalController);
 
    function xGet_X_Rotation_Thruster_Control_Value (this : in COrientationalController; fDeltaTime : in float) return Navigation.Thrusters.TThrusterEffects;
    function xGet_Y_Rotation_Thruster_Control_Value (this : in COrientationalController; fDeltaTime : in float) return Navigation.Thrusters.TThrusterEffects;
@@ -61,6 +66,11 @@ private
          pxXRotMotionComponent : Navigation.Motion_Component.pCMotionComponent;
          pxYRotMotionComponent : Navigation.Motion_Component.pCMotionComponent;
          pxZRotMotionComponent : Navigation.Motion_Component.pCMotionComponent;
+
+         -- temporary for testing
+--           fXRotError : float;
+--           fYRotError : float;
+--           fZRotError : float;
       end record;
 
    procedure Finalize(this : in out COrientationalController);
