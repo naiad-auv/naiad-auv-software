@@ -1,0 +1,500 @@
+        -:    0:Source:/home/evr/git/naiad-auv-software/src/lib/math/vectors/obj/gnattest/tests/math-vectors-test_data-tests.adb
+        -:    0:Programs:57
+        -:    1:--  This package has been generated automatically by GNATtest.
+        -:    2:--  You are allowed to add your code to the bodies of test routines.
+        -:    3:--  Such changes will be kept during further regeneration of this file.
+        -:    4:--  All code placed outside of test routine bodies will be lost. The
+        -:    5:--  code intended to set up and tear down the test environment should be
+        -:    6:--  placed into Math.Vectors.Test_Data.
+        -:    7:
+        -:    8:with AUnit.Assertions; use AUnit.Assertions;
+        -:    9:
+        -:   10:package body Math.Vectors.Test_Data.Tests is
+        -:   11:
+        -:   12:
+        -:   13:--  begin read only
+        -:   14:   procedure Test_pxCreate (Gnattest_T : in out Test);
+        2:   15:   procedure Test_pxCreate_a64900 (Gnattest_T : in out Test) renames Test_pxCreate;
+        -:   16:--  id:2.1/a64900a3c16593be/pxCreate/1/0/
+        2:   17:   procedure Test_pxCreate (Gnattest_T : in out Test) is
+        -:   18:   --  math-vectors.ads:12:4:pxCreate
+        -:   19:--  end read only
+        -:   20:
+        -:   21:      pragma Unreferenced (Gnattest_T);
+        -:   22:
+        2:   23:      pxTestVector : Math.Vectors.pCVector;
+        -:   24:   begin
+        -:   25:
+        2:   26:      pxTestVector := Math.Vectors.pxCreate(fX => 10.0,
+        -:   27:                                                fY => -10.0,
+        -:   28:                                                fZ => 0.0);
+        2:   29:      AUnit.Assertions.Assert(Condition => pxTestVector.fX = 10.0,
+        2:   30:                              Message   => "CVector.pxCreate failed, fX got the wrong value, expected 10.0, actual: "  & float'Image(pxTestVector.fX));
+        2:   31:      AUnit.Assertions.Assert(Condition => pxTestVector.fY = -10.0,
+        2:   32:                              Message   => "CVector.pxCreate failed, fY got the wrong value, expected -10.0, actual: " & float'Image(pxTestVector.fY));
+        2:   33:      AUnit.Assertions.Assert(Condition => pxTestVector.fZ = 0.0,
+        2:   34:                              Message   => "CVector.pxCreate failed, fZ got the wrong value, expected 0.0, actual: " & float'Image(pxTestVector.fZ));
+        -:   35:
+        -:   36:--  begin read only
+        2:   37:   end Test_pxCreate;
+        -:   38:--  end read only
+        -:   39:
+        -:   40:
+        -:   41:--  begin read only
+        -:   42:   procedure Test_Plus (Gnattest_T : in out Test);
+        2:   43:   procedure Test_Plus_9b1a3c (Gnattest_T : in out Test) renames Test_Plus;
+        -:   44:--  id:2.1/9b1a3ccd5271e006/Plus/1/0/
+        2:   45:   procedure Test_Plus (Gnattest_T : in out Test) is
+        -:   46:   --  math-vectors.ads:19:4:"+"
+        -:   47:--  end read only
+        -:   48:
+        -:   49:      pragma Unreferenced (Gnattest_T);
+        -:   50:
+        -:   51:      use System;
+        2:   52:      pxSumVector : Math.Vectors.pCVector;
+        2:   53:      pxLeftOperandVector, pxRightOperandVector : Math.Vectors.pCVector;
+        -:   54:
+        -:   55:   begin
+        -:   56:
+        2:   57:      pxLeftOperandVector := Math.Vectors.pxCreate(fX => 2.0,
+        -:   58:                                                  fY => 5.0,
+        -:   59:                                                  fZ => 4.0);
+        2:   60:      pxRightOperandVector := Math.Vectors.pxCreate(fX => 3.0,
+        -:   61:                                                   fY => 10.0,
+        -:   62:                                                   fZ => 7.0);
+        2:   63:      pxSumVector := pxLeftOperandVector + pxRightOperandVector;
+        -:   64:
+        2:   65:      AUnit.Assertions.Assert(Condition => pxSumVector.fX = 5.0,
+        2:   66:                              Message   => "CVector.+(binary) failed, fX got the wrong value, expected 10.0, actual: " & float'Image(pxSumVector.fX));
+        2:   67:      AUnit.Assertions.Assert(Condition => pxSumVector.fY = 15.0,
+        2:   68:                              Message   => "CVector.+(binary) failed, fY got the wrong value, expected 15.0, actual: " & float'Image(pxSumVector.fY));
+        2:   69:      AUnit.Assertions.Assert(Condition => pxSumVector.fZ = 11.0,
+        2:   70:                              Message   => "CVector.+(binary) failed, fZ got the wrong value, expected 11.0, actual: " & float'Image(pxSumVector.fZ));
+        -:   71:
+        2:   72:      AUnit.Assertions.Assert(Condition => (pxSumVector.all'Address /= pxLeftOperandVector.all'Address) and then (pxSumVector.all'Address /= pxRightOperandVector.all'Address),
+        -:   73:                              Message => "CVector.+(binary) failed, sumvector is shallow copy of one operand");
+        -:   74:
+        -:   75:
+        -:   76:--  begin read only
+        2:   77:   end Test_Plus;
+        -:   78:--  end read only
+        -:   79:
+        -:   80:
+        -:   81:--  begin read only
+        -:   82:   procedure Test_Minus (Gnattest_T : in out Test);
+        2:   83:   procedure Test_Minus_dba7dd (Gnattest_T : in out Test) renames Test_Minus;
+        -:   84:--  id:2.1/dba7dd0c3df9cf0c/Minus/1/0/
+        2:   85:   procedure Test_Minus (Gnattest_T : in out Test) is
+        -:   86:   --  math-vectors.ads:20:4:"-"
+        -:   87:--  end read only
+        -:   88:
+        -:   89:      pragma Unreferenced (Gnattest_T);
+        -:   90:
+        -:   91:      use System;
+        -:   92:
+        2:   93:      pxDifferenceVector : Math.Vectors.pCVector;
+        2:   94:      pxLeftOperandVector, pxRightOperandVector : Math.Vectors.pCVector;
+        -:   95:
+        -:   96:   begin
+        -:   97:
+        2:   98:      pxLeftOperandVector := Math.Vectors.pxCreate(fX => 2.0,
+        -:   99:                                                  fY => 5.0,
+        -:  100:                                                  fZ => 4.0);
+        2:  101:      pxRightOperandVector := Math.Vectors.pxCreate(fX => 3.0,
+        -:  102:                                                   fY => 10.0,
+        -:  103:                                                   fZ => 7.0);
+        2:  104:      pxDifferenceVector := pxLeftOperandVector - pxRightOperandVector;
+        -:  105:
+        2:  106:      AUnit.Assertions.Assert(Condition => pxDifferenceVector.fX = -1.0,
+        2:  107:                              Message   => "CVector.-(binary) failed, fX got the wrong value, expected -1.0, actual: " & float'Image(pxDifferenceVector.fX));
+        2:  108:      AUnit.Assertions.Assert(Condition => pxDifferenceVector.fY = -5.0,
+        2:  109:                              Message   => "CVector.-(binary) failed, fY got the wrong value, expected -5.0, actual: " & float'Image(pxDifferenceVector.fY));
+        2:  110:      AUnit.Assertions.Assert(Condition => pxDifferenceVector.fZ = -3.0,
+        2:  111:                              Message   => "CVector.-(binary) failed, fZ got the wrong value, expected -3.0, actual: " & float'Image(pxDifferenceVector.fZ));
+        -:  112:
+        -:  113:
+        2:  114:      AUnit.Assertions.Assert(Condition => (pxDifferenceVector.all'Address /= pxLeftOperandVector.all'Address) and then (pxDifferenceVector.all'Address /= pxRightOperandVector.all'Address),
+        -:  115:                              Message => "CVector.-(binary) failed, diffVector is shallow copy of one operand");
+        -:  116:
+        -:  117:--  begin read only
+        2:  118:   end Test_Minus;
+        -:  119:--  end read only
+        -:  120:
+        -:  121:
+        -:  122:--  begin read only
+        -:  123:   procedure Test_Unary_Minus (Gnattest_T : in out Test);
+        2:  124:   procedure Test_Unary_Minus_f38580 (Gnattest_T : in out Test) renames Test_Unary_Minus;
+        -:  125:--  id:2.1/f385801e321ae3a3/Unary_Minus/1/0/
+        2:  126:   procedure Test_Unary_Minus (Gnattest_T : in out Test) is
+        -:  127:   --  math-vectors.ads:21:4:"-"
+        -:  128:--  end read only
+        -:  129:
+        -:  130:      pragma Unreferenced (Gnattest_T);
+        -:  131:      use System;
+        -:  132:
+        2:  133:      pxNegatedVector : Math.Vectors.pCVector;
+        2:  134:      pxOperandVector : Math.Vectors.pCVector;
+        -:  135:
+        -:  136:   begin
+        -:  137:
+        2:  138:      pxOperandVector := Math.Vectors.pxCreate(fX => 2.0,
+        -:  139:                                                     fY => 5.0,
+        -:  140:                                                     fZ => 8.0);
+        2:  141:      pxNegatedVector := -pxOperandVector;
+        -:  142:
+        2:  143:      AUnit.Assertions.Assert(Condition => pxNegatedVector.fX = -2.0,
+        2:  144:                              Message   => "CVector.-(unary) failed, fX got the wrong value, expected -2.0, actual: " & float'Image(pxNegatedVector.fX));
+        2:  145:      AUnit.Assertions.Assert(Condition => pxNegatedVector.fY = -5.0,
+        2:  146:                              Message   => "CVector.-(unary) failed, fY got the wrong value, expected -5.0, actual: " & float'Image(pxNegatedVector.fY));
+        2:  147:      AUnit.Assertions.Assert(Condition => pxNegatedVector.fZ = -8.0,
+        2:  148:                              Message   => "CVector.-(unary) failed, fZ got the wrong value, expected -8.0, actual: " & float'Image(pxNegatedVector.fZ));
+        -:  149:
+        -:  150:
+        -:  151:
+        2:  152:      AUnit.Assertions.Assert(Condition => (pxNegatedVector.all'Address /= pxOperandVector.all'Address),
+        -:  153:                              Message => "CVector.-(unary) failed, negatedVector is shallow copy of the operand");
+        -:  154:
+        -:  155:
+        -:  156:--  begin read only
+        2:  157:   end Test_Unary_Minus;
+        -:  158:--  end read only
+        -:  159:
+        -:  160:
+        -:  161:--  begin read only
+        -:  162:   procedure Test_1_Multiply (Gnattest_T : in out Test);
+        2:  163:   procedure Test_Multiply_7d0b9c (Gnattest_T : in out Test) renames Test_1_Multiply;
+        -:  164:--  id:2.1/7d0b9c6e2effe1ba/Multiply/1/0/
+        2:  165:   procedure Test_1_Multiply (Gnattest_T : in out Test) is
+        -:  166:   --  math-vectors.ads:22:4:"*"
+        -:  167:--  end read only
+        -:  168:
+        -:  169:      pragma Unreferenced (Gnattest_T);
+        -:  170:
+        -:  171:      use System;
+        -:  172:
+        2:  173:      pxProductVector : Math.Vectors.pCVector;
+        2:  174:      pxLeftOperandVector, pxRightOperandVector : Math.Vectors.pCVector;
+        -:  175:
+        -:  176:   begin
+        -:  177:
+        2:  178:      pxLeftOperandVector := Math.Vectors.pxCreate(fX => 2.0,
+        -:  179:                                                  fY => 5.0,
+        -:  180:                                                  fZ => 4.0);
+        2:  181:      pxRightOperandVector := Math.Vectors.pxCreate(fX => 3.0,
+        -:  182:                                                   fY => 10.0,
+        -:  183:                                                   fZ => 7.0);
+        2:  184:      pxProductVector := pxLeftOperandVector * pxRightOperandVector;
+        -:  185:
+        2:  186:      AUnit.Assertions.Assert(Condition => pxProductVector.fX = 6.0,
+        2:  187:                              Message   => "CVector.*(binary CVector * CVector) failed, fX got the wrong value, expected 6.0, actual: " & float'Image(pxProductVector.fX));
+        2:  188:      AUnit.Assertions.Assert(Condition => pxProductVector.fY = 50.0,
+        2:  189:                              Message   => "CVector.*(binary CVector * CVector) failed, fY got the wrong value, expected 50.0, actual: " & float'Image(pxProductVector.fY));
+        2:  190:      AUnit.Assertions.Assert(Condition => pxProductVector.fZ = 28.0,
+        2:  191:                              Message   => "CVector.*(binary CVector * CVector) failed, fZ got the wrong value, expected 28.0, actual: " & float'Image(pxProductVector.fZ));
+        -:  192:
+        2:  193:      AUnit.Assertions.Assert(Condition => (pxProductVector.all'Address /= pxLeftOperandVector.all'Address) and then (pxProductVector.all'Address /= pxRightOperandVector.all'Address),
+        -:  194:                              Message => "CVector.*(binary CVector * CVector) failed, prodVector is shallow copy of one operand");
+        -:  195:
+        -:  196:
+        -:  197:--  begin read only
+        2:  198:   end Test_1_Multiply;
+        -:  199:--  end read only
+        -:  200:
+        -:  201:
+        -:  202:--  begin read only
+        -:  203:   procedure Test_2_Multiply (Gnattest_T : in out Test);
+        2:  204:   procedure Test_Multiply_a251df (Gnattest_T : in out Test) renames Test_2_Multiply;
+        -:  205:--  id:2.1/a251df6a4b8b003f/Multiply/0/0/
+        2:  206:   procedure Test_2_Multiply (Gnattest_T : in out Test) is
+        -:  207:   --  math-vectors.ads:23:4:"*"
+        -:  208:--  end read only
+        -:  209:
+        -:  210:      pragma Unreferenced (Gnattest_T);
+        -:  211:      use System;
+        -:  212:
+        2:  213:      pxScaledVector : Math.Vectors.pCVector;
+        2:  214:      pxLeftOperandVector : Math.Vectors.pCVector;
+        -:  215:      fRightOperand : float;
+        -:  216:
+        -:  217:
+        -:  218:   begin
+        -:  219:
+        2:  220:      pxLeftOperandVector := Math.Vectors.pxCreate(fX => 2.0,
+        -:  221:                                                  fY => 5.0,
+        -:  222:                                                  fZ => 4.0);
+        2:  223:      fRightOperand := 5.0;
+        -:  224:
+        2:  225:      pxScaledVector := pxLeftOperandVector * fRightOperand;
+        -:  226:
+        2:  227:      AUnit.Assertions.Assert(Condition => pxScaledVector.fX = 10.0,
+        2:  228:                              Message   => "CVector.*(binary CVector * float) failed, fX got the wrong value, expected 10.0, actual: " & float'Image(pxScaledVector.fX));
+        2:  229:      AUnit.Assertions.Assert(Condition => pxScaledVector.fY = 25.0,
+        2:  230:                              Message   => "CVector.*(binary CVector * float) failed, fY got the wrong value, expected 25.0, actual: " & float'Image(pxScaledVector.fY));
+        2:  231:      AUnit.Assertions.Assert(Condition => pxScaledVector.fZ = 20.0,
+        2:  232:                              Message   => "CVector.*(binary CVector * float) failed, fZ got the wrong value, expected 20.0, actual: " & float'Image(pxScaledVector.fZ));
+        -:  233:
+        2:  234:      AUnit.Assertions.Assert(Condition => (pxScaledVector.all'Address /= pxLeftOperandVector.all'Address),
+        -:  235:                              Message => "CVector.*(binary CVector * float) failed, prodVector is shallow copy of the operand");
+        -:  236:
+        -:  237:
+        -:  238:--  begin read only
+        2:  239:   end Test_2_Multiply;
+        -:  240:--  end read only
+        -:  241:
+        -:  242:
+        -:  243:--  begin read only
+        -:  244:   procedure Test_3_Multiply (Gnattest_T : in out Test);
+        2:  245:   procedure Test_Multiply_0ee37b (Gnattest_T : in out Test) renames Test_3_Multiply;
+        -:  246:--  id:2.1/0ee37b12b5882ab2/Multiply/0/0/
+        2:  247:   procedure Test_3_Multiply (Gnattest_T : in out Test) is
+        -:  248:   --  math-vectors.ads:24:4:"*"
+        -:  249:--  end read only
+        -:  250:
+        -:  251:      pragma Unreferenced (Gnattest_T);
+        -:  252:
+        -:  253:      use System;
+        -:  254:
+        2:  255:      pxScaledVector : Math.Vectors.pCVector;
+        2:  256:      pxRightOperandVector : Math.Vectors.pCVector;
+        -:  257:      fLeftOperand : float;
+        -:  258:
+        -:  259:
+        -:  260:   begin
+        -:  261:
+        2:  262:      pxRightOperandVector := Math.Vectors.pxCreate(fX => 2.0,
+        -:  263:                                                  fY => 5.0,
+        -:  264:                                                  fZ => 4.0);
+        2:  265:      fLeftOperand := 5.0;
+        -:  266:
+        2:  267:      pxScaledVector := fLeftOperand * pxRightOperandVector;
+        -:  268:
+        2:  269:      AUnit.Assertions.Assert(Condition => pxScaledVector.fX = 10.0,
+        2:  270:                              Message   => "CVector.*(binary float * CVector) failed, fX got the wrong value, expected 10.0, actual: " & float'Image(pxScaledVector.fX));
+        2:  271:      AUnit.Assertions.Assert(Condition => pxScaledVector.fY = 25.0,
+        2:  272:                              Message   => "CVector.*(binary float * CVector) failed, fY got the wrong value, expected 25.0, actual: " & float'Image(pxScaledVector.fY));
+        2:  273:      AUnit.Assertions.Assert(Condition => pxScaledVector.fZ = 20.0,
+        2:  274:                              Message   => "CVector.*(binary float * CVector) failed, fZ got the wrong value, expected 20.0, actual: " & float'Image(pxScaledVector.fZ));
+        -:  275:
+        2:  276:      AUnit.Assertions.Assert(Condition => (pxScaledVector.all'Address /= pxRightOperandVector.all'Address),
+        -:  277:                              Message => "CVector.*(binary float * CVector) failed, prodVector is shallow copy of the operand");
+        -:  278:
+        -:  279:
+        -:  280:--  begin read only
+        2:  281:   end Test_3_Multiply;
+        -:  282:--  end read only
+        -:  283:
+        -:  284:
+        -:  285:--  begin read only
+        -:  286:   procedure Test_1_Devide (Gnattest_T : in out Test);
+        2:  287:   procedure Test_Devide_a9a506 (Gnattest_T : in out Test) renames Test_1_Devide;
+        -:  288:--  id:2.1/a9a506fe1d5877dc/Devide/1/0/
+        2:  289:   procedure Test_1_Devide (Gnattest_T : in out Test) is
+        -:  290:   --  math-vectors.ads:25:4:"/"
+        -:  291:--  end read only
+        -:  292:
+        -:  293:      pragma Unreferenced (Gnattest_T);
+        -:  294:
+        -:  295:      use System;
+        -:  296:
+        2:  297:      pxDividedVector : Math.Vectors.pCVector;
+        2:  298:      pxLeftOperandVector : Math.Vectors.pCVector;
+        -:  299:      fRightOperand : float;
+        -:  300:
+        -:  301:   begin
+        -:  302:
+        2:  303:      pxLeftOperandVector := Math.Vectors.pxCreate(fX => 2.0,
+        -:  304:                                                  fY => 5.0,
+        -:  305:                                                  fZ => 4.0);
+        2:  306:      fRightOperand := 2.0;
+        -:  307:
+        2:  308:      pxDividedVector := pxLeftOperandVector / fRightOperand;
+        -:  309:
+        2:  310:      AUnit.Assertions.Assert(Condition => pxDividedVector.fX = 1.0,
+        2:  311:                              Message   => "CVector./(binary CVector / float) failed, fX got the wrong value, expected 1.0, actual: " & float'Image(pxDividedVector.fX));
+        2:  312:      AUnit.Assertions.Assert(Condition => pxDividedVector.fY = 2.5,
+        2:  313:                              Message   => "CVector./(binary CVector / float) failed, fY got the wrong value, expected 2.5, actual: " & float'Image(pxDividedVector.fY));
+        2:  314:      AUnit.Assertions.Assert(Condition => pxDividedVector.fZ = 2.0,
+        2:  315:                              Message   => "CVector./(binary CVector / float) failed, fZ got the wrong value, expected 2.0, actual: " & float'Image(pxDividedVector.fZ));
+        -:  316:
+        -:  317:
+        2:  318:      AUnit.Assertions.Assert(Condition => (pxDividedVector.all'Address /= pxLeftOperandVector.all'Address),
+        -:  319:                              Message => "CVector./(binary CVector / float) failed, dividedVector is shallow copy of the operand");
+        -:  320:
+        -:  321:
+        -:  322:      -- test exceptions
+        2:  323:      fRightOperand := 0.0;
+        2:  324:      pxDividedVector := pxLeftOperandVector / fRightOperand;
+    #####:  325:      AUnit.Assertions.Assert(Condition => False,
+        -:  326:                              Message   => "CVector./(binary CVector / float) division by zero failed, should have raised exception");
+        -:  327:   exception
+        2:  328:      when Numeric_Error =>
+        -:  329:         null; -- Test passed
+    #####:  330:      when E : others =>
+    #####:  331:         AUnit.Assertions.Assert(Condition => False,
+    #####:  332:                           Message   =>"CVector./(binary CVector / float) division by zero failed, wrong exception raised: " & Ada.Exceptions.Exception_Name (E) & ". Expected: NUMERIC_ERROR.");
+        -:  333:
+        -:  334:
+        -:  335:
+        -:  336:--  begin read only
+        2:  337:   end Test_1_Devide;
+        -:  338:--  end read only
+        -:  339:
+        -:  340:
+        -:  341:--  begin read only
+        -:  342:   procedure Test_Equal (Gnattest_T : in out Test);
+        2:  343:   procedure Test_Equal_bc9ae7 (Gnattest_T : in out Test) renames Test_Equal;
+        -:  344:--  id:2.1/bc9ae786a2ef6ab5/Equal/1/0/
+        2:  345:   procedure Test_Equal (Gnattest_T : in out Test) is
+        -:  346:   --  math-vectors.ads:26:4:"="
+        -:  347:--  end read only
+        -:  348:
+        -:  349:      pragma Unreferenced (Gnattest_T);
+        -:  350:
+        2:  351:      pxLeftOperandVector : pCVector;
+        2:  352:      pxRightOperandVector : pCVector;
+        -:  353:   begin
+        -:  354:
+        2:  355:      pxLeftOperandVector := Math.Vectors.pxCreate(fX => 89.2,
+        -:  356:                                                         fY => -2154.2,
+        -:  357:                                                         fZ => 49.0);
+        2:  358:      pxRightOperandVector := pxLeftOperandVector.pxGet_Copy;
+        -:  359:
+        2:  360:      AUnit.Assertions.Assert(Condition => pxLeftOperandVector = pxRightOperandVector,
+        -:  361:                           Message   =>"CVector.=(binary CVector = CVector) failed. expected equal, actual not equal");
+        -:  362:
+        2:  363:      pxRightOperandVector := null;
+        2:  364:      AUnit.Assertions.Assert(Condition => pxLeftOperandVector /= pxRightOperandVector,
+        -:  365:                           Message   =>"CVector.=(binary CVector = CVector) failed. expected not equal, actual equal");
+        -:  366:
+        -:  367:--  begin read only
+        2:  368:   end Test_Equal;
+        -:  369:--  end read only
+        -:  370:
+        -:  371:
+        -:  372:--  begin read only
+        -:  373:   procedure Test_fDot_Product (Gnattest_T : in out Test);
+        2:  374:   procedure Test_fDot_Product_c7f274 (Gnattest_T : in out Test) renames Test_fDot_Product;
+        -:  375:--  id:2.1/c7f2740134530e93/fDot_Product/1/0/
+        2:  376:   procedure Test_fDot_Product (Gnattest_T : in out Test) is
+        -:  377:   --  math-vectors.ads:29:4:fDot_Product
+        -:  378:--  end read only
+        -:  379:
+        -:  380:      pragma Unreferenced (Gnattest_T);
+        -:  381:
+        -:  382:      fDotProduct : float;
+        2:  383:      pxLeftOperandVector : Math.Vectors.pCVector;
+        2:  384:      pxRightOperandVector : Math.Vectors.pCVector;
+        -:  385:
+        -:  386:   begin
+        -:  387:
+        2:  388:      pxLeftOperandVector := Math.Vectors.pxCreate(fX => 5.0,
+        -:  389:                                                  fY => 2.0,
+        -:  390:                                                  fZ => 3.0);
+        2:  391:      pxRightOperandVector := Math.Vectors.pxCreate(fX => 2.0,
+        -:  392:                                                   fY => 7.0,
+        -:  393:                                                   fZ => 3.0);
+        2:  394:      fDotProduct := Math.Vectors.fDot_Product(pxLeftOperandVector  => pxLeftOperandVector,
+        -:  395:                                                     pxRightOperandVector => pxRightOperandVector);
+        -:  396:
+        -:  397:
+        -:  398:
+        2:  399:      AUnit.Assertions.Assert(Condition => fDotProduct = 33.0,
+        2:  400:                              Message   => "Vectors.fDot_Product failed, wrong result in first test, expected 33.0 actual: " & float'Image(fDotProduct));
+        -:  401:
+        2:  402:      pxLeftOperandVector := Math.Vectors.pxCreate(fX => 5.0,
+        -:  403:                                                  fY => 0.0,
+        -:  404:                                                  fZ => 0.0);
+        2:  405:      pxRightOperandVector := Math.Vectors.pxCreate(fX => 0.0,
+        -:  406:                                                   fY => 5.0,
+        -:  407:                                                   fZ => 0.0);
+        2:  408:      fDotProduct := Math.Vectors.fDot_Product(pxLeftOperandVector  => pxLeftOperandVector,
+        -:  409:                                                     pxRightOperandVector => pxRightOperandVector);
+        -:  410:
+        2:  411:      AUnit.Assertions.Assert(Condition => fDotProduct = 0.0,
+        2:  412:                              Message   => "Vectors.fDot_Product failed, wrong result in second test, expected 0.0, actual: " & float'Image(fDotProduct));
+        -:  413:
+        -:  414:--  begin read only
+        2:  415:   end Test_fDot_Product;
+        -:  416:--  end read only
+        -:  417:
+        -:  418:
+        -:  419:--  begin read only
+        -:  420:   procedure Test_pxCross_Product (Gnattest_T : in out Test);
+        2:  421:   procedure Test_pxCross_Product_66fc3c (Gnattest_T : in out Test) renames Test_pxCross_Product;
+        -:  422:--  id:2.1/66fc3c56b607d747/pxCross_Product/1/0/
+        2:  423:   procedure Test_pxCross_Product (Gnattest_T : in out Test) is
+        -:  424:   --  math-vectors.ads:30:4:pxCross_Product
+        -:  425:--  end read only
+        -:  426:
+        -:  427:      pragma Unreferenced (Gnattest_T);
+        -:  428:
+        -:  429:      use System;
+        -:  430:
+        2:  431:      pxCrossProductVector : pCVector;
+        2:  432:      pxLeftOperandVector : pCVector;
+        2:  433:      pxRightOperandVector : pCVector;
+        -:  434:
+        -:  435:
+        -:  436:   begin
+        -:  437:
+        2:  438:      pxLeftOperandVector := Math.Vectors.pxCreate(fX => 1.0,
+        -:  439:                                                         fY => 5.0,
+        -:  440:                                                         fZ => 2.0);
+        2:  441:      pxRightOperandVector := Math.Vectors.pxCreate(fX => 4.0,
+        -:  442:                                                          fY => 5.2,
+        -:  443:                                                          fZ => -10.0);
+        -:  444:
+        -:  445:
+        2:  446:      pxCrossProductVector := Math.Vectors.pxCross_Product(pxLeftOperandVector  => pxLeftOperandVector,
+        -:  447:                                                                 pxRightOperandVector => pxRightOperandVector);
+        -:  448:      --(1.0,5.0,2.0) cross (4.0,5.2,-10.0)
+        -:  449:      -- (-60.4, 18., -14.8)
+        2:  450:      AUnit.Assertions.Assert(Condition => abs(pxCrossProductVector.fX - (-60.4)) < 0.001,
+        2:  451:                              Message   => "Vectors.pxCross_Product failed, fX got the wrong value, expected -60.4, actual: " & float'Image(pxCrossProductVector.fX));
+        2:  452:      AUnit.Assertions.Assert(Condition => abs(pxCrossProductVector.fY - 18.0) < 0.001,
+        2:  453:                              Message   => "Vectors.pxCross_Product failed, fY got the wrong value, expected -18.0, actual: " & float'Image(pxCrossProductVector.fY));
+        2:  454:      AUnit.Assertions.Assert(Condition => abs(pxCrossProductVector.fZ - (-14.8)) < 0.001,
+        2:  455:                              Message   => "Vectors.pxCross_Product failed, fZ got the wrong value, expected -14.8, actual: " & float'Image(pxCrossProductVector.fZ));
+        -:  456:
+        -:  457:
+        2:  458:      AUnit.Assertions.Assert(Condition => (pxCrossProductVector.all'Address /= pxLeftOperandVector.all'Address) and then (pxCrossProductVector.all'Address /= pxRightOperandVector.all'Address),
+        -:  459:                              Message => "Vectors.pxCross_Product failed, crossAddress is shallow copy of one operand");
+        -:  460:
+        -:  461:
+        -:  462:--  begin read only
+        2:  463:   end Test_pxCross_Product;
+        -:  464:--  end read only
+        -:  465:
+        -:  466:
+        -:  467:--  begin read only
+        -:  468:   procedure Test_fAngle_Between_In_Radians (Gnattest_T : in out Test);
+        2:  469:   procedure Test_fAngle_Between_In_Radians_bc2ea1 (Gnattest_T : in out Test) renames Test_fAngle_Between_In_Radians;
+        -:  470:--  id:2.1/bc2ea109e66f4b4e/fAngle_Between_In_Radians/1/0/
+        2:  471:   procedure Test_fAngle_Between_In_Radians (Gnattest_T : in out Test) is
+        -:  472:   --  math-vectors.ads:31:4:fAngle_Between_In_Radians
+        -:  473:--  end read only
+        -:  474:
+        -:  475:      pragma Unreferenced (Gnattest_T);
+        -:  476:
+        2:  477:      pxLeftOperandVector : pCVector;
+        2:  478:      pxRightOperandVector : pCVector;
+        -:  479:      fAngleBetweenVectors : float;
+        -:  480:   begin
+        -:  481:
+        2:  482:      pxLeftOperandVector := Math.Vectors.pxCreate(fX => 5.0,
+        -:  483:                                                         fY => 0.0,
+        -:  484:                                                         fZ => 0.0);
+        2:  485:      pxRightOperandVector := Math.Vectors.pxCreate(fX => 0.0,
+        -:  486:                                                          fY => 5.0,
+        -:  487:                                                          fZ => 0.0);
+        2:  488:      fAngleBetweenVectors := Math.Vectors.fAngle_Between_In_Radians(pxLeftOperandVector  => pxLeftOperandVector,
+        -:  489:                                                                pxRightOperandVector => pxRightOperandVector);
+        -:  490:
+        2:  491:      AUnit.Assertions.Assert(Condition => abs(fAngleBetweenVectors - (Ada.Numerics.Pi / 2.0)) < 0.001,
+        2:  492:                              Message => "Vectors.fAngle_Between_In_Radians failed expected PI/2, actual :" & float'Image(fAngleBetweenVectors));
+        -:  493:
+        -:  494:--  begin read only
+        2:  495:   end Test_fAngle_Between_In_Radians;
+        -:  496:--  end read only
+        -:  497:
+        -:  498:end Math.Vectors.Test_Data.Tests;

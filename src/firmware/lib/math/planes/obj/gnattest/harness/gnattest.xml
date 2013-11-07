@@ -1,0 +1,64 @@
+<tests_mapping mode="monolith">
+   <unit source_file="math-planes.ads">
+      <test_unit target_file="math-planes-cplane_test_data-cplane_tests.ads">
+         <setup file="math-planes-cplane_test_data.adb" line="4"  column="4"/>
+         <teardown file="math-planes-cplane_test_data.adb" line="8"  column="4"/>
+         <tested name="xCreate" line="18" column="4">
+            <test file="math-planes-cplane_test_data-cplane_tests.adb" line="13" column="1" timestamp="2013-10-30 07:35:36"/>
+         </tested>
+         <tested name="xCreate" line="19" column="4">
+            <test file="math-planes-cplane_test_data-cplane_tests.adb" line="34" column="1" timestamp="2013-10-30 07:35:36"/>
+         </tested>
+         <tested name="pxGet_Allocated_Copy" line="25" column="4">
+            <test file="math-planes-cplane_test_data-cplane_tests.adb" line="55" column="1" timestamp="2013-10-30 07:35:36"/>
+         </tested>
+         <tested name="xGet_Normal_Vector" line="29" column="4">
+            <test file="math-planes-cplane_test_data-cplane_tests.adb" line="76" column="1" timestamp="2013-10-30 07:35:36"/>
+         </tested>
+         <tested name="fGet_Distance_From_Origin" line="33" column="4">
+            <test file="math-planes-cplane_test_data-cplane_tests.adb" line="97" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="fAngle_Between_In_Degrees" line="38" column="4">
+            <test file="math-planes-cplane_test_data-cplane_tests.adb" line="130" column="1" timestamp="2013-10-30 07:35:36"/>
+         </tested>
+         <tested name="fAngle_Between_In_Degrees" line="39" column="4">
+            <test file="math-planes-cplane_test_data-cplane_tests.adb" line="151" column="1" timestamp="2013-10-30 07:35:36"/>
+         </tested>
+         <tested name="fAngle_Between_In_Degrees" line="41" column="4">
+            <test file="math-planes-cplane_test_data-cplane_tests.adb" line="172" column="1" timestamp="2013-10-30 07:35:36"/>
+         </tested>
+         <tested name="xGet_Intersection_Vector_Between" line="46" column="4">
+            <test file="math-planes-cplane_test_data-cplane_tests.adb" line="193" column="1" timestamp="2013-10-30 07:35:36"/>
+         </tested>
+         <tested name="xGet_Intersection_Vector_Between" line="47" column="4">
+            <test file="math-planes-cplane_test_data-cplane_tests.adb" line="214" column="1" timestamp="2013-10-30 07:35:36"/>
+         </tested>
+         <tested name="xGet_Intersection_Vector_Between" line="49" column="4">
+            <test file="math-planes-cplane_test_data-cplane_tests.adb" line="235" column="1" timestamp="2013-10-30 07:35:36"/>
+         </tested>
+         <tested name="Copy_From" line="56" column="4">
+            <test file="math-planes-cplane_test_data-cplane_tests.adb" line="256" column="1" timestamp="2013-10-30 07:35:36"/>
+         </tested>
+         <dangling>
+            <test file="math-planes-cplane_test_data-cplane_tests.adb" line="276" column="1"/>
+         </dangling>
+      </test_unit>
+      <test_unit target_file="math-planes-test_data-tests.ads">
+         <setup file="math-planes-test_data.adb" line="3"  column="4"/>
+         <teardown file="math-planes-test_data.adb" line="9"  column="4"/>
+         <tested name="Free" line="16" column="4">
+            <test file="math-planes-test_data-tests.adb" line="13" column="1" timestamp="2013-10-30 07:35:36"/>
+         </tested>
+         <tested name="fAngle_Between_In_Degrees" line="40" column="4">
+            <test file="math-planes-test_data-tests.adb" line="34" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="xGet_Intersection_Vector_Between" line="48" column="4">
+            <test file="math-planes-test_data-tests.adb" line="76" column="1" timestamp="2013-10-30 07:35:36"/>
+         </tested>
+         <dangling>
+            <test file="math-planes-test_data-tests.adb" line="96" column="1"/>
+            <test file="math-planes-test_data-tests.adb" line="143" column="1"/>
+         </dangling>
+      </test_unit>
+   </unit>
+</tests_mapping>

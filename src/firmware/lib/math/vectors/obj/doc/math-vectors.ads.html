@@ -1,0 +1,388 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html><head>
+  <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript"/>
+
+  <title>
+    Package: Vectors
+  </title>
+  <link rel='stylesheet' href='support/docgen.css' type='text/css'/>
+  <link rel='stylesheet' href='support/tags.css' type='text/css'/>
+  <script src='support/docgen.js' type='text/javascript' charset='utf-8'></script>
+</head>
+<body onload="onloadDoc();">
+
+<div id='leftSide'>
+  <div id='leftSideInside'>
+  <div id='header'>
+    <h2 class="button">Documentation</h2>
+    <a href='toc.html'><div class="button2">Table of Contents</div></a>
+
+    <a href='tree.html'><div class="button2">Class Inheritance Tree</div></a>
+
+  </div>
+
+  <div id='navigation'>
+    <h2 class="button">Navigation</h2>
+    <a href='#Description'><div class="button2">Description</div></a>
+    <a href='#Classes'><div class="button2">Classes</div></a>
+    <a href='#Types'><div class="button2">Types</div></a>
+    <a href='#Methods'><div class="button2">Subprograms &amp; Entries</div></a>
+  </div><!-- navigation -->
+  </div>
+</div> <!-- leftSide -->
+
+<div class='default' id='rightSide'>
+ <div id='rightSideInside'>
+ <div id='Index'>
+  <h2>Index</h2>
+  <script type="text/javascript">
+    var names = new Array (
+new Array ('CVector', 'math-vectors.ads:10:9', 'class-spec'),
+new Array ('pCVector', 'math-vectors.ads:13:9', 'type-spec'),
+new Array ('pxCreate', 'math-vectors.ads:16:13', 'subp-spec'),
+new Array ('pxGet_<wbr/>Copy', 'math-vectors.ads:22:13', 'subp-spec'),
+new Array ('pxGet_<wbr/>Normalized', 'math-vectors.ads:26:13', 'subp-spec'),
+new Array ('fLength_<wbr/>Squared', 'math-vectors.ads:31:13', 'subp-spec'),
+new Array ('fLength', 'math-vectors.ads:35:13', 'subp-spec'),
+new Array ('"+"', 'math-vectors.ads:39:13', 'subp-spec'),
+new Array ('"-"', 'math-vectors.ads:44:13', 'subp-spec'),
+new Array ('"-"', 'math-vectors.ads:49:13', 'subp-spec'),
+new Array ('"*"', 'math-vectors.ads:53:13', 'subp-spec'),
+new Array ('"*"', 'math-vectors.ads:58:13', 'subp-spec'),
+new Array ('"*"', 'math-vectors.ads:63:13', 'subp-spec'),
+new Array ('"/"', 'math-vectors.ads:68:13', 'subp-spec'),
+new Array ('"="', 'math-vectors.ads:74:13', 'subp-spec'),
+new Array ('fDot_<wbr/>Product', 'math-vectors.ads:80:13', 'subp-spec'),
+new Array ('pxCross_<wbr/>Product', 'math-vectors.ads:85:13', 'subp-spec'),
+new Array ('fAngle_<wbr/>Between_<wbr/>In_<wbr/>Radians', 'math-vectors.ads:90:13', 'subp-spec'),
+new Array ('fGet_<wbr/>X', 'math-vectors.ads:96:13', 'subp-spec'),
+new Array ('fGet_<wbr/>Y', 'math-vectors.ads:100:13', 'subp-spec'),
+new Array ('fGet_<wbr/>Z', 'math-vectors.ads:104:13', 'subp-spec'),
+new Array ('Copy_<wbr/>From', 'math-vectors.ads:108:14', 'subp-spec'),
+      new Array ('dummy', '', ''));
+    printIndexList (names);
+  </script>
+  <noscript>
+    <ul>
+      <li class='class-spec'><a href="#math-vectors.ads:10:9">CVector</a></li>
+      <li class='type-spec'><a href="#math-vectors.ads:13:9">pCVector</a></li>
+      <li class='subp-spec'><a href="#math-vectors.ads:16:13">pxCreate</a></li>
+      <li class='subp-spec'><a href="#math-vectors.ads:22:13">pxGet_<wbr/>Copy</a></li>
+      <li class='subp-spec'><a href="#math-vectors.ads:26:13">pxGet_<wbr/>Normalized</a></li>
+      <li class='subp-spec'><a href="#math-vectors.ads:31:13">fLength_<wbr/>Squared</a></li>
+      <li class='subp-spec'><a href="#math-vectors.ads:35:13">fLength</a></li>
+      <li class='subp-spec'><a href="#math-vectors.ads:39:13">"+"</a></li>
+      <li class='subp-spec'><a href="#math-vectors.ads:44:13">"-"</a></li>
+      <li class='subp-spec'><a href="#math-vectors.ads:49:13">"-"</a></li>
+      <li class='subp-spec'><a href="#math-vectors.ads:53:13">"*"</a></li>
+      <li class='subp-spec'><a href="#math-vectors.ads:58:13">"*"</a></li>
+      <li class='subp-spec'><a href="#math-vectors.ads:63:13">"*"</a></li>
+      <li class='subp-spec'><a href="#math-vectors.ads:68:13">"/"</a></li>
+      <li class='subp-spec'><a href="#math-vectors.ads:74:13">"="</a></li>
+      <li class='subp-spec'><a href="#math-vectors.ads:80:13">fDot_<wbr/>Product</a></li>
+      <li class='subp-spec'><a href="#math-vectors.ads:85:13">pxCross_<wbr/>Product</a></li>
+      <li class='subp-spec'><a href="#math-vectors.ads:90:13">fAngle_<wbr/>Between_<wbr/>In_<wbr/>Radians</a></li>
+      <li class='subp-spec'><a href="#math-vectors.ads:96:13">fGet_<wbr/>X</a></li>
+      <li class='subp-spec'><a href="#math-vectors.ads:100:13">fGet_<wbr/>Y</a></li>
+      <li class='subp-spec'><a href="#math-vectors.ads:104:13">fGet_<wbr/>Z</a></li>
+      <li class='subp-spec'><a href="#math-vectors.ads:108:14">Copy_<wbr/>From</a></li>
+    </ul>
+  </noscript>
+ </div>
+ </div>
+</div>
+
+<div class='default' id='documentation'>
+  <div class='title'>
+    Package:
+<span class="droplink"><i>Vectors</i><ul>
+  <li><a href="src_math-vectors.ads.html">Goto spec source</a></li>
+</ul></span>
+  </div>
+  <div class='subprograms'>
+    <h1><a name='Description' id='Description'></a>Description</h1>
+    <div class="class">
+    <div class='details'><pre><span class="keyword">package</span> <span class="name_emphasis">Math.Vectors</span> <span class="keyword">is</span></pre></div>
+    <div class='comment'><a href="math-vectors.ads.html#math-vectors.ads:9:14" title="Vectors">Vectors</a> package for classes, types and functionality regarding vectors. A vector object is stored in a <a href="math-vectors.ads.html#math-vectors.ads:13:9" title="pCVector">pCVector</a> variable and is created with the <a href="math-vectors.ads.html#math-vectors.ads:16:13" title="pxCreate">pxCreate</a> function.
+</div>
+    </div>
+  </div>
+
+
+  <div class='subprograms'>
+    <h1><a name='Classes' id='Classes'></a>Classes</h1>
+    <div class="class">
+      <h3><a name='math-vectors.ads:10:9' id='math-vectors.ads:10:9'></a>
+<span class="droplink">CVector<ul>
+  <li><a href="src_math-vectors.ads.html#l10">Goto declaration in source</a></li>
+  <li><a href="src_math-vectors.ads.html#l114">Goto full declaration in source</a></li>
+</ul></span>
+      </h3>
+      <div class='details'><pre><span class="keyword">type</span> <span class="name_emphasis">CVector</span> <span class="keyword">is</span> <span class="keyword">tagged</span> <span class="keyword">private</span>;</pre></div>
+      <div class='profile'>
+        <div>
+          <h4>Primitive operations:</h4>
+              <div>"/"</div>
+              <div><span class="droplink">Copy_From<ul><li><a href="math-vectors.ads.html#math-vectors.ads:108:14" title="To API doc">To API doc</a></li><li><a href="src_math-vectors.ads.html#l108" title="To spec">To spec</a></li></ul></span></div>
+              <div><span class="droplink">fGet_X<ul><li><a href="math-vectors.ads.html#math-vectors.ads:96:13" title="To API doc">To API doc</a></li><li><a href="src_math-vectors.ads.html#l96" title="To spec">To spec</a></li></ul></span></div>
+              <div><span class="droplink">fGet_Y<ul><li><a href="math-vectors.ads.html#math-vectors.ads:100:13" title="To API doc">To API doc</a></li><li><a href="src_math-vectors.ads.html#l100" title="To spec">To spec</a></li></ul></span></div>
+              <div><span class="droplink">fGet_Z<ul><li><a href="math-vectors.ads.html#math-vectors.ads:104:13" title="To API doc">To API doc</a></li><li><a href="src_math-vectors.ads.html#l104" title="To spec">To spec</a></li></ul></span></div>
+              <div><span class="droplink">fLength<ul><li><a href="math-vectors.ads.html#math-vectors.ads:35:13" title="To API doc">To API doc</a></li><li><a href="src_math-vectors.ads.html#l35" title="To spec">To spec</a></li></ul></span></div>
+              <div><span class="droplink">fLength_Squared<ul><li><a href="math-vectors.ads.html#math-vectors.ads:31:13" title="To API doc">To API doc</a></li><li><a href="src_math-vectors.ads.html#l31" title="To spec">To spec</a></li></ul></span></div>
+              <div><span class="droplink">pxGet_Copy<ul><li><a href="math-vectors.ads.html#math-vectors.ads:22:13" title="To API doc">To API doc</a></li><li><a href="src_math-vectors.ads.html#l22" title="To spec">To spec</a></li></ul></span></div>
+              <div><span class="droplink">pxGet_Normalized<ul><li><a href="math-vectors.ads.html#math-vectors.ads:26:13" title="To API doc">To API doc</a></li><li><a href="src_math-vectors.ads.html#l26" title="To spec">To spec</a></li></ul></span></div>
+        </div>
+      </div>
+      <div class='comment'><div class="summary" >Class for vector.</div>
+</div>
+    </div>
+  </div>
+
+
+  <div class='subprograms'>
+    <h1><a name='Types' id='Types'></a>Types</h1>
+    <div class="class">
+      <h3>
+        <a name='math-vectors.ads:13:9' id='math-vectors.ads:13:9'></a>
+<span class="droplink">pCVector<ul>
+  <li><a href="src_math-vectors.ads.html#l13">Goto declaration in source</a></li>
+</ul></span>
+      </h3>
+      <div class='details'><pre><span class="keyword">type</span> <span class="name_emphasis">pCVector</span> <span class="keyword">is</span> <span class="keyword">access</span> <a href="math-vectors.ads.html#math-vectors.ads:10:9" title="defined at math-vectors.ads:10:9">CVector</a>;</pre></div>
+      <div class='comment'><div class="summary" >Pointer type for object of type <a href="math-vectors.ads.html#math-vectors.ads:10:9" title="CVector">CVector</a>. Objects of type <a href="math-vectors.ads.html#math-vectors.ads:10:9" title="CVector">CVector</a> should always be stored in variables of this type.</div>
+</div>
+    </div>
+  </div>
+
+
+    <div class='subprograms'>
+      <h1><a name='Methods' id='Methods'></a>Subprograms &amp; Entries</h1>
+      <div class="class">
+        <h3>
+          <a name='math-vectors.ads:16:13' id='math-vectors.ads:16:13'></a>
+<span class="droplink">pxCreate<ul>
+  <li><a href="src_math-vectors.ads.html#l16">Goto spec in source</a></li>
+</ul></span>
+        </h3>
+        <div class='details'><pre><span class="keyword">function</span> <span class="name_emphasis">pxCreate</span> <table><tr><td>(</td><td><span class="name"><a name="math-vectors.ads:16:23"></a>fX</span>, <span class="name"><a name="math-vectors.ads:16:27"></a>fY</span>, <span class="name"><a name="math-vectors.ads:16:31"></a>fZ</span></td><td>: float) <span class="keyword">return</span> <a href="math-vectors.ads.html#math-vectors.ads:13:9" title="defined at math-vectors.ads:13:9">pCVector</a>;</td></tr></table></pre></div>
+        <div class='comment'><div class="summary" >Creates an object of type <a href="math-vectors.ads.html#math-vectors.ads:10:9" title="CVector">CVector</a>. Returns a pointer of type <a href="math-vectors.ads.html#math-vectors.ads:13:9" title="pCVector">pCVector</a> to the object created.</div>
+<div class="parameter"><span class="name">fX:</span> The value of the vector&apos;s X-component.</div>
+<div class="parameter"><span class="name">fY:</span> The value of the vector&apos;s Y-component.</div>
+<div class="parameter"><span class="name">fZ:</span> The value of the vector&apos;s Z-component.</div>
+</div>
+      </div>
+      <div class="class">
+        <h3>
+          <a name='math-vectors.ads:22:13' id='math-vectors.ads:22:13'></a>
+<span class="droplink">pxGet_Copy<ul>
+  <li><a href="src_math-vectors.ads.html#l22">Goto spec in source</a></li>
+</ul></span>
+        </h3>
+        <div class='details'><pre><span class="keyword">function</span> <span class="name_emphasis">pxGet_Copy</span> <table><tr><td>(</td><td><span class="name"><a name="math-vectors.ads:22:25"></a>this</span></td><td>: <span class="keyword">in</span> <a href="math-vectors.ads.html#math-vectors.ads:10:9" title="defined at math-vectors.ads:10:9">CVector</a>) <span class="keyword">return</span> <a href="math-vectors.ads.html#math-vectors.ads:13:9" title="defined at math-vectors.ads:13:9">pCVector</a>;</td></tr></table></pre></div>
+        <div class='comment'><div class="summary" >Creates an object of type <a href="math-vectors.ads.html#math-vectors.ads:10:9" title="CVector">CVector</a> with the same component values as the object called on. Returns a pointer of type <a href="math-vectors.ads.html#math-vectors.ads:13:9" title="pCVector">pCVector</a> to the object created.</div>
+<div class="parameter"><span class="name">this:</span> The <a href="math-vectors.ads.html#math-vectors.ads:10:9" title="CVector">CVector</a> object to copy the component values from.</div>
+</div>
+      </div>
+      <div class="class">
+        <h3>
+          <a name='math-vectors.ads:26:13' id='math-vectors.ads:26:13'></a>
+<span class="droplink">pxGet_Normalized<ul>
+  <li><a href="src_math-vectors.ads.html#l26">Goto spec in source</a></li>
+</ul></span>
+        </h3>
+        <div class='details'><pre><span class="keyword">function</span> <span class="name_emphasis">pxGet_Normalized</span> <table><tr><td>(</td><td><span class="name"><a name="math-vectors.ads:26:31"></a>this</span></td><td>: <span class="keyword">in</span> <a href="math-vectors.ads.html#math-vectors.ads:10:9" title="defined at math-vectors.ads:10:9">CVector</a>) <span class="keyword">return</span> <a href="math-vectors.ads.html#math-vectors.ads:13:9" title="defined at math-vectors.ads:13:9">pCVector</a>;</td></tr></table></pre></div>
+        <div class='comment'><div class="summary" >Creates an object of type <a href="math-vectors.ads.html#math-vectors.ads:10:9" title="CVector">CVector</a> which is equal to the normalized vector of the object called on. Returns a pointer of type <a href="math-vectors.ads.html#math-vectors.ads:13:9" title="pCVector">pCVector</a> to the object created.</div>
+<div class="parameter"><span class="name">this:</span> The <a href="math-vectors.ads.html#math-vectors.ads:10:9" title="CVector">CVector</a> object to base the normalized vector on.</div>
+</div>
+      </div>
+      <div class="class">
+        <h3>
+          <a name='math-vectors.ads:31:13' id='math-vectors.ads:31:13'></a>
+<span class="droplink">fLength_Squared<ul>
+  <li><a href="src_math-vectors.ads.html#l31">Goto spec in source</a></li>
+</ul></span>
+        </h3>
+        <div class='details'><pre><span class="keyword">function</span> <span class="name_emphasis">fLength_Squared</span> <table><tr><td>(</td><td><span class="name"><a name="math-vectors.ads:31:30"></a>this</span></td><td>: <span class="keyword">in</span> <a href="math-vectors.ads.html#math-vectors.ads:10:9" title="defined at math-vectors.ads:10:9">CVector</a>) <span class="keyword">return</span> float;</td></tr></table></pre></div>
+        <div class='comment'><div class="summary" >Returns the length of the vector squared.</div>
+<div class="parameter"><span class="name">this:</span> The <a href="math-vectors.ads.html#math-vectors.ads:10:9" title="CVector">CVector</a> object to calculate the length of.</div>
+</div>
+      </div>
+      <div class="class">
+        <h3>
+          <a name='math-vectors.ads:35:13' id='math-vectors.ads:35:13'></a>
+<span class="droplink">fLength<ul>
+  <li><a href="src_math-vectors.ads.html#l35">Goto spec in source</a></li>
+</ul></span>
+        </h3>
+        <div class='details'><pre><span class="keyword">function</span> <span class="name_emphasis">fLength</span> <table><tr><td>(</td><td><span class="name"><a name="math-vectors.ads:35:22"></a>this</span></td><td>: <span class="keyword">in</span> <a href="math-vectors.ads.html#math-vectors.ads:10:9" title="defined at math-vectors.ads:10:9">CVector</a>) <span class="keyword">return</span> float;</td></tr></table></pre></div>
+        <div class='comment'><div class="summary" >Returns the length of the vector.</div>
+<div class="parameter"><span class="name">this:</span> The <a href="math-vectors.ads.html#math-vectors.ads:10:9" title="CVector">CVector</a> object to calculate the length of.</div>
+</div>
+      </div>
+      <div class="class">
+        <h3>
+          <a name='math-vectors.ads:39:13' id='math-vectors.ads:39:13'></a>
+<span class="droplink">"+"<ul>
+  <li><a href="src_math-vectors.ads.html#l39">Goto spec in source</a></li>
+</ul></span>
+        </h3>
+        <div class='details'><pre><span class="keyword">function</span> <span class="name_emphasis">"+"</span> <table><tr><td>(</td><td><span class="name"><a name="math-vectors.ads:39:18"></a>pxLeftOperandVector</span>, <span class="name"><a name="math-vectors.ads:39:39"></a>pxRightOperandVector</span></td><td>: <span class="keyword">in</span> <a href="math-vectors.ads.html#math-vectors.ads:13:9" title="defined at math-vectors.ads:13:9">pCVector</a>) <span class="keyword">return</span> <a href="math-vectors.ads.html#math-vectors.ads:13:9" title="defined at math-vectors.ads:13:9">pCVector</a>;</td></tr></table></pre></div>
+      </div>
+      <div class="class">
+        <h3>
+          <a name='math-vectors.ads:44:13' id='math-vectors.ads:44:13'></a>
+<span class="droplink">"-"<ul>
+  <li><a href="src_math-vectors.ads.html#l44">Goto spec in source</a></li>
+</ul></span>
+        </h3>
+        <div class='details'><pre><span class="keyword">function</span> <span class="name_emphasis">"-"</span> <table><tr><td>(</td><td><span class="name"><a name="math-vectors.ads:44:18"></a>pxLeftOperandVector</span>, <span class="name"><a name="math-vectors.ads:44:39"></a>pxRightOperandVector</span></td><td>: <span class="keyword">in</span> <a href="math-vectors.ads.html#math-vectors.ads:13:9" title="defined at math-vectors.ads:13:9">pCVector</a>) <span class="keyword">return</span> <a href="math-vectors.ads.html#math-vectors.ads:13:9" title="defined at math-vectors.ads:13:9">pCVector</a>;</td></tr></table></pre></div>
+      </div>
+      <div class="class">
+        <h3>
+          <a name='math-vectors.ads:49:13' id='math-vectors.ads:49:13'></a>
+<span class="droplink">"-"<ul>
+  <li><a href="src_math-vectors.ads.html#l49">Goto spec in source</a></li>
+</ul></span>
+        </h3>
+        <div class='details'><pre><span class="keyword">function</span> <span class="name_emphasis">"-"</span> <table><tr><td>(</td><td><span class="name"><a name="math-vectors.ads:49:18"></a>pxOperandVector</span></td><td>: <span class="keyword">in</span> <a href="math-vectors.ads.html#math-vectors.ads:13:9" title="defined at math-vectors.ads:13:9">pCVector</a>) <span class="keyword">return</span> <a href="math-vectors.ads.html#math-vectors.ads:13:9" title="defined at math-vectors.ads:13:9">pCVector</a>;</td></tr></table></pre></div>
+      </div>
+      <div class="class">
+        <h3>
+          <a name='math-vectors.ads:53:13' id='math-vectors.ads:53:13'></a>
+<span class="droplink">"*"<ul>
+  <li><a href="src_math-vectors.ads.html#l53">Goto spec in source</a></li>
+</ul></span>
+        </h3>
+        <div class='details'><pre><span class="keyword">function</span> <span class="name_emphasis">"*"</span> <table><tr><td>(</td><td><span class="name"><a name="math-vectors.ads:53:18"></a>pxLeftOperandVector</span>, <span class="name"><a name="math-vectors.ads:53:39"></a>pxRightOperandVector</span></td><td>: <span class="keyword">in</span> <a href="math-vectors.ads.html#math-vectors.ads:13:9" title="defined at math-vectors.ads:13:9">pCVector</a>) <span class="keyword">return</span> <a href="math-vectors.ads.html#math-vectors.ads:13:9" title="defined at math-vectors.ads:13:9">pCVector</a>;</td></tr></table></pre></div>
+      </div>
+      <div class="class">
+        <h3>
+          <a name='math-vectors.ads:58:13' id='math-vectors.ads:58:13'></a>
+<span class="droplink">"*"<ul>
+  <li><a href="src_math-vectors.ads.html#l58">Goto spec in source</a></li>
+</ul></span>
+        </h3>
+        <div class='details'><pre><span class="keyword">function</span> <span class="name_emphasis">"*"</span> <table><tr><td>(</td><td><span class="name"><a name="math-vectors.ads:58:18"></a>pxLeftOperandVector</span></td><td>: <span class="keyword">in</span> <a href="math-vectors.ads.html#math-vectors.ads:13:9" title="defined at math-vectors.ads:13:9">pCVector</a>;</td></tr><tr><td></td><td><span class="name"><a name="math-vectors.ads:58:53"></a>fRightOperand</span></td><td>: <span class="keyword">in</span> float) <span class="keyword">return</span> <a href="math-vectors.ads.html#math-vectors.ads:13:9" title="defined at math-vectors.ads:13:9">pCVector</a>;</td></tr></table></pre></div>
+      </div>
+      <div class="class">
+        <h3>
+          <a name='math-vectors.ads:63:13' id='math-vectors.ads:63:13'></a>
+<span class="droplink">"*"<ul>
+  <li><a href="src_math-vectors.ads.html#l63">Goto spec in source</a></li>
+</ul></span>
+        </h3>
+        <div class='details'><pre><span class="keyword">function</span> <span class="name_emphasis">"*"</span> <table><tr><td>(</td><td><span class="name"><a name="math-vectors.ads:63:18"></a>fLeftOperand</span></td><td>: <span class="keyword">in</span> float;</td></tr><tr><td></td><td><span class="name"><a name="math-vectors.ads:63:43"></a>pxRightOperandVector</span></td><td>: <span class="keyword">in</span> <a href="math-vectors.ads.html#math-vectors.ads:13:9" title="defined at math-vectors.ads:13:9">pCVector</a>) <span class="keyword">return</span> <a href="math-vectors.ads.html#math-vectors.ads:13:9" title="defined at math-vectors.ads:13:9">pCVector</a>;</td></tr></table></pre></div>
+      </div>
+      <div class="class">
+        <h3>
+          <a name='math-vectors.ads:68:13' id='math-vectors.ads:68:13'></a>
+<span class="droplink">"/"<ul>
+  <li><a href="src_math-vectors.ads.html#l68">Goto spec in source</a></li>
+</ul></span>
+        </h3>
+        <div class='details'><pre><span class="keyword">function</span> <span class="name_emphasis">"/"</span> <table><tr><td>(</td><td><span class="name"><a name="math-vectors.ads:68:18"></a>pxLeftOperandVector</span></td><td>: <span class="keyword">in</span> <a href="math-vectors.ads.html#math-vectors.ads:13:9" title="defined at math-vectors.ads:13:9">pCVector</a>;</td></tr><tr><td></td><td><span class="name"><a name="math-vectors.ads:68:53"></a>fRightOperand</span></td><td>: <span class="keyword">in</span> float) <span class="keyword">return</span> <a href="math-vectors.ads.html#math-vectors.ads:13:9" title="defined at math-vectors.ads:13:9">pCVector</a>;</td></tr></table></pre></div>
+      </div>
+      <div class="class">
+        <h3>
+          <a name='math-vectors.ads:74:13' id='math-vectors.ads:74:13'></a>
+<span class="droplink">"="<ul>
+  <li><a href="src_math-vectors.ads.html#l74">Goto spec in source</a></li>
+</ul></span>
+        </h3>
+        <div class='details'><pre><span class="keyword">function</span> <span class="name_emphasis">"="</span> <table><tr><td>(</td><td><span class="name"><a name="math-vectors.ads:74:18"></a>pxLeftOperandVector</span></td><td>: <span class="keyword">in</span> <a href="math-vectors.ads.html#math-vectors.ads:13:9" title="defined at math-vectors.ads:13:9">pCVector</a>;</td></tr><tr><td></td><td><span class="name"><a name="math-vectors.ads:74:53"></a>pxRightOperandVector</span></td><td>: <span class="keyword">in</span> <a href="math-vectors.ads.html#math-vectors.ads:13:9" title="defined at math-vectors.ads:13:9">pCVector</a>) <span class="keyword">return</span> boolean;</td></tr></table></pre></div>
+      </div>
+      <div class="class">
+        <h3>
+          <a name='math-vectors.ads:80:13' id='math-vectors.ads:80:13'></a>
+<span class="droplink">fDot_Product<ul>
+  <li><a href="src_math-vectors.ads.html#l80">Goto spec in source</a></li>
+</ul></span>
+        </h3>
+        <div class='details'><pre><span class="keyword">function</span> <span class="name_emphasis">fDot_Product</span> <table><tr><td>(</td><td><span class="name"><a name="math-vectors.ads:80:27"></a>pxLeftOperandVector</span></td><td>: <span class="keyword">in</span> <a href="math-vectors.ads.html#math-vectors.ads:13:9" title="defined at math-vectors.ads:13:9">pCVector</a>;</td></tr><tr><td></td><td><span class="name"><a name="math-vectors.ads:80:62"></a>pxRightOperandVector</span></td><td>: <span class="keyword">in</span> <a href="math-vectors.ads.html#math-vectors.ads:13:9" title="defined at math-vectors.ads:13:9">pCVector</a>) <span class="keyword">return</span> float;</td></tr></table></pre></div>
+        <div class='comment'><div class="summary" >Calculates and returns the dot product between two vectors.</div>
+<div class="parameter"><span class="name">pxLeftOperandVector:</span> The <a href="math-vectors.ads.html#math-vectors.ads:10:9" title="CVector">CVector</a> object representing left operand.</div>
+<div class="parameter"><span class="name">pxRightOperandVector:</span> The <a href="math-vectors.ads.html#math-vectors.ads:10:9" title="CVector">CVector</a> object representing right operand.</div>
+</div>
+      </div>
+      <div class="class">
+        <h3>
+          <a name='math-vectors.ads:85:13' id='math-vectors.ads:85:13'></a>
+<span class="droplink">pxCross_Product<ul>
+  <li><a href="src_math-vectors.ads.html#l85">Goto spec in source</a></li>
+</ul></span>
+        </h3>
+        <div class='details'><pre><span class="keyword">function</span> <span class="name_emphasis">pxCross_Product</span> <table><tr><td>(</td><td><span class="name"><a name="math-vectors.ads:85:30"></a>pxLeftOperandVector</span></td><td>: <span class="keyword">in</span> <a href="math-vectors.ads.html#math-vectors.ads:13:9" title="defined at math-vectors.ads:13:9">pCVector</a>;</td></tr><tr><td></td><td><span class="name"><a name="math-vectors.ads:85:65"></a>pxRightOperandVector</span></td><td>: <span class="keyword">in</span> <a href="math-vectors.ads.html#math-vectors.ads:13:9" title="defined at math-vectors.ads:13:9">pCVector</a>) <span class="keyword">return</span> <a href="math-vectors.ads.html#math-vectors.ads:13:9" title="defined at math-vectors.ads:13:9">pCVector</a>;</td></tr></table></pre></div>
+        <div class='comment'><div class="summary" >Creates an object of type <a href="math-vectors.ads.html#math-vectors.ads:10:9" title="CVector">CVector</a> which is the cross product between the two vectors. Returns a pointer of type <a href="math-vectors.ads.html#math-vectors.ads:13:9" title="pCVector">pCVector</a> to the object created.</div>
+<div class="parameter"><span class="name">pxLeftOperandVector:</span> The <a href="math-vectors.ads.html#math-vectors.ads:10:9" title="CVector">CVector</a> object representing left operand.</div>
+<div class="parameter"><span class="name">pxRightOperandVector:</span> The <a href="math-vectors.ads.html#math-vectors.ads:10:9" title="CVector">CVector</a> object representing right operand.</div>
+</div>
+      </div>
+      <div class="class">
+        <h3>
+          <a name='math-vectors.ads:90:13' id='math-vectors.ads:90:13'></a>
+<span class="droplink">fAngle_Between_In_Radians<ul>
+  <li><a href="src_math-vectors.ads.html#l90">Goto spec in source</a></li>
+</ul></span>
+        </h3>
+        <div class='details'><pre><span class="keyword">function</span> <span class="name_emphasis">fAngle_Between_In_Radians</span> <table><tr><td>(</td><td><span class="name"><a name="math-vectors.ads:90:40"></a>pxLeftOperandVector</span>, <span class="name"><a name="math-vectors.ads:90:61"></a>pxRightOperandVector</span></td><td>: <span class="keyword">in</span> <a href="math-vectors.ads.html#math-vectors.ads:13:9" title="defined at math-vectors.ads:13:9">pCVector</a>) <span class="keyword">return</span> float;</td></tr></table></pre></div>
+        <div class='comment'><div class="summary" >Calculates and returns the angle in radians between two vectors.</div>
+<div class="parameter"><span class="name">pxLeftOperandVector:</span> The <a href="math-vectors.ads.html#math-vectors.ads:10:9" title="CVector">CVector</a> object representing left operand.</div>
+<div class="parameter"><span class="name">pxRightOperandVector:</span> The <a href="math-vectors.ads.html#math-vectors.ads:10:9" title="CVector">CVector</a> object representing right operand.</div>
+</div>
+      </div>
+      <div class="class">
+        <h3>
+          <a name='math-vectors.ads:96:13' id='math-vectors.ads:96:13'></a>
+<span class="droplink">fGet_X<ul>
+  <li><a href="src_math-vectors.ads.html#l96">Goto spec in source</a></li>
+</ul></span>
+        </h3>
+        <div class='details'><pre><span class="keyword">function</span> <span class="name_emphasis">fGet_X</span> <table><tr><td>(</td><td><span class="name"><a name="math-vectors.ads:96:21"></a>this</span></td><td>: <span class="keyword">in</span> <a href="math-vectors.ads.html#math-vectors.ads:10:9" title="defined at math-vectors.ads:10:9">CVector</a>) <span class="keyword">return</span> float;</td></tr></table></pre></div>
+        <div class='comment'><div class="summary" >Returns the X-component of the vector.</div>
+<div class="parameter"><span class="name">this:</span> The <a href="math-vectors.ads.html#math-vectors.ads:10:9" title="CVector">CVector</a> object to get the X-component from.</div>
+</div>
+      </div>
+      <div class="class">
+        <h3>
+          <a name='math-vectors.ads:100:13' id='math-vectors.ads:100:13'></a>
+<span class="droplink">fGet_Y<ul>
+  <li><a href="src_math-vectors.ads.html#l100">Goto spec in source</a></li>
+</ul></span>
+        </h3>
+        <div class='details'><pre><span class="keyword">function</span> <span class="name_emphasis">fGet_Y</span> <table><tr><td>(</td><td><span class="name"><a name="math-vectors.ads:100:21"></a>this</span></td><td>: <span class="keyword">in</span> <a href="math-vectors.ads.html#math-vectors.ads:10:9" title="defined at math-vectors.ads:10:9">CVector</a>) <span class="keyword">return</span> float;</td></tr></table></pre></div>
+        <div class='comment'><div class="summary" >Returns the Y-component of the vector.</div>
+<div class="parameter"><span class="name">this:</span> The <a href="math-vectors.ads.html#math-vectors.ads:10:9" title="CVector">CVector</a> object to get the Y-component from.</div>
+</div>
+      </div>
+      <div class="class">
+        <h3>
+          <a name='math-vectors.ads:104:13' id='math-vectors.ads:104:13'></a>
+<span class="droplink">fGet_Z<ul>
+  <li><a href="src_math-vectors.ads.html#l104">Goto spec in source</a></li>
+</ul></span>
+        </h3>
+        <div class='details'><pre><span class="keyword">function</span> <span class="name_emphasis">fGet_Z</span> <table><tr><td>(</td><td><span class="name"><a name="math-vectors.ads:104:21"></a>this</span></td><td>: <span class="keyword">in</span> <a href="math-vectors.ads.html#math-vectors.ads:10:9" title="defined at math-vectors.ads:10:9">CVector</a>) <span class="keyword">return</span> float;</td></tr></table></pre></div>
+        <div class='comment'><div class="summary" >Returns the Z-component of the vector.</div>
+<div class="parameter"><span class="name">this:</span> The <a href="math-vectors.ads.html#math-vectors.ads:10:9" title="CVector">CVector</a> object to get the Z-component from.</div>
+</div>
+      </div>
+      <div class="class">
+        <h3>
+          <a name='math-vectors.ads:108:14' id='math-vectors.ads:108:14'></a>
+<span class="droplink">Copy_From<ul>
+  <li><a href="src_math-vectors.ads.html#l108">Goto spec in source</a></li>
+</ul></span>
+        </h3>
+        <div class='details'><pre><span class="keyword">procedure</span> <span class="name_emphasis">Copy_From</span><table><tr><td>(</td><td><span class="name"><a name="math-vectors.ads:108:24"></a>this</span></td><td>: <span class="keyword">in</span> <span class="keyword">out</span> <a href="math-vectors.ads.html#math-vectors.ads:10:9" title="defined at math-vectors.ads:10:9">CVector</a>;</td></tr><tr><td></td><td><span class="name"><a name="math-vectors.ads:108:47"></a>pxSourceVector</span></td><td>: <span class="keyword">in</span> <a href="math-vectors.ads.html#math-vectors.ads:13:9" title="defined at math-vectors.ads:13:9">pCVector</a>);</td></tr></table></pre></div>
+        <div class='comment'><div class="summary" >Copies the components from source vector and puts into this vector.</div>
+<div class="parameter"><span class="name">this:</span> The <a href="math-vectors.ads.html#math-vectors.ads:10:9" title="CVector">CVector</a> object to copy the component values to.</div>
+<div class="parameter"><span class="name">pxSourceVector:</span> The <a href="math-vectors.ads.html#math-vectors.ads:10:9" title="CVector">CVector</a> object to copy the component values from.</div>
+</div>
+      </div>
+    </div>
+</div> <!-- documentation -->
+
+</body>
+</html>
