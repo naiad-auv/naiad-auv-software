@@ -43,4 +43,12 @@ package body Vision.Image_Preprocessing is
       CoreWrap.waitKey(0);
    end Fusion;
 
+   procedure Enhance_Colors(iImageSource,iImageDestination,iEnhanceChannel : in Interfaces.C.Int;iEnhanceLevel : in Interfaces.C.Double) is
+   begin
+      processingWrap.enhanceColors(iImageSource,iImageDestination,iEnhanceChannel,iEnhanceLevel);
+      CoreWrap.imshow(New_String("enhanced image.jpg"),iImageDestination);
+      CoreWrap.waitKey(0);
+   end Enhance_Colors;
+
+
 end Vision.Image_Preprocessing;

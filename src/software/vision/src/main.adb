@@ -31,6 +31,9 @@ procedure main is
    iDoCompareHistograms : Integer := 0;
    iDoMakeMovie : Integer := 0;
    iDoMatchTemplete : Integer := 0;
+   iDoWriteImageToFile : Integer :=0;
+   iDoEnhanceColors : Integer :=0;
+
 
    --image locations
    iImageSource : Interfaces.C.Int :=0;
@@ -124,6 +127,10 @@ procedure main is
    loadTemplates : integer :=0;
    iTemplate :interfaces.c.int;--MUST BE SET TO FIRST TEMPLETE POSITION
    bestTempleteMatchFound : interfaces.c.int;
+
+   --enhance
+   iEnhanceLevel : interfaces.c.Double:=20.0;
+   iEnhanceChannel : interfaces.C.Int:=1;
 
    --wait time when displaying images
    iWaitTime : interfaces.c.int := 0;
@@ -244,29 +251,19 @@ begin
          Vision.Image_Preprocessing.Fusion(iImageSource,iFusionOutLocation);
       end if;
 
-      --USE OBJECT TRACKING
+      --Object tracking
       if(iDoObjectTracking = 1) then
          Vision.Image_Processing.Threshold_Image(iImageSource,iHSILocation, iThreshedImageLocation, 10, 70, 50, 255, 50, 255);
          Vision.Image_Processing.Apply_Contours(iThreshedImageLocation,iGreyScaleLocation,iContourLocation,iCannyLocation, iCannyLowThres, iCannyHighThres, iCannyKernelSize);
          Vision.Image_Processing.Track_Object(iContourLocation,iGreyScaleLocation);
       end if;
 
-      --USE VELOCITY MODE
+      --Velocity mode
       if(iDoVelocityMode =1) then
-         processingWrap.cvtColor(iImageSource, iHSILocation, iHSIFilter);
-         processingWrap.thresh(iHSILocation, iThreshedImageLocation, 30, 60, 50, 255, 50, 255);
-
-         processingWrap.cvtColor(iThreshedImageLocation,iGreyScaleLocation, iGreyFilter);
-         processingWrap.Canny(iGreyScaleLocation,iCannyLocation, iCannyLowThres, iCannyHighThres, iCannyKernelSize);
-         processingWrap.Contours(iCannyLocation);
-         processingWrap.showContours(iThreshedImageLocation,contourOut => iContourLocation,contourId  => -1 ,thickness  => 3 );
-
-         processingWrap.cvtColor(iContourLocation,iGreyScaleLocation, iGreyFilter);
-
-         processingWrap.approxPolyDP(1.2, 1);
+         Vision.Image_Processing.Threshold_Image(iImageSource,iHSILocation, iThreshedImageLocation, 30, 60, 50, 255, 50, 255);
+         Vision.Image_Processing.Apply_Contours(iThreshedImageLocation,iGreyScaleLocation,iContourLocation,iCannyLocation, iCannyLowThres, iCannyHighThres, iCannyKernelSize);
+         Vision.Image_Processing.Track_Object(iContourLocation,iGreyScaleLocation);
          processingWrap.estPosition;
-         processingWrap.goodFeatures(iGreyScaleLocation);
-         processingWrap.objectTracking(iImageSource);--this line needs fixing
 
          if velCount>0 then
             processingWrap.GaussianBlurSharpener(iImageSource,2,3);
@@ -277,7 +274,15 @@ begin
       end if;
 
       --write image to file
-      --ret := CoreWrap.imwrite(New_String("CannyOut.jpg"),2 );
+      if(iDoWriteImageToFile =1) then
+         ret := CoreWrap.imwrite(New_String("CannyOut.jpg"),iImageSource);
+      end if;
+
+      --enhance colors in image
+      if(iDoEnhanceColors = 1) then
+         Vision.Image_Preprocessing.Enhance_Colors(iImageSource,iImageDestination,iEnhanceChannel,iEnhanceLevel);
+      end if;
+
 
       if(iDoMatchTemplete =1) then
          if (loadTemplates = 0) then
