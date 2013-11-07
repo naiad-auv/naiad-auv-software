@@ -818,7 +818,7 @@ void Processing_Wrap::invertImage(int src, int dst)
 int Processing_Wrap::matchImage(int src)
 {
     double results;
-    int templateStoreIndex=30;
+    int templateStoreIndex=21;
     int bestShapeMatch=0; 
     std::vector<double> resultsVector;
 	double bestMatch=10;
@@ -874,22 +874,22 @@ int Processing_Wrap::matchImage(int src)
 
 void Processing_Wrap::classifyMatch(int bestTemplateMatch)
 {
-	if (bestTemplateMatch==30)
+	if (bestTemplateMatch==21)
 	{
 		std::cout<<"Trident\n";
 		cv::waitKey(0);
 	}
-	if (bestTemplateMatch==31)
+	if (bestTemplateMatch==22)
 	{
 		std::cout<<"Sword\n";
 		cv::waitKey(0);
 	}
-	if (bestTemplateMatch==32)
+	if (bestTemplateMatch==23)
 	{
 		std::cout<<"Honeycomb\n";
 		cv::waitKey(0);
 	}
-	if (bestTemplateMatch==33)
+	if (bestTemplateMatch==24)
 	{
 		std::cout<<"Circle\n";
 		cv::waitKey(0);

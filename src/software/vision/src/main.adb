@@ -31,80 +31,84 @@ procedure main is
    iDoMakeMovie : Integer := 0;
    iDoMatchTemplete : Integer := 1;
 
+   --image locations
+   iImageSource : Interfaces.C.Int :=0;
+   iPreviousImageLocation : Interfaces.C.int := 1;
+   iImageDestination : Interfaces.C.Int:=2;
+   iEnhancedImageSource : Interfaces.C.int:=3;
+   iEnhancedPreviousImage : Interfaces.C.int:=4;
 
-   iImageSource : Interfaces.C.Int;
-   iEnhancedImageSource : Interfaces.C.int;
-   iPreviousImageLocation : Interfaces.C.int;
-   iEnhancedPreviousImage : Interfaces.C.int;
-   iImageDestination : Interfaces.C.Int;
-   iCannyLocation : Interfaces.C.Int;
-   iGreyScaleLocation : Interfaces.C.Int;
-   iHSILocation : Interfaces.C.Int;
-   iContourLocation : Interfaces.C.Int;
-   iCirclesLocation : Interfaces.C.Int;
-   iGaussianBlurLocation : Interfaces.C.int;
-   iThreshedImageLocation : Interfaces.C.int;
-   iFusionOut : Interfaces.C.int;
-   iInvertImageLocation : Interfaces.C.int;
-   iTemplate1 : Interfaces.C.int;
-   iTemplate2 : Interfaces.C.int;
-   iTemplate3 : Interfaces.C.int;
-   iTemplate4 : Interfaces.C.int;
-   itemplateTempStorage : Interfaces.C.int;
+   iInvertImageLocation : Interfaces.C.int:=5;
+   iGreyScaleLocation : Interfaces.C.Int:=6;
+   iCannyLocation : Interfaces.C.Int:=7;
+   iHSILocation : Interfaces.C.Int:=8;
+   iContourLocation : Interfaces.C.Int:=9;
+   iCirclesLocation : Interfaces.C.Int:=10;
+   iGaussianBlurLocation : Interfaces.C.int:=11;
+   iThreshedImageLocation : Interfaces.C.int:=12;
+   iFusionOut : Interfaces.C.int:=13;
 
-   iGreyFilter : Interfaces.C.Int;
-   iHSIFilter : Interfaces.C.Int;
-   iCannyKernelSize :Interfaces.C.int;
-   iCannyLowThres : Interfaces.C.int;
-   iCannyHighThres : Interfaces.C.int;
+   itemplateTempStorage : Interfaces.C.int:=20;
+   iTemplate1 : Interfaces.C.int:=21;
+   iTemplate2 : Interfaces.C.int:=22;
+   iTemplate3 : Interfaces.C.int:=23;
+   iTemplate4 : Interfaces.C.int:=24;
+
+   --filter settings
+   iGreyFilter : Interfaces.C.Int:=6;
+   iHSIFilter : Interfaces.C.Int:=40;
+
+   --canny settings
+   iCannyKernelSize :Interfaces.C.int:=3;
+   iCannyLowThres : Interfaces.C.int:=20;
+   iCannyHighThres : Interfaces.C.int:=200;
    ret : Interfaces.C.int;
 
    --hough cirlces variables
-   inverseRatioOfResolution : Interfaces.C.int;
-   minDistBetweenCenters : Interfaces.C.int;
-   houghCannyUpThres : Interfaces.C.int;
-   centerDetectionThreshold : Interfaces.C.int;
-   minRadius : Interfaces.C.int;
-   maxRadius : Interfaces.C.int;
+   inverseRatioOfResolution : Interfaces.C.int:=1;
+   minDistBetweenCenters : Interfaces.C.int:=10;
+   houghCannyUpThres : Interfaces.C.int:=200;
+   centerDetectionThreshold : Interfaces.C.int:=100;
+   minRadius : Interfaces.C.int:= 0;--zero used if unknown;
+   maxRadius : Interfaces.C.int:= 0;--zero used if unknown;
 
    --histo variables
    rangeLower : Standard.Float;
    rangeHigher : Standard.Float;
-   bgrHistSize : Interfaces.C.Int;
-   bgrnumSourceArray: interfaces.C.int;
-   bgrChannelsToBeMeasured:interfaces.C.int;
-   bgrHistDimensionality:interfaces.C.int;
+   bgrHistSize : Interfaces.C.Int:=256;
+   bgrNumSourceArray: interfaces.C.int:=1;
+   bgrChannelsToBeMeasured:interfaces.C.int:=0;
+   bgrHistDimensionality:interfaces.C.int:=1;
    bgrRange : aliased array(integer range 1..2) of aliased standard.Float;
 
-   hsiNumSourceArray:interfaces.C.int;
+   hsiNumSourceArray:interfaces.C.int:=1;
    hsiSize : aliased array(integer range 1..2) of aliased Interfaces.C.int;
    channels : aliased array(integer range 1..2) of aliased Interfaces.C.int;
    hrange : aliased array(integer range 1..2) of aliased standard.Float;
    srange : aliased array(integer range 1..2) of aliased standard.Float;
-   histDimensionality : Interfaces.C.int;
-   uniform : interfaces.C.unsigned_char;
-   accumulate : interfaces.C.unsigned_char;
+   histDimensionality : Interfaces.C.int:=2;
+   uniform : interfaces.C.unsigned_char:=1;
+   accumulate : interfaces.C.unsigned_char:=0;
 
    --thres
-   confirmThres : integer;
-   lowLimit :interfaces.C.int;
-   upLimit :interfaces.C.int;
+   confirmThres : integer:=0;
+   lowLimit :interfaces.C.int:=200;
+   upLimit :interfaces.C.int:=250;
 
    --Gaussian
-   GaussianKerSize : interfaces.c.int;
-   GaussianSigmaX : interfaces.c.double;
-   GaussianSigmaY : interfaces.c.double;
+   GaussianKerSize : interfaces.c.int:=31;
+   GaussianSigmaX : interfaces.c.double:=0.0;
+   GaussianSigmaY : interfaces.c.double:=0.0;
 
    --est vel
-   estVel:float;
-
+   estVel:float:=0.0;
    velCount:integer:=1;
 
    --hist comparison
-   iCorrelation : interfaces.c.int;
-   iChiSquare : interfaces.c.int;
-   iIntersection : interfaces.c.int;
-   iBhattacharyyaDistance : interfaces.c.int;
+   iCorrelation : interfaces.c.int:=1;
+   iChiSquare : interfaces.c.int:=2;
+   iIntersection : interfaces.c.int:=3;
+   iBhattacharyyaDistance : interfaces.c.int:=4;
    compareHistResult : interfaces.c.double;
 
    --video
@@ -114,7 +118,7 @@ procedure main is
    iTemplateSize : integer := 4;
    templateIndex : integer := 1;
    loadTemplates : integer :=0;
-   iTemplate :interfaces.c.int := 30;
+   iTemplate :interfaces.c.int;--MUST BE SET TO FIRST TEMPLETE POSITION
    bestTempleteMatchFound : interfaces.c.int;
 
    CoreWrap : aliased Class_Core_Wrap.Core_Wrap;
@@ -122,45 +126,11 @@ procedure main is
    preprocessingWrap : aliased Class_Preprocessing_Wrap.Preprocessing_Wrap;
 
 begin
-   iImageSource := 0;
-   iPreviousImageLocation := 1;
-   iImageDestination := 2;
-   iEnhancedImageSource := 3;
-   iEnhancedPreviousImage := 4;
-   itemplateTempStorage := 18;
-   iInvertImageLocation := 19;
-   iGreyScaleLocation :=20;
-   iCannyLocation :=21;
-   iHSILocation := 22;
-   iContourLocation := 23;
-   iCirclesLocation := 24;
-   iGaussianBlurLocation :=25;
-   iThreshedImageLocation := 26;
-   iFusionOut := 27;
-   iTemplate1 := 30;
-   iTemplate2 := 31;
-   iTemplate3 := 32;
-   iTemplate4 := 33;
-
-   iGreyFilter := 6;
-   iHSIFilter :=40;
-   iCannyLowThres := 20;
-   iCannyHighThres := 200;
-   iCannyKernelSize := 3;
-
    --bgr histo
-   bgrNumSourceArray:=1;
-   bgrHistSize :=256;
-   bgrChannelsToBeMeasured :=0;
-   bgrHistDimensionality := 1;
    bgrRange(1):= standard.Float(0.0);
    bgrRange(2):= standard.Float(256.0);
-   uniform := 1;
-   accumulate := 0;
 
    --hsi histo
-   histDimensionality := 2;
-   hsiNumSourceArray := 1;
    hsiSize(1) := Interfaces.C.int(30);
    hsiSize(2) := Interfaces.C.int(32);
    channels(1) := Interfaces.C.int(0);
@@ -169,36 +139,6 @@ begin
    hrange(2) := standard.Float(180.0);
    srange(1) := standard.Float(0.0);
    srange(2) := standard.Float(256.0);
-
-   --hough circle declarations
-   inverseRatioOfResolution := 1;
-   minDistBetweenCenters := 10;
-   houghCannyUpThres := 200;
-   centerDetectionThreshold := 100;
-   minRadius := 0;--zero used if unknown
-   maxRadius :=     0;--zero used if unknown
-
-   --thres
-   confirmThres := 0;
-   lowLimit := 200;
-   upLimit := 250;
-
-   --Gaussian
-   GaussianKerSize := 31;
-   GaussianSigmaX := 0.0;
-   GaussianSigmaY := 0.0;
-
-   --est velocity
-   estVel :=0.0;
-
-   --compare histogram
-   iCorrelation :=1;
-   iChiSquare :=2;
-   iIntersection :=3;
-   iBhattacharyyaDistance :=4;
-
-
-
 
    -----------------------------MAIN LOOP --------------------------------------------------------
    Endless_Loop:
@@ -220,9 +160,6 @@ begin
          CoreWrap.imshow(New_String("test video"), iImageSource);
          CoreWrap.waitKey(0);
       end if;
-
-
-      --CLEAN IMAGE (TODO)
 
       --convert image to hsi
       if (iDoCvtHSI = 1) then
@@ -404,6 +341,7 @@ begin
             CoreWrap.imstore(iTemplate4,New_String("redCircle.jpg"));
 
             --cleanup templates
+            iTemplate:=iTemplate1;
             for iTemplateIndex in 1 .. iTemplateSize loop
                processingWrap.enhanceColors(iTemplate,iTemplate,1,30.0);
                processingWrap.GaussianBlurSharpener(iTemplate,iTemplate,2);
