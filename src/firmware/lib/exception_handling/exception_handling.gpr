@@ -1,0 +1,4 @@
+project Exception_Handling is
+    for Source_Dirs use ("src");
+    for Object_Dir use "obj";
+end Exception_Handling;
