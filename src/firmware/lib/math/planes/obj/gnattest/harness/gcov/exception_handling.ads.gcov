@@ -1,0 +1,69 @@
+        -:    0:Source:/home/evr/git/naiad-auv-software/src/lib/exception_handling/src/exception_handling.ads
+        -:    0:Programs:25
+        -:    1:with Ada.Exceptions;
+        -:    2:with Ada.Finalization;
+        -:    3:
+        6:    4:package Exception_Handling is
+        -:    5:
+    #####:    6:   type CExceptionMsgs is new Ada.Finalization.Controlled with private;
+        6:    7:   type pCExceptionMsgs is access CExceptionMsgs;
+        -:    8:
+        -:    9:
+        -:   10:
+        -:   11:   pxUnhandledExceptionMsgList : pCExceptionMsgs;
+        -:   12:
+        -:   13:   procedure Free(pxObjectToDeallocate : in out pCExceptionMsgs);
+        -:   14:
+        2:   15:   UnhandledException : exception;
+        -:   16:   --  <summary>Unhandled exception, thrown after logging is performed</summary>
+        -:   17:
+        2:   18:   NullPointer : exception;
+        -:   19:   --  <summary>Null pointer exception, thrown by methods with pointers passed as arguments</summary>
+        -:   20:
+        2:   21:   NotUnitQuaternion : exception;
+        -:   22:   --  <summary>Not unit quaternion, thrown by operations that needs a unit quaternion to complete</summary>
+        -:   23:
+        2:   24:   SingularMatrix : exception;
+        -:   25:   --  <summary>Singular matrix exception, thrown by operations not permitted with a singular matrix. I.e gauss-jordan elimination</summary>
+        -:   26:
+        2:   27:   NoIntersectionBetweenPlanes : exception;
+        -:   28:   --  <summary>Parallel planes exception, thrown by operations not permitted with two parallel planes. I.e when trying to find a instersection vector between two planes</summary>
+        -:   29:
+        2:   30:   DivisionByZero : exception;
+        -:   31:   --  <summary>Division by zero exception, thrown by functions where the passed divident is 0</summary>
+        -:   32:
+        2:   33:   IndexOutOfBounds : exception;
+        -:   34:   --  <summary>Index out of bounds exception, thrown by functions where an index of i.e and array is out of the bounds of the array</summary>
+        -:   35:
+        2:   36:   UnknownMotionComponent : exception;
+        -:   37:   --  <summary>Unkown motion component exception, thrown when a user tries to update the PID scalings of an undefined component</summary>
+        -:   38:
+        2:   39:   UnknownException : exception;
+        -:   40:
+        2:   41:   UndefinedPlane : exception;
+        -:   42:
+        -:   43:   procedure Unhandled_Exception (E : in Ada.Exceptions.Exception_Occurrence);
+        -:   44:   --  <summary>Handles the exception E, prints a stacktrace and raises an UnhandledException</summary>
+        -:   45:   --  <parameter name="E">The Exception thrown</parameter>
+        -:   46:
+        -:   47:   procedure Handled_Exception;
+        -:   48:
+        -:   49:   procedure Raise_Exception (E : Ada.Exceptions.Exception_Id; Message : String := "");
+        -:   50:   procedure Reraise_Exception (E : Ada.Exceptions.Exception_Occurrence; Message : String := "");
+        -:   51:
+        -:   52:
+        -:   53:private
+        4:   54:   type CExceptionMsgs is new Ada.Finalization.Controlled with
+        -:   55:      record
+        -:   56:         iMessageLength : Natural;
+        -:   57:         sMessage : string(1 .. 1_000);
+        -:   58:         pxNextExceptionMsg : pCExceptionMsgs;
+        -:   59:      end record;
+        -:   60:
+        -:   61:   procedure Finalize(this : in out CExceptionMsgs);
+        -:   62:
+        -:   63:   procedure Add_Msg(this : in out CExceptionMsgs; Message : String := "");
+        -:   64:   procedure Print_Msg(this : in CExceptionMsgs; iCount : in integer);
+        -:   65:   procedure Save_Exception (Message : String := "");
+        -:   66:
+        2:   67:end Exception_Handling;

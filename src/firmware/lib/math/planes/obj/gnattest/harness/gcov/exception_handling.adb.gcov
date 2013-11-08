@@ -1,0 +1,109 @@
+        -:    0:Source:/home/evr/git/naiad-auv-software/src/lib/exception_handling/src/exception_handling.adb
+        -:    0:Programs:25
+        -:    1:with Ada.Text_IO;
+        -:    2:--with Ada.Exceptions.Traceback;
+        -:    3:with Ada.Unchecked_Deallocation;
+        -:    4:with GNAT.Traceback;
+        -:    5:with GNAT.Traceback.Symbolic;
+        -:    6:with Ada.Exceptions;
+        -:    7:
+        -:    8:package body Exception_Handling is
+        -:    9:
+        -:   10:   -------------------------
+        -:   11:   -- Unhandled_Exception --
+        -:   12:   -------------------------
+        -:   13:
+    #####:   14:   procedure Unhandled_Exception (E : in Ada.Exceptions.Exception_Occurrence) is
+        -:   15:   begin
+    #####:   16:      Ada.Text_IO.Put_Line("Unhandled exception: " & Ada.Exceptions.Exception_Name(E));
+    #####:   17:      Ada.Text_IO.Put_Line("Trace:");
+        -:   18:
+    #####:   19:      if pxUnhandledExceptionMsgList /= null then
+    #####:   20:         pxUnhandledExceptionMsgList.Print_Msg(1);
+        -:   21:      end if;
+    #####:   22:      Ada.Text_IO.New_Line;
+    #####:   23:      raise UnhandledException;
+    #####:   24:   end Unhandled_Exception;
+        -:   25:
+    #####:   26:   procedure Print_Msg(this : in CExceptionMsgs; iCount : in integer) is
+    #####:   27:      sMsg : string (1 .. this.iMessageLength) := this.sMessage(1 .. this.iMessageLength);
+        -:   28:   begin
+    #####:   29:      Ada.Text_IO.Put(integer'Image(iCount) & ": " & sMsg);
+    #####:   30:      Ada.Text_IO.New_Line;
+        -:   31:
+    #####:   32:      if this.pxNextExceptionMsg /= null then
+    #####:   33:         this.pxNextExceptionMsg.Print_Msg(iCount + 1);
+        -:   34:      end if;
+    #####:   35:   end Print_Msg;
+        -:   36:
+        -:   37:
+        -:   38:
+        2:   39:   procedure Handled_Exception is
+        -:   40:   begin
+        2:   41:      if pxUnhandledExceptionMsgList /= null then
+    #####:   42:         Exception_Handling.Free(pxUnhandledExceptionMsgList);
+        -:   43:      end if;
+        2:   44:   end Handled_Exception;
+        -:   45:
+        -:   46:
+    #####:   47:   procedure Reraise_Exception (E : Ada.Exceptions.Exception_Occurrence; Message : String := "") is
+    #####:   48:      SavedException : Ada.Exceptions.Exception_Occurrence;
+        -:   49:   begin
+    #####:   50:      Save_Exception(Message);
+    #####:   51:      Ada.Exceptions.Save_Occurrence(Target => SavedException,
+        -:   52:                                                       Source => E);
+    #####:   53:      Ada.Exceptions.Reraise_Occurrence(SavedException);
+    #####:   54:   end Reraise_Exception;
+        -:   55:
+        -:   56:
+        2:   57:   procedure Save_Exception (Message : String := "") is
+        -:   58:      sMsg : string (1 .. 1_000);
+        -:   59:   begin
+        2:   60:      sMsg(1 .. Message'Length) := Message;
+        2:   61:      if pxUnhandledExceptionMsgList = null then
+        4:   62:         pxUnhandledExceptionMsgList := new CExceptionMsgs'(Ada.Finalization.Controlled with
+        -:   63:                                                              iMessageLength     => Message'Length,
+        -:   64:                                                            sMessage           => sMsg,
+        -:   65:                                                            pxNextExceptionMsg => null);
+        -:   66:      else
+    #####:   67:         pxUnhandledExceptionMsgList.Add_Msg(Message);
+        -:   68:      end if;
+        2:   69:   end Save_Exception;
+        -:   70:
+        -:   71:
+        2:   72:   procedure Raise_Exception (E : Ada.Exceptions.Exception_Id; Message : String := "") is
+        -:   73:   begin
+        2:   74:      Save_Exception(Message);
+        2:   75:      Ada.Exceptions.Raise_Exception(E => E);
+        -:   76:   end Raise_Exception;
+        -:   77:
+        -:   78:
+    #####:   79:   procedure Add_Msg(this : in out CExceptionMsgs; Message : String := "") is
+        -:   80:      sMsg : string (1 .. 1_000);
+        -:   81:   begin
+    #####:   82:      if this.pxNextExceptionMsg /= null then
+    #####:   83:         this.pxNextExceptionMsg.Add_Msg(Message);
+        -:   84:      else
+    #####:   85:         sMsg(1 .. Message'Length) := Message;
+    #####:   86:         this.pxNextExceptionMsg := new CExceptionMsgs'(Ada.Finalization.Controlled with
+        -:   87:                                                          iMessageLength     => Message'Length,
+        -:   88:                                                        sMessage           => sMsg,
+        -:   89:                                                        pxNextExceptionMsg => null);
+        -:   90:      end if;
+    #####:   91:   end Add_Msg;
+        -:   92:
+        2:   93:   procedure Finalize(this : in out CExceptionMsgs) is
+        -:   94:   begin
+        2:   95:      if this.pxNextExceptionMsg /= null then
+    #####:   96:         Exception_Handling.Free(this.pxNextExceptionMsg);
+        -:   97:      end if;
+        2:   98:   end Finalize;
+        -:   99:
+        -:  100:
+    #####:  101:   procedure Free(pxObjectToDeallocate : in out pCExceptionMsgs) is
+        -:  102:      procedure Dealloc is new Ada.Unchecked_Deallocation(CExceptionMsgs, pCExceptionMsgs);
+        -:  103:   begin
+    #####:  104:      Dealloc(pxObjectToDeallocate);
+    #####:  105:   end Free;
+        -:  106:
+        -:  107:end Exception_Handling;

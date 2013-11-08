@@ -1,0 +1,29 @@
+<tests_mapping mode="monolith">
+   <unit source_file="math-angles.ads">
+      <test_unit target_file="math-angles-test_data-tests.ads">
+         <setup file="math-angles-test_data.adb" line="3"  column="4"/>
+         <teardown file="math-angles-test_data.adb" line="9"  column="4"/>
+         <tested name="fGet_Angle_Degrees_In_Range" line="8" column="4">
+            <test file="math-angles-test_data-tests.adb" line="13" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="fGet_Angle_Radians_In_Range" line="9" column="4">
+            <test file="math-angles-test_data-tests.adb" line="45" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="fRadians_To_Degrees" line="10" column="4">
+            <test file="math-angles-test_data-tests.adb" line="77" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="fDegrees_To_Radians" line="11" column="4">
+            <test file="math-angles-test_data-tests.adb" line="109" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="fTAngle_To_FAngle" line="12" column="4">
+            <test file="math-angles-test_data-tests.adb" line="141" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="tfFAngle_To_TAngle" line="13" column="4">
+            <test file="math-angles-test_data-tests.adb" line="164" column="1" timestamp="2013-10-06 14:55:24"/>
+         </tested>
+         <dangling>
+            <test file="math-angles-test_data-tests.adb" line="184" column="1"/>
+         </dangling>
+      </test_unit>
+   </unit>
+</tests_mapping>
