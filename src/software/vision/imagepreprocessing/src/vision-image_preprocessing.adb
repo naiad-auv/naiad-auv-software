@@ -58,6 +58,7 @@ package body Vision.Image_Preprocessing is
       CoreWrap.imstore(iTemplate4,New_String("redCircle.jpg"));
    end Load_Templates;
 
+   --function not needed yet
    procedure Cleanup_Templates(iTemplate,itemplateTempStorage : in Interfaces.C.int;iTemplateSize : in Integer) is
    tempIndex : interfaces.c.int := iTemplate;
    begin

@@ -221,7 +221,7 @@ begin
          compareHistResult:=processingWrap.compareHSVHistograms(iImageSource,iPreviousImageLocation,iHistogramCompareMethod);
       end if;
 
-       --invert image
+      --invert image
       if (iDoInvertImage = 1) then
          Vision.Image_Processing.Invert_Image(iImageSource, iInvertImageLocation);
       end if;
@@ -285,20 +285,41 @@ begin
 
 
       if(iDoMatchTemplete =1) then
-         if (loadTemplates = 0) then --load and cleanup templates
-            Vision.Image_Preprocessing.Load_Templates(iTemplate1,iTemplate2,iTemplate3,iTemplate4);
+         if (loadTemplates = 0) then
+            --load templates
+            CoreWrap.imstore(iTemplate1,New_String("redTrident.jpg"));
+            CoreWrap.imstore(iTemplate2,New_String("redSword.jpg"));
+            CoreWrap.imstore(iTemplate3,New_String("redHoneycomb.jpg"));
+            CoreWrap.imstore(iTemplate4,New_String("redCircle.jpg"));
+
+            --cleanup templates
             iTemplate:=iTemplate1;
-            Vision.Image_Preprocessing.Cleanup_Templates(iTemplate,itemplateTempStorage,iTemplateSize);
+            for iTemplateIndex in 1 .. iTemplateSize loop
+               processingWrap.enhanceColors(iTemplate,iTemplate,1,30.0);
+               processingWrap.GaussianBlurSharpener(iTemplate,iTemplate,2);
+               processingWrap.cvtColor(iTemplate, itemplateTempStorage, iHSIFilter);
+               processingWrap.thresh(itemplateTempStorage, itemplateTempStorage, 0, 0, 0, 0, 50, 255);
+               processingWrap.gaussianBlur(itemplateTempStorage,itemplateTempStorage,11,0.0,0.0);
+               processingWrap.GaussianBlurSharpener(itemplateTempStorage,itemplateTempStorage,4);
+               processingWrap.cvtColor(itemplateTempStorage,itemplateTempStorage, iGreyFilter);
+               processingWrap.Canny(itemplateTempStorage,iTemplate, 100, 300, iCannyKernelSize);
+               iTemplate:=iTemplate+1;
+            end loop;
          end if;
          loadTemplates:=1;
          Put_Line("exit loop");
+         --coreWrap.waitKey(0);
 
          --cleanup source image
          processingWrap.enhanceColors(iImageSource,iImageSource,1,30.0);
-         Vision.Image_Processing.Threshold_Image(iImageSource,iHSILocation, iThreshedImageLocation, 0, 0, 0, 0, 50, 255);
+         processingWrap.cvtColor(iImageSource, iHSILocation, iHSIFilter);
+         processingWrap.thresh(iHSILocation,iThreshedImageLocation, 0, 0, 0, 0, 50, 255);
+
          processingWrap.gaussianBlur(iThreshedImageLocation,iThreshedImageLocation,11,0.0,0.0);
          processingWrap.GaussianBlurSharpener(iThreshedImageLocation,iThreshedImageLocation,4);
-         Vision.Image_Processing.Canny(iImageSource,iGreyScaleLocation,iCannyLocation,iCannyLowThres, iCannyHighThres, iCannyKernelSize);
+         processingWrap.cvtColor(iThreshedImageLocation,iGreyScaleLocation, iGreyFilter);
+         CoreWrap.imshow(New_String("test grey"),iGreyScaleLocation);
+         processingWrap.Canny(iGreyScaleLocation,iCannyLocation, 100, 300, iCannyKernelSize);
          bestTempleteMatchFound:=processingWrap.matchImage(iCannyLocation);
          processingWrap.classifyMatch(bestTempleteMatchFound);
       end if;
