@@ -1,0 +1,10 @@
+with "../model/model.gpr";
+with "../simulator.gpr";
+
+project Viewmodel_Representation is
+
+   for Source_Dirs use ("src");
+   for Object_Dir use "obj";
+
+end Viewmodel_Representation;
+

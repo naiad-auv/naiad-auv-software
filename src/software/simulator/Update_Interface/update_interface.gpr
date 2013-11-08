@@ -1,0 +1,9 @@
+with "../simulator.gpr";
+
+project Update_Interface is
+
+   for Source_Dirs use ("src");
+   for Object_Dir use "obj";
+
+end Update_Interface;
+

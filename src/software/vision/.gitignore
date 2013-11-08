@@ -1,0 +1,31 @@
+# Ada project specifics
+*.ali
+*.bexch
+*.o
+*.cgpr
+*.metrix
+metrix.xml
+b__test_runner.adb
+b__test_runner.ads
+test_runner
+
+/build
+/tests
+/build_logs
+/xml_results/*.xml
+b__test_runner.adb
+b__test_runner.ads
+test_runner
+
+
+# Hidden system files
+*.DS_Store
+*[Tt]humbs.db
+*.Trashes
+
+# LaTeX
+*.aux
+*.bbl
+*.blg
+*.log
+*.pdf
