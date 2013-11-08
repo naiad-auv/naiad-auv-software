@@ -1,0 +1,103 @@
+<tests_mapping mode="monolith">
+   <unit source_file="math-matrices.ads">
+      <test_unit target_file="math-matrices-cmatrix_test_data-cmatrix_tests.ads">
+         <setup file="math-matrices-cmatrix_test_data.adb" line="4"  column="4"/>
+         <teardown file="math-matrices-cmatrix_test_data.adb" line="8"  column="4"/>
+         <tested name="pxGet_Inverse" line="28" column="4">
+            <test file="math-matrices-cmatrix_test_data-cmatrix_tests.adb" line="13" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="pxGet_Copy" line="29" column="4">
+            <test file="math-matrices-cmatrix_test_data-cmatrix_tests.adb" line="80" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="pxGet_Transpose" line="30" column="4">
+            <test file="math-matrices-cmatrix_test_data-cmatrix_tests.adb" line="124" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="tfGet_Raw_Matrix" line="31" column="4">
+            <test file="math-matrices-cmatrix_test_data-cmatrix_tests.adb" line="175" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="fGet_Determinant" line="32" column="4">
+            <test file="math-matrices-cmatrix_test_data-cmatrix_tests.adb" line="227" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="pxGet_X_Vector" line="34" column="4">
+            <test file="math-matrices-cmatrix_test_data-cmatrix_tests.adb" line="269" column="1" timestamp="2013-10-16 08:03:12"/>
+         </tested>
+         <tested name="pxGet_Y_Vector" line="35" column="4">
+            <test file="math-matrices-cmatrix_test_data-cmatrix_tests.adb" line="290" column="1" timestamp="2013-10-16 08:03:12"/>
+         </tested>
+         <tested name="pxGet_Z_Vector" line="36" column="4">
+            <test file="math-matrices-cmatrix_test_data-cmatrix_tests.adb" line="311" column="1" timestamp="2013-10-16 08:03:12"/>
+         </tested>
+         <tested name="Copy_From" line="38" column="4">
+            <test file="math-matrices-cmatrix_test_data-cmatrix_tests.adb" line="332" column="1" timestamp="2013-10-16 08:03:12"/>
+         </tested>
+         <dangling>
+         </dangling>
+      </test_unit>
+      <test_unit target_file="math-matrices-test_data-tests.ads">
+         <setup file="math-matrices-test_data.adb" line="3"  column="4"/>
+         <teardown file="math-matrices-test_data.adb" line="9"  column="4"/>
+         <tested name="pxCreate_From_Quaternion" line="16" column="4">
+            <test file="math-matrices-test_data-tests.adb" line="13" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="pxCreate_Rotation_Around_X_Axis" line="17" column="4">
+            <test file="math-matrices-test_data-tests.adb" line="96" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="pxCreate_Rotation_Around_Y_Axis" line="18" column="4">
+            <test file="math-matrices-test_data-tests.adb" line="143" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="pxCreate_Rotation_Around_Z_Axis" line="19" column="4">
+            <test file="math-matrices-test_data-tests.adb" line="190" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="pxCreate_Identity" line="20" column="4">
+            <test file="math-matrices-test_data-tests.adb" line="236" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="pxCreate" line="21" column="4">
+            <test file="math-matrices-test_data-tests.adb" line="267" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="Multiply" line="23" column="4">
+            <test file="math-matrices-test_data-tests.adb" line="301" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="Multiply" line="24" column="4">
+            <test file="math-matrices-test_data-tests.adb" line="345" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="Multiply" line="25" column="4">
+            <test file="math-matrices-test_data-tests.adb" line="386" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="Equal" line="26" column="4">
+            <test file="math-matrices-test_data-tests.adb" line="424" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="Swap_Values_In_Extended_Matrix" line="47" column="4">
+            <test file="math-matrices-test_data-tests.adb" line="484" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="Swap_Rows_In_Extended_Matrix" line="48" column="4">
+            <test file="math-matrices-test_data-tests.adb" line="521" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="Scale_Row_In_Extended_Matrix" line="49" column="4">
+            <test file="math-matrices-test_data-tests.adb" line="564" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="Remove_Component_In_Following_Rows" line="50" column="4">
+            <test file="math-matrices-test_data-tests.adb" line="606" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="Remove_Component_In_Leading_Rows" line="51" column="4">
+            <test file="math-matrices-test_data-tests.adb" line="654" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="Find_Row_With_Highest_Component" line="52" column="4">
+            <test file="math-matrices-test_data-tests.adb" line="704" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="Perform_Gauss_Jordan_Elimination_On" line="53" column="4">
+            <test file="math-matrices-test_data-tests.adb" line="733" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="tfCreate_Extended_Matrix_From" line="54" column="4">
+            <test file="math-matrices-test_data-tests.adb" line="807" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="tfGet_Inverse_Part_From" line="55" column="4">
+            <test file="math-matrices-test_data-tests.adb" line="862" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="bMatrix_Has_No_Inverse" line="56" column="4">
+            <test file="math-matrices-test_data-tests.adb" line="916" column="1" timestamp="modified"/>
+         </tested>
+         <dangling>
+         </dangling>
+      </test_unit>
+   </unit>
+</tests_mapping>

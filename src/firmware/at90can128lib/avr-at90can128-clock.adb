@@ -23,17 +23,19 @@ package body AVR.AT90CAN128.CLOCK is
    procedure Init is
    begin
 
+      AVR.AT90CAN128.INTERRUPT.disableInterrupt;
       -- Using Timer 0 for Tick
-      TCCR0A := 2#00000011#;   -- Normal Mode    -- Div64 Prescaler
+      TCCR0A := 2#00001011#;   -- CTC Mode    -- Div64 Prescaler
       OCR0A := 250; -- 16MHz and 64 prescaler gives 1ms
       TCNT0 := 0;            -- Initial value
-      TIMSK0.Bit_0 := true ;      --Timer 0 Interrupt
+      TIMSK0.Bit_1 := true ;      --Timer 0 Interrupt
+      AVR.AT90CAN128.INTERRUPT.enableInterrupt;
 
    end Init;
 
    procedure Timer;
    pragma Machine_Attribute (Timer, "signal");
-   pragma Export (C, Timer, Vector_Timer0_OVF);
+   pragma Export (C, Timer, Vector_Timer0_Comp);
 
    procedure Timer is
       One : constant Time := 1;

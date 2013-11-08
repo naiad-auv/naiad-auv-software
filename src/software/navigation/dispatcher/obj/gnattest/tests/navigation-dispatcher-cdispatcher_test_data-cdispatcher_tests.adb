@@ -15,7 +15,7 @@ package body Navigation.Dispatcher.CDispatcher_Test_Data.CDispatcher_Tests is
    procedure Test_tfGet_Thruster_Values_dcfce3 (Gnattest_T : in out Test_CDispatcher) renames Test_tfGet_Thruster_Values;
 --  id:2.1/dcfce3c0d7daa49a/tfGet_Thruster_Values/1/0/
    procedure Test_tfGet_Thruster_Values (Gnattest_T : in out Test_CDispatcher) is
-   --  navigation-dispatcher.ads:32:4:tfGet_Thruster_Values
+   --  navigation-dispatcher.ads:26:4:tfGet_Thruster_Values
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -204,7 +204,7 @@ package body Navigation.Dispatcher.CDispatcher_Test_Data.CDispatcher_Tests is
    procedure Test_Set_New_Component_PID_Scalings_893439 (Gnattest_T : in out Test_CDispatcher) renames Test_Set_New_Component_PID_Scalings;
 --  id:2.1/893439b054cc7bcb/Set_New_Component_PID_Scalings/1/0/
    procedure Test_Set_New_Component_PID_Scalings (Gnattest_T : in out Test_CDispatcher) is
-   --  navigation-dispatcher.ads:38:4:Set_New_Component_PID_Scalings
+   --  navigation-dispatcher.ads:32:4:Set_New_Component_PID_Scalings
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -228,7 +228,7 @@ package body Navigation.Dispatcher.CDispatcher_Test_Data.CDispatcher_Tests is
    procedure Test_Update_Current_Absolute_Position_ee3e86 (Gnattest_T : in out Test_CDispatcher) renames Test_Update_Current_Absolute_Position;
 --  id:2.1/ee3e86668c6adb8c/Update_Current_Absolute_Position/1/0/
    procedure Test_Update_Current_Absolute_Position (Gnattest_T : in out Test_CDispatcher) is
-   --  navigation-dispatcher.ads:44:4:Update_Current_Absolute_Position
+   --  navigation-dispatcher.ads:38:4:Update_Current_Absolute_Position
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -262,7 +262,7 @@ package body Navigation.Dispatcher.CDispatcher_Test_Data.CDispatcher_Tests is
    procedure Test_Update_Wanted_Absolute_Position_93298b (Gnattest_T : in out Test_CDispatcher) renames Test_Update_Wanted_Absolute_Position;
 --  id:2.1/93298b2961698444/Update_Wanted_Absolute_Position/1/0/
    procedure Test_Update_Wanted_Absolute_Position (Gnattest_T : in out Test_CDispatcher) is
-   --  navigation-dispatcher.ads:50:4:Update_Wanted_Absolute_Position
+   --  navigation-dispatcher.ads:44:4:Update_Wanted_Absolute_Position
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -296,7 +296,7 @@ package body Navigation.Dispatcher.CDispatcher_Test_Data.CDispatcher_Tests is
    procedure Test_Update_Current_Absolute_Orientation_f15b9b (Gnattest_T : in out Test_CDispatcher) renames Test_Update_Current_Absolute_Orientation;
 --  id:2.1/f15b9be4d738a731/Update_Current_Absolute_Orientation/1/0/
    procedure Test_Update_Current_Absolute_Orientation (Gnattest_T : in out Test_CDispatcher) is
-   --  navigation-dispatcher.ads:55:4:Update_Current_Absolute_Orientation
+   --  navigation-dispatcher.ads:49:4:Update_Current_Absolute_Orientation
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -329,7 +329,7 @@ package body Navigation.Dispatcher.CDispatcher_Test_Data.CDispatcher_Tests is
    procedure Test_Update_Wanted_Absolute_Orientation_3e0717 (Gnattest_T : in out Test_CDispatcher) renames Test_Update_Wanted_Absolute_Orientation;
 --  id:2.1/3e071723ed61198d/Update_Wanted_Absolute_Orientation/1/0/
    procedure Test_Update_Wanted_Absolute_Orientation (Gnattest_T : in out Test_CDispatcher) is
-   --  navigation-dispatcher.ads:60:4:Update_Wanted_Absolute_Orientation
+   --  navigation-dispatcher.ads:54:4:Update_Wanted_Absolute_Orientation
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -363,16 +363,46 @@ package body Navigation.Dispatcher.CDispatcher_Test_Data.CDispatcher_Tests is
    procedure Test_Finalize_1d29f1 (Gnattest_T : in out Test_CDispatcher) renames Test_Finalize;
 --  id:2.1/1d29f15228a8f8f4/Finalize/1/0/
    procedure Test_Finalize (Gnattest_T : in out Test_CDispatcher) is
-   --  navigation-dispatcher.ads:89:4:Finalize
---  end read only
+   --  navigation-dispatcher.ads:83:4:Finalize
+   --  end read only
+   
+      use Math.Matrices;
+      use Math.Vectors;
+      use Navigation.Thruster_Configurator;
+      use Navigation.Drift_Controller;
+      use Navigation.Positional_Controller;
+      use Navigation.Orientational_Controller;
 
       pragma Unreferenced (Gnattest_T);
-
+     
+      pxDispatcher : pCDispatcher;
    begin
+      
+      pxDispatcher := Navigation.Dispatcher.pxCreate;
 
-      AUnit.Assertions.Assert
-        (Gnattest_Generated.Default_Assert_Value,
-         "Test not implemented.");
+      AUnit.Assertions.Assert(Condition => pxDispatcher /= null,
+                              Message   => "pxDispatcher is null after construction");
+      
+      pxDispatcher.Finalize;
+      
+      AUnit.Assertions.Assert(Condition => pxDispatcher.pxThrusterConfigurator = null,
+                              Message   => "pxThrusterConfigurator is not null after finalization");
+      AUnit.Assertions.Assert(Condition => pxDispatcher.pxOrientationalController = null,
+                              Message   => "pxOrientationalController is not null after finalization");
+      AUnit.Assertions.Assert(Condition => pxDispatcher.pxPositionalController = null,
+                              Message   => "pxPositionalController is not null after finalization");
+      AUnit.Assertions.Assert(Condition => pxDispatcher.pxDriftController = null,
+                              Message   => "pxDriftController is not null after finalization");
+      AUnit.Assertions.Assert(Condition => pxDispatcher.pxCurrentAbsolutePosition = null,
+                              Message   => "pxCurrentAbsolutePosition is not null after finalization");
+      AUnit.Assertions.Assert(Condition => pxDispatcher.pxWantedAbsolutePosition = null,
+                              Message   => "pxCurrentAbsolutePosition is not null after finalization");
+      AUnit.Assertions.Assert(Condition => pxDispatcher.pxCurrentAbsoluteOrientation = null,
+                              Message   => "pxCurrentAbsoluteOrientation is not null after finalization");
+      AUnit.Assertions.Assert(Condition => pxDispatcher.pxWantedAbsoluteOrientation = null,
+                              Message   => "pxWantedAbsoluteOrientation is not null after finalization");
+      AUnit.Assertions.Assert(Condition => pxDispatcher.pxCurrentAbsoluteOrientationInverse = null,
+                              Message   => "pxCurrentAbsoluteOrientationInverse is not null after finalization");
 
 --  begin read only
    end Test_Finalize;

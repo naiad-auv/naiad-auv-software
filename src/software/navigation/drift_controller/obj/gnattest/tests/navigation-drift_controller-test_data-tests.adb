@@ -20,6 +20,7 @@ package body Navigation.Drift_Controller.Test_Data.Tests is
 
       pragma Unreferenced (Gnattest_T);
 
+
       pxDriftController : Navigation.Drift_Controller.pCDriftController;
 
       pxCurrentPos : math.Vectors.pCVector;
@@ -56,7 +57,9 @@ package body Navigation.Drift_Controller.Test_Data.Tests is
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
-
+      use Math.Vectors;
+      use Navigation.Motion_Component;
+      use Math.Matrices;
 	pxDriftController : Navigation.Drift_Controller.pCDriftController;
 
       pxCurrentPos : math.Vectors.pCVector;

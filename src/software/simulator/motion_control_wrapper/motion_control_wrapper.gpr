@@ -1,3 +1,4 @@
+with "../pid_errors/pid_errors.gpr";
 with "../submarine/submarine.gpr";
 with "../../navigation/dispatcher/dispatcher.gpr";
 

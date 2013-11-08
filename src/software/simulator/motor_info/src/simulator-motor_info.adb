@@ -19,14 +19,14 @@ package body Simulator.Motor_Info is
    -- pxCreate --
    --------------
 
-   function pxCreate (pxPositionVector,pxForceVector:Math.Vectors.pCVector) return pCMotorInfo is
+   function pxCreate (xPositionVector:Math.Vectors.CVector;xForceVector:Math.Vectors.CVector) return pCMotorInfo is
       use math.Vectors;
       pxNewMotorInfo:pCMotorInfo;
    begin
       pxNewMotorInfo:=new CMotorInfo;
-      pxNewMotorInfo.pxForceVector:=pxForceVector.pxGet_Copy;
-      pxNewMotorInfo.pxPositionVector:=pxPositionVector.pxGet_Copy;
-      pxNewMotorInfo.pxTorqueVector := math.Vectors.pxGet_Copy(math.Vectors.xCross_Product(pxPositionVector, pxForceVector));
+      pxNewMotorInfo.pxForceVector := xForceVector.pxGet_Allocated_Copy;
+      pxNewMotorInfo.pxPositionVector := xPositionVector.pxGet_Allocated_Copy;
+      pxNewMotorInfo.pxTorqueVector := math.Vectors.xCross_Product(xPositionVector, xForceVector).pxGet_Allocated_Copy;
 
       return pxNewMotorInfo;
 
@@ -36,37 +36,37 @@ package body Simulator.Motor_Info is
    -- pxGet_Force --
    -----------------
 
-   function pxGet_Force_Vector (this : in CMotorInfo) return Math.Vectors.pCVector is
+   function xGet_Force_Vector (this : in CMotorInfo) return Math.Vectors.CVector is
    begin
-	return this.pxForceVector.pxGet_Copy;
-   end pxGet_Force_Vector;
+	return this.pxForceVector.all;
+   end xGet_Force_Vector;
 
    --------------------
    -- pxGet_Position --
    --------------------
 
-   function pxGet_Position_Vector(this : in CMotorInfo) return Math.Vectors.pCVector is
+   function xGet_Position_Vector(this : in CMotorInfo) return Math.Vectors.CVector is
    begin
- 	return this.pxPositionVector.pxGet_Copy;
-   end pxGet_Position_Vector;
+ 	return this.pxPositionVector.all;
+   end xGet_Position_Vector;
 
    ------------------
    -- pxGet_Torque --
    ------------------
 
-   function pxGet_Torque_Vector (this : in CMotorInfo) return Math.Vectors.pCVector
+   function xGet_Torque_Vector (this : in CMotorInfo) return Math.Vectors.CVector
    is
    begin
-	return this.pxTorqueVector.pxGet_Copy;
-   end pxGet_Torque_Vector;
+	return this.pxTorqueVector.all;
+   end xGet_Torque_Vector;
 
    function pxGet_Copy(this : in CMotorInfo) return pCMotorInfo is
       pxCopiedMotorInfo : pCMotorInfo;
    begin
       pxCopiedMotorInfo := new CMotorInfo;
-      pxCopiedMotorInfo.pxForceVector := this.pxForceVector.pxGet_Copy;
-      pxCopiedMotorInfo.pxPositionVector := this.pxPositionVector.pxGet_Copy;
-      pxCopiedMotorInfo.pxTorqueVector := this.pxTorqueVector.pxGet_Copy;
+      pxCopiedMotorInfo.pxForceVector := this.pxForceVector.pxGet_Allocated_Copy;
+      pxCopiedMotorInfo.pxPositionVector := this.pxPositionVector.pxGet_Allocated_Copy;
+      pxCopiedMotorInfo.pxTorqueVector := this.pxTorqueVector.pxGet_Allocated_Copy;
       return pxCopiedMotorInfo;
    end pxGet_Copy;
 

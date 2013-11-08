@@ -1,3 +1,5 @@
+--with  Ada.Text_IO;
+
 package body UartWrapper is
 
    --------------
@@ -26,16 +28,29 @@ package body UartWrapper is
    -- Uart_Write --
    ----------------
 
-   procedure Uart_Write (this : in out CUartHandler; sStringToBeWritten : string; iLengthOfString : Integer) is
-      buffer : Ada.Streams.Stream_Element_Array(1 .. Ada.Streams.Stream_Element_Offset(iLengthOfString + 1));
+   procedure Uart_Write (this : in out CUartHandler; sStringToBeWritten : string; iLengthOfString : Integer; bAppendEOT : Boolean := false) is
    begin
-      for i in 1 .. Ada.Streams.Stream_Element_Offset(iLengthOfString) loop
-         buffer(i) := Ada.Streams.Stream_Element(Character'Pos(sStringToBeWritten(Integer(i))));
-      end loop;
 
-      buffer(Ada.Streams.Stream_Element_Offset(iLengthOfString + 1)) := Ada.Streams.Stream_Element(4);
-
-      Gnat.Serial_Communications.Write(this.serialHandler, buffer);
+      if bAppendEOT then
+         declare
+            buffer : Ada.Streams.Stream_Element_Array(1 .. Ada.Streams.Stream_Element_Offset(iLengthOfString + 1));
+         begin
+            for i in 1 .. Ada.Streams.Stream_Element_Offset(iLengthOfString) loop
+               buffer(i) := Ada.Streams.Stream_Element(Character'Pos(sStringToBeWritten(Integer(i))));
+            end loop;
+            buffer(Ada.Streams.Stream_Element_Offset(iLengthOfString + 1)) := Ada.Streams.Stream_Element(4);
+            Gnat.Serial_Communications.Write(this.serialHandler, buffer);
+         end;
+      else
+         declare
+            buffer : Ada.Streams.Stream_Element_Array(1 .. Ada.Streams.Stream_Element_Offset(iLengthOfString));
+         begin
+            for i in 1 .. Ada.Streams.Stream_Element_Offset(iLengthOfString) loop
+               buffer(i) := Ada.Streams.Stream_Element(Character'Pos(sStringToBeWritten(Integer(i))));
+            end loop;
+            Gnat.Serial_Communications.Write(this.serialHandler, buffer);
+         end;
+      end if;
    end Uart_Write;
 
    procedure Uart_Write (this : in out CUartHandler; stringToBeWritten : string)is
@@ -76,9 +91,11 @@ package body UartWrapper is
       end loop;
 
       iNumBytesRead := Integer(bytesRead);
+--        Ada.Text_IO.Put_Line("iNumBytesRead=" & iNumBytesRead'Img);
+--        Ada.Text_IO.Put_Line("sStringRead'Last=" & sStringRead'Last'Img);
 
       if iNumBytesRead > 0 then
-         sStringRead := returnString(1..iNumBytesRead);
+         sStringRead(1..iNumBytesRead) := returnString(1..iNumBytesRead);
       end if;
    end UartReadSpecificAmount;
 

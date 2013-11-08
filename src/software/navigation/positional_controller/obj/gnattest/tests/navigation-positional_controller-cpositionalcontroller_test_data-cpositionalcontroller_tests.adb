@@ -15,19 +15,19 @@ package body Navigation.Positional_Controller.CPositionalController_Test_Data.CP
    procedure Test_xGet_Positional_Thruster_Control_Values_0afcd7 (Gnattest_T : in out Test_CPositionalController) renames Test_xGet_Positional_Thruster_Control_Values;
 --  id:2.1/0afcd76e8c35a33a/xGet_Positional_Thruster_Control_Values/1/0/
    procedure Test_xGet_Positional_Thruster_Control_Values (Gnattest_T : in out Test_CPositionalController) is
-   --  navigation-positional_controller.ads:24:4:xGet_Positional_Thruster_Control_Values
+   --  navigation-positional_controller.ads:25:4:xGet_Positional_Thruster_Control_Values
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
 
-      use Navigation.Motion_Component;
+ use Navigation.Motion_Component;
 
       pxPositionalController : Navigation.Positional_Controller.pCPositionalController;
 
-      pxNewWanted : Math.Vectors.pCVector := Math.Vectors.pxCreate(5.0,5.0,5.0);
+      pxNewWanted : Math.Vectors.pCVector := Math.Vectors.xCreate(5.0,5.0,5.0).pxGet_Allocated_Copy;
 
-      pxCurrentPosition : Math.Vectors.pCVector := Math.Vectors.pxCreate(0.0,0.0,0.0);
-      pxCurrentOrientation : Math.Matrices.pCMatrix := Math.Matrices.xCreate_Identity.pxGet_Copy;
+      pxCurrentPosition : Math.Vectors.pCVector := Math.Vectors.xCreate(0.0,0.0,0.0).pxGet_Allocated_Copy;
+      pxCurrentOrientation : Math.Matrices.pCMatrix := Math.Matrices.xCreate_Identity.pxGet_Allocated_Copy;
 
       pxPositionalScalings : Navigation.PID_Controller.TPIDComponentScalings := (1.0,1.0,1.0);
 
@@ -37,13 +37,14 @@ package body Navigation.Positional_Controller.CPositionalController_Test_Data.CP
 
       pxPositionalController := Navigation.Positional_Controller.pxCreate(pxCurrentAbsolutePosition    => pxCurrentPosition,
                                                                           pxWantedAbsolutePosition     => pxNewWanted,
-                                                                          pxCurrentAbsoluteOrientation => pxCurrentOrientation);
+                                                                          pxCurrentAbsoluteOrientation => pxCurrentOrientation,
+                                                                          pxCurrentAbsoluteOrientationInverse => pxCurrentOrientation.xGet_Inverse.pxGet_Allocated_Copy);
 
       pxPositionalController.Set_New_PID_Component_Scalings(Navigation.Motion_Component.AllComponents, pxPositionalScalings);
 
       pxPositionalController.Update_Current_Errors;
 
-      xPositionalControlValues := pxPositionalController.xGet_Positional_Thruster_Control_Values(1.0);
+	xPositionalControlValues := pxPositionalController.xGet_Positional_Thruster_Control_Values(fDeltaTime               => 1.0);
 
       AUnit.Assertions.Assert(Condition => abs(xPositionalControlValues(Thrusters.XPosition)) > 0.00001,
                               Message => "PositionalControlvalue component 1 is 0");
@@ -60,6 +61,7 @@ package body Navigation.Positional_Controller.CPositionalController_Test_Data.CP
       Math.Matrices.Free(pxMatrixToDeallocate => pxCurrentOrientation);
 
 
+
 --  begin read only
    end Test_xGet_Positional_Thruster_Control_Values;
 --  end read only
@@ -70,25 +72,7 @@ package body Navigation.Positional_Controller.CPositionalController_Test_Data.CP
    procedure Test_Update_Current_Errors_a4d64d (Gnattest_T : in out Test_CPositionalController) renames Test_Update_Current_Errors;
 --  id:2.1/a4d64d73d258bef8/Update_Current_Errors/1/0/
    procedure Test_Update_Current_Errors (Gnattest_T : in out Test_CPositionalController) is
-   --  navigation-positional_controller.ads:29:4:Update_Current_Errors
---  end read only
-
-      pragma Unreferenced (Gnattest_T);
-
-   begin
-
-	--TODO måste ha mocking för att kunna testa
---  begin read only
-   end Test_Update_Current_Errors;
---  end read only
-
-
---  begin read only
-   procedure Test_Set_New_PID_Component_Scalings (Gnattest_T : in out Test_CPositionalController);
-   procedure Test_Set_New_PID_Component_Scalings_f2c0ab (Gnattest_T : in out Test_CPositionalController) renames Test_Set_New_PID_Component_Scalings;
---  id:2.1/f2c0ab1f654d5493/Set_New_PID_Component_Scalings/1/0/
-   procedure Test_Set_New_PID_Component_Scalings (Gnattest_T : in out Test_CPositionalController) is
-   --  navigation-positional_controller.ads:33:4:Set_New_PID_Component_Scalings
+   --  navigation-positional_controller.ads:30:4:Update_Current_Errors
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -98,6 +82,27 @@ package body Navigation.Positional_Controller.CPositionalController_Test_Data.CP
       --TODO måste ha mocking för att kunna testa
 
 --  begin read only
+      null;
+   end Test_Update_Current_Errors;
+--  end read only
+
+
+--  begin read only
+   procedure Test_Set_New_PID_Component_Scalings (Gnattest_T : in out Test_CPositionalController);
+   procedure Test_Set_New_PID_Component_Scalings_f2c0ab (Gnattest_T : in out Test_CPositionalController) renames Test_Set_New_PID_Component_Scalings;
+--  id:2.1/f2c0ab1f654d5493/Set_New_PID_Component_Scalings/1/0/
+   procedure Test_Set_New_PID_Component_Scalings (Gnattest_T : in out Test_CPositionalController) is
+   --  navigation-positional_controller.ads:34:4:Set_New_PID_Component_Scalings
+--  end read only
+
+      pragma Unreferenced (Gnattest_T);
+
+   begin
+
+      --TODO måste ha mocking för att kunna testa
+
+--  begin read only
+      null;
    end Test_Set_New_PID_Component_Scalings;
 --  end read only
 
@@ -107,16 +112,44 @@ package body Navigation.Positional_Controller.CPositionalController_Test_Data.CP
    procedure Test_Finalize_1d29f1 (Gnattest_T : in out Test_CPositionalController) renames Test_Finalize;
 --  id:2.1/1d29f15228a8f8f4/Finalize/1/0/
    procedure Test_Finalize (Gnattest_T : in out Test_CPositionalController) is
-   --  navigation-positional_controller.ads:54:4:Finalize
+   --  navigation-positional_controller.ads:55:4:Finalize
 --  end read only
 
+      use Navigation.Motion_Component;
+
       pragma Unreferenced (Gnattest_T);
+      pxPositionalController : Navigation.Positional_Controller.pCPositionalController;
+
+      pxNewWanted : Math.Vectors.pCVector := Math.Vectors.xCreate(5.0,5.0,5.0).pxGet_Allocated_Copy;
+
+      pxCurrentPosition : Math.Vectors.pCVector := Math.Vectors.xCreate(0.0,0.0,0.0).pxGet_Allocated_Copy;
+      pxCurrentOrientation : Math.Matrices.pCMatrix := Math.Matrices.xCreate_Identity.pxGet_Allocated_Copy;
+
+      pxPositionalScalings : Navigation.PID_Controller.TPIDComponentScalings := (1.0,1.0,1.0);
+
 
    begin
 
-      AUnit.Assertions.Assert
-        (Gnattest_Generated.Default_Assert_Value,
-         "Test not implemented.");
+      pxPositionalController := Navigation.Positional_Controller.pxCreate(pxCurrentAbsolutePosition    => pxCurrentPosition,
+                                                                          pxWantedAbsolutePosition     => pxNewWanted,
+                                                                          pxCurrentAbsoluteOrientation => pxCurrentOrientation,
+                                                                          pxCurrentAbsoluteOrientationInverse => pxCurrentOrientation.xGet_Inverse.pxGet_Allocated_Copy);
+
+      AUnit.Assertions.Assert(Condition => pxPositionalController /= null,
+                              Message   => "pxPositionalController is null after construction");
+
+      pxPositionalController.Finalize;
+
+      AUnit.Assertions.Assert(Condition => pxPositionalController.pxXMotionComponent = null,
+                              Message   => "pxXMotionComponent is not null after finalization");
+
+      AUnit.Assertions.Assert(Condition => pxPositionalController.pxYMotionComponent = null,
+                              Message   => "pxYMotionComponent is not null after finalization");
+
+      AUnit.Assertions.Assert(Condition => pxPositionalController.pxZMotionComponent = null,
+                              Message   => "pxZMotionComponent is not null after finalization");
+
+
 
 --  begin read only
    end Test_Finalize;

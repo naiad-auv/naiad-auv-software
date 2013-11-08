@@ -1,75 +1,18 @@
 with Ada.Text_IO;
+with ada.Unchecked_Deallocation;
 
 package body Simulator.ViewModel is
 
-   function pxGet_Local_Axis_Vector(eRotationalComponent : simulator.ViewModel.TVectorComponents) return Math.Vectors.pCVector is
+   ----------
+   -- Free --
+   ----------
 
+   procedure Free(pxViewModel : in out pCViewModel) is
+      procedure Dealloc is new Ada.Unchecked_Deallocation(CViewModel, pCViewModel);
    begin
-
-      case eRotationalComponent is
-      when simulator.ViewModel.XRotation =>
-           return Math.Vectors.pxCreate(fX => 1.0,
-                                       fY => 0.0,
-                                       fZ => 0.0);
-      when simulator.ViewModel.YRotation =>
-         return math.Vectors.pxCreate(fX => 0.0,
-                                      fY => 1.0,
-                                      fZ => 0.0);
-      when simulator.ViewModel.ZRotation =>
-         return math.Vectors.pxCreate(fX => 0.0,
-                                      fY => 0.0,
-                                      fZ => 1.0);
-
-      end case;
-
-   end pxGet_Local_Axis_Vector;
-
-
-   function fGet_Rotation_In_Degrees_Around_An_Axis(pxRotationalAxis : math.Vectors.pCVector;
-                                                    eRotationalComponent : simulator.ViewModel.TVectorComponents;
-                                                    pxVectorPerpendicularToAxis : math.Vectors.pCVector;
-                                                    eVectorPerpendicularLocalComponent : simulator.ViewModel.TVectorComponents) return float is
-      use Math.Matrices;
-
-      pxPlaneWithNormalParallelToInAxis : math.Planes.pCPlane;
-      pxPlaneWithNormalParallelToReferenceAxis : math.Planes.pCPlane;
-      pxPlanarRotationVector : math.Vectors.pCVector;
-      fAngleInDegreesBetweenPlanes : float;
-      pxPlanalRotationQuaternion : math.Quaternions.pCQuaternion;
-      pxPlanalRotationMatrix : math.Matrices.pCMatrix;
-      pxVectorPerpendicularToRefernceAxisRotatedWithPlane : math.Vectors.pCVector;
-      fAnglesRotatedAroundAxis : float;
-
-      pxLocalRotationalAxis : Math.Vectors.pCVector := pxGet_Local_Axis_Vector(eRotationalComponent);
-      pxLocalVectorPerpendicularToAxis : math.Vectors.pCVector := pxGet_Local_Axis_Vector(eVectorPerpendicularLocalComponent);
-
-   begin
-      pxPlaneWithNormalParallelToInAxis := math.Planes.pxCreate(pxNormalVector      => pxRotationalAxis,
-                                                                fDistanceFromOrigin => 0.0);
-      pxPlaneWithNormalParallelToReferenceAxis := math.Planes.pxCreate(pxNormalVector      => pxLocalRotationalAxis,
-                                                                       fDistanceFromOrigin => 0.0);
-      pxPlanarRotationVector := math.vectors.pxGet_Copy(math.Planes.xGet_Intersection_Vector_Between(pxLeftOperandPlane  => pxPlaneWithNormalParallelToReferenceAxis,
-                                                                                                     pxRightOperandPlane => pxPlaneWithNormalParallelToInAxis));
-      fAngleInDegreesBetweenPlanes:= math.Planes.fAngle_Between_In_Degrees(pxLeftOperandPlane => pxPlaneWithNormalParallelToReferenceAxis,pxRightOperandPlane => pxPlaneWithNormalParallelToInAxis);
-      pxPlanalRotationQuaternion := math.Quaternions.pxCreate(pxAxisVector     => pxPlanarRotationVector,
-                                                             fAngleInDegrees => fAngleInDegreesBetweenPlanes);
-      pxPlanalRotationMatrix := math.Matrices.pxGet_Copy(math.Matrices.xCreate_From_Quaternion(pxPlanalRotationQuaternion));
-      pxVectorPerpendicularToRefernceAxisRotatedWithPlane := math.Vectors.pxGet_Copy(pxPlanalRotationMatrix*pxLocalVectorPerpendicularToAxis);
-      fAnglesRotatedAroundAxis := math.Angles.fRadians_To_Degrees(math.Vectors.fAngle_Between_In_Radians(pxLeftOperandVector  => pxVectorPerpendicularToRefernceAxisRotatedWithPlane,
-                                                                                                         pxRightOperandVector => pxVectorPerpendicularToAxis));
-      math.Vectors.Free(pxPlanarRotationVector);
-      math.Vectors.Free(pxVectorPerpendicularToRefernceAxisRotatedWithPlane);
-      math.Planes.Free(pxPlaneWithNormalParallelToReferenceAxis);
-      math.Planes.Free(pxPlaneWithNormalParallelToInAxis);
-      math.Matrices.Free(pxPlanalRotationMatrix);
-      math.Quaternions.Free(pxPlanalRotationQuaternion);
-
-      return fAnglesRotatedAroundAxis;
-
-   end fGet_Rotation_In_Degrees_Around_An_Axis;
-
-
-
+      simulator.Pid_Errors.Free(pxViewModel.pxPidErrors);
+      Dealloc(pxViewModel);
+   end;
 
 
    --------------
@@ -81,217 +24,248 @@ package body Simulator.ViewModel is
 
    begin
       pxNewViewModel := new Simulator.ViewModel.CViewModel;
-
+      pxNewViewModel.pxPidErrors := Simulator.Pid_Errors.pxCreate;
       pxNewViewModel.pxModel := Simulator.Model.pxCreate;
 
       return pxNewViewModel;
+   exception
+      when E : others =>
+         Exception_Handling.Unhandled_Exception(E);
+         return null;
    end pxCreate;
+
 
    --------------
    -- pxCreate --
    --------------
 
-   function pxCreate (pxModel : Simulator.Model.pCModel) return pcViewModel is
+    function pxCreate (pxModel : Simulator.Model.pCModel) return pcViewModel is
       pxNewViewModel : Simulator.ViewModel.pCViewModel;
 
    begin
       pxNewViewModel := new Simulator.ViewModel.CViewModel;
-
+      pxNewViewModel.pxPidErrors := Simulator.Pid_Errors.pxCreate;
       pxNewViewModel.pxModel := pxModel;
 
       return pxNewViewModel;
+         exception
+      when E : others =>
+         Exception_Handling.Unhandled_Exception(E);
+         return null;
    end pxCreate;
 
    -----------------------------------
-   -- fGetSubmarineCurrentXPosition --
+   -- xGetSubmarineCurrentXPosition --
    -----------------------------------
 
-   function fGet_Submarine_Current_X_Position
-     (this : in CViewModel) return float
-   is
+   function xGet_Submarine_Current_Position(this : in CViewModel) return math.Vectors.CVector is
+      xPositionVector : math.Vectors.CVector;
    begin
-      return this.pxModel.pxGet_Current_Submarine_Positional_Vector.fGet_X;
-   end fGet_Submarine_Current_X_Position;
+      xPositionVector := this.pxModel.xGet_Current_Submarine_Positional_Vector;
+      return xPositionVector;
+   exception
+      when E : others =>
+         Exception_Handling.Unhandled_Exception(E);
+         return xPositionVector;
+   end xGet_Submarine_Current_Position;
 
-   -----------------------------------
-   -- fGetSubmarineCurrentYPosition --
-   -----------------------------------
-
-   function fGet_Submarine_Current_Y_Position
-     (this : in CViewModel) return float
-   is
-   begin
-      return this.pxModel.pxGet_Current_Submarine_Positional_Vector.fGet_Y;
-   end fGet_Submarine_Current_Y_Position;
-
-   -----------------------------------
-   -- fGetSubmarineCurrentZPosition --
-   -----------------------------------
-
-   function fGet_Submarine_Current_Z_Position
-     (this : in CViewModel) return float
-   is
-   begin
-      return this.pxModel.pxGet_Current_Submarine_Positional_Vector.fGet_Z;
-   end fGet_Submarine_Current_Z_Position;
 
    ----------------------------------
-   -- fGetSubmarineWantedXPosition --
+   -- xGetSubmarineWantedXPosition --
    ----------------------------------
 
-   function fGet_Submarine_Wanted_X_Position (this : in CViewModel) return float
-   is
+   function xGet_Submarine_Wanted_Position(this : in CViewModel) return math.Vectors.CVector is
+      xWantedPositionVector : math.Vectors.CVector;
    begin
-      return this.pxModel.pxGet_Wanted_Submarine_Positional_Vector.fGet_X;
+      xWantedPositionVector := this.pxModel.xGet_Wanted_Submarine_Positional_Vector;
+      return xWantedPositionVector;
+   exception
+      when E : others =>
+         Exception_Handling.Unhandled_Exception(E);
+         return xWantedPositionVector;
+   end xGet_Submarine_Wanted_Position;
 
-   end fGet_Submarine_Wanted_X_Position;
-
-   ----------------------------------
-   -- fGetSubmarineWantedYPosition --
-   ----------------------------------
-
-   function fGet_Submarine_Wanted_Y_Position
-     (this : in CViewModel) return float
-   is
-   begin
-      return this.pxModel.pxGet_Wanted_Submarine_Positional_Vector.fGet_Y;
-   end fGet_Submarine_Wanted_Y_Position;
-
-   ----------------------------------
-   -- fGetSubmarineWantedZPosition --
-   ----------------------------------
-
-   function fGet_Submarine_Wanted_Z_Position
-     (this : in CViewModel) return float
-   is
-   begin
-      return this.pxModel.pxGet_Wanted_Submarine_Positional_Vector.fGet_Z;
-   end fGet_Submarine_Wanted_Z_Position;
 
    --------------------------------------
-   -- fGetSubmarineCurrentXOrientation --
+   -- xGetSubmarineCurrentYOrientation --
    --------------------------------------
 
-   function fGet_Submarine_Current_X_Orientation (this : in CViewModel) return float is
+   function xGet_Submarine_Current_Orientation(this : in CViewModel) return math.Matrices.CMatrix is
+      xCurrentOrientationMatrix : math.Matrices.CMatrix;
+   begin
+      xCurrentOrientationMatrix := this.pxModel.xGet_Current_Submarine_Orientation_Matrix;
+      return xCurrentOrientationMatrix;
+   exception
+      when E : others =>
+         Exception_Handling.Unhandled_Exception(E);
+         return xCurrentOrientationMatrix;
+   end xGet_Submarine_Current_Orientation;
+
+   -------------------------------------
+   -- xGetSubmarineWantedXOrientation --
+   -------------------------------------
+   function xGet_Submarine_Wanted_Orientation(this : in CViewModel) return math.Matrices.CMatrix is
+      xCurrentWantedMatrix : math.Matrices.CMatrix;
+   begin
+      xCurrentWantedMatrix := this.pxModel.xGet_Wanted_Submarine_Orientation_Matrix;
+      return xCurrentWantedMatrix;
+         exception
+      when E : others =>
+         Exception_Handling.Unhandled_Exception(E);
+         return xCurrentWantedMatrix;
+   end xGet_Submarine_Wanted_Orientation;
+
+   ---------------------
+   -- fGet_Pid_Errors --
+   ---------------------
+
+   function fGet_Pid_Errors(this : in CViewModel ; eErrorComponent : in EMotionComponent) return float is
+   begin
+      return this.pxPidErrors.fGet_PID_Error_For_Component(simulator.Pid_Errors.EMotionComponent(eErrorComponent));
+               exception
+      when E : others =>
+         Exception_Handling.Unhandled_Exception(E);
+         return this.pxPidErrors.fGet_PID_Error_For_Component(simulator.Pid_Errors.EMotionComponent(eErrorComponent));
+
+   end fGet_Pid_Errors;
+
+   -------------------------------------------------
+   -- fGet_Selected_Pid_Scaling_Proprotional_Part --
+   -------------------------------------------------
+
+   function fGet_Selected_Pid_Scaling_Proprotional_Part(this : in CViewModel) return float is
+   begin
+      return this.txPidScalings(this.eSelectedPid).fProportionalScale;
+               exception
+      when E : others =>
+         Exception_Handling.Unhandled_Exception(E);
+         return this.txPidScalings(this.eSelectedPid).fProportionalScale;
+   end fGet_Selected_Pid_Scaling_Proprotional_Part;
+
+   ------------------------------------------------
+   -- fGet_Selected_Pid_Scaling_Integrating_Part --
+   ------------------------------------------------
+
+   function fGet_Selected_Pid_Scaling_Integrating_Part(this : in CViewModel) return float is
+   begin
+      return this.txPidScalings(this.eSelectedPid).fIntegralScale;
+      exception
+      when E : others =>
+         Exception_Handling.Unhandled_Exception(E);
+      return this.txPidScalings(this.eSelectedPid).fIntegralScale;
+   end fGet_Selected_Pid_Scaling_Integrating_Part;
+
+   ------------------------------------------------
+   -- fGet_Selected_Pid_Scaling_Derivative_Part --
+   ------------------------------------------------
+
+   function fGet_Selected_Pid_Scaling_Derivative_Part(this : in CViewModel) return float is
+   begin
+      return this.txPidScalings(this.eSelectedPid).fDerivativeScale;
+            exception
+      when E : others =>
+         Exception_Handling.Unhandled_Exception(E);
+      return this.txPidScalings(this.eSelectedPid).fDerivativeScale;
+   end fGet_Selected_Pid_Scaling_Derivative_Part;
+
+   ----------------------
+   -- fGet_Motor_Force --
+   ----------------------
+
+   function fGet_Motor_Force(this : in CViewModel; iIndexMotor  : iMotorIndex) return float is
+   begin
+      return this.pxModel.fGet_Motor_Force(simulator.Model.iMotorIndex(iIndexMotor));
+   end fGet_Motor_Force;
+
+
+   ----------------------
+   -- Set_Selected_Pid --
+   ----------------------
+
+   procedure Set_Selected_Pid(this : in out CviewModel; eSelectedPid : EMotionComponent) is
+   begin
+      this.eSelectedPid := eSelectedPid;
+            exception
+      when E : others =>
+         Exception_Handling.Unhandled_Exception(E);
+   end Set_Selected_Pid;
+
+
+   -------------------------------
+   -- Set_Value_Of_Selected_Pid --
+   -------------------------------
+
+   procedure Set_Value_Of_Selected_Pid(this : in out CViewModel; fProporitonalPart : float; fIntegratingPart : float; fDerivativePart:float) is
+
+   begin
+      this.txPidScalings(this.eSelectedPid).fProportionalScale := fProporitonalPart;
+      this.txPidScalings(this.eSelectedPid).fIntegralScale := fIntegratingPart;
+      this.txPidScalings(this.eSelectedPid).fDerivativeScale := fDerivativePart;
+
+      this.pxModel.Set_Pid_Scaling(xComponentScaling => simulator.Model.TPIDComponentScalings(this.txPidScalings(this.eSelectedPid)),
+                                   eComponentToScale => simulator.Model.EMotionComponent(this.eSelectedPid));
+            exception
+      when E : others =>
+         Exception_Handling.Unhandled_Exception(E);
+   end Set_Value_Of_Selected_Pid;
+
+
+
+   -----------------------
+   -- Update_View_Model --
+   -----------------------
+
+   procedure Update_View_Model(this : in CViewModel; fDeltaTime : in float) is
+   begin
+      this.pxPidErrors.Update_Errors(xCurrentAbsolutePosition    => this.pxModel.xGet_Current_Submarine_Positional_Vector,
+                                     xWantedAbsolutePosition     => this.pxModel.xGet_Wanted_Submarine_Positional_Vector,
+                                     xVelocityVector             => this.pxModel.xGet_Current_Submarine_Velocity_Vector,
+                                     xCurrentAbsoluteOrientation => this.pxModel.xGet_Current_Submarine_Orientation_Matrix,
+                                     xWantedAbsoluteOrientation  => this.pxModel.xGet_Wanted_Submarine_Orientation_Matrix);
+      this.pxModel.Update_Model(fDeltaTime => fDeltaTime);
+            exception
+      when E : others =>
+         Exception_Handling.Unhandled_Exception(E);
+   end Update_View_Model;
+
+   -------------
+   -- Restart --
+   -------------
+
+   procedure Restart(this : in CViewModel) is
+
+   begin
+      this.pxModel.Restart;
+      for i in this.txPidScalings'Range loop
+         this.pxModel.Set_Pid_Scaling(xComponentScaling => simulator.Model.TPIDComponentScalings(this.txPidScalings(i)),
+                                      eComponentToScale => simulator.Model.EMotionComponent(i));
+      end loop;
+
+      exception
+      when E : others =>
+         Exception_Handling.Unhandled_Exception(E);
+   end Restart;
+
+   -----------------------------------------
+   -- Set_Wanted_Position_And_Orientation --
+   -----------------------------------------
+
+   procedure Set_Wanted_Position_And_Orientation(this : in CViewModel; fPositionX : float ;  fPositionY : float ; fPositionZ : float ; fOrientationR : float ;fOrientationP : float ;fOrientationY : float) is
       use math.Matrices;
-      pxOrientationMatrix : math.Matrices.pCMatrix;
-      pxOrientationXVector : math.Vectors.pCVector;
-      pxOrientationYVector : math.Vectors.pCVector;
-      pxOrientationZVector : math.Vectors.pCVector;
-      fAngleInDegrees : float;
-   begin
-      pxOrientationMatrix := this.pxModel.pxGet_Current_Submarine_Orientation_Vector;
-      pxOrientationMatrix := math.Matrices.pxGet_Copy(math.Matrices.xCreate_Rotation_Around_Y_Axis(50.0)*math.Matrices.xCreate_Rotation_Around_Z_Axis(10.0));
-      pxOrientationXVector := math.Vectors.pxGet_Copy(pxOrientationMatrix.xGet_X_Vector);
-      pxOrientationYVector := math.Vectors.pxGet_Copy(pxOrientationMatrix.xGet_Y_Vector);
-      pxOrientationZVector := math.Vectors.pxGet_Copy(pxOrientationMatrix.xGet_Z_Vector);
-      fAngleInDegrees :=  fGet_Rotation_In_Degrees_Around_An_Axis(pxRotationalAxis                   => pxOrientationXVector,
-                                                                  eRotationalComponent               => simulator.ViewModel.XRotation,
-                                                                  pxVectorPerpendicularToAxis        => pxOrientationYVector,
-                                                                  eVectorPerpendicularLocalComponent => simulator.ViewModel.YRotation);
-
-      ada.Text_IO.Put_Line("Rotation around X: " & fGet_Rotation_In_Degrees_Around_An_Axis(pxRotationalAxis                   => pxOrientationXVector,
-                                                                                           eRotationalComponent               => simulator.ViewModel.XRotation,
-                                                                                           pxVectorPerpendicularToAxis        => pxOrientationYVector,
-                                                                                           eVectorPerpendicularLocalComponent => simulator.ViewModel.YRotation)
-                           'img);
-      ada.Text_IO.Put_Line("Rotation around Y: " & fGet_Rotation_In_Degrees_Around_An_Axis(pxRotationalAxis                   => pxOrientationYVector,
-                                                                                           eRotationalComponent               => simulator.ViewModel.YRotation,
-                                                                                           pxVectorPerpendicularToAxis        => pxOrientationZVector,
-                                                                                           eVectorPerpendicularLocalComponent => simulator.ViewModel.ZRotation)
-                           'img);
-      ada.Text_IO.Put_Line("Rotation around Z: " & fGet_Rotation_In_Degrees_Around_An_Axis(pxRotationalAxis                   => pxOrientationZVector,
-                                                                                           eRotationalComponent               => simulator.ViewModel.ZRotation,
-                                                                                           pxVectorPerpendicularToAxis        => pxOrientationXVector,
-                                                                                           eVectorPerpendicularLocalComponent => simulator.ViewModel.XRotation)
-                           'img);
-
-      math.Matrices.Free(pxOrientationMatrix);
-      math.Vectors.Free(pxOrientationXVector);
-      math.Vectors.Free(pxOrientationYVector);
-      return fAngleInDegrees;
-   end fGet_Submarine_Current_X_Orientation;
-
-   --------------------------------------
-   -- fGetSubmarineCurrentYOrientation --
-   --------------------------------------
-
-   function fGet_Submarine_Current_Y_Orientation
-     (this : in CViewModel) return float
-   is
+      xWantedPosition : math.Vectors.CVector := math.Vectors.xCreate(fX => fPositionX,
+                                                                      fY => fPositionY,
+                                                                      fZ => fPositionZ);
+      xWantedOrientation : math.Matrices.CMatrix := math.Matrices.xCreate_Rotation_Around_Z_Axis(math.Angles.TAngle(fOrientationY))*math.Matrices.xCreate_Rotation_Around_Y_Axis(math.Angles.TAngle(fOrientationP))*math.Matrices.xCreate_Rotation_Around_X_Axis(math.Angles.TAngle(fOrientationR));
 
    begin
-      return 7.0;
-
-   end fGet_Submarine_Current_Y_Orientation;
-
-   --------------------------------------
-   -- fGetSubmarineCurrentZOrientation --
-   --------------------------------------
-
-   function fGet_Submarine_Current_Z_Orientation (this : in CViewModel) return float is
-      use Math.Matrices;
-
-      pxOrientationMatrix : math.Matrices.pCMatrix;
-      pxOrientationZVector : math.Vectors.pCVector;
-      pxZVector : math.Vectors.pCVector := math.Vectors.pxCreate(0.0,0.0,1.0);
-      pxPositionPlane : math.Planes.pCPlane;
-      pxReferencePositionPlane : math.Planes.pCPlane;
-      pxPlaneRotationQuaternion : math.Quaternions.pCQuaternion;
-      pxPlaneRotationMatrix : math.Matrices.pCMatrix;
-      pxRotationVector : math.Vectors.pCVector;
-      pxXVectorRotatedToPlaneOfOrientationMatrix : math.Vectors.pCVector;
-   begin
-      pxOrientationMatrix := this.pxModel.pxGet_Current_Submarine_Orientation_Vector;
-      pxOrientationZVector:= math.Vectors.pxGet_Copy(pxOrientationMatrix.xGet_Z_Vector);
-      pxPositionPlane := math.Planes.pxCreate(pxNormalVector       => pxOrientationZVector,
-                                              fDistanceFromOrigin => 0.0);
-      pxReferencePositionPlane := math.Planes.pxCreate(pxNormalVector      => pxZVector,
-                                                       fDistanceFromOrigin => 0.0);
-        pxRotationVector := math.vectors.pxGet_Copy(math.Planes.xGet_Intersection_Vector_Between(pxLeftOperandPlane  => pxReferencePositionPlane,
-                                                                                                 pxRightOperandPlane => pxPositionPlane));
-        pxPlaneRotationQuaternion := math.Quaternions.pxCreate(pxAxisVector     => pxRotationVector,
-                                                               fAngleInDegrees => math.Planes.fAngle_Between_In_Degrees(pxReferencePositionPlane,pxPositionPlane));
-        pxPlaneRotationMatrix := math.Matrices.pxGet_Copy(math.Matrices.xCreate_From_Quaternion(pxPlaneRotationQuaternion));
-        pxXVectorRotatedToPlaneOfOrientationMatrix := math.Vectors.pxGet_Copy(pxPlaneRotationMatrix*math.Vectors.pxCreate(1.0,0.0,0.0));
-        return math.Angles.fRadians_To_Degrees(math.Vectors.fAngle_Between_In_Radians(pxLeftOperandVector  => pxXVectorRotatedToPlaneOfOrientationMatrix,
-                                               pxRightOperandVector => math.Vectors.pxGet_Copy(pxOrientationMatrix.xGet_X_Vector)));
+      this.pxModel.Set_Wanted_Position_And_Orientation(xWantedPosition    => xWantedPosition,
+                                                       xWantedOrientation => xWantedOrientation);
+            exception
+      when E : others =>
+         Exception_Handling.Unhandled_Exception(E);
+   end Set_Wanted_Position_And_Orientation;
 
 
-   end fGet_Submarine_Current_Z_Orientation;
 
-   -------------------------------------
-   -- fGetSubmarineWantedXOrientation --
-   -------------------------------------
-
-   function fGet_Submarine_Wanted_X_Orientation
-     (this : in CViewModel) return float
-   is
-   begin
-       return 7.0;
-   end fGet_Submarine_Wanted_X_Orientation;
-
-   -------------------------------------
-   -- fGetSubmarineWantedYOrientation --
-   -------------------------------------
-
-   function fGet_Submarine_Wanted_Y_Orientation
-     (this : in CViewModel) return float
-   is
-   begin
-return 7.0;
-   end fGet_Submarine_Wanted_Y_Orientation;
-
-   -------------------------------------
-   -- fGetSubmarineWantedZOrientation --
-   -------------------------------------
-
-
-   function fGet_Submarine_Wanted_Z_Orientation
-     (this : in CViewModel) return float
-   is
-   begin
-         return 7.0;
-   end fGet_Submarine_Wanted_Z_Orientation;
 
 end Simulator.ViewModel;

@@ -1,0 +1,10 @@
+        -:    0:Source:/home/evr/git/naiad-auv-software/src/lib/math/src/math.adb
+        -:    0:Programs:24
+        -:    1:package body Math is
+        -:    2:
+    #####:    3:   function DummyTest return boolean is
+        -:    4:   begin
+    #####:    5:      return true;
+        -:    6:   end DummyTest;
+        -:    7:
+        -:    8:end Math;

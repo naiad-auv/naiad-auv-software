@@ -13,7 +13,7 @@ package body Navigation.Drift_Controller.CDriftController_Test_Data.CDriftContro
    Result : aliased AUnit.Test_Suites.Test_Suite;
 
    Case_1_1_Test_xGet_Positional_Thruster_Control_Values_0afcd7 : aliased Runner_1.Test_Case;
-   Case_2_1_Test_Update_Current_Errors_a4d64d : aliased Runner_1.Test_Case;
+   Case_2_1_Test_Update_Current_Errors_b360ac : aliased Runner_1.Test_Case;
    Case_3_1_Test_Set_New_PID_Component_Scalings_f2c0ab : aliased Runner_1.Test_Case;
    Case_4_1_Test_Finalize_1d29f1 : aliased Runner_1.Test_Case;
    Case_1i_1_Test_Finalize_1d29f1 : aliased Runner_1.Test_Case;
@@ -26,24 +26,24 @@ package body Navigation.Drift_Controller.CDriftController_Test_Data.CDriftContro
          "navigation-drift_controller.ads:22:4:",
          Test_xGet_Positional_Thruster_Control_Values_0afcd7'Access);
       Runner_1.Create
-        (Case_2_1_Test_Update_Current_Errors_a4d64d,
+        (Case_2_1_Test_Update_Current_Errors_b360ac,
          "navigation-drift_controller.ads:27:4:",
-         Test_Update_Current_Errors_a4d64d'Access);
+         Test_Update_Current_Errors_b360ac'Access);
       Runner_1.Create
         (Case_3_1_Test_Set_New_PID_Component_Scalings_f2c0ab,
          "navigation-drift_controller.ads:31:4:",
          Test_Set_New_PID_Component_Scalings_f2c0ab'Access);
       Runner_1.Create
         (Case_4_1_Test_Finalize_1d29f1,
-         "navigation-drift_controller.ads:52:4:",
+         "navigation-drift_controller.ads:53:4:",
          Test_Finalize_1d29f1'Access);
       Runner_1.Create
         (Case_1i_1_Test_Finalize_1d29f1,
-         "navigation-drift_controller.ads:52:4: inherited at navigation-drift_controller.ads:38:4:",
+         "navigation-drift_controller.ads:53:4: inherited at navigation-drift_controller.ads:38:4:",
          Test_Finalize_1d29f1'Access);
 
       Result.Add_Test (Case_1_1_Test_xGet_Positional_Thruster_Control_Values_0afcd7'Access);
-      Result.Add_Test (Case_2_1_Test_Update_Current_Errors_a4d64d'Access);
+      Result.Add_Test (Case_2_1_Test_Update_Current_Errors_b360ac'Access);
       Result.Add_Test (Case_3_1_Test_Set_New_PID_Component_Scalings_f2c0ab'Access);
       Result.Add_Test (Case_4_1_Test_Finalize_1d29f1'Access);
       Result.Add_Test (Case_1i_1_Test_Finalize_1d29f1'Access);
