@@ -292,17 +292,13 @@ begin
          end if;
          loadTemplates:=1;
          Put_Line("exit loop");
-         --coreWrap.waitKey(0);
 
          --cleanup source image
          processingWrap.enhanceColors(iImageSource,iImageSource,1,30.0);
-         processingWrap.cvtColor(iImageSource, iHSILocation, iHSIFilter);
-         processingWrap.thresh(iHSILocation,iThreshedImageLocation, 0, 0, 0, 0, 50, 255);
-
+         Vision.Image_Processing.Threshold_Image(iImageSource,iHSILocation, iThreshedImageLocation, 0, 0, 0, 0, 50, 255);
          processingWrap.gaussianBlur(iThreshedImageLocation,iThreshedImageLocation,11,0.0,0.0);
          processingWrap.GaussianBlurSharpener(iThreshedImageLocation,iThreshedImageLocation,4);
-         processingWrap.cvtColor(iThreshedImageLocation,iGreyScaleLocation, iGreyFilter);
-         processingWrap.Canny(iGreyScaleLocation,iCannyLocation, 100, 300, iCannyKernelSize);
+         Vision.Image_Processing.Canny(iImageSource,iGreyScaleLocation,iCannyLocation,iCannyLowThres, iCannyHighThres, iCannyKernelSize);
          bestTempleteMatchFound:=processingWrap.matchImage(iCannyLocation);
          processingWrap.classifyMatch(bestTempleteMatchFound);
       end if;
