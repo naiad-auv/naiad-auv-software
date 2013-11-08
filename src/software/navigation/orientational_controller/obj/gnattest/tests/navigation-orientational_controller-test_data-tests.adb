@@ -77,11 +77,14 @@ package body Navigation.Orientational_Controller.Test_Data.Tests is
       Aunit.Assertions.Assert(Condition => pxOrientationalController.pxWantedAbsoluteOrientation /= null,
                               Message   => "wanted absolute orientation is null after construction");
 
-      Aunit.Assertions.Assert(Condition => pxOrientationalController.pxPlanalMotionComponent /= null,
-                              Message   => "pxPlanalMotionComponent is null after construction");
+      Aunit.Assertions.Assert(Condition => pxOrientationalController.pxXRotMotionComponent /= null,
+                              Message   => "pxXRotMotionComponent is null after construction");
 
-      Aunit.Assertions.Assert(Condition => pxOrientationalController.pxDirectionalMotionComponent /= null,
-                              Message   => "pxDirectionalMotionComponent is null after construction");
+      Aunit.Assertions.Assert(Condition => pxOrientationalController.pxYRotMotionComponent /= null,
+                              Message   => "pxYRotMotionComponent is null after construction");
+
+      Aunit.Assertions.Assert(Condition => pxOrientationalController.pxZRotMotionComponent /= null,
+                              Message   => "pxZRotMotionComponent is null after construction");
 
       Navigation.Orientational_Controller.Free(pxOrientationalControllerToDeallocate => pxOrientationalController);
       Math.Matrices.Free(pxMatrixToDeallocate => pxCurrentOrientation);

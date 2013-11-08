@@ -1,0 +1,125 @@
+        -:    0:Source:/usr/gnat/include/aunit/framework/aunit-run.adb
+        -:    0:Programs:25
+        -:    1:------------------------------------------------------------------------------
+        -:    2:--                                                                          --
+        -:    3:--                         GNAT COMPILER COMPONENTS                         --
+        -:    4:--                                                                          --
+        -:    5:--                             A U N I T . R U N                            --
+        -:    6:--                                                                          --
+        -:    7:--                                 B o d y                                  --
+        -:    8:--                                                                          --
+        -:    9:--                                                                          --
+        -:   10:--                    Copyright (C) 2006-2011, AdaCore                      --
+        -:   11:--                                                                          --
+        -:   12:-- GNAT is free software;  you can  redistribute it  and/or modify it under --
+        -:   13:-- terms of the  GNU General Public License as published  by the Free Soft- --
+        -:   14:-- ware  Foundation;  either version 3,  or (at your option) any later ver- --
+        -:   15:-- sion.  GNAT is distributed in the hope that it will be useful, but WITH- --
+        -:   16:-- OUT ANY WARRANTY;  without even the  implied warranty of MERCHANTABILITY --
+        -:   17:-- or FITNESS FOR A PARTICULAR PURPOSE.                                     --
+        -:   18:--                                                                          --
+        -:   19:--                                                                          --
+        -:   20:--                                                                          --
+        -:   21:--                                                                          --
+        -:   22:--                                                                          --
+        -:   23:-- You should have received a copy of the GNU General Public License and    --
+        -:   24:-- a copy of the GCC Runtime Library Exception along with this program;     --
+        -:   25:-- see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see    --
+        -:   26:-- <http://www.gnu.org/licenses/>.                                          --
+        -:   27:--                                                                          --
+        -:   28:-- GNAT is maintained by AdaCore (http://www.adacore.com)                   --
+        -:   29:--                                                                          --
+        -:   30:------------------------------------------------------------------------------
+        -:   31:
+        -:   32:with AUnit.Time_Measure;
+        -:   33:with AUnit.Test_Suites; use AUnit.Test_Suites;
+        -:   34:
+        -:   35:package body AUnit.Run is
+        -:   36:
+        -:   37:   procedure Run
+        -:   38:     (Suite    : Access_Test_Suite;
+        -:   39:      Results  : in out Test_Results.Result'Class;
+        -:   40:      Options  : AUnit.Options.AUnit_Options;
+        -:   41:      Reporter : AUnit.Reporter.Reporter'Class;
+        -:   42:      Outcome  : out Status);
+        -:   43:   --  Run a specific testsuite and return its status
+        -:   44:
+        -:   45:   ---------
+        -:   46:   -- Run --
+        -:   47:   ---------
+        -:   48:
+        -:   49:   procedure Run
+        -:   50:     (Suite    : Access_Test_Suite;
+        -:   51:      Results  : in out Test_Results.Result'Class;
+        -:   52:      Options  : AUnit.Options.AUnit_Options;
+        -:   53:      Reporter : AUnit.Reporter.Reporter'Class;
+        -:   54:      Outcome  : out Status)
+        -:   55:   is
+        -:   56:      Time    : Time_Measure.Time;
+        -:   57:
+        -:   58:   begin
+        -:   59:      if Options.Global_Timer then
+        -:   60:         Time_Measure.Start_Measure (Time);
+        -:   61:      end if;
+        -:   62:
+        -:   63:      pragma Warnings (Off);
+        -:   64:      AUnit.Test_Suites.Run (Suite, Options, Results, Outcome);
+        -:   65:      pragma Warnings (On);
+        -:   66:
+        -:   67:      if Options.Global_Timer then
+        -:   68:         Time_Measure.Stop_Measure (Time);
+        -:   69:         Test_Results.Set_Elapsed (Results, Time);
+        -:   70:      end if;
+        -:   71:
+        -:   72:      AUnit.Reporter.Report (Reporter, Results);
+        -:   73:   end Run;
+        -:   74:
+        -:   75:   -----------------
+        -:   76:   -- Test_Runner --
+        -:   77:   -----------------
+        -:   78:
+        1:   79:   procedure Test_Runner
+        -:   80:     (Reporter : AUnit.Reporter.Reporter'Class;
+        -:   81:      Options  : AUnit.Options.AUnit_Options := AUnit.Options.Default_Options)
+        -:   82:   is
+        1:   83:      Results : Test_Results.Result;
+        -:   84:      Outcome : Status;
+        -:   85:      pragma Unreferenced (Outcome);
+        -:   86:   begin
+        1:   87:      Test_Results.Clear (Results);
+        1:   88:      Run (Suite, Results, Options, Reporter, Outcome);
+        1:   89:   end Test_Runner;
+        -:   90:
+        -:   91:   -----------------------------
+        -:   92:   -- Test_Runner_With_Status --
+        -:   93:   -----------------------------
+        -:   94:
+        -:   95:   function Test_Runner_With_Status
+        -:   96:     (Reporter : AUnit.Reporter.Reporter'Class;
+        -:   97:      Options  : AUnit.Options.AUnit_Options := AUnit.Options.Default_Options)
+        -:   98:      return Status
+        -:   99:   is
+        -:  100:      Results : Test_Results.Result;
+        -:  101:      Outcome : Status;
+        -:  102:   begin
+        -:  103:      Test_Results.Clear (Results);
+        -:  104:      Run (Suite, Results, Options, Reporter, Outcome);
+        -:  105:      return Outcome;
+        -:  106:   end Test_Runner_With_Status;
+        -:  107:
+        -:  108:   ------------------------------
+        -:  109:   -- Test_Runner_With_Results --
+        -:  110:   ------------------------------
+        -:  111:
+        -:  112:   procedure Test_Runner_With_Results
+        -:  113:     (Reporter : AUnit.Reporter.Reporter'Class;
+        -:  114:      Results  : in out AUnit.Test_Results.Result'Class;
+        -:  115:      Options  : AUnit.Options.AUnit_Options := AUnit.Options.Default_Options)
+        -:  116:   is
+        -:  117:      Outcome : Status;
+        -:  118:      pragma Unreferenced (Outcome);
+        -:  119:   begin
+        -:  120:      Run (Suite, Results, Options, Reporter, Outcome);
+        -:  121:   end Test_Runner_With_Results;
+        -:  122:
+        -:  123:end AUnit.Run;

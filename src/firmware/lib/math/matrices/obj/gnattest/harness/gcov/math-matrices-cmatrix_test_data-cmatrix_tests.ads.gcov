@@ -1,0 +1,42 @@
+        -:    0:Source:/home/evr/git/naiad-auv-software/src/lib/math/matrices/obj/gnattest/tests/math-matrices-cmatrix_test_data-cmatrix_tests.ads
+        -:    0:Programs:122
+        -:    1:--  This package has been generated automatically by GNATtest.
+        -:    2:--  Do not edit any part of it, see GNATtest documentation for more details.
+        -:    3:
+        -:    4:--  begin read only
+        -:    5:with GNATtest_Generated;
+        -:    6:
+        8:    7:package Math.Matrices.CMatrix_Test_Data.CMatrix_Tests is
+        -:    8:
+        4:    9:   type Test_CMatrix is new
+        -:   10:     GNATtest_Generated.GNATtest_Standard.Math.Matrices.CMatrix_Test_Data.Test_CMatrix with null record;
+        -:   11:
+        -:   12:   procedure Test_pxGet_Inverse_4c7f5a (Gnattest_T : in out Test_CMatrix);
+        -:   13:   --  math-matrices.ads:28:4:pxGet_Inverse
+        -:   14:
+        -:   15:   procedure Test_pxGet_Copy_3c9397 (Gnattest_T : in out Test_CMatrix);
+        -:   16:   --  math-matrices.ads:29:4:pxGet_Copy
+        -:   17:
+        -:   18:   procedure Test_pxGet_Transpose_88bdfe (Gnattest_T : in out Test_CMatrix);
+        -:   19:   --  math-matrices.ads:30:4:pxGet_Transpose
+        -:   20:
+        -:   21:   procedure Test_tfGet_Raw_Matrix_d46bc2 (Gnattest_T : in out Test_CMatrix);
+        -:   22:   --  math-matrices.ads:31:4:tfGet_Raw_Matrix
+        -:   23:
+        -:   24:   procedure Test_fGet_Determinant_6a3440 (Gnattest_T : in out Test_CMatrix);
+        -:   25:   --  math-matrices.ads:32:4:fGet_Determinant
+        -:   26:
+        -:   27:   procedure Test_pxGet_X_Vector_160735 (Gnattest_T : in out Test_CMatrix);
+        -:   28:   --  math-matrices.ads:34:4:pxGet_X_Vector
+        -:   29:
+        -:   30:   procedure Test_pxGet_Y_Vector_2cb764 (Gnattest_T : in out Test_CMatrix);
+        -:   31:   --  math-matrices.ads:35:4:pxGet_Y_Vector
+        -:   32:
+        -:   33:   procedure Test_pxGet_Z_Vector_fd9c88 (Gnattest_T : in out Test_CMatrix);
+        -:   34:   --  math-matrices.ads:36:4:pxGet_Z_Vector
+        -:   35:
+        -:   36:   procedure Test_Copy_From_d33e2b (Gnattest_T : in out Test_CMatrix);
+        -:   37:   --  math-matrices.ads:38:4:Copy_From
+        -:   38:
+        4:   39:end Math.Matrices.CMatrix_Test_Data.CMatrix_Tests;
+        -:   40:--  end read only

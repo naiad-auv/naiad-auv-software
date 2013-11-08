@@ -59,8 +59,8 @@ package body Callbacks is
    xTimeoutPidDriftX : Glib.Main.G_Source_Id;
    xTimeoutPidDriftY : Glib.Main.G_Source_Id;
    xTimeoutPidDriftZ : Glib.Main.G_Source_Id;
-   xTimeoutPidDirectional : Glib.Main.G_Source_Id;
-   xTimeoutPidPlanar : Glib.Main.G_Source_Id;
+   --xTimeoutPidDirectional : Glib.Main.G_Source_Id;
+   --xTimeoutPidPlanar : Glib.Main.G_Source_Id;
    xTimeoutSideView : Glib.Main.G_Source_Id;
    xTimeoutBackView : Glib.Main.G_Source_Id;
    xTimeoutTopView : Glib.Main.G_Source_Id;
@@ -208,8 +208,9 @@ package body Callbacks is
          Y2       => 25);
 
       -- Draw Scaling
-      Gdk.Font.Fontset_Load(Font         => xFont,
-                            Fontset_Name => "ariel");
+    --  Gdk.Font.Fontset_Load(Font         => xFont,
+      --                      Fontset_Name => "Terminal");
+
       Gdk.Drawable.Draw_Text
         (Drawable => xWindowForPid,
          Font     => xFont,
@@ -345,15 +346,17 @@ package body Callbacks is
            (xUpdateIntervall, bDraw_Pid'Access, (Gtk.Drawing_Area.Gtk_Drawing_Area (Gtkada.Builder.Get_Widget(pxObject, "drwPidDriftZ")), DriftZ));
       end if;
 
-      if xTimeoutPidPlanar = 0 then
-         xTimeoutPidPlanar := Drawing_Timeout_Pid.Timeout_Add
-           (xUpdateIntervall, bDraw_Pid'Access, (Gtk.Drawing_Area.Gtk_Drawing_Area (Gtkada.Builder.Get_Widget(pxObject, "drwPidPlanar")), Plane));
-      end if;
+    --  if xTimeoutPidPlanar = 0 then
+    --     xTimeoutPidPlanar := Drawing_Timeout_Pid.Timeout_Add
+ --          (xUpdateIntervall, bDraw_Pid'Access, (Gtk.Drawing_Area.Gtk_Drawing_Area (Gtkada.Builder.Get_Widget(pxObject, "drwPidPlanar")), Plane));
+      --   null;
+     -- end if;
 
-      if xTimeoutPidDirectional = 0 then
-         xTimeoutPidDirectional := Drawing_Timeout_Pid.Timeout_Add
-           (xUpdateIntervall, bDraw_Pid'Access, (Gtk.Drawing_Area.Gtk_Drawing_Area (Gtkada.Builder.Get_Widget(pxObject, "drwPidDirectional")), Direction));
-      end if;
+  --    if xTimeoutPidDirectional = 0 then
+      --   xTimeoutPidDirectional := Drawing_Timeout_Pid.Timeout_Add
+   --        (xUpdateIntervall, bDraw_Pid'Access, (Gtk.Drawing_Area.Gtk_Drawing_Area (Gtkada.Builder.Get_Widget(pxObject, "drwPidDirectional")), Direction));
+    --     null;
+      --end if;
 
       if xTimeoutMotorLevels = 0 then
          xTimeoutMotorLevels := Drawing_Timeout_Drawing_Area.Timeout_Add
@@ -466,15 +469,13 @@ package body Callbacks is
          when 2 =>
             xViewmodel.Set_Selected_Pid(Z);
          when 3 =>
-            xViewmodel.Set_Selected_Pid(Plane);
-         when 4 =>
-            xViewmodel.Set_Selected_Pid(Direction);
-         when 5 =>
-            xViewmodel.Set_Selected_Pid(DriftX);
-         when 6 =>
-            xViewmodel.Set_Selected_Pid(DriftY);
-         when 7 =>
-            xViewmodel.Set_Selected_Pid(DriftZ);
+            xViewmodel.Set_Selected_Pid(RotationX);
+         When 4 =>
+            xViewmodel.Set_Selected_Pid(RotationY);
+         When 5 =>
+            xViewmodel.Set_Selected_Pid(RotationZ);
+         When 6 =>
+            xViewmodel.Set_Selected_Pid(AllComponents);
          when others =>
             null;
       end case;

@@ -14,6 +14,11 @@ with Ada.Finalization;
 with Ada.Unchecked_Deallocation;
 with System;
 
+
+-- for tests
+with Ada.Numerics;
+--with Ada.Text_IO;
+
 package Navigation.Orientational_Controller is
 
    type COrientationalController is new Ada.Finalization.Controlled with private;
@@ -32,7 +37,7 @@ package Navigation.Orientational_Controller is
    --  <parameter name="fDeltaTime">The time difference since the last calculation.</parameter>
 
 
-   procedure Update_Current_Errors (this : in out COrientationalController);
+   procedure Update_Current_Errors (this : in COrientationalController);
    --  <summary>Cascades the difference between the current orientation and the wanted orientation to all motion components</summary>
    --  <parameter name="this">The COrientationalController object that holds the objects that needs to be updated</parameter>
 
@@ -61,6 +66,11 @@ private
          pxXRotMotionComponent : Navigation.Motion_Component.pCMotionComponent;
          pxYRotMotionComponent : Navigation.Motion_Component.pCMotionComponent;
          pxZRotMotionComponent : Navigation.Motion_Component.pCMotionComponent;
+
+         -- temporary for testing
+--           fXRotError : float;
+--           fYRotError : float;
+--           fZRotError : float;
       end record;
 
    procedure Finalize(this : in out COrientationalController);

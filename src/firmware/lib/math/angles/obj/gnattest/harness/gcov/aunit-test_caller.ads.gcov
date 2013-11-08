@@ -1,0 +1,123 @@
+        -:    0:Source:/usr/gnat/include/aunit/framework/aunit-test_caller.ads
+        -:    0:Programs:24
+        -:    1:------------------------------------------------------------------------------
+        -:    2:--                                                                          --
+        -:    3:--                         GNAT COMPILER COMPONENTS                         --
+        -:    4:--                                                                          --
+        -:    5:--                    A U N I T . T E S T _ C A L L E R                     --
+        -:    6:--                                                                          --
+        -:    7:--                                 S p e c                                  --
+        -:    8:--                                                                          --
+        -:    9:--                                                                          --
+        -:   10:--                       Copyright (C) 2008-2011, AdaCore                   --
+        -:   11:--                                                                          --
+        -:   12:-- GNAT is free software;  you can  redistribute it  and/or modify it under --
+        -:   13:-- terms of the  GNU General Public License as published  by the Free Soft- --
+        -:   14:-- ware  Foundation;  either version 3,  or (at your option) any later ver- --
+        -:   15:-- sion.  GNAT is distributed in the hope that it will be useful, but WITH- --
+        -:   16:-- OUT ANY WARRANTY;  without even the  implied warranty of MERCHANTABILITY --
+        -:   17:-- or FITNESS FOR A PARTICULAR PURPOSE.                                     --
+        -:   18:--                                                                          --
+        -:   19:--                                                                          --
+        -:   20:--                                                                          --
+        -:   21:--                                                                          --
+        -:   22:--                                                                          --
+        -:   23:-- You should have received a copy of the GNU General Public License and    --
+        -:   24:-- a copy of the GCC Runtime Library Exception along with this program;     --
+        -:   25:-- see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see    --
+        -:   26:-- <http://www.gnu.org/licenses/>.                                          --
+        -:   27:--                                                                          --
+        -:   28:-- GNAT is maintained by AdaCore (http://www.adacore.com)                   --
+        -:   29:--                                                                          --
+        -:   30:------------------------------------------------------------------------------
+        -:   31:
+        -:   32:--  <description>
+        -:   33:--  A Test caller provides access to a test case type based on a test fixture.
+        -:   34:--  Test callers are useful when you want to run individual test or add it to
+        -:   35:--  a suite.
+        -:   36:--  Test callers invoke only one Test (i.e. test method) on one Fixture of a
+        -:   37:--  AUnit.Test_Fixtures.Test_Fixture.
+        -:   38:--
+        -:   39:--  Here is an example:
+        -:   40:--
+        -:   41:--  <code>
+        -:   42:--  package Math_Test is
+        -:   43:--     Type Test is new AUnit.Test_Fixtures.Test_Fixture with record
+        -:   44:--        M_Value1 : Integer;
+        -:   45:--        M_Value2 : Integer;
+        -:   46:--     end record;
+        -:   47:--
+        -:   48:--     procedure Set_Up (T : in out Test);
+        -:   49:--
+        -:   50:--     procedure Test_Addition (T : in out Test);
+        -:   51:--     procedure Test_Subtraction (T : in out Test);
+        -:   52:--
+        -:   53:--  end Math_Test;
+        -:   54:--
+        -:   55:--  function Suite return AUnit.Test_Suites.Test_Suite_Access is
+        -:   56:--     package Caller is new AUnit.Test_Caller (Math_Test.Test);
+        -:   57:--     The_Suite       : AUnit.Test_Suites.Test_Suite_Access :=
+        -:   58:--                         new AUnit.Test_Suites.Test_Suite;
+        -:   59:--  begin
+        -:   60:--     The_Suite.Add_Test
+        -:   61:--      (Caller.Create ("Test Addition on integers",
+        -:   62:--                      Math_Test.Test_Addition'Access));
+        -:   63:--     The_Suite.Add_Test
+        -:   64:--      (Caller.Create ("Test Subtraction on integers",
+        -:   65:--                      Math_Test.Test_Subtraction'Access));
+        -:   66:--     return The_Suite;
+        -:   67:--  end Suite;
+        -:   68:--  </code>
+        -:   69:--  </description>
+        -:   70:
+        -:   71:with AUnit.Simple_Test_Cases;
+        -:   72:with AUnit.Test_Fixtures;
+        -:   73:
+        -:   74:generic
+        -:   75:
+        -:   76:   type Test_Fixture is new AUnit.Test_Fixtures.Test_Fixture with private;
+        -:   77:
+        -:   78:package AUnit.Test_Caller is
+        -:   79:
+    #####:   80:   type Test_Case is new AUnit.Simple_Test_Cases.Test_Case with private;
+        8:   81:   type Test_Case_Access is access all Test_Case'Class;
+        -:   82:
+        -:   83:   type Test_Method is access procedure (Test : in out Test_Fixture);
+        -:   84:
+        -:   85:   function Create
+        -:   86:     (Name : String;
+        -:   87:      Test : Test_Method) return Test_Case_Access;
+        -:   88:   --  Return a test case from a test fixture method, reporting the result
+        -:   89:   --  of the test using the Name parameter.
+        -:   90:
+        -:   91:   procedure Create
+        -:   92:     (TC   : out Test_Case'Class;
+        -:   93:      Name : String;
+        -:   94:      Test : Test_Method);
+        -:   95:   --  Initialize a test case from a test fixture method, reporting the result
+        -:   96:   --  of the test using the Name parameter.
+        -:   97:
+        -:   98:   function Name (Test : Test_Case) return Message_String;
+        -:   99:   --  Test case name
+        -:  100:
+        -:  101:   procedure Run_Test (Test : in out Test_Case);
+        -:  102:   --  Perform the test.
+        -:  103:
+        -:  104:   procedure Set_Up (Test : in out Test_Case);
+        -:  105:   --  Set up performed before each test case
+        -:  106:
+        -:  107:   procedure Tear_Down (Test : in out Test_Case);
+        -:  108:   --  Tear down performed after each test case
+        -:  109:
+        -:  110:private
+        -:  111:
+        -:  112:   type Fixture_Access is access all Test_Fixture;
+        -:  113:   pragma No_Strict_Aliasing (Fixture_Access);
+        -:  114:
+        4:  115:   type Test_Case is new AUnit.Simple_Test_Cases.Test_Case with record
+        -:  116:      Fixture : Fixture_Access;
+        -:  117:      Name    : Message_String;
+        -:  118:      Method  : Test_Method;
+        -:  119:   end record;
+        -:  120:
+        -:  121:end AUnit.Test_Caller;
