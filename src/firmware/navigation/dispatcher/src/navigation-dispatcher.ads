@@ -1,19 +1,18 @@
 with Navigation.Orientational_Controller;
 with Navigation.Positional_Controller;
 with Navigation.Thruster_Configurator;
-with Navigation.Motion_Component;
-with Math.Vectors;
-with Navigation.PID_Controller;
-with Math.Matrices;
 with Navigation.Thrusters;
+with Navigation.Motion_Component;
+with Navigation.PID_Controller;
+
+with Math.Vectors;
+with Math.Matrices;
 
 
 
 package Navigation.Dispatcher is
 
    type CDispatcher is tagged private;
-   type pCDispatcher is access CDispatcher;
-
 
 
    function xCreate return CDispatcher;

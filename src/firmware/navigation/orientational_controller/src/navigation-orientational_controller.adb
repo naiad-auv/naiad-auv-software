@@ -1,5 +1,3 @@
-with Exception_Handling;
-
 package body Navigation.Orientational_Controller is
 
 

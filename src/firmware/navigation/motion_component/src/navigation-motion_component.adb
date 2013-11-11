@@ -1,4 +1,3 @@
-with Ada.Text_IO;
 with Navigation.PID_Controller;
 
 package body Navigation.Motion_Component is

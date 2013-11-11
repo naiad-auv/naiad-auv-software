@@ -1,4 +1,3 @@
-with "../../../lib/exception_handling/exception_handling.gpr";
 with "../thrusters/thrusters.gpr";
 with "../../../lib/math/quaternions/quaternions.gpr";
 with "../../../lib/math/planes/planes.gpr";
