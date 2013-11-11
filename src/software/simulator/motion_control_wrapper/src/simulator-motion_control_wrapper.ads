@@ -6,7 +6,6 @@ with Navigation.Motion_Component;
 with Navigation.Thrusters;
 with Math.Angles;
 with math.Vectors;
-with Simulator.Pid_Errors;
 with Navigation.PID_Controller;
 
 package simulator.Motion_Control_Wrapper is

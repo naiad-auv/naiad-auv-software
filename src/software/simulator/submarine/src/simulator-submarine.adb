@@ -414,7 +414,7 @@ package body simulator.submarine is
 
       if this.pxAccelerationVector /= null and this.pxAngularAccelerationVector /= null then
          xDeltaRotationMovement := this.pxAngularVelocityVector*fTimeDuration;
-         Put_Line("xDeltaMovement X: " & xDeltaRotationMovement.fGet_X'Img & " Y: " & xDeltaRotationMovement.fGet_Y'img & " Z: " & xDeltaRotationMovement.fGet_Z'img);
+       --  Put_Line("xDeltaMovement X: " & xDeltaRotationMovement.fGet_X'Img & " Y: " & xDeltaRotationMovement.fGet_Y'img & " Z: " & xDeltaRotationMovement.fGet_Z'img);
 
          if xDeltaRotationMovement.fLength_Squared /= 0.0 then
 

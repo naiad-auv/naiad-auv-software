@@ -104,4 +104,16 @@ package body Simulator.ViewModel_Representation is
       this.pxModel.Restart;
    end Restart;
 
+
+   ------------
+   -- Update --
+   ------------
+
+   procedure Update(this : in CViewModel_Representation; fDeltaTime : in float) is
+   begin
+      this.pxModel.Update_Model(fDeltaTime => fDeltaTime);
+   exception
+      when E : others =>
+         Exception_Handling.Unhandled_Exception(E);
+   end Update;
 end Simulator.ViewModel_Representation;
