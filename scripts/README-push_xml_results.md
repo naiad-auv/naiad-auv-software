@@ -1,8 +1,8 @@
 Push XML Results
 ================
-We had to push xml results to remote server to make them public
-for the developers in the project. The push_xml_results.sh
-script was used.
+Due to lack of public ip address we had to push xml results to remote server
+to make them public for the developers in the project. The push_xml_results.sh
+script was used for this.
 
 http://www.thegeekstuff.com/2011/07/rsync-over-ssh-without-password/
 1. Set up ssh keys on local machine.
