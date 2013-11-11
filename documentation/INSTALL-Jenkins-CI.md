@@ -78,10 +78,35 @@ git repository. As input it takes the source directory to build.
 ### Upgrade
 ```
 sudo apt-get update
-sudo apt-get install jenkins
+sudo apt-get upgrade
 ```
 
 ### Extra random information
 GitHub Pull Request Builder 1.9 was installed as well and tested but we settled
 for a workflow without pull-requests on Github. Everyone got access to the
 needed repositories that were created through the organization "naiad-auv".
+
+### Disabling security
+If you accidently enable security without a user account you can disable security
+by doing the following. Information from
+https://wiki.jenkins-ci.org/display/JENKINS/Disable+security
+
+On Ubuntu 12.04.3 $JENKINS_HOME is /var/lib/jenkins
+
+One may accidentally set up security realm / authorization in such a way that
+you may no longer able to reconfigure Jenkins.
+
+When this happens, you can fix this by the following steps:
+
+    Stop Jenkins (the easiest way to do this is to kill the servlet container.)
+    Go to $JENKINS_HOME in the file system and find config.xml file.
+    Open this file in the editor.
+    Look for the <useSecurity>true</useSecurity> element in this file.
+    Replace true with false
+    Remove the elements authorizationStrategy and securityRealm
+    Start Jenkins
+
+When Jenkins comes back, it's in the unsecured mode where everyone
+gets full access to the system.
+
+If this is still not working, trying renaming or deleting config.xml.
