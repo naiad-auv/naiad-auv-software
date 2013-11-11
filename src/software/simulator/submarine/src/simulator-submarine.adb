@@ -380,7 +380,7 @@ package body simulator.submarine is
       xRelativeTorque : math.Vectors.CVector;
       xRelativeAngularVelocity : math.Vectors.CVector;
       xRelativeAngularAccelerationVector : math.Vectors.CVector;
-      xBouyancyForce : math.Vectors.CVector := math.Vectors.xCreate(0.0,0.0,this.fBuoyancyForce);
+      xBouyancyForce : math.Vectors.CVector := math.Vectors.xCreate(0.0,0.0,0.0); --this.fBuoyancyForce);
    begin
 
 

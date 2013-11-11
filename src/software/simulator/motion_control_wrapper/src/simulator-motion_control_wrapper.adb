@@ -109,7 +109,9 @@ package body simulator.Motion_Control_Wrapper is
       this.pxDispatcher.Update_Wanted_Absolute_Orientation(xNewWantedAbsoluteOrientation => this.pxWantedOrientationMatrix.all);
    end Restart;
 
-
-
+   function xGet_Motional_Errors(this : in CWrapDispatcher) return Navigation.Dispatcher.TMotionalErrors is
+   begin
+      return this.pxDispatcher.fGetMotionalErrors;
+   end xGet_Motional_Errors;
 
 end simulator.Motion_Control_Wrapper;

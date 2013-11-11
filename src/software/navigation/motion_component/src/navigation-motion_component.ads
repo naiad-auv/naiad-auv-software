@@ -48,6 +48,8 @@ package Navigation.Motion_Component is
    --  <summary>Resets a CMotionComponent to its initial values</summary>
    --  <parameter name="this">The CMotionComponent to reset.</parameter>
 
+   function fGetCurrentError(this : in CMotionComponent) return float;
+
 private
 
    type CMotionComponent is new Ada.Finalization.Controlled with

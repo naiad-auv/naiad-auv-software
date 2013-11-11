@@ -7,6 +7,8 @@ with PIDConfigurationGUILogic;
 
 with Ada.Text_IO;
 with Glib.Error;
+with ActuatorsGUILogic;
+with Simulator.ViewModel_Actuators;
 
 package body ActuatorsGUI is
 
@@ -31,6 +33,12 @@ package body ActuatorsGUI is
 
    end Register_Handlers;
 
+   procedure Setup_Backend(xModel : Simulator.Model.pCModel) is
+   begin
+      ActuatorsGUILogic.xModel := xModel;
+      ActuatorsGUILogic.xViewmodel := Simulator.ViewModel_Actuators.pxCreate(xModel);
+   end Setup_Backend;
+
    procedure Start_GUI (xModel : Simulator.Model.pCModel) is
 
       use Glib.Error;
@@ -39,10 +47,11 @@ package body ActuatorsGUI is
       xBuilder : aliased Gtkada_Builder;
       xError   : Glib.Error.GError;
    begin
+
       Gtk.Main.Init;
 
       Gtk_New (xBuilder);
-      xError := Add_From_File (xBuilder, "PIDConstants.glade");
+      xError := Add_From_File (xBuilder, "./src/GladeFiles/PIDConstants.glade");
       if xError /= null then
          Ada.Text_IO.Put("Error while loading .glade: ");
          Ada.Text_IO.Put(Glib.Error.Get_Message(xError));
@@ -52,6 +61,8 @@ package body ActuatorsGUI is
 
 
       Register_Handlers(xBuilder);
+
+      Setup_Backend(xModel);
 
       Do_Connect (xBuilder);
 

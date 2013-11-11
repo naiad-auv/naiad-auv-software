@@ -11,6 +11,7 @@ with Gdk.Font;
 with Gtk.Widget;
 with Gtk.Drawing_Area;
 with Gdk.Drawable;
+with Ada.Text_IO;
 
 package body SetWantedStuffGUILogic is
 
@@ -23,12 +24,17 @@ package body SetWantedStuffGUILogic is
       sPitch : Gtk.GEntry.Gtk_Entry := Gtk.GEntry.Gtk_Entry(Gtkada.Builder.Get_Widget(pxObject, "entryPitch"));
       sYaw : Gtk.GEntry.Gtk_Entry := Gtk.GEntry.Gtk_Entry(Gtkada.Builder.Get_Widget(pxObject, "entryYaw"));
    begin
+      Ada.Text_IO.Put_Line("Updating wanted pos and orientation");
+
       xViewmodel.Set_Wanted_Position_And_Orientation(fPositionX    => Float'Value(sPositionX.Get_Text),
                                                      fPositionY    => Float'Value(sPositionY.Get_Text),
                                                      fPositionZ    => Float'Value(sPositionZ.Get_Text),
                                                      fOrientationR => Float'Value(sRoll.Get_Text),
                                                      fOrientationP => Float'Value(sPitch.Get_Text),
                                                      fOrientationY => Float'Value(sYaw.Get_Text));
+   exception
+      when E : others =>
+         Ada.Text_IO.Put_Line("ABO");
    end Update_Wanted_Position;
 
 
