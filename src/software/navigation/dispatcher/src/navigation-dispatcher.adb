@@ -120,6 +120,13 @@ package body Navigation.Dispatcher is
                                                                           xNewPIDScaling     => xNewPIDSCalings);
             this.pxDriftController.Set_New_PID_Component_Scalings(eComponentToUpdate => eComponentToChange,
                                                                   xNewPIDScaling     => xNewPIDSCalings);
+         when Navigation.Motion_Component.AllRotation =>
+            this.pxOrientationalController.Set_New_PID_Component_Scalings(eComponentToUpdate => Navigation.Motion_Component.AllComponents,
+                                                                          xNewPIDScaling     => xNewPIDScalings);
+         when Navigation.Motion_Component.AllPosition =>
+            this.pxPositionalController.Set_New_PID_Component_Scalings(eComponentToUpdate => Navigation.Motion_Component.AllComponents,
+                                                                       xNewPIDScaling     => xNewPIDScalings);
+
          when Navigation.Motion_Component.Unknown =>
             Exception_Handling.Raise_Exception(E       => Exception_Handling.UnknownMotionComponent'Identity,
                                            Message => "Navigation.Dispatcher.Set_New_Component_PID_Scalings(this : in out CDispatcher; eComponentToChange : Navigation.Motion_Component.EMotionComponent;xNewPIDSCalings : in Navigation.PID_Controller.TPIDComponentScalings)");

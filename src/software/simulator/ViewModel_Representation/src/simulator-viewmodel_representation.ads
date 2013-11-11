@@ -6,7 +6,6 @@ with Math.Planes;
 with Math.Quaternions;
 with Math.Angles;
 with Navigation.Thrusters;
-with simulator.Pid_Errors;
 with Exception_Handling;
 
 

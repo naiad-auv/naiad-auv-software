@@ -74,10 +74,10 @@ package body Simulator.Viewmodel_Pid_Constants is
    function fGet_Selected_Pid_Scaling_Proprotional_Part(this : in CViewmodel_Pid_Constants) return float is
    begin
       return this.txPidScalings(this.eSelectedPid).fProportionalScale;
-               exception
+
+   exception
       when E : others =>
-         Exception_Handling.Unhandled_Exception(E);
-         return this.txPidScalings(this.eSelectedPid).fProportionalScale;
+         return 0.0;
    end fGet_Selected_Pid_Scaling_Proprotional_Part;
 
    ------------------------------------------------
@@ -89,8 +89,7 @@ package body Simulator.Viewmodel_Pid_Constants is
       return this.txPidScalings(this.eSelectedPid).fIntegralScale;
       exception
       when E : others =>
-         Exception_Handling.Unhandled_Exception(E);
-      return this.txPidScalings(this.eSelectedPid).fIntegralScale;
+         return 0.0;
    end fGet_Selected_Pid_Scaling_Integrating_Part;
 
    ------------------------------------------------
@@ -102,8 +101,7 @@ package body Simulator.Viewmodel_Pid_Constants is
       return this.txPidScalings(this.eSelectedPid).fDerivativeScale;
             exception
       when E : others =>
-         Exception_Handling.Unhandled_Exception(E);
-      return this.txPidScalings(this.eSelectedPid).fDerivativeScale;
+         return 0.0;
    end fGet_Selected_Pid_Scaling_Derivative_Part;
 
 
