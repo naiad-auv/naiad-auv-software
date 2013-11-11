@@ -1,9 +1,3 @@
-with Ada.Numerics;
-with Ada.Numerics.Elementary_Functions;
-with Math.Angles;
-with Ada.Text_IO;
-with Exception_Handling;
-
 package body Math.Matrices is
 
 
@@ -26,11 +20,6 @@ package body Math.Matrices is
 
       fDeterminant := Math.Vectors.fDot_Product(xXVector, Math.Vectors.xCross_Product(xYVector, xZVector));
 
---        Math.Vectors.Free(pxVectorToDeallocate => pxXVector);
---        Math.Vectors.Free(pxVectorToDeallocate => pxYVector);
---        Math.Vectors.Free(pxVectorToDeallocate => pxZVector);
---        Math.Matrices.Free(pxMatrixToDeallocate => pxMatrix);
-
       return fDeterminant;
    end fGet_Determinant;
 
@@ -46,9 +35,8 @@ package body Math.Matrices is
       end loop;
    end Copy_From;
 
-   ------------------------------
-   -- pxCreate_From_Quaternion --
-   ------------------------------
+
+
    function tfGet_Raw_Matrix (this : in CMatrix) return TMatrix is
    begin
       return this.tfMatrix;
@@ -63,9 +51,8 @@ package body Math.Matrices is
       fD : float;
    begin
 
-      if 1.0 - xFromQuaternion.fGet_Length_Squared > 0.0001 then
-         Exception_Handling.Raise_Exception(E       => Exception_Handling.NotUnitQuaternion'Identity,
-                                            Message => "Math.Matrices.xCreate_From_Quaternion (xFromQuaternion : in Math.Quaternions.CQuaternion) return CMatrix");
+      if xFromQuaternion.fGet_Length = 0.0 then
+         return Math.Matrices.xCreate_Identity; -- should raise exception here instead
       end if;
 
       fA := xFromQuaternion.fGet_W;
@@ -88,21 +75,7 @@ package body Math.Matrices is
       return CMatrix'(tfMatrix => tfMatrix);
    end xCreate_From_Quaternion;
 
-   function xCreate_From_Quaternion (pxFromQuaternion : in Math.Quaternions.pCQuaternion) return CMatrix is
-      use Math.Quaternions;
-   begin
-      if pxFromQuaternion /= null then
-         return xCreate_From_Quaternion(xFromQuaternion => pxFromQuaternion.all);
-      end if;
 
-      Exception_Handling.Raise_Exception(E       => Exception_Handling.NullPointer'Identity,
-                                         Message => "Math.Matrices.xCreate_From_Quaternion (pxFromQuaternion : in Math.Quaternions.pCQuaternion) return CMatrix");
-      return CMatrix'(tfMatrix => (others => (others => 0.0)));
-   end xCreate_From_Quaternion;
-
-   -------------------------------------
-   -- pxCreate_Rotation_Around_X_Axis --
-   -------------------------------------
 
    function xCreate_Rotation_Around_X_Axis (tfAngleInDegrees : in Math.Angles.TAngle) return CMatrix is
       fCosAngle : float;
@@ -111,8 +84,8 @@ package body Math.Matrices is
 
    begin
       fAngleInRadians := Math.Angles.fDegrees_To_Radians(Math.Angles.fTAngle_To_FAngle(tfAngleInDegrees));
-      fCosAngle := Ada.Numerics.Elementary_Functions.Cos(fAngleInRadians);
-      fSinAngle := Ada.Numerics.Elementary_Functions.Sin(fAngleInRadians);
+      fCosAngle := Math.Elementary.Cos(fAngleInRadians);
+      fSinAngle := Math.Elementary.Sin(fAngleInRadians);
 
       return CMatrix'(tfMatrix => ( (1.0, 0.0, 0.0),
                                 (0.0, fCosAngle, -fSinAngle),
@@ -125,9 +98,7 @@ package body Math.Matrices is
       return CMatrix'(tfMatrix => tfMatrix);
    end xCreate;
 
-   -------------------------------------
-   -- pxCreate_Rotation_Around_Y_Axis --
-   -------------------------------------
+
 
    function xCreate_Rotation_Around_Y_Axis (tfAngleInDegrees : in Math.Angles.TAngle) return CMatrix is
       fCosAngle : float;
@@ -136,8 +107,8 @@ package body Math.Matrices is
 
    begin
       fAngleInRadians := Math.Angles.fDegrees_To_Radians(Math.Angles.fTAngle_To_FAngle(tfAngleInDegrees));
-      fCosAngle := Ada.Numerics.Elementary_Functions.Cos(fAngleInRadians);
-      fSinAngle := Ada.Numerics.Elementary_Functions.Sin(fAngleInRadians);
+      fCosAngle := Math.Elementary.Cos(fAngleInRadians);
+      fSinAngle := Math.Elementary.Sin(fAngleInRadians);
 
 
       return CMatrix'(tfMatrix => ( (fCosAngle, 0.0, fSinAngle),
@@ -145,9 +116,7 @@ package body Math.Matrices is
                                 (-fSinAngle, 0.0, fCosAngle)));
    end xCreate_Rotation_Around_Y_Axis;
 
-   -------------------------------------
-   -- pxCreate_Rotation_Around_Z_Axis --
-   -------------------------------------
+
 
    function xCreate_Rotation_Around_Z_Axis (tfAngleInDegrees : in Math.Angles.TAngle) return CMatrix is
       fCosAngle : float;
@@ -156,17 +125,15 @@ package body Math.Matrices is
 
    begin
       fAngleInRadians := Math.Angles.fDegrees_To_Radians(Math.Angles.fTAngle_To_FAngle(tfAngleInDegrees));
-      fCosAngle := Ada.Numerics.Elementary_Functions.Cos(fAngleInRadians);
-      fSinAngle := Ada.Numerics.Elementary_Functions.Sin(fAngleInRadians);
+      fCosAngle := Math.Elementary.Cos(fAngleInRadians);
+      fSinAngle := Math.Elementary.Sin(fAngleInRadians);
 
       return CMatrix'(tfMatrix => ( (fCosAngle, -fSinAngle, 0.0),
                                 (fSinAngle, fCosAngle, 0.0),
                                 (0.0, 0.0, 1.0)));
    end xCreate_Rotation_Around_Z_Axis;
 
-   -----------------------
-   -- pxCreate_Identity --
-   -----------------------
+
 
    function xCreate_Identity return CMatrix is
    begin
@@ -190,9 +157,7 @@ package body Math.Matrices is
       return true;
    end "=";
 
-   ---------
-   -- "*" --
-   ---------
+
 
    function "*" (xLeftOperandMatrix : in CMatrix; xRightOperandMatrix : in CMatrix) return CMatrix is
       tfMatrix : TMatrix;
@@ -238,42 +203,7 @@ package body Math.Matrices is
       return CMatrix'(tfMatrix => tfMatrix);
    end "*";
 
-   function "*" (pxLeftOperandMatrix : in pCMatrix; xRightOperandMatrix : in CMatrix) return CMatrix is
-   begin
-      if pxLeftOperandMatrix /= null then
-         return pxLeftOperandMatrix.all * xRightOperandMatrix;
-      end if;
 
-      Exception_Handling.Raise_Exception(E       => Exception_Handling.NullPointer'Identity,
-                                         Message => """*"" (pxLeftOperandMatrix : in pCMatrix; xRightOperandMatrix : in CMatrix) return CMatrix");
-      return CMatrix'(tfMatrix => (others => (others => 0.0)));
-   end "*";
-
-   function "*" (xLeftOperandMatrix : in CMatrix; pxRightOperandMatrix : in pCMatrix) return CMatrix is
-   begin
-      if pxRightOperandMatrix /= null then
-         return xLeftOperandMatrix * pxRightOperandMatrix.all;
-      end if;
-
-      Exception_Handling.Raise_Exception(E       => Exception_Handling.NullPointer'Identity,
-                                         Message => """*"" (xLeftOperandMatrix : in CMatrix; pxRightOperandMatrix : in pCMatrix) return CMatrix");
-      return CMatrix'(tfMatrix => (others => (others => 0.0)));
-   end "*";
-
-   function "*" (pxLeftOperandMatrix : in pCMatrix; pxRightOperandMatrix : in pCMatrix) return CMatrix is
-   begin
-      if pxLeftOperandMatrix /= null and then pxRightOperandMatrix /= null then
-         return pxLeftOperandMatrix.all * pxRightOperandMatrix.all;
-      end if;
-
-      Exception_Handling.Raise_Exception(E       => Exception_Handling.NullPointer'Identity,
-                                         Message => """*"" (pxLeftOperandMatrix : in pCMatrix; pxRightOperandMatrix : in pCMatrix) return CMatrix");
-      return CMatrix'(tfMatrix => (others => (others => 0.0)));
-   end "*";
-
-   ---------
-   -- "*" --
-   ---------
 
    function "*"
      (xLeftOperandMatrix : in CMatrix;
@@ -299,47 +229,6 @@ package body Math.Matrices is
       return xProductVector;
    end "*";
 
-   function "*" (pxLeftOperandMatrix : in pCMatrix; xRightOperandVector : in Math.Vectors.CVector) return Math.Vectors.CVector is
-   begin
-      if pxLeftOperandMatrix /= null then
-         return pxLeftOperandMatrix.all * xRightOperandVector;
-      end if;
-
-      Exception_Handling.Raise_Exception(E       => Exception_Handling.NullPointer'Identity,
-                                         Message => """*"" (pxLeftOperandMatrix : in pCMatrix; xRightOperandVector : in Math.Vectors.CVector) return Math.Vectors.CVector");
-      return xRightOperandVector;
-   end "*";
-
-   function "*" (xLeftOperandMatrix : in CMatrix; pxRightOperandVector : in Math.Vectors.pCVector) return Math.Vectors.CVector is
-      use Math.Vectors;
-
-   begin
-      if pxRightOperandVector /= null then
-         return xLeftOperandMatrix * pxRightOperandVector.all;
-      end if;
-
-      Exception_Handling.Raise_Exception(E       => Exception_Handling.NullPointer'Identity,
-                                         Message => """*"" (xLeftOperandMatrix : in CMatrix; pxRightOperandVector : in Math.Vectors.pCVector) return Math.Vectors.CVector");
-      return pxRightOperandVector.all;
-   end "*";
-
-   function "*" (pxLeftOperandMatrix : in pCMatrix; pxRightOperandVector : in Math.Vectors.pCVector) return Math.Vectors.CVector is
-      use Math.Vectors;
-
-   begin
-      if pxLeftOperandMatrix /= null and then pxRightOperandVector /= null then
-         return pxLeftOperandMatrix.all * pxRightOperandVector.all;
-      end if;
-
-      Exception_Handling.Raise_Exception(E       => Exception_Handling.NullPointer'Identity,
-                                         Message => """*"" (pxLeftOperandMatrix : in pCMatrix; pxRightOperandVector : in Math.Vectors.pCVector) return Math.Vectors.CVector");
-      return pxRightOperandVector.all;
-   end "*";
-
-
-   ---------
-   -- "*" --
-   ---------
 
    function "*" (xLeftOperandMatrix : in CMatrix; xRightOperandPlane : in Math.Planes.CPlane) return Math.Planes.CPlane
    is
@@ -349,53 +238,9 @@ package body Math.Matrices is
       xNewPlane := Math.Planes.xCreate(xNormalVector      => Math.Vectors.CVector(xLeftOperandMatrix * xRightOperandPlane.xGet_Normal_Vector),
                                          fDistanceFromOrigin => xRightOperandPlane.fGet_Distance_From_Origin);
       return xNewPlane;
-   exception
-      when E : others =>
-         Exception_Handling.Reraise_Exception(E       => E,
-                                              Message => "Math.Matrices.""*"" (xLeftOperandMatrix : in CMatrix; xRightOperandPlane : in Math.Planes.CPlane) return Math.Planes.CPlane");
-      return xNewPlane;
    end "*";
 
-   function "*" (pxLeftOperandMatrix : in pCMatrix; pxRightOperandPlane : in Math.Planes.pCPlane) return Math.Planes.CPlane is
-      use Math.Planes;
 
-   begin
-      if pxLeftOperandMatrix /= null and then pxRightOperandPlane /= null then
-         return pxLeftOperandMatrix.all * pxRightOperandPlane.all;
-      end if;
-
-      Exception_Handling.Raise_Exception(E       => Exception_Handling.NullPointer'Identity,
-                                         Message => "Math.Matrices.""*"" (pxLeftOperandMatrix : in pCMatrix; pxRightOperandPlane : in Math.Planes.pCPlane) return Math.Planes.CPlane");
-      return pxRightOperandPlane.all;
-   end "*";
-
-   function "*" (xLeftOperandMatrix : in CMatrix; pxRightOperandPlane : in Math.Planes.pCPlane) return Math.Planes.CPlane is
-      use Math.Planes;
-
-   begin
-      if pxRightOperandPlane /= null then
-         return xLeftOperandMatrix * pxRightOperandPlane.all;
-      end if;
-
-      Exception_Handling.Raise_Exception(E       => Exception_Handling.NullPointer'Identity,
-                                         Message => "Math.Matrices.""*"" (xLeftOperandMatrix : in CMatrix; pxRightOperandPlane : in Math.Planes.pCPlane) return Math.Planes.CPlane");
-      return pxRightOperandPlane.all;
-   end "*";
-
-   function "*" (pxLeftOperandMatrix : in pCMatrix; xRightOperandPlane : in Math.Planes.CPlane) return Math.Planes.CPlane is
-   begin
-      if pxLeftOperandMatrix /= null then
-         return pxLeftOperandMatrix.all * xRightOperandPlane;
-      end if;
-
-      Exception_Handling.Raise_Exception(E       => Exception_Handling.NullPointer'Identity,
-                                         Message => "Math.Matrices.""*"" (pxLeftOperandMatrix : in pCMatrix; xRightOperandPlane : in Math.Planes.CPlane) return Math.Planes.CPlane");
-      return xRightOperandPlane;
-   end "*";
-
-   -------------------
-   -- pxGet_Inverse --
-   -------------------
 
    procedure Swap_Values_In_Extended_Matrix(fValue1 : in out float; fValue2 : in out float) is
       fTemp : float;
@@ -480,6 +325,7 @@ package body Math.Matrices is
 
    procedure Perform_Gauss_Jordan_Elimination_On(tfExtendedMatrix : in out TExtendedMatrix) is
       iRowWithMaxComponent : integer;
+      SingularMatrix : exception;
    begin
 
       for iRowAndColumn in 1 .. 3
@@ -487,8 +333,7 @@ package body Math.Matrices is
          iRowWithMaxComponent := Find_Row_With_Highest_Component(tfExtendedMatrix => tfExtendedMatrix,
                                                                  iColumn          => iRowAndColumn);
          if bMatrix_Has_No_Inverse(tfExtendedMatrix(iRowWithMaxComponent, iRowAndColumn)) then
-            Exception_Handling.Raise_Exception(E       => Exception_Handling.SingularMatrix'Identity,
-                                               Message => "Math.Matrices.Perform_Gauss_Jordan_Elimination_On(tfExtendedMatrix : in out TExtendedMatrix)");
+           raise SingularMatrix;
          end if;
 
          if iRowWithMaxComponent /= iRowAndColumn then
@@ -507,6 +352,17 @@ package body Math.Matrices is
                                           iRow             => iRowAndColumn);
 
       end loop;
+
+   exception
+      when SingularMatrix =>
+         for i in tfExtendedMatrix'Range(1) loop
+            for j in tfExtendedMatrix'Range(2) loop
+               tfExtendedMatrix(i,j) := 0.0;
+            end loop;
+            tfExtendedMatrix(i,i) := 1.0;
+            tfExtendedMatrix(i,i*2) := 1.0;
+         end loop;
+
 
    end Perform_Gauss_Jordan_Elimination_On;
 
@@ -554,21 +410,8 @@ package body Math.Matrices is
 
       return CMatrix'(tfMatrix => tfGet_Inverse_Part_From(tfExtendedMatrix => tfExtendedMatrix));
 
-   exception
-      when E : others =>
-         Exception_Handling.Reraise_Exception(E       => E,
-                                              Message => "Math.Matrices.xGet_Inverse (this : in CMatrix) return CMatrix");
-         return CMatrix'(tfMatrix => (others => (others => 0.0)));
    end xGet_Inverse;
 
-   ----------------
-   -- pxGet_Copy --
-   ----------------
-
-   function pxGet_Allocated_Copy (this : in CMatrix) return pCMatrix is
-   begin
-      return new CMatrix'(tfMatrix => this.tfMatrix);
-   end pxGet_Allocated_Copy;
 
    ---------------------
    -- pxGet_Transpose --
@@ -618,10 +461,5 @@ package body Math.Matrices is
       return xZVector;
    end xGet_Z_Vector;
 
-   procedure Free(pxMatrixToDeallocate : in out pCMatrix) is
-      procedure Dealloc is new Ada.Unchecked_Deallocation(CMatrix, pCMatrix);
-   begin
-      Dealloc(pxMatrixToDeallocate);
-   end Free;
 
 end Math.Matrices;

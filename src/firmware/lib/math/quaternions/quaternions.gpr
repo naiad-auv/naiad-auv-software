@@ -1,5 +1,5 @@
+with "../elementary/elementary.gpr";
 with "../angles/angles.gpr";
-with "../../../../lib/exception_handling/exception_handling.gpr";
 with "../math.gpr";
 with "../vectors/vectors.gpr";
 

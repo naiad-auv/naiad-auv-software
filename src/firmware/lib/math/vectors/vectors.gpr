@@ -1,5 +1,4 @@
 with "../elementary/elementary.gpr";
-with "../../../../lib/exception_handling/exception_handling.gpr";
 with "../math.gpr";
 
 project Vectors is
