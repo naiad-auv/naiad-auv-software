@@ -3,7 +3,6 @@ with Simulator.submarine;
 with Math.Vectors;
 with math.Matrices;
 with math.Planes;
-with Simulator.Pid_Errors;
 --with Simulator.Update_Interface;
 
 package Simulator.Model is
