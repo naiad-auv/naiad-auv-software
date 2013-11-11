@@ -4,6 +4,7 @@ with Navigation.Motion_Component;
 with Navigation.Dispatcher;
 with Ada.Text_IO;
 with Ada.Exceptions;
+with Ada.Numerics;
 
 package body Simulator.ViewModel_Pid_Errors is
 
@@ -17,7 +18,14 @@ package body Simulator.ViewModel_Pid_Errors is
    begin
       xMotionalErrors := this.pxModel.xGet_Current_Motional_Errors;
 
-      return xMotionalErrors(Navigation.Motion_Component.EMotionComponent(eErrorComponent));
+      case eErrorComponent is
+      when X .. Z =>
+         return xMotionalErrors(Navigation.Motion_Component.EMotionComponent(eErrorComponent));
+         when others =>
+            null;
+      end case;
+
+      return xMotionalErrors(Navigation.Motion_Component.EMotionComponent(eErrorComponent)) * 180.0 / Ada.Numerics.Pi;
    exception
       when E : others =>
          Ada.Text_IO.Put_Line(Ada.Exceptions.Exception_Message(E));
