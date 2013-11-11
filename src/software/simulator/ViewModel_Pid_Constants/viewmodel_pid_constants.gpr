@@ -1,0 +1,10 @@
+with "../simulator.gpr";
+with "../model/model.gpr";
+
+project Viewmodel_Pid_Constants is
+
+   for Source_Dirs use ("src");
+   for Object_Dir use "obj";
+
+end Viewmodel_Pid_Constants;
+

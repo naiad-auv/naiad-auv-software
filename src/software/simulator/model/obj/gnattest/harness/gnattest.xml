@@ -1,0 +1,49 @@
+<tests_mapping mode="monolith">
+   <unit source_file="simulator-model.ads">
+      <test_unit target_file="simulator-model-cmodel_test_data-cmodel_tests.ads">
+         <setup file="simulator-model-cmodel_test_data.adb" line="4"  column="4"/>
+         <teardown file="simulator-model-cmodel_test_data.adb" line="8"  column="4"/>
+         <tested name="Update_Model" line="22" column="4">
+            <test file="simulator-model-cmodel_test_data-cmodel_tests.adb" line="13" column="1" timestamp="2013-11-05 14:25:30"/>
+         </tested>
+         <tested name="xGet_Current_Submarine_Positional_Vector" line="24" column="4">
+            <test file="simulator-model-cmodel_test_data-cmodel_tests.adb" line="34" column="1" timestamp="2013-11-05 14:25:30"/>
+         </tested>
+         <tested name="xGet_Current_Submarine_Orientation_Matrix" line="25" column="4">
+            <test file="simulator-model-cmodel_test_data-cmodel_tests.adb" line="55" column="1" timestamp="2013-11-05 14:25:30"/>
+         </tested>
+         <tested name="xGet_Wanted_Submarine_Positional_Vector" line="26" column="4">
+            <test file="simulator-model-cmodel_test_data-cmodel_tests.adb" line="76" column="1" timestamp="2013-11-05 14:25:30"/>
+         </tested>
+         <tested name="xGet_Wanted_Submarine_Orientation_Matrix" line="27" column="4">
+            <test file="simulator-model-cmodel_test_data-cmodel_tests.adb" line="97" column="1" timestamp="2013-11-05 14:25:30"/>
+         </tested>
+         <tested name="xGet_Current_Submarine_Velocity_Vector" line="28" column="4">
+            <test file="simulator-model-cmodel_test_data-cmodel_tests.adb" line="118" column="1" timestamp="2013-11-05 14:25:30"/>
+         </tested>
+         <tested name="fGet_Motor_Force" line="29" column="4">
+            <test file="simulator-model-cmodel_test_data-cmodel_tests.adb" line="139" column="1" timestamp="2013-11-05 14:25:30"/>
+         </tested>
+         <tested name="Set_Wanted_Position_And_Orientation" line="31" column="4">
+            <test file="simulator-model-cmodel_test_data-cmodel_tests.adb" line="160" column="1" timestamp="2013-11-05 14:25:30"/>
+         </tested>
+         <tested name="Set_Pid_Scaling" line="33" column="4">
+            <test file="simulator-model-cmodel_test_data-cmodel_tests.adb" line="181" column="1" timestamp="2013-11-05 14:25:30"/>
+         </tested>
+         <tested name="Restart" line="34" column="4">
+            <test file="simulator-model-cmodel_test_data-cmodel_tests.adb" line="202" column="1" timestamp="2013-11-05 14:25:30"/>
+         </tested>
+         <dangling>
+         </dangling>
+      </test_unit>
+      <test_unit target_file="simulator-model-test_data-tests.ads">
+         <setup file="simulator-model-test_data.adb" line="3"  column="4"/>
+         <teardown file="simulator-model-test_data.adb" line="9"  column="4"/>
+         <tested name="pxCreate" line="20" column="4">
+            <test file="simulator-model-test_data-tests.adb" line="13" column="1" timestamp="2013-11-05 14:25:30"/>
+         </tested>
+         <dangling>
+         </dangling>
+      </test_unit>
+   </unit>
+</tests_mapping>
