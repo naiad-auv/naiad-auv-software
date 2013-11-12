@@ -64,6 +64,8 @@ package Navigation.Dispatcher is
 
    function fGetMotionalErrors(this : in CDispatcher) return TMotionalErrors;
 
+   procedure Simulational_Reset(this : in out CDispatcher);
+
 private
 
    procedure Scale_Thruster_Values (tfThrusterValues : in out Navigation.Thrusters.TThrusterValuesArray);

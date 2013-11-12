@@ -32,6 +32,7 @@ with Ada.Text_IO;
 with Math.Matrices;
 with Gtk.Status_Bar;
 with Simulator.Model;
+with Ada.Exceptions;
 
 package body MainWindowLogic is
 
@@ -124,7 +125,7 @@ package body MainWindowLogic is
       when E : others =>
          return false;
 
-end bUpdateStatusBarText;
+   end bUpdateStatusBarText;
 
 
    function bDraw_View (xView : in TView) return Boolean is
@@ -211,7 +212,7 @@ end bUpdateStatusBarText;
                                                                  iWidth       => 300,
                                                                  iHeight      => 300,
                                                                  xOrientation => xViewModel.xGet_Submarine_Current_Orientation);
-       --xOrientation => Math.Matrices.xCreate_Rotation_Around_X_Axis(45.0)*Math.Matrices.xCreate_Rotation_Around_Y_Axis(45.0));--
+      --xOrientation => Math.Matrices.xCreate_Rotation_Around_X_Axis(45.0)*Math.Matrices.xCreate_Rotation_Around_Y_Axis(45.0));--
 
       -- Set Colors
       Gdk.GC.Gdk_New (xGreenColor, xWindowForView);
@@ -375,7 +376,7 @@ end bUpdateStatusBarText;
          xTimeoutBackView := Drawing_Timeout_Drawing_View.Timeout_Add
            (xUpdateIntervall, bDraw_View'Access, (Gtk.Drawing_Area.Gtk_Drawing_Area (Gtkada.Builder.Get_Widget(pxObject, "drwBack")), Back));
 
-     end if;
+      end if;
 
       if xTimeout3D = 0 then
          xTimeout3D := Drawing_Timeout_Drawing_Area.Timeout_Add
@@ -412,34 +413,25 @@ end bUpdateStatusBarText;
       xWindow : Gtk.Drawing_Area.Gtk_Drawing_Area := Gtk.Drawing_Area.Gtk_Drawing_Area(Gtkada.Builder.Get_Widget(pxObject, sName));
    begin
       Gdk.Window.Clear(Gtk.Drawing_Area.Get_Window(xWindow));
+   exception
+      when E : others =>
+         Ada.Text_IO.Put_Line(ada.Exceptions.Exception_Message(E));
    end Clear_Window;
 
-   procedure Clear_All_Pids(pxObject : access Gtkada.Builder.Gtkada_Builder_Record'Class) is
+   procedure Clear_Drawing_Areas(pxObject : access Gtkada.Builder.Gtkada_Builder_Record'Class) is
    begin
       Clear_Window(pxObject, "drwSide");
       Clear_Window(pxObject, "drwTop");
       Clear_Window(pxObject, "drwBack");
-      Clear_Window(pxObject, "drwPidPosX");
-      Clear_Window(pxObject, "drwPidPosY");
-      Clear_Window(pxObject, "drwPidPosZ");
-      Clear_Window(pxObject, "drwPidPlanar");
-      Clear_Window(pxObject, "drwPidDirectional");
-      Clear_Window(pxObject, "drwPidDriftX");
-      Clear_Window(pxObject, "drwPidDriftY");
-      Clear_Window(pxObject, "drwPidDriftZ");
-      Clear_Window(pxObject, "drwDirectional");
-      Clear_Window(pxObject, "drwDirectionalGoal");
-      Clear_Window(pxObject, "drwPlanar");
-      Clear_Window(pxObject, "drwPlanarGoal");
-   end Clear_All_Pids;
+   end Clear_Drawing_Areas;
 
    procedure Restart_Simulation(pxObject : access Gtkada.Builder.Gtkada_Builder_Record'Class) is
    begin
       xViewmodel.Restart;
 
-      Clear_All_Pids(pxObject);
+      Clear_Drawing_Areas(pxObject);
 
-      --RESET EVERYTHING
+      bSimulationRunning := false;
    end Restart_Simulation;
 
    procedure Start_Simulation(pxObject : access Gtkada.Builder.Gtkada_Builder_Record'Class) is
@@ -460,7 +452,7 @@ end bUpdateStatusBarText;
       Gtk.Main.Main_Quit;
    end Quit;
 
-      --windows
+   --windows
    procedure Show_Thruster_Window(pxObject : access Gtkada.Builder.Gtkada_Builder_Record'Class) is
    begin
       ActuatorsGUI.Start_GUI(xModel);

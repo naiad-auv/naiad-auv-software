@@ -255,4 +255,15 @@ package body Navigation.Dispatcher is
                               Navigation.Motion_Component.RotationZ => OrientationalErrors(Navigation.Motion_Component.RotationZ));
    end fGetMotionalErrors;
 
+
+   procedure Simulational_Reset(this : in out CDispatcher) is
+   begin
+      this.Update_Current_Absolute_Position(Math.Vectors.xCreate(0.0,0.0,0.0));
+      this.Update_Wanted_Absolute_Position(Math.Vectors.xCreate(0.0,0.0,0.0));
+
+      this.Update_Current_Absolute_Orientation(Math.Matrices.xCreate_Identity);
+      this.Update_Wanted_Absolute_Orientation(Math.Matrices.xCreate_Identity);
+   end Simulational_Reset;
+
+
 end Navigation.Dispatcher;
