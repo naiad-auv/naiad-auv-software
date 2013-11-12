@@ -65,7 +65,8 @@ package body Navigation.Dispatcher is
 
 
       tfPositionalValues := this.pxPositionalController.xGet_Positional_Thruster_Control_Values(fDeltaTime               => fDeltaTime);
-      tfOrientationalValues := this.pxOrientationalController.xGet_Orientational_Thruster_Control_Values(fDeltaTime => fDeltaTime);
+      this.pxOrientationalController.Get_Orientational_Thruster_Control_Values(fDeltaTime => fDeltaTime,
+                                                                               tfValues   => tfOrientationalValues);
       tfDriftValues := this.pxDriftController.xGet_Positional_Thruster_Control_Values(fDeltaTime => fDeltaTime);
 
 

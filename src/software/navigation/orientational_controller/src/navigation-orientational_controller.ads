@@ -33,7 +33,7 @@ package Navigation.Orientational_Controller is
    --  <parameter name="pxCurrentAbsoluteOrientation">A reference to the current absolute orientation</parameter>
    --  <parameter name="pxWantedAbsoluteOrientation">A reference to the wanted absolute orientation</parameter>
 
-   function xGet_Orientational_Thruster_Control_Values (this : in out COrientationalController; fDeltaTime : in float) return Navigation.Thrusters.TThrusterEffects;
+   procedure Get_Orientational_Thruster_Control_Values (this : in out COrientationalController; fDeltaTime : in float; tfValues : out Navigation.Thrusters.TThrusterEffects);
    --  <summary>Calculates thruster control values for all thrusters and scales them accordingly</summary>
    --  <parameter name="this">The COrientationalController to do the calculations upon.</parameter>
    --  <parameter name="fDeltaTime">The time difference since the last calculation.</parameter>
