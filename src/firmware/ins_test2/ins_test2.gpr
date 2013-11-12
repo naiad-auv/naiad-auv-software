@@ -1,0 +1,29 @@
+with "..\lib\math\matrices\matrices.gpr";
+with "..\lib\math\vectors\vectors.gpr";
+
+project Ins_Test2 is
+
+   for Object_Dir use "build";
+   for Exec_Dir use "target";
+   for Source_Dirs use ("src", "..\at90can128lib", "..\lib");
+   for Source_Files use ("avr-at90can128-adc.adb", "avr-at90can128-adc.ads", "avr-at90can128-can.adb", "avr-at90can128-can.adb", "avr-at90can128-can.ads", "avr-at90can128-clock.adb", "avr-at90can128-clock.ads",
+      "avr-at90can128-interrupt.adb", "avr-at90can128-interrupt.ads", "ins_test.adb", "my_last_chance_handler.adb", "my_last_chance_handler.ads", "my_memcpy.adb", "my_memcpy.ads", "my_secondary_stack.adb",
+      "my_secondary_stack.ads");
+   for Main use ("ins_test.adb");
+
+   package Ide is
+      for Gnat use "avr-gnat";
+      for Gnatlist use "avr-gnatls";
+      for Debugger_Command use "avr-gdb";
+   end Ide;
+
+   package Linker is
+      for Default_Switches ("ada") use ("-nostdlib", "-Wl,-Tdata=0x800100", "-T..\..\lib\avr5.x", "..\lib\crt1-at90can128.o.org", "..\lib\libm.a", "-lgcc", "-mavr5");
+   end Linker;
+
+   package Compiler is
+      for Default_Switches ("ada") use ("-O3", "-gnatwa", "-mmcu=avr5", "-gnat05");
+   end Compiler;
+
+end Ins_Test2;
+
