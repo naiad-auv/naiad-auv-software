@@ -46,7 +46,7 @@ package body Navigation.Orientational_Controller is
 
 
 
-   function xGet_Orientational_Thruster_Control_Values (this : in out COrientationalController; fDeltaTime : in float) return Navigation.Thrusters.TThrusterEffects is
+   procedure Get_Orientational_Thruster_Control_Values (this : in out COrientationalController; fDeltaTime : in float; tfValues : out Navigation.Thrusters.TThrusterEffects) is
       use Navigation.Thrusters;
       fSavedDT : float;
    begin
@@ -55,16 +55,16 @@ package body Navigation.Orientational_Controller is
       abs(this.fCurrentXRotationError) = Ada.Numerics.Pi or
       abs(this.fCurrentXRotationError) = Ada.Numerics.Pi then
          this.fSavedDeltaTime := fDeltaTime;
-         return (others => 0.0);
+         tfValues := (others => 0.0);
       else
          fSavedDT := this.fSavedDeltaTime;
          this.fSavedDeltaTime := 0.0;
          -- TODO: fix for 180 degree error fuck-up (already done in firmware)
-         return  this.xGet_X_Rotation_Thruster_Control_Value(fDeltaTime + fSavedDT) +
+         tfValues := this.xGet_X_Rotation_Thruster_Control_Value(fDeltaTime + fSavedDT) +
            this.xGet_Y_Rotation_Thruster_Control_Value(fDeltaTime + fSavedDT) +
            this.xGet_Z_Rotation_Thruster_Control_Value(fDeltaTime + fSavedDT);
       end if;
-   end xGet_Orientational_Thruster_Control_Values;
+   end Get_Orientational_Thruster_Control_Values;
 
    procedure Set_New_PID_Component_Scalings(this : in COrientationalController; eComponentToUpdate : Navigation.Motion_Component.EMotionComponent; xNewPIDScaling : Navigation.PID_Controller.TPIDComponentScalings) is
    begin
