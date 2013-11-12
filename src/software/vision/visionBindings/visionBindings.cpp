@@ -1004,6 +1004,49 @@ void Preprocessing_Wrap::contrast(int src, int dst, int gain, int bias) //change
 	
 }
  
+void Preprocessing_Wrap::quaterNionSwitchingFilter(int src, int dst, int QNSFThresh)
+{
+	///copy temp image of input source
+	cv::Mat tempImage=img.at(src).clone();
+	int minDif = 100;
+	
+	///for all pixels
+	for (int i=1; i < (tempImage.rows-1) ; i++)
+	{
+		for(int j=1; j < (tempImage.cols-1); j++)
+		{
+			///examine pixels
+			//q1=tempImage.at<cv::Vec3b>(i-1,j-1)[channel]
+			//q2=tempImage.at<cv::Vec3b>(i-1,j)[channel]
+			//q3=tempImage.at<cv::Vec3b>(i-1,j+1)[channel]
+			//q4=tempImage.at<cv::Vec3b>(i,j-1)[channel]
+			//q5=tempImage.at<cv::Vec3b>(i,j)[channel]
+			//q6=tempImage.at<cv::Vec3b>(i,j+1)[channel]
+			//q7=tempImage.at<cv::Vec3b>(i+1,j-1)[channel]
+			//q8=tempImage.at<cv::Vec3b>(i+1,j)[channel]
+			//q9=tempImage.at<cv::Vec3b>(i+1,j+1)[channel]
+			
+			//v1=1/2(d(q4,q5)+d(q5,q6))
+			//v2=1/2(d(q3,q5)+d(q5,q7))
+			//v3=1/2(d(q2,q5)+d(q5,q8))
+			//v4=1/2(d(q1,q5)+d(q5,q9))
+
+			//QUATERNION REPRESENTED AS W,X,Y,Z
+			//d1(a,b)=(((1/sqrt(3))((B-G)i+(R-B)j+(G+R)k)-(((1/sqrt(3))((B-G)i+(R-B)j+(G+R)k)))
+			//d2(a,b)=((1/3)(R+G+B)(i+j+k)-(1/3)(R+G+B)(i+j+k))
+			//dTotal=d1+d2
+			
+            //minDif=min(v1..v4)
+            ///if filtering needed
+            if (minDif<QNSFThresh)
+            {
+				///Filter
+			}
+		}
+	}
+	///copy temp to dest
+	cv::Mat img.at(dest)=tempImage.clone();
+}
 Preprocessing_Wrap::Preprocessing_Wrap(){}
  
 /*********************************************************************************************************************

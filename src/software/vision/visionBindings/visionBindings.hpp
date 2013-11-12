@@ -123,5 +123,7 @@ virtual void nextFrame(int dst);
 
 virtual void contrast(int src, int dst, int gain, int bias);
 
+virtual void quaterNionSwitchingFilter(int src, int dst, int QNSFThresh)
+
 Preprocessing_Wrap();
 };

@@ -82,7 +82,12 @@ package body Vision.Image_Preprocessing is
                                  dst  ,
                                  gain ,
                                  bias );
-      end Do_Contrast;
+   end Do_Contrast;
+
+   procedure QNSF(iImageSource, iQNSFLocation : in Interfaces.C.int; iQNSFThresh: in Interfaces.C.Double) is
+   begin
+      preprocessingWrap.quaterNionSwitchingFilter(iImageSource, iQNSFLocation,iQNSFThresh);
+   end QSNF;
 
 
 end Vision.Image_Preprocessing;

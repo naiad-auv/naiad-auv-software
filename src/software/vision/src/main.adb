@@ -53,6 +53,7 @@ procedure main is
    iThreshedImageLocation : Interfaces.C.int:=12;
    iFusionOutLocation : Interfaces.C.int:=13;
    iContrastOut : Interfaces.C.int := 14;
+   iQNSFLocation : Interfaces.C.ing := 15;
 
    itemplateTempStorage : Interfaces.C.int:=20;
    iTemplate1 : Interfaces.C.int:=21;
@@ -137,6 +138,9 @@ procedure main is
    --contrast
    iGain : Interfaces.C.int := 5;
    iBias : Interfaces.C.int := 0;
+
+   --QNSF
+   iQNSFThresh : Interfaces.C.Double := 0.5;
 
    --wait time when displaying images
    iWaitTime : interfaces.c.int := 0;
@@ -333,6 +337,11 @@ begin
       if(iDoContrast = 1) then
          Vision.Image_Preprocessing.Do_Contrast(iImageSource, iContrastOut, iGain, iBias );
       end if;
+
+      if(iDoQuaternionSwitchingFilter =1) then
+         Vision.Image_Preprocessing.QNSF(iImageSource, iQNSFLocation, iQNSFThresh);
+      end if;
+
 
    end loop Endless_Loop;
 end main;
