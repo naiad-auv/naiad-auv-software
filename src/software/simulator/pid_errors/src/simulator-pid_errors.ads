@@ -10,7 +10,7 @@ package Simulator.Pid_Errors is
    type CPidErrors is tagged private;
    type pCPidErrors is access CPidErrors;
    type EMotionComponent is new Navigation.Motion_Component.EMotionComponent;
-   type TPIDErrors is array (X .. RotationZ) of float;
+   type TPIDErrors is array (PositionX .. RotationZ) of float;
 
    function pxCreate return pCPidErrors;
    procedure Free(pxPidErrors: in out pCPidErrors);

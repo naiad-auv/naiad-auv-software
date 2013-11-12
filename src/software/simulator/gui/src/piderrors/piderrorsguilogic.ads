@@ -11,4 +11,7 @@ package PIDErrorsGUILogic is
 
 private
 
+   procedure Update_View_Model;
+   procedure Update_Error_Labels (pxObject : access Gtkada.Builder.Gtkada_Builder_Record'Class);
+
 end PIDErrorsGUILogic;
