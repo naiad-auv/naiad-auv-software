@@ -994,6 +994,15 @@ void Preprocessing_Wrap::nextFrame(int dst)
 {
   cap >> img.at(dst);
 }
+
+void Preprocessing_Wrap::contrast(int src, int dst, int gain, int bias) //change gain to double ?? , gain > bias
+{
+	cv::Mat image = img.at(src).clone();
+	image.convertTo(img.at(dst), -1, gain, bias);
+	cv::imshow("contrast", img.at(dst));
+	cv::waitKey(0);
+	
+}
  
 Preprocessing_Wrap::Preprocessing_Wrap(){}
  

@@ -9,8 +9,8 @@ with Vision.Image_Preprocessing;
 procedure main is
 
    --user decisions
-   iDoUseBuffer : Integer := 1;
-   iDoUseStatic : Integer := 0;
+   iDoUseBuffer : Integer := 0;
+   iDoUseStatic : Integer := 1;
    iDoShowOriginal : Integer := 1;
    iDoGaussian : Integer := 0;
    iDoSplit : Integer := 0;
@@ -30,9 +30,10 @@ procedure main is
    iDoSharpenImage : Integer := 0;
    iDoCompareHistograms : Integer := 0;
    iDoMakeMovie : Integer := 0;
-   iDoMatchTemplete : Integer := 1;
+   iDoMatchTemplete : Integer := 0;
    iDoWriteImageToFile : Integer :=0;
    iDoEnhanceColors : Integer :=0;
+   iDoContrast : Integer := 1;
 
 
    --image locations
@@ -51,6 +52,7 @@ procedure main is
    iGaussianBlurLocation : Interfaces.C.int:=11;
    iThreshedImageLocation : Interfaces.C.int:=12;
    iFusionOutLocation : Interfaces.C.int:=13;
+   iContrastOut : Interfaces.C.int := 14;
 
    itemplateTempStorage : Interfaces.C.int:=20;
    iTemplate1 : Interfaces.C.int:=21;
@@ -132,6 +134,10 @@ procedure main is
    iEnhanceLevel : interfaces.c.Double:=20.0;
    iEnhanceChannel : interfaces.C.Int:=1;
 
+   --contrast
+   iGain : Interfaces.C.int := 5;
+   iBias : Interfaces.C.int := 0;
+
    --wait time when displaying images
    iWaitTime : interfaces.c.int := 0;
    ret : interfaces.c.int;
@@ -162,7 +168,7 @@ begin
       if (iDoUseBuffer = 1) then -- read from buffer
          CoreWrap.img_buffer;
       elsif (iDoUseStatic =1) then --read in single image
-         CoreWrap.imstore(iImageSource,New_String("circle2.jpg"));
+         CoreWrap.imstore(iImageSource,New_String("Square.jpg"));
       elsif (iDoMakeMovie = 1) then --capture from video
          Vision.Image_Preprocessing.Capture_Video(iImageSource,iWaitTime,videoOpen);
          videoOpen:=1;
@@ -322,6 +328,10 @@ begin
          processingWrap.Canny(iGreyScaleLocation,iCannyLocation, 100, 300, iCannyKernelSize);
          bestTempleteMatchFound:=processingWrap.matchImage(iCannyLocation);
          processingWrap.classifyMatch(bestTempleteMatchFound);
+      end if;
+
+      if(iDoContrast = 1) then
+         Vision.Image_Preprocessing.Do_Contrast(iImageSource, iContrastOut, iGain, iBias );
       end if;
 
    end loop Endless_Loop;

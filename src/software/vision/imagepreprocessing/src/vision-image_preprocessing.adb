@@ -76,4 +76,13 @@ package body Vision.Image_Preprocessing is
       end loop;
    end Cleanup_Templates;
 
+   procedure Do_Contrast(src, dst, gain, bias : in Interfaces.C.int) is
+   begin
+      preprocessingWrap.contrast(src  ,
+                                 dst  ,
+                                 gain ,
+                                 bias );
+      end Do_Contrast;
+
+
 end Vision.Image_Preprocessing;

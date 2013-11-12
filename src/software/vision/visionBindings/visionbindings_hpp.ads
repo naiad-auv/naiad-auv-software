@@ -290,7 +290,15 @@ package visionBindings_hpp is
       procedure nextFrame (this : access Preprocessing_Wrap; dst : int);  -- visionBindings.cpp:993
       pragma Import (CPP, nextFrame, "_ZN18Preprocessing_Wrap9nextFrameEi");
 
-      function New_Preprocessing_Wrap return Preprocessing_Wrap;  -- visionBindings.cpp:998
+      procedure contrast
+        (this : access Preprocessing_Wrap;
+         src : int;
+         dst : int;
+         gain : int;
+         bias : int);  -- visionBindings.cpp:998
+      pragma Import (CPP, contrast, "_ZN18Preprocessing_Wrap8contrastEiiii");
+
+      function New_Preprocessing_Wrap return Preprocessing_Wrap;  -- visionBindings.cpp:1007
       pragma CPP_Constructor (New_Preprocessing_Wrap, "_ZN18Preprocessing_WrapC1Ev");
 
 

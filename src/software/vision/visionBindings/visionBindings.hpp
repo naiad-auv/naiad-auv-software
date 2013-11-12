@@ -121,5 +121,7 @@ virtual void namedWindow(char * name, int num);
 
 virtual void nextFrame(int dst);
 
+virtual void contrast(int src, int dst, int gain, int bias);
+
 Preprocessing_Wrap();
 };
