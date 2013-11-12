@@ -75,7 +75,6 @@ Outputs either GNATTest report or XML reports.
 OPTIONS:
     -h      Shows this message
     -o      Output format
-    -s      Source folder
     -d      Debug mode (default: off)
 EOF
 }
@@ -84,7 +83,6 @@ EOF
 # Entry point for script
 ##########################################
 FORMAT=
-SRC=
 DEBUG=
 
 # Gathering input values. Some basics at the follwing page
@@ -99,9 +97,6 @@ do
          o)
              FORMAT=$OPTARG
              ;;
-         s)
-             SRC=$OPTARG
-             ;;
          d)
              DEBUG=$OPTARG
              ;;
@@ -113,54 +108,59 @@ do
 done
 
 # Checking if the input values are set
-if [[ -z $FORMAT ]] || [[ -z $SRC ]] || [[ -z $DEBUG ]]
+if [[ -z $FORMAT ]] || [[ -z $DEBUG ]]
 then
      usage
      exit 1
 fi
 
-# Defining main_path as the root source folder.
-root="$(dirname $SRC)"
-main_path="$SRC"
+# Defining usable paths
+# This script is assumed to be located in <project_root_dir>/scripts folder
+script_file_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+root_dir="$(dirname $script_file_dir)"
+source_dir="$root_dir/src"
+main_path=$source_dir # Deprecated, old variable, removed when this is last reference.
+xml_results_dir="$root_dir/xml_results"
+build_logs_dir="$root_dir/build_logs"
 
-echo $root
-echo $main_path
+
+##########################################
 # Logging
-# now=$(date +"%m_%d_%Y_%H_%M_%S")
-# if [[ ! -d "$(pwd)/../build_logs" ]]; then
-#     mkdir ../build_logs
-# fi
-# echo "Logging to $(pwd)/../build_logs/build_$now.log..."
-# exec > >(tee "$(pwd)/../build_logs/build_$now.log")
-# exec 2>&1
+##########################################
+now=$(date +"%m_%d_%Y_%H_%M_%S")
+if [[ ! -d "$build_logs_dir" ]]; then
+    mkdir -pv $build_logs_dir
+fi
 
-#fd for subshells
-# exec 5>&1
+# TODO: Piping STDOUT to build_log as well as showing on screen
+# makes the script hang right before exit.
+echo "Logging to $build_logs_dir/build_$now.log..."
+exec > >(tee "$build_logs_dir/build_$now.log")
+exec 2>&1
 
-# echo $(pwd)
-# cd $main_path
+# File decriptor for subshells
+exec 5>&1
 
-# echo "DEBUG: Main Path: $main_path"
+echo "##########################################"
+echo "# Gathering projects..."
+echo "##########################################"
+cd $source_dir
+success=true
+echo "INFO: SUCCESS variable set to $success (should be \"true\")"
 
-# cd ..
-# cd $main_path
+projects=$(GatherProjects)
+if [ $? -ne 0 ]; then
+    echo "ERROR: Couldn't gather projects."
+    echo
+    exit 1
+fi
 
+echo "$projects"
+projects=$(sed 's|^$|\n&|g' <<< $projects)
+echo "$projects"
+echo "...DONE"
+echo
 
-
-# echo "Gathering projects..."
-# success=true
-# echo "INFO: SUCCESS variable set to $success (should be \"true\")"
-#
-# projects=$(GatherProjects)
-# if [ $? -ne 0 ]; then
-# 	echo $projects
-# 	echo "ERROR: Couldn't gather projects."
-# 	echo
-# 	exit 1
-# fi
-# echo "$projects"
-# echo "...DONE"
-# echo
 # 
 # build_project=$(pwd)
 # build_project="${build_project##*/}"
@@ -330,6 +330,8 @@ echo $main_path
 # 	echo
 # done
 # 
-# echo "[$(date +%m-%d-%Y) $(date +%H:%M:%S)] Build successful."
-echo
+echo "##########################################"
+echo "# [$(date +%Y-%m-%d) $(date +%H:%M:%S)] Build successful."
+echo "# End of build script"
+echo "##########################################"
 exit 0
