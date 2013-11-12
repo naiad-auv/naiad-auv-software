@@ -10,7 +10,7 @@ package body Simulator.ViewModel_Representation is
 
    begin
       pxNewViewModel := new CViewModel_Representation;
-      pxNewViewModel.pxModel := Simulator.Model.pxCreate;
+      pxNewViewModel.pxModel := pxModel;
 
       return pxNewViewModel;
    exception

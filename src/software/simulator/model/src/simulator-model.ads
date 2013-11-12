@@ -16,7 +16,7 @@ package Simulator.Model is
    subtype iMotorIndex is Integer range 1..6;
    type TPIDComponentScalings is new simulator.Motion_Control_Wrapper.TPIDComponentScalings;
    type EMotionComponent is new simulator.Motion_Control_Wrapper.EMotionComponent;
-   function pxCreate return pcModel;
+   function pxCreate(iMotorUpdateFrequency : Integer) return pcModel;
 
    procedure Update_Model(this : in out CModel; fDeltaTime : float);
 
@@ -40,6 +40,8 @@ private
    type CModel is tagged --new Simulator.Update_Interface.CWithUpdate with
       record
          --pxOwner : access Simulator.Update_Interface.CWithUpdate'Class;
+         fTimeSinceLastMotorUpdate : float := 0.0;
+         iMotorUpdateFrequencyInHertz : Integer := 0;
          pxSubmarine : Simulator.submarine.pCSubmarine;
          pxMotionControlWrapper : Simulator.Motion_Control_Wrapper.pCWrapDispatcher;
       end record;

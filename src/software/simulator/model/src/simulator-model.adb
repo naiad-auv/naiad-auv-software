@@ -4,12 +4,12 @@ package body Simulator.Model is
    -- pxCreate --
    --------------
 
-   function pxCreate return pcModel is
+   function pxCreate(iMotorUpdateFrequency : Integer) return pcModel is
       pxModel : Simulator.Model.pCModel;
 
    begin
       pxModel := new Simulator.Model.CModel;
-
+      pxModel.iMotorUpdateFrequencyInHertz:=iMotorUpdateFrequency;
       pxModel.pxSubmarine := Simulator.submarine.pxCreate_Naiad;
       pxModel.pxMotionControlWrapper := Simulator.Motion_Control_Wrapper.pxCreate_Wrap_Dispatcher;
       --pxModel.pOwnerUpdateProcedure := pOwnerUpdateProcedure;

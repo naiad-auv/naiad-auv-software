@@ -147,6 +147,8 @@ package body Navigation.Orientational_Controller is
 
    end Update_Current_Z_Rotation_Error;
 
+
+
    procedure Update_Current_Y_Rotation_Error (this : in COrientationalController) is
       use Math.Matrices;
       xWantedRelativeOrientation : Math.Matrices.CMatrix;
