@@ -37,6 +37,12 @@ package body Navigation.Dispatcher is
          return pxNewDispatcher;
    end pxCreate;
 
+   procedure Update_Motional_Errors(this : in CDispatcher) is
+   begin
+      this.pxPositionalController.Update_Current_Errors;
+      this.pxOrientationalController.Update_Current_Errors;
+   end Update_Motional_Errors;
+
    procedure Get_Thruster_Values(this : in CDispatcher; fDeltaTime : in float; tfValues : out Navigation.Thrusters.TThrusterValuesArray) is
       use Navigation.Thrusters;
 
@@ -45,10 +51,7 @@ package body Navigation.Dispatcher is
       tfCombinedValues : Navigation.Thrusters.TThrusterEffects;
    begin
 
-
-      this.pxPositionalController.Update_Current_Errors;
-      this.pxOrientationalController.Update_Current_Errors;
-
+      Update_Motional_Errors(this);
 
       this.pxPositionalController.Get_Positional_Thruster_Control_Values(fDeltaTime               => fDeltaTime,
                                                                          tfValues   => tfPositionalValues);
@@ -225,6 +228,8 @@ package body Navigation.Dispatcher is
 
       this.Update_Current_Absolute_Orientation(Math.Matrices.xCreate_Identity);
       this.Update_Wanted_Absolute_Orientation(Math.Matrices.xCreate_Identity);
+
+      Update_Motional_Errors(this);
    end Simulational_Reset;
 
 

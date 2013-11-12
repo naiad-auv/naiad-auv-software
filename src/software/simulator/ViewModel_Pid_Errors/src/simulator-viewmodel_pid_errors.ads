@@ -19,9 +19,13 @@ package Simulator.ViewModel_Pid_Errors is
 
    function fGet_Min_Max_Error_Diff(this : in CViewModel_PID_Errors; eErrorComponent : in EMotionComponent) return float;
 
+   function fGet_OscilationTime(this : in CViewModel_PID_Errors; eErrorComponent : in EMotionComponent) return float;
+
    function pxCreate (pxModel : Simulator.Model.pCModel) return pCViewModel_Pid_Errors;
 
    procedure Update_Min_Max_Error_Buffers(this : in out CViewModel_Pid_Errors);
+
+   procedure Reset_Min_Max_Error_Buffers(this : in out CViewModel_Pid_Errors);
 
    procedure Free(pxViewModel_Pid_Errors : in out pCViewModel_Pid_Errors);
 
@@ -31,7 +35,14 @@ private
 --           pxPidErrors : simulator.Pid_Errors.pCPidErrors;
          pxModel : Simulator.Model.pCModel;
 
-         tMaximumPIDErrors : TErrorsArray := (others => 0.0);
-         tMinimumPIDErrors : TErrorsArray := (others => 0.0);
+         tMaximumPIDErrors : TErrorsArray;
+         tMinimumPIDErrors : TErrorsArray;
+         tPreviousPIDErrors : TErrorsArray;
+         tPreviousPIDErrorDirection : TErrorsArray;
+         tLastHighPIDErrors : TErrorsArray;
+         tLastLowPIDErrors : TErrorsArray;
+
+         fCurrentOscTimeCounter : TErrorsArray;
+         fOscTimes : TErrorsArray;
       end record;
 end Simulator.ViewModel_Pid_Errors;

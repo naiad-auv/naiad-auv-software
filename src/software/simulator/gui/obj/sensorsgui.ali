@@ -25,7 +25,7 @@ W simulator.viewmodel_sensors%s  simulator-viewmodel_sensors.adb  simulator-view
 W system.secondary_stack%s  s-secsta.adb	s-secsta.ali
 W system.soft_links%s	s-soflin.adb		s-soflin.ali
 
-U sensorsgui%s		sensorsgui.ads		560b8c81 EE NE OO PK
+U sensorsgui%s		sensorsgui.ads		3f4731a9 EE NE OO PK
 W simulator%s		simulator.adb		simulator.ali
 W simulator.model%s	simulator-model.adb	simulator-model.ali
 
@@ -121,7 +121,7 @@ D sensorsgui.ads	20131111091118 f57914d9
 D sensorsgui.adb	20131111124206 9247561f
 D sensorsguilogic.ads	20131111100358 7d69d81d
 D simulator.ads		20131104082225 19a68e1a
-D simulator-model.ads	20131111145304 a3729858
+D simulator-model.ads	20131112121619 ca3e2570
 D simulator-motion_control_wrapper.ads  20131111145023 e4f0c950
 D simulator-motor_info.ads  20131105072747 317185f1
 D simulator-submarine.ads  20131105072747 63940499
@@ -237,7 +237,7 @@ X 91 sensorsguilogic.ads
 X 92 simulator.ads
 1K9*Simulator 89|1r6 5r33 90|11r6 36r37 39r37 42r34 92|5e14
 X 93 simulator-model.ads
-9K19*Model 89|1w16 5r43 90|36r47 42r44 93|49e20
+9K19*Model 89|1w16 5r43 90|36r47 42r44 93|52e20
 14P9*pCModel(13R9) 89|5r49 90|36r53 42r50
 X 98 simulator-viewmodel_sensors.ads
 4K19*ViewModel_Sensors 90|11w16 39r47 98|18e32

@@ -70,4 +70,11 @@ package body PIDErrorsGUI is
 
    end Start_GUI;
 
+
+   procedure Reset is
+   begin
+      PIDErrorsGUILogic.Reset;
+   end Reset;
+
+
 end PIDErrorsGUI;

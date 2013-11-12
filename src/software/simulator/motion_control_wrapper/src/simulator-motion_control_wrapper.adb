@@ -99,7 +99,7 @@ package body simulator.Motion_Control_Wrapper is
    procedure Restart(this : in out CWrapDispatcher) is
    begin
       this.pxDispatcher.Simulational_Reset;
-   end Restart;
+  end Restart;
 
    function xGet_Motional_Errors(this : in CWrapDispatcher) return Navigation.Dispatcher.TMotionalErrors is
    begin

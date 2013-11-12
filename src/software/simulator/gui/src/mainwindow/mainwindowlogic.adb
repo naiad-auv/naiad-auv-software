@@ -35,6 +35,7 @@ with Simulator.Model;
 with Ada.Exceptions;
 
 with Text_Handling;
+with PIDErrorsGUILogic;
 
 package body MainWindowLogic is
 
@@ -488,6 +489,8 @@ package body MainWindowLogic is
       xViewmodel.Restart;
 
       Clear_Drawing_Areas(pxObject);
+
+      PIDErrorsGUI.Reset;
 
       bSimulationRunning := false;
    end Restart_Simulation;

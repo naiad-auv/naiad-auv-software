@@ -9,6 +9,8 @@ package PIDErrorsGUILogic is
 
    procedure Register_Timeouts(pxObject : access Gtkada.Builder.Gtkada_Builder_Record'Class);
 
+   procedure Reset;
+
 private
 
    procedure Update_View_Model;

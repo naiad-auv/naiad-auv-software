@@ -38,16 +38,20 @@ package body Simulator.ViewModel_Pid_Errors is
    -- pxCreate --
    --------------
 
-    function pxCreate (pxModel : Simulator.Model.pCModel) return pCViewModel_Pid_Errors is
+   function pxCreate (pxModel : Simulator.Model.pCModel) return pCViewModel_Pid_Errors is
       pxNewViewModel : Simulator.ViewModel_Pid_Errors.pCViewModel_Pid_Errors;
-
    begin
       pxNewViewModel := new Simulator.ViewModel_Pid_Errors.CViewModel_Pid_Errors;
-    --  pxNewViewModel.pxPidErrors := Simulator.Pid_Errors.pxCreate;
       pxNewViewModel.pxModel := pxModel;
 
+      pxNewViewModel.tMaximumPIDErrors := (others => 0.0);
+      pxNewViewModel.tMinimumPIDErrors := (others => 0.0);
+      pxNewViewModel.tPreviousPIDErrors := (others => 0.0);
+      pxNewViewModel.tPreviousPIDErrorDirection := (others => 0.0);
+      pxNewViewModel.fOscTimes := (others => 0.0);
+
       return pxNewViewModel;
-         exception
+   exception
       when E : others =>
          Exception_Handling.Unhandled_Exception(E);
          return null;
@@ -61,17 +65,41 @@ package body Simulator.ViewModel_Pid_Errors is
    procedure Free(pxViewModel_Pid_Errors : in out pCViewModel_Pid_Errors) is
       procedure Dealloc is new Ada.Unchecked_Deallocation(CViewModel_Pid_Errors, pCViewModel_Pid_Errors);
    begin
-   --   simulator.Pid_Errors.Free(pxViewModel_Pid_Errors.pxPidErrors);
+      --   simulator.Pid_Errors.Free(pxViewModel_Pid_Errors.pxPidErrors);
       Dealloc(pxViewModel_Pid_Errors);
    end;
 
 
    procedure Update_Min_Max_Error_Buffers(this : in out CViewModel_Pid_Errors) is
-     xCurrentErrors : Navigation.Dispatcher.TMotionalErrors;
+      xCurrentErrors : Navigation.Dispatcher.TMotionalErrors;
+      xCurrentErrorDirections : Navigation.Dispatcher.TMotionalErrors;
+      fTemp : float;
    begin
       xCurrentErrors := this.pxModel.xGet_Current_Motional_Errors;
 
       for i in xCurrentErrors'Range loop
+         this.fCurrentOscTimeCounter(ViewModel_Pid_Errors.EMotionComponent(i)) := this.fCurrentOscTimeCounter(ViewModel_Pid_Errors.EMotionComponent(i))
+           + 0.02;
+
+
+         fTemp := xCurrentErrors(i) - this.tPreviousPIDErrors(ViewModel_Pid_Errors.EMotionComponent(i));
+         if abs(fTemp) = 0.0 then
+            xCurrentErrorDirections(i) := 0.0;
+         else
+            xCurrentErrorDirections(i) := fTemp / abs(fTemp);
+         end if;
+
+         if xCurrentErrorDirections(i) > this.tPreviousPIDErrorDirection(ViewModel_Pid_Errors.EMotionComponent(i)) then
+            this.tLastLowPIDErrors(ViewModel_Pid_Errors.EMotionComponent(i)) := this.tPreviousPIDErrors(ViewModel_Pid_Errors.EMotionComponent(i));
+         end if;
+         if xCurrentErrorDirections(i) < this.tPreviousPIDErrorDirection(ViewModel_Pid_Errors.EMotionComponent(i)) then
+            this.fOscTimes(ViewModel_Pid_Errors.EMotionComponent(i)) := this.fCurrentOscTimeCounter(ViewModel_Pid_Errors.EMotionComponent(i));
+            this.fCurrentOscTimeCounter(ViewModel_Pid_Errors.EMotionComponent(i)) := 0.0;
+            this.tLastHighPIDErrors(ViewModel_Pid_Errors.EMotionComponent(i)) := this.tPreviousPIDErrors(ViewModel_Pid_Errors.EMotionComponent(i));
+         end if;
+
+         this.tPreviousPIDErrorDirection(ViewModel_Pid_Errors.EMotionComponent(i)) := xCurrentErrorDirections(i);
+
 
          if xCurrentErrors(i) > this.tMaximumPIDErrors(ViewModel_Pid_Errors.EMotionComponent(i)) then
             this.tMaximumPIDErrors(ViewModel_Pid_Errors.EMotionComponent(i)) := xCurrentErrors(i);
@@ -80,7 +108,10 @@ package body Simulator.ViewModel_Pid_Errors is
          if xCurrentErrors(i) < this.tMinimumPIDErrors(ViewModel_Pid_Errors.EMotionComponent(i)) then
             this.tMinimumPIDErrors(ViewModel_Pid_Errors.EMotionComponent(i)) := xCurrentErrors(i);
          end if;
+
+         this.tPreviousPIDErrors((ViewModel_Pid_Errors.EMotionComponent(i))) := xCurrentErrors(i);
       end loop;
+
 
    end Update_Min_Max_Error_Buffers;
 
@@ -96,8 +127,19 @@ package body Simulator.ViewModel_Pid_Errors is
 
    function fGet_Min_Max_Error_Diff(this : in CViewModel_PID_Errors; eErrorComponent : in EMotionComponent) return float is
    begin
-      return abs(this.fGet_Maximum_Error(eErrorComponent) - this.fGet_Minimum_Error(eErrorComponent));
+      return this.tLastHighPIDErrors(eErrorComponent) - this.tLastLowPIDErrors(eErrorComponent);
    end fGet_Min_Max_Error_Diff;
 
+   function fGet_OscilationTime(this : in CViewModel_PID_Errors; eErrorComponent : in EMotionComponent) return float is
+   begin
+   	return this.fOscTimes(eErrorComponent);
+   end fGet_OscilationTime;
+
+
+   procedure Reset_Min_Max_Error_Buffers(this : in out CViewModel_PID_Errors) is
+   begin
+      this.tMaximumPIDErrors := (others => 0.0);
+      this.tMinimumPIDErrors := (others => 0.0);
+   end Reset_Min_Max_Error_Buffers;
 
 end Simulator.ViewModel_Pid_Errors;

@@ -132,6 +132,13 @@ package body PIDErrorsGUILogic is
       return true;
    end bUpdate_Window;
 
+   procedure Reset is
+      use Simulator.ViewModel_Pid_Errors;
+   begin
+      if(xViewModel /= null) then
+         xViewModel.Reset_Min_Max_Error_Buffers;
+      end if;
+   end Reset;
 
    procedure Update_Error_Labels(pxObject : access Gtkada.Builder.Gtkada_Builder_Record'Class) is
 
@@ -145,23 +152,22 @@ package body PIDErrorsGUILogic is
    begin
 
       xXPositionLabel := Gtk.Label.Gtk_Label(Gtkada.Builder.Get_Widget(pxObject, "lblXPosition"));
-      xXPositionLabel.Set_Text("Position X (Mi:" & Text_Handling.sGet_Formatted_Float_String(xViewModel.fGet_Minimum_Error(Simulator.ViewModel_Pid_Errors.PositionX)) & " Ma:" & Text_Handling.sGet_Formatted_Float_String(xViewModel.fGet_Maximum_Error(Simulator.ViewModel_Pid_Errors.PositionX)) & " D:" & Text_Handling.sGet_Formatted_Float_String(xViewModel.fGet_Min_Max_Error_Diff(Simulator.ViewModel_Pid_Errors.PositionX)));
+      xXPositionLabel.Set_Text("Position X (Mi:" & Text_Handling.sGet_Formatted_Float_String(xViewModel.fGet_Minimum_Error(Simulator.ViewModel_Pid_Errors.PositionX)) & " Ma:" & Text_Handling.sGet_Formatted_Float_String(xViewModel.fGet_Maximum_Error(Simulator.ViewModel_Pid_Errors.PositionX)) & " D:" & Text_Handling.sGet_Formatted_Float_String(xViewModel.fGet_Min_Max_Error_Diff(Simulator.ViewModel_Pid_Errors.PositionX)) & " O: " & Text_Handling.sGet_Formatted_Float_String(xViewModel.fGet_OscilationTime(Simulator.ViewModel_Pid_Errors.PositionX)));
 
       xYPositionLabel := Gtk.Label.Gtk_Label(Gtkada.Builder.Get_Widget(pxObject, "lblYPosition"));
-      xYPositionLabel.Set_Text("Position Y (Mi:" & Text_Handling.sGet_Formatted_Float_String(xViewModel.fGet_Minimum_Error(Simulator.ViewModel_Pid_Errors.PositionY)) & " Ma:" & Text_Handling.sGet_Formatted_Float_String(xViewModel.fGet_Maximum_Error(Simulator.ViewModel_Pid_Errors.PositionY)) & " D:" & Text_Handling.sGet_Formatted_Float_String(xViewModel.fGet_Min_Max_Error_Diff(Simulator.ViewModel_Pid_Errors.PositionY)));
+      xYPositionLabel.Set_Text("Position Y (Mi:" & Text_Handling.sGet_Formatted_Float_String(xViewModel.fGet_Minimum_Error(Simulator.ViewModel_Pid_Errors.PositionY)) & " Ma:" & Text_Handling.sGet_Formatted_Float_String(xViewModel.fGet_Maximum_Error(Simulator.ViewModel_Pid_Errors.PositionY)) & " D:" & Text_Handling.sGet_Formatted_Float_String(xViewModel.fGet_Min_Max_Error_Diff(Simulator.ViewModel_Pid_Errors.PositionY)) & " O: " & Text_Handling.sGet_Formatted_Float_String(xViewModel.fGet_OscilationTime(Simulator.ViewModel_Pid_Errors.PositionY)));
 
       xZPositionLabel := Gtk.Label.Gtk_Label(Gtkada.Builder.Get_Widget(pxObject, "lblZPosition"));
-      xZPositionLabel.Set_Text("Position Z (Mi:" & Text_Handling.sGet_Formatted_Float_String(xViewModel.fGet_Minimum_Error(Simulator.ViewModel_Pid_Errors.PositionZ)) & " Ma:" & Text_Handling.sGet_Formatted_Float_String(xViewModel.fGet_Maximum_Error(Simulator.ViewModel_Pid_Errors.PositionZ)) & " D:" & Text_Handling.sGet_Formatted_Float_String(xViewModel.fGet_Min_Max_Error_Diff(Simulator.ViewModel_Pid_Errors.PositionZ)));
+      xZPositionLabel.Set_Text("Position Z (Mi:" & Text_Handling.sGet_Formatted_Float_String(xViewModel.fGet_Minimum_Error(Simulator.ViewModel_Pid_Errors.PositionZ)) & " Ma:" & Text_Handling.sGet_Formatted_Float_String(xViewModel.fGet_Maximum_Error(Simulator.ViewModel_Pid_Errors.PositionZ)) & " D:" & Text_Handling.sGet_Formatted_Float_String(xViewModel.fGet_Min_Max_Error_Diff(Simulator.ViewModel_Pid_Errors.PositionZ)) & " O: " & Text_Handling.sGet_Formatted_Float_String(xViewModel.fGet_OscilationTime(Simulator.ViewModel_Pid_Errors.PositionZ)));
 
       xXRotationLabel := Gtk.Label.Gtk_Label(Gtkada.Builder.Get_Widget(pxObject, "lblRotX"));
-      xXRotationLabel.Set_Text("Rotation X (Mi:" & Text_Handling.sGet_Formatted_Float_String(xViewModel.fGet_Minimum_Error(Simulator.ViewModel_Pid_Errors.RotationX)) & " Ma:" & Text_Handling.sGet_Formatted_Float_String(xViewModel.fGet_Maximum_Error(Simulator.ViewModel_Pid_Errors.RotationX)) & " D:" & Text_Handling.sGet_Formatted_Float_String(xViewModel.fGet_Min_Max_Error_Diff(Simulator.ViewModel_Pid_Errors.RotationX)));
+      xXRotationLabel.Set_Text("Rotation X (Mi:" & Text_Handling.sGet_Formatted_Float_String(xViewModel.fGet_Minimum_Error(Simulator.ViewModel_Pid_Errors.RotationX)) & " Ma:" & Text_Handling.sGet_Formatted_Float_String(xViewModel.fGet_Maximum_Error(Simulator.ViewModel_Pid_Errors.RotationX)) & " D:" & Text_Handling.sGet_Formatted_Float_String(xViewModel.fGet_Min_Max_Error_Diff(Simulator.ViewModel_Pid_Errors.RotationX)) & " O: " & Text_Handling.sGet_Formatted_Float_String(xViewModel.fGet_OscilationTime(Simulator.ViewModel_Pid_Errors.RotationX)));
 
       xYRotationLabel := Gtk.Label.Gtk_Label(Gtkada.Builder.Get_Widget(pxObject, "lblRotY"));
-      xYRotationLabel.Set_Text("Rotation Y (Mi:" & Text_Handling.sGet_Formatted_Float_String(xViewModel.fGet_Minimum_Error(Simulator.ViewModel_Pid_Errors.RotationY)) & " Ma:" & Text_Handling.sGet_Formatted_Float_String(xViewModel.fGet_Maximum_Error(Simulator.ViewModel_Pid_Errors.RotationY)) & " D:" & Text_Handling.sGet_Formatted_Float_String(xViewModel.fGet_Min_Max_Error_Diff(Simulator.ViewModel_Pid_Errors.RotationY)));
+      xYRotationLabel.Set_Text("Rotation Y (Mi:" & Text_Handling.sGet_Formatted_Float_String(xViewModel.fGet_Minimum_Error(Simulator.ViewModel_Pid_Errors.RotationY)) & " Ma:" & Text_Handling.sGet_Formatted_Float_String(xViewModel.fGet_Maximum_Error(Simulator.ViewModel_Pid_Errors.RotationY)) & " D:" & Text_Handling.sGet_Formatted_Float_String(xViewModel.fGet_Min_Max_Error_Diff(Simulator.ViewModel_Pid_Errors.RotationY))& " O: " & Text_Handling.sGet_Formatted_Float_String(xViewModel.fGet_OscilationTime(Simulator.ViewModel_Pid_Errors.RotationY)));
 
       xZRotationLabel := Gtk.Label.Gtk_Label(Gtkada.Builder.Get_Widget(pxObject, "lblRotZ"));
-      xZRotationLabel.Set_Text("Rotation Z (Mi:" & Text_Handling.sGet_Formatted_Float_String(xViewModel.fGet_Minimum_Error(Simulator.ViewModel_Pid_Errors.RotationZ)) & " Ma:" & Text_Handling.sGet_Formatted_Float_String(xViewModel.fGet_Maximum_Error(Simulator.ViewModel_Pid_Errors.RotationZ)) & " D:" & Text_Handling.sGet_Formatted_Float_String(xViewModel.fGet_Min_Max_Error_Diff(Simulator.ViewModel_Pid_Errors.RotationZ)));
-
+      xZRotationLabel.Set_Text("Rotation Z (Mi:" & Text_Handling.sGet_Formatted_Float_String(xViewModel.fGet_Minimum_Error(Simulator.ViewModel_Pid_Errors.RotationZ)) & " Ma:" & Text_Handling.sGet_Formatted_Float_String(xViewModel.fGet_Maximum_Error(Simulator.ViewModel_Pid_Errors.RotationZ)) & " D:" & Text_Handling.sGet_Formatted_Float_String(xViewModel.fGet_Min_Max_Error_Diff(Simulator.ViewModel_Pid_Errors.RotationZ))& " O: " & Text_Handling.sGet_Formatted_Float_String(xViewModel.fGet_OscilationTime(Simulator.ViewModel_Pid_Errors.RotationZ)));
 
    end Update_Error_Labels;
 
@@ -215,4 +221,7 @@ procedure Register_Timeouts(pxObject : access Gtkada.Builder.Gtkada_Builder_Reco
       end if;
 
    end Register_Timeouts;
+
+
+
 end PIDErrorsGUILogic;
