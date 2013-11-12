@@ -160,13 +160,8 @@ package body Navigation.Orientational_Controller is
 
    end Update_Current_Z_Rotation_Error;
 
-<<<<<<< HEAD
 
-
-   procedure Update_Current_Y_Rotation_Error (this : in COrientationalController) is
-=======
    procedure Update_Current_Y_Rotation_Error (this : in out COrientationalController) is
->>>>>>> 3267966e5ad7f11745ebcfacc40b241c0ebdade9
       use Math.Matrices;
       xWantedRelativeOrientation : Math.Matrices.CMatrix;
       xCurrentRelativeOrientation : Math.Matrices.CMatrix;

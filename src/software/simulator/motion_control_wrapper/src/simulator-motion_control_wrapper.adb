@@ -11,23 +11,17 @@ package body simulator.Motion_Control_Wrapper is
       pxWrapper := new CWrapDispatcher;
       pxWrapper.pxDispatcher := navigation.Dispatcher.pxCreate;
 
-      pxWrapper.pxDispatcher.Set_New_Component_PID_Scalings(eComponentToChange => Navigation.Motion_Component.X,
+      pxWrapper.pxDispatcher.Set_New_Component_PID_Scalings(eComponentToChange => Navigation.Motion_Component.PositionX,
                                                             xNewPIDSCalings    => (0.0,0.0,0.0));
-      pxWrapper.pxDispatcher.Set_New_Component_PID_Scalings(eComponentToChange => Navigation.Motion_Component.Y,
+      pxWrapper.pxDispatcher.Set_New_Component_PID_Scalings(eComponentToChange => Navigation.Motion_Component.PositionY,
                                                             xNewPIDSCalings    => (0.0,0.0,0.0));
-      pxWrapper.pxDispatcher.Set_New_Component_PID_Scalings(eComponentToChange => Navigation.Motion_Component.Z,
+      pxWrapper.pxDispatcher.Set_New_Component_PID_Scalings(eComponentToChange => Navigation.Motion_Component.PositionZ,
                                                             xNewPIDSCalings    => (0.0,0.0,0.0));
       pxWrapper.pxDispatcher.Set_New_Component_PID_Scalings(eComponentToChange => Navigation.Motion_Component.RotationX,
                                                             xNewPIDSCalings    => (0.0,0.0,0.0));
       pxWrapper.pxDispatcher.Set_New_Component_PID_Scalings(eComponentToChange => Navigation.Motion_Component.RotationY,
                                                             xNewPIDSCalings    => (0.0,0.0,0.0));
       pxWrapper.pxDispatcher.Set_New_Component_PID_Scalings(eComponentToChange => Navigation.Motion_Component.RotationZ,
-                                                            xNewPIDSCalings    => (0.0,0.0,0.0));
-      pxWrapper.pxDispatcher.Set_New_Component_PID_Scalings(eComponentToChange => Navigation.Motion_Component.DriftX,
-                                                            xNewPIDSCalings    => (0.0,0.0,0.0));
-      pxWrapper.pxDispatcher.Set_New_Component_PID_Scalings(eComponentToChange => Navigation.Motion_Component.DriftY,
-                                                            xNewPIDSCalings    => (0.0,0.0,0.0));
-      pxWrapper.pxDispatcher.Set_New_Component_PID_Scalings(eComponentToChange => Navigation.Motion_Component.DriftZ,
                                                             xNewPIDSCalings    => (0.0,0.0,0.0));
       pxWrapper.pxWantedPositionVector:=math.Vectors.xCreate(0.0,0.0,0.0).pxGet_Allocated_Copy;
       pxWrapper.pxWantedOrientationMatrix:= math.Matrices.xCreate_Identity.pxGet_Allocated_Copy;
@@ -52,7 +46,8 @@ package body simulator.Motion_Control_Wrapper is
       this.pxDispatcher.Update_Current_Absolute_Position(xNewCurrentAbsolutePosition);
       this.pxDispatcher.Update_Current_Absolute_Orientation(xNewCurrentOrientation);
 
-      tfMotorValuesTThrustesValuesArray := this.pxDispatcher.tfGet_Thruster_Values(fDeltaTime => fDeltaTime);
+      this.pxDispatcher.Get_Thruster_Values(fDeltaTime => fDeltaTime,
+                                                                                 tfValues   => tfMotorValuesTThrustesValuesArray);
 
       tfMotorValuesSubmarine(1) := tfMotorValuesTThrustesValuesArray(1)*6.8*9.82*0.01;
       tfMotorValuesSubmarine(2) := tfMotorValuesTThrustesValuesArray(2)*6.8*9.82*0.01;

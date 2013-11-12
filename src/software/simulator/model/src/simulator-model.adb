@@ -9,7 +9,7 @@ package body Simulator.Model is
 
    begin
       pxModel := new Simulator.Model.CModel;
-      pxModel.iMotorUpdateFrequencyInHertz:=iMotorUpdateFrequency;
+      pxModel.fTimeBetweenMotorUpdates:=1.0/float(iMotorUpdateFrequency);
       pxModel.pxSubmarine := Simulator.submarine.pxCreate_Naiad;
       pxModel.pxMotionControlWrapper := Simulator.Motion_Control_Wrapper.pxCreate_Wrap_Dispatcher;
       --pxModel.pOwnerUpdateProcedure := pOwnerUpdateProcedure;

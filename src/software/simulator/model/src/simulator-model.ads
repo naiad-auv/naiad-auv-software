@@ -44,6 +44,7 @@ private
       record
          --pxOwner : access Simulator.Update_Interface.CWithUpdate'Class;
          fTimeSinceLastMotorUpdate : float := 0.0;
+         fTimeBetweenMotorUpdates : float;
          iMotorUpdateFrequencyInHertz : Integer := 0;
          pxSubmarine : Simulator.submarine.pCSubmarine;
          pxMotionControlWrapper : Simulator.Motion_Control_Wrapper.pCWrapDispatcher;
