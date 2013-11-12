@@ -1,3 +1,4 @@
+with Math.Elementary;
 with Math.Angles;
 with Math.Vectors;
 with Math.Planes;
@@ -54,6 +55,10 @@ private
          xYRotMotionComponent : Navigation.Motion_Component.CMotionComponent;
          xZRotMotionComponent : Navigation.Motion_Component.CMotionComponent;
 
+         fCurrentXRotationError : float;
+         fCurrentYRotationError : float;
+         fCurrentZRotationError : float;
+         fSavedDeltaTime : float;
       end record;
 
 end Navigation.Orientational_Controller;
