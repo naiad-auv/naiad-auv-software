@@ -88,20 +88,20 @@ package body Navigation.Orientational_Controller is
 
    function xGet_X_Rotation_Thruster_Control_Value (this : in COrientationalController; fDeltaTime : in float) return Navigation.Thrusters.TThrusterEffects is
    begin
-      return (Navigation.Thrusters.XRotation => this.pxXRotMotionComponent.xGet_New_Component_Control_Value(fDeltaTime).fValue,
+      return (Navigation.Thrusters.XRotation => this.pxXRotMotionComponent.fGet_New_Component_Control_Value(fDeltaTime),
               others => 0.0);
    end xGet_X_Rotation_Thruster_Control_Value;
 
    function xGet_Y_Rotation_Thruster_Control_Value (this : in COrientationalController; fDeltaTime : in float) return Navigation.Thrusters.TThrusterEffects is
    begin
-      return (Navigation.Thrusters.YRotation => this.pxYRotMotionComponent.xGet_New_Component_Control_Value(fDeltaTime).fValue,
+      return (Navigation.Thrusters.YRotation => this.pxYRotMotionComponent.fGet_New_Component_Control_Value(fDeltaTime),
               others => 0.0);
    end xGet_Y_Rotation_Thruster_Control_Value;
 
 
    function xGet_Z_Rotation_Thruster_Control_Value (this : in COrientationalController; fDeltaTime : in float) return Navigation.Thrusters.TThrusterEffects is
    begin
-      return (Navigation.Thrusters.ZRotation => this.pxZRotMotionComponent.xGet_New_Component_Control_Value(fDeltaTime).fValue,
+      return (Navigation.Thrusters.ZRotation => this.pxZRotMotionComponent.fGet_New_Component_Control_Value(fDeltaTime),
               others => 0.0);
    end xGet_Z_Rotation_Thruster_Control_Value;
 

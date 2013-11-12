@@ -16,37 +16,34 @@ package body Navigation.Positional_Controller is
       xPositionalController.pxCurrentAbsoluteOrientation := pxCurrentAbsoluteOrientation;
       xPositionalController.pxCurrentAbsoluteOrientationInverse := pxCurrentAbsoluteOrientationInverse;
 
-      xPositionalController.pxXMotionComponent := Navigation.Motion_Component.pxCreate(eAxisIndex    => Navigation.Motion_Component.X,
+      xPositionalController.pxXMotionComponent := Navigation.Motion_Component.pxCreate(eAxisIndex    => Navigation.Motion_Component.PositionX,
                                                                                        xPIDScalings => Navigation.PID_Controller.TPIDComponentScalings'(0.0,0.0,0.0));
 
-      xPositionalController.pxYMotionComponent := Navigation.Motion_Component.pxCreate(eAxisIndex    => Navigation.Motion_Component.Y,
+      xPositionalController.pxYMotionComponent := Navigation.Motion_Component.pxCreate(eAxisIndex    => Navigation.Motion_Component.PositionY,
                                                                                        xPIDScalings => Navigation.PID_Controller.TPIDComponentScalings'(0.0,0.0,0.0));
 
-      xPositionalController.pxZMotionComponent := Navigation.Motion_Component.pxCreate(eAxisIndex    => Navigation.Motion_Component.Z,
+      xPositionalController.pxZMotionComponent := Navigation.Motion_Component.pxCreate(eAxisIndex    => Navigation.Motion_Component.PositionZ,
                                                                                        xPIDScalings => Navigation.PID_Controller.TPIDComponentScalings'(0.0,0.0,0.0));
 
-      --Ada.Text_IO.Put_Line("CAO: " & System.Address_Image(xPositionalController.pxCurrentAbsoluteOrientation.all'Address));
-      --Ada.Text_IO.Put_Line("CAP: " & System.Address_Image(xPositionalController.pxCurrentAbsolutePosition.all'Address));
-      --Ada.Text_IO.Put_Line("WAP: " & System.Address_Image(xPositionalController.pxWantedAbsolutePosition.all'Address));
       return xPositionalController;
 
    end pxCreate;
 
-   function xGet_Positional_Thruster_Control_Values(this : in CPositionalController; fDeltaTime : float) return Navigation.Thrusters.TThrusterEffects is
-      xXControlValue : Navigation.Motion_Component.TComponentControlValue;
-      xYControlValue : Navigation.Motion_Component.TComponentControlValue;
-      xZControlValue : Navigation.Motion_Component.TComponentControlValue;
+   procedure Get_Positional_Thruster_Control_Values(this : in CPositionalController; fDeltaTime : float; tfValues : out Navigation.Thrusters.TThrusterEffects) is
+      fXControlValue : float;
+      fYControlValue : float;
+      fZControlValue : float;
    begin
 
-      xXControlValue := this.pxXMotionComponent.xGet_New_Component_Control_Value(fDeltaTime);
-      xYControlValue := this.pxYMotionComponent.xGet_New_Component_Control_Value(fDeltaTime);
-      xZControlValue := this.pxZMotionComponent.xGet_New_Component_Control_Value(fDeltaTime);
+      fXControlValue := this.pxXMotionComponent.fGet_New_Component_Control_Value(fDeltaTime);
+      fYControlValue := this.pxYMotionComponent.fGet_New_Component_Control_Value(fDeltaTime);
+      fZControlValue := this.pxZMotionComponent.fGet_New_Component_Control_Value(fDeltaTime);
 
-      return Navigation.Thrusters.TThrusterEffects'(Navigation.Thrusters.XPosition => xXControlValue.fValue,
-                                                    Navigation.Thrusters.YPosition => xYControlValue.fValue,
-                                                                         Navigation.Thrusters.ZPosition => xZControlValue.fValue,
-                                                                         others => 0.0);
-   end xGet_Positional_Thruster_Control_Values;
+      tfValues := (Navigation.Thrusters.XPosition => fXControlValue,
+                   Navigation.Thrusters.YPosition => fYControlValue,
+                   Navigation.Thrusters.ZPosition => fZControlValue,
+                   others => 0.0);
+   end Get_Positional_Thruster_Control_Values;
 
 
 
@@ -74,14 +71,14 @@ package body Navigation.Positional_Controller is
 
 
 
-   procedure Set_New_PID_Component_Scalings(this : in out CPositionalController; eComponentToUpdate : Navigation.Motion_Component.EMotionComponent; xNewPIDScaling : Navigation.PID_Controller.TPIDComponentScalings) is
+   procedure Set_New_PID_Component_Scalings(this : in CPositionalController; eComponentToUpdate : Navigation.Motion_Component.EMotionComponent; xNewPIDScaling : Navigation.PID_Controller.TPIDComponentScalings) is
    begin
       case eComponentToUpdate is
-         when Navigation.Motion_Component.X =>
+         when Navigation.Motion_Component.PositionX =>
             this.pxXMotionComponent.Set_New_PID_Component_Scalings(xNewPIDScaling);
-         when Navigation.Motion_Component.Y =>
+         when Navigation.Motion_Component.PositionY =>
             this.pxYMotionComponent.Set_New_PID_Component_Scalings(xNewPIDScaling);
-         when Navigation.Motion_Component.Z =>
+         when Navigation.Motion_Component.PositionZ =>
             this.pxZMotionComponent.Set_New_PID_Component_Scalings(xNewPIDScaling);
          when Navigation.Motion_Component.AllComponents =>
             this.pxXMotionComponent.Set_New_PID_Component_Scalings(xNewPIDScaling);
@@ -118,9 +115,9 @@ package body Navigation.Positional_Controller is
 
    function fGetCurrentErrors(this : in CPositionalController) return TPositionalErrors is
    begin
-      return TPositionalErrors'(Navigation.Motion_Component.X => this.pxXMotionComponent.fGetCurrentError,
-                                Navigation.Motion_Component.Y => this.pxYMotionComponent.fGetCurrentError,
-                                Navigation.Motion_Component.Z => this.pxZMotionComponent.fGetCurrentError);
+      return TPositionalErrors'(Navigation.Motion_Component.PositionX => this.pxXMotionComponent.fGetCurrentError,
+                                Navigation.Motion_Component.PositionY => this.pxYMotionComponent.fGetCurrentError,
+                                Navigation.Motion_Component.PositionZ => this.pxZMotionComponent.fGetCurrentError);
    end fGetCurrentErrors;
 
 end Navigation.Positional_Controller;

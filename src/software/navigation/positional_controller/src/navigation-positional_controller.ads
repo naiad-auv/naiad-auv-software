@@ -15,7 +15,7 @@ package Navigation.Positional_Controller is
    type CPositionalController is new Ada.Finalization.Controlled with private;
    type pCPositionalController is access CPositionalController;
 
-   type TPositionalErrors is array (Navigation.Motion_Component.X .. Navigation.Motion_Component.Z) of float;
+   type TPositionalErrors is array (Navigation.Motion_Component.PositionX .. Navigation.Motion_Component.PositionZ) of float;
 
    procedure Free(pxPositionalControllerToDeallocate : in out pCPositionalController);
 
@@ -24,7 +24,7 @@ package Navigation.Positional_Controller is
    --  <parameter name="pxCurrentAbsoluteOrientation">A reference to the current absolute position</parameter>
    --  <parameter name="pxWantedAbsoluteOrientation">A reference to the wanted absolute position</parameter>
 
-   function xGet_Positional_Thruster_Control_Values(this : in CPositionalController; fDeltaTime : float) return Navigation.Thrusters.TThrusterEffects;
+   procedure Get_Positional_Thruster_Control_Values(this : in CPositionalController; fDeltaTime : float; tfValues : out Navigation.Thrusters.TThrusterEffects);
    --  <summary>Calculates thruster control values for all thrusters and scales them accordingly</summary>
    --  <parameter name="this">The CPositionalController to do the calculations upon.</parameter>
    --  <parameter name="fDeltaTime">The time difference since the last calculation.</parameter>
@@ -33,7 +33,7 @@ package Navigation.Positional_Controller is
    --  <summary>Cascades the difference between the current orientation and the wanted orientation to all motion components</summary>
    --  <parameter name="this">The CPositionalController object that holds the objects that needs to be updated</parameter>
 
-   procedure Set_New_PID_Component_Scalings(this : in out CPositionalController; eComponentToUpdate : Navigation.Motion_Component.EMotionComponent; xNewPIDScaling : Navigation.PID_Controller.TPIDComponentScalings);
+   procedure Set_New_PID_Component_Scalings(this : in CPositionalController; eComponentToUpdate : Navigation.Motion_Component.EMotionComponent; xNewPIDScaling : Navigation.PID_Controller.TPIDComponentScalings);
    --  <summary>Sets new component scalings on a PID controller held by the CPositionalController in question</summary>
    --  <parameter name="this">The CPositionalController object that holds the PID controller to update.</parameter>
    --  <parameter name="xNewPIDSCalings">The TPIDComponetScalings object to set for the object.</parameter>
