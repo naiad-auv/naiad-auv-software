@@ -3,9 +3,11 @@ with Exception_Handling;
 
 package body Simulator.Pid_Errors is
 
-   -------------------
-   -- Update_Errors --
-   -------------------
+
+   -------------------------------------
+   -- Update_Current_Z_Rotation_Error --
+   -------------------------------------
+
 
  procedure Update_Current_Z_Rotation_Error (this : in out CPidErrors; xWantedAbsoluteOrientation : math.Matrices.CMatrix ; xCurrentAbsoluteOrientationInverse : math.Matrices.CMatrix) is
       use Math.Matrices;
@@ -57,6 +59,10 @@ package body Simulator.Pid_Errors is
                                               Message => "Navigation.Orientational_Controller.Update_Current_Z_Rotation_Error (this : in COrientationalController)");
 
    end Update_Current_Z_Rotation_Error;
+
+   -------------------------------------
+   -- Update_Current_Y_Rotation_Error --
+   -------------------------------------
 
  procedure Update_Current_Y_Rotation_Error (this : in out CPidErrors; xWantedAbsoluteOrientation : math.Matrices.CMatrix ; xCurrentAbsoluteOrientationInverse : math.Matrices.CMatrix) is
       use Math.Matrices;
@@ -110,6 +116,9 @@ package body Simulator.Pid_Errors is
 
    end Update_Current_Y_Rotation_Error;
 
+   -------------------------------------
+   -- Update_Current_X_Rotation_Error --
+   -------------------------------------
 
  procedure Update_Current_X_Rotation_Error (this : in out CPidErrors; xWantedAbsoluteOrientation : math.Matrices.CMatrix ; xCurrentAbsoluteOrientationInverse : math.Matrices.CMatrix) is
       use Math.Matrices;
@@ -164,7 +173,9 @@ package body Simulator.Pid_Errors is
    end Update_Current_X_Rotation_Error;
 
 
-
+   --------------------------------------
+   -- Update_Current_Positional_Errors --
+   --------------------------------------
 
    procedure Update_Current_Positional_Errors (this : in out simulator.Pid_Errors.CPidErrors ; xWantedAbsolutePosition : math.Vectors.CVector ; xCurrentAbsolutePosition : math.Vectors.CVector; xCurrentAbsoluteOrientationInverse : math.Matrices.CMatrix) is
       use Math.Vectors;
@@ -176,12 +187,15 @@ package body Simulator.Pid_Errors is
       xAbsoluteDifferenceVector := xWantedAbsolutePosition - xCurrentAbsolutePosition;
       xRelativeWantedPositionVector := xCurrentAbsoluteOrientationInverse * xAbsoluteDifferenceVector;
 
-      this.tfPIDErrors(X) := xRelativeWantedPositionVector.fGet_X;
-      this.tfPIDErrors(Y) := xRelativeWantedPositionVector.fGet_Y;
-      this.tfPIDErrors(Z) := xRelativeWantedPositionVector.fGet_Z;
+      this.tfPIDErrors(PositionX) := xRelativeWantedPositionVector.fGet_X;
+      this.tfPIDErrors(PositionY) := xRelativeWantedPositionVector.fGet_Y;
+      this.tfPIDErrors(PositionZ) := xRelativeWantedPositionVector.fGet_Z;
 
    end Update_Current_Positional_Errors;
 
+   -------------------
+   -- Update_Errors --
+   -------------------
 
    procedure Update_Errors
      (this : in out CPidErrors ; xCurrentAbsolutePosition : math.Vectors.CVector ; xWantedAbsolutePosition : math.Vectors.CVector ; xVelocityVector : math.Vectors.CVector; xCurrentAbsoluteOrientation : math.Matrices.CMatrix; xWantedAbsoluteOrientation : math.Matrices.CMatrix) is
@@ -189,6 +203,7 @@ package body Simulator.Pid_Errors is
 
       xCurrentAbsoluteOrientationInverse : math.Matrices.CMatrix :=  xCurrentAbsoluteOrientation.xGet_Inverse;
    begin
+
 
       this.Update_Current_Z_Rotation_Error(xWantedAbsoluteOrientation         => xWantedAbsoluteOrientation,
                                            xCurrentAbsoluteOrientationInverse => xCurrentAbsoluteOrientationInverse);
@@ -201,7 +216,9 @@ package body Simulator.Pid_Errors is
                                             xCurrentAbsoluteOrientationInverse => xCurrentAbsoluteOrientationInverse);
    end Update_Errors;
 
-
+   --------------
+   -- pxCreate --
+   --------------
 
    function pxCreate return pCPidErrors is
       pxPidErrors : pCPidErrors;
@@ -210,7 +227,9 @@ package body Simulator.Pid_Errors is
       return pxPidErrors;
    end pxCreate;
 
-
+   ----------
+   -- Free --
+   ----------
 
    procedure Free(pxPidErrors: in out pCPidErrors) is
       procedure Dealloc is new Ada.Unchecked_Deallocation(CPidErrors, pCPidErrors);
@@ -218,6 +237,9 @@ package body Simulator.Pid_Errors is
       Dealloc(pxPidErrors);
    end;
 
+   ----------------------------------
+   -- fGet_PID_Error_For_Component --
+   ----------------------------------
 
    function fGet_PID_Error_For_Component(this : in CPidErrors; eErrorComponent : in EMotionComponent) return float is
 

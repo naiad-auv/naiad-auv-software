@@ -19,7 +19,7 @@ package body Simulator.ViewModel_Pid_Errors is
       xMotionalErrors := this.pxModel.xGet_Current_Motional_Errors;
 
       case eErrorComponent is
-      when X .. Z =>
+      when PositionX .. PositionZ =>
          return xMotionalErrors(Navigation.Motion_Component.EMotionComponent(eErrorComponent));
          when others =>
             null;
