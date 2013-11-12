@@ -65,4 +65,39 @@ package body Simulator.ViewModel_Pid_Errors is
       Dealloc(pxViewModel_Pid_Errors);
    end;
 
+
+   procedure Update_Min_Max_Error_Buffers(this : in out CViewModel_Pid_Errors) is
+     xCurrentErrors : Navigation.Dispatcher.TMotionalErrors;
+   begin
+      xCurrentErrors := this.pxModel.xGet_Current_Motional_Errors;
+
+      for i in xCurrentErrors'Range loop
+
+         if xCurrentErrors(i) > this.tMaximumPIDErrors(ViewModel_Pid_Errors.EMotionComponent(i)) then
+            this.tMaximumPIDErrors(ViewModel_Pid_Errors.EMotionComponent(i)) := xCurrentErrors(i);
+         end if;
+
+         if xCurrentErrors(i) < this.tMinimumPIDErrors(ViewModel_Pid_Errors.EMotionComponent(i)) then
+            this.tMinimumPIDErrors(ViewModel_Pid_Errors.EMotionComponent(i)) := xCurrentErrors(i);
+         end if;
+      end loop;
+
+   end Update_Min_Max_Error_Buffers;
+
+   function fGet_Maximum_Error(this : in CViewModel_PID_Errors; eErrorComponent : in EMotionComponent) return float is
+   begin
+      return this.tMaximumPIDErrors(eErrorComponent);
+   end fGet_Maximum_Error;
+
+   function fGet_Minimum_Error(this : in CViewModel_PID_Errors; eErrorComponent : in EMotionComponent) return float is
+   begin
+      return this.tMinimumPIDErrors(eErrorComponent);
+   end fGet_Minimum_Error;
+
+   function fGet_Min_Max_Error_Diff(this : in CViewModel_PID_Errors; eErrorComponent : in EMotionComponent) return float is
+   begin
+      return abs(this.fGet_Maximum_Error(eErrorComponent) - this.fGet_Minimum_Error(eErrorComponent));
+   end fGet_Min_Max_Error_Diff;
+
+
 end Simulator.ViewModel_Pid_Errors;

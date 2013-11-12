@@ -34,9 +34,11 @@ with Gtk.Status_Bar;
 with Simulator.Model;
 with Ada.Exceptions;
 
+with Text_Handling;
+
 package body MainWindowLogic is
 
-   type EView is (Side, Top, Back, Full);
+   type EView is (Side, Top, Back, Full, FullWanted);
 
    type TPoint is record
       X : float;
@@ -53,13 +55,21 @@ package body MainWindowLogic is
       eId : EView;
    end record;
 
+   type T3DView is record
+      xCanvas : Gtk.Drawing_Area.Gtk_Drawing_Area;
+      iHeight : integer;
+      iWidth : integer;
+      eId : EView;
+   end record;
+
+
    type TStatusBar is record
       xStatusBar : Gtk.Status_Bar.Gtk_Status_Bar;
       eId : EView;
    end record;
 
    package Drawing_Timeout_Drawing_View is new Glib.Main.Generic_Sources (TView);
-   package Drawing_Timeout_Drawing_Area is new Glib.Main.Generic_Sources (Gtk.Drawing_Area.Gtk_Drawing_Area);
+   package Drawing_Timeout_Drawing_3DView is new Glib.Main.Generic_Sources (T3DView);
    package Drawing_Timeout_Status_Bars is new Glib.Main.Generic_Sources (TStatusBar);
 
    package Update_Viewmodel_PKG is new Glib.Main.Generic_Sources(Integer);
@@ -67,7 +77,8 @@ package body MainWindowLogic is
    xTimeoutSideView : Glib.Main.G_Source_Id;
    xTimeoutBackView : Glib.Main.G_Source_Id;
    xTimeoutTopView : Glib.Main.G_Source_Id;
-   xTimeout3D : Glib.Main.G_Source_Id;
+   xTimeoutCurrent3D : Glib.Main.G_Source_Id;
+   xTimeoutWanted3D : Glib.Main.G_Source_Id;
 
    xTimeOutTopStatusBar :Glib.Main.G_Source_Id;
    xTimeOutSideStatusBar :Glib.Main.G_Source_Id;
@@ -102,22 +113,29 @@ package body MainWindowLogic is
       return xViewPositions;
    end fGet_Positions_For_View;
 
+
+
    function bUpdateStatusBarText(xBar : TStatusBar) return boolean is
 
+      use Simulator.Model;
+
       msgid : Gtk.Status_Bar.Message_Id;
+
    begin
 
       xBar.xStatusBar.Remove_All(xBar.xStatusBar.Get_Context_Id("Statusbar test"));
 
       case xBar.eId is
       when Top =>
-         msgid := xBar.xStatusBar.Push(xBar.xStatusBar.Get_Context_Id("Statusbar test"),"X: " & Float'Image(xViewModel.xGet_Submarine_Current_Position.fGet_X) & " Y: " & Float'Image(xViewModel.xGet_Submarine_Current_Position.fGet_Y));
+         msgid := xBar.xStatusBar.Push(xBar.xStatusBar.Get_Context_Id("Statusbar test"),"X: " & Text_Handling.sGet_Formatted_Float_String(xViewModel.xGet_Submarine_Current_Position.fGet_X) & " Y: " & Text_Handling.sGet_Formatted_Float_String(xViewModel.xGet_Submarine_Current_Position.fGet_Y));
       when Side =>
-         msgid := xBar.xStatusBar.Push(xBar.xStatusBar.Get_Context_Id("Statusbar test"), "X: " & Float'Image(xViewModel.xGet_Submarine_Current_Position.fGet_X) & " Z: " & Float'Image(xViewModel.xGet_Submarine_Current_Position.fGet_Z));
+         msgid := xBar.xStatusBar.Push(xBar.xStatusBar.Get_Context_Id("Statusbar test"), "X: " & Text_Handling.sGet_Formatted_Float_String(xViewModel.xGet_Submarine_Current_Position.fGet_X) & " Z: " & Text_Handling.sGet_Formatted_Float_String(xViewModel.xGet_Submarine_Current_Position.fGet_Z));
       when Back =>
-         msgid := xBar.xStatusBar.Push(xBar.xStatusBar.Get_Context_Id("Statusbar test"), "Y: " & Float'Image(xViewModel.xGet_Submarine_Current_Position.fGet_Y) & " Z: " & Float'Image(xViewModel.xGet_Submarine_Current_Position.fGet_Z));
+         msgid := xBar.xStatusBar.Push(xBar.xStatusBar.Get_Context_Id("Statusbar test"), "Y: " & Text_Handling.sGet_Formatted_Float_String(xViewModel.xGet_Submarine_Current_Position.fGet_Y) & " Z: " & Text_Handling.sGet_Formatted_Float_String(xViewModel.xGet_Submarine_Current_Position.fGet_Z));
       when Full =>
-         msgid := xBar.xStatusBar.Push(xBar.xStatusBar.Get_Context_Id("Statusbar test"), "Roll: " & Float'Image(xViewModel.xGet_Submarine_Current_Position.fGet_X) & " Pitch: " & Float'Image(xViewModel.xGet_Submarine_Current_Position.fGet_Y));
+         msgid := xBar.xStatusBar.Push(xBar.xStatusBar.Get_Context_Id("Statusbar test"), "X Rot: " & Text_Handling.sGet_Formatted_Float_String(xViewModel.fGet_Pid_Errors(RotationX)) & " Y Rot: " & Text_Handling.sGet_Formatted_Float_String(xViewModel.fGet_Pid_Errors(RotationY)) & " Z Rot: " & Text_Handling.sGet_Formatted_Float_String(xViewModel.fGet_Pid_Errors(RotationZ)));
+      when others =>
+         null;
       end case;
 
       return true;
@@ -126,7 +144,6 @@ package body MainWindowLogic is
          return false;
 
    end bUpdateStatusBarText;
-
 
    function bDraw_View (xView : in TView) return Boolean is
       xWindowForView : Gdk.Window.Gdk_Window;
@@ -171,6 +188,31 @@ package body MainWindowLogic is
          X        => Glib.Gint(151.0 + xViewPositions.xCurrentPosition.X),
          Y        => Glib.Gint(150.0 - xViewPositions.xCurrentPosition.Y));
 
+
+      Gdk.Drawable.Draw_Point
+        (Drawable => xWindowForView,
+         GC       => xRedColor,
+         X        => Glib.Gint(150.0 + xViewPositions.xWantedPosition.X + 1.0),
+         Y        => Glib.Gint(150.0 - xViewPositions.xWantedPosition.Y));
+
+      Gdk.Drawable.Draw_Point
+        (Drawable => xWindowForView,
+         GC       => xRedColor,
+         X        => Glib.Gint(150.0 + xViewPositions.xWantedPosition.X),
+         Y        => Glib.Gint(150.0 - xViewPositions.xWantedPosition.Y + 1.0));
+
+      Gdk.Drawable.Draw_Point
+        (Drawable => xWindowForView,
+         GC       => xRedColor,
+         X        => Glib.Gint(150.0 + xViewPositions.xWantedPosition.X - 1.0),
+         Y        => Glib.Gint(150.0 - xViewPositions.xWantedPosition.Y));
+
+      Gdk.Drawable.Draw_Point
+        (Drawable => xWindowForView,
+         GC       => xRedColor,
+         X        => Glib.Gint(150.0 + xViewPositions.xWantedPosition.X),
+         Y        => Glib.Gint(150.0 - xViewPositions.xWantedPosition.Y - 1.0));
+
       Gdk.Drawable.Draw_Point
         (Drawable => xWindowForView,
          GC       => xRedColor,
@@ -180,7 +222,7 @@ package body MainWindowLogic is
       return True;
    end bDraw_View;
 
-   function bDraw_3DView (xCanvas : in Gtk.Drawing_Area.Gtk_Drawing_Area) return Boolean is
+   function bDraw_3DView (xView : T3DView) return Boolean is
 
       use Math.Matrices;
       xWindowForView : Gdk.Window.Gdk_Window;
@@ -195,24 +237,34 @@ package body MainWindowLogic is
       xEndPoints : Projection_2D.TOrientationProjectionPoints;
       xPlaneEndPoints : Projection_2D.TPlaneProjectionPoints;
 
+      xOrientationToDraw : Math.Matrices.CMatrix;
+
    begin
-      Gdk.Window.Clear(Gtk.Drawing_Area.Get_Window(xCanvas));
+      Gdk.Window.Clear(Gtk.Drawing_Area.Get_Window(xView.xCanvas));
 
-      xWindowForView := Gtk.Drawing_Area.Get_Window (xCanvas);
+      xWindowForView := Gtk.Drawing_Area.Get_Window (xView.xCanvas);
 
-      xEndPoints := Projection_2D.txGet_Orientation_2D_Projection(iCenterX     => 150,
-                                                                  iCenterY     => 150,
-                                                                  iWidth       => 300,
-                                                                  iHeight      => 300,
-                                                                  xOrientation => xViewModel.xGet_Submarine_Current_Orientation);
-      --xOrientation => Math.Matrices.xCreate_Rotation_Around_X_Axis(45.0)*Math.Matrices.xCreate_Rotation_Around_Y_Axis(45.0)); --xViewModel.xGet_Submarine_Current_Orientation);
+      Case xView.eId is
+         when Full =>
+            xOrientationToDraw := xViewModel.xGet_Submarine_Current_Orientation;
+         when FullWanted =>
+            xOrientationToDraw := xViewModel.xGet_Submarine_Wanted_Orientation;
+         when others =>
+            return true;
+      end case;
 
-      xPlaneEndPoints := Projection_2D.txGet_Plane_2D_Projection(iCenterX     => 150,
-                                                                 iCenterY     => 150,
-                                                                 iWidth       => 300,
-                                                                 iHeight      => 300,
-                                                                 xOrientation => xViewModel.xGet_Submarine_Current_Orientation);
-      --xOrientation => Math.Matrices.xCreate_Rotation_Around_X_Axis(45.0)*Math.Matrices.xCreate_Rotation_Around_Y_Axis(45.0));--
+
+      xEndPoints := Projection_2D.txGet_Orientation_2D_Projection(iCenterX     => Integer(xView.iWidth/2),
+                                                                  iCenterY     => Integer(xView.iHeight/2),
+                                                                  iWidth       => xView.iWidth,
+                                                                  iHeight      => xView.iHeight,
+                                                                  xOrientation => xOrientationToDraw);
+
+      xPlaneEndPoints := Projection_2D.txGet_Plane_2D_Projection(iCenterX     => Integer(xView.iWidth/2),
+                                                                  iCenterY     => Integer(xView.iHeight/2),
+                                                                  iWidth       => xView.iWidth,
+                                                                  iHeight      => xView.iHeight,
+                                                                  xOrientation => xOrientationToDraw);
 
       -- Set Colors
       Gdk.GC.Gdk_New (xGreenColor, xWindowForView);
@@ -269,24 +321,24 @@ package body MainWindowLogic is
       Gdk.Drawable.Draw_Line
         (Drawable => xWindowForView,
          GC       => xRedColor,
-         X1       => 150,
-         Y1       => 150,
+         X1       => Glib.Gint(xView.iWidth / 2),
+         Y1       => Glib.Gint(xView.iHeight / 2),
          X2       => Glib.Gint(xEndPoints(Projection_2D.XVector).X),
          Y2       => Glib.Gint(xEndPoints(Projection_2D.XVector).Y));
 
       Gdk.Drawable.Draw_Line
         (Drawable => xWindowForView,
          GC       => xGreenColor,
-         X1       => 150,
-         Y1       => 150,
+         X1       => Glib.Gint(xView.iWidth / 2),
+         Y1       => Glib.Gint(xView.iHeight / 2),
          X2       => Glib.Gint(xEndPoints(Projection_2D.YVector).X),
          Y2       => Glib.Gint(xEndPoints(Projection_2D.YVector).Y));
 
       Gdk.Drawable.Draw_Line
         (Drawable => xWindowForView,
          GC       => xBlueColor,
-         X1       => 150,
-         Y1       => 150,
+         X1       => Glib.Gint(xView.iWidth / 2),
+         Y1       => Glib.Gint(xView.iHeight / 2),
          X2       => Glib.Gint(xEndPoints(Projection_2D.ZVector).X),
          Y2       => Glib.Gint(xEndPoints(Projection_2D.ZVector).Y));
 
@@ -378,10 +430,16 @@ package body MainWindowLogic is
 
       end if;
 
-      if xTimeout3D = 0 then
-         xTimeout3D := Drawing_Timeout_Drawing_Area.Timeout_Add
-           (xUpdateIntervall, bDraw_3DView'Access, (Gtk.Drawing_Area.Gtk_Drawing_Area(Gtkada.Builder.Get_Widget(pxObject, "drw3D"))));
+      if xTimeoutCurrent3D = 0 then
+         xTimeoutCurrent3D := Drawing_Timeout_Drawing_3DView.Timeout_Add
+           (xUpdateIntervall, bDraw_3DView'Access, (Gtk.Drawing_Area.Gtk_Drawing_Area(Gtkada.Builder.Get_Widget(pxObject, "drw3D")), 300, 300, Full));
       end if;
+
+      if xTimeoutWanted3D = 0 then
+         xTimeoutWanted3D := Drawing_Timeout_Drawing_3DView.Timeout_Add
+           (xUpdateIntervall, bDraw_3DView'Access, (Gtk.Drawing_Area.Gtk_Drawing_Area(Gtkada.Builder.Get_Widget(pxObject, "drwWantedFull")), 85, 85, FullWanted));
+      end if;
+
 
       if xTimeoutUpdateViewmodel = 0 then
          xTimeoutUpdateViewmodel := Update_Viewmodel_PKG.Timeout_Add
@@ -443,8 +501,6 @@ package body MainWindowLogic is
    begin
       bSimulationRunning := false;
    end Pause_Simulation;
-
-
 
    procedure Quit (pxObject : access Gtkada.Builder.Gtkada_Builder_Record'Class) is
       pragma Unreferenced (pxObject);

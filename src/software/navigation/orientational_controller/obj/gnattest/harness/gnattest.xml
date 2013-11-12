@@ -3,50 +3,54 @@
       <test_unit target_file="navigation-orientational_controller-corientationalcontroller_test_data-corientationalcontroller_tests.ads">
          <setup file="navigation-orientational_controller-corientationalcontroller_test_data.adb" line="4"  column="4"/>
          <teardown file="navigation-orientational_controller-corientationalcontroller_test_data.adb" line="8"  column="4"/>
-         <tested name="xGet_Orientational_Thruster_Control_Values" line="29" column="4">
-            <test file="navigation-orientational_controller-corientationalcontroller_test_data-corientationalcontroller_tests.adb" line="13" column="1" timestamp="modified"/>
+         <tested name="Get_Orientational_Thruster_Control_Values" line="36" column="4">
+            <test file="navigation-orientational_controller-corientationalcontroller_test_data-corientationalcontroller_tests.adb" line="13" column="1" timestamp="2013-11-12 10:10:07"/>
          </tested>
-         <tested name="Update_Current_Errors" line="35" column="4">
-            <test file="navigation-orientational_controller-corientationalcontroller_test_data-corientationalcontroller_tests.adb" line="70" column="1" timestamp="modified"/>
+         <tested name="Update_Current_Errors" line="42" column="4">
+            <test file="navigation-orientational_controller-corientationalcontroller_test_data-corientationalcontroller_tests.adb" line="34" column="1" timestamp="modified"/>
          </tested>
-         <tested name="Set_New_PID_Component_Scalings" line="39" column="4">
-            <test file="navigation-orientational_controller-corientationalcontroller_test_data-corientationalcontroller_tests.adb" line="90" column="1" timestamp="modified"/>
+         <tested name="Set_New_PID_Component_Scalings" line="46" column="4">
+            <test file="navigation-orientational_controller-corientationalcontroller_test_data-corientationalcontroller_tests.adb" line="88" column="1" timestamp="modified"/>
          </tested>
-         <tested name="Update_Current_X_Rotation_Error" line="47" column="4">
-            <test file="navigation-orientational_controller-corientationalcontroller_test_data-corientationalcontroller_tests.adb" line="110" column="1" timestamp="2013-11-07 08:23:53"/>
+         <tested name="fGetCurrentErrors" line="53" column="4">
+            <test file="navigation-orientational_controller-corientationalcontroller_test_data-corientationalcontroller_tests.adb" line="108" column="1" timestamp="2013-11-12 10:10:07"/>
          </tested>
-         <tested name="Update_Current_Y_Rotation_Error" line="48" column="4">
-            <test file="navigation-orientational_controller-corientationalcontroller_test_data-corientationalcontroller_tests.adb" line="131" column="1" timestamp="2013-11-07 08:23:53"/>
+         <tested name="Update_Current_X_Rotation_Error" line="57" column="4">
+            <test file="navigation-orientational_controller-corientationalcontroller_test_data-corientationalcontroller_tests.adb" line="129" column="1" timestamp="modified"/>
          </tested>
-         <tested name="Update_Current_Z_Rotation_Error" line="49" column="4">
-            <test file="navigation-orientational_controller-corientationalcontroller_test_data-corientationalcontroller_tests.adb" line="152" column="1" timestamp="2013-11-07 08:23:53"/>
+         <tested name="Update_Current_Y_Rotation_Error" line="58" column="4">
+            <test file="navigation-orientational_controller-corientationalcontroller_test_data-corientationalcontroller_tests.adb" line="149" column="1" timestamp="modified"/>
          </tested>
-         <tested name="xGet_X_Rotation_Thruster_Control_Value" line="51" column="4">
-            <test file="navigation-orientational_controller-corientationalcontroller_test_data-corientationalcontroller_tests.adb" line="173" column="1" timestamp="2013-11-07 08:23:53"/>
+         <tested name="Update_Current_Z_Rotation_Error" line="59" column="4">
+            <test file="navigation-orientational_controller-corientationalcontroller_test_data-corientationalcontroller_tests.adb" line="169" column="1" timestamp="modified"/>
          </tested>
-         <tested name="xGet_Y_Rotation_Thruster_Control_Value" line="52" column="4">
-            <test file="navigation-orientational_controller-corientationalcontroller_test_data-corientationalcontroller_tests.adb" line="194" column="1" timestamp="2013-11-07 08:23:53"/>
+         <tested name="xGet_X_Rotation_Thruster_Control_Value" line="61" column="4">
+            <test file="navigation-orientational_controller-corientationalcontroller_test_data-corientationalcontroller_tests.adb" line="189" column="1" timestamp="modified"/>
          </tested>
-         <tested name="xGet_Z_Rotation_Thruster_Control_Value" line="53" column="4">
-            <test file="navigation-orientational_controller-corientationalcontroller_test_data-corientationalcontroller_tests.adb" line="215" column="1" timestamp="2013-11-07 08:23:53"/>
+         <tested name="xGet_Y_Rotation_Thruster_Control_Value" line="62" column="4">
+            <test file="navigation-orientational_controller-corientationalcontroller_test_data-corientationalcontroller_tests.adb" line="243" column="1" timestamp="modified"/>
          </tested>
-         <tested name="Finalize" line="66" column="4">
-            <test file="navigation-orientational_controller-corientationalcontroller_test_data-corientationalcontroller_tests.adb" line="236" column="1" timestamp="modified"/>
+         <tested name="xGet_Z_Rotation_Thruster_Control_Value" line="63" column="4">
+            <test file="navigation-orientational_controller-corientationalcontroller_test_data-corientationalcontroller_tests.adb" line="297" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="Finalize" line="86" column="4">
+            <test file="navigation-orientational_controller-corientationalcontroller_test_data-corientationalcontroller_tests.adb" line="351" column="1" timestamp="modified"/>
          </tested>
          <dangling>
-            <test file="navigation-orientational_controller-corientationalcontroller_test_data-corientationalcontroller_tests.adb" line="279" column="1"/>
-            <test file="navigation-orientational_controller-corientationalcontroller_test_data-corientationalcontroller_tests.adb" line="332" column="1"/>
-            <test file="navigation-orientational_controller-corientationalcontroller_test_data-corientationalcontroller_tests.adb" line="352" column="1"/>
-            <test file="navigation-orientational_controller-corientationalcontroller_test_data-corientationalcontroller_tests.adb" line="408" column="1"/>
+            <test file="navigation-orientational_controller-corientationalcontroller_test_data-corientationalcontroller_tests.adb" line="394" column="1"/>
+            <test file="navigation-orientational_controller-corientationalcontroller_test_data-corientationalcontroller_tests.adb" line="447" column="1"/>
+            <test file="navigation-orientational_controller-corientationalcontroller_test_data-corientationalcontroller_tests.adb" line="467" column="1"/>
+            <test file="navigation-orientational_controller-corientationalcontroller_test_data-corientationalcontroller_tests.adb" line="523" column="1"/>
+            <test file="navigation-orientational_controller-corientationalcontroller_test_data-corientationalcontroller_tests.adb" line="542" column="1"/>
          </dangling>
       </test_unit>
       <test_unit target_file="navigation-orientational_controller-test_data-tests.ads">
          <setup file="navigation-orientational_controller-test_data.adb" line="3"  column="4"/>
          <teardown file="navigation-orientational_controller-test_data.adb" line="9"  column="4"/>
-         <tested name="Free" line="22" column="4">
+         <tested name="Free" line="29" column="4">
             <test file="navigation-orientational_controller-test_data-tests.adb" line="13" column="1" timestamp="modified"/>
          </tested>
-         <tested name="pxCreate" line="24" column="4">
+         <tested name="pxCreate" line="31" column="4">
             <test file="navigation-orientational_controller-test_data-tests.adb" line="48" column="1" timestamp="modified"/>
          </tested>
          <dangling>

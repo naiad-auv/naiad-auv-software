@@ -1,3 +1,4 @@
+with "../../../lib/text_Handling/text_handling.gpr";
 with "../ViewModel_Actuators/viewmodel_actuators.gpr";
 with "../ViewModel_Set_Wanted_Position/viewmodel_set_wanted_position.gpr";
 with "../ViewModel_Sensors/viewmodel_sensors.gpr";
