@@ -187,9 +187,9 @@ package body Simulator.Pid_Errors is
       xAbsoluteDifferenceVector := xWantedAbsolutePosition - xCurrentAbsolutePosition;
       xRelativeWantedPositionVector := xCurrentAbsoluteOrientationInverse * xAbsoluteDifferenceVector;
 
-      this.tfPIDErrors(X) := xRelativeWantedPositionVector.fGet_X;
-      this.tfPIDErrors(Y) := xRelativeWantedPositionVector.fGet_Y;
-      this.tfPIDErrors(Z) := xRelativeWantedPositionVector.fGet_Z;
+      this.tfPIDErrors(PositionX) := xRelativeWantedPositionVector.fGet_X;
+      this.tfPIDErrors(PositionY) := xRelativeWantedPositionVector.fGet_Y;
+      this.tfPIDErrors(PositionZ) := xRelativeWantedPositionVector.fGet_Z;
 
    end Update_Current_Positional_Errors;
 

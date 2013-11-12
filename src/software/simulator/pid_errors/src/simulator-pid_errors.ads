@@ -10,7 +10,7 @@ package Simulator.Pid_Errors is
    type CPidErrors is tagged private;
    type pCPidErrors is access CPidErrors;
    type EMotionComponent is new Navigation.Motion_Component.EMotionComponent;
-   type TPIDErrors is array (X .. RotationZ) of float;
+   type TPIDErrors is array (PositionX .. RotationZ) of float;
 
    function pxCreate return pCPidErrors;
    procedure Free(pxPidErrors: in out pCPidErrors);
@@ -22,10 +22,7 @@ package Simulator.Pid_Errors is
 
 
 private
-<<<<<<< HEAD
---   procedure Update_Current_Drift_Errors(this : in out simulator.Pid_Errors.CPidErrors; xWantedAbsolutePosition : math.Vectors.CVector; xCurrentAbsolutePosition : math.Vectors.CVector; xVelocityVector : math.Vectors.CVector; xCurrentAbsoluteOrientationInverse : math.Matrices.CMatrix) ;
-=======
->>>>>>> 3267966e5ad7f11745ebcfacc40b241c0ebdade9
+
    procedure Update_Current_Positional_Errors(this : in out simulator.Pid_Errors.CPidErrors ; xWantedAbsolutePosition : math.Vectors.CVector ; xCurrentAbsolutePosition : math.Vectors.CVector; xCurrentAbsoluteOrientationInverse : math.Matrices.CMatrix) ;
    procedure Update_Current_Z_Rotation_Error (this : in out CPidErrors; xWantedAbsoluteOrientation : math.Matrices.CMatrix ; xCurrentAbsoluteOrientationInverse : math.Matrices.CMatrix);
    procedure Update_Current_Y_Rotation_Error (this : in out CPidErrors; xWantedAbsoluteOrientation : math.Matrices.CMatrix ; xCurrentAbsoluteOrientationInverse : math.Matrices.CMatrix);
