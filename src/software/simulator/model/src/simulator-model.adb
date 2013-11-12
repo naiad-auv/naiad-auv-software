@@ -30,7 +30,7 @@ package body Simulator.Model is
       if this.fTimeSinceLastMotorUpdate>this.fTimeBetweenMotorUpdates then
          this.fTimeSinceLastMotorUpdate := this.fTimeSinceLastMotorUpdate - this.fTimeBetweenMotorUpdates;
          this.pxSubmarine.Time_Step_Motor_Force_To_Integrate(txMotorForce => simulator.submarine.TMotorForce(this.tWantedMotorForces),
-                                                             fDeltaTime   => fDeltaTime);
+                                                             fDeltaTime   => this.fTimeBetweenMotorUpdates);
       end if;
       this.fTimeSinceLastMotorUpdate := this.fTimeSinceLastMotorUpdate+fDeltaTime;
 
