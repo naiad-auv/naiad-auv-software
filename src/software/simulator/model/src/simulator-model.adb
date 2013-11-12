@@ -23,14 +23,17 @@ package body Simulator.Model is
 
    procedure Update_Model (this : in out CModel; fDeltaTime : float) is
       fMaximumMotorForce : float := 66.776;
-      fMotorForceChangePerSecond : float := fMaximumMotorForce/3.0;
+      fMotorForceChangePerSecond : float := fMaximumMotorForce/1.5;
       tfMotorValuesSubmarine : simulator.Model.TMotorForce;
       tfChamgeInMotorValues : simulator.Model.TMotorForce;
    begin
       if this.fTimeSinceLastMotorUpdate>this.fTimeBetweenMotorUpdates then
          this.fTimeSinceLastMotorUpdate := this.fTimeSinceLastMotorUpdate - this.fTimeBetweenMotorUpdates;
-         this.pxSubmarine.Time_Step_Motor_Force_To_Integrate(txMotorForce => simulator.submarine.TMotorForce(this.tWantedMotorForces),
-                                                             fDeltaTime   => this.fTimeBetweenMotorUpdates);
+         this.pxMotionControlWrapper.Update_Values(xNewCurrentAbsolutePosition => this.pxSubmarine.xGet_Position_Vector,
+                                                   xNewCurrentOrientation      => this.pxSubmarine.xGet_Orientation_Matrix,
+                                                   tfMotorValuesSubmarine      => simulator.submarine.TMotorForce(tfMotorValuesSubmarine), --out
+                                                   fDeltaTime                  => this.fTimeBetweenMotorUpdates);
+
       end if;
       this.fTimeSinceLastMotorUpdate := this.fTimeSinceLastMotorUpdate+fDeltaTime;
 
@@ -45,11 +48,9 @@ package body Simulator.Model is
          end if;
          tfMotorValuesSubmarine(iMotorIndex) := tfMotorValuesSubmarine(iMotorIndex) + tfChamgeInMotorValues(iMotorIndex);
       end loop;
-      this.pxMotionControlWrapper.Update_Values(xNewCurrentAbsolutePosition => this.pxSubmarine.xGet_Position_Vector,
-                                                xNewCurrentOrientation      => this.pxSubmarine.xGet_Orientation_Matrix,
-                                                tfMotorValuesSubmarine      => simulator.submarine.TMotorForce(tfMotorValuesSubmarine), --out
-                                                fDeltaTime                  => fDeltaTime);
 
+      this.pxSubmarine.Time_Step_Motor_Force_To_Integrate(txMotorForce => simulator.submarine.TMotorForce(this.tWantedMotorForces),
+                                                          fDeltaTime   => fDeltaTime);
 
    end Update_Model;
 
