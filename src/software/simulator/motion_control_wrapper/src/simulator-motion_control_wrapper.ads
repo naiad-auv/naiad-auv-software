@@ -35,6 +35,8 @@ package simulator.Motion_Control_Wrapper is
    function xGet_Wanted_Position(this : in CWrapDispatcher) return math.Vectors.CVector;
    function xGet_Wanted_Orientation(this : in CWrapDispatcher) return math.Matrices.CMatrix;
 
+   function xGet_Motional_Errors(this : in CWrapDispatcher) return Navigation.Dispatcher.TMotionalErrors;
+
 
 private
 

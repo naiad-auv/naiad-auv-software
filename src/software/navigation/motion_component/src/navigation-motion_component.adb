@@ -60,6 +60,11 @@ package body Navigation.Motion_Component is
          Navigation.PID_Controller.Free(pxPIDControllerToDeallocate => this.pxComponentPIDController);
       end if;      
    end Finalize;
-   
 
+   
+   function fGetCurrentError(this : in CMotionComponent) return float is
+   begin
+   	return this.pxComponentPIDController.fGetCurrentError;
+   end fGetCurrentError;
+   
 end Navigation.Motion_Component;

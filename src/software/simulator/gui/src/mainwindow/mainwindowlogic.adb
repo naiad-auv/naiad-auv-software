@@ -52,8 +52,14 @@ package body MainWindowLogic is
       eId : EView;
    end record;
 
+   type TStatusBar is record
+      xStatusBar : Gtk.Status_Bar.Gtk_Status_Bar;
+      eId : EView;
+   end record;
+
    package Drawing_Timeout_Drawing_View is new Glib.Main.Generic_Sources (TView);
    package Drawing_Timeout_Drawing_Area is new Glib.Main.Generic_Sources (Gtk.Drawing_Area.Gtk_Drawing_Area);
+   package Drawing_Timeout_Status_Bars is new Glib.Main.Generic_Sources (TStatusBar);
 
    package Update_Viewmodel_PKG is new Glib.Main.Generic_Sources(Integer);
 
@@ -62,7 +68,14 @@ package body MainWindowLogic is
    xTimeoutTopView : Glib.Main.G_Source_Id;
    xTimeout3D : Glib.Main.G_Source_Id;
 
+   xTimeOutTopStatusBar :Glib.Main.G_Source_Id;
+   xTimeOutSideStatusBar :Glib.Main.G_Source_Id;
+   xTimeOutBackStatusBar :Glib.Main.G_Source_Id;
+   xTimeOut3DStatusBar :Glib.Main.G_Source_Id;
+
    xTimeoutUpdateViewmodel : Glib.Main.G_Source_Id;
+
+   bSimulationRunning : boolean := false;
 
    function fGet_Positions_For_View(eID : EView) return TViewPositions is
       xViewPositions : TViewPositions;
@@ -88,25 +101,30 @@ package body MainWindowLogic is
       return xViewPositions;
    end fGet_Positions_For_View;
 
-   procedure Update_Status_Bar_Text(xStatusBar : in out Gtk.Status_Bar.Gtk_Status_Bar; eComponent : in EView) is
+   function bUpdateStatusBarText(xBar : TStatusBar) return boolean is
 
       msgid : Gtk.Status_Bar.Message_Id;
    begin
 
-      xStatusBar.Remove_All(xStatusBar.Get_Context_Id("Statusbar test"));
+      xBar.xStatusBar.Remove_All(xBar.xStatusBar.Get_Context_Id("Statusbar test"));
 
-      case eComponent is
+      case xBar.eId is
       when Top =>
-         msgid := xStatusBar.Push(xStatusBar.Get_Context_Id("Statusbar test"),"X: " & Float'Image(xViewModel.xGet_Submarine_Current_Position.fGet_X) & " Y: " & Float'Image(xViewModel.xGet_Submarine_Current_Position.fGet_Y));
+         msgid := xBar.xStatusBar.Push(xBar.xStatusBar.Get_Context_Id("Statusbar test"),"X: " & Float'Image(xViewModel.xGet_Submarine_Current_Position.fGet_X) & " Y: " & Float'Image(xViewModel.xGet_Submarine_Current_Position.fGet_Y));
       when Side =>
-         msgid := xStatusBar.Push(xStatusBar.Get_Context_Id("Statusbar test"), "X: " & Float'Image(xViewModel.xGet_Submarine_Current_Position.fGet_X) & " Z: " & Float'Image(xViewModel.xGet_Submarine_Current_Position.fGet_Z));
+         msgid := xBar.xStatusBar.Push(xBar.xStatusBar.Get_Context_Id("Statusbar test"), "X: " & Float'Image(xViewModel.xGet_Submarine_Current_Position.fGet_X) & " Z: " & Float'Image(xViewModel.xGet_Submarine_Current_Position.fGet_Z));
       when Back =>
-         msgid := xStatusBar.Push(xStatusBar.Get_Context_Id("Statusbar test"), "Y: " & Float'Image(xViewModel.xGet_Submarine_Current_Position.fGet_Y) & " Z: " & Float'Image(xViewModel.xGet_Submarine_Current_Position.fGet_Z));
+         msgid := xBar.xStatusBar.Push(xBar.xStatusBar.Get_Context_Id("Statusbar test"), "Y: " & Float'Image(xViewModel.xGet_Submarine_Current_Position.fGet_Y) & " Z: " & Float'Image(xViewModel.xGet_Submarine_Current_Position.fGet_Z));
       when Full =>
-         msgid := xStatusBar.Push(xStatusBar.Get_Context_Id("Statusbar test"), "Roll: " & Float'Image(xViewModel.xGet_Submarine_Current_Position.fGet_X) & " Pitch: " & Float'Image(xViewModel.xGet_Submarine_Current_Position.fGet_Y));
+         msgid := xBar.xStatusBar.Push(xBar.xStatusBar.Get_Context_Id("Statusbar test"), "Roll: " & Float'Image(xViewModel.xGet_Submarine_Current_Position.fGet_X) & " Pitch: " & Float'Image(xViewModel.xGet_Submarine_Current_Position.fGet_Y));
       end case;
 
-end Update_Status_Bar_Text;
+      return true;
+   exception
+      when E : others =>
+         return false;
+
+end bUpdateStatusBarText;
 
 
    function bDraw_View (xView : in TView) return Boolean is
@@ -177,6 +195,7 @@ end Update_Status_Bar_Text;
       xPlaneEndPoints : Projection_2D.TPlaneProjectionPoints;
 
    begin
+      Gdk.Window.Clear(Gtk.Drawing_Area.Get_Window(xCanvas));
 
       xWindowForView := Gtk.Drawing_Area.Get_Window (xCanvas);
 
@@ -326,49 +345,41 @@ end Update_Status_Bar_Text;
 
    function bUpdate_Viewmodel(iRedundant : Integer) return Boolean is
    begin
-     -- xViewmodel.Update_View_Model(fDeltaTime => 0.01);
+      if not bSimulationRunning then
+         return true;
+      end if;
+
+      xViewmodel.Update(fDeltaTime => 0.01);
 
       return True;
    end bUpdate_Viewmodel;
 
-   procedure Draw_Timeout(pxObject : access Gtkada.Builder.Gtkada_Builder_Record'Class) is
+   procedure Register_Timeout_Handlers(pxObject : access Gtkada.Builder.Gtkada_Builder_Record'Class) is
       use Glib.Main;
       use Glib;
 
       xUpdateIntervall : Glib.Guint := 20;
-      xStatusBar : Gtk.Status_Bar.Gtk_Status_Bar;
    begin
 
       if xTimeoutSideView = 0 then
          xTimeoutSideView := Drawing_Timeout_Drawing_View.Timeout_Add
            (xUpdateIntervall, bDraw_View'Access, (Gtk.Drawing_Area.Gtk_Drawing_Area (Gtkada.Builder.Get_Widget(pxObject, "drwSide")), Side));
-
-         xStatusBar := Gtk.Status_Bar.Gtk_Status_Bar(pxObject.Get_Widget("SideViewStatusBar"));
-         Update_Status_Bar_Text(xStatusBar, Side);
       end if;
 
       if xTimeoutTopView = 0 then
          xTimeoutTopView := Drawing_Timeout_Drawing_View.Timeout_Add
            (xUpdateIntervall, bDraw_View'Access, (Gtk.Drawing_Area.Gtk_Drawing_Area (Gtkada.Builder.Get_Widget(pxObject, "drwTop")), Top));
-
-         xStatusBar := Gtk.Status_Bar.Gtk_Status_Bar(pxObject.Get_Widget("TopViewStatusBar"));
-         Update_Status_Bar_Text(xStatusBar, Top);
       end if;
 
       if xTimeoutBackView = 0 then
          xTimeoutBackView := Drawing_Timeout_Drawing_View.Timeout_Add
            (xUpdateIntervall, bDraw_View'Access, (Gtk.Drawing_Area.Gtk_Drawing_Area (Gtkada.Builder.Get_Widget(pxObject, "drwBack")), Back));
 
-         xStatusBar := Gtk.Status_Bar.Gtk_Status_Bar(pxObject.Get_Widget("BackViewStatusBar"));
-         Update_Status_Bar_Text(xStatusBar, Back);
-      end if;
+     end if;
 
       if xTimeout3D = 0 then
          xTimeout3D := Drawing_Timeout_Drawing_Area.Timeout_Add
            (xUpdateIntervall, bDraw_3DView'Access, (Gtk.Drawing_Area.Gtk_Drawing_Area(Gtkada.Builder.Get_Widget(pxObject, "drw3D"))));
-
-         xStatusBar := Gtk.Status_Bar.Gtk_Status_Bar(pxObject.Get_Widget("3DViewStatusBar"));
-         Update_Status_Bar_Text(xStatusBar, Full);
       end if;
 
       if xTimeoutUpdateViewmodel = 0 then
@@ -376,7 +387,26 @@ end Update_Status_Bar_Text;
            (10, bUpdate_Viewmodel'Access, 1);
       end if;
 
-   end Draw_Timeout;
+      if xTimeOutTopStatusBar = 0 then
+         xTimeOutTopStatusBar := Drawing_Timeout_Status_Bars.Timeout_Add
+           (xUpdateIntervall, bUpdateStatusBarText'Access, (Gtk.Status_Bar.Gtk_Status_Bar(pxObject.Get_Widget("TopViewStatusBar")), Top));
+      end if;
+
+      if xTimeOutSideStatusBar = 0 then
+         xTimeOutSideStatusBar := Drawing_Timeout_Status_Bars.Timeout_Add
+           (xUpdateIntervall, bUpdateStatusBarText'Access, (Gtk.Status_Bar.Gtk_Status_Bar(pxObject.Get_Widget("SideViewStatusBar")), Side));
+      end if;
+
+      if xTimeOutBackStatusBar = 0 then
+         xTimeOutBackStatusBar := Drawing_Timeout_Status_Bars.Timeout_Add
+           (xUpdateIntervall, bUpdateStatusBarText'Access, (Gtk.Status_Bar.Gtk_Status_Bar(pxObject.Get_Widget("BackViewStatusBar")), Back));
+      end if;
+
+      if xTimeOut3DStatusBar = 0 then
+         xTimeOut3DStatusBar := Drawing_Timeout_Status_Bars.Timeout_Add
+           (xUpdateIntervall, bUpdateStatusBarText'Access, (Gtk.Status_Bar.Gtk_Status_Bar(pxObject.Get_Widget("3DViewStatusBar")), Full));
+      end if;
+   end Register_Timeout_Handlers;
 
    procedure Clear_Window(pxObject : access Gtkada.Builder.Gtkada_Builder_Record'Class; sName : String) is
       xWindow : Gtk.Drawing_Area.Gtk_Drawing_Area := Gtk.Drawing_Area.Gtk_Drawing_Area(Gtkada.Builder.Get_Widget(pxObject, sName));
@@ -414,12 +444,12 @@ end Update_Status_Bar_Text;
 
    procedure Start_Simulation(pxObject : access Gtkada.Builder.Gtkada_Builder_Record'Class) is
    begin
-      null;
+      bSimulationRunning := true;
    end Start_Simulation;
 
    procedure Pause_Simulation(pxObject : access Gtkada.Builder.Gtkada_Builder_Record'Class) is
    begin
-      null;
+      bSimulationRunning := false;
    end Pause_Simulation;
 
 

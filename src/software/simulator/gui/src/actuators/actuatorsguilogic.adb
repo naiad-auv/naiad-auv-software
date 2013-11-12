@@ -2,16 +2,28 @@ with Gtk.Main;
 with Glib.Main;
 with Gtk.Combo_Box;
 with Gtk.GEntry;
+with Ada;
+with Ada.Numerics;
+with Ada.Numerics.Elementary_Functions;
+with Gdk;
+with Gdk.Window;
+with Gdk.GC;
+with Gdk.Color;
+with Gtk.Widget;
+with Gdk.Drawable;
 
 
 package body ActuatorsGUILogic is
 
    xTimeoutMotorLevels : Glib.Main.G_Source_Id;
 
+   package Drawing_Timeout_Drawing_Area is new Glib.Main.Generic_Sources (Gtk.Drawing_Area.Gtk_Drawing_Area);
+
+
    procedure Draw_Timeout(pxObject : access Gtkada.Builder.Gtkada_Builder_Record'Class) is
       use Glib.Main;
       use Glib;
-      use Simulator.ViewModel;
+      use Simulator.ViewModel_Actuators;
 
       xUpdateIntervall : Glib.Guint := 20;
    begin

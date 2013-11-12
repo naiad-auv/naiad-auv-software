@@ -1,3 +1,4 @@
+with Ada.Text_IO;
 package body Navigation.Dispatcher is
 
    function pxCreate return pCDispatcher is
@@ -236,5 +237,22 @@ package body Navigation.Dispatcher is
          Math.Matrices.Free(pxMatrixToDeallocate => this.pxCurrentAbsoluteOrientationInverse);
       end if;
    end Finalize;
+
+   function fGetMotionalErrors(this : in CDispatcher) return TMotionalErrors is
+
+      PositionalErrors : Navigation.Positional_Controller.TPositionalErrors;
+      OrientationalErrors : Navigation.Orientational_Controller.TOrientationalErrors;
+
+   begin
+      PositionalErrors := this.pxPositionalController.fGetCurrentErrors;
+      OrientationalErrors := this.pxOrientationalController.fGetCurrentErrors;
+
+      return TMotionalErrors'(Navigation.Motion_Component.X => PositionalErrors(Navigation.Motion_Component.X),
+                              Navigation.Motion_Component.Y => PositionalErrors(Navigation.Motion_Component.Y),
+                              Navigation.Motion_Component.Z => PositionalErrors(Navigation.Motion_Component.Z),
+                              Navigation.Motion_Component.RotationX => OrientationalErrors(Navigation.Motion_Component.RotationX),
+                              Navigation.Motion_Component.RotationY => OrientationalErrors(Navigation.Motion_Component.RotationY),
+                              Navigation.Motion_Component.RotationZ => OrientationalErrors(Navigation.Motion_Component.RotationZ));
+   end fGetMotionalErrors;
 
 end Navigation.Dispatcher;

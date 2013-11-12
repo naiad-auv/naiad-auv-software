@@ -24,6 +24,8 @@ package Navigation.Orientational_Controller is
    type COrientationalController is new Ada.Finalization.Controlled with private;
    type pCOrientationalController is access COrientationalController;
 
+   type TOrientationalErrors is array (Navigation.Motion_Component.RotationX .. Navigation.Motion_Component.RotationZ) of float;
+
    procedure Free(pxOrientationalControllerToDeallocate : in out pCOrientationalController);
 
    function pxCreate (pxCurrentAbsoluteOrientation : in Math.Matrices.pCMatrix; pxWantedAbsoluteOrientation : in Math.Matrices.pCMatrix; pxCurrentAbsoluteOrientationInverse : in Math.Matrices.pCMatrix) return pCOrientationalController;
@@ -46,6 +48,9 @@ package Navigation.Orientational_Controller is
    --  <parameter name="this">The COrientationalController object that holds the PID controller to update.</parameter>
    --  <parameter name="xNewPIDSCalings">The TPIDComponetScalings object to set for the object.</parameter>
    --  <parameter name="eComponentToChange">The index of the component to change.</parameter>
+
+
+   function fGetCurrentErrors(this : in COrientationalController) return TOrientationalErrors;
 
 private
 

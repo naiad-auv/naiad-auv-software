@@ -21,6 +21,8 @@ package Navigation.Dispatcher is
    type CDispatcher is new Ada.Finalization.Controlled with private;
    type pCDispatcher is access CDispatcher;
 
+   type TMotionalErrors is array (Navigation.Motion_Component.X .. Navigation.Motion_Component.RotationZ) of float;
+
    procedure Free(pxDispatcherToDeallocate : in out pCDispatcher);
 
 
@@ -60,6 +62,7 @@ package Navigation.Dispatcher is
    --  <parameter name="this">The CDispatcher to update.</parameter>
    --  <parameter name="xNewWantedAbsoluteOrientation">The new absolute orientation to set.</parameter>
 
+   function fGetMotionalErrors(this : in CDispatcher) return TMotionalErrors;
 
 private
 

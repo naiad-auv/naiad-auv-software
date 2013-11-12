@@ -12,7 +12,9 @@ package body Simulator.Viewmodel_Pid_Constants is
 
    begin
       pxNewViewModel := new CViewmodel_Pid_Constants;
-      pxNewViewModel.pxModel := Simulator.Model.pxCreate;
+      pxNewViewModel.pxModel := pxModel;
+
+      pxNewViewModel.txPidScalings := txPIDComponentScalingArray'(others => (0.0, 0.0, 0.0));
 
       return pxNewViewModel;
    exception

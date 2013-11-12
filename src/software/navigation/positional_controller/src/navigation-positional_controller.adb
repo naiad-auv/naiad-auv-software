@@ -116,4 +116,11 @@ package body Navigation.Positional_Controller is
    end Finalize;
 
 
+   function fGetCurrentErrors(this : in CPositionalController) return TPositionalErrors is
+   begin
+      return TPositionalErrors'(Navigation.Motion_Component.X => this.pxXMotionComponent.fGetCurrentError,
+                                Navigation.Motion_Component.Y => this.pxYMotionComponent.fGetCurrentError,
+                                Navigation.Motion_Component.Z => this.pxZMotionComponent.fGetCurrentError);
+   end fGetCurrentErrors;
+
 end Navigation.Positional_Controller;

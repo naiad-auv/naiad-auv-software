@@ -1,15 +1,12 @@
 with Gtkada.Builder;
+with Simulator.ViewModel_Sensors;
+with Simulator.Model;
 
 package SensorsGUILogic is
 
-   procedure Quit (pxObject : access Gtkada.Builder.Gtkada_Builder_Record'Class);
+   xModel : Simulator.Model.pCModel;
+   xViewModel : Simulator.ViewModel_Sensors.pCViewModel_Sensors;
 
-   procedure Update_Pid_Constants(pxObject : access Gtkada.Builder.Gtkada_Builder_Record'Class);
-   procedure Init_Pid(pxObject : access Gtkada.Builder.Gtkada_Builder_Record'Class);
-   procedure Selected_Pid_Changed(pxObject : access Gtkada.Builder.Gtkada_Builder_Record'Class);
-
-
-private
-   procedure Update_PID_Texts(pxObject : access Gtkada.Builder.Gtkada_Builder_Record'Class);
+   procedure dummy;
 
 end SensorsGUILogic;

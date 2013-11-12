@@ -15,6 +15,8 @@ package Navigation.Positional_Controller is
    type CPositionalController is new Ada.Finalization.Controlled with private;
    type pCPositionalController is access CPositionalController;
 
+   type TPositionalErrors is array (Navigation.Motion_Component.X .. Navigation.Motion_Component.Z) of float;
+
    procedure Free(pxPositionalControllerToDeallocate : in out pCPositionalController);
 
    function pxCreate (pxCurrentAbsolutePosition : in Math.Vectors.pCVector; pxWantedAbsolutePosition : in Math.Vectors.pCVector; pxCurrentAbsoluteOrientation : in Math.Matrices.pCMatrix; pxCurrentAbsoluteOrientationInverse : in Math.Matrices.pCMatrix) return pCPositionalController;
@@ -36,6 +38,8 @@ package Navigation.Positional_Controller is
    --  <parameter name="this">The CPositionalController object that holds the PID controller to update.</parameter>
    --  <parameter name="xNewPIDSCalings">The TPIDComponetScalings object to set for the object.</parameter>
    --  <parameter name="eComponentToChange">The index of the component to change.</parameter>
+
+   function fGetCurrentErrors(this : in CPositionalController) return TPositionalErrors;
 
 private
    type CPositionalController is new Ada.Finalization.Controlled with

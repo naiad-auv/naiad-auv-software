@@ -292,4 +292,11 @@ package body Navigation.Orientational_Controller is
       end if;
    end Finalize;
 
+   function fGetCurrentErrors(this : in COrientationalController) return TOrientationalErrors is
+   begin
+      return TOrientationalErrors'(Navigation.Motion_Component.RotationX => this.pxXRotMotionComponent.fGetCurrentError,
+                                   Navigation.Motion_Component.RotationY => this.pxYRotMotionComponent.fGetCurrentError,
+                                   Navigation.Motion_Component.RotationZ => this.pxZRotMotionComponent.fGetCurrentError);
+   end fGetCurrentErrors;
+
 end Navigation.Orientational_Controller;
