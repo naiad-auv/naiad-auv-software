@@ -8,6 +8,7 @@ with PIDConfigurationGUILogic;
 with Ada.Text_IO;
 with Glib.Error;
 with Ada.Exceptions;
+with Simulator.Viewmodel_Pid_Constants;
 
 package body PIDConfigurationGUI is
 
@@ -32,6 +33,11 @@ package body PIDConfigurationGUI is
 
    end Register_Handlers;
 
+   procedure Setup_Backend(xModel : Simulator.Model.pCModel) is
+   begin
+      PIDConfigurationGUILogic.xViewmodel := Simulator.Viewmodel_Pid_Constants.pxCreate(xModel);
+   end Setup_Backend;
+
    procedure Start_GUI (xModel : Simulator.Model.pCModel) is
 
       use Glib.Error;
@@ -53,6 +59,8 @@ package body PIDConfigurationGUI is
 
 
       Register_Handlers(xBuilder);
+
+      Setup_Backend(xModel);
 
       Ada.Text_IO.Put_Line("Handlers for PID CFG registred");
 

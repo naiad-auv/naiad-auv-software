@@ -3,6 +3,7 @@ with Simulator.submarine;
 with Math.Vectors;
 with math.Matrices;
 with math.Planes;
+with Navigation.Dispatcher;
 --with Simulator.Update_Interface;
 
 package Simulator.Model is
@@ -26,6 +27,8 @@ package Simulator.Model is
    function xGet_Wanted_Submarine_Orientation_Matrix(this : in CModel) return Math.Matrices.CMatrix;
    function xGet_Current_Submarine_Velocity_Vector(this : in CModel) return Math.Vectors.CVector;
    function fGet_Motor_Force(this : in CModel; iIndexMotor  : iMotorIndex) return float;
+
+   function xGet_Current_Motional_Errors(this : in CModel) return Navigation.Dispatcher.TMotionalErrors;
 
    procedure Set_Wanted_Position_And_Orientation(this : in CModel; xWantedPosition : math.Vectors.CVector; xWantedOrientation : math.Matrices.CMatrix);
 

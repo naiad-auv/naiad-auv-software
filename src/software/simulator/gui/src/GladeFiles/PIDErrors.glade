@@ -4,6 +4,7 @@
   <!-- interface-naming-policy project-wide -->
   <object class="GtkWindow" id="pidErrorsWindow">
     <property name="can_focus">False</property>
+    <signal name="realize" handler="pidErrorsWindowOpenedHandler" swapped="no"/>
     <child>
       <object class="GtkFrame" id="frmPids">
         <property name="width_request">250</property>
@@ -246,3 +247,4 @@
     </child>
   </object>
 </interface>
+

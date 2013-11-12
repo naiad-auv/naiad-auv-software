@@ -103,13 +103,12 @@ package body simulator.Motion_Control_Wrapper is
 
    procedure Restart(this : in out CWrapDispatcher) is
    begin
-      Navigation.Dispatcher.Free(pxDispatcherToDeallocate => this.pxDispatcher);
-      this.pxDispatcher := Navigation.Dispatcher.pxCreate;
-      this.pxDispatcher.Update_Wanted_Absolute_Position(xNewWantedAbsolutePosition => this.pxWantedPositionVector.all);
-      this.pxDispatcher.Update_Wanted_Absolute_Orientation(xNewWantedAbsoluteOrientation => this.pxWantedOrientationMatrix.all);
+      this.pxDispatcher.Simulational_Reset;
    end Restart;
 
-
-
+   function xGet_Motional_Errors(this : in CWrapDispatcher) return Navigation.Dispatcher.TMotionalErrors is
+   begin
+      return this.pxDispatcher.fGetMotionalErrors;
+   end xGet_Motional_Errors;
 
 end simulator.Motion_Control_Wrapper;

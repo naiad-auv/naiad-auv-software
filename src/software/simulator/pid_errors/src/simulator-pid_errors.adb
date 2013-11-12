@@ -3,9 +3,11 @@ with Exception_Handling;
 
 package body Simulator.Pid_Errors is
 
+
    -------------------------------------
    -- Update_Current_Z_Rotation_Error --
    -------------------------------------
+
 
  procedure Update_Current_Z_Rotation_Error (this : in out CPidErrors; xWantedAbsoluteOrientation : math.Matrices.CMatrix ; xCurrentAbsoluteOrientationInverse : math.Matrices.CMatrix) is
       use Math.Matrices;
@@ -202,24 +204,16 @@ package body Simulator.Pid_Errors is
       xCurrentAbsoluteOrientationInverse : math.Matrices.CMatrix :=  xCurrentAbsoluteOrientation.xGet_Inverse;
    begin
 
---      Update_Current_Drift_Errors(this                          => this,
---                                  xWantedAbsolutePosition            => xWantedAbsolutePosition,
---                                  xCurrentAbsolutePosition           => xCurrentAbsolutePosition,
---                                  xVelocityVector                    => xVelocityVector,
---                                  xCurrentAbsoluteOrientationInverse => xCurrentAbsoluteOrientationInverse);
-      Update_Current_Z_Rotation_Error(this                               => this,
-                                      xWantedAbsoluteOrientation         => xWantedAbsoluteOrientation,
-                                      xCurrentAbsoluteOrientationInverse => xCurrentAbsoluteOrientationInverse);
-      Update_Current_Y_Rotation_Error(this                               => this,
-                                      xWantedAbsoluteOrientation         => xWantedAbsoluteOrientation,
-                                      xCurrentAbsoluteOrientationInverse => xCurrentAbsoluteOrientationInverse);
-      Update_Current_X_Rotation_Error(this                               => this,
-                                      xWantedAbsoluteOrientation         => xWantedAbsoluteOrientation,
-                                      xCurrentAbsoluteOrientationInverse => xCurrentAbsoluteOrientationInverse);
-      Update_Current_Positional_Errors(this                          => this,
-                                       xWantedAbsolutePosition            => xWantedAbsolutePosition,
-                                       xCurrentAbsolutePosition           => xCurrentAbsolutePosition,
-                                       xCurrentAbsoluteOrientationInverse => xCurrentAbsoluteOrientationInverse);
+
+      this.Update_Current_Z_Rotation_Error(xWantedAbsoluteOrientation         => xWantedAbsoluteOrientation,
+                                           xCurrentAbsoluteOrientationInverse => xCurrentAbsoluteOrientationInverse);
+      this.Update_Current_Y_Rotation_Error(xWantedAbsoluteOrientation         => xWantedAbsoluteOrientation,
+                                           xCurrentAbsoluteOrientationInverse => xCurrentAbsoluteOrientationInverse);
+      this.Update_Current_X_Rotation_Error(xWantedAbsoluteOrientation         => xWantedAbsoluteOrientation,
+                                           xCurrentAbsoluteOrientationInverse => xCurrentAbsoluteOrientationInverse);
+      this.Update_Current_Positional_Errors(xWantedAbsolutePosition            => xWantedAbsolutePosition,
+                                            xCurrentAbsolutePosition           => xCurrentAbsolutePosition,
+                                            xCurrentAbsoluteOrientationInverse => xCurrentAbsoluteOrientationInverse);
    end Update_Errors;
 
    --------------

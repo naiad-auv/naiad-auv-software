@@ -54,7 +54,7 @@ package body MainWindow is
       Gtkada.Builder.Register_Handler
         (Builder      => xBuilder,
          Handler_Name => "initDraw",
-         Handler      => MainWindowLogic.Draw_Timeout'Access);
+         Handler      => MainWindowLogic.Register_Timeout_Handlers'Access);
    end Register_Draw_Handlers;
 
    procedure Start_GUI is

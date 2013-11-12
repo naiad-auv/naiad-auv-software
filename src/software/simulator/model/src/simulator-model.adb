@@ -125,9 +125,9 @@ package body Simulator.Model is
 
 
 
-
-
-
-
+   function xGet_Current_Motional_Errors(this : in CModel) return Navigation.Dispatcher.TMotionalErrors is
+   begin
+      return this.pxMotionControlWrapper.xGet_Motional_Errors;
+   end xGet_Current_Motional_Errors;
 
 end Simulator.Model;

@@ -35,12 +35,12 @@ package body simulator.Viewmodel_Set_Wanted_Position is
    -- Set_Wanted_Position_And_Orientation --
    -----------------------------------------
 
-   procedure Set_Wanted_Position_And_Orientation(this : in CViewmodel_Set_Wanted_Position; fPositionX : float ;  fPositionY : float ; fPositionZ : float ; fOrientationR : float ;fOrientationP : float ;fOrientationY : float) is
+   procedure Set_Wanted_Position_And_Orientation(this : in CViewmodel_Set_Wanted_Position; fPositionX : float ;  fPositionY : float ; fPositionZ : float ; fRotationX : float ;fRotationY : float ;fRotationZ : float) is
       use math.Matrices;
       xWantedPosition : math.Vectors.CVector := math.Vectors.xCreate(fX => fPositionX,
                                                                       fY => fPositionY,
                                                                       fZ => fPositionZ);
-      xWantedOrientation : math.Matrices.CMatrix := math.Matrices.xCreate_Rotation_Around_Z_Axis(math.Angles.TAngle(fOrientationY))*math.Matrices.xCreate_Rotation_Around_Y_Axis(math.Angles.TAngle(fOrientationP))*math.Matrices.xCreate_Rotation_Around_X_Axis(math.Angles.TAngle(fOrientationR));
+      xWantedOrientation : math.Matrices.CMatrix := math.Matrices.xCreate_Rotation_Around_Z_Axis(math.Angles.TAngle(fRotationZ))*math.Matrices.xCreate_Rotation_Around_Y_Axis(math.Angles.TAngle(fRotationY))*math.Matrices.xCreate_Rotation_Around_X_Axis(math.Angles.TAngle(fRotationX));
 
    begin
       this.pxModel.Set_Wanted_Position_And_Orientation(xWantedPosition    => xWantedPosition,

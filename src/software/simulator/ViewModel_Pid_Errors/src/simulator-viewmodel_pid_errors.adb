@@ -1,5 +1,11 @@
 with Exception_Handling; use Exception_Handling;
 with ada.Unchecked_Deallocation;
+with Navigation.Motion_Component;
+with Navigation.Dispatcher;
+with Ada.Text_IO;
+with Ada.Exceptions;
+with Ada.Numerics;
+
 package body Simulator.ViewModel_Pid_Errors is
 
 
@@ -8,12 +14,23 @@ package body Simulator.ViewModel_Pid_Errors is
    ---------------------
 
    function fGet_Pid_Errors(this : in CViewModel_Pid_Errors ; eErrorComponent : in EMotionComponent) return float is
+      xMotionalErrors : Navigation.Dispatcher.TMotionalErrors;
    begin
-      return this.pxPidErrors.fGet_PID_Error_For_Component(simulator.Pid_Errors.EMotionComponent(eErrorComponent));
-               exception
+      xMotionalErrors := this.pxModel.xGet_Current_Motional_Errors;
+
+      case eErrorComponent is
+      when X .. Z =>
+         return xMotionalErrors(Navigation.Motion_Component.EMotionComponent(eErrorComponent));
+         when others =>
+            null;
+      end case;
+
+      return xMotionalErrors(Navigation.Motion_Component.EMotionComponent(eErrorComponent)) * 180.0 / Ada.Numerics.Pi;
+   exception
       when E : others =>
+         Ada.Text_IO.Put_Line(Ada.Exceptions.Exception_Message(E));
          Exception_Handling.Unhandled_Exception(E);
-         return this.pxPidErrors.fGet_PID_Error_For_Component(simulator.Pid_Errors.EMotionComponent(eErrorComponent));
+         return 0.0;
 
    end fGet_Pid_Errors;
 
@@ -26,7 +43,7 @@ package body Simulator.ViewModel_Pid_Errors is
 
    begin
       pxNewViewModel := new Simulator.ViewModel_Pid_Errors.CViewModel_Pid_Errors;
-      pxNewViewModel.pxPidErrors := Simulator.Pid_Errors.pxCreate;
+    --  pxNewViewModel.pxPidErrors := Simulator.Pid_Errors.pxCreate;
       pxNewViewModel.pxModel := pxModel;
 
       return pxNewViewModel;
@@ -44,25 +61,8 @@ package body Simulator.ViewModel_Pid_Errors is
    procedure Free(pxViewModel_Pid_Errors : in out pCViewModel_Pid_Errors) is
       procedure Dealloc is new Ada.Unchecked_Deallocation(CViewModel_Pid_Errors, pCViewModel_Pid_Errors);
    begin
-      simulator.Pid_Errors.Free(pxViewModel_Pid_Errors.pxPidErrors);
+   --   simulator.Pid_Errors.Free(pxViewModel_Pid_Errors.pxPidErrors);
       Dealloc(pxViewModel_Pid_Errors);
    end;
-
-   ----------------------------------
-   -- Update_View_Model_Pid_Errors --
-   ----------------------------------
-
-   procedure Update_View_Model_Pid_Errors(this : in CViewModel_Pid_Errors; fDeltaTime : in float) is
-   begin
-      this.pxPidErrors.Update_Errors(xCurrentAbsolutePosition    => this.pxModel.xGet_Current_Submarine_Positional_Vector,
-                                     xWantedAbsolutePosition     => this.pxModel.xGet_Wanted_Submarine_Positional_Vector,
-                                     xVelocityVector             => this.pxModel.xGet_Current_Submarine_Velocity_Vector,
-                                     xCurrentAbsoluteOrientation => this.pxModel.xGet_Current_Submarine_Orientation_Matrix,
-                                     xWantedAbsoluteOrientation  => this.pxModel.xGet_Wanted_Submarine_Orientation_Matrix);
-      this.pxModel.Update_Model(fDeltaTime => fDeltaTime);
-            exception
-      when E : others =>
-         Exception_Handling.Unhandled_Exception(E);
-   end Update_View_Model_Pid_Errors;
 
 end Simulator.ViewModel_Pid_Errors;

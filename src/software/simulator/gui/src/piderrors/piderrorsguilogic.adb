@@ -12,6 +12,8 @@ with Gtk.Widget;
 with Gtk.Drawing_Area;
 with Gdk.Drawable;
 
+with Ada.Text_IO;
+
 package body PIDErrorsGUILogic is
 
    type TPid_Scaling_In_Y is array (Simulator.ViewModel_Pid_Errors.EMotionComponent'Range) of float;
@@ -27,6 +29,7 @@ package body PIDErrorsGUILogic is
    iPidCounter : float := 0.0;
 
    package Drawing_Timeout_Pid is new Glib.Main.Generic_Sources (TPidGraph);
+   package Update_Viewmodel_PKG is new Glib.Main.Generic_Sources(integer);
 
    xTimeoutPidPositionX : Glib.Main.G_Source_Id;
    xTimeoutPidPositionY : Glib.Main.G_Source_Id;
@@ -35,6 +38,8 @@ package body PIDErrorsGUILogic is
    xTimeoutPidRotationX : Glib.Main.G_Source_Id;
    xTimeoutPidRotationY : Glib.Main.G_Source_Id;
    xTimeoutPidRotationZ : Glib.Main.G_Source_Id;
+
+
 
    function bPid_Counter_Restarted return boolean is
       bRestart : boolean := false;
@@ -95,8 +100,8 @@ package body PIDErrorsGUILogic is
          Y2       => 25);
 
       -- Draw Scaling
-      --  Gdk.Font.Fontset_Load(Font         => xFont,
-      --                      Fontset_Name => "Terminal");
+       -- Gdk.Font.Fontset_Load(Font         => xFont,
+         --                   Fontset_Name => "");
 
       Gdk.Drawable.Draw_Text
         (Drawable => xWindowForPid,
@@ -124,7 +129,7 @@ package body PIDErrorsGUILogic is
       return True;
    end bDraw_Pid;
 
-procedure Draw_Timeout(pxObject : access Gtkada.Builder.Gtkada_Builder_Record'Class) is
+procedure Register_Timeouts(pxObject : access Gtkada.Builder.Gtkada_Builder_Record'Class) is
       use Glib.Main;
       use Glib;
       use Simulator.ViewModel_Pid_Errors;
@@ -149,20 +154,17 @@ procedure Draw_Timeout(pxObject : access Gtkada.Builder.Gtkada_Builder_Record'Cl
 
       if xTimeoutPidRotationX = 0 then
          xTimeoutPidRotationX := Drawing_Timeout_Pid.Timeout_Add
-           (xUpdateIntervall, bDraw_Pid'Access, (Gtk.Drawing_Area.Gtk_Drawing_Area (Gtkada.Builder.Get_Widget(pxObject, "drwPidRotX")), DriftX));
+           (xUpdateIntervall, bDraw_Pid'Access, (Gtk.Drawing_Area.Gtk_Drawing_Area (Gtkada.Builder.Get_Widget(pxObject, "drwPidRotX")), RotationX));
       end if;
 
       if xTimeoutPidRotationY = 0 then
          xTimeoutPidRotationY := Drawing_Timeout_Pid.Timeout_Add
-           (xUpdateIntervall, bDraw_Pid'Access, (Gtk.Drawing_Area.Gtk_Drawing_Area (Gtkada.Builder.Get_Widget(pxObject, "drwPidRotY")), DriftY));
+           (xUpdateIntervall, bDraw_Pid'Access, (Gtk.Drawing_Area.Gtk_Drawing_Area (Gtkada.Builder.Get_Widget(pxObject, "drwPidRotY")), RotationY));
       end if;
 
       if xTimeoutPidRotationZ = 0 then
          xTimeoutPidRotationZ := Drawing_Timeout_Pid.Timeout_Add
-           (xUpdateIntervall, bDraw_Pid'Access, (Gtk.Drawing_Area.Gtk_Drawing_Area (Gtkada.Builder.Get_Widget(pxObject, "drwPidRotZ")), DriftZ));
+           (xUpdateIntervall, bDraw_Pid'Access, (Gtk.Drawing_Area.Gtk_Drawing_Area (Gtkada.Builder.Get_Widget(pxObject, "drwPidRotZ")), RotationZ));
       end if;
-
-   end Draw_Timeout;
-
-
+   end Register_Timeouts;
 end PIDErrorsGUILogic;

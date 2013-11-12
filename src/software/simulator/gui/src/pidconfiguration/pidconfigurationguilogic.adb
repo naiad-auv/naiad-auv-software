@@ -17,6 +17,8 @@ package body PIDConfigurationGUILogic is
       xViewmodel.Set_Value_Of_Selected_Pid(fProporitonalPart => Float'Value(sPidProportionalConstant.Get_Text),
                                            fIntegratingPart  => Float'Value(sPidIntegratingConstant.Get_Text),
                                            fDerivativePart   => Float'Value(sPidDerivatingConstant.Get_Text));
+
+      Ada.Text_IO.Put_Line("Updated PID Constants");
    end Update_Pid_Constants;
 
    procedure Init_Pid(pxObject : access Gtkada.Builder.Gtkada_Builder_Record'Class) is
@@ -58,6 +60,8 @@ package body PIDConfigurationGUILogic is
       end case;
 
       Update_PID_Texts(pxObject);
+
+      Ada.Text_IO.Put_Line("Selected PID changed");
    end Selected_Pid_Changed;
 
    procedure Update_PID_Texts(pxObject : access Gtkada.Builder.Gtkada_Builder_Record'Class) is

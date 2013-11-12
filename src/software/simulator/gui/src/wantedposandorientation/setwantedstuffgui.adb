@@ -7,6 +7,7 @@ with Exception_Handling;
 with Ada.Text_IO;
 with Glib.Error;
 with SetWantedStuffGUILogic;
+with Simulator.Viewmodel_Set_Wanted_Position;
 
 package body SetWantedStuffGUI is
 
@@ -16,10 +17,15 @@ package body SetWantedStuffGUI is
 
         Gtkada.Builder.Register_Handler
         (Builder      => xBuilder,
-         Handler_Name => "updateGoal",
+         Handler_Name => "updateGoalsHandler",
          Handler      => SetWantedStuffGuiLogic.Update_Wanted_Position'Access);
 
    end Register_Handlers;
+
+   procedure Setup_Backend(xModel : Simulator.Model.pCModel) is
+   begin
+     SetWantedStuffGUILogic.xViewmodel := Simulator.Viewmodel_Set_Wanted_Position.pxCreate(xModel);
+   end Setup_Backend;
 
    procedure Start_GUI (xModel : Simulator.Model.pCModel) is
 
@@ -32,7 +38,7 @@ package body SetWantedStuffGUI is
       Gtk.Main.Init;
 
       Gtk_New (xBuilder);
-      xError := Add_From_File (xBuilder, "SetWantedPosOri.glade");
+      xError := Add_From_File (xBuilder, "./src/GladeFiles/SetWantedPosOri.glade");
       if xError /= null then
          Ada.Text_IO.Put("Error while loading .glade: ");
          Ada.Text_IO.Put(Glib.Error.Get_Message(xError));
@@ -41,8 +47,14 @@ package body SetWantedStuffGUI is
       end if;
 
       Register_Handlers(xBuilder);
+      Ada.Text_IO.Put_Line("Set wanted stuff handlers registred");
+
+      Setup_Backend(xModel);
+      Ada.Text_IO.Put_Line("Set wanted stuff backend setup");
 
       Do_Connect (xBuilder);
+
+      Ada.Text_IO.Put_Line("Set wanted stuff connected");
 
       Gtk.Widget.Show_All (Get_Widget (xBuilder, "setWantedStuffWindow"));
       Gtk.Main.Main;
