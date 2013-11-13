@@ -25,6 +25,8 @@ package Simulator.ViewModel_Pid_Errors is
 
    procedure Update_Min_Max_Error_Buffers(this : in out CViewModel_Pid_Errors);
 
+   procedure Update_Delta_Time(this : in out CViewModel_Pid_Errors);
+
    procedure Reset_Min_Max_Error_Buffers(this : in out CViewModel_Pid_Errors);
 
    procedure Free(pxViewModel_Pid_Errors : in out pCViewModel_Pid_Errors);

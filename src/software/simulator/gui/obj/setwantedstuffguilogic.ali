@@ -29,7 +29,7 @@ W system.secondary_stack%s  s-secsta.adb	s-secsta.ali
 W system.soft_links%s	s-soflin.adb		s-soflin.ali
 W system.val_real%s	s-valrea.adb		s-valrea.ali
 
-U setwantedstuffguilogic%s  setwantedstuffguilogic.ads  60a6ce11 EE NE OO PK
+U setwantedstuffguilogic%s  setwantedstuffguilogic.ads  9bcd105d EE NE OO PK
 W gtkada%s		gtkada.ads		gtkada.ali
 W gtkada.builder%s	gtkada-builder.adb	gtkada-builder.ali
 W simulator%s		simulator.adb		simulator.ali
@@ -155,7 +155,7 @@ D pango-tabs.ads	20130726070842 1dd550ef
 D setwantedstuffguilogic.ads  20131111120100 57370c15
 D setwantedstuffguilogic.adb  20131111151603 57db4267
 D simulator.ads		20131104082225 19a68e1a
-D simulator-model.ads	20131112121619 ca3e2570
+D simulator-model.ads	20131112144053 3155fb3c
 D simulator-motion_control_wrapper.ads  20131111145023 e4f0c950
 D simulator-motor_info.ads  20131105072747 317185f1
 D simulator-submarine.ads  20131105072747 63940499
@@ -279,7 +279,7 @@ X 118 setwantedstuffguilogic.adb
 X 119 simulator.ads
 1K9*Simulator 117|2r6 3r6 7r17 119|5e14
 X 120 simulator-model.ads
-9K19*Model 117|2w16 120|52e20
+9K19*Model 117|2w16 120|53e20
 X 124 simulator-viewmodel_set_wanted_position.ads
 9K19*Viewmodel_Set_Wanted_Position 117|3w16 7r27 124|25e44
 12P9*pCViewmodel_Set_Wanted_Position(11R9) 117|7r57

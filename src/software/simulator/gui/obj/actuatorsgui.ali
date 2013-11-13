@@ -25,7 +25,7 @@ W simulator.viewmodel_actuators%s  simulator-viewmodel_actuators.adb  simulator-
 W system.secondary_stack%s  s-secsta.adb	s-secsta.ali
 W system.soft_links%s	s-soflin.adb		s-soflin.ali
 
-U actuatorsgui%s	actuatorsgui.ads	984389ba EE NE OO PK
+U actuatorsgui%s	actuatorsgui.ads	632857f6 EE NE OO PK
 W simulator%s		simulator.adb		simulator.ali
 W simulator.model%s	simulator-model.adb	simulator-model.ali
 
@@ -124,7 +124,7 @@ D pango-layout.ads	20130726070842 0814381c
 D pango-tabs.ads	20130726070842 1dd550ef
 D pidconfigurationguilogic.ads  20131111120512 6a101b69
 D simulator.ads		20131104082225 19a68e1a
-D simulator-model.ads	20131112121619 ca3e2570
+D simulator-model.ads	20131112144053 3155fb3c
 D simulator-motion_control_wrapper.ads  20131111145023 e4f0c950
 D simulator-motor_info.ads  20131105072747 317185f1
 D simulator-submarine.ads  20131105072747 63940499
@@ -240,7 +240,7 @@ X 94 pidconfigurationguilogic.ads
 X 95 simulator.ads
 1K9*Simulator 1|1r6 5r33 2|11r6 36r37 39r39 42r34 95|5e14
 X 96 simulator-model.ads
-9K19*Model 1|1w16 5r43 2|36r47 42r44 96|52e20
+9K19*Model 1|1w16 5r43 2|36r47 42r44 96|53e20
 14P9*pCModel(13R9) 1|5r49 2|36r53 42r50
 X 100 simulator-viewmodel_actuators.ads
 3K19*ViewModel_Actuators 2|11w16 39r49 100|22e34

@@ -24,7 +24,7 @@ W simulator.viewmodel_set_wanted_position%s  simulator-viewmodel_set_wanted_posi
 W system.secondary_stack%s  s-secsta.adb	s-secsta.ali
 W system.soft_links%s	s-soflin.adb		s-soflin.ali
 
-U setwantedstuffgui%s	setwantedstuffgui.ads	3f77aed4 EE NE OO PK
+U setwantedstuffgui%s	setwantedstuffgui.ads	c41c7098 EE NE OO PK
 W simulator%s		simulator.adb		simulator.ali
 W simulator.model%s	simulator-model.adb	simulator-model.ali
 
@@ -119,7 +119,7 @@ D setwantedstuffgui.ads	20131111091118 f5498ba4
 D setwantedstuffgui.adb	20131111124223 74b8964e
 D setwantedstuffguilogic.ads  20131111120100 57370c15
 D simulator.ads		20131104082225 19a68e1a
-D simulator-model.ads	20131112121619 ca3e2570
+D simulator-model.ads	20131112144053 3155fb3c
 D simulator-motion_control_wrapper.ads  20131111145023 e4f0c950
 D simulator-motor_info.ads  20131105072747 317185f1
 D simulator-submarine.ads  20131105072747 63940499
@@ -230,7 +230,7 @@ X 90 setwantedstuffguilogic.ads
 X 91 simulator.ads
 1K9*Simulator 88|1r6 5r33 89|10r6 25r37 27r43 30r34 91|5e14
 X 92 simulator-model.ads
-9K19*Model 88|1w16 5r43 89|25r47 30r44 92|52e20
+9K19*Model 88|1w16 5r43 89|25r47 30r44 92|53e20
 14P9*pCModel(13R9) 88|5r49 89|25r53 30r50
 X 96 simulator-viewmodel_set_wanted_position.ads
 9K19*Viewmodel_Set_Wanted_Position 89|10w16 27r53 96|25e44

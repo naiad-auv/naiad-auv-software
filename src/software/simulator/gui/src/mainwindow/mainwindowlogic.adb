@@ -405,6 +405,7 @@ package body MainWindowLogic is
 
       xViewmodel.Update(fDeltaTime => 0.01);
 
+      PIDErrorsGUILogic.xViewmodel.Update_Delta_Time;
       return True;
    end bUpdate_Viewmodel;
 
