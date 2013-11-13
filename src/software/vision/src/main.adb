@@ -34,6 +34,7 @@ procedure main is
    iDoWriteImageToFile : Integer :=0;
    iDoEnhanceColors : Integer :=0;
    iDoContrast : Integer := 1;
+   iDoQuaternionSwitchingFilter : Integer := 1;
 
 
    --image locations
@@ -53,7 +54,7 @@ procedure main is
    iThreshedImageLocation : Interfaces.C.int:=12;
    iFusionOutLocation : Interfaces.C.int:=13;
    iContrastOut : Interfaces.C.int := 14;
-   iQNSFLocation : Interfaces.C.ing := 15;
+   iQNSFLocation : Interfaces.C.int := 15;
 
    itemplateTempStorage : Interfaces.C.int:=20;
    iTemplate1 : Interfaces.C.int:=21;
@@ -140,7 +141,7 @@ procedure main is
    iBias : Interfaces.C.int := 0;
 
    --QNSF
-   iQNSFThresh : Interfaces.C.Double := 0.5;
+   iQNSFThresh : Interfaces.C.Double := 30.0;
 
    --wait time when displaying images
    iWaitTime : interfaces.c.int := 0;
@@ -172,7 +173,7 @@ begin
       if (iDoUseBuffer = 1) then -- read from buffer
          CoreWrap.img_buffer;
       elsif (iDoUseStatic =1) then --read in single image
-         CoreWrap.imstore(iImageSource,New_String("Square.jpg"));
+         CoreWrap.imstore(iImageSource,New_String("noise.jpg"));
       elsif (iDoMakeMovie = 1) then --capture from video
          Vision.Image_Preprocessing.Capture_Video(iImageSource,iWaitTime,videoOpen);
          videoOpen:=1;
@@ -340,6 +341,7 @@ begin
 
       if(iDoQuaternionSwitchingFilter =1) then
          Vision.Image_Preprocessing.QNSF(iImageSource, iQNSFLocation, iQNSFThresh);
+         Vision.Image_Preprocessing.QNSF(iQNSFLocation, iQNSFLocation, iQNSFThresh);
       end if;
 
 

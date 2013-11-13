@@ -87,7 +87,7 @@ package body Vision.Image_Preprocessing is
    procedure QNSF(iImageSource, iQNSFLocation : in Interfaces.C.int; iQNSFThresh: in Interfaces.C.Double) is
    begin
       preprocessingWrap.quaterNionSwitchingFilter(iImageSource, iQNSFLocation,iQNSFThresh);
-   end QSNF;
+   end QNSF;
 
 
 end Vision.Image_Preprocessing;

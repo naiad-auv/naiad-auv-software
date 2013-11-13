@@ -298,7 +298,14 @@ package visionBindings_hpp is
          bias : int);  -- visionBindings.cpp:998
       pragma Import (CPP, contrast, "_ZN18Preprocessing_Wrap8contrastEiiii");
 
-      function New_Preprocessing_Wrap return Preprocessing_Wrap;  -- visionBindings.cpp:1007
+      procedure quaterNionSwitchingFilter
+        (this : access Preprocessing_Wrap;
+         src : int;
+         dst : int;
+         QNSFThresh : double);  -- visionBindings.cpp:1007
+      pragma Import (CPP, quaterNionSwitchingFilter, "_ZN18Preprocessing_Wrap25quaterNionSwitchingFilterEiid");
+
+      function New_Preprocessing_Wrap return Preprocessing_Wrap;  -- visionBindings.cpp:1134
       pragma CPP_Constructor (New_Preprocessing_Wrap, "_ZN18Preprocessing_WrapC1Ev");
 
 

@@ -52,12 +52,12 @@ void Core_Wrap::img_buffer()
     char strStorage[50]; // enough to hold all numbers up to 64-bits
     int bufSize=0;
   
-    //std::string folderPath = "/home/vision/Documents/project/cdt508/Robosub2012_logging/Loggning/log 3/Bottom/";
+    std::string folderPath = "/home/vision/Documents/project/cdt508/Robosub2012_logging/Loggning/log 3/Bottom/";
     //std::string folderPath = "//home/bork/Data/cdt508/Robosub2012_logging/Loggning/log 3/Bottom/";
     //std::string folderPath = "/home/gerard/Documents/project/cdt508/Robosub2012_logging/Loggning/log 3/Bottom/";
     
     //std::string folderPath = "/home/gerard/Downloads/pix/";
-	std::string folderPath = "/home/vision/Downloads/pix/";
+	//std::string folderPath = "/home/vision/Downloads/pix/";
     
     std::string result;
     std::string imageType = ".jpg";
@@ -1004,19 +1004,21 @@ void Preprocessing_Wrap::contrast(int src, int dst, int gain, int bias) //change
 	
 }
  
-void Preprocessing_Wrap::quaterNionSwitchingFilter(int src, int dst, int QNSFThresh)
+void Preprocessing_Wrap::quaterNionSwitchingFilter(int src, int dst, double QNSFThresh)
 {
+	
 	///copy temp image of input source
 	cv::Mat tempImage=img.at(src).clone();
-	int minDif = 100;
+	int smallestDiff = 100;
 	
 	///for all pixels
 	for (int i=1; i < (tempImage.rows-1) ; i++)
 	{
 		for(int j=1; j < (tempImage.cols-1); j++)
 		{
+			smallestDiff = 100;
 			///examine pixels
-			//q1=tempImage.at<cv::Vec3b>(i-1,j-1)[channel]
+			//q1=tempImage.at<cv::Vec3b>(i-1,j-1)[channel]   //channels : 0=R,1=G,2=B
 			//q2=tempImage.at<cv::Vec3b>(i-1,j)[channel]
 			//q3=tempImage.at<cv::Vec3b>(i-1,j+1)[channel]
 			//q4=tempImage.at<cv::Vec3b>(i,j-1)[channel]
@@ -1031,21 +1033,103 @@ void Preprocessing_Wrap::quaterNionSwitchingFilter(int src, int dst, int QNSFThr
 			//v3=1/2(d(q2,q5)+d(q5,q8))
 			//v4=1/2(d(q1,q5)+d(q5,q9))
 
-			//QUATERNION REPRESENTED AS W,X,Y,Z
-			//d1(a,b)=(((1/sqrt(3))((B-G)i+(R-B)j+(G+R)k)-(((1/sqrt(3))((B-G)i+(R-B)j+(G+R)k)))
-			//d2(a,b)=((1/3)(R+G+B)(i+j+k)-(1/3)(R+G+B)(i+j+k))
-			//dTotal=d1+d2
+			//////////////////////////////////////////////////////////////////////////////////////////////////////
+			int R1=tempImage.at<cv::Vec3b>(i,j)[0];
+			int G1=tempImage.at<cv::Vec3b>(i,j)[1];
+			int B1=tempImage.at<cv::Vec3b>(i,j)[2];
 			
-            //minDif=min(v1..v4)
+			int x2=i-1;
+			int y2=j-1;
+			int x3=i+1;
+			int y3=i+1;
+			int R2,G2,B2,R3,G3,B3;
+			double M1,N1,O1,M2,N2,O2,magD1,magD2,dTotal;
+			std::vector<double> magVector;
+			
+			for (int k=0;k<4;k++)
+			{
+				R2=tempImage.at<cv::Vec3b>(x2,y2)[0];
+				G2=tempImage.at<cv::Vec3b>(x2,y2)[1];
+				B2=tempImage.at<cv::Vec3b>(x2,y2)[2];
+				y2++;
+				
+				R3=tempImage.at<cv::Vec3b>(x3,y3)[0];
+				G3=tempImage.at<cv::Vec3b>(x3,y3)[1];
+				B3=tempImage.at<cv::Vec3b>(x3,y3)[2];
+				y3--;
+			
+				if(k==3)
+				{
+					R2=tempImage.at<cv::Vec3b>(i,j-1)[0];
+					G2=tempImage.at<cv::Vec3b>(i,j-1)[1];
+					B2=tempImage.at<cv::Vec3b>(i,j-1)[2];
+				
+					R3=tempImage.at<cv::Vec3b>(i,j+1)[0];
+					G3=tempImage.at<cv::Vec3b>(i,j+1)[1];
+					B3=tempImage.at<cv::Vec3b>(i,j+1)[2];
+				}
+				//QUATERNION REPRESENTED AS L,M,N,O
+				///d1(a,b)=(((1/sqrt(3))((B-G)i+(R-B)j+(G+R)k)-(((1/sqrt(3))((B-G)i+(R-B)j+(G+R)k)))
+				//W1=0;X1=(1/sqrt(3))((B1-G1)-(B2-G2)); Y1=(1/sqrt(3))((R1-B1)-(R2-B2)); Z1=(1/sqrt(3))((G+R)-(G+R));
+				M1=((1/sqrt(3))*((B1-G1)-(B2-G2))+(1/1.732)*((B1-G1)-(B3-G3)))/2;
+				N1=((1/1.732)*((R1-B1)-(R2-B2))+(1/1.732)*((R1-B1)-(R3-B3)))/2;
+				O1=((1/1.732)*((G1+R1)-(G2+R2))+(1/1.732)*((G1+R1)-(G3+R3)))/2;
+				magD1=sqrt(0+(M1*M1)+(N1*N1)+(O1*O1));
+						
+				///d2(a,b)=((1/3)(R+G+B)(i+j+k)-(1/3)(R+G+B)(i+j+k))
+				M2=N2=O2=(((1/3)*((R1+G1+B1)-(R2+G2+B2)))+((1/3)*((R1+G1+B1)-(R3+G3+B3))))/2;
+				magD2=sqrt(0+(M2*M2)+(N2*N2)+(O2*O2));
+			
+				dTotal=magD1+magD2;
+			
+				if (dTotal<smallestDiff)
+				{
+					smallestDiff=dTotal;
+				}
+			}
+			
+			//std::cout<<"minDif is :"<<smallestDiff;
+            //cv::waitKey(0);
+            
             ///if filtering needed
-            if (minDif<QNSFThresh)
+            std::vector<int> windowSortStorage(10);
+            if (smallestDiff<QNSFThresh)
             {
-				///Filter
+				for(int chan=0;chan<3;chan++)
+				{
+					///Sort window
+					windowSortStorage[0]=tempImage.at<cv::Vec3b>(i-1,j-1)[chan];   //channels : 0=R,1=G,2=B
+					windowSortStorage[1]=tempImage.at<cv::Vec3b>(i-1,j)[chan];
+					windowSortStorage[2]=tempImage.at<cv::Vec3b>(i-1,j+1)[chan];
+					windowSortStorage[3]=tempImage.at<cv::Vec3b>(i,j-1)[chan];
+					windowSortStorage[4]=tempImage.at<cv::Vec3b>(i,j)[chan];
+					windowSortStorage[5]=tempImage.at<cv::Vec3b>(i,j+1)[chan];
+					windowSortStorage[6]=tempImage.at<cv::Vec3b>(i+1,j-1)[chan];
+					windowSortStorage[7]=tempImage.at<cv::Vec3b>(i+1,j)[chan];
+					windowSortStorage[8]=tempImage.at<cv::Vec3b>(i+1,j+1)[chan];
+					
+					int tempSortStorage, r , s;
+					for(r = 0; r < 9; r++)
+					{
+						tempSortStorage = windowSortStorage[r];
+						for(s = r-1; s >= 0 && tempSortStorage < windowSortStorage[s]; s--)
+						{
+							windowSortStorage[s+1] = windowSortStorage[s];
+						}
+						windowSortStorage[s+1] = tempSortStorage;
+					}
+					
+				
+				///Find Median = 4th entry
+				///replace center with median
+				tempImage.at<cv::Vec3b>(i,j)[chan]=windowSortStorage[4];
+				}
 			}
 		}
 	}
 	///copy temp to dest
-	cv::Mat img.at(dest)=tempImage.clone();
+	img.at(dst)=tempImage.clone();
+	cv::imshow("cleaned",img.at(dst));
 }
 Preprocessing_Wrap::Preprocessing_Wrap(){}
  
