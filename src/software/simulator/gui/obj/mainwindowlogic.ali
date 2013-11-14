@@ -1,11 +1,29 @@
-V "GNAT Lib v4.6"
+V "GNAT Lib v2013"
 A -O2
 A -gnat05
 A -gnatA
 P SS ZX
-R nnvvnnnnnnnvvnnnnnvvnvnnvvvnnnnvnnnnnnnnnvnnvnnnnnnnnnnnnnvnnvnvnnnnnnnnnnnnnnnn
 
-U mainwindowlogic%b	mainwindowlogic.adb	af073d4f OO PK
+RN
+RV NO_ACCESS_SUBPROGRAMS
+RV NO_ALLOCATORS
+RV NO_DISPATCH
+RV NO_DISPATCHING_CALLS
+RV NO_EXCEPTION_HANDLERS
+RV NO_EXCEPTION_PROPAGATION
+RV NO_EXCEPTIONS
+RV NO_FLOATING_POINT
+RV NO_IO
+RV NO_IMPLICIT_CONDITIONALS
+RV NO_LOCAL_ALLOCATORS
+RV NO_SECONDARY_STACK
+RV NO_STANDARD_STORAGE_POOLS
+RV NO_DEFAULT_INITIALIZATION
+RV NO_IMPLEMENTATION_PRAGMAS
+RV NO_ELABORATION_CODE
+RV SPARK
+
+U mainwindowlogic%b	mainwindowlogic.adb	89fd19cb OO PK
 W actuatorsgui%s	actuatorsgui.adb	actuatorsgui.ali
 W ada%s			ada.ads			ada.ali
 W ada.exceptions%s	a-except.adb		a-except.ali
@@ -52,190 +70,197 @@ W system.secondary_stack%s  s-secsta.adb	s-secsta.ali
 W system.soft_links%s	s-soflin.adb		s-soflin.ali
 W text_handling%s	text_handling.adb	text_handling.ali
 
-U mainwindowlogic%s	mainwindowlogic.ads	ec07c2c3 EE OO PK
+U mainwindowlogic%s	mainwindowlogic.ads	176c1c8f EE OO PK
 W gtkada%s		gtkada.ads		gtkada.ali
 W gtkada.builder%s	gtkada-builder.adb	gtkada-builder.ali
 W simulator%s		simulator.adb		simulator.ali
 W simulator.model%s	simulator-model.adb	simulator-model.ali  AD
 W simulator.viewmodel_representation%s  simulator-viewmodel_representation.adb  simulator-viewmodel_representation.ali  AD
 
-D actuatorsgui.ads	20131111091020 527dacca
-D ada.ads		20070406091342 3ffc8e18
-D a-charac.ads		20070912115821 2d3ec45b
-D a-chlat1.ads		20070912115821 2825df20
-D a-contai.ads		20101025135029 61e5e089
-D a-cohata.ads		20101026104202 f4016a1a
-D a-cohama.ads		20090409150019 6b402e54
-D a-except.ads		20090727140100 0c711ac9
-D a-finali.ads		20090409150019 e5e85fa4
-D a-filico.ads		20090409150019 872dc219
-D a-ioexce.ads		20091130110856 8b9de6cd
-D a-numeri.ads		20080324174807 bb51c45a
-D a-nuelfu.ads		20070406091342 03e83d1c
-D a-ngelfu.ads		20070406091342 47731de9
-D a-stream.ads		20090409150019 2ca4ee37
-D a-string.ads		20070406091342 90ac6797
-D a-strmap.ads		20090409150019 9cb836fb
-D a-strunb.ads		20101008130255 fe8d9a91
-D a-stunha.ads		20070406091342 115e053b
-D a-tags.ads		20101021101406 c7695348
-D a-textio.ads		20091028140912 386df5d4
-D a-unccon.ads		20070406091342 f9eb8f06
-D a-uncdea.ads		20070406091342 f15a5ed1
-D cairo.ads		20130726070842 8dc0603a
-D cairo-region.ads	20130726070842 b7133728
-D exception_handling.ads  20131104082225 270b34e9
-D gdk.ads		20130726070842 f909352d
-D gdk-bitmap.ads	20130726070842 a30f71c4
-D gdk-color.ads		20130726070842 8aa593ee
-D gdk-cursor.ads	20130726070842 d92b2ac1
-D gdk-display.ads	20130726070842 f1fc98fd
-D gdk-dnd.ads		20130726070842 db64775b
-D gdk-drawable.ads	20130726070842 15e54888
-D gdk-event.ads		20130726070842 8e0f7bb6
-D gdk-font.ads		20130726070842 46e43fa8
-D gdk-gc.ads		20130726070842 a96f1ba5
-D gdk-image.ads		20130726070842 2cf51d65
-D gdk-pixbuf.ads	20130726070842 8572dcfc
-D gdk-pixmap.ads	20130726070842 677b62c0
-D gdk-rectangle.ads	20130726070842 7b900608
-D gdk-region.ads	20130726070842 ff429b15
-D gdk-rgb.ads		20130726070842 724abbe3
-D gdk-types.ads		20130726070842 b1082506
-D gdk-visual.ads	20130726070842 615e934c
-D gdk-window.ads	20130726070842 a02582f1
-D glib.ads		20130726070842 0f441d83
-D glib-error.ads	20130726070842 e055fabe
-D glib-g_icon.ads	20130726070842 dee6b47c
-D glib-generic_properties.ads  20130726070842 a1807006
-D glib-glist.ads	20130726070842 65a6e1be
-D glib-gslist.ads	20130726070842 8fe7d6f1
-D glib-main.ads		20130726070842 e9472c66
-D glib-main.adb		20130726070842 abfe6b53
-D glib-object.ads	20130726070842 948e384a
-D glib-properties.ads	20130726070842 48c8d9fb
-D glib-types.ads	20130726070842 497ce66f
-D glib-values.ads	20130726070842 37b4897e
-D gnat.ads		20050905075125 fd2ad2f1
-D g-string.ads		20090409150019 c6abc540
-D gtk.ads		20130726070842 81513fe2
-D gtk-accel_group.ads	20130726070842 db8139a9
-D gtk-adjustment.ads	20130726070842 6a3f2d37
-D gtk-bin.ads		20130726070842 5a1f8184
-D gtk-box.ads		20130726070842 8af5c57e
-D gtk-buildable.ads	20130726070842 0156d377
-D gtk-builder.ads	20130726070842 f4ad2f95
-D gtk-cell_editable.ads	20130726070842 16b4fe5e
-D gtk-cell_layout.ads	20130726070842 6fc2335f
-D gtk-cell_renderer.ads	20130726070842 3320f36f
-D gtk-combo_box.ads	20130726070842 945de294
-D gtk-container.ads	20130726070842 93cfa083
-D gtk-drawing_area.ads	20130726070842 b23c236e
-D gtk-editable.ads	20130726070842 702f62cd
-D gtk-entry_completion.ads  20130726070842 7af3bc39
-D gtk-enums.ads		20130726070842 31c39095
-D gtk-gentry.ads	20130726070842 b68ecae8
-D gtk-icon_factory.ads	20130726070842 66ec8586
-D gtk-image.ads		20130726070842 fa4a314a
-D gtk-main.ads		20130726070842 47a9747a
-D gtk-misc.ads		20130726070842 e0beea74
-D gtk-object.ads	20130726070842 2b4b2b20
-D gtk-orientable.ads	20130726070842 de28974f
-D gtk-selection.ads	20130726070842 68400ca2
-D gtk-settings.ads	20130726070842 4b429e27
-D gtk-status_bar.ads	20130726070842 be4168f4
-D gtk-style.ads		20130726070842 1c4cbc80
-D gtk-tooltip.ads	20130726070842 d5d8d85a
-D gtk-tooltips.ads	20130726070842 960d936f
-D gtk-tree_model.ads	20130726070842 c173923c
-D gtk-tree_selection.ads  20130726070842 6cab21b3
-D gtk-tree_view.ads	20130726070842 96137578
-D gtk-tree_view_column.ads  20130726070842 e0d60443
-D gtk-widget.ads	20130726070842 468b5cfd
-D gtkada.ads		20130726070842 57aea1c7
-D gtkada-builder.ads	20130726070842 eeaa61f1
-D gtkada-types.ads	20130726070842 b7bc0c77
-D interfac.ads		20090409150019 f77d8799
-D i-c.ads		20101007125900 809c38c4
-D i-cstrin.ads		20090417131547 f3023ec4
-D i-cstrea.ads		20100622165701 1bd72c32
-D mainwindowlogic.ads	20131112124037 9a8680fd
-D mainwindowlogic.adb	20131112132745 966ff536
-D math.ads		20131104082225 6eeac05e
-D math-angles.ads	20131104082225 31c28d09
-D math-matrices.ads	20131104082225 da992515
-D math-planes.ads	20131104082225 57637e7b
-D math-quaternions.ads	20131104082225 f5582cff
-D math-vectors.ads	20131104082225 8121913e
-D navigation.ads	20131104082225 afdfd964
-D navigation-dispatcher.ads  20131112092154 bb53e3cd
-D navigation-motion_component.ads  20131112092154 5201bdd1
-D navigation-orientational_controller.ads  20131112075616 74a5f50b
-D navigation-pid_controller.ads  20131111143307 4c7c5406
-D navigation-positional_controller.ads  20131112092154 4a6df394
-D navigation-thruster_configurator.ads  20131104082225 9ef7f03c
-D navigation-thrusters.ads  20131104082225 2b8825c3
-D pango.ads		20130726070842 d3c8e76d
-D pango-attributes.ads	20130726070842 34135516
-D pango-context.ads	20130726070842 a00383e5
-D pango-enums.ads	20130726070842 8ef2dddf
-D pango-font.ads	20130726070842 375007f3
-D pango-layout.ads	20130726070842 0814381c
-D pango-tabs.ads	20130726070842 1dd550ef
-D pidconfigurationgui.ads  20131111091118 a5a12fcf
-D piderrorsgui.ads	20131112124257 9c6bcdc5
-D piderrorsguilogic.ads	20131112123951 165a5fc3
-D projection_2d.ads	20131108122137 078d9589
-D sensorsgui.ads	20131111091118 f57914d9
-D setwantedstuffgui.ads	20131111091118 f5498ba4
-D simulator.ads		20131104082225 19a68e1a
-D simulator-model.ads	20131112121619 ca3e2570
-D simulator-motion_control_wrapper.ads  20131111145023 e4f0c950
-D simulator-motor_info.ads  20131105072747 317185f1
-D simulator-submarine.ads  20131105072747 63940499
-D simulator-viewmodel_pid_errors.ads  20131112142027 83b0b90a
-D simulator-viewmodel_representation.ads  20131112080035 521506bf
-D system.ads		20130419124236 2d1a1afa
-D s-addima.ads		20090409150019 a1ec9d3a
-D s-crtl.ads		20100617122610 ac77b159
-D s-exctab.ads		20090417131547 66e51330
-D s-ficobl.ads		20100909103250 443b9d66
-D s-finimp.ads		20090409150019 46853fe8
-D s-finroo.ads		20090409150019 dbb860c9
-D s-parame.ads		20091130110856 9c5d83fa
-D s-secsta.ads		20090707124243 eea35a36
-D s-soflin.ads		20090729085153 9414c974
-D s-stache.ads		20090417130712 596fc1b4
-D s-stalib.ads		20101021102512 c4241c00
-D s-stoele.ads		20090417130712 facd7d98
-D s-stoele.adb		20100617152355 afc5dc80
-D s-stratt.ads		20100909123135 aedef97e
-D s-string.ads		20090417130712 46b01415
-D s-ststop.ads		20090417130712 ee472be4
-D s-traent.ads		20090417130712 5221ee41
-D s-unstyp.ads		20090409150019 6ae15c76
-D s-wchcon.ads		20090417130712 bfeb2e3d
-D text_handling.ads	20131112085737 f5e5b8eb
-D unchconv.ads		20070406091342 ca2f9e18
+D actuatorsgui.ads	20131111110914 527dacca
+D ada.ads		20130417131023 3ffc8e18
+D a-charac.ads		20130417131019 2d3ec45b
+D a-chlat1.ads		20130417131019 2825df20
+D a-contai.ads		20130417131019 61e5e089
+D a-cohata.ads		20130417131019 04abccc5
+D a-cohama.ads		20130417131019 9f97b812
+D a-except.ads		20130417131019 10fcae55
+D a-finali.ads		20130417131020 52ecdc1b
+D a-ioexce.ads		20130417131020 8b9de6cd
+D a-iteint.ads		20130417131020 7c7305e9
+D a-numeri.ads		20130417131020 bb51c45a
+D a-nuelfu.ads		20130417131020 03e83d1c
+D a-ngelfu.ads		20130417131020 243903c9
+D a-stream.ads		20130417131021 2ca4ee37
+D a-string.ads		20130417131021 90ac6797
+D a-strmap.ads		20130417131021 9cb836fb
+D a-strunb.ads		20130417131021 3f91d4c5
+D a-stunha.ads		20130417131021 115e053b
+D a-tags.ads		20130417131022 6c0509d0
+D a-textio.ads		20130417131022 386df5d4
+D a-unccon.ads		20130417131022 f9eb8f06
+D a-uncdea.ads		20130417131022 f15a5ed1
+D cairo.ads		20120115140819 8dc0603a
+D cairo-region.ads	20120115140819 b7133728
+D exception_handling.ads  20131101131501 270b34e9
+D gdk.ads		20120115140819 f909352d
+D gdk-bitmap.ads	20120115140819 a30f71c4
+D gdk-color.ads		20120115140819 8aa593ee
+D gdk-cursor.ads	20120115140819 d92b2ac1
+D gdk-display.ads	20120115140819 f1fc98fd
+D gdk-dnd.ads		20120115140819 db64775b
+D gdk-drawable.ads	20120115140819 15e54888
+D gdk-event.ads		20120115140819 8e0f7bb6
+D gdk-font.ads		20120115140819 46e43fa8
+D gdk-gc.ads		20120115140819 a96f1ba5
+D gdk-image.ads		20120115140819 2cf51d65
+D gdk-pixbuf.ads	20120115140819 8572dcfc
+D gdk-pixmap.ads	20120115140819 677b62c0
+D gdk-rectangle.ads	20120115140819 7b900608
+D gdk-region.ads	20120115140819 ff429b15
+D gdk-rgb.ads		20120115140819 724abbe3
+D gdk-types.ads		20120115140819 b1082506
+D gdk-visual.ads	20120115140819 615e934c
+D gdk-window.ads	20120115140819 a02582f1
+D glib.ads		20120115140820 0f441d83
+D glib-error.ads	20120115140820 e055fabe
+D glib-g_icon.ads	20120115140820 dee6b47c
+D glib-generic_properties.ads  20120115140820 a1807006
+D glib-glist.ads	20120115140820 65a6e1be
+D glib-gslist.ads	20120115140820 8fe7d6f1
+D glib-main.ads		20120115140820 e9472c66
+D glib-main.adb		20120115140820 abfe6b53
+D glib-object.ads	20120115140820 948e384a
+D glib-properties.ads	20120115140820 48c8d9fb
+D glib-types.ads	20120115140820 497ce66f
+D glib-values.ads	20120115140820 37b4897e
+D gnat.ads		20130417131026 fd2ad2f1
+D g-string.ads		20130417131026 c6abc540
+D gtk.ads		20120115140820 81513fe2
+D gtk-accel_group.ads	20120115140819 db8139a9
+D gtk-adjustment.ads	20120115140819 6a3f2d37
+D gtk-bin.ads		20120115140819 5a1f8184
+D gtk-box.ads		20120115140819 8af5c57e
+D gtk-buildable.ads	20120115140819 0156d377
+D gtk-builder.ads	20120115140820 f4ad2f95
+D gtk-cell_editable.ads	20120115140819 16b4fe5e
+D gtk-cell_layout.ads	20120115140820 6fc2335f
+D gtk-cell_renderer.ads	20120115140820 3320f36f
+D gtk-combo_box.ads	20120115140820 945de294
+D gtk-container.ads	20120115140820 93cfa083
+D gtk-drawing_area.ads	20120115140819 b23c236e
+D gtk-editable.ads	20120115140820 702f62cd
+D gtk-entry_completion.ads  20120115140820 7af3bc39
+D gtk-enums.ads		20120115140820 31c39095
+D gtk-gentry.ads	20120115140820 b68ecae8
+D gtk-icon_factory.ads	20120115140820 66ec8586
+D gtk-image.ads		20120115140820 fa4a314a
+D gtk-main.ads		20120115140820 47a9747a
+D gtk-misc.ads		20120115140820 e0beea74
+D gtk-object.ads	20120115140820 2b4b2b20
+D gtk-orientable.ads	20120115140820 de28974f
+D gtk-selection.ads	20120115140820 68400ca2
+D gtk-settings.ads	20120115140820 4b429e27
+D gtk-status_bar.ads	20120115140820 be4168f4
+D gtk-style.ads		20120115140820 1c4cbc80
+D gtk-tooltip.ads	20120115140820 d5d8d85a
+D gtk-tooltips.ads	20120115140820 960d936f
+D gtk-tree_model.ads	20120115140820 c173923c
+D gtk-tree_selection.ads  20120115140820 6cab21b3
+D gtk-tree_view.ads	20120115140820 96137578
+D gtk-tree_view_column.ads  20120115140820 e0d60443
+D gtk-widget.ads	20120115140820 468b5cfd
+D gtkada.ads		20120115140820 57aea1c7
+D gtkada-builder.ads	20120115140820 eeaa61f1
+D gtkada-types.ads	20120115140820 b7bc0c77
+D interfac.ads		20130417131027 cb4a8015
+D i-c.ads		20130417131026 5421119b
+D i-cstrin.ads		20130417131027 341d0ddf
+D i-cstrea.ads		20130417131026 8128536b
+D mainwindowlogic.ads	20131113082740 9a8680fd
+D mainwindowlogic.adb	20131113082740 966ff536
+D math.ads		20131017151746 6eeac05e
+D math-angles.ads	20131017151746 31c28d09
+D math-matrices.ads	20131030162716 da992515
+D math-planes.ads	20131101131501 57637e7b
+D math-quaternions.ads	20131030162716 f5582cff
+D math-vectors.ads	20131030162716 8121913e
+D navigation.ads	20131017151746 afdfd964
+D navigation-dispatcher.ads  20131112111443 bb53e3cd
+D navigation-motion_component.ads  20131112111443 5201bdd1
+D navigation-orientational_controller.ads  20131112111443 74a5f50b
+D navigation-pid_controller.ads  20131112111443 4c7c5406
+D navigation-positional_controller.ads  20131112111443 4a6df394
+D navigation-thruster_configurator.ads  20131029105656 9ef7f03c
+D navigation-thrusters.ads  20131029105656 2b8825c3
+D pango.ads		20120115140820 d3c8e76d
+D pango-attributes.ads	20120115140820 34135516
+D pango-context.ads	20120115140820 a00383e5
+D pango-enums.ads	20120115140820 8ef2dddf
+D pango-font.ads	20120115140820 375007f3
+D pango-layout.ads	20120115140820 0814381c
+D pango-tabs.ads	20120115140820 1dd550ef
+D pidconfigurationgui.ads  20131111110914 a5a12fcf
+D piderrorsgui.ads	20131113082740 9c6bcdc5
+D piderrorsguilogic.ads	20131113082740 165a5fc3
+D projection_2d.ads	20131112111443 078d9589
+D sensorsgui.ads	20131111110914 f57914d9
+D setwantedstuffgui.ads	20131111110914 f5498ba4
+D simulator.ads		20131018074231 19a68e1a
+D simulator-model.ads	20131112131036 3155fb3c
+D simulator-motion_control_wrapper.ads  20131112111443 e4f0c950
+D simulator-motor_info.ads  20131104113703 317185f1
+D simulator-submarine.ads  20131104132035 63940499
+D simulator-viewmodel_pid_errors.ads  20131113082740 83b0b90a
+D simulator-viewmodel_representation.ads  20131112132902 521506bf
+D system.ads		20130417131036 90249111
+D s-addima.ads		20130417131028 a1ec9d3a
+D s-atocou.ads		20130417131028 4a9c6cb4
+D s-atocou.adb		20130417131028 7116b4cf
+D s-crtl.ads		20130417131029 dfcfca61
+D s-exctab.ads		20130417131029 66e51330
+D s-ficobl.ads		20130417131029 55a71d43
+D s-finmas.ads		20130417131029 b95bb341
+D s-finroo.ads		20130417131029 4ff27390
+D s-parame.ads		20130417131032 b6e20cc0
+D s-pooglo.ads		20130417131032 542f33d0
+D s-secsta.ads		20130417131032 eea35a36
+D s-soflin.ads		20130417131032 24c8153c
+D s-stache.ads		20130417131032 596fc1b4
+D s-stalib.ads		20130417131032 f78bcf95
+D s-stoele.ads		20130417131032 facd7d98
+D s-stoele.adb		20130417131032 afc5dc80
+D s-stopoo.ads		20130417131032 7b8fbeee
+D s-stposu.ads		20130417131032 ffeba1c5
+D s-stratt.ads		20130417131032 aedef97e
+D s-string.ads		20130417131032 46b01415
+D s-ststop.ads		20130417131032 ee472be4
+D s-traent.ads		20130417131033 5221ee41
+D s-unstyp.ads		20130417131034 6ae15c76
+D s-wchcon.ads		20130417131034 bfeb2e3d
+D text_handling.ads	20131113082740 f5e5b8eb
+D unchconv.ads		20130417131036 ca2f9e18
 X 1 actuatorsgui.ads
 3K9*ActuatorsGUI 7e17 102|25w6 517r7
 5U14*Start_GUI 102|517s20
 X 2 ada.ads
 16K9*Ada 19e8 102|10r6 13r6 14r6 31r6 35r6 477r10 477r31
 X 8 a-except.ads
-55K13*Exceptions 370e19 102|35w10 477r35
-99V13*Exception_Message{string} 102|477s46
+53K13*Exceptions 355e19 102|35w10 477r35
+97V13*Exception_Message{string} 102|477s46
+X 11 a-iteint.ads
+24h9 Forward_Iterator
 X 12 a-numeri.ads
 16K13*Numerics 32e17 102|13r10 14w10
 X 13 a-nuelfu.ads
-18K22*Elementary_Functions[14|19] 102|13w19
+18K22*Elementary_Functions[14|39] 102|13w19
 X 16 a-string.ads
 16K13*Strings 35e16 102|10r10
 X 18 a-strunb.ads
-39K21*Unbounded 437e26 102|10w18
+76K21*Unbounded 489e26 102|10w18
 X 21 a-textio.ads
-49K13*Text_IO 472e16 102|31w10 477r14
-264U14*Put_Line 102|477s22
+49K13*Text_IO 471e16 102|31w10 477r14
+263U14*Put_Line 102|477s22
 X 27 gdk.ads
 34K9*Gdk 60e8 102|5r6 6r6 7r6 8r6 17r6 150r24 151r23 152r20 153r19 154r22
 . 161r7 162r7 162r42 163r7 164r7 165r7 166r7 167r7 168r7 170r7 178r7 186r7
@@ -290,14 +315,14 @@ X 36 gdk-gc.ads
 182U14*Set_Foreground 102|162s14
 299U14*Set_Rgb_Fg_Color 102|165s14 168s14 273s14 277s14 281s14 285s14
 X 44 gdk-visual.ads
-77V13*Convert[158|20]{137|64M9} 50|57i21
-78V13*Convert[158|20]{27|50P9} 50|58i21
+77V13*Convert[163|20]{137|64M9} 50|57i21
+78V13*Convert[163|20]{27|50P9} 50|58i21
 X 45 gdk-window.ads
 63K13*Window 719e15 102|5w10 150r28 229r28 244r11 474r11
 65P12*Gdk_Window{27|42P12} 102|150r35 229r35
 314U14*Clear 102|244s18 474s18
-531V13*Convert[158|20]{137|64M9} 50|57i21
-532V13*Convert[158|20]{27|41P9} 50|58i21
+531V13*Convert[163|20]{137|64M9} 50|57i21
+532V13*Convert[163|20]{27|41P9} 50|58i21
 X 46 glib.ads
 37K9*Glib 402e9 102|4r6 11w6 72r48 73r50 74r47 76r40 78r23 79r23 80r22 81r24
 . 82r23 84r26 85r27 86r27 87r25 89r30 189r22 190r22 196r22 197r22 202r22
@@ -480,14 +505,15 @@ X 102 mainwindowlogic.adb
 119r34 xBar{67R9} 127r7 127r34 129r12 131r19 131r40 133r19 133r40 135r19
 . 135r40 137r19 137r40
 123m7 msgid{85|67M9} 131m10 133m10 135m10 137m10
-144r12 E{8|68R9}
+144r12 E{8|66R9}
 149V13 bDraw_View{boolean} 149b13 149>25 224l8 224t18 420r31 425r31 430r31
 149r25 xView{54R9} 156r66 158r54
 150p7 xWindowForView{45|65P12} 158m7 161r36 164r35 167r34 171r22 179r22 187r22
 . 194r22 200r22 206r22 212r22 218r22
-151p7 xBlackColor{36|57P12} 161m23 162r29 172r22 180r22
-152p7 xBlueColor{36|57P12} 164m23 165r31 188r22
-153p7 xRedColor{36|57P12} 167m23 168r31 195r22 201r22 207r22 213r22 219r22
+151p7 xBlackColor{36|57P12} 161m23 161r23 162r29 172r22 180r22
+152p7 xBlueColor{36|57P12} 164m23 164r23 165r31 188r22
+153p7 xRedColor{36|57P12} 167m23 167r23 168r31 195r22 201r22 207r22 213r22
+. 219r22
 154r7 xCustomColor{29|54R9} 163m25 165r43 166m25 168r42
 156r7 xViewPositions{49R9} 189r40 190r40 196r40 197r40 202r40 203r40 208r40
 . 209r40 214r40 215r40 220r40 221r40
@@ -496,10 +522,10 @@ X 102 mainwindowlogic.adb
 . 265r91 266r83 267r83 325r32 326r32 333r32 334r32 341r32 342r32
 229p7 xWindowForView{45|65P12} 246m7 271r36 276r35 280r34 284r36 290r22 298r22
 . 306r22 314r22 323r22 331r22 339r22 348r22 356r22 365r22 372r22 382r22 390r22
-231p7 xGreenColor{36|57P12} 271m23 273r31 332r22 366r22 373r22
-232p7 xBlueColor{36|57P12} 276m23 277r31 340r22 383r22 391r22
-233p7 xRedColor{36|57P12} 280m23 281r31 324r22 349r22 357r22
-234p7 xBlackColor{36|57P12} 284m23 285r31 291r22 299r22 307r22 315r22
+231p7 xGreenColor{36|57P12} 271m23 271r23 273r31 332r22 366r22 373r22
+232p7 xBlueColor{36|57P12} 276m23 276r23 277r31 340r22 383r22 391r22
+233p7 xRedColor{36|57P12} 280m23 280r23 281r31 324r22 349r22 357r22
+234p7 xBlackColor{36|57P12} 284m23 284r23 285r31 291r22 299r22 307r22 315r22
 236r7 xCustomColor{29|54R9} 272m25 273r43 275m25 277r43 279m25 281r42 283m25
 . 285r44
 238a7 xEndPoints{127|45A9} 258m7 327r32 328r32 335r32 336r32 343r32 344r32
@@ -514,7 +540,7 @@ X 102 mainwindowlogic.adb
 415m7 xUpdateIntervall{46|56M9} 420r13 425r13 430r13 436r13 441r13 452r13
 . 457r13 462r13 467r13
 472p7 xWindow{72|59P9} 474r52
-476r12 E{8|68R9} 477r64
+476r12 E{8|66R9} 477r64
 480U14 Clear_Drawing_Areas 480b14 480^34 485l8 485t27 491s7
 480p34 pxObject(95|83R9) 482r20 483r20 484r20
 X 103 math.ads
@@ -592,7 +618,7 @@ X 129 setwantedstuffgui.ads
 X 130 simulator.ads
 1K9*Simulator 101|2r6 3r6 27r13 27r40 28r17 28r82 102|34r6 121r11 130|5e14
 X 131 simulator-model.ads
-9K19*Model 101|2w16 27r23 27r50 102|34w16 121r21 131|52e20
+9K19*Model 101|2w16 27r23 27r50 102|34w16 121r21 131|53e20
 14P9*pCModel(13R9) 101|27r29
 20V13*pxCreate{14P9} 101|27s56
 X 136 simulator-viewmodel_representation.ads
@@ -610,9 +636,9 @@ X 136 simulator-viewmodel_representation.ads
 44f58 fDeltaTime{float} 102|406r25
 X 137 system.ads
 64M9*Address
-X 157 text_handling.ads
+X 162 text_handling.ads
 3K9*Text_Handling 102|37w6 131r97 131r201 133r98 133r202 135r98 135r202 137r102
-. 137r198 137r294 157|8e18
+. 137r198 137r294 162|8e18
 5V11*sGet_Formatted_Float_String{string} 102|131s111 131s215 133s112 133s216
 . 135s112 135s216 137s116 137s212 137s308
 
