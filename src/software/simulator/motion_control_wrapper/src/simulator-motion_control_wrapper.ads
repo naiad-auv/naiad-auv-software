@@ -13,7 +13,7 @@ package simulator.Motion_Control_Wrapper is
    type TPIDComponentScalings is new navigation.PID_Controller.TPIDComponentScalings;
    type CWrapDispatcher is tagged private;
    type pCWrapDispatcher is access CWrapDispatcher;
-   type EMotionComponent is new navigation.Motion_Component.EMotionComponent;
+   subtype EMotionComponent is navigation.Motion_Component.EMotionComponent range navigation.Motion_Component.PositionX .. navigation.Motion_Component.RotationZ;
 
    function pxCreate_Wrap_Dispatcher return pCWrapDispatcher;
 

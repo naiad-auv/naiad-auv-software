@@ -7,7 +7,7 @@ package Simulator.Viewmodel_Pid_Constants is
    type TPIDComponentScalings is new simulator.Model.TPIDComponentScalings;
    type EMotionComponent is new Simulator.Model.EMotionComponent;
 
-   type txPIDComponentScalingArray is array (EMotionComponent'Range) of TPIDComponentScalings;
+   type txPIDComponentScalingArray is array (EMotionComponent(PositionX)..EmotionComponent(RotationZ)) of TPIDComponentScalings;
 
    function pxCreate (pxModel : Simulator.Model.pCModel) return pCViewmodel_Pid_Constants;
    procedure Free(pxViewmodel_Pid_Constants : in out pCViewmodel_Pid_Constants);
