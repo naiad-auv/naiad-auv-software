@@ -1109,10 +1109,10 @@ void Preprocessing_Wrap::quaterNionSwitchingFilter(int src, int dst, double QNSF
 					windowSortStorage[8]=tempImage.at<cv::Vec3b>(i+1,j+1)[chan];
 					
 					int tempSortStorage, r , s;
-					for(r = 0; r < 9; r++)
+					for(r=0; r<9; r++)
 					{
-						tempSortStorage = windowSortStorage[r];
-						for(s = r-1; s >= 0 && tempSortStorage < windowSortStorage[s]; s--)
+						tempSortStorage=windowSortStorage[r];
+						for(s=r-1; s>=0 && tempSortStorage<windowSortStorage[s]; s--)
 						{
 							windowSortStorage[s+1] = windowSortStorage[s];
 						}

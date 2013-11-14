@@ -141,7 +141,7 @@ procedure main is
    iBias : Interfaces.C.int := 0;
 
    --QNSF
-   iQNSFThresh : Interfaces.C.Double := 30.0;
+   iQNSFThresh : Interfaces.C.Double := 50.0;
 
    --wait time when displaying images
    iWaitTime : interfaces.c.int := 0;
