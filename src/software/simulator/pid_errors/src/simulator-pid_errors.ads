@@ -15,7 +15,7 @@ package Simulator.Pid_Errors is
    function pxCreate return pCPidErrors;
    procedure Free(pxPidErrors: in out pCPidErrors);
    procedure Update_Errors (this : in out CPidErrors ; xCurrentAbsolutePosition : math.Vectors.CVector ; xWantedAbsolutePosition : math.Vectors.CVector ; xCurrentAbsoluteOrientation : math.Matrices.CMatrix; xWantedAbsoluteOrientation : math.Matrices.CMatrix);
-   function fGet_PID_Error_For_Component(this : in CPidErrors; eErrorComponent : in EMotionComponent) return float;
+   function tGet_PID_Errors(this : in CPidErrors) return TPIDErrors;
 
 
 

@@ -237,15 +237,14 @@ package body Simulator.Pid_Errors is
       Dealloc(pxPidErrors);
    end;
 
-   ----------------------------------
-   -- fGet_PID_Error_For_Component --
-   ----------------------------------
+   ---------------------
+   -- fGet_PID_Errors --
+   ---------------------
 
-   function fGet_PID_Error_For_Component(this : in CPidErrors; eErrorComponent : in EMotionComponent) return float is
-
+   function tGet_PID_Errors(this : in CPidErrors) return TPIDErrors is
    begin
-      return this.tfPIDErrors(eErrorComponent);
-   end fGet_PID_Error_For_Component;
+      return this.tfPIDErrors;
+   end tGet_PID_Errors;
 
 
 
