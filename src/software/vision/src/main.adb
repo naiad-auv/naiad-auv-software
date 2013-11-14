@@ -277,8 +277,8 @@ begin
          processingWrap.estPosition;
 
          if velCount>0 then
-            processingWrap.GaussianBlurSharpener(iImageSource,2,3);
-            processingWrap.GaussianBlurSharpener(1,3,3);
+            preprocessingWrap.GaussianBlurSharpener(iImageSource,2,3);
+            preprocessingWrap.GaussianBlurSharpener(1,3,3);
             estVel:=processingWrap.estimateVelocity;
          end if;
          velCount:=1;
@@ -306,12 +306,12 @@ begin
             --cleanup templates
             iTemplate:=iTemplate1;
             for iTemplateIndex in 1 .. iTemplateSize loop
-               processingWrap.enhanceColors(iTemplate,iTemplate,1,30.0);
-               processingWrap.GaussianBlurSharpener(iTemplate,iTemplate,2);
+               preprocessingWrap.enhanceColors(iTemplate,iTemplate,1,30.0);
+               preprocessingWrap.GaussianBlurSharpener(iTemplate,iTemplate,2);
                processingWrap.cvtColor(iTemplate, itemplateTempStorage, iHSIFilter);
                processingWrap.thresh(itemplateTempStorage, itemplateTempStorage, 0, 0, 0, 0, 50, 255);
                processingWrap.gaussianBlur(itemplateTempStorage,itemplateTempStorage,11,0.0,0.0);
-               processingWrap.GaussianBlurSharpener(itemplateTempStorage,itemplateTempStorage,4);
+               preprocessingWrap.GaussianBlurSharpener(itemplateTempStorage,itemplateTempStorage,4);
                processingWrap.cvtColor(itemplateTempStorage,itemplateTempStorage, iGreyFilter);
                processingWrap.Canny(itemplateTempStorage,iTemplate, 100, 300, iCannyKernelSize);
                iTemplate:=iTemplate+1;
@@ -322,12 +322,12 @@ begin
          --coreWrap.waitKey(0);
 
          --cleanup source image
-         processingWrap.enhanceColors(iImageSource,iImageSource,1,30.0);
+         preprocessingWrap.enhanceColors(iImageSource,iImageSource,1,30.0);
          processingWrap.cvtColor(iImageSource, iHSILocation, iHSIFilter);
          processingWrap.thresh(iHSILocation,iThreshedImageLocation, 0, 0, 0, 0, 50, 255);
 
          processingWrap.gaussianBlur(iThreshedImageLocation,iThreshedImageLocation,11,0.0,0.0);
-         processingWrap.GaussianBlurSharpener(iThreshedImageLocation,iThreshedImageLocation,4);
+         preprocessingWrap.GaussianBlurSharpener(iThreshedImageLocation,iThreshedImageLocation,4);
          processingWrap.cvtColor(iThreshedImageLocation,iGreyScaleLocation, iGreyFilter);
          CoreWrap.imshow(New_String("test grey"),iGreyScaleLocation);
          processingWrap.Canny(iGreyScaleLocation,iCannyLocation, 100, 300, iCannyKernelSize);

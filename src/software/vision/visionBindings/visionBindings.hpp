@@ -88,11 +88,7 @@ virtual void roi(int src, int dst);
 
 virtual void goodFeatures(int src);
 
-virtual void fusion(int src, int dst);
-
 virtual float estimateVelocity(void);
-
-virtual void GaussianBlurSharpener(int src,int destination,int accuracy);
 
 virtual void estPosition(void);
 
@@ -101,8 +97,6 @@ virtual void invertImage(int src, int dst);
 virtual int matchImage(int src);
 
 virtual void cloneImage(int src,int dst);
-
-virtual void enhanceColors(int src,int dest,int channel,double level);
 
 virtual void fillInPoly(void);//possibly redundant function, leaving in as might be useful when testing the system
 
@@ -121,7 +115,13 @@ virtual void namedWindow(char * name, int num);
 
 virtual void nextFrame(int dst);
 
+virtual void GaussianBlurSharpener(int src,int destination,int accuracy);
+
 virtual void contrast(int src, int dst, int gain, int bias);
+
+virtual void fusion(int src, int dst);
+
+virtual void enhanceColors(int src,int dest,int channel,double level);
 
 virtual void quaterNionSwitchingFilter(int src, int dst, double QNSFThresh);
 

@@ -31,21 +31,21 @@ package body Vision.Image_Preprocessing is
 
    procedure Gaussian_Sharpen_Image(iImageSource,iEnhancedImageSource,iSharpenAccuracy : in Interfaces.C.Int) is
    begin
-      processingWrap.GaussianBlurSharpener(iImageSource,iEnhancedImageSource,iSharpenAccuracy);
+      preprocessingWrap.GaussianBlurSharpener(iImageSource,iEnhancedImageSource,iSharpenAccuracy);
       CoreWrap.imshow(New_String("why so sharp?"),iEnhancedImageSource);
       CoreWrap.waitKey(0);
    end Gaussian_Sharpen_Image;
 
    procedure Fusion(iImageSource,iFusionOutLocation : in Interfaces.C.int) is
    begin
-      processingWrap.fusion(iImageSource, iFusionOutLocation);
+      preprocessingWrap.fusion(iImageSource, iFusionOutLocation);
       CoreWrap.imshow(New_String("why so fused?"), iFusionOutLocation);
       CoreWrap.waitKey(0);
    end Fusion;
 
    procedure Enhance_Colors(iImageSource,iImageDestination,iEnhanceChannel : in Interfaces.C.Int;iEnhanceLevel : in Interfaces.C.Double) is
    begin
-      processingWrap.enhanceColors(iImageSource,iImageDestination,iEnhanceChannel,iEnhanceLevel);
+      preprocessingWrap.enhanceColors(iImageSource,iImageDestination,iEnhanceChannel,iEnhanceLevel);
       CoreWrap.imshow(New_String("Why so enhanced?"),iImageDestination);
       CoreWrap.waitKey(0);
    end Enhance_Colors;
@@ -63,12 +63,12 @@ package body Vision.Image_Preprocessing is
    tempIndex : interfaces.c.int := iTemplate;
    begin
       for iTemplateIndex in 1 .. iTemplateSize loop
-         processingWrap.enhanceColors(iTemplate,iTemplate,1,30.0);
-         processingWrap.GaussianBlurSharpener(iTemplate,iTemplate,2);
+         preprocessingWrap.enhanceColors(iTemplate,iTemplate,1,30.0);
+         preprocessingWrap.GaussianBlurSharpener(iTemplate,iTemplate,2);
          processingWrap.cvtColor(iTemplate, itemplateTempStorage, 40);
          processingWrap.thresh(itemplateTempStorage, itemplateTempStorage, 0, 0, 0, 0, 50, 255);
          processingWrap.gaussianBlur(itemplateTempStorage,itemplateTempStorage,11,0.0,0.0);
-         processingWrap.GaussianBlurSharpener(itemplateTempStorage,itemplateTempStorage,4);
+         preprocessingWrap.GaussianBlurSharpener(itemplateTempStorage,itemplateTempStorage,4);
          processingWrap.cvtColor(itemplateTempStorage,itemplateTempStorage, 6);
          processingWrap.Canny(itemplateTempStorage,iTemplate, 100, 300, 3);
          --iTemplate:=iTemplate+1;
