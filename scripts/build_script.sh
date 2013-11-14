@@ -141,6 +141,8 @@ fi
 script_file_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 root_dir="$(dirname $script_file_dir)"
 source_dir="$root_dir/src"
+tests_dir="$root_dir/tests"
+build_dir="$root_dir/build"
 main_path=$source_dir # Deprecated, old variable, removed when this is last reference.
 xml_results_dir="$root_dir/xml_results"
 build_logs_dir="$root_dir/build_logs"
@@ -189,27 +191,33 @@ echo "#################################################"
 echo "$projects"
 echo
 
-#
-# build_project=$(pwd)
-# build_project="${build_project##*/}"
-#
-# cd ..
-#
-#
-# if [[ -d "./tests" ]]; then
-# 	echo "Removing previous tests..."
-# 	rm -rfv "$(pwd)/tests/"*
-# 	echo "...DONE"
-# 	echo
-# fi
-# 
-# if [[ -d "./build" ]]; then
-# 	echo "Removing previous build..."
-# 	rm -rfv "$(pwd)/build/"*
-# 	echo "...DONE"
-# 	echo
-# fi
-# 
+
+build_project=$(pwd)
+build_project="${build_project##*/}"
+
+echo ""
+echo "#################################################"
+echo "# Cleaning up from previous builds"
+echo "#################################################"
+cd $root_dir
+if [[ -d "./tests" ]]; then
+    echo "Removing previous tests..."
+ 	rm -rfv "$tests_dir/"*
+ 	echo "...DONE"
+ 	echo ""
+fi
+
+if [[ -d "./build" ]]; then
+	echo "Removing previous build..."
+	rm -rfv "$build_dir/"*
+	echo "...DONE"
+	echo
+fi
+
+echo ""
+echo "#################################################"
+echo "# Done cleaning."
+echo "#################################################"
 # # Remove previous results
 # rm -fv $main_path../xml_results/*.xml
 # 
