@@ -200,27 +200,34 @@ echo "#################################################"
 echo "# Cleaning up from previous builds"
 echo "#################################################"
 cd $root_dir
-if [[ -d "./tests" ]]; then
+if [[ -d "$tests_dir/" ]]; then
     echo "Removing previous tests..."
  	rm -rfv "$tests_dir/"*
  	echo "...DONE"
  	echo ""
 fi
 
-if [[ -d "./build" ]]; then
+if [[ -d "$build_dir/" ]]; then
 	echo "Removing previous build..."
 	rm -rfv "$build_dir/"*
 	echo "...DONE"
 	echo
 fi
 
+if [[ -d "$xml_results_dir/" ]]; then
+	echo "Removing previous xml_results..."
+	rm -rfv "$xml_results_dir/"*.xml
+	echo "...DONE"
+	echo
+fi
+# Remove previous results
+rm -fv $main_path../xml_results/*.xml
+
 echo ""
 echo "#################################################"
 echo "# Done cleaning."
 echo "#################################################"
-# # Remove previous results
-# rm -fv $main_path../xml_results/*.xml
-# 
+
 # echo "Copying source folder to a new 'test' folder..."
 # cp
 # # for proj in $projects
