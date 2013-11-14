@@ -220,15 +220,17 @@ if [[ -d "$xml_results_dir/" ]]; then
 	echo "...DONE"
 	echo
 fi
-# Remove previous results
-rm -fv $main_path../xml_results/*.xml
 
 echo ""
 echo "#################################################"
-echo "# Done cleaning."
+echo "# Done cleaning"
+echo "#"
+echo "# Preparing to run tests"
 echo "#################################################"
 
-# echo "Copying source folder to a new 'test' folder..."
+echo "Copying source folder content to a new 'tests' folder..."
+cp -rv $source_dir/* $tests_dir
+echo "...DONE"
 # cp
 # # for proj in $projects
 # # do
