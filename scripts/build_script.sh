@@ -114,6 +114,28 @@ then
      exit 1
 fi
 
+# Check #1: Current directory is "scripts"
+# This script depends on that you run the script from its location.
+if [[ $(basename $(pwd)) == "scripts" ]]; then
+    # pass
+    echo ""
+else
+    echo "You must run this script from the 'scripts' folder and the src folder"
+    echo "must be located next to the scripts folder."
+    exit 1
+fi
+
+# Check #2: "src" directory exists next to the "scripts" directory
+dir=$(pwd)
+parentdir="$(dirname "$dir")/src"
+if [[ -d $parentdir ]]; then
+    # pass
+    echo ""
+else
+    echo "Source folder doesn't exist as sibling to the scripts folder."
+    exit 1
+fi
+
 # Defining usable paths
 # This script is assumed to be located in <project_root_dir>/scripts folder
 script_file_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
@@ -134,14 +156,17 @@ fi
 
 # TODO: Piping STDOUT to build_log as well as showing on screen
 # makes the script hang right before exit.
-echo "Logging to $build_logs_dir/build_$now.log..."
 exec > >(tee "$build_logs_dir/build_$now.log")
 exec 2>&1
 
 # File decriptor for subshells
 exec 5>&1
 
+echo ""
 echo "##########################################"
+echo "# Logging started"
+echo "# Logging to $build_logs_dir/build_$now.log..."
+echo "#"
 echo "# Gathering projects..."
 echo "##########################################"
 cd $source_dir
@@ -155,19 +180,22 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
+# Clean up the print out.
+projects=$(sed 's|.gpr |.gpr\n|g' <<< $projects)
+echo ""
+echo "#################################################"
+echo "# Projects found that has a test harness set up"
+echo "#################################################"
 echo "$projects"
-projects=$(sed 's|^$|\n&|g' <<< $projects)
-echo "$projects"
-echo "...DONE"
 echo
 
-# 
+#
 # build_project=$(pwd)
 # build_project="${build_project##*/}"
-# 
+#
 # cd ..
-# 
-# 
+#
+#
 # if [[ -d "./tests" ]]; then
 # 	echo "Removing previous tests..."
 # 	rm -rfv "$(pwd)/tests/"*
@@ -330,6 +358,7 @@ echo
 # 	echo
 # done
 # 
+echo ""
 echo "##########################################"
 echo "# [$(date +%Y-%m-%d) $(date +%H:%M:%S)] Build successful."
 echo "# End of build script"
