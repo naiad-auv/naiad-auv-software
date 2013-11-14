@@ -38,6 +38,15 @@ package body Simulator.ViewModel_Pid_Errors is
    -- pxCreate --
    --------------
 
+   procedure Update_Delta_Time(this : in out CViewModel_Pid_Errors) is
+   begin
+      for i in this.fCurrentOscTimeCounter'Range loop
+         this.fCurrentOscTimeCounter(i) := this.fCurrentOscTimeCounter(i) + 0.01;
+      end loop;
+
+   end Update_Delta_Time;
+
+
    function pxCreate (pxModel : Simulator.Model.pCModel) return pCViewModel_Pid_Errors is
       pxNewViewModel : Simulator.ViewModel_Pid_Errors.pCViewModel_Pid_Errors;
    begin
@@ -78,13 +87,11 @@ package body Simulator.ViewModel_Pid_Errors is
       xCurrentErrors := this.pxModel.xGet_Current_Motional_Errors;
 
       for i in xCurrentErrors'Range loop
-         this.fCurrentOscTimeCounter(ViewModel_Pid_Errors.EMotionComponent(i)) := this.fCurrentOscTimeCounter(ViewModel_Pid_Errors.EMotionComponent(i))
-           + 0.02;
-
 
          fTemp := xCurrentErrors(i) - this.tPreviousPIDErrors(ViewModel_Pid_Errors.EMotionComponent(i));
          if abs(fTemp) = 0.0 then
-            xCurrentErrorDirections(i) := 0.0;
+            --            xCurrentErrorDirections(i) := 0.0;
+            xCurrentErrorDirections(i) := this.tPreviousPIDErrorDirection(ViewModel_Pid_Errors.EMotionComponent(i));
          else
             xCurrentErrorDirections(i) := fTemp / abs(fTemp);
          end if;

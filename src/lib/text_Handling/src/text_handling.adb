@@ -9,7 +9,7 @@ package body Text_Handling is
 
       Ada.Float_Text_IO.Put(To   => sOutputString,
                             Item => fValue,
-                            Aft  => 2,
+                            Aft  => 4,
                             Exp  => 0);
 
       return sOutputString;

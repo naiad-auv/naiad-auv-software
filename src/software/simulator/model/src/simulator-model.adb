@@ -25,13 +25,13 @@ package body Simulator.Model is
       fMaximumMotorForce : float := 66.776;
       fMotorForceChangePerSecond : float := fMaximumMotorForce/1.5;
       tfMotorValuesSubmarine : simulator.Model.TMotorForce;
-      tfChamgeInMotorValues : simulator.Model.TMotorForce;
+      tfChangeInMotorValues : simulator.Model.TMotorForce;
    begin
       if this.fTimeSinceLastMotorUpdate>this.fTimeBetweenMotorUpdates then
          this.fTimeSinceLastMotorUpdate := this.fTimeSinceLastMotorUpdate - this.fTimeBetweenMotorUpdates;
          this.pxMotionControlWrapper.Update_Values(xNewCurrentAbsolutePosition => this.pxSubmarine.xGet_Position_Vector,
                                                    xNewCurrentOrientation      => this.pxSubmarine.xGet_Orientation_Matrix,
-                                                   tfMotorValuesSubmarine      => simulator.submarine.TMotorForce(tfMotorValuesSubmarine), --out
+                                                   tfMotorValuesSubmarine      => simulator.submarine.TMotorForce(this.tWantedMotorForces), --out
                                                    fDeltaTime                  => this.fTimeBetweenMotorUpdates);
 
       end if;
@@ -39,17 +39,17 @@ package body Simulator.Model is
 
       tfMotorValuesSubmarine := simulator.Model.TMotorForce(this.pxSubmarine.xGet_Motor_Values);
       for iMotorIndex in tfMotorValuesSubmarine'Range loop
-         tfChamgeInMotorValues(iMotorIndex) := this.tWantedMotorForces(iMotorIndex)-tfMotorValuesSubmarine(iMotorIndex);
-         if tfChamgeInMotorValues(iMotorIndex)>fMotorForceChangePerSecond*fDeltaTime then
-            tfChamgeInMotorValues(iMotorIndex) := fMotorForceChangePerSecond*fDeltaTime;
+         tfChangeInMotorValues(iMotorIndex) := this.tWantedMotorForces(iMotorIndex)-tfMotorValuesSubmarine(iMotorIndex);
+         if tfChangeInMotorValues(iMotorIndex)>fMotorForceChangePerSecond*fDeltaTime then
+            tfChangeInMotorValues(iMotorIndex) := fMotorForceChangePerSecond*fDeltaTime;
          end if;
-         if tfChamgeInMotorValues(iMotorIndex)<-fMotorForceChangePerSecond*fDeltaTime then
-            tfChamgeInMotorValues(iMotorIndex) := -fMotorForceChangePerSecond*fDeltaTime;
+         if tfChangeInMotorValues(iMotorIndex)<-fMotorForceChangePerSecond*fDeltaTime then
+            tfChangeInMotorValues(iMotorIndex) := -fMotorForceChangePerSecond*fDeltaTime;
          end if;
-         tfMotorValuesSubmarine(iMotorIndex) := tfMotorValuesSubmarine(iMotorIndex) + tfChamgeInMotorValues(iMotorIndex);
+         tfMotorValuesSubmarine(iMotorIndex) := tfMotorValuesSubmarine(iMotorIndex) + tfChangeInMotorValues(iMotorIndex);
       end loop;
 
-      this.pxSubmarine.Time_Step_Motor_Force_To_Integrate(txMotorForce => simulator.submarine.TMotorForce(this.tWantedMotorForces),
+      this.pxSubmarine.Time_Step_Motor_Force_To_Integrate(txMotorForce => Simulator.submarine.TMotorForce(tfMotorValuesSubmarine),
                                                           fDeltaTime   => fDeltaTime);
 
    end Update_Model;
