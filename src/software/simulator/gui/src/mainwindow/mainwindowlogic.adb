@@ -36,6 +36,7 @@ with Ada.Exceptions;
 
 with Text_Handling;
 with PIDErrorsGUILogic;
+with Simulator.ViewModel_Pid_Errors;
 
 package body MainWindowLogic is
 
@@ -101,11 +102,11 @@ package body MainWindowLogic is
             xViewPositions.xCurrentPosition := (xCurrent_Position.fGet_X, xCurrent_Position.fGet_Z);
             xViewPositions.xWantedPosition := (xWanted_Position.fGet_X, xWanted_Position.fGet_Z);
          when Top =>
-            xViewPositions.xCurrentPosition := (xCurrent_Position.fGet_X, xCurrent_Position.fGet_Y);
-            xViewPositions.xWantedPosition := (xWanted_Position.fGet_X, xWanted_Position.fGet_Y);
+            xViewPositions.xCurrentPosition := (-xCurrent_Position.fGet_Y, xCurrent_Position.fGet_X);
+            xViewPositions.xWantedPosition := (-xWanted_Position.fGet_Y, xWanted_Position.fGet_X);
          when Back =>
-            xViewPositions.xCurrentPosition := (xCurrent_Position.fGet_Y, xCurrent_Position.fGet_Z);
-            xViewPositions.xWantedPosition := (xWanted_Position.fGet_Y, xWanted_Position.fGet_Z);
+            xViewPositions.xCurrentPosition := (-xCurrent_Position.fGet_Y, xCurrent_Position.fGet_Z);
+            xViewPositions.xWantedPosition := (-xWanted_Position.fGet_Y, xWanted_Position.fGet_Z);
          when others =>
             xViewPositions := ((5.0, 5.0), (5.0, 5.0));
 
@@ -398,6 +399,8 @@ package body MainWindowLogic is
    end bDraw_3DView;
 
    function bUpdate_Viewmodel(iRedundant : Integer) return Boolean is
+
+      use Simulator.ViewModel_Pid_Errors;
    begin
       if not bSimulationRunning then
          return true;
@@ -405,7 +408,10 @@ package body MainWindowLogic is
 
       xViewmodel.Update(fDeltaTime => 0.01);
 
-      PIDErrorsGUILogic.xViewmodel.Update_Delta_Time;
+      if PIDErrorsGUILogic.xViewModel /= null then
+         PIDErrorsGUILogic.xViewmodel.Update_Delta_Time;
+      end if;
+
       return True;
    end bUpdate_Viewmodel;
 
