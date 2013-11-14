@@ -6,7 +6,6 @@ with Math.Planes;
 with Math.Quaternions;
 with Math.Angles;
 with Navigation.Thrusters;
-with simulator.Pid_Errors;
 with Exception_Handling;
 
 
@@ -39,7 +38,10 @@ package Simulator.ViewModel_Representation is
    function xGet_Submarine_Current_Orientation(this : in CViewModel_Representation) return math.Matrices.CMatrix;
    function xGet_Submarine_Wanted_Orientation(this : in CViewModel_Representation) return math.Matrices.CMatrix;
 
+   function fGet_Pid_Errors(this : in CViewModel_Representation ; eErrorComponent : in Simulator.Model.EMotionComponent) return float;
+
    procedure Restart(this : in CViewModel_Representation);
+   procedure Update(this : in CViewModel_Representation; fDeltaTime : in float);
 
 
 private

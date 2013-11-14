@@ -1,8 +1,7 @@
-with GUI;
+with MainWindow;
 
 procedure Main is
 begin
-
-	Gui.Start_GUI;
+	MainWindow.Start_GUI;
 
 end Main;

@@ -1,13 +1,13 @@
 with simulator.Model;
-with Simulator.Pid_Errors;
 package Simulator.Viewmodel_Pid_Constants is
 
    type CViewmodel_Pid_Constants is tagged private; --new Simulator.Update_Interface.CWithUpdate with private;
    type pCViewmodel_Pid_Constants is access CViewmodel_Pid_Constants;
 
    type TPIDComponentScalings is new simulator.Model.TPIDComponentScalings;
-   type EMotionComponent is new Simulator.Pid_Errors.EMotionComponent;
-   type txPIDComponentScalingArray is array (X .. DriftZ) of TPIDComponentScalings;
+   type EMotionComponent is new Simulator.Model.EMotionComponent;
+
+   type txPIDComponentScalingArray is array (EMotionComponent'Range) of TPIDComponentScalings;
 
    function pxCreate (pxModel : Simulator.Model.pCModel) return pCViewmodel_Pid_Constants;
    procedure Free(pxViewmodel_Pid_Constants : in out pCViewmodel_Pid_Constants);

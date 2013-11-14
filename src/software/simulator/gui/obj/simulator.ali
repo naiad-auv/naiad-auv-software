@@ -1,0 +1,66 @@
+V "GNAT Lib v4.6"
+M P AB W=b
+A -O2
+A -gnat05
+A -gnatA
+P SS ZX
+R nnnvnnnnnnnnnnnnnnnnnnnnvvnnnnnvnnnnnnnnnnnnnnnnnnnnnnnnnnvnnvnnnnnnnnnnnnnnnnnn
+
+U simulator%b		simulator.adb		75b14caf NE OO SU
+W ada%s			ada.ads			ada.ali
+W ada.tags%s		a-tags.adb		a-tags.ali
+W ada.text_io%s		a-textio.adb		a-textio.ali
+W database%s		database.adb		database.ali
+W gui%s			gui.adb			gui.ali
+
+D ada.ads		20070406091342 3ffc8e18
+D a-except.ads		20090727140100 0c711ac9
+D a-finali.ads		20090409150019 e5e85fa4
+D a-filico.ads		20090409150019 872dc219
+D a-ioexce.ads		20091130110856 8b9de6cd
+D a-stream.ads		20090409150019 2ca4ee37
+D a-tags.ads		20101021101406 c7695348
+D a-textio.ads		20091028140912 386df5d4
+D a-unccon.ads		20070406091342 f9eb8f06
+D database.ads		20131104082225 71f51070
+D gui.ads		20131104082225 d0ebf2d9
+D interfac.ads		20090409150019 f77d8799
+D i-cstrea.ads		20100622165701 1bd72c32
+D simulator.adb		20131104082225 ecc25bd2
+D system.ads		20130419124236 2d1a1afa
+D s-crtl.ads		20100617122610 ac77b159
+D s-exctab.ads		20090417131547 66e51330
+D s-ficobl.ads		20100909103250 443b9d66
+D s-finimp.ads		20090409150019 46853fe8
+D s-finroo.ads		20090409150019 dbb860c9
+D s-parame.ads		20091130110856 9c5d83fa
+D s-secsta.ads		20090707124243 eea35a36
+D s-soflin.ads		20090729085153 9414c974
+D s-stache.ads		20090417130712 596fc1b4
+D s-stalib.ads		20101021102512 c4241c00
+D s-stoele.ads		20090417130712 facd7d98
+D s-stoele.adb		20100617152355 afc5dc80
+D s-stratt.ads		20100909123135 aedef97e
+D s-traent.ads		20090417130712 5221ee41
+D s-unstyp.ads		20090409150019 6ae15c76
+D s-wchcon.ads		20090417130712 bfeb2e3d
+X 1 ada.ads
+16K9*Ada 19e8 14|3r6 3r23
+X 8 a-textio.ads
+49K13*Text_IO 472e16 14|3w10 3r27
+X 10 database.ads
+1K9*Database 82e13 14|2w6 6r31 7r24 13r29
+3A9*Motors(float)<integer>
+6R9*TDatabase 35e14 14|6r40 13r38
+7a7*tfMotor{3A9} 14|11m21
+8b7*bGripperOpen{boolean} 14|9m21
+16f7*fDepth{float} 14|10m21
+37P9*pTDatabase(6R9) 14|7r33
+X 11 gui.ads
+3K9*GUI 7e8 14|1w6 15r4
+5U14*Start_GUI 14|15s8
+X 14 simulator.adb
+5U11*Simulator 5b11 16l5 16t14
+6r4 DatabaseForRobot{10|6R9} 9m4 10m4 11m4 13r49
+7p4 pDatabaseForRobot{10|37P9} 13m4 15r18
+

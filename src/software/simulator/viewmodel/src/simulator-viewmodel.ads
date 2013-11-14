@@ -19,10 +19,6 @@ package Simulator.ViewModel is
 
    type iMotorIndex is new simulator.Model.iMotorIndex;
 
-
-
-
-
  --  type pTProcedure is new simulator.Model.pTProcedure;
 
    type CViewModel is tagged private; --new Simulator.Update_Interface.CWithUpdate with private;

@@ -11,11 +11,11 @@ package body Navigation.Orientational_Controller.COrientationalController_Test_D
 
 
 --  begin read only
-   procedure Test_xGet_Orientational_Thruster_Control_Values (Gnattest_T : in out Test_COrientationalController);
-   procedure Test_xGet_Orientational_Thruster_Control_Values_ec7316 (Gnattest_T : in out Test_COrientationalController) renames Test_xGet_Orientational_Thruster_Control_Values;
---  id:2.1/ec7316121441667a/xGet_Orientational_Thruster_Control_Values/1/0/
-   procedure Test_xGet_Orientational_Thruster_Control_Values (Gnattest_T : in out Test_COrientationalController) is
-   --  navigation-orientational_controller.ads:29:4:xGet_Orientational_Thruster_Control_Values
+   procedure Test_Get_Orientational_Thruster_Control_Values (Gnattest_T : in out Test_COrientationalController);
+   procedure Test_Get_Orientational_Thruster_Control_Values_6c2c02 (Gnattest_T : in out Test_COrientationalController) renames Test_Get_Orientational_Thruster_Control_Values;
+--  id:2.1/6c2c02168ce61f0b/Get_Orientational_Thruster_Control_Values/1/0/
+   procedure Test_Get_Orientational_Thruster_Control_Values (Gnattest_T : in out Test_COrientationalController) is
+   --  navigation-orientational_controller.ads:36:4:Get_Orientational_Thruster_Control_Values
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -47,7 +47,8 @@ package body Navigation.Orientational_Controller.COrientationalController_Test_D
 
       pxOrientationalController.Update_Current_Errors;
 
-      xThrusterControlValues := pxOrientationalController.xGet_Orientational_Thruster_Control_Values(1.0);
+      pxOrientationalController.Get_Orientational_Thruster_Control_Values(fDeltaTime => 1.0,
+                                                                          tfValues   => xThrusterControlValues);
       for i in xThrusterControlValues'Range loop
          if xThrusterControlValues(i) /= 0.0 then
             bAtleasteOneControlValue := true;
@@ -61,9 +62,9 @@ package body Navigation.Orientational_Controller.COrientationalController_Test_D
       Navigation.Orientational_Controller.Free(pxOrientationalControllerToDeallocate => pxOrientationalController);
       Math.Matrices.Free(pxMatrixToDeallocate => pxCurrentOrientation);
       Math.Matrices.Free(pxMatrixToDeallocate => pxWantedOrientation);
-
+      
 --  begin read only
-   end Test_xGet_Orientational_Thruster_Control_Values;
+   end Test_Get_Orientational_Thruster_Control_Values;
 --  end read only
 
 
@@ -72,21 +73,23 @@ package body Navigation.Orientational_Controller.COrientationalController_Test_D
    procedure Test_Update_Current_Errors_a4d64d (Gnattest_T : in out Test_COrientationalController) renames Test_Update_Current_Errors;
 --  id:2.1/a4d64d73d258bef8/Update_Current_Errors/1/0/
    procedure Test_Update_Current_Errors (Gnattest_T : in out Test_COrientationalController) is
-   --  navigation-orientational_controller.ads:35:4:Update_Current_Errors
+   --  navigation-orientational_controller.ads:42:4:Update_Current_Errors
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
 
       use Math.Matrices;
 
+      tfErrors : Navigation.Orientational_Controller.TOrientationalErrors;
       pxOrientationalController : Navigation.Orientational_Controller.pCOrientationalController;
 
 
       pxCurrentOrientation : Math.Matrices.pCMatrix := Math.Matrices.xCreate_Identity.pxGet_Allocated_Copy;--Math.Matrices.xCreate_Rotation_Around_Z_Axis(tfAngleInDegrees => 45.0).pxGet_Allocated_Copy;
-      pxWantedOrientation : Math.Matrices.pCMatrix := Math.Matrices.CMatrix(pxCurrentOrientation.all * Math.Matrices.xCreate_From_Quaternion(Math.Quaternions.xCreate(xAxisVector     => Math.Vectors.xCreate(fX => 1.0,
-                                                                                                                                                           fY => 1.0,
-                                                                                                                                                           fZ => 0.0),
-                                                                                                                   fAngleInDegrees => 90.0))).pxGet_Allocated_Copy;
+--        pxWantedOrientation : Math.Matrices.pCMatrix := Math.Matrices.CMatrix(pxCurrentOrientation.all * Math.Matrices.xCreate_From_Quaternion(Math.Quaternions.xCreate(xAxisVector     => Math.Vectors.xCreate(fX => 1.0,
+--                                                                                                                                                             fY => 1.0,
+--                                                                                                                                                             fZ => 0.0),
+--                                                                                                                     fAngleInDegrees => 90.0))).pxGet_Allocated_Copy;
+      pxWantedOrientation : Math.Matrices.pCMatrix := Math.Matrices.xCreate_Rotation_Around_X_Axis(tfAngleInDegrees => 90.0).pxGet_Allocated_Copy;
 
       pxCurrentOrientationInverse : Math.Matrices.pCMatrix := pxCurrentOrientation.xGet_Inverse.pxGet_Allocated_Copy;
    begin
@@ -104,8 +107,9 @@ package body Navigation.Orientational_Controller.COrientationalController_Test_D
 
       --pxOrientationalController.Update_Current_Errors;
 
---        AUnit.Assertions.Assert(Condition => pxOrientationalController.fXRotError = pxOrientationalController.fYRotError,
---                                Message   => "Update_Current_Errors failed, x rotation error same as y rotation error. Value: " & pxOrientationalController.fXRotError'Img & " Expected: " & pxOrientationalController.fYRotError'Img);
+      tfErrors := pxOrientationalController.fGetCurrentErrors;
+--        AUnit.Assertions.Assert(Condition => False,
+--                                Message   => "Errors: " & tfErrors(Navigation.Motion_Component.RotationX)'Img & " " & tfErrors(Navigation.Motion_Component.RotationY)'Img & " " & tfErrors(Navigation.Motion_Component.RotationZ)'Img);
 --        AUnit.Assertions.Assert(Condition => abs(pxOrientationalController.fZRotError) < 0.00001,
 --                                Message   => "Update_Current_Errors failed, z rotation error not correct. Value: " & pxOrientationalController.fZRotError'Img & " Expected: " & float'Image(0.0));
 
@@ -126,7 +130,7 @@ package body Navigation.Orientational_Controller.COrientationalController_Test_D
    procedure Test_Set_New_PID_Component_Scalings_f2c0ab (Gnattest_T : in out Test_COrientationalController) renames Test_Set_New_PID_Component_Scalings;
 --  id:2.1/f2c0ab1f654d5493/Set_New_PID_Component_Scalings/1/0/
    procedure Test_Set_New_PID_Component_Scalings (Gnattest_T : in out Test_COrientationalController) is
-   --  navigation-orientational_controller.ads:39:4:Set_New_PID_Component_Scalings
+   --  navigation-orientational_controller.ads:46:4:Set_New_PID_Component_Scalings
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -142,11 +146,33 @@ package body Navigation.Orientational_Controller.COrientationalController_Test_D
 
 
 --  begin read only
+   procedure Test_fGetCurrentErrors (Gnattest_T : in out Test_COrientationalController);
+   procedure Test_fGetCurrentErrors_4d9c3d (Gnattest_T : in out Test_COrientationalController) renames Test_fGetCurrentErrors;
+--  id:2.1/4d9c3dc6e4ff8794/fGetCurrentErrors/1/0/
+   procedure Test_fGetCurrentErrors (Gnattest_T : in out Test_COrientationalController) is
+   --  navigation-orientational_controller.ads:53:4:fGetCurrentErrors
+--  end read only
+
+      pragma Unreferenced (Gnattest_T);
+
+   begin
+
+--        AUnit.Assertions.Assert
+--          (Gnattest_Generated.Default_Assert_Value,
+--           "Test not implemented.");
+
+      null;
+--  begin read only
+   end Test_fGetCurrentErrors;
+--  end read only
+
+
+--  begin read only
    procedure Test_Update_Current_X_Rotation_Error (Gnattest_T : in out Test_COrientationalController);
    procedure Test_Update_Current_X_Rotation_Error_80be14 (Gnattest_T : in out Test_COrientationalController) renames Test_Update_Current_X_Rotation_Error;
 --  id:2.1/80be144c44fd4f0e/Update_Current_X_Rotation_Error/1/0/
    procedure Test_Update_Current_X_Rotation_Error (Gnattest_T : in out Test_COrientationalController) is
-   --  navigation-orientational_controller.ads:47:4:Update_Current_X_Rotation_Error
+   --  navigation-orientational_controller.ads:57:4:Update_Current_X_Rotation_Error
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -166,7 +192,7 @@ package body Navigation.Orientational_Controller.COrientationalController_Test_D
    procedure Test_Update_Current_Y_Rotation_Error_02960d (Gnattest_T : in out Test_COrientationalController) renames Test_Update_Current_Y_Rotation_Error;
 --  id:2.1/02960d66e2acc2ab/Update_Current_Y_Rotation_Error/1/0/
    procedure Test_Update_Current_Y_Rotation_Error (Gnattest_T : in out Test_COrientationalController) is
-   --  navigation-orientational_controller.ads:48:4:Update_Current_Y_Rotation_Error
+   --  navigation-orientational_controller.ads:58:4:Update_Current_Y_Rotation_Error
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -186,7 +212,7 @@ package body Navigation.Orientational_Controller.COrientationalController_Test_D
    procedure Test_Update_Current_Z_Rotation_Error_6e9d1b (Gnattest_T : in out Test_COrientationalController) renames Test_Update_Current_Z_Rotation_Error;
 --  id:2.1/6e9d1b848fcdb811/Update_Current_Z_Rotation_Error/1/0/
    procedure Test_Update_Current_Z_Rotation_Error (Gnattest_T : in out Test_COrientationalController) is
-   --  navigation-orientational_controller.ads:49:4:Update_Current_Z_Rotation_Error
+   --  navigation-orientational_controller.ads:59:4:Update_Current_Z_Rotation_Error
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -206,7 +232,7 @@ package body Navigation.Orientational_Controller.COrientationalController_Test_D
    procedure Test_xGet_X_Rotation_Thruster_Control_Value_425dce (Gnattest_T : in out Test_COrientationalController) renames Test_xGet_X_Rotation_Thruster_Control_Value;
 --  id:2.1/425dcecd2fee317b/xGet_X_Rotation_Thruster_Control_Value/1/0/
    procedure Test_xGet_X_Rotation_Thruster_Control_Value (Gnattest_T : in out Test_COrientationalController) is
-   --  navigation-orientational_controller.ads:51:4:xGet_X_Rotation_Thruster_Control_Value
+   --  navigation-orientational_controller.ads:61:4:xGet_X_Rotation_Thruster_Control_Value
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -260,7 +286,7 @@ package body Navigation.Orientational_Controller.COrientationalController_Test_D
    procedure Test_xGet_Y_Rotation_Thruster_Control_Value_beea5c (Gnattest_T : in out Test_COrientationalController) renames Test_xGet_Y_Rotation_Thruster_Control_Value;
 --  id:2.1/beea5c7271735076/xGet_Y_Rotation_Thruster_Control_Value/1/0/
    procedure Test_xGet_Y_Rotation_Thruster_Control_Value (Gnattest_T : in out Test_COrientationalController) is
-   --  navigation-orientational_controller.ads:52:4:xGet_Y_Rotation_Thruster_Control_Value
+   --  navigation-orientational_controller.ads:62:4:xGet_Y_Rotation_Thruster_Control_Value
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -314,7 +340,7 @@ package body Navigation.Orientational_Controller.COrientationalController_Test_D
    procedure Test_xGet_Z_Rotation_Thruster_Control_Value_bdcbef (Gnattest_T : in out Test_COrientationalController) renames Test_xGet_Z_Rotation_Thruster_Control_Value;
 --  id:2.1/bdcbeff12393ea63/xGet_Z_Rotation_Thruster_Control_Value/1/0/
    procedure Test_xGet_Z_Rotation_Thruster_Control_Value (Gnattest_T : in out Test_COrientationalController) is
-   --  navigation-orientational_controller.ads:53:4:xGet_Z_Rotation_Thruster_Control_Value
+   --  navigation-orientational_controller.ads:63:4:xGet_Z_Rotation_Thruster_Control_Value
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -368,7 +394,7 @@ package body Navigation.Orientational_Controller.COrientationalController_Test_D
    procedure Test_Finalize_1d29f1 (Gnattest_T : in out Test_COrientationalController) renames Test_Finalize;
 --  id:2.1/1d29f15228a8f8f4/Finalize/1/0/
    procedure Test_Finalize (Gnattest_T : in out Test_COrientationalController) is
-   --  navigation-orientational_controller.ads:66:4:Finalize
+   --  navigation-orientational_controller.ads:86:4:Finalize
 --  end read only
 
       use Math.Matrices;
@@ -552,6 +578,62 @@ package body Navigation.Orientational_Controller.COrientationalController_Test_D
 --  
 --  begin read only
    --  end Test_Update_Current_Directional_Error;
+--  end read only
+
+
+--  begin read only
+   --  procedure Test_xGet_Orientational_Thruster_Control_Values (Gnattest_T : in out Test_COrientationalController);
+   --  procedure Test_xGet_Orientational_Thruster_Control_Values_ec7316 (Gnattest_T : in out Test_COrientationalController) renames Test_xGet_Orientational_Thruster_Control_Values;
+--  id:2.1/ec7316121441667a/xGet_Orientational_Thruster_Control_Values/0/1/
+   --  procedure Test_xGet_Orientational_Thruster_Control_Values (Gnattest_T : in out Test_COrientationalController) is
+--  end read only
+--  
+--        pragma Unreferenced (Gnattest_T);
+--  
+--        use Navigation.Motion_Component;
+--        use Math.Matrices;
+--  
+--        pxOrientationalController : Navigation.Orientational_Controller.pCOrientationalController;
+--  
+--        xThrusterControlValues : Navigation.Thrusters.TThrusterEffects;
+--        bAtleasteOneControlValue : boolean := false;
+--  
+--        pxCurrentOrientation : Math.Matrices.pCMatrix := Math.Matrices.xCreate_Identity.pxGet_Allocated_Copy;
+--        pxWantedOrientation : Math.Matrices.pCMatrix := Math.Matrices.CMatrix(Math.Matrices.xCreate_Rotation_Around_X_Axis(50.0) * Math.Matrices.xCreate_Rotation_Around_Y_Axis(50.0) * Math.Matrices.xCreate_Rotation_Around_Z_Axis(50.0)).pxGet_Allocated_Copy;
+--  
+--        pxCurrentOrientationInverse : Math.Matrices.pCMatrix := pxCurrentOrientation.xGet_Inverse.pxGet_Allocated_Copy;
+--     begin
+--  
+--        pxOrientationalController := Navigation.Orientational_Controller.pxCreate(pxCurrentAbsoluteOrientation        => pxCurrentOrientation,
+--                                                                                  pxWantedAbsoluteOrientation         => pxWantedOrientation,
+--                                                                                  pxCurrentAbsoluteOrientationInverse => pxCurrentOrientationInverse);
+--  
+--  
+--        pxOrientationalController.Set_New_PID_Component_Scalings(eComponentToUpdate => Navigation.Motion_Component.AllComponents,
+--                                                                 xNewPIDScaling => Navigation.PID_Controller.TPIDComponentScalings'(1.0,1.0,1.0));
+--  
+--  
+--        pxOrientationalController.Update_Current_Errors;
+--  
+--        pxOrientationalController.Update_Current_Errors;
+--  
+--        xThrusterControlValues := pxOrientationalController.xGet_Orientational_Thruster_Control_Values(1.0);
+--        for i in xThrusterControlValues'Range loop
+--           if xThrusterControlValues(i) /= 0.0 then
+--              bAtleasteOneControlValue := true;
+--              exit;
+--           end if;
+--        end loop;
+--  
+--        AUnit.Assertions.Assert(Condition => bAtleasteOneControlValue,
+--                                Message   => "No control constatnts, this is not good");
+--  
+--        Navigation.Orientational_Controller.Free(pxOrientationalControllerToDeallocate => pxOrientationalController);
+--        Math.Matrices.Free(pxMatrixToDeallocate => pxCurrentOrientation);
+--        Math.Matrices.Free(pxMatrixToDeallocate => pxWantedOrientation);
+--  
+--  begin read only
+   --  end Test_xGet_Orientational_Thruster_Control_Values;
 --  end read only
 
 end Navigation.Orientational_Controller.COrientationalController_Test_Data.COrientationalController_Tests;
