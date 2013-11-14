@@ -178,7 +178,7 @@ echo "INFO: SUCCESS variable set to $success (should be \"true\")"
 projects=$(GatherProjects)
 if [ $? -ne 0 ]; then
     echo "ERROR: Couldn't gather projects."
-    echo
+    echo ""
     exit 1
 fi
 
@@ -190,10 +190,6 @@ echo "# Projects found that has a test harness set up"
 echo "#################################################"
 echo "$projects"
 echo
-
-
-build_project=$(pwd)
-build_project="${build_project##*/}"
 
 echo ""
 echo "#################################################"
@@ -211,14 +207,14 @@ if [[ -d "$build_dir/" ]]; then
 	echo "Removing previous build..."
 	rm -rfv "$build_dir/"*
 	echo "...DONE"
-	echo
+	echo ""
 fi
 
 if [[ -d "$xml_results_dir/" ]]; then
 	echo "Removing previous xml_results..."
 	rm -rfv "$xml_results_dir/"*.xml
 	echo "...DONE"
-	echo
+	echo ""
 fi
 
 echo ""
@@ -231,26 +227,42 @@ echo "#################################################"
 echo "Copying source folder content to a new 'tests' folder..."
 cp -rv $source_dir/* $tests_dir
 echo "...DONE"
-# cp
-# # for proj in $projects
-# # do
-# #
-# # 	# COPY PROJECT --------------------------------------------
-# # 	echo "Copying source for $proj..."
-# # 	proj_path="${proj%/*}"
-# # 	test_path="$(pwd)/tests/${proj_path##*$build_project/}"
-# # 	proj_name="${proj##*/}"
-# # 	proj_name="${proj_name%.*}"
-# #
-# # 	mkdir -pv "$test_path/src"
-# # 	mkdir -pv "$test_path/obj/gnattest"
-# # 	cp -rv "$proj_path/src/"* "$test_path/src"
-# # 	cp -v "$proj" "$test_path"
-# # 	cp -rv "$proj_path/obj/gnattest/"* "$test_path/obj/gnattest"
-# # 	echo "...DONE"
-# # 	echo
-# # 	# ---------------------------------------------------------
-# # done
+
+echo ""
+echo "#################################################"
+echo "# Building and running all test harnesses"
+echo "#################################################"
+
+# echo ""
+# build_project=$(pwd)
+# echo ""
+# echo $build_project
+# build_project="${build_project##*/}"
+# echo $build_project
+# echo ""
+
+echo ""
+for project_path in $projects
+do
+    project_name="$(basename $project_path)"
+ 	project_name="${project_name%.*}" # Remove filetype/suffix
+ 	test_path="$tests_dir/${project_path##*$test_dir/src/}" # Remove test_dir+/src/ from project path
+
+    echo "INFO: Building test for $project_path"
+
+    if [[ $DEBUG == "ON" ]]; then
+        echo "DEBUG: test_path=$test_path"
+    fi
+#
+# 	mkdir -pv "$test_path/src"
+# 	mkdir -pv "$test_path/obj/gnattest"
+# 	cp -rv "$proj_path/src/"* "$test_path/src"
+# 	cp -v "$proj" "$test_path"
+# 	cp -rv "$proj_path/obj/gnattest/"* "$test_path/obj/gnattest"
+# 	echo "...DONE"
+# 	echo
+	# ---------------------------------------------------------
+done
 # 
 # cp -rv "src/"* "tests"
 # 
