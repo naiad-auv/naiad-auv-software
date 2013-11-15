@@ -245,14 +245,53 @@ echo ""
 for project_path in $projects
 do
     project_name="$(basename $project_path)"
- 	project_name="${project_name%.*}" # Remove filetype/suffix
+ 	# project_name="${project_name%.*}" # Remove filetype/suffix
  	test_path="$tests_dir/${project_path##*$test_dir/src/}" # Remove test_dir+/src/ from project path
 
-    echo "INFO: Building test for $project_path"
+    echo ""
+    echo "INFO: Building test for $project_path..."
 
     if [[ $DEBUG == "ON" ]]; then
+        echo "DEBUG: project_name=$project_name"
         echo "DEBUG: test_path=$test_path"
     fi
+
+ 	# CLEAN HARNESS -------------------------------------------
+ 	echo "INFO: Cleaning harness for $project_path"
+    test_project=$(dirname $test_path)/obj/gnattest/harness/test_driver.gpr
+
+    if [[ -f $test_project ]]; then
+ 	    gprclean -r "-P$test_project" -XRUNTIME=full
+    fi
+
+    if [[ $DEBUG == "ON" ]]; then
+        echo "DEBUG: project_name=$project_name"
+        echo "DEBUG: test_path=$test_path"
+        echo "DEBUG: test_project=$test_project"
+    fi
+ 	# ---------------------------------------------------------
+ 	# Set Test Reporter -----------------------------
+    # TODO: These scripts should take a path as input and run only for that
+    # input. Both scripts now parses all files in all projects on each run.
+     if [ $FORMAT == XML ]; then
+        if [[ $DEBUG == "ON" ]]; then
+            echo "DEBUG: Setting Test Reporter to XML output."
+        fi
+         echo $root_dir/scripts/change_to_XML_reporter.sh $(dirname $test_project)
+         # /bin/bash $root_dir/scripts/change_to_XML_reporter.sh $(dirname $test_project)
+         # echo "INFO: Test Reporter set to XML output."
+     elif [ $FORMAT == GNATTest ]; then
+        if [[ $DEBUG == "ON" ]]; then
+            echo "DEBUG: Setting Test Reporter to GNATTest output."
+        fi
+         # /bin/bash $root_dir/scripts/change_to_GNATTest_reporter.sh
+         # echo "INFO: Test Reporter set to GNATTest output."
+     fi
+
+ 	echo "$project_name...DONE"
+    echo ""
+done
+
 #
 # 	mkdir -pv "$test_path/src"
 # 	mkdir -pv "$test_path/obj/gnattest"
@@ -261,8 +300,7 @@ do
 # 	cp -rv "$proj_path/obj/gnattest/"* "$test_path/obj/gnattest"
 # 	echo "...DONE"
 # 	echo
-	# ---------------------------------------------------------
-done
+	# ----------------------------------------
 # 
 # cp -rv "src/"* "tests"
 # 
