@@ -14,23 +14,7 @@ package body SensorsGUI is
 
    procedure Register_Handlers(xBuilder : in out GtkAda.Builder.Gtkada_Builder) is
    begin
-
-      Gtkada.Builder.Register_Handler
-        (Builder      => xBuilder,
-         Handler_Name => "updatePidConstants",
-         Handler      => PIDConfigurationGUILogic.Update_Pid_Constants'Access);
-
-      Gtkada.Builder.Register_Handler
-        (Builder      => xBuilder,
-         Handler_Name => "changedPid",
-         Handler      => PIDConfigurationGUILogic.Selected_Pid_Changed'Access);
-
-      Gtkada.Builder.Register_Handler
-        (Builder      => xBuilder,
-         Handler_Name => "initPid",
-         Handler      => PIDConfigurationGUILogic.Init_Pid'Access);
-
-
+      null;
    end Register_Handlers;
 
    procedure Setup_Backend(xModel : Simulator.Model.pCModel) is
@@ -50,7 +34,7 @@ package body SensorsGUI is
       Gtk.Main.Init;
 
       Gtk_New (xBuilder);
-      xError := Add_From_File (xBuilder, "./src/GladeFiles/PIDConstants.glade");
+      xError := Add_From_File (xBuilder, "./src/GladeFiles/Sensors.glade");
       if xError /= null then
          Ada.Text_IO.Put("Error while loading .glade: ");
          Ada.Text_IO.Put(Glib.Error.Get_Message(xError));
@@ -65,7 +49,7 @@ package body SensorsGUI is
 
       Do_Connect (xBuilder);
 
-      Gtk.Widget.Show_All (Get_Widget (xBuilder, "pidConfigWindow"));
+      Gtk.Widget.Show_All (Get_Widget (xBuilder, "sensorWindow"));
       Gtk.Main.Main;
 
       Unref (xBuilder);
