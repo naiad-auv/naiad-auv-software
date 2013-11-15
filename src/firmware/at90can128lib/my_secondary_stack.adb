@@ -45,16 +45,16 @@ package body My_Secondary_Stack is
    function Get_Sec_Stack return System.Address is
    begin
 
-      Digital_IO.Make_Output_Pin(1);
-      Digital_IO.Set_Pin(1);
+      Digital_IO.Make_Output_Pin(3);
+      Digital_IO.Set_Pin(3);
 
       if Uninitialized then
          Uninitialized := False;
          SSS.SS_Init (Chunk'Address, Default_Size);
       end if;
 
-      Digital_IO.Make_Output_Pin(2);
-      Digital_IO.Set_Pin(2);
+      Digital_IO.Make_Output_Pin(4);
+      Digital_IO.Set_Pin(4);
 
       return Chunk'Address;
    end Get_Sec_Stack;

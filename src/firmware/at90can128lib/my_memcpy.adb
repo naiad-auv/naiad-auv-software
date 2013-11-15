@@ -17,8 +17,8 @@ function My_Memcpy (dest, src : Address;
 
 begin
 
-   Digital_IO.Make_Output_Pin(3);
-   Digital_IO.Set_Pin(3);
+   Digital_IO.Make_Output_Pin(5);
+   Digital_IO.Set_Pin(5);
 
    if n > 0 then  -- need to guard against n=0 since size_t is a modular type
     for J in 0 .. n - 1 loop
@@ -26,8 +26,8 @@ begin
     end loop;
   end if;
 
-   Digital_IO.Make_Output_Pin(4);
-   Digital_IO.Set_Pin(4);
+   Digital_IO.Make_Output_Pin(6);
+   Digital_IO.Set_Pin(6);
 
   return dest;
 end My_Memcpy;

@@ -8,8 +8,8 @@ package body My_Last_Chance_Handler is
    begin
       --        null;
 
-      Digital_IO.Make_Output_Pin(5);
-      Digital_IO.Set_Pin(5);
+      Digital_IO.Make_Output_Pin(7);
+      Digital_IO.Set_Pin(7);
 
       loop
          null;
