@@ -23,7 +23,7 @@ package body Simulator.Model.Test_Data.Tests is
       pragma Unreferenced (Gnattest_T);
       pxModel : simulator.Model.pCModel;
    begin
-      pxModel := Simulator.Model.pxCreate;
+      pxModel := Simulator.Model.pxCreate(4);
       Aunit.Assertions.Assert(Condition => pxModel /= null,
                               Message   => "Simulator.Model.pxCreate Failed, pxModel pointer equals null");
       Aunit.Assertions.Assert(Condition => pxModel.pxSubmarine /= null,

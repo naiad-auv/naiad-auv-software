@@ -14,8 +14,8 @@ package Simulator.Pid_Errors is
 
    function pxCreate return pCPidErrors;
    procedure Free(pxPidErrors: in out pCPidErrors);
-   procedure Update_Errors(this : in out CPidErrors ; xCurrentAbsolutePosition : math.Vectors.CVector ; xWantedAbsolutePosition : math.Vectors.CVector ; xVelocityVector : math.Vectors.CVector; xCurrentAbsoluteOrientation : math.Matrices.CMatrix; xWantedAbsoluteOrientation : math.Matrices.CMatrix);
-   function fGet_PID_Error_For_Component(this : in CPidErrors; eErrorComponent : in EMotionComponent) return float;
+   procedure Update_Errors (this : in out CPidErrors ; xCurrentAbsolutePosition : math.Vectors.CVector ; xWantedAbsolutePosition : math.Vectors.CVector ; xCurrentAbsoluteOrientation : math.Matrices.CMatrix; xWantedAbsoluteOrientation : math.Matrices.CMatrix);
+   function tGet_PID_Errors(this : in CPidErrors) return TPIDErrors;
 
 
 
@@ -23,7 +23,7 @@ package Simulator.Pid_Errors is
 
 private
 
-   procedure Update_Current_Positional_Errors(this : in out simulator.Pid_Errors.CPidErrors ; xWantedAbsolutePosition : math.Vectors.CVector ; xCurrentAbsolutePosition : math.Vectors.CVector; xCurrentAbsoluteOrientationInverse : math.Matrices.CMatrix) ;
+   procedure Update_Current_Positional_Errors(this : in out CPidErrors ; xWantedAbsolutePosition : math.Vectors.CVector ; xCurrentAbsolutePosition : math.Vectors.CVector; xCurrentAbsoluteOrientationInverse : math.Matrices.CMatrix) ;
    procedure Update_Current_Z_Rotation_Error (this : in out CPidErrors; xWantedAbsoluteOrientation : math.Matrices.CMatrix ; xCurrentAbsoluteOrientationInverse : math.Matrices.CMatrix);
    procedure Update_Current_Y_Rotation_Error (this : in out CPidErrors; xWantedAbsoluteOrientation : math.Matrices.CMatrix ; xCurrentAbsoluteOrientationInverse : math.Matrices.CMatrix);
    procedure Update_Current_X_Rotation_Error (this : in out CPidErrors; xWantedAbsoluteOrientation : math.Matrices.CMatrix ; xCurrentAbsoluteOrientationInverse : math.Matrices.CMatrix);
