@@ -347,7 +347,7 @@ do
     if [ $? -ne 0 ]; then
         failed_test_projects="$failed_test_projects $project_path"
  	    build_success=false
- 		success=false
+ 		all_projects_succeed=false
     else
         successful_test_projects="$successful_test_projects $project_path"
     fi
@@ -562,4 +562,8 @@ echo "##########################################"
 echo "# [$(date +%Y-%m-%d) $(date +%H:%M:%S)] Build successful."
 echo "# End of build script"
 echo "##########################################"
-exit 0
+if $all_projects_succeed == true; then
+    exit 0
+else
+    exit 1
+fi
