@@ -1,12 +1,5 @@
 #!/bin/bash
 
-# Build script for Project Naiad
-# Written by Per-Erik Måhl, Sep 2013
-
-# Usage: ./build_script <folder>
-# Where <folder> is the main folder containing all the folders
-# with all the projects.
-
 function BuildProject
 {
 	gnatmake -d "-P$@" -p
@@ -557,13 +550,18 @@ echo "$failed_test_projects"
 # 	echo
 # done
 # 
-echo ""
-echo "##########################################"
-echo "# [$(date +%Y-%m-%d) $(date +%H:%M:%S)] Build successful."
-echo "# End of build script"
-echo "##########################################"
 if $all_projects_succeed == true; then
+    echo ""
+    echo "##############################################################"
+    echo "# [$(date +%Y-%m-%d) $(date +%H:%M:%S)] Build [SUCCESSFUL]."
+    echo "# End of build script"
+    echo "##############################################################"
     exit 0
 else
+    echo ""
+    echo "##############################################################"
+    echo "# [$(date +%Y-%m-%d) $(date +%H:%M:%S)] Build [FAILED]."
+    echo "# End of build script"
+    echo "##############################################################"
     exit 1
 fi
