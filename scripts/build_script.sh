@@ -244,20 +244,26 @@ echo "#################################################"
 echo ""
 for project_path in $projects
 do
+ 	# BASIC SET UP -------------------------------------------
     project_name="$(basename $project_path)"
  	# project_name="${project_name%.*}" # Remove filetype/suffix
- 	test_path="$tests_dir/${project_path##*$test_dir/src/}" # Remove test_dir+/src/ from project path
+ 	test_path="$tests_dir/${project_path##*/src/}" # Remove test_dir+/src/ from project path
 
     echo ""
-    echo "INFO: Preparing tests for $project_path [START]."
-
     if [[ $DEBUG == "ON" ]]; then
+        echo "DEBUG: Preparing tests for $project_path [START]."
         echo "DEBUG: project_name=$project_name"
         echo "DEBUG: test_path=$test_path"
+    else
+        echo "INFO: Preparing tests for $project_name [START]."
     fi
 
  	# CLEAN HARNESS -------------------------------------------
- 	echo "INFO: Cleaning test harness project for $project_path [START]."
+    if [[ $DEBUG == "ON" ]]; then
+ 	    echo "INFO: Cleaning test harness project for $project_path [START]."
+    else
+ 	    echo "INFO: Cleaning test harness project for $project_name [START]."
+    fi
     test_project=$(dirname $test_path)/obj/gnattest/harness/test_driver.gpr
 
     if [[ -f $test_project ]]; then
@@ -270,7 +276,11 @@ do
         echo "DEBUG: test_project=$test_project"
     fi
 
-    echo "INFO: Cleaning test harness project for $project_path [DONE]."
+    if [[ $DEBUG == "ON" ]]; then
+ 	    echo "INFO: Cleaning test harness project for $project_path [DONE]."
+    else
+ 	    echo "INFO: Cleaning test harness project for $project_name [DONE]."
+    fi
 
  	# SET TEST REPORTER ---------------------------------------
      if [ $FORMAT == XML ]; then
@@ -288,7 +298,11 @@ do
         fi
      fi
 
-    echo "INFO: Preparing tests for $project_path [DONE]."
+    if [[ $DEBUG == "ON" ]]; then
+        echo "DEBUG: Preparing tests for $project_path [DONE]."
+    else
+        echo "INFO: Preparing tests for $project_name [DONE]."
+    fi
     echo ""
 done
 
