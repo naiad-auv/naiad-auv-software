@@ -20,11 +20,11 @@ package body Navigation.Orientational_Controller.Test_Data.Tests.Suite is
 
       Runner_1.Create
         (Case_1_1_Test_Free_e23ec6,
-         "navigation-orientational_controller.ads:22:4:",
+         "navigation-orientational_controller.ads:29:4:",
          Test_Free_e23ec6'Access);
       Runner_1.Create
         (Case_2_1_Test_pxCreate_fcd516,
-         "navigation-orientational_controller.ads:24:4:",
+         "navigation-orientational_controller.ads:31:4:",
          Test_pxCreate_fcd516'Access);
 
       Result.Add_Test (Case_1_1_Test_Free_e23ec6'Access);

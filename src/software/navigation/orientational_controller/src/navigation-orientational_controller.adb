@@ -24,6 +24,7 @@ package body Navigation.Orientational_Controller is
 
       --Ada.Text_IO.Put_Line("CAO: " & System.Address_Image(pxOrientationalController.pxCurrentAbsoluteOrientation.all'Address));
       --Ada.Text_IO.Put_Line("WAO: " & System.Address_Image(pxOrientationalController.pxWantedAbsoluteOrientation.all'Address));
+      pxOrientationalController.fSavedDeltaTime := 0.0;
       return pxOrientationalController;
    exception
       when E : others =>
@@ -32,7 +33,7 @@ package body Navigation.Orientational_Controller is
          return pxOrientationalController;
    end pxCreate;
 
-   procedure Update_Current_Errors (this : in COrientationalController) is
+   procedure Update_Current_Errors (this : in out COrientationalController) is
    begin
       this.Update_Current_X_Rotation_Error;
       this.Update_Current_Y_Rotation_Error;
@@ -45,14 +46,25 @@ package body Navigation.Orientational_Controller is
 
 
 
-   function xGet_Orientational_Thruster_Control_Values (this : in COrientationalController; fDeltaTime : in float) return Navigation.Thrusters.TThrusterEffects is
+   procedure Get_Orientational_Thruster_Control_Values (this : in out COrientationalController; fDeltaTime : in float; tfValues : out Navigation.Thrusters.TThrusterEffects) is
       use Navigation.Thrusters;
+      fSavedDT : float;
    begin
 
-      return  this.xGet_X_Rotation_Thruster_Control_Value(fDeltaTime) +
-        this.xGet_Y_Rotation_Thruster_Control_Value(fDeltaTime) +
-        this.xGet_Z_Rotation_Thruster_Control_Value(fDeltaTime);
-   end xGet_Orientational_Thruster_Control_Values;
+      if abs(this.fCurrentXRotationError) = Ada.Numerics.Pi or
+      abs(this.fCurrentXRotationError) = Ada.Numerics.Pi or
+      abs(this.fCurrentXRotationError) = Ada.Numerics.Pi then
+         this.fSavedDeltaTime := fDeltaTime;
+         tfValues := (others => 0.0);
+      else
+         fSavedDT := this.fSavedDeltaTime;
+         this.fSavedDeltaTime := 0.0;
+         -- TODO: fix for 180 degree error fuck-up (already done in firmware)
+         tfValues := this.xGet_X_Rotation_Thruster_Control_Value(fDeltaTime + fSavedDT) +
+           this.xGet_Y_Rotation_Thruster_Control_Value(fDeltaTime + fSavedDT) +
+           this.xGet_Z_Rotation_Thruster_Control_Value(fDeltaTime + fSavedDT);
+      end if;
+   end Get_Orientational_Thruster_Control_Values;
 
    procedure Set_New_PID_Component_Scalings(this : in COrientationalController; eComponentToUpdate : Navigation.Motion_Component.EMotionComponent; xNewPIDScaling : Navigation.PID_Controller.TPIDComponentScalings) is
    begin
@@ -76,24 +88,24 @@ package body Navigation.Orientational_Controller is
 
    function xGet_X_Rotation_Thruster_Control_Value (this : in COrientationalController; fDeltaTime : in float) return Navigation.Thrusters.TThrusterEffects is
    begin
-      return (Navigation.Thrusters.XRotation => this.pxXRotMotionComponent.xGet_New_Component_Control_Value(fDeltaTime).fValue,
+      return (Navigation.Thrusters.XRotation => this.pxXRotMotionComponent.fGet_New_Component_Control_Value(fDeltaTime),
               others => 0.0);
    end xGet_X_Rotation_Thruster_Control_Value;
 
    function xGet_Y_Rotation_Thruster_Control_Value (this : in COrientationalController; fDeltaTime : in float) return Navigation.Thrusters.TThrusterEffects is
    begin
-      return (Navigation.Thrusters.YRotation => this.pxYRotMotionComponent.xGet_New_Component_Control_Value(fDeltaTime).fValue,
+      return (Navigation.Thrusters.YRotation => this.pxYRotMotionComponent.fGet_New_Component_Control_Value(fDeltaTime),
               others => 0.0);
    end xGet_Y_Rotation_Thruster_Control_Value;
 
 
    function xGet_Z_Rotation_Thruster_Control_Value (this : in COrientationalController; fDeltaTime : in float) return Navigation.Thrusters.TThrusterEffects is
    begin
-      return (Navigation.Thrusters.ZRotation => this.pxZRotMotionComponent.xGet_New_Component_Control_Value(fDeltaTime).fValue,
+      return (Navigation.Thrusters.ZRotation => this.pxZRotMotionComponent.fGet_New_Component_Control_Value(fDeltaTime),
               others => 0.0);
    end xGet_Z_Rotation_Thruster_Control_Value;
 
-   procedure Update_Current_Z_Rotation_Error (this : in COrientationalController) is
+   procedure Update_Current_Z_Rotation_Error (this : in out COrientationalController) is
       use Math.Matrices;
       xWantedRelativeOrientation : Math.Matrices.CMatrix;
       xCurrentRelativeOrientation : Math.Matrices.CMatrix;
@@ -138,6 +150,7 @@ package body Navigation.Orientational_Controller is
       end if;
 
 
+      this.fCurrentZRotationError := fError;
      --this.fZRotError := fError;
       this.pxZRotMotionComponent.Update_Current_Error(fError);
    exception
@@ -147,7 +160,8 @@ package body Navigation.Orientational_Controller is
 
    end Update_Current_Z_Rotation_Error;
 
-   procedure Update_Current_Y_Rotation_Error (this : in COrientationalController) is
+
+   procedure Update_Current_Y_Rotation_Error (this : in out COrientationalController) is
       use Math.Matrices;
       xWantedRelativeOrientation : Math.Matrices.CMatrix;
       xCurrentRelativeOrientation : Math.Matrices.CMatrix;
@@ -191,6 +205,7 @@ package body Navigation.Orientational_Controller is
          fError := fError * (-1.0);
       end if;
 
+      this.fCurrentYRotationError := fError;
       --this.fYRotError := fError;
       this.pxYRotMotionComponent.Update_Current_Error(fError);
    exception
@@ -201,7 +216,7 @@ package body Navigation.Orientational_Controller is
    end Update_Current_Y_Rotation_Error;
 
 
-   procedure Update_Current_X_Rotation_Error (this : in COrientationalController) is
+   procedure Update_Current_X_Rotation_Error (this : in out COrientationalController) is
       use Math.Matrices;
       xWantedRelativeOrientation : Math.Matrices.CMatrix;
       xCurrentRelativeOrientation : Math.Matrices.CMatrix;
@@ -245,6 +260,7 @@ package body Navigation.Orientational_Controller is
          fError := fError * (-1.0);
       end if;
 
+      this.fCurrentXRotationError := fError;
       --this.fXRotError := fError;
       this.pxXRotMotionComponent.Update_Current_Error(fError);
    exception
@@ -276,5 +292,12 @@ package body Navigation.Orientational_Controller is
          Navigation.Motion_Component.Free(pxMotionComponentToDeallocate => this.pxZRotMotionComponent);
       end if;
    end Finalize;
+
+   function fGetCurrentErrors(this : in COrientationalController) return TOrientationalErrors is
+   begin
+      return TOrientationalErrors'(Navigation.Motion_Component.RotationX => this.pxXRotMotionComponent.fGetCurrentError,
+                                   Navigation.Motion_Component.RotationY => this.pxYRotMotionComponent.fGetCurrentError,
+                                   Navigation.Motion_Component.RotationZ => this.pxZRotMotionComponent.fGetCurrentError);
+   end fGetCurrentErrors;
 
 end Navigation.Orientational_Controller;

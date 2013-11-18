@@ -9,6 +9,7 @@ with Glib.Error;
 
 with PIDErrorsGUILogic;
 with Ada.Exceptions;
+with Simulator.ViewModel_Pid_Errors;
 
 package body PIDErrorsGUI is
 
@@ -16,11 +17,16 @@ package body PIDErrorsGUI is
    begin
     Gtkada.Builder.Register_Handler
         (Builder      => xBuilder,
-         Handler_Name => "initDraw",
-         Handler      => PIDErrorsGUILogic.Draw_Timeout'Access);
+         Handler_Name => "pidErrorsWindowOpenedHandler",
+         Handler      => PIDErrorsGUILogic.Register_Timeouts'Access);
 
    end Register_Handlers;
 
+   procedure Setup_Backend(xModel : Simulator.Model.pCModel) is
+   begin
+      PIDErrorsGUILogic.xModel := xModel;
+      PIDErrorsGUILogic.xViewmodel := Simulator.ViewModel_Pid_Errors.pxCreate(xModel);
+   end Setup_Backend;
 
    procedure Start_GUI (xModel : Simulator.Model.pCModel) is
 
@@ -33,7 +39,7 @@ package body PIDErrorsGUI is
       Gtk.Main.Init;
 
       Gtk_New (xBuilder);
-      xError := Add_From_File (xBuilder, "PIDErrors.glade");
+      xError := Add_From_File (xBuilder, "./src/GladeFiles/PIDErrors.glade");
       if xError /= null then
          Ada.Text_IO.Put("Error while loading .glade: ");
          Ada.Text_IO.Put(Glib.Error.Get_Message(xError));
@@ -43,6 +49,8 @@ package body PIDErrorsGUI is
 
 
       Register_Handlers(xBuilder);
+
+      Setup_Backend(xModel);
 
       Ada.Text_IO.Put_Line("PIDErrors GUI handlers registred");
 
@@ -61,5 +69,12 @@ package body PIDErrorsGUI is
          Exception_Handling.Unhandled_Exception(E => E);
 
    end Start_GUI;
+
+
+   procedure Reset is
+   begin
+      PIDErrorsGUILogic.Reset;
+   end Reset;
+
 
 end PIDErrorsGUI;

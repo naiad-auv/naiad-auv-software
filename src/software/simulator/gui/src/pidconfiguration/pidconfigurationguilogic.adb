@@ -17,12 +17,14 @@ package body PIDConfigurationGUILogic is
       xViewmodel.Set_Value_Of_Selected_Pid(fProporitonalPart => Float'Value(sPidProportionalConstant.Get_Text),
                                            fIntegratingPart  => Float'Value(sPidIntegratingConstant.Get_Text),
                                            fDerivativePart   => Float'Value(sPidDerivatingConstant.Get_Text));
+
+      Ada.Text_IO.Put_Line("Updated PID Constants");
    end Update_Pid_Constants;
 
    procedure Init_Pid(pxObject : access Gtkada.Builder.Gtkada_Builder_Record'Class) is
       use Simulator.Viewmodel_Pid_Constants;
    begin
-      xViewmodel.Set_Selected_Pid(X);
+      xViewmodel.Set_Selected_Pid(PositionX);
       Selected_Pid_Changed(pxObject);
    end Init_Pid;
 
@@ -35,11 +37,11 @@ package body PIDConfigurationGUILogic is
 
       case xSelectedPID.Get_Active is
          when 0 =>
-            xViewmodel.Set_Selected_Pid(X);
+            xViewmodel.Set_Selected_Pid(PositionX);
          when 1 =>
-            xViewmodel.Set_Selected_Pid(Y);
+            xViewmodel.Set_Selected_Pid(PositionY);
          when 2 =>
-            xViewmodel.Set_Selected_Pid(Z);
+            xViewmodel.Set_Selected_Pid(PositionZ);
          when 3 =>
             xViewmodel.Set_Selected_Pid(RotationX);
          When 4 =>
@@ -54,10 +56,11 @@ package body PIDConfigurationGUILogic is
             xViewModel.Set_Selected_Pid(AllPosition);
          when others =>
             Ada.Text_IO.Put_Line("Unknown pid component passed");
-            xViewModel.Set_Selected_Pid(Unknown);
       end case;
 
       Update_PID_Texts(pxObject);
+
+      Ada.Text_IO.Put_Line("Selected PID changed");
    end Selected_Pid_Changed;
 
    procedure Update_PID_Texts(pxObject : access Gtkada.Builder.Gtkada_Builder_Record'Class) is

@@ -1,0 +1,20 @@
+V "GNAT Lib v4.6"
+M P W=b
+A -g
+A -gnata
+A -gnatwu
+P ZX
+R nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn
+
+U main%b		main.adb		dca4872b NE OO SU
+W gui%s			gui.adb			gui.ali
+
+D gui.ads		20131105074155 3b38cea5
+D main.adb		20131105110051 e79c498e
+D system.ads		20130419124236 2d1a1afa
+X 1 gui.ads
+2K9*GUI 6e8 2|1w6 6r9
+4U14*Start_GUI 2|6s13
+X 2 main.adb
+3U11*Main 3b11 8l5 8t9
+

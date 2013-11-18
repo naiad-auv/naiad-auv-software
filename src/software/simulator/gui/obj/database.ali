@@ -1,0 +1,142 @@
+V "GNAT Lib v4.6"
+A -O2
+A -gnat05
+A -gnatA
+P SS ZX
+R nnnnnnnnvnnnnnnnnnnnnnnnvnvnnvnnnnnnnnnnnvnnvnnnnnnnnnnnnnnnnvnvnnnnnnnnnnnnnnnn
+
+U database%b		database.adb		24c446ad NE OO PK
+
+U database%s		database.ads		71f51070 EE OO PK
+W ada.exceptions%s	a-except.adb		a-except.ali
+W ada.streams%s		a-stream.ads		a-stream.ali
+W ada.tags%s		a-tags.adb		a-tags.ali
+W system%s		system.ads		system.ali
+W system.finalization_root%s  s-finroo.adb	s-finroo.ali
+W system.secondary_stack%s  s-secsta.adb	s-secsta.ali
+W system.soft_links%s	s-soflin.adb		s-soflin.ali
+W system.storage_elements%s  s-stoele.adb	s-stoele.ali
+W system.stream_attributes%s  s-stratt.adb	s-stratt.ali
+
+D ada.ads		20070406091342 3ffc8e18
+D a-except.ads		20090727140100 0c711ac9
+D a-stream.ads		20090409150019 2ca4ee37
+D a-tags.ads		20101021101406 c7695348
+D a-unccon.ads		20070406091342 f9eb8f06
+D database.ads		20131104082225 71f51070
+D database.adb		20131104082225 553156dd
+D system.ads		20130419124236 2d1a1afa
+D s-exctab.ads		20090417131547 66e51330
+D s-finroo.ads		20090409150019 dbb860c9
+D s-parame.ads		20091130110856 9c5d83fa
+D s-secsta.ads		20090707124243 eea35a36
+D s-soflin.ads		20090729085153 9414c974
+D s-stache.ads		20090417130712 596fc1b4
+D s-stalib.ads		20101021102512 c4241c00
+D s-stoele.ads		20090417130712 facd7d98
+D s-stoele.adb		20100617152355 afc5dc80
+D s-stratt.ads		20100909123135 aedef97e
+D s-traent.ads		20090417130712 5221ee41
+D s-unstyp.ads		20090409150019 6ae15c76
+X 6 database.ads
+1K9*Database 82l5 82e13 7|1b14 112l5 112t13
+3A9*Motors(float)<integer> 7r17 47r17 69r60 7|5r17 46r60
+4A9*Orient(float)<integer><integer> 14r24 53r24 75r73 7|11r24 75r73
+6R9*TDatabase 35e14 37r34 45p14 46r21 69p14 69r39 70p14 70r40 71p14 71r45
+. 72p14 72r46 73p14 73r45 74p14 74r46 75p14 75r45 76p14 76r38 77p14 77r44
+. 78p14 78r41 79p14 79r49 80p14 80r46 7|4r21 46r39 51r40 56r45 61r46 66r45
+. 70r46 75r45 80r38 85r44 92r41 99r49 106r46
+7a7*tfMotor{3A9} 7|48m12
+8b7*bGripperOpen{boolean} 7|53m12
+9b7*bLeftMarkerDropped{boolean} 7|58m12
+10b7*bRightMarkerDropped{boolean} 7|63m12
+11b7*bLeftTorpedoShot{boolean} 7|68m12
+12b7*bRightTorpedoShot{boolean} 7|72m12
+14a7*tfRollPitchYaw{4A9} 7|77m12
+16f7*fDepth{float} 7|82m12
+18f7*fPositionX{float} 7|87m12
+19f7*fPositionY{float} 7|88m12
+20f7*fPositionZ{float} 7|89m12
+22f7*fVelocityX{float} 7|94m12
+23f7*fVelocityY{float} 7|95m12
+24f7*fVelocityZ{float} 7|96m12
+26f7*fAngularVelocityX{float} 7|101m12
+27f7*fAngularVelocityY{float} 7|102m12
+28f7*fAngularVelocityZ{float} 7|103m12
+30f7*fGoalPositionX{float} 7|108m12
+31f7*fGoalPositionY{float} 7|109m12
+33f7*fGoalDirectionalAngle{float} 7|40m12
+34f7*fCurrentDirectionaAngle{float} 7|41m12
+37P9*pTDatabase(6R9)
+40f4*fProportional{float}
+41f4*fIntegrating{float}
+42f4*fDerivative{float}
+45U14*set_Database 46=7 47>7 48>7 49>7 50>7 51>7 52>7 53>7 54>7 55>7 56>7
+. 57>7 58>7 59>7 60>7 61>7 62>7 63>7 64>7 65>7 66>7 67>7 7|3b14 44l8 44t20
+46r7 This{6R9} 7|4b7 27m7 28m7 29m7 30m7 31m7 32m7 33m7 34m7 35m7 36m7 37m7
+. 38m7 40m7 41m7
+47a7 tfMotor{3A9} 7|5b7 27r23
+48b7 bGripperOpen{boolean} 7|6b7 28r24
+49b7 bLeftMarkerDropped{boolean} 7|7b7 29r29
+50b7 bRightMarkerDropped{boolean} 7|8b7 30r30
+51b7 bLeftTorpedoShot{boolean} 7|9b7 31r29
+52b7 bRightTorpedoShot{boolean} 7|10b7 32r30
+53a7 tfRollPitchYaw{4A9} 7|11b7 33r29
+54f7 fDepth{float} 7|12b7 34r22
+55f7 fPositionX{float} 7|13b7 35r28
+56f7 fPositionY{float} 7|14b7 35r40
+57f7 fPositionZ{float} 7|15b7 35r52
+58f7 fVelocityX{float} 7|16b7 36r25
+59f7 fVelocityY{float} 7|17b7 36r37
+60f7 fVelocityZ{float} 7|18b7 36r49
+61f7 fAngularVelocityX{float} 7|19b7 37r33
+62f7 fAngularVelocityY{float} 7|20b7 37r52
+63f7 fAngularVelocityZ{float} 7|21b7 37r71
+64f7 fGoalPositionX{float} 7|22b7 38r30
+65f7 fGoalPositionY{float} 7|23b7 38r46
+66f7 fGoalDirectionalAngle{float} 7|24b7 40r37
+67f7 fCurrentDirectionaAngle{float} 7|25b7 41r39
+69U14*set_Motors 69=25 69>50 7|27s12 46b14 49l8 49t18
+69r25 This{6R9} 7|46b25 48m7
+69a50 tfMotor{3A9} 7|46b50 48r23
+70U14*set_Gripper 70=26 70>51 7|28s12 51b14 54l8 54t19
+70r26 This{6R9} 7|51b26 53m7
+70b51 bGripperOpen{boolean} 7|51b51 53r28
+71U14*set_Left_Dropper 71=31 71>56 7|29s12 56b14 59l8 59t24
+71r31 This{6R9} 7|56b31 58m7
+71b56 bLeftMarkerDropped{boolean} 7|56b56 58r34
+72U14*set_Right_Dropper 72=32 72>57 7|30s12 61b14 64l8 64t25
+72r32 This{6R9} 7|61b32 63m7
+72b57 bRightMarkerDropped{boolean} 7|61b57 63r35
+73U14*set_Left_Torpedo 73=31 73>56 7|31s12 66b14 69l8 69t24
+73r31 This{6R9} 7|66b31 68m7
+73b56 bLeftTorpedoShot{boolean} 7|66b56 68r32
+74U14*set_Right_Torpedo 74=32 74>57 7|32s12 70b14 73l8 73t25
+74r32 This{6R9} 7|70b32 72m7
+74b57 bRightTorpedoShot{boolean} 7|70b57 72r33
+75U14*set_RollPitchYaw 75=31 75>56 7|33s12 75b14 78l8 78t24
+75r31 This{6R9} 7|75b31 77m7
+75a56 tfRollPitchYaw{4A9} 7|75b56 77r30
+76U14*set_Depth 76=24 76>49 7|34s12 80b14 83l8 83t17
+76r24 This{6R9} 7|80b24 82m7
+76f49 fDepth{float} 7|80b49 82r22
+77U14*set_Translation 77=30 77>55 77>75 77>95 7|35s12 85b14 90l8 90t23
+77r30 This{6R9} 7|85b30 87m7 88m7 89m7
+77f55 fPositionX{float} 7|85b55 87r26
+77f75 fPositionY{float} 7|85b75 88r26
+77f95 fPositionZ{float} 7|85b95 89r26
+78U14*set_Velocity 78=27 78>52 78>72 78>92 7|36s12 92b14 97l8 97t20
+78r27 This{6R9} 7|92b27 94m7 95m7 96m7
+78f52 fVelocityX{float} 7|92b52 94r26
+78f72 fVelocityY{float} 7|92b72 95r26
+78f92 fVelocityZ{float} 7|92b92 96r26
+79U14*set_Angular_Velocity 79=35 79>60 79>87 79>114 7|37s12 99b14 104l8 104t28
+79r35 This{6R9} 7|99b35 101m7 102m7 103m7
+79f60 fAngularVelocityX{float} 7|99b60 101r33
+79f87 fAngularVelocityY{float} 7|99b87 102r33
+79f114 fAngularVelocityZ{float} 7|99b114 103r33
+80U14*set_Goal_Position 80=32 80>57 80>81 7|38s12 106b14 110l8 110t25
+80r32 This{6R9} 7|106b32 108m7 109m7
+80f57 fGoalPositionX{float} 7|106b57 108r30
+80f81 fGoalPositionY{float} 7|106b81 109r30
+

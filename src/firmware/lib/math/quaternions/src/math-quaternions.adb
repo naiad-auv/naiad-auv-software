@@ -1,7 +1,4 @@
 with Math.Vectors;
-with Math.Angles;
-
-
 
 package body Math.Quaternions is
 

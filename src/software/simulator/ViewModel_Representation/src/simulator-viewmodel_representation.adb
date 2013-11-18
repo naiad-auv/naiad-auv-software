@@ -1,4 +1,8 @@
 with Ada.Unchecked_Deallocation;
+with Navigation.Dispatcher;
+with Navigation.Motion_Component;with Ada.Numerics;
+with Ada.Text_IO;
+with Ada.Exceptions;
 package body Simulator.ViewModel_Representation is
 
    --------------
@@ -10,7 +14,7 @@ package body Simulator.ViewModel_Representation is
 
    begin
       pxNewViewModel := new CViewModel_Representation;
-      pxNewViewModel.pxModel := Simulator.Model.pxCreate;
+      pxNewViewModel.pxModel := pxModel;
 
       return pxNewViewModel;
    exception
@@ -116,4 +120,27 @@ package body Simulator.ViewModel_Representation is
       when E : others =>
          Exception_Handling.Unhandled_Exception(E);
    end Update;
+
+   function fGet_Pid_Errors (this : in CViewModel_Representation ; eErrorComponent : in Simulator.Model.EMotionComponent) return float is
+      use Simulator.Model;
+
+      xMotionalErrors : Navigation.Dispatcher.TMotionalErrors;
+   begin
+      xMotionalErrors := this.pxModel.xGet_Current_Motional_Errors;
+
+      case eErrorComponent is
+      when PositionX .. PositionZ =>
+         return xMotionalErrors(Navigation.Motion_Component.EMotionComponent(eErrorComponent));
+         when others =>
+            null;
+      end case;
+
+      return xMotionalErrors(Navigation.Motion_Component.EMotionComponent(eErrorComponent)) * 180.0 / Ada.Numerics.Pi;
+   exception
+      when E : others =>
+         Ada.Text_IO.Put_Line(Ada.Exceptions.Exception_Message(E));
+         Exception_Handling.Unhandled_Exception(E);
+         return 0.0;
+   end fGet_Pid_Errors;
+
 end Simulator.ViewModel_Representation;

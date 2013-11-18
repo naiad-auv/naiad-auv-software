@@ -1,8 +1,9 @@
 with Navigation.Motion_Component;
 with Navigation.PID_Controller;
+with Navigation.Thrusters;
+
 with Math.Vectors;
 with Math.Matrices;
-with Navigation.Thrusters;
 
 package Navigation.Positional_Controller is
 

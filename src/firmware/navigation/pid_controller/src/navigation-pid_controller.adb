@@ -1,5 +1,3 @@
-with Ada.Text_IO;
-with Navigation;
 
 package body Navigation.PID_Controller is
 

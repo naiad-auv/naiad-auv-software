@@ -1,20 +1,15 @@
 with Gtkada.Builder;
 
 with Simulator.Model;
+with Simulator.ViewModel_Actuators;
+with Gtk.Drawing_Area;
 
 package ActuatorsGUILogic is
 
    xModel : Simulator.Model.pCModel;
-   xViewmodel : Simulator.ViewModel.pCViewModel;
+   xViewmodel : Simulator.ViewModel_Actuators.pCViewModel_Actuators;
 
-   procedure Quit (pxObject : access Gtkada.Builder.Gtkada_Builder_Record'Class);
-
-   procedure Update_Pid_Constants(pxObject : access Gtkada.Builder.Gtkada_Builder_Record'Class);
-   procedure Init_Pid(pxObject : access Gtkada.Builder.Gtkada_Builder_Record'Class);
-   procedure Selected_Pid_Changed(pxObject : access Gtkada.Builder.Gtkada_Builder_Record'Class);
-
-
-private
-   procedure Update_PID_Texts(pxObject : access Gtkada.Builder.Gtkada_Builder_Record'Class);
+   procedure Draw_Timeout(pxObject : access Gtkada.Builder.Gtkada_Builder_Record'Class);
+   function bDraw_Motor_Levels (xMotorArea : in Gtk.Drawing_Area.Gtk_Drawing_Area) return Boolean;
 
 end ActuatorsGUILogic;

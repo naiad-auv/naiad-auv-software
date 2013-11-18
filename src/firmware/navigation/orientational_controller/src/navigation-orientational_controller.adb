@@ -1,5 +1,3 @@
-with Exception_Handling;
-
 package body Navigation.Orientational_Controller is
 
 
@@ -16,7 +14,8 @@ package body Navigation.Orientational_Controller is
       xOrientationalController.xYRotMotionComponent := Navigation.Motion_Component.xCreate(eAxisIndex    => Navigation.Motion_Component.RotationY,
                                                                                                 xPIDScalings => (0.0,0.0,0.0));
       xOrientationalController.xZRotMotionComponent := Navigation.Motion_Component.xCreate(eAxisIndex    => Navigation.Motion_Component.RotationZ,
-                                                                                                xPIDScalings => (0.0,0.0,0.0));
+                                                                                           xPIDScalings => (0.0,0.0,0.0));
+      xOrientationalController.fSavedDeltaTime := 0.0;
       return xOrientationalController;
    end xCreate;
 
@@ -34,17 +33,30 @@ package body Navigation.Orientational_Controller is
       fRotationY : float;
       fRotationZ : float;
    begin
-      this.Get_X_Rotation_Thruster_Control_Value(fDeltaTime    => fDeltaTime,
-                                                 fControlValue => fRotationX);
-      this.Get_Y_Rotation_Thruster_Control_Value(fDeltaTime    => fDeltaTime,
-                                                 fControlValue => fRotationY);
-      this.Get_Z_Rotation_Thruster_Control_Value(fDeltaTime    => fDeltaTime,
-                                                 fControlValue => fRotationZ);
 
-      tfValues := (Navigation.Thrusters.XRotation => fRotationX,
-                   Navigation.Thrusters.YRotation => fRotationY,
-                   Navigation.Thrusters.ZRotation => fRotationZ,
+
+      if abs(this.fCurrentXRotationError) = Math.Elementary.Pi or
+      abs(this.fCurrentXRotationError) = Math.Elementary.Pi or
+      abs(this.fCurrentXRotationError) = Math.Elementary.Pi then
+      tfValues := (Navigation.Thrusters.XRotation => 0.0,
+                   Navigation.Thrusters.YRotation => 0.0,
+                   Navigation.Thrusters.ZRotation => 0.0,
                    others => 0.0);
+                  this.fSavedDeltaTime := fDeltaTime;
+      else
+         this.Get_X_Rotation_Thruster_Control_Value(fDeltaTime    => fDeltaTime + this.fSavedDeltaTime,
+                                                    fControlValue => fRotationX);
+         this.Get_Y_Rotation_Thruster_Control_Value(fDeltaTime    => fDeltaTime + this.fSavedDeltaTime,
+                                                    fControlValue => fRotationY);
+         this.Get_Z_Rotation_Thruster_Control_Value(fDeltaTime    => fDeltaTime + this.fSavedDeltaTime,
+                                                    fControlValue => fRotationZ);
+         tfValues := (Navigation.Thrusters.XRotation => fRotationX,
+                      Navigation.Thrusters.YRotation => fRotationY,
+                      Navigation.Thrusters.ZRotation => fRotationZ,
+                      others => 0.0);
+         this.fSavedDeltaTime := 0.0;
+      end if;
+
    end Get_Orientational_Thruster_Control_Values;
 
    procedure Set_New_PID_Component_Scalings(this : in out COrientationalController; eComponentToUpdate : Navigation.Motion_Component.EMotionComponent; xNewPIDScaling : Navigation.PID_Controller.TPIDComponentScalings) is
@@ -130,6 +142,7 @@ package body Navigation.Orientational_Controller is
          fError := fError * (-1.0);
       end if;
 
+      this.fCurrentZRotationError := fError;
       this.xZRotMotionComponent.Update_Current_Error(fError);
    end Update_Current_Z_Rotation_Error;
 
@@ -177,6 +190,7 @@ package body Navigation.Orientational_Controller is
          fError := fError * (-1.0);
       end if;
 
+      this.fCurrentYRotationError := fError;
       this.xYRotMotionComponent.Update_Current_Error(fError);
    end Update_Current_Y_Rotation_Error;
 
@@ -225,6 +239,7 @@ package body Navigation.Orientational_Controller is
          fError := fError * (-1.0);
       end if;
 
+      this.fCurrentXRotationError := fError;
       this.xXRotMotionComponent.Update_Current_Error(fError);
    end Update_Current_X_Rotation_Error;
 

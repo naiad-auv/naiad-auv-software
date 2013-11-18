@@ -1,6 +1,3 @@
-with Navigation.Motion_Component;
-with Math.Matrices;
-with Math.Vectors;
 with Navigation.Thrusters;
 with Math.Elementary;
 
