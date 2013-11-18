@@ -112,16 +112,14 @@ package body Imu_Handler is
       -- $VNRRG,11*73
 
       Communication_Protocol_Control;
-
       Async_Data_Output_Frequency_Register;
-
       Synchronization_Control;
-
       VPE_Basic_Control;
 
       Init_Interrupts;
 
-
+      AVR.AT90CAN128.CLOCK.Delay_ms(10);
+      AVR.AT90CAN128.USART.Flush_Receive_Buffer(;
 
    end Init;
 
