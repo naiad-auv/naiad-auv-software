@@ -125,11 +125,11 @@ D pango-tabs.ads	20130726070842 1dd550ef
 D pidconfigurationguilogic.ads  20131111120512 6a101b69
 D simulator.ads		20131104082225 19a68e1a
 D simulator-model.ads	20131112144053 3155fb3c
-D simulator-motion_control_wrapper.ads  20131111145023 e4f0c950
+D simulator-motion_control_wrapper.ads  20131115120314 e4f0c950
 D simulator-motor_info.ads  20131105072747 317185f1
 D simulator-submarine.ads  20131105072747 63940499
 D simulator-viewmodel_actuators.ads  20131111093458 cf204f1f
-D simulator-viewmodel_pid_constants.ads  20131111111438 3f83002c
+D simulator-viewmodel_pid_constants.ads  20131115120929 2c5971ff
 D system.ads		20130419124236 2d1a1afa
 D s-addima.ads		20090409150019 a1ec9d3a
 D s-crtl.ads		20100617122610 ac77b159

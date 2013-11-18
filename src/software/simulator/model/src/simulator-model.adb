@@ -23,7 +23,7 @@ package body Simulator.Model is
 
    procedure Update_Model (this : in out CModel; fDeltaTime : float) is
       fMaximumMotorForce : float := 66.776;
-      fMotorForceChangePerSecond : float := fMaximumMotorForce/1.5;
+      fMotorForceChangePerSecond : float := fMaximumMotorForce/0.0001;--1.5;
       tfMotorValuesSubmarine : simulator.Model.TMotorForce;
       tfChangeInMotorValues : simulator.Model.TMotorForce;
    begin
@@ -48,6 +48,9 @@ package body Simulator.Model is
          end if;
          tfMotorValuesSubmarine(iMotorIndex) := tfMotorValuesSubmarine(iMotorIndex) + tfChangeInMotorValues(iMotorIndex);
       end loop;
+
+      --tfMotorValuesSubmarine := (-3.0,0.0,3.0,0.0,0.0,0.0);
+      --tfMotorValuesSubmarine := (0.0,-3.0,3.0,0.0,0.0,0.0);
 
       this.pxSubmarine.Time_Step_Motor_Force_To_Integrate(txMotorForce => Simulator.submarine.TMotorForce(tfMotorValuesSubmarine),
                                                           fDeltaTime   => fDeltaTime);

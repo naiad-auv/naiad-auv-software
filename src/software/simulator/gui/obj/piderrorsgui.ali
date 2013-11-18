@@ -5,7 +5,7 @@ A -gnatA
 P SS ZX
 R nnnnnnnnnnnnvnnnnnvvnvnnnvnnnnnnnnnnnnnnnvnnvnnnnnnnnnnnnnvnnvnnnnnnnnnnnnnnnnnn
 
-U piderrorsgui%b	piderrorsgui.adb	98de295a NE OO PK
+U piderrorsgui%b	piderrorsgui.adb	551878cd NE OO PK
 W ada%s			ada.ads			ada.ali
 W ada.exceptions%s	a-except.adb		a-except.ali
 W ada.tags%s		a-tags.adb		a-tags.ali
@@ -120,10 +120,11 @@ D piderrorsgui.adb	20131112125652 19381757
 D piderrorsguilogic.ads	20131112123951 165a5fc3
 D simulator.ads		20131104082225 19a68e1a
 D simulator-model.ads	20131112144053 3155fb3c
-D simulator-motion_control_wrapper.ads  20131111145023 e4f0c950
+D simulator-motion_control_wrapper.ads  20131115120314 e4f0c950
 D simulator-motor_info.ads  20131105072747 317185f1
+D simulator-pid_errors.ads  20131115084553 be4dd31d
 D simulator-submarine.ads  20131105072747 63940499
-D simulator-viewmodel_pid_errors.ads  20131112153137 f7483e89
+D simulator-viewmodel_pid_errors.ads  20131115084553 3a8e6f1e
 D system.ads		20130419124236 2d1a1afa
 D s-addima.ads		20090409150019 a1ec9d3a
 D s-crtl.ads		20100617122610 ac77b159
@@ -162,11 +163,11 @@ X 26 gdk.ads
 41P9*Gdk_Drawable<43|149P9>
 50P9*Gdk_Visual<43|149P9>
 X 41 gdk-visual.ads
-77V13*Convert[117|20]{97|64M9} 46|57i21
-78V13*Convert[117|20]{26|50P9} 46|58i21
+77V13*Convert[118|20]{98|64M9} 46|57i21
+78V13*Convert[118|20]{26|50P9} 46|58i21
 X 42 gdk-window.ads
-531V13*Convert[117|20]{97|64M9} 46|57i21
-532V13*Convert[117|20]{26|41P9} 46|58i21
+531V13*Convert[118|20]{98|64M9} 46|57i21
+532V13*Convert[118|20]{26|41P9} 46|58i21
 X 43 glib.ads
 37K9*Glib 402e9 89|2r6 8r6 33r11 37r18 45r26
 149P9*C_Proxy(146R9)
@@ -178,7 +179,7 @@ X 44 glib-error.ads
 X 48 glib-object.ads
 40P9*GObject(39R9)
 83U14*Unref 89|64R7
-415V13*Convert{97|64M9} 46|57i21 47|49i21
+415V13*Convert{98|64M9} 46|57i21 47|49i21
 416V13*Convert{40P9} 46|58i21 47|50i21
 X 51 gtk.ads
 41K9*Gtk 77e8 89|1r6 3r6 39r7 61r7 62r7
@@ -186,7 +187,7 @@ X 54 gtk-builder.ads
 83V13*Add_From_File{44|35P9} 89|42R17
 109V13*Get_Widget{59|72P9} 89|61R28
 X 55 gtk-enums.ads
-442V13*Convert{97|64M9} 46|57i21 47|49i21
+442V13*Convert{98|64M9} 46|57i21 47|49i21
 443V13*Convert{string} 46|58i21 47|50i21
 X 56 gtk-main.ads
 41K13*Main 513e13 89|1w10 39r11 62r11
@@ -194,12 +195,12 @@ X 56 gtk-main.ads
 148U14*Main 89|62s16
 X 57 gtk-object.ads
 100P9*Gtk_Object(99R9)
-137V13*Convert{97|64M9} 47|49i21
+137V13*Convert{98|64M9} 47|49i21
 138V13*Convert{100P9} 47|50i21
 X 59 gtk-widget.ads
 70K13*Widget 2429e15 89|3w10 61r11
 72P9*Gtk_Widget(71R9)
-115V13*Convert{97|64M9} 46|57i21 47|49i21
+115V13*Convert{98|64M9} 46|57i21 47|49i21
 116V13*Convert{72P9} 46|58i21 47|50i21
 161U14*Show_All 89|61R18
 X 60 gtkada.ads
@@ -230,7 +231,7 @@ X 89 piderrorsgui.adb
 X 90 piderrorsguilogic.ads
 5K9*PIDErrorsGUILogic 89|10w6 21r26 27r7 28r7 76r7 90|19e22
 7p4*xModel{92|14P9} 89|27m25
-8p4*xViewModel{96|9P9} 89|28m25
+8p4*xViewModel{97|9P9} 89|28m25
 10U14*Register_Timeouts 89|21r44
 12U14*Reset 89|76s25
 X 91 simulator.ads
@@ -238,10 +239,10 @@ X 91 simulator.ads
 X 92 simulator-model.ads
 9K19*Model 88|1w16 5r43 89|25r47 31r44 92|53e20
 14P9*pCModel(13R9) 88|5r49 89|25r53 31r50
-X 96 simulator-viewmodel_pid_errors.ads
-6K19*ViewModel_Pid_Errors 89|12w16 28r49 96|50e35
+X 97 simulator-viewmodel_pid_errors.ads
+6K19*ViewModel_Pid_Errors 89|12w16 28r49 97|50e35
 9P9*pCViewModel_Pid_Errors(8R9)
 24V13*pxCreate{9P9} 89|28s70
-X 97 system.ads
+X 98 system.ads
 64M9*Address
 

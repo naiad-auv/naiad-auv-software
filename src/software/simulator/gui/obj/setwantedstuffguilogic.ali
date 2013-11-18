@@ -5,7 +5,7 @@ A -gnatA
 P SS ZX
 R nnnnnnnnnnnvvnnnnnvvnvnnvvnnnnnnnnnnnnnnnvnnvnnnnnnnnnnnnnvnnvnnnnnnnnnnnnnnnnnn
 
-U setwantedstuffguilogic%b  setwantedstuffguilogic.adb  7265b1c0 NE OO PK
+U setwantedstuffguilogic%b  setwantedstuffguilogic.adb  f9b60dd9 NE OO PK
 W ada%s			ada.ads			ada.ali
 W ada.exceptions%s	a-except.adb		a-except.ali
 W ada.tags%s		a-tags.adb		a-tags.ali
@@ -152,11 +152,11 @@ D pango-enums.ads	20130726070842 8ef2dddf
 D pango-font.ads	20130726070842 375007f3
 D pango-layout.ads	20130726070842 0814381c
 D pango-tabs.ads	20130726070842 1dd550ef
-D setwantedstuffguilogic.ads  20131114100248 3c611973
-D setwantedstuffguilogic.adb  20131114100452 27041a23
+D setwantedstuffguilogic.ads  20131115084553 3c611973
+D setwantedstuffguilogic.adb  20131115103544 acd7a63a
 D simulator.ads		20131104082225 19a68e1a
 D simulator-model.ads	20131112144053 3155fb3c
-D simulator-motion_control_wrapper.ads  20131111145023 e4f0c950
+D simulator-motion_control_wrapper.ads  20131115120314 e4f0c950
 D simulator-motor_info.ads  20131105072747 317185f1
 D simulator-submarine.ads  20131105072747 63940499
 D simulator-viewmodel_set_wanted_position.ads  20131111151730 13058685
@@ -237,7 +237,7 @@ X 73 gtk-gentry.ads
 . 24r24 24r48 25r24 25r48
 59P9*Gtk_Entry(54R9) 118|19r31 19r55 20r31 20r55 21r31 21r55 23r31 23r55
 . 24r31 24r55 25r31 25r55
-136V13*Get_Text{45|76A12} 118|29R111 30R111 31R111 32R111 33R111 34R111
+136V13*Get_Text{45|76A12} 118|29R94 30R94 31R94 32R91 33R91 34R91
 X 76 gtk-main.ads
 41K13*Main 513e13 118|1w10
 X 78 gtk-object.ads
@@ -264,22 +264,20 @@ X 90 gtkada-builder.ads
 . 25r72
 83R9*Gtkada_Builder_Record<63|72R9> 172e14 117|9r70 118|18r70
 X 117 setwantedstuffguilogic.ads
-5K9*SetWantedStuffGUILogic 14l5 14e27 118|16b14 50l5 50t27
+5K9*SetWantedStuffGUILogic 14l5 14e27 118|16b14 47l5 47t27
 7p4*xViewModel{124|12P9} 118|29r7
 9U14*Update_Wanted_Position 9^37 118|18b14 38l8 38t30
 9p37 pxObject(90|83R9) 118|18b37 19r91 20r91 21r91 23r91 24r91 25r91
-12V13 fTry_Get_Float_From_Text_Box{float} 12>42 118|29s71 30s71 31s71 32s71
-. 33s71 34s71 40b13 46l8 46t36
-12s42 sValueToConvert{string} 118|40b42 42r26
+12V13 fTry_Get_Float_From_Text_Box{float} 12>42 118|40b13 43l8 43t36
+12s42 sValueToConvert{string} 118|40b42
 X 118 setwantedstuffguilogic.adb
-19p7 sPositionX{73|59P9} 29r100
-20p7 sPositionY{73|59P9} 30r100
-21p7 sPositionZ{73|59P9} 31r100
-23p7 sRotationX{73|59P9} 32r100
-24p7 sRotationY{73|59P9} 33r100
-25p7 sRotationZ{73|59P9} 34r100
+19p7 sPositionX{73|59P9} 29r83
+20p7 sPositionY{73|59P9} 30r83
+21p7 sPositionZ{73|59P9} 31r83
+23p7 sRotationX{73|59P9} 32r80
+24p7 sRotationY{73|59P9} 33r80
+25p7 sRotationZ{73|59P9} 34r80
 36r12 E{7|68R9}
-44r12 E{7|68R9}
 X 119 simulator.ads
 1K9*Simulator 117|2r6 3r6 7r17 119|5e14
 X 120 simulator-model.ads
