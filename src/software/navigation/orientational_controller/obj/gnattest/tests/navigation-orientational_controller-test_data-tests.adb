@@ -15,7 +15,7 @@ package body Navigation.Orientational_Controller.Test_Data.Tests is
    procedure Test_Free_e23ec6 (Gnattest_T : in out Test) renames Test_Free;
 --  id:2.1/e23ec6022931e50d/Free/1/0/
    procedure Test_Free (Gnattest_T : in out Test) is
-   --  navigation-orientational_controller.ads:22:4:Free
+   --  navigation-orientational_controller.ads:29:4:Free
 --  end read only
 
       use Math.Matrices;
@@ -50,7 +50,7 @@ package body Navigation.Orientational_Controller.Test_Data.Tests is
    procedure Test_pxCreate_fcd516 (Gnattest_T : in out Test) renames Test_pxCreate;
 --  id:2.1/fcd516d1ef10cef2/pxCreate/1/0/
    procedure Test_pxCreate (Gnattest_T : in out Test) is
-   --  navigation-orientational_controller.ads:24:4:pxCreate
+   --  navigation-orientational_controller.ads:31:4:pxCreate
 --  end read only
 
       pragma Unreferenced (Gnattest_T);

@@ -1,9 +1,9 @@
+with Math.Elementary;
 
 -- Angles package for types and functionality regarding angles.
 package Math.Angles is
 
-   Pi : constant :=
-          3.14159_26535_89793_23846_26433_83279_50288_41971_69399_37511;
+
 
    type TAngle is new float range -180.0 .. 180.0;
    --  <summary>Angle in degrees in range [-180.0, 180.0].</summary>

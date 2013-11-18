@@ -1,5 +1,3 @@
-with "../pid_errors/pid_errors.gpr";
-with "../../../lib/math/vectors/vectors.gpr";
 with "../motion_control_wrapper/motion_control_wrapper.gpr";
 with "../submarine/submarine.gpr";
 

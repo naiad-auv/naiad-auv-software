@@ -14,7 +14,7 @@ package simulator.Viewmodel_Set_Wanted_Position is
    function pxCreate (pxModel : Simulator.Model.pCModel) return pCViewmodel_Set_Wanted_Position;
    procedure Free(pxViewmodel_Set_Wanted_Position : in out pCViewmodel_Set_Wanted_Position);
 
-   procedure Set_Wanted_Position_And_Orientation(this : in CViewmodel_Set_Wanted_Position; fPositionX : float ;  fPositionY : float ; fPositionZ : float ; fOrientationR : float ;fOrientationP : float ;fOrientationY : float);
+   procedure Set_Wanted_Position_And_Orientation(this : in CViewmodel_Set_Wanted_Position; fPositionX : float ;  fPositionY : float ; fPositionZ : float ; fRotationX : float ;fRotationY : float ;fRotationZ : float);
 
 private
    type CViewmodel_Set_Wanted_Position is tagged --new Simulator.Update_Interface.CWithUpdate with
