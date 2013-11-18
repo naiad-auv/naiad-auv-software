@@ -241,6 +241,7 @@ echo "#"
 echo "# Preparing to run tests"
 echo "#################################################"
 
+mkdir -pv $tests_dir
 if [[ $DEBUG == "ON" ]]; then
     echo "DEBUG: Copying 'src' folder to 'tests' [START]."
     cp -rv $source_dir/* $tests_dir
