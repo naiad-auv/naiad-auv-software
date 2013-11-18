@@ -57,6 +57,8 @@ package Navigation.PID_Controller is
    --  <summary>Gets the scaling componet for the proportional part.</summary>
    --  <parameter name=" : ">The CPIDController to retrive the scaling from.</parameter>
 
+   function fGetCurrentError(this : in CPIDController) return float;
+
 private
    type CPIDController is tagged
       record

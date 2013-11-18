@@ -19,10 +19,6 @@ package Simulator.ViewModel is
 
    type iMotorIndex is new simulator.Model.iMotorIndex;
 
-
-
-
-
  --  type pTProcedure is new simulator.Model.pTProcedure;
 
    type CViewModel is tagged private; --new Simulator.Update_Interface.CWithUpdate with private;
@@ -30,7 +26,7 @@ package Simulator.ViewModel is
 
    type EMotionComponent is new Simulator.Pid_Errors.EMotionComponent;
 
-   type txPIDComponentScalingArray is array (X .. AllComponents) of TPIDComponentScalings;
+   type txPIDComponentScalingArray is array (PositionX .. AllComponents) of TPIDComponentScalings;
 
 --   type TVectorComponents is new Navigation.Thrusters.EThrusterEffectsComponents range Navigation.Thrusters.XRotation .. Navigation.Thrusters.ZRotation;
 

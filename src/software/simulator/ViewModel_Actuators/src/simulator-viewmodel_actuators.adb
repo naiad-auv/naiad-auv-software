@@ -10,7 +10,7 @@ package body Simulator.ViewModel_Actuators is
    pxNewViewModel : pCViewModel_Actuators;
    begin
       pxNewViewModel := new CViewModel_Actuators;
-      pxNewViewModel.pxModel := Simulator.Model.pxCreate;
+      pxNewViewModel.pxModel := pxModel;
 
       return pxNewViewModel;
    exception

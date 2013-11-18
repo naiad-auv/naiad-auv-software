@@ -15,17 +15,16 @@ package body Navigation.Motion_Component is
    end pxCreate;
 
   
-   function xGet_New_Component_Control_Value (this : in CMotionComponent; fDeltaTime : float) return TComponentControlValue is
+   function fGet_New_Component_Control_Value (this : in CMotionComponent; fDeltaTime : float) return float is
       fNewControlValue : float;
    begin
       this.pxComponentPIDController.Get_New_Control_Value(fDeltaTime    => fDeltaTime,
                                                           fControlValue => fNewControlValue);
  
-      return TComponentControlValue'(fNewControlValue, this.eComponentIndex);
-      
-   end xGet_New_Component_Control_Value;
+      return fNewControlValue;      
+   end fGet_New_Component_Control_Value;
 
-   procedure Set_New_PID_Component_Scalings (this : in out CMotionComponent; xNewScalings : Navigation.PID_Controller.TPIDComponentScalings) is
+   procedure Set_New_PID_Component_Scalings (this : in CMotionComponent; xNewScalings : Navigation.PID_Controller.TPIDComponentScalings) is
    begin
 	this.pxComponentPIDController.Set_New_PID_Component_Scalings(xNewScalings);
    end Set_New_PID_Component_Scalings;
@@ -60,6 +59,11 @@ package body Navigation.Motion_Component is
          Navigation.PID_Controller.Free(pxPIDControllerToDeallocate => this.pxComponentPIDController);
       end if;      
    end Finalize;
-   
 
+   
+   function fGetCurrentError(this : in CMotionComponent) return float is
+   begin
+   	return this.pxComponentPIDController.fGetCurrentError;
+   end fGetCurrentError;
+   
 end Navigation.Motion_Component;

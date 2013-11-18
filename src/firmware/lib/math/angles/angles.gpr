@@ -1,4 +1,4 @@
-with "../../../../lib/exception_handling/exception_handling.gpr";
+with "../elementary/elementary.gpr";
 with "../math.gpr";
 
 project Angles is
