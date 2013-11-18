@@ -197,23 +197,41 @@ echo "# Cleaning up from previous builds"
 echo "#################################################"
 cd $root_dir
 if [[ -d "$tests_dir/" ]]; then
-    echo "Removing previous tests..."
- 	rm -rfv "$tests_dir/"*
- 	echo "...DONE"
+    if [[ $DEBUG == "ON" ]]; then
+        echo "DEBUG: Removing previous tests [START]."
+ 	    rm -rfv "$tests_dir/"*
+        echo "DEBUG: Removing previous tests [DONE]."
+    else
+        echo "INFO: Removing previous tests [START]."
+ 	    rm -rf "$tests_dir/"*
+        echo "INFO: Removing previous tests [DONE]."
+    fi
  	echo ""
 fi
 
 if [[ -d "$build_dir/" ]]; then
-	echo "Removing previous build..."
-	rm -rfv "$build_dir/"*
-	echo "...DONE"
+    if [[ $DEBUG == "ON" ]]; then
+        echo "DEBUG: Removing previous build [START]."
+	    rm -rfv "$build_dir/"*
+        echo "DEBUG: Removing previous build [DONE]."
+    else
+        echo "INFO: Removing previous build [START]."
+	    rm -rf "$build_dir/"*
+        echo "INFO: Removing previous build [DONE]."
+    fi
 	echo ""
 fi
 
 if [[ -d "$xml_results_dir/" ]]; then
-	echo "Removing previous xml_results..."
-	rm -rfv "$xml_results_dir/"*.xml
-	echo "...DONE"
+    if [[ $DEBUG == "ON" ]]; then
+        echo "DEBUG: Removing previous xml_results [START]."
+	    rm -rfv "$xml_results_dir/"*.xml
+        echo "DEBUG: Removing previous xml_results [DONE]."
+    else
+        echo "INFO: Removing previous xml_results [START]."
+	    rm -rf "$xml_results_dir/"*.xml
+        echo "INFO: Removing previous xml_results [DONE]."
+    fi
 	echo ""
 fi
 
@@ -224,9 +242,15 @@ echo "#"
 echo "# Preparing to run tests"
 echo "#################################################"
 
-echo "INFO: Copying source folder to new 'tests' folder [START]."
-cp -rv $source_dir/* $tests_dir
-echo "INFO: Copying source folder to new 'tests' folder [DONE]."
+if [[ $DEBUG == "ON" ]]; then
+    echo "DEBUG: Copying 'src' folder to 'tests' [START]."
+    cp -rv $source_dir/* $tests_dir
+    echo "DEBUG: Copying 'src' folder to 'tests' [DONE]."
+else
+    echo "INFO: Copying 'src' folder to 'tests' [START]."
+    cp -r $source_dir/* $tests_dir
+    echo "INFO: Copying 'src' folder to 'tests' [DONE]."
+fi
 
 echo ""
 echo "#################################################"
@@ -260,7 +284,7 @@ do
 
  	# CLEAN HARNESS -------------------------------------------
     if [[ $DEBUG == "ON" ]]; then
- 	    echo "INFO: Cleaning test harness project for $project_path [START]."
+ 	    echo "DEBUG: Cleaning test harness project for $project_path [START]."
     else
  	    echo "INFO: Cleaning test harness project for $project_name [START]."
     fi
@@ -277,7 +301,7 @@ do
     fi
 
     if [[ $DEBUG == "ON" ]]; then
- 	    echo "INFO: Cleaning test harness project for $project_path [DONE]."
+ 	    echo "DEBUG: Cleaning test harness project for $project_path [DONE]."
     else
  	    echo "INFO: Cleaning test harness project for $project_name [DONE]."
     fi
@@ -298,6 +322,30 @@ do
         fi
      fi
 
+    # BUILD TEST PROJECT ---------------------------------------
+    if [[ $DEBUG == "ON" ]]; then
+ 	    echo "DEBUG: Building test harness project for $project_path [START]."
+ 	    echo "DEBUG: Building $test_project"
+    else
+ 	    echo "INFO: Building test harness project for $project_name [START]."
+    fi
+
+ 	build_success=true
+    #if gprbuild -d "-P$test_project" -XRUNTIME=full -p > /dev/null; then
+    if gnatmake -d -p "-P$test_project" > /dev/null; then
+ 	    build_success=false
+ 		success=false
+        echo "INFO: SUCCESS variable set to \"$success\" (build harness failed)"
+    fi
+
+    if [[ $DEBUG == "ON" ]]; then
+ 	    echo "DEBUG: Building test harness project for $project_path [DONE]."
+    else
+ 	    echo "INFO: Building test harness project for $project_name [DONE]."
+    fi
+
+    # END FOR CURRENT PROJECT ---------------------------------------
+    echo "INFO: Build status: [$build_success]"
     if [[ $DEBUG == "ON" ]]; then
         echo "DEBUG: Preparing tests for $project_path [DONE]."
     else
