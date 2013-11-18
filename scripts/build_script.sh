@@ -264,6 +264,7 @@ echo "#################################################"
 # build_project="${build_project##*/}"
 # echo $build_project
 # echo ""
+failed_test_projects=
 
 echo ""
 for project_path in $projects
@@ -333,6 +334,7 @@ do
  	build_success=true
     gnatmake -d -p "-P$test_project"
     if [ $? -ne 0 ]; then
+        failed_test_projects="$failed_test_projects $project_path"
  	    build_success=false
  		success=false
     fi
@@ -358,6 +360,13 @@ do
     echo ""
 done
 
+# FINAL RESULTS OUTPUT FROM BUILD SCRIPT -------------------------------------
+failed_test_projects=$(sed 's|.gpr |.gpr\n|g' <<< $failed_test_projects)
+echo ""
+echo "###################################################"
+echo "# Projects with test harness that failed to build"
+echo "###################################################"
+echo "$failed_test_projects"
 #
 # 	mkdir -pv "$test_path/src"
 # 	mkdir -pv "$test_path/obj/gnattest"
