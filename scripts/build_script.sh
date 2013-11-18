@@ -265,6 +265,7 @@ echo "#################################################"
 # echo $build_project
 # echo ""
 failed_test_projects=
+successful_test_projects=
 
 echo ""
 for project_path in $projects
@@ -337,6 +338,8 @@ do
         failed_test_projects="$failed_test_projects $project_path"
  	    build_success=false
  		success=false
+    else
+        successful_test_projects="$successful_test_projects $project_path"
     fi
 
     if [[ $DEBUG == "ON" ]]; then
@@ -361,12 +364,21 @@ do
 done
 
 # FINAL RESULTS OUTPUT FROM BUILD SCRIPT -------------------------------------
+successful_test_projects=$(sed 's|.gpr |.gpr\n|g' <<< $successful_test_projects)
+echo ""
+echo "######################################################"
+echo "# Projects with test harness that successfully build"
+echo "######################################################"
+echo "$successful_test_projects"
+
 failed_test_projects=$(sed 's|.gpr |.gpr\n|g' <<< $failed_test_projects)
 echo ""
 echo "###################################################"
 echo "# Projects with test harness that failed to build"
 echo "###################################################"
 echo "$failed_test_projects"
+
+
 #
 # 	mkdir -pv "$test_path/src"
 # 	mkdir -pv "$test_path/obj/gnattest"
