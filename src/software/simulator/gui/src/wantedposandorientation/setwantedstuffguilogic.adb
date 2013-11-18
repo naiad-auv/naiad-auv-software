@@ -26,12 +26,12 @@ package body SetWantedStuffGUILogic is
    begin
       Ada.Text_IO.Put_Line("Updating wanted pos and orientation");
 
-      xViewmodel.Set_Wanted_Position_And_Orientation(fPositionX    => Float'Value(sPositionX.Get_Text),
-                                                     fPositionY    => Float'Value(sPositionY.Get_Text),
-                                                     fPositionZ    => Float'Value(sPositionZ.Get_Text),
-                                                     fRotationX => Float'Value(sRotationX.Get_Text),
-                                                     fRotationY => Float'Value(sRotationY.Get_Text),
-                                                     fRotationZ => Float'Value(sRotationZ.Get_Text));
+      xViewmodel.Set_Wanted_Position_And_Orientation(fPositionX    => fTry_Get_Float_From_Text_Box(sPositionX.Get_Text),
+                                                     fPositionY    => fTry_Get_Float_From_Text_Box(sPositionY.Get_Text),
+                                                     fPositionZ    => fTry_Get_Float_From_Text_Box(sPositionZ.Get_Text),
+                                                     fRotationX => fTry_Get_Float_From_Text_Box(sRotationX.Get_Text),
+                                                     fRotationY => fTry_Get_Float_From_Text_Box(sRotationY.Get_Text),
+                                                     fRotationZ => fTry_Get_Float_From_Text_Box(sRotationZ.Get_Text));
    exception
       when E : others =>
          Ada.Text_IO.Put_Line("ABO");
@@ -39,7 +39,11 @@ package body SetWantedStuffGUILogic is
 
    function fTry_Get_Float_From_Text_Box(sValueToConvert : string) return float is
    begin
-   	return Float'Image(
+      return Float'Value(sValuetoConvert);
+
+   exception
+      when E : others =>
+         return 0.0;
    end fTry_Get_Float_From_Text_Box;
 
 
