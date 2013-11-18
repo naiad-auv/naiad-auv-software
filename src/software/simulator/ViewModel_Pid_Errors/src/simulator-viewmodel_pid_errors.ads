@@ -1,6 +1,6 @@
 with simulator;
 with simulator.Model;
---with simulator.Pid_Errors;
+with simulator.Pid_Errors;
 with Navigation.Motion_Component;
 
 package Simulator.ViewModel_Pid_Errors is
@@ -34,7 +34,7 @@ package Simulator.ViewModel_Pid_Errors is
 private
     type CViewModel_Pid_Errors is tagged
       record
---           pxPidErrors : simulator.Pid_Errors.pCPidErrors;
+         pxPidErrors : simulator.Pid_Errors.pCPidErrors;
          pxModel : Simulator.Model.pCModel;
 
          tMaximumPIDErrors : TErrorsArray;

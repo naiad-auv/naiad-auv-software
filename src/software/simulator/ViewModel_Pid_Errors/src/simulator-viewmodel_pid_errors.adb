@@ -16,7 +16,11 @@ package body Simulator.ViewModel_Pid_Errors is
    function fGet_Pid_Errors(this : in CViewModel_Pid_Errors ; eErrorComponent : in EMotionComponent) return float is
       xMotionalErrors : Navigation.Dispatcher.TMotionalErrors;
    begin
-      xMotionalErrors := this.pxModel.xGet_Current_Motional_Errors;
+      this.pxPidErrors.Update_Errors(xCurrentAbsolutePosition    => this.pxModel.xGet_Current_Submarine_Positional_Vector,
+                                     xWantedAbsolutePosition     => this.pxModel.xGet_Wanted_Submarine_Positional_Vector,
+                                     xCurrentAbsoluteOrientation => this.pxModel.xGet_Current_Submarine_Orientation_Matrix,
+                                     xWantedAbsoluteOrientation  => this.pxModel.xGet_Wanted_Submarine_Orientation_Matrix);
+      xMotionalErrors := navigation.Dispatcher.TMotionalErrors(this.pxPidErrors.tGet_PID_Errors);
 
       case eErrorComponent is
       when PositionX .. PositionZ =>
@@ -52,6 +56,7 @@ package body Simulator.ViewModel_Pid_Errors is
    begin
       pxNewViewModel := new Simulator.ViewModel_Pid_Errors.CViewModel_Pid_Errors;
       pxNewViewModel.pxModel := pxModel;
+      pxNewViewModel.pxPidErrors := new simulator.Pid_Errors.CPidErrors;
 
       pxNewViewModel.tMaximumPIDErrors := (others => 0.0);
       pxNewViewModel.tMinimumPIDErrors := (others => 0.0);
@@ -74,7 +79,7 @@ package body Simulator.ViewModel_Pid_Errors is
    procedure Free(pxViewModel_Pid_Errors : in out pCViewModel_Pid_Errors) is
       procedure Dealloc is new Ada.Unchecked_Deallocation(CViewModel_Pid_Errors, pCViewModel_Pid_Errors);
    begin
-      --   simulator.Pid_Errors.Free(pxViewModel_Pid_Errors.pxPidErrors);
+      simulator.Pid_Errors.Free(pxViewModel_Pid_Errors.pxPidErrors);
       Dealloc(pxViewModel_Pid_Errors);
    end;
 
@@ -84,7 +89,11 @@ package body Simulator.ViewModel_Pid_Errors is
       xCurrentErrorDirections : Navigation.Dispatcher.TMotionalErrors;
       fTemp : float;
    begin
-      xCurrentErrors := this.pxModel.xGet_Current_Motional_Errors;
+      this.pxPidErrors.Update_Errors(xCurrentAbsolutePosition    => this.pxModel.xGet_Current_Submarine_Positional_Vector,
+                                     xWantedAbsolutePosition     => this.pxModel.xGet_Wanted_Submarine_Positional_Vector,
+                                     xCurrentAbsoluteOrientation => this.pxModel.xGet_Current_Submarine_Orientation_Matrix,
+                                     xWantedAbsoluteOrientation  => this.pxModel.xGet_Wanted_Submarine_Orientation_Matrix);
+      xCurrentErrors := navigation.Dispatcher.TMotionalErrors(this.pxPidErrors.tGet_PID_Errors);
 
       for i in xCurrentErrors'Range loop
 

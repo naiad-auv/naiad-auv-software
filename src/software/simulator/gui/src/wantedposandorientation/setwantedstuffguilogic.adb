@@ -37,5 +37,11 @@ package body SetWantedStuffGUILogic is
          Ada.Text_IO.Put_Line("ABO");
    end Update_Wanted_Position;
 
+   function fTry_Get_Float_From_Text_Box(sValueToConvert : string) return float is
+   begin
+   	return Float'Image(
+   end fTry_Get_Float_From_Text_Box;
+
+
 
 end SetWantedStuffGUILogic;
