@@ -25,7 +25,7 @@ package body Simulator.ViewModel is
    begin
       pxNewViewModel := new Simulator.ViewModel.CViewModel;
       pxNewViewModel.pxPidErrors := Simulator.Pid_Errors.pxCreate;
-      pxNewViewModel.pxModel := Simulator.Model.pxCreate;
+      pxNewViewModel.pxModel := Simulator.Model.pxCreate(4);
 
       return pxNewViewModel;
    exception
@@ -121,11 +121,11 @@ package body Simulator.ViewModel is
 
    function fGet_Pid_Errors(this : in CViewModel ; eErrorComponent : in EMotionComponent) return float is
    begin
-      return this.pxPidErrors.fGet_PID_Error_For_Component(simulator.Pid_Errors.EMotionComponent(eErrorComponent));
+      return this.pxPidErrors.tGet_PID_Errors(simulator.Pid_Errors.EMotionComponent(eErrorComponent));
                exception
       when E : others =>
          Exception_Handling.Unhandled_Exception(E);
-         return this.pxPidErrors.fGet_PID_Error_For_Component(simulator.Pid_Errors.EMotionComponent(eErrorComponent));
+         return this.pxPidErrors.tGet_PID_Errors(simulator.Pid_Errors.EMotionComponent(eErrorComponent));
 
    end fGet_Pid_Errors;
 
@@ -219,7 +219,6 @@ package body Simulator.ViewModel is
    begin
       this.pxPidErrors.Update_Errors(xCurrentAbsolutePosition    => this.pxModel.xGet_Current_Submarine_Positional_Vector,
                                      xWantedAbsolutePosition     => this.pxModel.xGet_Wanted_Submarine_Positional_Vector,
-                                     xVelocityVector             => this.pxModel.xGet_Current_Submarine_Velocity_Vector,
                                      xCurrentAbsoluteOrientation => this.pxModel.xGet_Current_Submarine_Orientation_Matrix,
                                      xWantedAbsoluteOrientation  => this.pxModel.xGet_Wanted_Submarine_Orientation_Matrix);
       this.pxModel.Update_Model(fDeltaTime => fDeltaTime);
