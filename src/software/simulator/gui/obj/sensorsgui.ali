@@ -5,7 +5,7 @@ A -gnatA
 P SS ZX
 R nnnnnnnnnnnnvnnnnnvvnvnnnvnnnnnnnnnnnnnnnvnnvnnnnnnnnnnnnnvnnvnnnnnnnnnnnnnnnnnn
 
-U sensorsgui%b		sensorsgui.adb		5b1402f6 NE OO PK
+U sensorsgui%b		sensorsgui.adb		bbce204c NE OO PK
 W ada%s			ada.ads			ada.ali
 W ada.exceptions%s	a-except.adb		a-except.ali
 W ada.tags%s		a-tags.adb		a-tags.ali
@@ -118,7 +118,7 @@ D pango-layout.ads	20130726070842 0814381c
 D pango-tabs.ads	20130726070842 1dd550ef
 D pidconfigurationguilogic.ads  20131111120512 6a101b69
 D sensorsgui.ads	20131111091118 f57914d9
-D sensorsgui.adb	20131111124206 9247561f
+D sensorsgui.adb	20131114092341 729d74a5
 D sensorsguilogic.ads	20131111100358 7d69d81d
 D simulator.ads		20131104082225 19a68e1a
 D simulator-model.ads	20131112144053 3155fb3c
@@ -149,14 +149,14 @@ D s-unstyp.ads		20090409150019 6ae15c76
 D s-wchcon.ads		20090417130712 bfeb2e3d
 D unchconv.ads		20070406091342 ca2f9e18
 X 1 ada.ads
-16K9*Ada 19e8 90|8r6 55r10 56r10
+16K9*Ada 19e8 90|8r6 39r10 40r10
 X 20 a-textio.ads
-49K13*Text_IO 472e16 90|8w10 55r14 56r14
-243U14*Put 90|55s22 56s22
+49K13*Text_IO 472e16 90|8w10 39r14 40r14
+243U14*Put 90|39s22 40s22
 X 25 exception_handling.ads
-4K9*Exception_Handling 70e23 90|5w6 75r10
-46U14*Unhandled_Exception 90|75s29
-46r35 E{7|68R9} 90|75r49
+4K9*Exception_Handling 70e23 90|5w6 59r10
+46U14*Unhandled_Exception 90|59s29
+46r35 E{7|68R9} 90|59r49
 X 26 gdk.ads
 41P9*Gdk_Drawable<43|149P9>
 50P9*Gdk_Visual<43|149P9>
@@ -167,82 +167,74 @@ X 42 gdk-window.ads
 531V13*Convert[119|20]{99|64M9} 46|57i21
 532V13*Convert[119|20]{26|41P9} 46|58i21
 X 43 glib.ads
-37K9*Glib 402e9 90|2r6 9r6 44r11 48r18 56r26
+37K9*Glib 402e9 90|2r6 9r6 28r11 32r18 40r26
 149P9*C_Proxy(146R9)
 X 44 glib-error.ads
-32K14*Error 67e15 90|2w11 9w11 44r16 48r23 56r31
-35P9*GError<43|149P9> 90|48r29
-43U14*Error_Free 90|57s10
-59V13*Get_Message{string} 90|56s37
+32K14*Error 67e15 90|2w11 9w11 28r16 32r23 40r31
+35P9*GError<43|149P9> 90|32r29
+43U14*Error_Free 90|41s10
+59V13*Get_Message{string} 90|40s37
 X 48 glib-object.ads
 40P9*GObject(39R9)
-83U14*Unref 90|71R7
+83U14*Unref 90|55R7
 415V13*Convert{99|64M9} 46|57i21 47|49i21
 416V13*Convert{40P9} 46|58i21 47|50i21
 X 51 gtk.ads
-41K9*Gtk 77e8 90|1r6 3r6 50r7 68r7 69r7
+41K9*Gtk 77e8 90|1r6 3r6 34r7 52r7 53r7
 X 54 gtk-builder.ads
-83V13*Add_From_File{44|35P9} 90|53R17
-109V13*Get_Widget{59|72P9} 90|68R28
+83V13*Add_From_File{44|35P9} 90|37R17
+109V13*Get_Widget{59|72P9} 90|52R28
 X 55 gtk-enums.ads
 442V13*Convert{99|64M9} 46|57i21 47|49i21
 443V13*Convert{string} 46|58i21 47|50i21
 X 56 gtk-main.ads
-41K13*Main 513e13 90|1w10 50r11 69r11
-48U14*Init 90|50s16
-148U14*Main 90|69s16
+41K13*Main 513e13 90|1w10 34r11 53r11
+48U14*Init 90|34s16
+148U14*Main 90|53s16
 X 57 gtk-object.ads
 100P9*Gtk_Object(99R9)
 137V13*Convert{99|64M9} 47|49i21
 138V13*Convert{100P9} 47|50i21
 X 59 gtk-widget.ads
-70K13*Widget 2429e15 90|3w10 68r11
+70K13*Widget 2429e15 90|3w10 52r11
 72P9*Gtk_Widget(71R9)
 115V13*Convert{99|64M9} 46|57i21 47|49i21
 116V13*Convert{72P9} 46|58i21 47|50i21
-161U14*Show_All 90|68R18
+161U14*Show_All 90|52R18
 X 60 gtkada.ads
-30K9*Gtkada 34e11 90|4r6 15r50 18r7 23r7 28r7 45r11
+30K9*Gtkada 34e11 90|4r6 15r50 29r11
 X 61 gtkada-builder.ads
-81K16*Builder 174e19 90|4w13 15r57 18r14 23r14 28r14 45r18
-85P9*Gtkada_Builder(83R9) 90|15r65 47r26
-87U14*Gtk_New 90|52s7
-91U14*Do_Connect 90|66s7
-102P9*Builder_Handler
-108U14*Register_Handler 90|18s22 23s22 28s22
-109p7 Builder(83R9) 90|19r10 24r10 29r10
-110s7 Handler_Name{string} 90|20r10 25r10 30r10
-111p7 Handler{102P9} 90|21r10 26r10 31r10
+81K16*Builder 174e19 90|4w13 15r57 29r18
+85P9*Gtkada_Builder(83R9) 90|15r65 31r26
+87U14*Gtk_New 90|36s7
+91U14*Do_Connect 90|50s7
 X 88 pidconfigurationguilogic.ads
-5K9*PIDConfigurationGUILogic 21e29 90|6w6 21r26 26r26 31r26
-10U14*Update_Pid_Constants 90|21r51
-11U14*Init_Pid 90|31r51
-12U14*Selected_Pid_Changed 90|26r51
+5K9*PIDConfigurationGUILogic 21e29 90|6w6
 X 89 sensorsgui.ads
-3K9*SensorsGUI 7l5 7e15 90|13b14 79l5 79t15
-5U14*Start_GUI 5>24 90|42b14 77l8 77t17
-5p24 xModel{93|14P9} 90|42b25 64r21
+3K9*SensorsGUI 7l5 7e15 90|13b14 63l5 63t15
+5U14*Start_GUI 5>24 90|26b14 61l8 61t17
+5p24 xModel{93|14P9} 90|26b25 48r21
 X 90 sensorsgui.adb
-15U14 Register_Handlers 15b14 15=32 34l8 34t25 62s7
-15p32 xBuilder{61|85P9} 19r26 24r26 29r26
-36U14 Setup_Backend 36b14 36>28 40l8 40t21 64s7
-36p28 xModel{93|14P9} 38r33 39r74
-47p7 xBuilder{61|85P9} 52m16 53r32 62m25 66r19 68r40 71r14
-48p7 xError{44|35P9} 53m7 54r10 56r49 57r22
-74r12 E{7|68R9} 75r54
+15U14 Register_Handlers 15b14 15=32 18l8 18t25 46s7
+15p32 xBuilder{61|85P9}
+20U14 Setup_Backend 20b14 20>28 24l8 24t21 48s7
+20p28 xModel{93|14P9} 22r33 23r74
+31p7 xBuilder{61|85P9} 36m16 37r32 46m25 50r19 52r40 55r14
+32p7 xError{44|35P9} 37m7 38r10 40r49 41r22
+58r12 E{7|68R9} 59r54
 X 91 sensorsguilogic.ads
-5K9*SensorsGUILogic 90|10w6 38r7 39r7 91|12e20
-7p4*xModel{93|14P9} 90|38m23
-8p4*xViewModel{98|7P9} 90|39m23
+5K9*SensorsGUILogic 90|10w6 22r7 23r7 91|12e20
+7p4*xModel{93|14P9} 90|22m23
+8p4*xViewModel{98|7P9} 90|23m23
 X 92 simulator.ads
-1K9*Simulator 89|1r6 5r33 90|11r6 36r37 39r37 42r34 92|5e14
+1K9*Simulator 89|1r6 5r33 90|11r6 20r37 23r37 26r34 92|5e14
 X 93 simulator-model.ads
-9K19*Model 89|1w16 5r43 90|36r47 42r44 93|53e20
-14P9*pCModel(13R9) 89|5r49 90|36r53 42r50
+9K19*Model 89|1w16 5r43 90|20r47 26r44 93|53e20
+14P9*pCModel(13R9) 89|5r49 90|20r53 26r50
 X 98 simulator-viewmodel_sensors.ads
-4K19*ViewModel_Sensors 90|11w16 39r47 98|18e32
+4K19*ViewModel_Sensors 90|11w16 23r47 98|18e32
 7P9*pCViewModel_Sensors(6R9)
-9V13*pxCreate{7P9} 90|39s65
+9V13*pxCreate{7P9} 90|23s65
 X 99 system.ads
 64M9*Address
 
