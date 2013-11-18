@@ -114,6 +114,12 @@ then
      exit 1
 fi
 
+# Checking if the input values are set properly
+if [[ $FORMAT != "XML" && $FORMAT != "GNATTest" ]]; then
+     usage
+     exit 1
+fi
+
 # Check #1: Current directory is "scripts"
 # This script depends on that you run the script from its location.
 if [[ $(basename $(pwd)) == "scripts" ]]; then
@@ -272,8 +278,12 @@ for project_path in $projects
 do
  	# BASIC SET UP -------------------------------------------
     project_name="$(basename $project_path)"
- 	# project_name="${project_name%.*}" # Remove filetype/suffix
+ 	project_name_wo_suffix="${project_name%.*}" # Remove filetype/suffix
  	test_path="$tests_dir/${project_path##*/src/}" # Remove test_dir+/src/ from project path
+
+    unique_project_name=$(sed "s|$root_dir/src/||g" <<< $project_path)
+ 	unique_project_name="${unique_project_name%.*}" # Remove filetype/suffix
+    unique_project_name=$(sed "s|/|-|g" <<< $unique_project_name)
 
     echo ""
     if [[ $DEBUG == "ON" ]]; then
@@ -348,17 +358,52 @@ do
  	    echo "INFO: Building test harness project for $project_name [FINISHED]."
     fi
 
+    # PREPARATIONS COMPLETE ---------------------------------------
+    if [[ $DEBUG == "ON" ]]; then
+        echo "DEBUG: Preparing tests for $project_path [FINISHED]."
+    else
+        echo "INFO: Preparing tests for $project_name [FINISHED]."
+    fi
+    # RUN TEST PROJECT ---------------------------------------
+    if [ $build_success == true ]; then
+        if [[ $DEBUG == "ON" ]]; then
+            echo "DEBUG: Running test project for $project_path [START]."
+        else
+            echo "INFO: Running test project for $project_name [START]."
+        fi
+
+            test_runner="${test_project%/*}/test_runner"
+            if [ $FORMAT == XML ]; then
+                mkdir -pv $root_dir/xml_results
+                $("$test_runner" > $root_dir/xml_results/$unique_project_name.xml)
+
+                echo "INFO: Exported results to $root_dir/xml_results/$unique_project_name.xml"
+
+            elif [ $FORMAT == GNATTest ]; then
+                echo "WARNING: Unimplemented, can't run tests with GNATTest reporter."
+                echo "WARNING: Use '-o XML' instead."
+            fi
+
+        if [[ $DEBUG == "ON" ]]; then
+            echo "DEBUG: Running test project for $project_path [FINISHED]."
+        else
+            echo "INFO: Running test project for $project_name [FINISHED]."
+        fi
+    else # Failed to build test harness project.
+        if [[ $DEBUG == "ON" ]]; then
+            echo "WARNING: Test project for $project_path failed to build."
+            echo "WARNING: Not running tests for $project_path."
+        else
+            echo "WARNING: Test project for $project_name failed to build."
+            echo "WARNING: Not running tests for $project_name."
+        fi
+    fi
+
     # END FOR CURRENT PROJECT ---------------------------------------
     if [[ $build_success == "true" ]]; then
         echo "INFO: Build [SUCCESSFUL]."
     else
         echo "INFO: Build [FAILED]."
-    fi
-
-    if [[ $DEBUG == "ON" ]]; then
-        echo "DEBUG: Preparing tests for $project_path [FINISHED]."
-    else
-        echo "INFO: Preparing tests for $project_name [FINISHED]."
     fi
     echo ""
 done
