@@ -5,7 +5,7 @@ A -gnatA
 P SS ZX
 R nnnnnnnnnnnnvnnnnnvvnvnnnvnnnnnnnnnnnnnnnvnnvnnnnnnnnnnnnnvnnvnnnnnnnnnnnnnnnnnn
 
-U mainwindow%b		mainwindow.adb		405839c5 NE OO PK
+U mainwindow%b		mainwindow.adb		1a3732fd NE OO PK
 W ada%s			ada.ads			ada.ali
 W ada.exceptions%s	a-except.adb		a-except.ali
 W ada.tags%s		a-tags.adb		a-tags.ali
@@ -92,7 +92,7 @@ D i-cstrin.ads		20090417131547 f3023ec4
 D i-cstrea.ads		20100622165701 1bd72c32
 D mainwindow.ads	20131108092658 a56af678
 D mainwindow.adb	20131111121107 02ede290
-D mainwindowlogic.ads	20131112145447 1b40bfaf
+D mainwindowlogic.ads	20131118111722 412fb497
 D math.ads		20131104082225 6eeac05e
 D math-angles.ads	20131104082225 31c28d09
 D math-matrices.ads	20131104082225 da992515
@@ -227,16 +227,16 @@ X 68 mainwindow.adb
 94r12 E{7|68R9} 96r64 97r54
 X 69 mainwindowlogic.ads
 5K9*MainWindowLogic 68|6w6 19r55 23r55 27r55 31r55 35r55 39r55 43r55 47r55
-. 57r26 69|30e20
-9U14*Register_Timeout_Handlers 68|57r42
-11U14*Restart_Simulation 68|27r71
-13U14*Start_Simulation 68|19r71
-15U14*Pause_Simulation 68|23r71
-18U14*Show_Thruster_Window 68|31r71
-19U14*Show_PIDCfg_Window 68|35r71
-20U14*Show_WantedStuff_Window 68|39r71
-21U14*Show_PID_Errors_Window 68|43r71
-22U14*Show_Sensor_Window 68|47r71
+. 57r26 69|31e20
+12U14*Register_Timeout_Handlers 68|57r42
+14U14*Restart_Simulation 68|27r71
+16U14*Start_Simulation 68|19r71
+18U14*Pause_Simulation 68|23r71
+21U14*Show_Thruster_Window 68|31r71
+22U14*Show_PIDCfg_Window 68|35r71
+23U14*Show_WantedStuff_Window 68|39r71
+24U14*Show_PID_Errors_Window 68|43r71
+25U14*Show_Sensor_Window 68|47r71
 X 97 system.ads
 64M9*Address
 

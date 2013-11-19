@@ -35,14 +35,16 @@ package Projection_2D is
          Y : integer;
       end record;
 
-
-
-
    type EPlaneProjectionPointIndices is (UpperLeft, UpperRight, LowerLeft, LowerRight);
    type TPlaneProjectionPoints is array (UpperLeft .. LowerRight) of TPoint;
 
    type EOrientationProjectionPointIndices is (XVector, YVector, ZVector, XArrowLeftTail, XArrowRightTail, YArrowLeftTail, YArrowRightTail, ZArrowLeftTail, ZArrowRightTail);
-   type TOrientationProjectionPoints is array (XVector .. ZArrowRightTail) of TPoint;
+
+   type EAxisArrow is (Head , LeftTail, RightTail);
+
+   type TAxisArrow is array(Head .. RightTail) of TPoint;
+
+   type TOrientationProjectionPoints is array (XVector .. ZVector) of TAxisArrow;
 
 
    function txGet_Plane_2D_Projection (iCenterX : in integer;

@@ -2,15 +2,21 @@
 -- This code tests how much time it takes to execute the INS update cycle.
 
 -- Rewritten by Nils Brynedal Ignell  and Daniel Lindqvist for the Naiad AUV project
--- Last changed (yyyy-mm-dd): 2013-11-07
+-- Last changed (yyyy-mm-dd): 2013-11-19
 
 ---------------------------------------------------------------------------
 
+with My_Secondary_Stack;
+with My_Last_Chance_Handler;
+with My_Memcpy;
+
 with Digital_IO;
-with Math.Matrices;
+
+--  with Math.Elementary;
 with Math.Vectors;
+with Math.Matrices;
 use Math.Matrices;
-use math.Vectors;
+
 
 procedure Ins_Test is
    pragma Suppress (All_Checks);
@@ -47,11 +53,21 @@ begin
       end if;
 
       xOrientationMatrixInverse := xOrientationMatrix.xGet_Inverse;
-      xFixedAccelerationVector := xOrientationMatrixInverse*xRelativeAccelerationVector;
-      xFixedVelocityVector := xFixedVelocityVector + xFixedAccelerationVector * fDeltaTime;
-      xFixedPositionVector := xFixedPositionVector + xFixedVelocityVector * fDeltaTime;
+      xFixedAccelerationVector := xOrientationMatrixInverse * xRelativeAccelerationVector;
+
+      -- xFixedVelocityVector := xFixedVelocityVector +
+      --xFixedAccelerationVector * fDeltaTime;
+
+      xFixedVelocityVector :=  Math.Vectors."+"(xFixedVelocityVector,
+                                                math.Vectors."*"(xFixedAccelerationVector, fDeltaTime));
+
+      xFixedPositionVector :=  Math.Vectors."+"(xFixedPositionVector,
+                                                math.Vectors."*"(xFixedVelocityVector, fDeltaTime));
+      --        xFixedPositionVector := xFixedPositionVector +
+      --          xFixedVelocityVector * fDeltaTime;
    end loop;
 
+--     null;
 
 end Ins_Test;
 

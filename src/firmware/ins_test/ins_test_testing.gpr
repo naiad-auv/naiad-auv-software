@@ -1,5 +1,4 @@
-with "..\..\lib\math\vectors\vectors.gpr";
-with "..\..\lib\math\matrices\matrices.gpr";
+with "..\lib\math\matrices\matrices.gpr";
 
 project Ins_Test_Testing is
 
