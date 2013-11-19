@@ -4,7 +4,8 @@ project Imu_Handler is
    for Exec_Dir use "target";
    for Source_Dirs use ("src", "..\at90can128lib", "..\lib");
    for Source_Files use ("avr-at90can128-adc.adb", "avr-at90can128-adc.ads", "avr-at90can128-can.adb", "avr-at90can128-can.adb", "avr-at90can128-can.ads", "avr-at90can128-clock.adb", "avr-at90can128-clock.ads", 
-      "avr-at90can128-interrupt.adb", "avr-at90can128-interrupt.ads", "avr-at90can128-usart.adb", "avr-at90can128-usart.ads", "avr-at90can128.ads", "avr.ads", "imu_handler.adb", "imu_handler.ads", "imu_handler_main.adb");
+      "avr-at90can128-interrupt.adb", "avr-at90can128-interrupt.ads", "avr-at90can128-usart.adb", "avr-at90can128-usart.ads", "avr-at90can128.ads", "avr.ads", "imu_handler.adb", "imu_handler.ads", "imu_handler_main.adb", "my_memcpy.adb", 
+      "my_memcpy.ads");
    for Main use ("imu_handler_main.adb");
 
    package Ide is

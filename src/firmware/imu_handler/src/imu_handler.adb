@@ -3,6 +3,8 @@
 --  Last changed (yyyy-mm-dd): 2013-11-18
 
 with AVR.AT90CAN128.INTERRUPT;
+with AVR.AT90CAN128.CLOCK;
+with My_Memcpy;
 
 package body Imu_Handler is
 
@@ -15,17 +17,13 @@ package body Imu_Handler is
       iTemp := AVR.AT90CAN128.USART.Write(Buffer => sData,Port => usart_port, Size => iSize);
    end Write;
 
-
-   procedure Send_Command(sCommand : String) is
+   procedure Read(sData : out String; iSize : Integer; iCharsRead : out Integer) is
    begin
-      Write("$" & sCommand & "*" & sChecksum(sCommand, sCommand'Length), sCommand'Length + 3);
-   end Send_Command;
+      AVR.AT90CAN128.USART.Read(sData, usart_port, iSize, iCharsRead);
+   end Read;
 
-
-
-   function sChecksum(sData : String; iSize : Integer) return String is
+   procedure sChecksum(sData : String; iSize : Integer; sStr : out String) is
       u8Xor : Interfaces.Unsigned_8 := 0;
-      sRet : String(1..1);
 
       use Interfaces;
    begin
@@ -33,9 +31,15 @@ package body Imu_Handler is
          u8Xor := u8Xor xor Interfaces.Unsigned_8(Character'Pos(sData(i)));
       end loop;
 
-      sRet(1) := Character'Val(Integer(u8Xor));
-      return sRet;
+      sStr(1) := Character'Val(Integer(u8Xor));
    end sChecksum;
+
+   procedure Send_Command(sCommand : String) is
+      sCheckSumStr : String(1..1);
+   begin
+      sChecksum(sCommand, sCommand'Length, sCheckSumStr);
+      Write("$" & sCommand & "*" & sCheckSumStr & Character'Val(10), sCommand'Length + 3);
+   end Send_Command;
 
    procedure Init(port : AVR.AT90CAN128.USART.USARTID) is
 
@@ -103,6 +107,12 @@ package body Imu_Handler is
          Send_Command("VNWRG,35,1,2,0,0");
       end VPE_Basic_Control;
 
+      procedure Async_Data_Output_Type_Register is
+      begin
+         --Async Data Output Type Register
+         -- use Yaw, Pitch, Roll, Body True Acceleration, and Angular Rates
+         Send_Command("VNWRG,06,16");
+      end Async_Data_Output_Type_Register;
 
    begin
       Init_Uart(port);
@@ -115,11 +125,12 @@ package body Imu_Handler is
       Async_Data_Output_Frequency_Register;
       Synchronization_Control;
       VPE_Basic_Control;
+      Async_Data_Output_Type_Register;
 
       Init_Interrupts;
 
       AVR.AT90CAN128.CLOCK.Delay_ms(10);
-      AVR.AT90CAN128.USART.Flush_Receive_Buffer(;
+      AVR.AT90CAN128.USART.Flush_Receive_Buffer(usart_port);
 
    end Init;
 
@@ -130,8 +141,56 @@ package body Imu_Handler is
    end Get_IMU_Data;
 
    procedure Imu_Interrupt is
+
+      function Read_Next_Float return float is
+         sTemp : String(1..1);
+         iCharsRead : Integer;
+         sBuffer : String(1..10);
+         i : Integer := 0;
+      begin
+         loop
+            Read(sTemp, 1, iCharsRead);
+            if iCharsRead = 1 then
+               i := i + 1:
+               sBuffer(i) := sTemp(1);
+            end loop;
+            exit when sBuffer(i) = ',';
+         end loop;
+
+
+
+      end Read_Next_Float;
+
+
+      sBuffer : String(1..100);
+      sTempString : String(1..100);
+
+      iTemp : Integer;
+      iCharsTotal : Integer := 0;
+      iCharsRead : Integer := 0;
+
    begin
-     null;
+      sBuffer(1) := ' ';
+
+      --goes to the start of the message:
+      while sBuffer(1) /= '$' loop
+         Read(sBuffer, 1, iTemp);
+      end loop;
+
+      -- read the "VNRRG,239,"
+      while iCharsTotal < 10 loop
+         Read(sTempString, 10 - iCharsTotal, iCharsRead);
+
+         for i in 1..iCharsRead loop
+            sBuffer(iCharsTotal + i) := sTempString(i);
+         end loop;
+
+         iCharsTotal := iCharsTotal + iCharsRead;
+      end loop;
+
+
+
+
    end Imu_Interrupt;
 
 end Imu_Handler;

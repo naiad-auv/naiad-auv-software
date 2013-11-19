@@ -17,12 +17,27 @@ package Imu_Handler is
 
 private
 
+   fRoll 	: float := 0.0;
+   fPitch 	: float := 0.0;
+   fYaw 	: float := 0.0;
+
+   fXPosition : float := 0.0;
+   fYPosition : float := 0.0;
+   fZPosition : float := 0.0;
+
+   fXSpeed : float := 0.0;
+   fYSpeed : float := 0.0;
+   fZSpeed : float := 0.0;
+
+   fXAcceleration : float := 0.0;
+   fYAcceleration : float := 0.0;
+   fZAcceleration : float := 0.0;
+
    iTIMESTEP_MS : Integer := 5;
 
    usart_port : AVR.AT90CAN128.USART.USARTID;
 
-   function sChecksum(sData : String; iSize : Integer) return String;
-
+   procedure sChecksum(sData : String; iSize : Integer; sStr : out String);
 
    procedure Imu_Interrupt;
    pragma Machine_Attribute (Imu_Interrupt, "signal");
