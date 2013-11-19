@@ -9,65 +9,66 @@ package body Navigation.Thruster_Configurator is
    begin
       xNewThrusterConfigurator.xThrusterList := Navigation.Thrusters.xCreate;
 
-      tfThrusterEffects := Navigation.Thrusters.tfMake_Thruster_Effects(fXPosition => -Math.Elementary.Sin(Math.Elementary.Pi/3.0),
-                                                                        fYPosition => Math.Elementary.Sin(Math.Elementary.Pi/6.0),
-                                                                        FZPosition => 0.0,
-                                                                        fXRotation => 0.0,
-                                                                        fYRotation => 0.0,
-                                                                        fZRotation => 1.0);
+      tfThrusterEffects := Navigation.Thrusters.tfMake_Thruster_Effects(fXPosition => -0.866025,
+                                                                        fYPosition => 0.500000,
+                                                                        fZPosition => 0.00000,
+                                                                        fXRotation => -0.0205000,
+                                                                        fYRotation => -0.0355070,
+                                                                        fZRotation => 0.248963);
 
       xNewThrusterConfigurator.xThrusterList.Add_Thruster_With_Effects(tfThrusterEffects => tfThrusterEffects,
                                                                        iIndex            => 1);
 
-      tfThrusterEffects := Navigation.Thrusters.tfMake_Thruster_Effects(fXPosition => 0.0,
-                                                                        fYPosition => -1.0,
-                                                                        FZPosition => 0.0,
-                                                                        fXRotation => 0.0,
-                                                                        fYRotation => 0.0,
-                                                                        fZRotation => 1.0);
+      tfThrusterEffects := Navigation.Thrusters.tfMake_Thruster_Effects(fXPosition => 0.00000,
+                                                                        fYPosition => -1.00000,
+                                                                        fZPosition => 0.00000,
+                                                                        fXRotation => 0.0350000,
+                                                                        fYRotation => 0.00000,
+                                                                        fZRotation => 0.338000);
 
       xNewThrusterConfigurator.xThrusterList.Add_Thruster_With_Effects(tfThrusterEffects => tfThrusterEffects,
                                                                        iIndex            => 2);
 
-      tfThrusterEffects := Navigation.Thrusters.tfMake_Thruster_Effects(fXPosition => Math.Elementary.Sin(Math.Elementary.Pi/3.0),
-                                                                        fYPosition => Math.Elementary.Sin(Math.Elementary.Pi/6.0),
-                                                                        FZPosition => 0.0,
-                                                                        fXRotation => 0.0,
-                                                                        fYRotation => 0.0,
-                                                                        fZRotation => 1.0);
+      tfThrusterEffects := Navigation.Thrusters.tfMake_Thruster_Effects(fXPosition => 0.866025,
+                                                                        fYPosition => 0.500000,
+                                                                        fZPosition => 0.00000,
+                                                                        fXRotation => -0.0205000,
+                                                                        fYRotation => 0.0355070,
+                                                                        fZRotation => 0.292265);
 
       xNewThrusterConfigurator.xThrusterList.Add_Thruster_With_Effects(tfThrusterEffects => tfThrusterEffects,
                                                                        iIndex            => 3);
 
-      tfThrusterEffects := Navigation.Thrusters.tfMake_Thruster_Effects(fXPosition => 0.0,
-                                                                        fYPosition => 0.0,
-                                                                        FZPosition => 1.0,
-                                                                        fXRotation => Math.Elementary.Sin(Math.Elementary.Pi/3.0),
-                                                                        fYRotation => -Math.Elementary.Sin(Math.Elementary.Pi/6.0),
-                                                                        fZRotation => 0.0);
+      tfThrusterEffects := Navigation.Thrusters.tfMake_Thruster_Effects(fXPosition => 0.00000,
+                                                                        fYPosition => 0.00000,
+                                                                        fZPosition => 1.00000,
+                                                                        fXRotation => 0.111000,
+                                                                        fYRotation => -0.0950000,
+                                                                        fZRotation => 0.00000);
 
       xNewThrusterConfigurator.xThrusterList.Add_Thruster_With_Effects(tfThrusterEffects => tfThrusterEffects,
                                                                        iIndex            => 4);
 
-      tfThrusterEffects := Navigation.Thrusters.tfMake_Thruster_Effects(fXPosition => 0.0,
-                                                                        fYPosition => 0.0,
-                                                                        FZPosition => 1.0,
-                                                                        fXRotation => 0.0,
-                                                                        fYRotation => 1.0,
-                                                                        fZRotation => 0.0);
+      tfThrusterEffects := Navigation.Thrusters.tfMake_Thruster_Effects(fXPosition => 0.00000,
+                                                                        fYPosition => 0.00000,
+                                                                        fZPosition => 1.00000,
+                                                                        fXRotation => -0.0250000,
+                                                                        fYRotation => 0.476000,
+                                                                        fZRotation => 0.00000);
 
       xNewThrusterConfigurator.xThrusterList.Add_Thruster_With_Effects(tfThrusterEffects => tfThrusterEffects,
                                                                        iIndex            => 5);
 
-      tfThrusterEffects := Navigation.Thrusters.tfMake_Thruster_Effects(fXPosition => 0.0,
-                                                                        fYPosition => 0.0,
-                                                                        FZPosition => 1.0,
-                                                                        fXRotation => -Math.Elementary.Sin(Math.Elementary.Pi/3.0),
-                                                                        fYRotation => -Math.Elementary.Sin(Math.Elementary.Pi/6.0),
-                                                                        fZRotation => 0.0);
+      tfThrusterEffects := Navigation.Thrusters.tfMake_Thruster_Effects(fXPosition => 0.00000,
+                                                                        fYPosition => 0.00000,
+                                                                        fZPosition => 1.00000,
+                                                                        fXRotation => -0.161000,
+                                                                        fYRotation => -0.0950000,
+                                                                        fZRotation => 0.00000);
 
       xNewThrusterConfigurator.xThrusterList.Add_Thruster_With_Effects(tfThrusterEffects => tfThrusterEffects,
                                                                        iIndex            => 6);
+
 
       xNewThrusterConfigurator.Set_Inverse;
 
