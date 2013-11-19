@@ -189,7 +189,7 @@ package body AVR.AT90CAN128.USART is
       end if;
    end Usart0_Udre;
 
-   procedure Flush_Receive_Buffer is
+   procedure Flush_Receive_Buffer(Port : USARTID) is
    begin
       Asm ("Cli", Volatile => True);
       case Port is
