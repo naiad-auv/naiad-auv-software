@@ -16,4 +16,31 @@ package body Text_Handling is
 
    end sGet_Formatted_Float_String;
 
+   function sGet_Upper_Case(sText : in string) return string is
+      sReturnText : string := sText;
+   begin
+      for index in sText'Range loop
+         if sText(index) >= 'a' and then sText(index) <= 'z' then
+            sReturnText(index) := Character'Val(Character'Pos(sText(index)) + (Character'Pos('A') - Character'Pos('a')));
+         else
+            sReturnText(index) := sText(index);
+         end if;
+      end loop;
+      return sReturnText;
+   end sGet_Upper_Case;
+
+   function sGet_Lower_Case(sText : in string) return string is
+      sReturnText : string := sText;
+   begin
+      for index in sText'Range loop
+         if sText(index) >= 'A' and then sText(index) <= 'Z' then
+            sReturnText(index) := Character'Val(Character'Pos(sText(index)) - (Character'Pos('A') - Character'Pos('a')));
+         else
+            sReturnText(index) := sText(index);
+         end if;
+      end loop;
+      return sReturnText;
+   end sGet_Lower_Case;
+
+
 end Text_Handling;

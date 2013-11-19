@@ -18,6 +18,9 @@ package VirtualMachine.MemoryStack is
    procedure Adjust(this : in out CMemoryStack);
    procedure Finalize(this : in out CMemoryStack);
 
+   -- Memory deallocation
+   procedure Free(pxMemoryStackToDeallocate : in out pCMemoryStack);
+
    -- Stack operations.
    procedure Push(this : in out CMemoryStack; xStackData : TStackData'class);
    procedure Pop(this : in out CMemoryStack; xStackData : in out TStackData'class);

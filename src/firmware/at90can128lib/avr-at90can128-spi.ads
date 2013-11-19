@@ -1,11 +1,11 @@
 
 package AVR.AT90CAN128.SPI is
 
-   DDR_SCK 	: Boolean renames DDRB.Bit_5;
-   DDR_MISO 	: Boolean renames DDRB.Bit_4;
-   DDR_MOSI	: Boolean renames DDRB.Bit_3;
-   DDR_SS	: Boolean renames DDRB.Bit_2;
-   SS		: Boolean renames PORTB.Bit_2;
+   DDR_SCK 	: Boolean renames DDRB.Bit_1;
+   DDR_MISO 	: Boolean renames DDRB.Bit_3;
+   DDR_MOSI	: Boolean renames DDRB.Bit_2;
+   DDR_SS	: Boolean renames DDRB.Bit_0;
+   SS		: Boolean renames PORTB.Bit_0;
 
    type Clock_Mode_Type is
      (

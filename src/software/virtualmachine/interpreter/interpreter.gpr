@@ -1,3 +1,4 @@
+with "../../../lib/text_Handling/text_handling.gpr";
 with "../memorymanager/memorymanager.gpr";
 with "../instructionfeeder/instructionfeeder.gpr";
 with "../virtualmachine.gpr";

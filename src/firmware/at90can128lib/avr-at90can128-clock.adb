@@ -122,5 +122,3 @@ package body AVR.AT90CAN128.CLOCK is
    begin
       Clock.Init;
 end AVR.AT90CAN128.CLOCK;
-
-
