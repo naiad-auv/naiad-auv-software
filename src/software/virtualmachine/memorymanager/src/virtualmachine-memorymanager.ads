@@ -8,6 +8,9 @@ package VirtualMachine.MemoryManager is
    type CMemoryManager is new Ada.Finalization.Controlled with private;
    type pCMemoryManager is access CMemoryManager;
 
+   procedure Free(pxMemoryManagerToDeallocate : in out pCMemoryManager);
+
+
 private
 
 

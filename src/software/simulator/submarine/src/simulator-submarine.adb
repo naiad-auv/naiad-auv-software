@@ -79,8 +79,8 @@ package body simulator.submarine is
       pxSubmarine.txMotorForce := (0.0,0.0,0.0,0.0,0.0,0.0);
       pxSubmarine.fWeight:=28.0;
       pxSubmarine.fBuoyancyForce:=30.0*9.82;
-      pxSubmarine.pxBuoyancyForcePositionVector:= math.Vectors.pxGet_Allocated_Copy(math.Vectors.xCreate(0.0,0.0,0.1));
-      pxSubmarine.pxRotationFrictionVector := math.Vectors.pxGet_Allocated_Copy(math.Vectors.xCreate(0.1 , 0.1 , 0.1));
+      pxSubmarine.pxBuoyancyForcePositionVector:= math.Vectors.pxGet_Allocated_Copy(math.Vectors.xCreate(0.0,0.0,0.01));
+      pxSubmarine.pxRotationFrictionVector := math.Vectors.pxGet_Allocated_Copy(math.Vectors.xCreate(0.5 , 0.5 , 0.5));
       pxSubmarine.pxVelocityFrictionVector := math.Vectors.pxGet_Allocated_Copy(math.Vectors.xCreate(0.1 , 0.1 , 0.1));
 
 
@@ -380,7 +380,7 @@ package body simulator.submarine is
       xRelativeTorque : math.Vectors.CVector;
       xRelativeAngularVelocity : math.Vectors.CVector;
       xRelativeAngularAccelerationVector : math.Vectors.CVector;
-      xBouyancyForce : math.Vectors.CVector := math.Vectors.xCreate(0.0,0.0,0.0); --this.fBuoyancyForce);
+      xBouyancyForce : math.Vectors.CVector := math.Vectors.xCreate(0.0,0.0,this.fBuoyancyForce);
    begin
 
 

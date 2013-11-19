@@ -103,4 +103,10 @@ package body VirtualMachine.MemoryStack is
       return this.pxHead = null;
    end Empty;
 
+   procedure Free(pxMemoryStackToDeallocate : in out pCMemoryStack) is
+      procedure Dealloc is new Ada.Unchecked_Deallocation(CMemoryStack, pCMemoryStack);
+   begin
+      Dealloc(pxMemoryStackToDeallocate);
+   end Free;
+
 end VirtualMachine.MemoryStack;
