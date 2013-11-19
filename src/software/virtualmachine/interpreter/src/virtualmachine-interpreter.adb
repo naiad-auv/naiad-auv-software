@@ -9,6 +9,8 @@ package body VirtualMachine.Interpreter is
 
    procedure Step(this : in CInterpreter; fDeltaTime : in float) is
       use VirtualMachine.InstructionFeeder;
+      tfMatrix : Math.Matrices.TMatrix;
+      iIndex : integer;
       eInstr : EInstruction := this.pxInstructionFeeder.Feed_Instruction;
       sArgument : string := this.pxInstructionFeeder.Feed_Argument;
    begin
@@ -29,6 +31,19 @@ package body VirtualMachine.Interpreter is
 
          when INSTR_PUSHFLOAT =>
             this.Instr_Push_Float(fArgument => Float'Value(sArgument));
+
+         when INSTR_PUSHMATRIX =>
+            iIndex := sArgument'First;
+            while sArgument(iIndex) /= '[' loop
+               iIndex := iIndex + 1;
+            end loop;
+            iIndex := iIndex + 1;
+            while sArgument(iIndex) /= '[' loop
+               iIndex := iIndex + 1;
+            end loop;
+            iIndex := iIndex + 1;
+
+
 
          when others =>
             null;
@@ -71,5 +86,16 @@ package body VirtualMachine.Interpreter is
    begin
       this.pxMemoryManager.Push_Float(fValue => fArgument);
    end Instr_Push_Float;
+
+   procedure Instr_Push_Vector(this : in CInterpreter; xArgument : in Math.Vectors.CVector) is
+   begin
+      this.pxMemoryManager.Push_Vector(xValue => xArgument);
+   end Instr_Push_Vector;
+
+   procedure Instr_Push_Matrix(this : in CInterpreter; xArgument : in Math.Matrices.CMatrix) is
+   begin
+      this.pxMemoryManager.Push_Matrix(xValue => xArgument);
+   end Instr_Push_Matrix;
+
 
 end VirtualMachine.Interpreter;

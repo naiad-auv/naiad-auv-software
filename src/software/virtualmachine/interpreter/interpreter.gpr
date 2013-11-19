@@ -1,3 +1,5 @@
+with "../../../lib/math/vectors/vectors.gpr";
+with "../../../lib/math/matrices/matrices.gpr";
 with "../../../lib/text_Handling/text_handling.gpr";
 with "../memorymanager/memorymanager.gpr";
 with "../instructionfeeder/instructionfeeder.gpr";
