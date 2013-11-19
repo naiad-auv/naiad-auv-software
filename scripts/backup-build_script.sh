@@ -1,4 +1,4 @@
-#!/bin/bash 
+#!/bin/bash
 
 # Build script for Project Naiad
 # Written by Per-Erik Måhl, Sep 2013
@@ -121,7 +121,7 @@ fi
 main_path="$SRC"
 # main_path="$@"
 cd $main_path
-cd ..
+cd ../..
 
 #logging
 now=$(date +"%m_%d_%Y_%H_%M_%S")

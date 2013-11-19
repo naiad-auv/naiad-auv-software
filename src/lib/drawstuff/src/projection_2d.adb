@@ -66,9 +66,8 @@ package body Projection_2D is
       txProjection : TOrientationProjectionPoints;
 
       xAxiVectors : array (XVector .. ZArrowRightTail) of Math.Vectors.CVector;
---        xScaleVector : Math.Vectors.CVector := Math.Vectors.xCreate(fX => -1.0,
---                                                                    fY => 1.0,
---                                                                    fZ => 1.0);
+      xVectorPoints : array(XVector .. ZarrowRightTail) of TPoint;
+
       fXScale : float := float(iWidth / 2);
       fYScale : float := float(iHeight / 2);
       fCurrentX : float;
@@ -90,7 +89,7 @@ package body Projection_2D is
       xAxiVectors(ZArrowLeftTail) := 0.9*xOrientation.xGet_Z_Vector - 0.1*xOrientation.xGet_X_Vector;
 
 
-      for i in txProjection'Range loop
+      for i in xAxiVectors'Range loop
          fW := 2.0 + xAxiVectors(i).fGet_X;
 
          if fW = 0.0 then
@@ -99,9 +98,24 @@ package body Projection_2D is
 
          fCurrentX := (fXScale * (-xAxiVectors(i).fGet_Y)) / fW;
          fCurrentY := (fYScale * (-xAxiVectors(i).fGet_Z)) / fW;
-         txProjection(i) := TPoint'(X => integer(fCurrentX) + iCenterX,
-                                   Y => integer(fCurrentY) + iCenterY);
+         xVectorPoints(i) := TPoint'(X => Integer(fCurrentX) + iCenterX,
+                                     Y => Integer(fCurrentY) + iCenterY);
+
       end loop;
+
+      txProjection(XVector) := Projection_2D.TAxisArrow'(Head => xVectorPoints(XVector),
+                                                         LeftTail => xVectorPoints(XArrowLeftTail),
+                                                         RightTail => xVectorPoints(XArrowRightTail));
+
+      txProjection(YVector) := Projection_2D.TAxisArrow'(Head => xVectorPoints(YVector),
+                                                         LeftTail => xVectorPoints(YArrowLeftTail),
+                                                         RightTail => xVectorPoints(YArrowRightTail));
+
+      txProjection(ZVector) := Projection_2D.TAxisArrow'(Head => xVectorPoints(ZVector),
+                                                         LeftTail => xVectorPoints(ZArrowLeftTail),
+                                                         RightTail => xVectorPoints(ZArrowRightTail));
+
+
 
       return txProjection;
    end txGet_Orientation_2D_Projection;
@@ -140,6 +154,7 @@ package body Projection_2D is
                         Y => integer(fCurrentY) + iCenterY);
 
       return xPoint;
+
    end xGet_Vector_2D_Projection;
 
 end Projection_2D;
