@@ -114,8 +114,8 @@ package VirtualMachine.InstructionFeeder is
    procedure Free(pxInstructionFeederToDeallocate : in out pCInstructionFeeder);
 
    procedure Set_Program_Counter(this : in out CInstructionFeeder; iNewProgramCounterValue : in integer);
-   procedure Feed_Instruction(this : in CInstructionFeeder; eInstr : out EInstruction; sArg : out string);
-
+   function Feed_Instruction(this : in CInstructionFeeder) return VirtualMachine.InstructionFeeder.EInstruction;
+   function Feed_Argument(this : in CInstructionFeeder) return string;
 
 private
 
@@ -125,14 +125,20 @@ private
       record
          iLineNumber : integer;
          iInstruction : integer;
-         sArgument : string (1 .. 100);
+         sArgument : string (1 .. 256);
          iArgumentLength : integer;
          pxNextInstruction : pCInstructionItem;
          pxPreviousInstruction : pCInstructionItem;
       end record;
 
 
+   procedure Add_Instruction(this : in out CInstructionItem;
+                             iLineNumber : in integer;
+                             iInstruction : in integer;
+                             sArgument : in string);
+
    procedure Free(pxInstructionItemToDeallocate : in out pCInstructionItem);
+   procedure Destroy_Element(this : in out CInstructionItem; iStopAt : in integer);
    procedure Destroy(this : in out CInstructionItem);
    function Find_Instruction(this : in CInstructionItem; iLineNumberToFind : in integer) return pCInstructionItem;
 

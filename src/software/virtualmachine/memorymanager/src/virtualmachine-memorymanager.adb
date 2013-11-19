@@ -17,4 +17,19 @@ package body VirtualMachine.MemoryManager is
 
    end Finalize;
 
+   procedure Push_Bool(this : in CMemoryManager; bValue : in boolean) is
+   begin
+      this.pxMemoryStack.Push(xStackData => VirtualMachine.BooleanStack.xCreate(bValue => bValue));
+   end Push_Bool;
+
+   procedure Push_Int(this : in CMemoryManager; iValue : in integer) is
+   begin
+      this.pxMemoryStack.Push(xStackData => VirtualMachine.IntegerStack.xCreate(iValue => iValue));
+   end Push_Int;
+
+   procedure Push_Float(this : in CMemoryManager; fValue : in float) is
+   begin
+      this.pxMemoryStack.Push(xStackData => VirtualMachine.FloatStack.xCreate(fValue => fValue));
+   end Push_Float;
+
 end VirtualMachine.MemoryManager;
