@@ -13,7 +13,7 @@ with My_Memcpy;
 with Digital_IO;
 
 --  with Math.Elementary;
- with Math.Vectors;
+with Math.Vectors;
 with Math.Matrices;
 use Math.Matrices;
 
