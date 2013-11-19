@@ -1,10 +1,13 @@
 
 --  Written by: Nils Brynedal Ignell for the Naiad AUV project
---  Last changed (yyyy-mm-dd): 2013-11-18
+--  Last changed (yyyy-mm-dd): 2013-11-19
 
 with Interfaces;
 with AVR.AT90CAN128;
 with AVR.AT90CAN128.USART;
+
+with Math.Vectors;
+with Math.Matrices;
 
 package Imu_Handler is
 
@@ -12,32 +15,30 @@ package Imu_Handler is
 
    procedure Init(port : AVR.AT90CAN128.USART.USARTID);
 
-   function Get_IMU_Data return Interfaces.Unsigned_16;
+   procedure Get_Orientation(f_Roll : out Float; f_Pitch : out Float; f_Yaw : out Float);
 
+   procedure Get_Position(fX : out Float; fY : out Float; fZ : out Float);
 
 private
 
-   fRoll 	: float := 0.0;
-   fPitch 	: float := 0.0;
-   fYaw 	: float := 0.0;
+   -- the robot's velocity relative to an inertial reference system
+   xFixedVelocityVector : math.Vectors.CVector := math.Vectors.xCreate(0.0, 0.0, 0.0);
 
-   fXPosition : float := 0.0;
-   fYPosition : float := 0.0;
-   fZPosition : float := 0.0;
+   -- the robot's position relative to an inertial reference system
+   xFixedPositionVector : math.Vectors.CVector := math.Vectors.xCreate(0.0, 0.0, 0.0);
 
-   fXSpeed : float := 0.0;
-   fYSpeed : float := 0.0;
-   fZSpeed : float := 0.0;
+   xOrientationMatrix 		: Math.Matrices.CMatrix;
 
-   fXAcceleration : float := 0.0;
-   fYAcceleration : float := 0.0;
-   fZAcceleration : float := 0.0;
+   fDeltaTime : Constant float := 0.005;
 
-   iTIMESTEP_MS : Integer := 5;
+   fYaw 	: float;
+   fPitch 	: float;
+   fRoll 	: float;
 
    usart_port : AVR.AT90CAN128.USART.USARTID;
 
    procedure sChecksum(sData : String; iSize : Integer; sStr : out String);
+   function Wrap_Around(fAngle : Float) return Float;
 
    procedure Imu_Interrupt;
    pragma Machine_Attribute (Imu_Interrupt, "signal");

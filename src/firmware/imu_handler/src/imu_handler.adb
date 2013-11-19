@@ -1,15 +1,20 @@
 
 --  Written by: Nils Brynedal Ignell for the Naiad AUV project
---  Last changed (yyyy-mm-dd): 2013-11-18
+--  Last changed (yyyy-mm-dd): 2013-11-19
 
 with AVR.AT90CAN128.INTERRUPT;
 with AVR.AT90CAN128.CLOCK;
+
 with My_Memcpy;
+with My_Secondary_Stack;
+with My_Last_Chance_Handler;
+
+with Math.Angles;
+
 
 package body Imu_Handler is
 
    pragma Suppress (All_Checks);
-
 
    procedure Write(sData : String; iSize : Integer) is
       iTemp : Integer;
@@ -135,12 +140,62 @@ package body Imu_Handler is
    end Init;
 
 
-   function Get_IMU_Data return Interfaces.Unsigned_16 is
+   procedure Get_Position(fX : out Float; fY : out Float; fZ : out Float) is
    begin
-      return Interfaces.Unsigned_16(0);
-   end Get_IMU_Data;
+      fX := xFixedPositionVector.fGet_X;
+      fY := xFixedPositionVector.fGet_Y;
+      fZ := xFixedPositionVector.fGet_Z;
+   end Get_Position;
+
+   procedure Get_Orientation(f_Roll : out Float; f_Pitch : out Float; f_Yaw : out Float) is
+   begin
+      f_Roll  := fRoll;
+      f_Pitch := fPitch;
+      f_Yaw   := fYaw;
+   end Get_Orientation;
+
+   --ensures that the angle is in the -180 to +180 degree range
+   function Wrap_Around(fAngle : Float) return Float is
+   begin
+      if fAngle < -180.0  then
+         return Wrap_Around(fAngle + 360.0);
+      end if;
+
+      if fAngle > 180.0  then
+         return Wrap_Around(fAngle - 360.0);
+      end if;
+      --  -180.0 <= fAngle and fAngle <= 180.0:
+      return fAngle;
+   end Wrap_Around;
 
    procedure Imu_Interrupt is
+
+      procedure Start_Message is
+         sBuffer : String(1..100);
+         sTempString : String(1..100);
+
+         iTemp : Integer;
+         iCharsTotal : Integer := 0;
+         iCharsRead : Integer := 0;
+      begin
+         sBuffer(1) := ' ';
+
+         --goes to the start of the message:
+         while sBuffer(1) /= '$' loop
+            Read(sBuffer, 1, iTemp);
+         end loop;
+
+         -- read the "VNRRG,239,"
+         while iCharsTotal < 10 loop
+            Read(sTempString, 10 - iCharsTotal, iCharsRead);
+
+            for i in 1..iCharsRead loop
+               sBuffer(iCharsTotal + i) := sTempString(i);
+            end loop;
+
+            iCharsTotal := iCharsTotal + iCharsRead;
+         end loop;
+      end Start_Message;
 
       function Read_Next_Float return float is
          sTemp : String(1..1);
@@ -150,46 +205,57 @@ package body Imu_Handler is
       begin
          loop
             Read(sTemp, 1, iCharsRead);
+
             if iCharsRead = 1 then
-               i := i + 1:
+               exit when sTemp(1) = ',';
+
+               i := i + 1;
                sBuffer(i) := sTemp(1);
-            end loop;
-            exit when sBuffer(i) = ',';
+            end if;
          end loop;
 
-
-
+	--return Float'Value(sBuffer);
+         return 0.0;
       end Read_Next_Float;
 
 
-      sBuffer : String(1..100);
-      sTempString : String(1..100);
+      fXAccelerationNew : float := 0.0;
+      fYAccelerationNew : float := 0.0;
+      fZAccelerationNew : float := 0.0;
 
-      iTemp : Integer;
-      iCharsTotal : Integer := 0;
-      iCharsRead : Integer := 0;
+      xOrientationMatrixInverse 	: Math.Matrices.CMatrix;
+      xRelativeAccelerationVector 	: math.Vectors.CVector;  --acceleration relative to the robot's reference system
+      xFixedAccelerationVector 		: math.Vectors.CVector;  --acceleration relative to an inertial reference system
 
+      use Math.Matrices;
+      use Math.Vectors;
    begin
-      sBuffer(1) := ' ';
 
-      --goes to the start of the message:
-      while sBuffer(1) /= '$' loop
-         Read(sBuffer, 1, iTemp);
-      end loop;
+      Start_Message;
 
-      -- read the "VNRRG,239,"
-      while iCharsTotal < 10 loop
-         Read(sTempString, 10 - iCharsTotal, iCharsRead);
+      fYaw 	:= Read_Next_Float;
+      fPitch 	:= Read_Next_Float;
+      fRoll 	:= Read_Next_Float;
 
-         for i in 1..iCharsRead loop
-            sBuffer(iCharsTotal + i) := sTempString(i);
-         end loop;
+      fXAccelerationNew := Read_Next_Float;
+      fYAccelerationNew := Read_Next_Float;
+      fZAccelerationNew := Read_Next_Float;
 
-         iCharsTotal := iCharsTotal + iCharsRead;
-      end loop;
+      AVR.AT90CAN128.USART.Flush_Receive_Buffer(usart_port);
 
+      xOrientationMatrix := Math.Matrices.xCreate_Rotation_Around_X_Axis(Math.Angles.TAngle(Wrap_Around(fYaw)))
+        		  * Math.Matrices.xCreate_Rotation_Around_Y_Axis(Math.Angles.TAngle(Wrap_Around(fPitch)))
+        		  * Math.Matrices.xCreate_Rotation_Around_Z_Axis(Math.Angles.TAngle(Wrap_Around(fRoll)));
 
+      xOrientationMatrixInverse := xOrientationMatrix.xGet_Inverse;
 
+      xRelativeAccelerationVector := math.Vectors.xCreate(fXAccelerationNew, fYAccelerationNew, fZAccelerationNew);
+
+      xFixedAccelerationVector := xOrientationMatrixInverse * xRelativeAccelerationVector;
+
+      xFixedVelocityVector := xFixedVelocityVector + (xFixedAccelerationVector * fDeltaTime);
+
+      xFixedPositionVector := xFixedPositionVector + (xFixedVelocityVector * fDeltaTime);
 
    end Imu_Interrupt;
 
