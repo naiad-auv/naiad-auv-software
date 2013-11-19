@@ -15,8 +15,10 @@ package body ActuatorsGUI is
 
    procedure Register_Handlers(xBuilder : in out GtkAda.Builder.Gtkada_Builder) is
    begin
-
-      null;
+      Gtkada.Builder.Register_Handler
+        (Builder      => xBuilder,
+         Handler_Name => "initDraw",
+         Handler      => ActuatorsGuiLogic.Register_Timeout_Handlers'Access);
    end Register_Handlers;
 
    procedure Setup_Backend(xModel : Simulator.Model.pCModel) is

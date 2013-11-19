@@ -4,6 +4,9 @@ with Simulator.ViewModel_Representation;
 
 package MainWindowLogic is
 
+   xModel : Simulator.Model.pCModel := Simulator.Model.pxCreate(10);
+   xViewmodel : Simulator.ViewModel_Representation.pCViewModel_Representation := Simulator.ViewModel_Representation.pxCreate(xModel);
+
    procedure Quit (pxObject : access Gtkada.Builder.Gtkada_Builder_Record'Class);
 
    procedure Register_Timeout_Handlers(pxObject : access Gtkada.Builder.Gtkada_Builder_Record'Class);
@@ -24,7 +27,5 @@ package MainWindowLogic is
 private
     procedure Clear_Window(pxObject : access Gtkada.Builder.Gtkada_Builder_Record'Class; sName : String);
 
-   xModel : Simulator.Model.pCModel := Simulator.Model.pxCreate(10);
-   xViewmodel : Simulator.ViewModel_Representation.pCViewModel_Representation := Simulator.ViewModel_Representation.pxCreate(xModel);
 
 end MainWindowLogic;
