@@ -5,14 +5,16 @@
 with AVR.AT90CAN128.INTERRUPT;
 with AVR.AT90CAN128.CLOCK;
 
+with Str2Float;
+
 with My_Memcpy;
 with My_Secondary_Stack;
 with My_Last_Chance_Handler;
 
 with Math.Angles;
+with Math.Quaternions;
 
-
-package body Imu_Handler is
+package body Ins_Controller is
 
    pragma Suppress (All_Checks);
 
@@ -115,8 +117,8 @@ package body Imu_Handler is
       procedure Async_Data_Output_Type_Register is
       begin
          --Async Data Output Type Register
-         -- use Yaw, Pitch, Roll, Body True Acceleration, and Angular Rates
-         Send_Command("VNWRG,06,16");
+         -- Asynchronous output turned off
+         Send_Command("VNWRG,06,0");
       end Async_Data_Output_Type_Register;
 
    begin
@@ -147,11 +149,9 @@ package body Imu_Handler is
       fZ := xFixedPositionVector.fGet_Z;
    end Get_Position;
 
-   procedure Get_Orientation(f_Roll : out Float; f_Pitch : out Float; f_Yaw : out Float) is
+   function Get_Orientation return Math.Matrices.CMatrix is
    begin
-      f_Roll  := fRoll;
-      f_Pitch := fPitch;
-      f_Yaw   := fYaw;
+      return xOrientationMatrix;
    end Get_Orientation;
 
    --ensures that the angle is in the -180 to +180 degree range
@@ -197,6 +197,7 @@ package body Imu_Handler is
          end loop;
       end Start_Message;
 
+      --this function assumes the format +1235.156
       function Read_Next_Float return float is
          sTemp : String(1..1);
          iCharsRead : Integer;
@@ -207,7 +208,7 @@ package body Imu_Handler is
             Read(sTemp, 1, iCharsRead);
 
             if iCharsRead = 1 then
-               exit when sTemp(1) = ',';
+               exit when sTemp(1) = ',' or sTemp(1) = '*';
 
                i := i + 1;
                sBuffer(i) := sTemp(1);
@@ -215,7 +216,7 @@ package body Imu_Handler is
          end loop;
 
 	--return Float'Value(sBuffer);
-         return 0.0;
+         return Str2Float.fStr2Float(sBuffer); --this function assumes the format +1235.156
       end Read_Next_Float;
 
 
@@ -227,9 +228,13 @@ package body Imu_Handler is
       xRelativeAccelerationVector 	: math.Vectors.CVector;  --acceleration relative to the robot's reference system
       xFixedAccelerationVector 		: math.Vectors.CVector;  --acceleration relative to an inertial reference system
 
+      xOrientationQuaternion : Math.Quaternions.CQuaternion;
+
       use Math.Matrices;
       use Math.Vectors;
    begin
+
+--        Send_Command("$VNRRG,36"); --sends command for reading the cosine orientation matrix
 
       Start_Message;
 
@@ -240,6 +245,11 @@ package body Imu_Handler is
       fXAccelerationNew := Read_Next_Float;
       fYAccelerationNew := Read_Next_Float;
       fZAccelerationNew := Read_Next_Float;
+
+                               Math.Quaternions.xCreate(
+
+      Math.Matrices.xCreate_From_Quaternion(
+
 
       AVR.AT90CAN128.USART.Flush_Receive_Buffer(usart_port);
 
@@ -259,4 +269,4 @@ package body Imu_Handler is
 
    end Imu_Interrupt;
 
-end Imu_Handler;
+end Ins_Controller;
