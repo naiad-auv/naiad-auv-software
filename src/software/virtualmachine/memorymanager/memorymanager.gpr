@@ -1,3 +1,10 @@
+with "../vectorstack/vectorstack.gpr";
+with "../../../lib/math/vectors/vectors.gpr";
+with "../matrixstack/matrixstack.gpr";
+with "../../../lib/math/matrices/matrices.gpr";
+with "../floatstack/floatstack.gpr";
+with "../integerstack/integerstack.gpr";
+with "../booleanstack/booleanstack.gpr";
 with "../memorystack/memorystack.gpr";
 with "../virtualmachine.gpr";
 
