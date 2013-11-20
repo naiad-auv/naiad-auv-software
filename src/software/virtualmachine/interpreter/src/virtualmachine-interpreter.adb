@@ -10,9 +10,11 @@ package body VirtualMachine.Interpreter is
    procedure Step(this : in CInterpreter; fDeltaTime : in float) is
       use VirtualMachine.InstructionFeeder;
       tfMatrix : Math.Matrices.TMatrix;
-      iIndex : integer;
+      fVectorComponentX, fVectorComponentY, fVectorComponentZ : float;
+      iStartIndex, iStopIndex : integer;
       eInstr : EInstruction := this.pxInstructionFeeder.Feed_Instruction;
       sArgument : string := this.pxInstructionFeeder.Feed_Argument;
+      sPureArgument : string := Text_Handling.sRemove_White_Spaces(sArgument);
    begin
 
       case eInstr is
@@ -33,16 +35,78 @@ package body VirtualMachine.Interpreter is
             this.Instr_Push_Float(fArgument => Float'Value(sArgument));
 
          when INSTR_PUSHMATRIX =>
-            iIndex := sArgument'First;
-            while sArgument(iIndex) /= '[' loop
-               iIndex := iIndex + 1;
-            end loop;
-            iIndex := iIndex + 1;
-            while sArgument(iIndex) /= '[' loop
-               iIndex := iIndex + 1;
-            end loop;
-            iIndex := iIndex + 1;
 
+            iStartIndex := Text_Handling.iFind_Next(sText            => sPureArgument,
+                                                    cCharacterToFind => '[',
+                                                    iStartFromIndex  => 1) + 1;
+            for row in 1 .. 3 loop
+
+               iStartIndex := Text_Handling.iFind_Next(sText            => sPureArgument,
+                                                       cCharacterToFind => '[',
+                                                       iStartFromIndex  => iStartIndex) + 1;
+               iStopIndex := Text_Handling.iFind_Next(sText            => sPureArgument,
+                                                      cCharacterToFind => ',',
+                                                      iStartFromIndex  => iStartIndex) - 1;
+
+               tfMatrix(row, 1) := Float'Value(sPureArgument(iStartIndex .. iStopIndex));
+
+               iStartIndex := Text_Handling.iFind_Next(sText            => sPureArgument,
+                                                       cCharacterToFind => ',',
+                                                       iStartFromIndex  => iStopIndex) + 1;
+               iStopIndex := Text_Handling.iFind_Next(sText            => sPureArgument,
+                                                      cCharacterToFind => ',',
+                                                      iStartFromIndex  => iStartIndex) - 1;
+
+               tfMatrix(row, 2) := Float'Value(sPureArgument(iStartIndex .. iStopIndex));
+
+
+               iStartIndex := Text_Handling.iFind_Next(sText            => sPureArgument,
+                                                       cCharacterToFind => ',',
+                                                       iStartFromIndex  => iStopIndex) + 1;
+               iStopIndex := Text_Handling.iFind_Next(sText            => sPureArgument,
+                                                      cCharacterToFind => ']',
+                                                      iStartFromIndex  => iStartIndex) - 1;
+
+               tfMatrix(row, 3) := Float'Value(sPureArgument(iStartIndex .. iStopIndex));
+
+            end loop;
+
+            this.Instr_Push_Matrix(xArgument => Math.Matrices.xCreate(tfMatrix => tfMatrix));
+
+         when INSTR_PUSHVECTOR =>
+
+            iStartIndex := Text_Handling.iFind_Next(sText            => sPureArgument,
+                                                    cCharacterToFind => '[',
+                                                    iStartFromIndex  => 1) + 1;
+            iStopIndex := Text_Handling.iFind_Next(sText            => sPureArgument,
+                                                   cCharacterToFind => ',',
+                                                   iStartFromIndex  => iStartIndex) - 1;
+
+            fVectorComponentX := Float'Value(sPureArgument(iStartIndex .. iStopIndex));
+
+            iStartIndex := Text_Handling.iFind_Next(sText            => sPureArgument,
+                                                    cCharacterToFind => ',',
+                                                    iStartFromIndex  => iStopIndex) + 1;
+            iStopIndex := Text_Handling.iFind_Next(sText            => sPureArgument,
+                                                   cCharacterToFind => ',',
+                                                   iStartFromIndex  => iStartIndex) - 1;
+
+            fVectorComponentY := Float'Value(sPureArgument(iStartIndex .. iStopIndex));
+
+
+            iStartIndex := Text_Handling.iFind_Next(sText            => sPureArgument,
+                                                    cCharacterToFind => ',',
+                                                    iStartFromIndex  => iStopIndex) + 1;
+            iStopIndex := Text_Handling.iFind_Next(sText            => sPureArgument,
+                                                   cCharacterToFind => ']',
+                                                   iStartFromIndex  => iStartIndex) - 1;
+
+            fVectorComponentZ := Float'Value(sPureArgument(iStartIndex .. iStopIndex));
+
+
+            this.Instr_Push_Vector(xArgument => Math.Vectors.xCreate(fX => fVectorComponentX,
+                                                                     fY => fVectorComponentY,
+                                                                     fZ => fVectorComponentZ));
 
 
          when others =>
