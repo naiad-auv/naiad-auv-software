@@ -6,27 +6,15 @@ package body VirtualMachine.InstructionFeeder is
       this.pxInstructionList := this.pxInstructionList.Find_Instruction(this.iProgramCounter);
    end Set_Program_Counter;
 
-   function Feed_Argument(this : in CInstructionFeeder) return string is
-      sArg : string(1 .. this.pxInstructionList.iArgumentLength);
-   begin
-      sArg := this.pxInstructionList.sArgument(1 .. sArg'Length);
-      return sArg;
-   end Feed_Argument;
 
 
    function Feed_Instruction (this : in CInstructionFeeder) return VirtualMachine.InstructionFeeder.EInstruction is
---      sTemp : string(1 .. this.pxInstructionList.iArgumentLength);
    begin
-      return EInstruction'Val(this.pxInstructionList.iInstruction);
+      return this.pxInstructionList.pxInstruction.eInstr;
    end Feed_Instruction;
 
 
-   procedure Add_Instruction(this : in out CInstructionItem;
-                             iLineNumber : in integer;
-                             iInstruction : in integer;
-                             sArgument : in string)
-   is
-      pxNewInstructionItem : pCInstructionItem;
+   procedure Insert_Instruction(this : in out CInstructionItem; pxNewInstructionItem : in out pCInstructionItem) is
    begin
       if this.iLineNumber - this.pxNextInstruction.iLineNumber >= 0 then
 
@@ -38,21 +26,12 @@ package body VirtualMachine.InstructionFeeder is
          this.pxNextInstruction.pxPreviousInstruction := pxNewInstructionItem;
          this.pxNextInstruction := pxNewInstructionItem;
 
-         -- Set values
-         pxNewInstructionItem.iLineNumber := iLineNumber;
-         pxNewInstructionItem.iInstruction := iInstruction;
-         pxNewInstructionItem.sArgument(1 .. sArgument'Length) := sArgument;
-         pxNewInstructionItem.iArgumentLength := sArgument'Length;
-
       else
 
-         this.pxNextInstruction.Add_Instruction(iLineNumber  => iLineNumber,
-                                                iInstruction => iInstruction,
-                                                sArgument    => sArgument);
-
+         this.pxNextInstruction.Insert_Instruction(pCInstructionItem);
       end if;
 
-   end Add_Instruction;
+   end Insert_Instruction;
 
 
 

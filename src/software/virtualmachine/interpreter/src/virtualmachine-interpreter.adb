@@ -9,18 +9,21 @@ package body VirtualMachine.Interpreter is
 
    procedure Step(this : in CInterpreter; fDeltaTime : in float) is
       use VirtualMachine.InstructionFeeder;
-      tfMatrix : Math.Matrices.TMatrix;
-      fVectorComponentX, fVectorComponentY, fVectorComponentZ : float;
-      iStartIndex, iStopIndex : integer;
+
+      xMatrixArgument : Math.Matrices.CMatrix;
+      xVectorArgument : Math.Vectors.CVector;
+      fArgument : float;
+      bArgument : boolean;
+      iArgument : integer;
+
       eInstr : EInstruction := this.pxInstructionFeeder.Feed_Instruction;
-      sArgument : string := this.pxInstructionFeeder.Feed_Argument;
-      sPureArgument : string := Text_Handling.sRemove_White_Spaces(sArgument);
+
    begin
 
       case eInstr is
 
          when INSTR_PUSHBOOL =>
-            if sArgument'Length = 4 and then Text_Handling.sGet_Upper_Case(sArgument) = "TRUE" then
+            bArgument := this.pxInstructionFeeder.Feed_Boolean_Argument(
                this.Instr_Push_Bool(bArgument => true);
             elsif sArgument'Length = 5 and then Text_Handling.sGet_Upper_Case(sArgument) = "FALSE" then
                this.Instr_Push_Bool(bArgument => false);
