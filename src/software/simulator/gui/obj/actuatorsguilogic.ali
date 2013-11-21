@@ -5,7 +5,7 @@ A -gnatA
 P SS ZX
 R nnvvnnnnnnnvvnnnnnnnnnnnvvvnnnnvnnnnnnnnnvnnvnnnnnnnnnnnnnvnnvnvnnnnnnnnnnnnnnnn
 
-U actuatorsguilogic%b	actuatorsguilogic.adb	cc1b4c30 OO PK
+U actuatorsguilogic%b	actuatorsguilogic.adb	8f57be4d OO PK
 W ada%s			ada.ads			ada.ali
 W ada.numerics%s	a-numeri.ads		a-numeri.ali
 W ada.numerics.elementary_functions%s  a-nuelfu.ads  a-nuelfu.ali
@@ -45,7 +45,7 @@ W system.finalization_implementation%s  s-finimp.adb  s-finimp.ali
 W system.finalization_root%s  s-finroo.adb	s-finroo.ali
 
 D actuatorsguilogic.ads	20131118133701 68532243
-D actuatorsguilogic.adb	20131118135322 ab875f0c
+D actuatorsguilogic.adb	20131120131428 ab875f0c
 D ada.ads		20070406091342 3ffc8e18
 D a-charac.ads		20070912115821 2d3ec45b
 D a-chlat1.ads		20070912115821 2825df20
@@ -167,7 +167,7 @@ D pango-layout.ads	20130726070842 0814381c
 D pango-tabs.ads	20130726070842 1dd550ef
 D simulator.ads		20131104082225 19a68e1a
 D simulator-model.ads	20131112144053 3155fb3c
-D simulator-motion_control_wrapper.ads  20131115120314 e4f0c950
+D simulator-motion_control_wrapper.ads  20131118095121 e4f0c950
 D simulator-motor_info.ads  20131105072747 317185f1
 D simulator-submarine.ads  20131105072747 63940499
 D simulator-viewmodel_actuators.ads  20131111093458 cf204f1f
@@ -191,10 +191,10 @@ D s-ststop.ads		20090417130712 ee472be4
 D s-traent.ads		20090417130712 5221ee41
 D s-unstyp.ads		20090409150019 6ae15c76
 D s-wchcon.ads		20090417130712 bfeb2e3d
-D text_handling.ads	20131112085737 f5e5b8eb
+D text_handling.ads	20131120132120 b6a94a96
 D unchconv.ads		20070406091342 ca2f9e18
 X 1 actuatorsguilogic.ads
-8K9*ActuatorsGUILogic 25l5 25e22 2|21b14 102l5 102t22
+8K9*ActuatorsGUILogic 25l5 25e22 2|21b14 99l5 99t22
 10R9*TBuilder 12e14 17r43 21r44 23r43 2|25r70 37r63 41r43 57r44 79r42
 14p4*xModel{123|14P9}
 15p4*xViewmodel{127|6P9} 2|47r39 48r39 49r39 50r39 51r39 52r39
@@ -327,6 +327,6 @@ X 127 simulator-viewmodel_actuators.ads
 X 128 system.ads
 64M9*Address
 X 148 text_handling.ads
-3K9*Text_Handling 2|18w6 74r37 148|8e18
-5V11*sGet_Formatted_Float_String{string} 2|74s51
+3K9*Text_Handling 2|18w6 74r37 148|18e18
+5V13*sGet_Formatted_Float_String{string} 2|74s51
 

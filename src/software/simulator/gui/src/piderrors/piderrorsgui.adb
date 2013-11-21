@@ -24,7 +24,6 @@ package body PIDErrorsGUI is
 
    procedure Setup_Backend(xModel : Simulator.Model.pCModel) is
    begin
-      PIDErrorsGUILogic.xModel := xModel;
       PIDErrorsGUILogic.xViewmodel := Simulator.ViewModel_Pid_Errors.pxCreate(xModel);
    end Setup_Backend;
 
@@ -52,8 +51,6 @@ package body PIDErrorsGUI is
 
       Setup_Backend(xModel);
 
-      Ada.Text_IO.Put_Line("PIDErrors GUI handlers registred");
-
       Do_Connect (xBuilder);
 
       Ada.Text_IO.Put_Line("xBuilder connected");
@@ -70,11 +67,8 @@ package body PIDErrorsGUI is
 
    end Start_GUI;
 
-
    procedure Reset is
    begin
       PIDErrorsGUILogic.Reset;
    end Reset;
-
-
 end PIDErrorsGUI;

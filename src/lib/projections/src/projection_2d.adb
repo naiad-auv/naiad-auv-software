@@ -43,8 +43,8 @@ package body Projection_2D is
 
          fCurrentX := (fXScale * (-xPlaneCornerVectors(i).fGet_Y)) / fW;
          fCurrentY := (fYScale * (-xPlaneCornerVectors(i).fGet_Z)) / fW;
-         txProjection(i) := TPoint'(X => integer(fCurrentX) + iCenterX,
-                                   Y => integer(fCurrentY) + iCenterY);
+         txProjection(i) := TPoint'(X => fCurrentX + float(iCenterX),
+                                   Y => fCurrentY + float(iCenterY));
       end loop;
 
       return txProjection;
@@ -98,8 +98,8 @@ package body Projection_2D is
 
          fCurrentX := (fXScale * (-xAxiVectors(i).fGet_Y)) / fW;
          fCurrentY := (fYScale * (-xAxiVectors(i).fGet_Z)) / fW;
-         xVectorPoints(i) := TPoint'(X => Integer(fCurrentX) + iCenterX,
-                                     Y => Integer(fCurrentY) + iCenterY);
+         xVectorPoints(i) := TPoint'(X => fCurrentX + float(iCenterX),
+                                     Y => fCurrentY + float(iCenterY));
 
       end loop;
 
@@ -150,8 +150,8 @@ package body Projection_2D is
 
       fCurrentX := (fXScale * (-xVector.fGet_Y)) / fW;
       fCurrentY := (fYScale * (-xVector.fGet_Z)) / fW;
-      xPoint := TPoint'(X => integer(fCurrentX) + iCenterX,
-                        Y => integer(fCurrentY) + iCenterY);
+      xPoint := TPoint'(X => fCurrentX + float(iCenterX),
+                        Y => fCurrentY + float(iCenterY));
 
       return xPoint;
 

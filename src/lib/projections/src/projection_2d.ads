@@ -31,8 +31,8 @@ package Projection_2D is
 
    type TPoint is
       record
-         X : integer;
-         Y : integer;
+         X : float;
+         Y : float;
       end record;
 
    type EPlaneProjectionPointIndices is (UpperLeft, UpperRight, LowerLeft, LowerRight);
@@ -64,9 +64,5 @@ package Projection_2D is
                                              iWidth : in integer;
                                              iHeight : in integer;
                                              xVector : in Math.Vectors.CVector) return TPoint;
-
-
-
-
 
 end Projection_2D;

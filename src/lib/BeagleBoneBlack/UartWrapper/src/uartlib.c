@@ -17,6 +17,9 @@ int set_interface_attribs (int fd, int speed, int parity)
         case 1:
 		cfsetospeed (&tty, B9600);
         	cfsetispeed (&tty, B9600);
+	case 2:
+		cfsetospeed (&tty, B115200);
+		cfsetispeed (&tty, B115200);
 	}	
 
         tty.c_cflag = (tty.c_cflag & ~CSIZE) | CS8;     // 8-bit chars

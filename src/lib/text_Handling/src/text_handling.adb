@@ -83,5 +83,13 @@ package body Text_Handling is
       return sNewText;
    end sRemove_White_Spaces;
 
+   function fTry_Get_Float_String(sValueToConvert : string; default : float) return float is
+   begin
+      return Float'Value(sValuetoConvert);
+
+   exception
+      when E : others =>
+         return default;
+   end fTry_Get_Float_String;
 
 end Text_Handling;

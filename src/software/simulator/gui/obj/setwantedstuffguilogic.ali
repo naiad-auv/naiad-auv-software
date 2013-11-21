@@ -5,7 +5,7 @@ A -gnatA
 P SS ZX
 R nnnnnnnnnnnvvnnnnnvvnvnnvvnnnnnnnnnnnnnnnvnnvnnnnnnnnnnnnnvnnvnnnnnnnnnnnnnnnnnn
 
-U setwantedstuffguilogic%b  setwantedstuffguilogic.adb  7265b1c0 NE OO PK
+U setwantedstuffguilogic%b  setwantedstuffguilogic.adb  9f66658c NE OO PK
 W ada%s			ada.ads			ada.ali
 W ada.exceptions%s	a-except.adb		a-except.ali
 W ada.tags%s		a-tags.adb		a-tags.ali
@@ -27,9 +27,9 @@ W gtk.widget%s		gtk-widget.adb		gtk-widget.ali
 W system%s		system.ads		system.ali
 W system.secondary_stack%s  s-secsta.adb	s-secsta.ali
 W system.soft_links%s	s-soflin.adb		s-soflin.ali
-W system.val_real%s	s-valrea.adb		s-valrea.ali
+W text_handling%s	text_handling.adb	text_handling.ali
 
-U setwantedstuffguilogic%s  setwantedstuffguilogic.ads  f09b053b EE NE OO PK
+U setwantedstuffguilogic%s  setwantedstuffguilogic.ads  9bcd105d EE NE OO PK
 W gtkada%s		gtkada.ads		gtkada.ali
 W gtkada.builder%s	gtkada-builder.adb	gtkada-builder.ali
 W simulator%s		simulator.adb		simulator.ali
@@ -152,11 +152,11 @@ D pango-enums.ads	20130726070842 8ef2dddf
 D pango-font.ads	20130726070842 375007f3
 D pango-layout.ads	20130726070842 0814381c
 D pango-tabs.ads	20130726070842 1dd550ef
-D setwantedstuffguilogic.ads  20131115084553 3c611973
-D setwantedstuffguilogic.adb  20131118100947 27041a23
+D setwantedstuffguilogic.ads  20131120132208 57370c15
+D setwantedstuffguilogic.adb  20131120132107 17f8919f
 D simulator.ads		20131104082225 19a68e1a
 D simulator-model.ads	20131112144053 3155fb3c
-D simulator-motion_control_wrapper.ads  20131115120314 e4f0c950
+D simulator-motion_control_wrapper.ads  20131118095121 e4f0c950
 D simulator-motor_info.ads  20131105072747 317185f1
 D simulator-submarine.ads  20131105072747 63940499
 D simulator-viewmodel_set_wanted_position.ads  20131111151730 13058685
@@ -179,14 +179,14 @@ D s-string.ads		20090417130712 46b01415
 D s-ststop.ads		20090417130712 ee472be4
 D s-traent.ads		20090417130712 5221ee41
 D s-unstyp.ads		20090409150019 6ae15c76
-D s-valrea.ads		20090409150019 fe297711
 D s-wchcon.ads		20090417130712 bfeb2e3d
+D text_handling.ads	20131120132120 b6a94a96
 D unchconv.ads		20070406091342 ca2f9e18
 X 1 ada.ads
-16K9*Ada 19e8 118|14r6 27r7 37r10
+16K9*Ada 19e8 118|14r6 28r7 38r10
 X 20 a-textio.ads
-49K13*Text_IO 472e16 118|14w10 27r11 37r14
-264U14*Put_Line 118|27s19 37s22
+49K13*Text_IO 472e16 118|14w10 28r11 38r14
+264U14*Put_Line 118|28s19 38s22
 X 26 gdk.ads
 34K9*Gdk 60e8 118|6w6 7r6 8r6 9r6 10r6 13r6
 41P9*Gdk_Drawable<45|149P9>
@@ -217,10 +217,10 @@ X 52 glib-object.ads
 415V13*Convert{125|64M9} 49|57i21 50|49i21
 416V13*Convert{40P9} 49|58i21 50|50i21
 X 58 gtk.ads
-41K9*Gtk 77e8 118|1r6 3r6 4r6 11r6 12r6 19r20 19r44 20r20 20r44 21r20 21r44
-. 23r20 23r44 24r20 24r44 25r20 25r44
+41K9*Gtk 77e8 118|1r6 3r6 4r6 11r6 12r6 20r20 20r44 21r20 21r44 22r20 22r44
+. 24r20 24r44 25r20 25r44 26r20 26r44
 X 63 gtk-builder.ads
-109V13*Get_Widget{88|72P9} 118|19R80 20R80 21R80 23R80 24R80 25R80
+109V13*Get_Widget{88|72P9} 118|20R80 21R80 22R80 24R80 25R80 26R80
 X 66 gtk-cell_renderer.ads
 71P9*Gtk_Cell_Renderer(69R9)
 73V13*Convert{125|64M9} 49|57i21
@@ -233,11 +233,11 @@ X 72 gtk-enums.ads
 442V13*Convert{125|64M9} 49|57i21 50|49i21
 443V13*Convert{string} 49|58i21 50|50i21
 X 73 gtk-gentry.ads
-48K13*GEntry 957e15 118|4w10 19r24 19r48 20r24 20r48 21r24 21r48 23r24 23r48
-. 24r24 24r48 25r24 25r48
-59P9*Gtk_Entry(54R9) 118|19r31 19r55 20r31 20r55 21r31 21r55 23r31 23r55
-. 24r31 24r55 25r31 25r55
-136V13*Get_Text{45|76A12} 118|29R111 30R111 31R111 32R108 33R108 34R108
+48K13*GEntry 957e15 118|4w10 20r24 20r48 21r24 21r48 22r24 22r48 24r24 24r48
+. 25r24 25r48 26r24 26r48
+59P9*Gtk_Entry(54R9) 118|20r31 20r55 21r31 21r55 22r31 22r55 24r31 24r55
+. 25r31 25r55 26r31 26r55
+136V13*Get_Text{45|76A12} 118|30R118 31R118 32R118 33R115 34R115 35R115
 X 76 gtk-main.ads
 41K13*Main 513e13 118|1w10
 X 78 gtk-object.ads
@@ -258,28 +258,24 @@ X 88 gtk-widget.ads
 115V13*Convert{125|64M9} 49|57i21 50|49i21
 116V13*Convert{72P9} 49|58i21 50|50i21
 X 89 gtkada.ads
-30K9*Gtkada 34e11 117|1r6 9r55 118|18r55 19r65 20r65 21r65 23r65 24r65 25r65
+30K9*Gtkada 34e11 117|1r6 9r55 118|19r55 20r65 21r65 22r65 24r65 25r65 26r65
 X 90 gtkada-builder.ads
-81K16*Builder 174e19 117|1w13 9r62 118|18r62 19r72 20r72 21r72 23r72 24r72
-. 25r72
-83R9*Gtkada_Builder_Record<63|72R9> 172e14 117|9r70 118|18r70
+81K16*Builder 174e19 117|1w13 9r62 118|19r62 20r72 21r72 22r72 24r72 25r72
+. 26r72
+83R9*Gtkada_Builder_Record<63|72R9> 172e14 117|9r70 118|19r70
 X 117 setwantedstuffguilogic.ads
-5K9*SetWantedStuffGUILogic 14l5 14e27 118|16b14 51l5 51t27
-7p4*xViewModel{124|12P9} 118|29r7
-9U14*Update_Wanted_Position 9^37 118|18b14 38l8 38t30
-9p37 pxObject(90|83R9) 118|18b37 19r91 20r91 21r91 23r91 24r91 25r91
-12V13 fTry_Get_Float_From_Text_Box{float} 12>42 118|29s71 30s71 31s71 32s68
-. 33s68 34s68 40b13 47l8 47t36
-12s42 sValueToConvert{string} 118|40b42 42r26
+5K9*SetWantedStuffGUILogic 11l5 11e27 118|17b14 40l5 40t27
+7p4*xViewModel{124|12P9} 118|30r7
+9U14*Update_Wanted_Position 9^37 118|19b14 39l8 39t30
+9p37 pxObject(90|83R9) 118|19b37 20r91 21r91 22r91 24r91 25r91 26r91
 X 118 setwantedstuffguilogic.adb
-19p7 sPositionX{73|59P9} 29r100
-20p7 sPositionY{73|59P9} 30r100
-21p7 sPositionZ{73|59P9} 31r100
-23p7 sRotationX{73|59P9} 32r97
-24p7 sRotationY{73|59P9} 33r97
-25p7 sRotationZ{73|59P9} 34r97
-36r12 E{7|68R9}
-45r12 E{7|68R9}
+20p7 sPositionX{73|59P9} 30r107
+21p7 sPositionY{73|59P9} 31r107
+22p7 sPositionZ{73|59P9} 32r107
+24p7 sRotationX{73|59P9} 33r104
+25p7 sRotationY{73|59P9} 34r104
+26p7 sRotationZ{73|59P9} 35r104
+37r12 E{7|68R9}
 X 119 simulator.ads
 1K9*Simulator 117|2r6 3r6 7r17 119|5e14
 X 120 simulator-model.ads
@@ -287,13 +283,16 @@ X 120 simulator-model.ads
 X 124 simulator-viewmodel_set_wanted_position.ads
 9K19*Viewmodel_Set_Wanted_Position 117|3w16 7r27 124|25e44
 12P9*pCViewmodel_Set_Wanted_Position(11R9) 117|7r57
-17U14*Set_Wanted_Position_And_Orientation 118|29s18
-17f92 fPositionX{float} 118|29r54
-17f114 fPositionY{float} 118|30r54
-17f135 fPositionZ{float} 118|31r54
-17f156 fRotationX{float} 118|32r54
-17f176 fRotationY{float} 118|33r54
-17f196 fRotationZ{float} 118|34r54
+17U14*Set_Wanted_Position_And_Orientation 118|30s18
+17f92 fPositionX{float} 118|30r54
+17f114 fPositionY{float} 118|31r54
+17f135 fPositionZ{float} 118|32r54
+17f156 fRotationX{float} 118|33r54
+17f176 fRotationY{float} 118|34r54
+17f196 fRotationZ{float} 118|35r54
 X 125 system.ads
 64M9*Address
+X 145 text_handling.ads
+3K9*Text_Handling 118|15w6 30r71 31r71 32r71 33r68 34r68 35r68 145|18e18
+13V14*fTry_Get_Float_String{float} 118|30s85 31s85 32s85 33s82 34s82 35s82
 

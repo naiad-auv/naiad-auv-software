@@ -9,9 +9,9 @@ package UartWrapper is
    type CUartHandler is tagged limited private;
    type pCUartHandler is access CUartHandler;
 
-   type BaudRates is (B9600);
+   type BaudRates is (B9600, B115200);
 
-   function pxCreate (path : string; speed : BaudRates; blockingTime : Duration; bufferSize : C.int) return pCUartHandler;
+   function pxCreate (path : string; speed : BaudRates; blockingTime : Duration; bufferSize : C.int; iShouldBlock : C.int) return pCUartHandler;
 
    procedure Uart_Write (this : in out CUartHandler; sStringToBeWritten : string; iLengthOfString : Integer; bAppendEOT : Boolean := false);
 
