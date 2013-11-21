@@ -28,7 +28,8 @@ package body BBB_CAN is
    begin
       --initiates UART commiunication:
     --  Ada.Text_IO.Put_Line("Opening " & "/dev/" & sPort & ", baudrate: " & baud'Img);
-      pxUart := UartWrapper.pxCreate(GNAT.Serial_Communications.Port_Name("/dev/" & sPort), baud, 0.2, 100);
+    --  pxUart := UartWrapper.pxCreate(GNAT.Serial_Communications.Port_Name("/dev/" & sPort), baud, 0.2, 100);
+      pxUart := UartWrapper.pxCreate(GNAT.Serial_Communications.Port_Name("/dev/" & sPort), baud, 0.2, 200, 1);
    end Init;
 
 --     function Handshake return Boolean is
@@ -131,7 +132,7 @@ package body BBB_CAN is
 
    begin
       pxUart.UartReadSpecificAmount(Queue.iSIZE - Queue.iDataAvailable - 1, iTempBytesRead, sTempBuffer);
-
+--pxUart.UartRead(sTempBuffer, iNumBytesRead =>
       --Ada.Text_IO.Put_Line("pxUart.UartReadSpecificAmount iTempBytesRead=" & iTempBytesRead'Img);
 
 
