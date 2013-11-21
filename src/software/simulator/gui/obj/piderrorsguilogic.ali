@@ -31,7 +31,7 @@ W system%s		system.ads		system.ali
 W system.secondary_stack%s  s-secsta.adb	s-secsta.ali
 W text_handling%s	text_handling.adb	text_handling.ali
 
-U piderrorsguilogic%s	piderrorsguilogic.ads	a392d280 EE OO PK
+U piderrorsguilogic%s	piderrorsguilogic.ads	5389c81c EE OO PK
 W ada.finalization.list_controller%s  a-filico.adb  a-filico.ali
 W ada.tags%s		a-tags.adb		a-tags.ali
 W glib%s		glib.adb		glib.ali
@@ -147,10 +147,10 @@ D i-cstrin.ads		20090417131547 f3023ec4
 D i-cstrea.ads		20100622165701 1bd72c32
 D math.ads		20131104082225 6eeac05e
 D math-angles.ads	20131104082225 31c28d09
-D math-matrices.ads	20131104082225 da992515
+D math-matrices.ads	20131121091623 576dea10
 D math-planes.ads	20131104082225 57637e7b
 D math-quaternions.ads	20131104082225 f5582cff
-D math-vectors.ads	20131104082225 8121913e
+D math-vectors.ads	20131121091623 20c0c877
 D navigation.ads	20131104082225 afdfd964
 D navigation-dispatcher.ads  20131112092154 bb53e3cd
 D navigation-motion_component.ads  20131112092154 5201bdd1
@@ -170,14 +170,14 @@ D piderrorsguilogic.ads	20131121072316 4d0ac6f0
 D piderrorsguilogic.adb	20131121081149 0925b1ad
 D projection_2d.ads	20131121082955 d66cd970
 D simulator.ads		20131104082225 19a68e1a
-D simulator-drawing.ads	20131121082927 5092eeab
+D simulator-drawing.ads	20131121111014 a089f437
 D simulator-model.ads	20131112144053 3155fb3c
 D simulator-motion_control_wrapper.ads  20131118095121 e4f0c950
 D simulator-motor_info.ads  20131105072747 317185f1
 D simulator-pid_errors.ads  20131118094622 be4dd31d
 D simulator-submarine.ads  20131105072747 63940499
 D simulator-viewmodel_pid_errors.ads  20131118094622 3a8e6f1e
-D simulator-viewmodel_representation.ads  20131112080035 521506bf
+D simulator-viewmodel_representation.ads  20131121100018 521506bf
 D system.ads		20130419124236 2d1a1afa
 D s-addima.ads		20090409150019 a1ec9d3a
 D s-crtl.ads		20100617122610 ac77b159
@@ -233,8 +233,8 @@ X 51 glib-main.ads
 . 120|2w11 77r16
 149M9*G_Source_Id<45|56M9> 119|29r37 30r37 31r37 33r37 34r37 35r37 37r37
 348k12*Generic_Sources 395e23 119|27r48
-367V16*Timeout_Add{149M9} 120|85s72[123|41] 90s72[123|41] 95s72[123|41] 100s72[123|41]
-. 105s72[123|41] 110s72[123|41] 115s53[119|27]
+367V16*Timeout_Add{149M9} 120|85s72[123|39] 90s72[123|39] 95s72[123|39] 100s72[123|39]
+. 105s72[123|39] 110s72[123|39] 115s53[119|27]
 X 53 glib-object.ads
 40P9*GObject(39R9)
 415V13*Convert{131|64M9} 49|57i21 50|49i21
@@ -346,9 +346,9 @@ X 122 simulator.ads
 . 122|5e14
 X 123 simulator-drawing.ads
 13K19*Drawing 119|6w16 120|85r44 86r41 90r44 91r41 95r44 96r41 100r44 101r41
-. 105r44 106r41 110r44 111r41 123|81e23
-39V13*bDraw_Pid{boolean} 120|86r49 91r49 96r49 101r49 106r49 111r49
-41K12*Drawing_Timeout_Pid[51|348] 120|85r52 90r52 95r52 100r52 105r52 110r52
+. 105r44 106r41 110r44 111r41 123|89e23
+37V13*bDraw_Pid{boolean} 120|86r49 91r49 96r49 101r49 106r49 111r49
+39K12*Drawing_Timeout_Pid[51|348] 120|85r52 90r52 95r52 100r52 105r52 110r52
 X 124 simulator-model.ads
 9K19*Model 119|2w16 124|53e20
 X 129 simulator-viewmodel_pid_errors.ads
