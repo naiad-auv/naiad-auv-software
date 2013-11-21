@@ -96,7 +96,4 @@ package body ActuatorsGUILogic is
    end case;
 
    end xGet_Thruster_Bar;
-
-
-
 end ActuatorsGUILogic;

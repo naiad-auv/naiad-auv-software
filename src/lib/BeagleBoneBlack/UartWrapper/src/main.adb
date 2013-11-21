@@ -13,7 +13,7 @@ begin
 
    --Ada.Text_IO.Put_Line("Testar Emils kod på BBB (läser /dev/ttyO4)");
 
-   pxUart := UartWrapper.pxCreate("/dev/ttyACM1", UartWrapper.B9600, 1.0, 100);
+   pxUart := UartWrapper.pxCreate("/dev/ttyACM1", UartWrapper.B115200, 1.0, 100);
 
    while true loop
       pxUart.UartRead(sStringRead   => readString,

@@ -27,7 +27,7 @@ with SensorsGUI;
 
 with Projection_2D;
 
-with MainWindowDrawing;
+with Simulator.Drawing;
 
 
 with Ada.Text_IO;
@@ -43,31 +43,7 @@ with MainWindowLogic;
 
 package body MainWindowLogic is
 
-   type TStatusBar is record
-      xStatusBar : Gtk.Status_Bar.Gtk_Status_Bar;
-      eId : MainWindowDrawing.EView;
-   end record;
 
-   package Drawing_Timeout_Drawing_View is new Glib.Main.Generic_Sources (MainWindowDrawing.TView);
-   package Drawing_Timeout_Drawing_3DView is new Glib.Main.Generic_Sources (MainWindowDrawing.T3DView);
-   package Drawing_Timeout_Status_Bars is new Glib.Main.Generic_Sources (TStatusBar);
-
-   package Update_Viewmodel_PKG is new Glib.Main.Generic_Sources(Integer);
-
-   xTimeoutSideView : Glib.Main.G_Source_Id;
-   xTimeoutBackView : Glib.Main.G_Source_Id;
-   xTimeoutTopView : Glib.Main.G_Source_Id;
-   xTimeoutCurrent3D : Glib.Main.G_Source_Id;
-   xTimeoutWanted3D : Glib.Main.G_Source_Id;
-
-   xTimeOutTopStatusBar :Glib.Main.G_Source_Id;
-   xTimeOutSideStatusBar :Glib.Main.G_Source_Id;
-   xTimeOutBackStatusBar :Glib.Main.G_Source_Id;
-   xTimeOut3DStatusBar :Glib.Main.G_Source_Id;
-
-   xTimeoutUpdateViewmodel : Glib.Main.G_Source_Id;
-
-   bSimulationRunning : boolean := false;
 
    function bUpdateStatusBarText(xBar : TStatusBar) return boolean is
 
@@ -80,13 +56,13 @@ package body MainWindowLogic is
       xBar.xStatusBar.Remove_All(xBar.xStatusBar.Get_Context_Id("Statusbar test"));
 
       case xBar.eId is
-      when MainWindowDrawing.Top =>
+      when Simulator.Drawing.Top =>
          msgid := xBar.xStatusBar.Push(xBar.xStatusBar.Get_Context_Id("Statusbar test"),"X: " & Text_Handling.sGet_Formatted_Float_String(xViewModel.xGet_Submarine_Current_Position.fGet_X) & " Y: " & Text_Handling.sGet_Formatted_Float_String(xViewModel.xGet_Submarine_Current_Position.fGet_Y));
-      when MainWindowDrawing.Side =>
+      when Simulator.Drawing.Side =>
          msgid := xBar.xStatusBar.Push(xBar.xStatusBar.Get_Context_Id("Statusbar test"), "X: " & Text_Handling.sGet_Formatted_Float_String(xViewModel.xGet_Submarine_Current_Position.fGet_X) & " Z: " & Text_Handling.sGet_Formatted_Float_String(xViewModel.xGet_Submarine_Current_Position.fGet_Z));
-      when MainWindowDrawing.Back =>
+      when Simulator.Drawing.Back =>
          msgid := xBar.xStatusBar.Push(xBar.xStatusBar.Get_Context_Id("Statusbar test"), "Y: " & Text_Handling.sGet_Formatted_Float_String(xViewModel.xGet_Submarine_Current_Position.fGet_Y) & " Z: " & Text_Handling.sGet_Formatted_Float_String(xViewModel.xGet_Submarine_Current_Position.fGet_Z));
-      when MainWindowDrawing.Full =>
+      when Simulator.Drawing.Full =>
          msgid := xBar.xStatusBar.Push(xBar.xStatusBar.Get_Context_Id("Statusbar test"), "X Rot: " & Text_Handling.sGet_Formatted_Float_String(xViewModel.fGet_Pid_Errors(RotationX)) & " Y Rot: " & Text_Handling.sGet_Formatted_Float_String(xViewModel.fGet_Pid_Errors(RotationY)) & " Z Rot: " & Text_Handling.sGet_Formatted_Float_String(xViewModel.fGet_Pid_Errors(RotationZ)));
       when others =>
          null;
@@ -125,29 +101,29 @@ package body MainWindowLogic is
    begin
 
       if xTimeoutSideView = 0 then
-         xTimeoutSideView := MainWindowLogic.Drawing_Timeout_Drawing_View.Timeout_Add
-           (xUpdateIntervall, MainWindowDrawing.bDraw_View'Access, (Gtk.Drawing_Area.Gtk_Drawing_Area (Gtkada.Builder.Get_Widget(pxObject, "drwSide")), MainWindowDrawing.Side));
+         xTimeoutSideView := Simulator.Drawing.Drawing_Timeout_Drawing_View.Timeout_Add
+           (xUpdateIntervall, Simulator.Drawing.bDraw_View'Access, (Gtk.Drawing_Area.Gtk_Drawing_Area (Gtkada.Builder.Get_Widget(pxObject, "drwSide")), Simulator.Drawing.Side, xViewModel));
       end if;
 
       if xTimeoutTopView = 0 then
-         xTimeoutTopView := Drawing_Timeout_Drawing_View.Timeout_Add
-           (xUpdateIntervall, MainWindowDrawing.bDraw_View'Access, (Gtk.Drawing_Area.Gtk_Drawing_Area (Gtkada.Builder.Get_Widget(pxObject, "drwTop")), MainWindowDrawing.Top));
+         xTimeoutTopView := Simulator.Drawing.Drawing_Timeout_Drawing_View.Timeout_Add
+           (xUpdateIntervall, Simulator.Drawing.bDraw_View'Access, (Gtk.Drawing_Area.Gtk_Drawing_Area (Gtkada.Builder.Get_Widget(pxObject, "drwTop")), Simulator.Drawing.Top, xViewModel));
       end if;
 
       if xTimeoutBackView = 0 then
-         xTimeoutBackView := Drawing_Timeout_Drawing_View.Timeout_Add
-           (xUpdateIntervall, MainWindowDrawing.bDraw_View'Access, (Gtk.Drawing_Area.Gtk_Drawing_Area (Gtkada.Builder.Get_Widget(pxObject, "drwBack")), MainWindowDrawing.Back));
+         xTimeoutBackView := Simulator.Drawing.Drawing_Timeout_Drawing_View.Timeout_Add
+           (xUpdateIntervall, Simulator.Drawing.bDraw_View'Access, (Gtk.Drawing_Area.Gtk_Drawing_Area (Gtkada.Builder.Get_Widget(pxObject, "drwBack")), Simulator.Drawing.Back, xViewModel));
 
       end if;
 
       if xTimeoutCurrent3D = 0 then
-         xTimeoutCurrent3D := Drawing_Timeout_Drawing_3DView.Timeout_Add
-           (xUpdateIntervall, MainWindowDrawing.bDraw_3DView'Access, (Gtk.Drawing_Area.Gtk_Drawing_Area(Gtkada.Builder.Get_Widget(pxObject, "drw3D")), 300, 300, MainWindowDrawing.Full));
+         xTimeoutCurrent3D := Simulator.Drawing.Drawing_Timeout_Drawing_3DView.Timeout_Add
+           (xUpdateIntervall, Simulator.Drawing.bDraw_3DView'Access, (Gtk.Drawing_Area.Gtk_Drawing_Area(Gtkada.Builder.Get_Widget(pxObject, "drw3D")), 300, 300, Simulator.Drawing.Full, xViewModel));
       end if;
 
       if xTimeoutWanted3D = 0 then
-         xTimeoutWanted3D := Drawing_Timeout_Drawing_3DView.Timeout_Add
-           (xUpdateIntervall, MainWindowDrawing.bDraw_3DView'Access, (Gtk.Drawing_Area.Gtk_Drawing_Area(Gtkada.Builder.Get_Widget(pxObject, "drwWantedFull")), 85, 85, MainWindowDrawing.FullWanted));
+         xTimeoutWanted3D := Simulator.Drawing.Drawing_Timeout_Drawing_3DView.Timeout_Add
+           (xUpdateIntervall, Simulator.Drawing.bDraw_3DView'Access, (Gtk.Drawing_Area.Gtk_Drawing_Area(Gtkada.Builder.Get_Widget(pxObject, "drwWantedFull")), 85, 85, Simulator.Drawing.FullWanted, xViewModel));
       end if;
 
 
@@ -158,22 +134,22 @@ package body MainWindowLogic is
 
       if xTimeOutTopStatusBar = 0 then
          xTimeOutTopStatusBar := Drawing_Timeout_Status_Bars.Timeout_Add
-           (xUpdateIntervall, bUpdateStatusBarText'Access, (Gtk.Status_Bar.Gtk_Status_Bar(pxObject.Get_Widget("TopViewStatusBar")), MainWindowDrawing.Top));
+           (xUpdateIntervall, bUpdateStatusBarText'Access, (Gtk.Status_Bar.Gtk_Status_Bar(pxObject.Get_Widget("TopViewStatusBar")), Simulator.Drawing.Top));
       end if;
 
       if xTimeOutSideStatusBar = 0 then
          xTimeOutSideStatusBar := Drawing_Timeout_Status_Bars.Timeout_Add
-           (xUpdateIntervall, bUpdateStatusBarText'Access, (Gtk.Status_Bar.Gtk_Status_Bar(pxObject.Get_Widget("SideViewStatusBar")), MainWindowDrawing.Side));
+           (xUpdateIntervall, bUpdateStatusBarText'Access, (Gtk.Status_Bar.Gtk_Status_Bar(pxObject.Get_Widget("SideViewStatusBar")), Simulator.Drawing.Side));
       end if;
 
       if xTimeOutBackStatusBar = 0 then
          xTimeOutBackStatusBar := Drawing_Timeout_Status_Bars.Timeout_Add
-           (xUpdateIntervall, bUpdateStatusBarText'Access, (Gtk.Status_Bar.Gtk_Status_Bar(pxObject.Get_Widget("BackViewStatusBar")), MainWindowDrawing.Back));
+           (xUpdateIntervall, bUpdateStatusBarText'Access, (Gtk.Status_Bar.Gtk_Status_Bar(pxObject.Get_Widget("BackViewStatusBar")), Simulator.Drawing.Back));
       end if;
 
       if xTimeOut3DStatusBar = 0 then
          xTimeOut3DStatusBar := Drawing_Timeout_Status_Bars.Timeout_Add
-           (xUpdateIntervall, bUpdateStatusBarText'Access, (Gtk.Status_Bar.Gtk_Status_Bar(pxObject.Get_Widget("3DViewStatusBar")), MainWindowDrawing.Full));
+           (xUpdateIntervall, bUpdateStatusBarText'Access, (Gtk.Status_Bar.Gtk_Status_Bar(pxObject.Get_Widget("3DViewStatusBar")), Simulator.Drawing.Full));
       end if;
    end Register_Timeout_Handlers;
 

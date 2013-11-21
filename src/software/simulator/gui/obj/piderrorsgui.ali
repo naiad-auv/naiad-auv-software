@@ -5,7 +5,7 @@ A -gnatA
 P SS ZX
 R nnnnnnnnnnnnvnnnnnvvnvnnnvnnnnnnnnnnnnnnnvnnvnnnnnnnnnnnnnvnnvnnnnnnnnnnnnnnnnnn
 
-U piderrorsgui%b	piderrorsgui.adb	551878cd NE OO PK
+U piderrorsgui%b	piderrorsgui.adb	0327cb8d NE OO PK
 W ada%s			ada.ads			ada.ali
 W ada.exceptions%s	a-except.adb		a-except.ali
 W ada.tags%s		a-tags.adb		a-tags.ali
@@ -75,13 +75,17 @@ D glib-error.ads	20130726070842 e055fabe
 D glib-generic_properties.ads  20130726070842 a1807006
 D glib-glist.ads	20130726070842 65a6e1be
 D glib-gslist.ads	20130726070842 8fe7d6f1
+D glib-main.ads		20130726070842 e9472c66
 D glib-object.ads	20130726070842 948e384a
 D glib-properties.ads	20130726070842 48c8d9fb
+D glib-types.ads	20130726070842 497ce66f
 D glib-values.ads	20130726070842 37b4897e
 D gtk.ads		20130726070842 81513fe2
 D gtk-accel_group.ads	20130726070842 db8139a9
 D gtk-adjustment.ads	20130726070842 6a3f2d37
+D gtk-buildable.ads	20130726070842 0156d377
 D gtk-builder.ads	20130726070842 f4ad2f95
+D gtk-drawing_area.ads	20130726070842 b23c236e
 D gtk-enums.ads		20130726070842 31c39095
 D gtk-main.ads		20130726070842 47a9747a
 D gtk-object.ads	20130726070842 2b4b2b20
@@ -116,15 +120,18 @@ D pango-font.ads	20130726070842 375007f3
 D pango-layout.ads	20130726070842 0814381c
 D pango-tabs.ads	20130726070842 1dd550ef
 D piderrorsgui.ads	20131112124257 9c6bcdc5
-D piderrorsgui.adb	20131112125652 19381757
-D piderrorsguilogic.ads	20131112123951 165a5fc3
+D piderrorsgui.adb	20131120132350 14573d24
+D piderrorsguilogic.ads	20131121072316 4d0ac6f0
+D projection_2d.ads	20131121082955 d66cd970
 D simulator.ads		20131104082225 19a68e1a
+D simulator-drawing.ads	20131121082927 5092eeab
 D simulator-model.ads	20131112144053 3155fb3c
-D simulator-motion_control_wrapper.ads  20131115120314 e4f0c950
+D simulator-motion_control_wrapper.ads  20131118095121 e4f0c950
 D simulator-motor_info.ads  20131105072747 317185f1
-D simulator-pid_errors.ads  20131115084553 be4dd31d
+D simulator-pid_errors.ads  20131118094622 be4dd31d
 D simulator-submarine.ads  20131105072747 63940499
-D simulator-viewmodel_pid_errors.ads  20131115084553 3a8e6f1e
+D simulator-viewmodel_pid_errors.ads  20131118094622 3a8e6f1e
+D simulator-viewmodel_representation.ads  20131112080035 521506bf
 D system.ads		20130419124236 2d1a1afa
 D s-addima.ads		20090409150019 a1ec9d3a
 D s-crtl.ads		20100617122610 ac77b159
@@ -147,102 +154,101 @@ D s-unstyp.ads		20090409150019 6ae15c76
 D s-wchcon.ads		20090417130712 bfeb2e3d
 D unchconv.ads		20070406091342 ca2f9e18
 X 1 ada.ads
-16K9*Ada 19e8 89|7r6 11r6 44r10 45r10 55r7 59r7 68r10 68r31
+16K9*Ada 19e8 93|7r6 11r6 43r10 44r10 56r7 65r10 65r31
 X 7 a-except.ads
-55K13*Exceptions 370e19 89|11w10 68r35
-99V13*Exception_Message{string} 89|68s46
+55K13*Exceptions 370e19 93|11w10 65r35
+99V13*Exception_Message{string} 93|65s46
 X 20 a-textio.ads
-49K13*Text_IO 472e16 89|7w10 44r14 45r14 55r11 59r11 68r14
-243U14*Put 89|44s22 45s22
-264U14*Put_Line 89|55s19 59s19 68s22
+49K13*Text_IO 472e16 93|7w10 43r14 44r14 56r11 65r14
+243U14*Put 93|43s22 44s22
+264U14*Put_Line 93|56s19 65s22
 X 25 exception_handling.ads
-4K9*Exception_Handling 70e23 89|5w6 69r10
-46U14*Unhandled_Exception 89|69s29
-46r35 E{7|68R9} 89|69r49
+4K9*Exception_Handling 70e23 93|5w6 66r10
+46U14*Unhandled_Exception 93|66s29
+46r35 E{7|68R9} 93|66r49
 X 26 gdk.ads
 41P9*Gdk_Drawable<43|149P9>
 50P9*Gdk_Visual<43|149P9>
 X 41 gdk-visual.ads
-77V13*Convert[118|20]{98|64M9} 46|57i21
-78V13*Convert[118|20]{26|50P9} 46|58i21
+77V13*Convert[125|20]{105|64M9} 46|57i21
+78V13*Convert[125|20]{26|50P9} 46|58i21
 X 42 gdk-window.ads
-531V13*Convert[118|20]{98|64M9} 46|57i21
-532V13*Convert[118|20]{26|41P9} 46|58i21
+531V13*Convert[125|20]{105|64M9} 46|57i21
+532V13*Convert[125|20]{26|41P9} 46|58i21
 X 43 glib.ads
-37K9*Glib 402e9 89|2r6 8r6 33r11 37r18 45r26
+37K9*Glib 402e9 93|2r6 8r6 32r11 36r18 44r26
 149P9*C_Proxy(146R9)
 X 44 glib-error.ads
-32K14*Error 67e15 89|2w11 8w11 33r16 37r23 45r31
-35P9*GError<43|149P9> 89|37r29
-43U14*Error_Free 89|46s10
-59V13*Get_Message{string} 89|45s37
-X 48 glib-object.ads
+32K14*Error 67e15 93|2w11 8w11 32r16 36r23 44r31
+35P9*GError<43|149P9> 93|36r29
+43U14*Error_Free 93|45s10
+59V13*Get_Message{string} 93|44s37
+X 49 glib-object.ads
 40P9*GObject(39R9)
-83U14*Unref 89|64R7
-415V13*Convert{98|64M9} 46|57i21 47|49i21
+83U14*Unref 93|61R7
+415V13*Convert{105|64M9} 46|57i21 47|49i21
 416V13*Convert{40P9} 46|58i21 47|50i21
-X 51 gtk.ads
-41K9*Gtk 77e8 89|1r6 3r6 39r7 61r7 62r7
-X 54 gtk-builder.ads
-83V13*Add_From_File{44|35P9} 89|42R17
-109V13*Get_Widget{59|72P9} 89|61R28
-X 55 gtk-enums.ads
-442V13*Convert{98|64M9} 46|57i21 47|49i21
+X 53 gtk.ads
+41K9*Gtk 77e8 93|1r6 3r6 38r7 58r7 59r7
+X 57 gtk-builder.ads
+83V13*Add_From_File{44|35P9} 93|41R17
+109V13*Get_Widget{63|72P9} 93|58R28
+X 59 gtk-enums.ads
+442V13*Convert{105|64M9} 46|57i21 47|49i21
 443V13*Convert{string} 46|58i21 47|50i21
-X 56 gtk-main.ads
-41K13*Main 513e13 89|1w10 39r11 62r11
-48U14*Init 89|39s16
-148U14*Main 89|62s16
-X 57 gtk-object.ads
+X 60 gtk-main.ads
+41K13*Main 513e13 93|1w10 38r11 59r11
+48U14*Init 93|38s16
+148U14*Main 93|59s16
+X 61 gtk-object.ads
 100P9*Gtk_Object(99R9)
-137V13*Convert{98|64M9} 47|49i21
+137V13*Convert{105|64M9} 47|49i21
 138V13*Convert{100P9} 47|50i21
-X 59 gtk-widget.ads
-70K13*Widget 2429e15 89|3w10 61r11
+X 63 gtk-widget.ads
+70K13*Widget 2429e15 93|3w10 58r11
 72P9*Gtk_Widget(71R9)
-115V13*Convert{98|64M9} 46|57i21 47|49i21
+115V13*Convert{105|64M9} 46|57i21 47|49i21
 116V13*Convert{72P9} 46|58i21 47|50i21
-161U14*Show_All 89|61R18
-X 60 gtkada.ads
-30K9*Gtkada 34e11 89|4r6 16r50 18r5 34r11
-X 61 gtkada-builder.ads
-81K16*Builder 174e19 89|4w13 16r57 18r12 34r18
-85P9*Gtkada_Builder(83R9) 89|16r65 36r26
-87U14*Gtk_New 89|41s7
-91U14*Do_Connect 89|57s7
+161U14*Show_All 93|58R18
+X 64 gtkada.ads
+30K9*Gtkada 34e11 93|4r6 16r50 18r5 33r11
+X 65 gtkada-builder.ads
+81K16*Builder 174e19 93|4w13 16r57 18r12 33r18
+85P9*Gtkada_Builder(83R9) 93|16r65 35r26
+87U14*Gtk_New 93|40s7
+91U14*Do_Connect 93|54s7
 102P9*Builder_Handler
-108U14*Register_Handler 89|18s20
-109p7 Builder(83R9) 89|19r10
-110s7 Handler_Name{string} 89|20r10
-111p7 Handler{102P9} 89|21r10
-X 88 piderrorsgui.ads
-3K9*PIDErrorsGUI 9l5 9e17 89|14b14 80l5 80t17
-5U14*Start_GUI 5>24 89|31b14 71l8 71t17
-5p24 xModel{92|14P9} 89|31b25 53r21
-7U14*Reset 89|74b14 77l8 77t13
-X 89 piderrorsgui.adb
-16U14 Register_Handlers 16b14 16=32 23l8 23t25 51s7
-16p32 xBuilder{61|85P9} 19r26
-25U14 Setup_Backend 25b14 25>28 29l8 29t21 53s7
-25p28 xModel{92|14P9} 27r35 28r79
-36p7 xBuilder{61|85P9} 41m16 42r32 51m25 57r19 61r40 64r14
-37p7 xError{44|35P9} 42m7 43r10 45r49 46r22
-67r12 E{7|68R9} 68r64 69r54
-X 90 piderrorsguilogic.ads
-5K9*PIDErrorsGUILogic 89|10w6 21r26 27r7 28r7 76r7 90|19e22
-7p4*xModel{92|14P9} 89|27m25
-8p4*xViewModel{97|9P9} 89|28m25
-10U14*Register_Timeouts 89|21r44
-12U14*Reset 89|76s25
-X 91 simulator.ads
-1K9*Simulator 88|1r6 5r33 89|12r6 25r37 28r39 31r34 91|5e14
-X 92 simulator-model.ads
-9K19*Model 88|1w16 5r43 89|25r47 31r44 92|53e20
-14P9*pCModel(13R9) 88|5r49 89|25r53 31r50
-X 97 simulator-viewmodel_pid_errors.ads
-6K19*ViewModel_Pid_Errors 89|12w16 28r49 97|50e35
+108U14*Register_Handler 93|18s20
+109p7 Builder(83R9) 93|19r10
+110s7 Handler_Name{string} 93|20r10
+111p7 Handler{102P9} 93|21r10
+X 92 piderrorsgui.ads
+3K9*PIDErrorsGUI 9l5 9e17 93|14b14 74l5 74t17
+5U14*Start_GUI 5>24 93|30b14 68l8 68t17
+5p24 xModel{98|14P9} 93|30b25 52r21
+7U14*Reset 93|70b14 73l8 73t13
+X 93 piderrorsgui.adb
+16U14 Register_Handlers 16b14 16=32 23l8 23t25 50s7
+16p32 xBuilder{65|85P9} 19r26
+25U14 Setup_Backend 25b14 25>28 28l8 28t21 52s7
+25p28 xModel{98|14P9} 27r79
+35p7 xBuilder{65|85P9} 40m16 41r32 50m25 54r19 58r40 61r14
+36p7 xError{44|35P9} 41m7 42r10 44r49 45r22
+64r12 E{7|68R9} 65r64 66r54
+X 94 piderrorsguilogic.ads
+8K9*PIDErrorsGUILogic 93|10w6 21r26 27r7 72r7 94|39e22
+10p4*xViewModel{103|9P9} 93|27m25
+12U14*Register_Timeouts 93|21r44
+14U14*Reset 93|72s25
+X 96 simulator.ads
+1K9*Simulator 92|1r6 5r33 93|12r6 25r37 27r39 30r34 96|5e14
+X 98 simulator-model.ads
+9K19*Model 92|1w16 5r43 93|25r47 30r44 98|53e20
+14P9*pCModel(13R9) 92|5r49 93|25r53 30r50
+X 103 simulator-viewmodel_pid_errors.ads
+6K19*ViewModel_Pid_Errors 93|12w16 27r49 103|50e35
 9P9*pCViewModel_Pid_Errors(8R9)
-24V13*pxCreate{9P9} 89|28s70
-X 98 system.ads
+24V13*pxCreate{9P9} 93|27s70
+X 105 system.ads
 64M9*Address
 

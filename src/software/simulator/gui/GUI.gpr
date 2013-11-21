@@ -1,3 +1,4 @@
+with "../drawing/drawing.gpr";
 with "../../../lib/text_Handling/text_handling.gpr";
 with "../ViewModel_Actuators/viewmodel_actuators.gpr";
 with "../ViewModel_Set_Wanted_Position/viewmodel_set_wanted_position.gpr";
@@ -5,7 +6,7 @@ with "../ViewModel_Sensors/viewmodel_sensors.gpr";
 with "../ViewModel_Representation/viewmodel_representation.gpr";
 with "../ViewModel_Pid_Errors/viewmodel_pid_errors.gpr";
 with "../ViewModel_Pid_Constants/viewmodel_pid_constants.gpr";
-with "../../../lib/drawstuff/drawstuff.gpr";
+with "../../../lib/projections/projections.gpr";
 with "../../../lib/exception_handling/exception_handling.gpr";
 with "gtkada";
 
@@ -41,4 +42,3 @@ project GUI is
    end Linker;
 
 end GUI;
-

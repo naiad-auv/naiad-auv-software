@@ -1,9 +1,7 @@
 with Gtk.Main;
-with Glib.Error;
 with Gtk.Widget;
 with Gtkada.Builder;
 with Exception_Handling;
-
 with Ada.Text_IO;
 with Glib.Error;
 with SetWantedStuffGUILogic;
@@ -11,10 +9,8 @@ with Simulator.Viewmodel_Set_Wanted_Position;
 
 package body SetWantedStuffGUI is
 
-
    procedure Register_Handlers(xBuilder : in out GtkAda.Builder.Gtkada_Builder) is
    begin
-
         Gtkada.Builder.Register_Handler
         (Builder      => xBuilder,
          Handler_Name => "updateGoalsHandler",
@@ -47,14 +43,10 @@ package body SetWantedStuffGUI is
       end if;
 
       Register_Handlers(xBuilder);
-      Ada.Text_IO.Put_Line("Set wanted stuff handlers registred");
 
       Setup_Backend(xModel);
-      Ada.Text_IO.Put_Line("Set wanted stuff backend setup");
 
       Do_Connect (xBuilder);
-
-      Ada.Text_IO.Put_Line("Set wanted stuff connected");
 
       Gtk.Widget.Show_All (Get_Widget (xBuilder, "setWantedStuffWindow"));
       Gtk.Main.Main;
