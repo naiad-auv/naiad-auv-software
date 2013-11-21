@@ -84,21 +84,16 @@ package VirtualMachine.InstructionFeeder is
       -- Arithmetics for integers
       INSTR_NEGINT,
       INSTR_ADDINT,
-      INSTR_SUBINT,
       INSTR_MULINT,
-      INSTR_DIVINT,
 
       -- Arithmetics for floats
       INSTR_NEGFLOAT,
       INSTR_ADDFLOAT,
-      INSTR_SUBFLOAT,
       INSTR_MULFLOAT,
-      INSTR_DIVFLOAT,
 
       -- Arithmetics for vectors
       INSTR_NEGVEC,
       INSTR_ADDVEC,
-      INSTR_SUBVEC,
       INSTR_MULVEC,
 
       -- Getters for vectors

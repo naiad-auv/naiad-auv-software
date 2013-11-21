@@ -1,0 +1,184 @@
+<tests_mapping mode="monolith">
+   <unit source_file="virtualmachine-interpreter.ads">
+      <test_unit target_file="virtualmachine-interpreter-cinterpreter_test_data-cinterpreter_tests.ads">
+         <setup file="virtualmachine-interpreter-cinterpreter_test_data.adb" line="4"  column="4"/>
+         <teardown file="virtualmachine-interpreter-cinterpreter_test_data.adb" line="8"  column="4"/>
+         <tested name="Step" line="20" column="4">
+            <test file="virtualmachine-interpreter-cinterpreter_test_data-cinterpreter_tests.adb" line="13" column="1" timestamp="2013-11-21 08:31:18"/>
+         </tested>
+         <tested name="Finalize" line="36" column="4">
+            <test file="virtualmachine-interpreter-cinterpreter_test_data-cinterpreter_tests.adb" line="34" column="1" timestamp="2013-11-21 08:31:18"/>
+         </tested>
+         <tested name="Instr_Push_Bool" line="38" column="4">
+            <test file="virtualmachine-interpreter-cinterpreter_test_data-cinterpreter_tests.adb" line="55" column="1" timestamp="2013-11-21 08:31:18"/>
+         </tested>
+         <tested name="Instr_Push_Int" line="39" column="4">
+            <test file="virtualmachine-interpreter-cinterpreter_test_data-cinterpreter_tests.adb" line="76" column="1" timestamp="2013-11-21 08:31:18"/>
+         </tested>
+         <tested name="Instr_Push_Float" line="40" column="4">
+            <test file="virtualmachine-interpreter-cinterpreter_test_data-cinterpreter_tests.adb" line="97" column="1" timestamp="2013-11-21 08:31:18"/>
+         </tested>
+         <tested name="Instr_Push_Vector" line="41" column="4">
+            <test file="virtualmachine-interpreter-cinterpreter_test_data-cinterpreter_tests.adb" line="118" column="1" timestamp="2013-11-21 08:31:18"/>
+         </tested>
+         <tested name="Instr_Push_Matrix" line="42" column="4">
+            <test file="virtualmachine-interpreter-cinterpreter_test_data-cinterpreter_tests.adb" line="139" column="1" timestamp="2013-11-21 08:31:18"/>
+         </tested>
+         <tested name="Instr_Branch_False" line="44" column="4">
+            <test file="virtualmachine-interpreter-cinterpreter_test_data-cinterpreter_tests.adb" line="160" column="1" timestamp="2013-11-21 08:31:18"/>
+         </tested>
+         <tested name="Instr_Branch_Always" line="45" column="4">
+            <test file="virtualmachine-interpreter-cinterpreter_test_data-cinterpreter_tests.adb" line="181" column="1" timestamp="2013-11-21 08:31:18"/>
+         </tested>
+         <tested name="Instr_Branch_Subroutine" line="46" column="4">
+            <test file="virtualmachine-interpreter-cinterpreter_test_data-cinterpreter_tests.adb" line="202" column="1" timestamp="2013-11-21 08:31:18"/>
+         </tested>
+         <tested name="Instr_Pop" line="48" column="4">
+            <test file="virtualmachine-interpreter-cinterpreter_test_data-cinterpreter_tests.adb" line="223" column="1" timestamp="2013-11-21 08:31:18"/>
+         </tested>
+         <tested name="Instr_Right_Value_Integer" line="50" column="4">
+            <test file="virtualmachine-interpreter-cinterpreter_test_data-cinterpreter_tests.adb" line="244" column="1" timestamp="2013-11-21 08:31:18"/>
+         </tested>
+         <tested name="Instr_Right_Value_Boolean" line="51" column="4">
+            <test file="virtualmachine-interpreter-cinterpreter_test_data-cinterpreter_tests.adb" line="265" column="1" timestamp="2013-11-21 08:31:18"/>
+         </tested>
+         <tested name="Instr_Right_Value_Float" line="52" column="4">
+            <test file="virtualmachine-interpreter-cinterpreter_test_data-cinterpreter_tests.adb" line="286" column="1" timestamp="2013-11-21 08:31:18"/>
+         </tested>
+         <tested name="Instr_Right_Value_Matrix" line="53" column="4">
+            <test file="virtualmachine-interpreter-cinterpreter_test_data-cinterpreter_tests.adb" line="307" column="1" timestamp="2013-11-21 08:31:18"/>
+         </tested>
+         <tested name="Instr_Right_Value_Vector" line="54" column="4">
+            <test file="virtualmachine-interpreter-cinterpreter_test_data-cinterpreter_tests.adb" line="328" column="1" timestamp="2013-11-21 08:31:18"/>
+         </tested>
+         <tested name="Instr_Left_Value" line="56" column="4">
+            <test file="virtualmachine-interpreter-cinterpreter_test_data-cinterpreter_tests.adb" line="349" column="1" timestamp="2013-11-21 08:31:18"/>
+         </tested>
+         <tested name="Instr_Vector_Component" line="58" column="4">
+            <test file="virtualmachine-interpreter-cinterpreter_test_data-cinterpreter_tests.adb" line="370" column="1" timestamp="2013-11-21 08:31:18"/>
+         </tested>
+         <tested name="Instr_Link" line="60" column="4">
+            <test file="virtualmachine-interpreter-cinterpreter_test_data-cinterpreter_tests.adb" line="391" column="1" timestamp="2013-11-21 08:31:18"/>
+         </tested>
+         <tested name="Instr_Unlink" line="61" column="4">
+            <test file="virtualmachine-interpreter-cinterpreter_test_data-cinterpreter_tests.adb" line="412" column="1" timestamp="2013-11-21 08:31:18"/>
+         </tested>
+         <tested name="Instr_Return_To_Subroutine" line="63" column="4">
+            <test file="virtualmachine-interpreter-cinterpreter_test_data-cinterpreter_tests.adb" line="433" column="1" timestamp="2013-11-21 08:31:18"/>
+         </tested>
+         <tested name="Instr_Declare_Integer" line="65" column="4">
+            <test file="virtualmachine-interpreter-cinterpreter_test_data-cinterpreter_tests.adb" line="454" column="1" timestamp="2013-11-21 08:31:18"/>
+         </tested>
+         <tested name="Instr_Declare_Boolean" line="66" column="4">
+            <test file="virtualmachine-interpreter-cinterpreter_test_data-cinterpreter_tests.adb" line="475" column="1" timestamp="2013-11-21 08:31:18"/>
+         </tested>
+         <tested name="Instr_Declare_Float" line="67" column="4">
+            <test file="virtualmachine-interpreter-cinterpreter_test_data-cinterpreter_tests.adb" line="496" column="1" timestamp="2013-11-21 08:31:18"/>
+         </tested>
+         <tested name="Instr_Declare_Matrix" line="68" column="4">
+            <test file="virtualmachine-interpreter-cinterpreter_test_data-cinterpreter_tests.adb" line="517" column="1" timestamp="2013-11-21 08:31:18"/>
+         </tested>
+         <tested name="Instr_Declare_Vector" line="69" column="4">
+            <test file="virtualmachine-interpreter-cinterpreter_test_data-cinterpreter_tests.adb" line="538" column="1" timestamp="2013-11-21 08:31:18"/>
+         </tested>
+         <tested name="Instr_Assign_Integer" line="71" column="4">
+            <test file="virtualmachine-interpreter-cinterpreter_test_data-cinterpreter_tests.adb" line="559" column="1" timestamp="2013-11-21 08:31:18"/>
+         </tested>
+         <tested name="Instr_Assign_Boolean" line="72" column="4">
+            <test file="virtualmachine-interpreter-cinterpreter_test_data-cinterpreter_tests.adb" line="580" column="1" timestamp="2013-11-21 08:31:18"/>
+         </tested>
+         <tested name="Instr_Assign_Float" line="73" column="4">
+            <test file="virtualmachine-interpreter-cinterpreter_test_data-cinterpreter_tests.adb" line="601" column="1" timestamp="2013-11-21 08:31:18"/>
+         </tested>
+         <tested name="Instr_Assign_Matrix" line="74" column="4">
+            <test file="virtualmachine-interpreter-cinterpreter_test_data-cinterpreter_tests.adb" line="622" column="1" timestamp="2013-11-21 08:31:18"/>
+         </tested>
+         <tested name="Instr_Assign_Vector" line="75" column="4">
+            <test file="virtualmachine-interpreter-cinterpreter_test_data-cinterpreter_tests.adb" line="643" column="1" timestamp="2013-11-21 08:31:18"/>
+         </tested>
+         <tested name="Instr_Timer_Reset" line="77" column="4">
+            <test file="virtualmachine-interpreter-cinterpreter_test_data-cinterpreter_tests.adb" line="664" column="1" timestamp="2013-11-21 08:31:18"/>
+         </tested>
+         <tested name="Instr_Timer" line="78" column="4">
+            <test file="virtualmachine-interpreter-cinterpreter_test_data-cinterpreter_tests.adb" line="685" column="1" timestamp="2013-11-21 08:31:18"/>
+         </tested>
+         <tested name="Instr_Equals_Integer" line="80" column="4">
+            <test file="virtualmachine-interpreter-cinterpreter_test_data-cinterpreter_tests.adb" line="706" column="1" timestamp="2013-11-21 08:31:18"/>
+         </tested>
+         <tested name="Instr_Less_Than_Integer" line="81" column="4">
+            <test file="virtualmachine-interpreter-cinterpreter_test_data-cinterpreter_tests.adb" line="727" column="1" timestamp="2013-11-21 08:31:18"/>
+         </tested>
+         <tested name="Instr_Less_Than_Or_Equal_Integer" line="82" column="4">
+            <test file="virtualmachine-interpreter-cinterpreter_test_data-cinterpreter_tests.adb" line="748" column="1" timestamp="2013-11-21 08:31:18"/>
+         </tested>
+         <tested name="Instr_Equals_Float" line="84" column="4">
+            <test file="virtualmachine-interpreter-cinterpreter_test_data-cinterpreter_tests.adb" line="769" column="1" timestamp="2013-11-21 08:31:18"/>
+         </tested>
+         <tested name="Instr_Less_Than_Float" line="85" column="4">
+            <test file="virtualmachine-interpreter-cinterpreter_test_data-cinterpreter_tests.adb" line="790" column="1" timestamp="2013-11-21 08:31:18"/>
+         </tested>
+         <tested name="Instr_Less_Than_Or_Equal_Float" line="86" column="4">
+            <test file="virtualmachine-interpreter-cinterpreter_test_data-cinterpreter_tests.adb" line="811" column="1" timestamp="2013-11-21 08:31:18"/>
+         </tested>
+         <tested name="Instr_Not" line="88" column="4">
+            <test file="virtualmachine-interpreter-cinterpreter_test_data-cinterpreter_tests.adb" line="832" column="1" timestamp="2013-11-21 08:31:18"/>
+         </tested>
+         <tested name="Instr_Or" line="89" column="4">
+            <test file="virtualmachine-interpreter-cinterpreter_test_data-cinterpreter_tests.adb" line="853" column="1" timestamp="2013-11-21 08:31:18"/>
+         </tested>
+         <tested name="Instr_And" line="90" column="4">
+            <test file="virtualmachine-interpreter-cinterpreter_test_data-cinterpreter_tests.adb" line="874" column="1" timestamp="2013-11-21 08:31:18"/>
+         </tested>
+         <tested name="Instr_Equals_Boolean" line="92" column="4">
+            <test file="virtualmachine-interpreter-cinterpreter_test_data-cinterpreter_tests.adb" line="895" column="1" timestamp="2013-11-21 08:31:18"/>
+         </tested>
+         <tested name="Instr_Equals_Matrix" line="93" column="4">
+            <test file="virtualmachine-interpreter-cinterpreter_test_data-cinterpreter_tests.adb" line="916" column="1" timestamp="2013-11-21 08:31:18"/>
+         </tested>
+         <tested name="Instr_Equals_Vector" line="94" column="4">
+            <test file="virtualmachine-interpreter-cinterpreter_test_data-cinterpreter_tests.adb" line="937" column="1" timestamp="2013-11-21 08:31:18"/>
+         </tested>
+         <tested name="Instr_Negate_Integer" line="96" column="4">
+            <test file="virtualmachine-interpreter-cinterpreter_test_data-cinterpreter_tests.adb" line="958" column="1" timestamp="2013-11-21 08:31:18"/>
+         </tested>
+         <tested name="Instr_Add_Integer" line="97" column="4">
+            <test file="virtualmachine-interpreter-cinterpreter_test_data-cinterpreter_tests.adb" line="979" column="1" timestamp="2013-11-21 08:31:18"/>
+         </tested>
+         <tested name="Instr_Multiply_Integer" line="98" column="4">
+            <test file="virtualmachine-interpreter-cinterpreter_test_data-cinterpreter_tests.adb" line="1000" column="1" timestamp="2013-11-21 08:31:18"/>
+         </tested>
+         <tested name="Instr_Negate_Float" line="100" column="4">
+            <test file="virtualmachine-interpreter-cinterpreter_test_data-cinterpreter_tests.adb" line="1021" column="1" timestamp="2013-11-21 08:31:18"/>
+         </tested>
+         <tested name="Instr_Add_Float" line="101" column="4">
+            <test file="virtualmachine-interpreter-cinterpreter_test_data-cinterpreter_tests.adb" line="1042" column="1" timestamp="2013-11-21 08:31:18"/>
+         </tested>
+         <tested name="Instr_Multiply_Float" line="102" column="4">
+            <test file="virtualmachine-interpreter-cinterpreter_test_data-cinterpreter_tests.adb" line="1063" column="1" timestamp="2013-11-21 08:31:18"/>
+         </tested>
+         <tested name="Instr_Negate_Vector" line="104" column="4">
+            <test file="virtualmachine-interpreter-cinterpreter_test_data-cinterpreter_tests.adb" line="1084" column="1" timestamp="2013-11-21 08:31:18"/>
+         </tested>
+         <tested name="Instr_Add_Vector" line="105" column="4">
+            <test file="virtualmachine-interpreter-cinterpreter_test_data-cinterpreter_tests.adb" line="1105" column="1" timestamp="2013-11-21 08:31:18"/>
+         </tested>
+         <tested name="Instr_Multiply_Vector" line="106" column="4">
+            <test file="virtualmachine-interpreter-cinterpreter_test_data-cinterpreter_tests.adb" line="1126" column="1" timestamp="2013-11-21 08:31:18"/>
+         </tested>
+         <tested name="Instr_Multiply_Matrix" line="108" column="4">
+            <test file="virtualmachine-interpreter-cinterpreter_test_data-cinterpreter_tests.adb" line="1147" column="1" timestamp="2013-11-21 08:31:18"/>
+         </tested>
+         <dangling>
+         </dangling>
+      </test_unit>
+      <test_unit target_file="virtualmachine-interpreter-test_data-tests.ads">
+         <setup file="virtualmachine-interpreter-test_data.adb" line="3"  column="4"/>
+         <teardown file="virtualmachine-interpreter-test_data.adb" line="9"  column="4"/>
+         <tested name="Free" line="19" column="4">
+            <test file="virtualmachine-interpreter-test_data-tests.adb" line="13" column="1" timestamp="2013-11-21 08:31:18"/>
+         </tested>
+         <dangling>
+         </dangling>
+      </test_unit>
+   </unit>
+</tests_mapping>
