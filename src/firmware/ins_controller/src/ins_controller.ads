@@ -9,13 +9,13 @@ with AVR.AT90CAN128.USART;
 with Math.Vectors;
 with Math.Matrices;
 
-package Imu_Handler is
+package Ins_Controller is
 
    pragma Suppress (All_Checks);
 
    procedure Init(port : AVR.AT90CAN128.USART.USARTID);
 
-   procedure Get_Orientation(f_Roll : out Float; f_Pitch : out Float; f_Yaw : out Float);
+   function Get_Orientation return Math.Matrices.CMatrix;
 
    procedure Get_Position(fX : out Float; fY : out Float; fZ : out Float);
 
@@ -27,13 +27,9 @@ private
    -- the robot's position relative to an inertial reference system
    xFixedPositionVector : math.Vectors.CVector := math.Vectors.xCreate(0.0, 0.0, 0.0);
 
-   xOrientationMatrix 		: Math.Matrices.CMatrix;
+   xOrientationMatrix : Math.Matrices.CMatrix;
 
    fDeltaTime : Constant float := 0.005;
-
-   fYaw 	: float;
-   fPitch 	: float;
-   fRoll 	: float;
 
    usart_port : AVR.AT90CAN128.USART.USARTID;
 
@@ -45,4 +41,4 @@ private
    pragma Export (C, Imu_Interrupt, AVR.AT90CAN128.Vector_Int2);
 
 
-end Imu_Handler;
+end Ins_Controller;

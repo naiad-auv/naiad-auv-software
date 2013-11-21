@@ -14,22 +14,26 @@
 
 pragma Profile (Ravenscar);
 
---  with AVR.AT90CAN128.Clock;
+with AVR.AT90CAN128.Clock;
 
-with Imu_Handler;
+with Ins_Controller;
 
-procedure Imu_Handler_Main is
+procedure Ins_Controller_Main is
 
    pragma Suppress (All_Checks);
 
+   tLastLoop   		: AVR.AT90CAN128.Clock.Time;  --  in milliseconds
+   tLOOP_PERIOD 	: Constant AVR.AT90CAN128.Clock.Time := 50; --  loop period in milliseconds
 
 begin
 
+   Ins_Controller.Init(USART0);
 
    loop
+      tLastLoop := AVR.AT90CAN128.Clock.getClockTime;
 
-	null;
+      AVR.AT90CAN128.Clock.Delay_Until(tLOOP_PERIOD + tLastLoop);
    end loop;
 
-end Imu_Handler_Main;
+end Ins_Controller_Main;
 
