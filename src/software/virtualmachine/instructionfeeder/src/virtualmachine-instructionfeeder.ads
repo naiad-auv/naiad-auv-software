@@ -1,5 +1,9 @@
+with Math.Vectors;
+with Math.Matrices;
+
 with Ada.Finalization;
 with Ada.Unchecked_Deallocation;
+with Ada.Streams.Stream_IO;
 
 package VirtualMachine.InstructionFeeder is
 
@@ -10,22 +14,22 @@ package VirtualMachine.InstructionFeeder is
       INSTR_UNLINK,
 
       -- Jumps
-      INSTR_BRF,
-      INSTR_BRA,
+      INSTR_BRF,	-- int
+      INSTR_BRA,	-- int
 
       -- Subroutines
-      INSTR_BRS,
+      INSTR_BSR,	-- int
       INSTR_RTS,
 
       -- Memory allocation
       INSTR_DECLINT,
       INSTR_DECLBOOL,
       INSTR_DECLFLOAT,
-      INSTR_DECLMATRIX,
-      INSTR_DECLVECTOR,
+      INSTR_DECLMAT,
+      INSTR_DECLVEC,
 
       -- Memory deallocation
-      INSTR_POP,
+      INSTR_POP,	-- int
 
       -- Constants
       INSTR_PUSHINT,		-- PUSHINT 3
@@ -35,14 +39,14 @@ package VirtualMachine.InstructionFeeder is
       INSTR_PUSHVEC,		-- PUSHVECTOR [1.0,2.0,3.0]
 
       -- Right value (variable values)
-      INSTR_RVALINT,
-      INSTR_RVALBOOL,
-      INSTR_RVALFLOAT,
-      INSTR_RVALMAT,
-      INSTR_RVALVEC,
+      INSTR_RVALINT,		-- int
+      INSTR_RVALBOOL,		-- int
+      INSTR_RVALFLOAT,		-- int
+      INSTR_RVALMAT,		-- int
+      INSTR_RVALVEC,		-- int
 
       -- Left value (variable addresses)
-      INSTR_LVAL,
+      INSTR_LVAL,		-- int
 
       -- Assignments
       INSTR_ASSINT,
@@ -98,10 +102,10 @@ package VirtualMachine.InstructionFeeder is
       INSTR_MULVEC,
 
       -- Getters for vectors
-      INSTR_GETVECCOMP
+      INSTR_VECCOMP,		-- int
 
       -- Arithmetics for matrices
-      INSTR_MULMAT,
+      INSTR_MULMAT
      );
 
 
@@ -121,19 +125,17 @@ package VirtualMachine.InstructionFeeder is
    function Feed_Vector_Argument(this : in CInstructionFeeder) return Math.Vectors.CVector;
    function Feed_Matrix_Argument(this : in CInstructionFeeder) return Math.Matrices.CMatrix;
 
+   procedure Read_Next_Instruction(this : in out CInstructionFeeder; xFileStream : in Ada.Streams.Stream_IO.Stream_Access);
 
-   procedure Add_Instruction_With_Boolean_Argument(this : in
 
 private
 
-   type CInstruction;
-   type pCInstruction is access CInstruction'Class;
-   type CInstruction is
+   type CInstruction is tagged
       record
          iLineNumber : integer;
          eInstr : EInstruction;
       end record;
-
+   type pCInstruction is access CInstruction'Class;
    type CInstructionBooleanArgument is new CInstruction with
       record
          bArgument : boolean;
@@ -165,16 +167,12 @@ private
          pxPreviousInstruction : pCInstructionItem;
       end record;
 
-
-
-
-
-
    procedure Free(pxInstructionItemToDeallocate : in out pCInstructionItem);
    procedure Destroy_Element(this : in out CInstructionItem; iStopAt : in integer);
    procedure Destroy(this : in out CInstructionItem);
    function Find_Instruction(this : in CInstructionItem; iLineNumberToFind : in integer) return pCInstructionItem;
    procedure Insert_Instruction(this : in out CInstructionItem; pxNewInstructionItem : in out pCInstructionItem);
+
 
    type CInstructionFeeder is new Ada.Finalization.Controlled with
       record
@@ -182,6 +180,7 @@ private
          pxInstructionList : pCInstructionItem;
       end record;
 
+   procedure Add_Instruction(this : in out CInstructionFeeder; pxNewInstruction : in pCInstruction);
    procedure Finalize(this : in out CInstructionFeeder);
 
 end VirtualMachine.InstructionFeeder;

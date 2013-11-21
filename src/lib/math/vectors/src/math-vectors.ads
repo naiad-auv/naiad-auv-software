@@ -11,7 +11,7 @@ with Exception_Handling;
 -- Vectors package for classes, types and functionality regarding vectors. A vector object is stored in a pCVector variable and is created with the pxCreate function.
 package Math.Vectors is
 
-   fVECTOR_PRECISION : constant float := 0.0001;
+   fVECTOR_PRECISION : float := 0.0001;
 
    type CVector is tagged private;
    --  <summary>Class for vector.</summary>

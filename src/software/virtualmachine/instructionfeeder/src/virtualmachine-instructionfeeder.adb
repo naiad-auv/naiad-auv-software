@@ -1,4 +1,54 @@
 package body VirtualMachine.InstructionFeeder is
+   procedure Free is new Ada.Unchecked_Deallocation(CInstruction'Class, pCInstruction);
+
+   procedure Read_Next_Instruction(this : in out CInstructionFeeder; xFileStream : in Ada.Streams.Stream_IO.Stream_Access) is
+      xNewInstruction : CInstruction;
+      pxNewInstruction : pCInstruction;
+   begin
+      Integer'Read(xFileStream, xNewInstruction.iLineNumber);
+      EInstruction'Read(xFileStream, xNewInstruction.eInstr);
+
+      case xNewInstruction.eInstr is
+
+         when INSTR_BRF ! INSTR_BRA ! INSTR_BSR ! INSTR_POP !
+              INSTR_PUSHINT ! INSTR_RVALINT ! INSTR_RVALBOOL !
+                INSTR_RVALFLOAT ! INSTR_RVALMAT ! INSTR_RVALVEC !
+                  INSTR_LVAL ! INSTR_VECCOMP =>
+
+            pxNewInstruction := new CInstructionIntegerArgument;
+            Integer'Read(xFileStream, CInstructionIntegerArgument(pxNewInstruction.all).iArgument);
+
+
+         when INSTR_PUSHBOOL =>
+            pxNewInstruction := new CInstructionBooleanArgument;
+            Boolean'Read(xFileStream, CInstructionBooleanArgument(pxNewInstruction.all).bArgument);
+
+
+         when INSTR_PUSHFLOAT =>
+            pxNewInstruction := new CInstructionFloatArgument;
+            Float'Read(xFileStream, CInstructionFloatArgument(pxNewInstruction.all).fArgument);
+
+         when INSTR_PUSHMAT =>
+            pxNewInstruction := new CInstructionMatrixArgument;
+            Math.Matrices.CMatrix'Read(xFileStream, CInstructionMatrixArgument(pxNewInstruction.all).xArgument);
+
+         when INSTR_PUSHVEC =>
+            pxNewInstruction := new CInstructionVectorArgument;
+            Math.Vectors.CVector'Read(xFileStream, CInstructionVectorArgument(pxNewInstruction.all).xArgument);
+
+         when others =>
+            pxNewInstruction := new CInstruction;
+
+      end case;
+
+      pxNewInstruction.iLineNumber := xNewInstruction.iLineNumber;
+      pxNewInstruction.eInstr := xNewInstruction.eInstr;
+
+      this.Add_Instruction(pxNewInstruction);
+
+   end Read_Next_Instruction;
+
+
 
    procedure Set_Program_Counter(this : in out CInstructionFeeder; iNewProgramCounterValue : in integer) is
    begin
@@ -16,9 +66,7 @@ package body VirtualMachine.InstructionFeeder is
 
    procedure Insert_Instruction(this : in out CInstructionItem; pxNewInstructionItem : in out pCInstructionItem) is
    begin
-      if this.iLineNumber - this.pxNextInstruction.iLineNumber >= 0 then
-
-         pxNewInstructionItem := new CInstructionItem;
+      if this.pxInstruction.iLineNumber - this.pxNextInstruction.pxInstruction.iLineNumber >= 0 then
 
          -- Put in list
          pxNewInstructionItem.pxNextInstruction := this.pxNextInstruction;
@@ -28,7 +76,8 @@ package body VirtualMachine.InstructionFeeder is
 
       else
 
-         this.pxNextInstruction.Insert_Instruction(pCInstructionItem);
+         this.pxNextInstruction.Insert_Instruction(pxNewInstructionItem);
+
       end if;
 
    end Insert_Instruction;
@@ -38,15 +87,15 @@ package body VirtualMachine.InstructionFeeder is
    function Find_Instruction(this : in CInstructionItem; iLineNumberToFind : in integer) return pCInstructionItem is
    begin
 
-      if this.iLineNumber - 1 = iLineNumberToFind then
+      if this.pxInstruction.iLineNumber - 1 = iLineNumberToFind then
          return this.pxPreviousInstruction;
       end if;
 
-      if this.iLineNumber + 1 = iLineNumberToFind then
+      if this.pxInstruction.iLineNumber + 1 = iLineNumberToFind then
          return this.pxNextInstruction;
       end if;
 
-      if this.iLineNumber < iLineNumberToFind then
+      if this.pxInstruction.iLineNumber < iLineNumberToFind then
          return this.pxNextInstruction.Find_Instruction(iLineNumberToFind => iLineNumberToFind);
       end if;
 
@@ -58,9 +107,10 @@ package body VirtualMachine.InstructionFeeder is
    begin
 
       if this.pxNextInstruction /= null and then
-        this.pxNextInstruction.iLineNumber /= iStopAt then
+        this.pxNextInstruction.pxInstruction.iLineNumber /= iStopAt then
 
          this.pxNextInstruction.Destroy_Element(iStopAt => iStopAt);
+         Free(this.pxNextInstruction.pxInstruction);
          Free(this.pxNextInstruction);
 
       end if;
@@ -72,7 +122,8 @@ package body VirtualMachine.InstructionFeeder is
 
       if this.pxNextInstruction /= null then
 
-         this.pxNextInstruction.Destroy_Element(iStopAt => this.iLineNumber);
+         this.pxNextInstruction.Destroy_Element(iStopAt => this.pxInstruction.iLineNumber);
+         Free(this.pxNextInstruction.pxInstruction);
          Free(this.pxNextInstruction);
 
       end if;
@@ -102,5 +153,48 @@ package body VirtualMachine.InstructionFeeder is
       end if;
 
    end Finalize;
+
+
+   procedure Add_Instruction(this : in out CInstructionFeeder; pxNewInstruction : in pCInstruction) is
+      pxNewInstructionItem : pCInstructionItem := new CInstructionItem;
+   begin
+      pxNewInstructionItem.pxInstruction := pxNewInstruction;
+
+      if this.pxInstructionList = null then
+         this.pxInstructionList := pxNewInstructionItem;
+         this.pxInstructionList.pxNextInstruction := this.pxInstructionList;
+         this.pxInstructionList.pxPreviousInstruction := this.pxInstructionList;
+      else
+         this.pxInstructionList.Insert_Instruction(pxNewInstructionItem);
+      end if;
+
+   end Add_Instruction;
+
+   function Feed_Boolean_Argument(this : in CInstructionFeeder) return boolean is
+   begin
+      return CInstructionBooleanArgument(this.pxInstructionList.pxInstruction.all).bArgument;
+   end Feed_Boolean_Argument;
+
+   function Feed_Integer_Argument(this : in CInstructionFeeder) return integer is
+   begin
+      return CInstructionIntegerArgument(this.pxInstructionList.pxInstruction.all).iArgument;
+   end Feed_Integer_Argument;
+
+   function Feed_Float_Argument(this : in CInstructionFeeder) return float is
+   begin
+      return CInstructionFloatArgument(this.pxInstructionList.pxInstruction.all).fArgument;
+   end Feed_Float_Argument;
+
+   function Feed_Vector_Argument(this : in CInstructionFeeder) return Math.Vectors.CVector is
+   begin
+      return CInstructionVectorArgument(this.pxInstructionList.pxInstruction.all).xArgument;
+   end Feed_Vector_Argument;
+
+   function Feed_Matrix_Argument(this : in CInstructionFeeder) return Math.Matrices.CMatrix is
+   begin
+      return CInstructionMatrixArgument(this.pxInstructionList.pxInstruction.all).xArgument;
+   end Feed_Matrix_Argument;
+
+
 
 end VirtualMachine.InstructionFeeder;
