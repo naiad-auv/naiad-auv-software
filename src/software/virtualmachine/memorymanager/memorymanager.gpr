@@ -1,3 +1,4 @@
+with "../addressstack/addressstack.gpr";
 with "../vectorstack/vectorstack.gpr";
 with "../../../lib/math/vectors/vectors.gpr";
 with "../matrixstack/matrixstack.gpr";
