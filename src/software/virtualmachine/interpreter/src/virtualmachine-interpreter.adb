@@ -198,10 +198,6 @@ package body VirtualMachine.Interpreter is
          when INSTR_MULMAT =>
             this.Instr_Multiply_Matrix;
 
-
-         when others =>
-            null;
-
       end case;
 
    end Step;
