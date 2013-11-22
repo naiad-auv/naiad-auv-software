@@ -65,8 +65,12 @@ it is not possible.)
 ```
 export PATH=/usr/gnat/bin:$PATH
 env | grep -i shell
-./build_script /var/lib/jenkins/workspace/naiad-auv-software/src/
+cd scripts
+pwd
+ls -al
+./build_script.sh -o XML -d OFF
 ```
+
 The above lines are for debbugging to make sure you have the correct path
 for compiling Ada with gnatmake. As well as confirming you are running bash
 as shell and nothing else.
