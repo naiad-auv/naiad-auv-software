@@ -36,7 +36,7 @@ through any suitable webbrowser.
 7. Check "Github plugin" and "xUnit plugin", install without restart.
 **(This can randomly fail. If it does not work, try again)**.
 8. Go to "Updates" (tab) and make sure that the "Credentials plugin" is up to date.
-9. Enable basic security. Go to "Mange Jenkins" > "Configure Global Security".
+9. Enable basic security. Go to "Manage Jenkins" > "Configure Global Security".
 10. Check to box "Enable security".
 11. Choose "Jenkins own user database".
 12. Check "Allow users to sign up" if it is not already checked.
@@ -48,7 +48,6 @@ through any suitable webbrowser.
 1. Go to "Manage Jenkins" > "Configure System"
 2. Under the "Git" section the default values should be enough.
 3. Under the "Git plugin" section set any value that you found reasonable.
-
 4. Go back to start page.
 5. Select "New Job".
 6. Select a suitable "Job name" without spaces (stay with lower-case, dash and underscore).
