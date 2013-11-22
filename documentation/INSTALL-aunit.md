@@ -13,9 +13,9 @@ As we used Ubuntu 12.04.3 64-bit, x86_64-linux was our choice.
 
 From 2013 and forward Aunit is bundled with GNAT so in the list
 chose GNAT 2013 by pressing the small arrow to the left. Then press the arrow
-next to "sources" and download ´´´aunit-gpl-2013-src.tgz´´´.
+next to "sources" and download ```aunit-gpl-2013-src.tgz```.
 
-´´´
+```
 tar xvf aunit-gpl-2013-src.tgz
 cd aunit-gpl-2013-src
 make
@@ -25,4 +25,4 @@ make install
 ADA_PROJECT_PATH=/usr/lib/gnat
 and/or
 GPR_PROJECT_PATH=/usr/lib/gnat
-´´´
+```
