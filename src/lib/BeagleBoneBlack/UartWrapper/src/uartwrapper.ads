@@ -17,8 +17,9 @@ package UartWrapper is
 
    procedure Uart_Write(this : in out CUartHandler; stringToBeWritten : string);
 
-   procedure UartRead (this : in CUartHandler; sStringRead : out string; iNumBytesRead : out integer);
+   procedure UartRead (this : in out CUartHandler; sStringRead : out string; iNumBytesRead : out integer);
 
+  procedure UartReadSpecificAmount(this : in out CUartHandler; sStringRead : out string; iBytesToRead : in integer;  iNumBytesRead : out integer);
 private
 
    function openUartPort(portname : C.char_array; speed : C.int; should_block : C.int) return C.int;
