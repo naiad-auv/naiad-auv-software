@@ -12,6 +12,7 @@ with Gtk.Widget;
 with Gtk.Drawing_Area;
 with Gdk.Drawable;
 with Ada.Text_IO;
+with Text_Handling;
 
 package body SetWantedStuffGUILogic is
 
@@ -26,26 +27,14 @@ package body SetWantedStuffGUILogic is
    begin
       Ada.Text_IO.Put_Line("Updating wanted pos and orientation");
 
-      xViewmodel.Set_Wanted_Position_And_Orientation(fPositionX    => fTry_Get_Float_From_Text_Box(sPositionX.Get_Text),
-                                                     fPositionY    => fTry_Get_Float_From_Text_Box(sPositionY.Get_Text),
-                                                     fPositionZ    => fTry_Get_Float_From_Text_Box(sPositionZ.Get_Text),
-                                                     fRotationX => fTry_Get_Float_From_Text_Box(sRotationX.Get_Text),
-                                                     fRotationY => fTry_Get_Float_From_Text_Box(sRotationY.Get_Text),
-                                                     fRotationZ => fTry_Get_Float_From_Text_Box(sRotationZ.Get_Text));
+      xViewmodel.Set_Wanted_Position_And_Orientation(fPositionX    => Text_Handling.fTry_Get_Float_String(sPositionX.Get_Text, 0.0),
+                                                     fPositionY    => Text_Handling.fTry_Get_Float_String(sPositionY.Get_Text, 0.0),
+                                                     fPositionZ    => Text_Handling.fTry_Get_Float_String(sPositionZ.Get_Text, 0.0),
+                                                     fRotationX => Text_Handling.fTry_Get_Float_String(sRotationX.Get_Text, 0.0),
+                                                     fRotationY => Text_Handling.fTry_Get_Float_String(sRotationY.Get_Text, 0.0),
+                                                     fRotationZ => Text_Handling.fTry_Get_Float_String(sRotationZ.Get_Text, 0.0));
    exception
       when E : others =>
-         Ada.Text_IO.Put_Line("ABO");
+         Ada.Text_IO.Put_Line("Exception occured when setting wanted data");
    end Update_Wanted_Position;
-
-   function fTry_Get_Float_From_Text_Box(sValueToConvert : string) return float is
-   begin
-      return Float'Value(sValuetoConvert);
-
-   exception
-      when E : others =>
-         return 0.0;
-   end fTry_Get_Float_From_Text_Box;
-
-
-
 end SetWantedStuffGUILogic;

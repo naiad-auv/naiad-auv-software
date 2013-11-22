@@ -8,7 +8,4 @@ package SetWantedStuffGUILogic is
 
    procedure Update_Wanted_Position(pxObject : access Gtkada.Builder.Gtkada_Builder_Record'Class);
 
-private
-   function fTry_Get_Float_From_Text_Box(sValueToConvert : string) return float;
-
 end SetWantedStuffGUILogic;

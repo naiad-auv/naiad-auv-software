@@ -5,7 +5,7 @@ A -gnatA
 P SS ZX
 R nnnnnnnnnnnnvnnnnnvvnvnnnvnnnnnnnnnnnnnnnvnnvnnnnnnnnnnnnnvnnvnnnnnnnnnnnnnnnnnn
 
-U actuatorsgui%b	actuatorsgui.adb	d2aaa720 NE OO PK
+U actuatorsgui%b	actuatorsgui.adb	690a0bca NE OO PK
 W actuatorsguilogic%s	actuatorsguilogic.adb	actuatorsguilogic.ali
 W ada%s			ada.ads			ada.ali
 W ada.exceptions%s	a-except.adb		a-except.ali
@@ -30,8 +30,8 @@ W simulator%s		simulator.adb		simulator.ali
 W simulator.model%s	simulator-model.adb	simulator-model.ali
 
 D actuatorsgui.ads	20131111091020 527dacca
-D actuatorsgui.adb	20131114092339 308686b3
-D actuatorsguilogic.ads	20131111095916 e9fe4bad
+D actuatorsgui.adb	20131118133953 0a8b43b7
+D actuatorsguilogic.ads	20131118133701 68532243
 D ada.ads		20070406091342 3ffc8e18
 D a-charac.ads		20070912115821 2d3ec45b
 D a-chlat1.ads		20070912115821 2825df20
@@ -92,6 +92,8 @@ D gtk-drawing_area.ads	20130726070842 b23c236e
 D gtk-enums.ads		20130726070842 31c39095
 D gtk-main.ads		20130726070842 47a9747a
 D gtk-object.ads	20130726070842 2b4b2b20
+D gtk-progress.ads	20130726070842 1a0f8d80
+D gtk-progress_bar.ads	20130726070842 20d30200
 D gtk-style.ads		20130726070842 1c4cbc80
 D gtk-widget.ads	20130726070842 468b5cfd
 D gtkada.ads		20130726070842 57aea1c7
@@ -103,10 +105,10 @@ D i-cstrin.ads		20090417131547 f3023ec4
 D i-cstrea.ads		20100622165701 1bd72c32
 D math.ads		20131104082225 6eeac05e
 D math-angles.ads	20131104082225 31c28d09
-D math-matrices.ads	20131104082225 da992515
+D math-matrices.ads	20131121091623 576dea10
 D math-planes.ads	20131104082225 57637e7b
 D math-quaternions.ads	20131104082225 f5582cff
-D math-vectors.ads	20131104082225 8121913e
+D math-vectors.ads	20131121091623 20c0c877
 D navigation.ads	20131104082225 afdfd964
 D navigation-dispatcher.ads  20131112092154 bb53e3cd
 D navigation-motion_component.ads  20131112092154 5201bdd1
@@ -152,96 +154,102 @@ D s-unstyp.ads		20090409150019 6ae15c76
 D s-wchcon.ads		20090417130712 bfeb2e3d
 D unchconv.ads		20070406091342 ca2f9e18
 X 1 actuatorsgui.ads
-3K9*ActuatorsGUI 7l5 7e17 2|14b14 67l5 67t17
-5U14*Start_GUI 5>24 2|28b14 65l8 65t17
-5p24 xModel{96|14P9} 2|28b25 51r21
+3K9*ActuatorsGUI 7l5 7e17 2|14b14 69l5 69t17
+5U14*Start_GUI 5>24 2|30b14 67l8 67t17
+5p24 xModel{98|14P9} 2|30b25 53r21
 X 2 actuatorsgui.adb
-16U14 Register_Handlers 16b14 16=32 20l8 20t25 49s7
-16p32 xBuilder{67|85P9}
-22U14 Setup_Backend 22b14 22>28 26l8 26t21 51s7
-22p28 xModel{96|14P9} 24r35 25r78
-33p7 xBuilder{67|85P9} 39m16 40r32 49m25 53r19 55r40 58r14
-34p7 xError{47|35P9} 40m7 41r10 43r49 44r22
-61r12 E{10|68R9} 62r64 63r54
+16U14 Register_Handlers 16b14 16=32 22l8 22t25 51s7
+16p32 xBuilder{69|85P9} 19r26
+24U14 Setup_Backend 24b14 24>28 28l8 28t21 53s7
+24p28 xModel{98|14P9} 26r35 27r78
+35p7 xBuilder{69|85P9} 41m16 42r32 51m25 55r19 57r40 60r14
+36p7 xError{47|35P9} 42m7 43r10 45r49 46r22
+63r12 E{10|68R9} 64r64 65r54
 X 3 actuatorsguilogic.ads
-7K9*ActuatorsGUILogic 2|10w6 24r7 25r7 3|15e22
-9p4*xModel{96|14P9} 2|24m25
-10p4*xViewmodel{100|6P9} 2|25m25
+8K9*ActuatorsGUILogic 2|10w6 21r26 26r7 27r7 3|25e22
+14p4*xModel{98|14P9} 2|26m25
+15p4*xViewmodel{102|6P9} 2|27m25
+19U14*Register_Timeout_Handlers 2|21r44
 X 4 ada.ads
-16K9*Ada 2|8r6 12r6 42r10 43r10 62r10 62r31 4|19e8
+16K9*Ada 2|8r6 12r6 44r10 45r10 64r10 64r31 4|19e8
 X 10 a-except.ads
-55K13*Exceptions 2|12w10 62r35 10|370e19
-99V13*Exception_Message{string} 2|62s46
+55K13*Exceptions 2|12w10 64r35 10|370e19
+99V13*Exception_Message{string} 2|64s46
 X 23 a-textio.ads
-49K13*Text_IO 2|8w10 42r14 43r14 62r14 23|472e16
-243U14*Put 2|42s22 43s22
-264U14*Put_Line 2|62s22
+49K13*Text_IO 2|8w10 44r14 45r14 64r14 23|472e16
+243U14*Put 2|44s22 45s22
+264U14*Put_Line 2|64s22
 X 28 exception_handling.ads
-4K9*Exception_Handling 2|5w6 63r10 28|70e23
-46U14*Unhandled_Exception 2|63s29
-46r35 E{10|68R9} 2|63r49
+4K9*Exception_Handling 2|5w6 65r10 28|70e23
+46U14*Unhandled_Exception 2|65s29
+46r35 E{10|68R9} 2|65r49
 X 29 gdk.ads
 41P9*Gdk_Drawable<46|149P9>
 50P9*Gdk_Visual<46|149P9>
 X 44 gdk-visual.ads
-77V13*Convert[122|20]{102|64M9} 49|57i21
-78V13*Convert[122|20]{29|50P9} 49|58i21
+77V13*Convert[124|20]{104|64M9} 49|57i21
+78V13*Convert[124|20]{29|50P9} 49|58i21
 X 45 gdk-window.ads
-531V13*Convert[122|20]{102|64M9} 49|57i21
-532V13*Convert[122|20]{29|41P9} 49|58i21
+531V13*Convert[124|20]{104|64M9} 49|57i21
+532V13*Convert[124|20]{29|41P9} 49|58i21
 X 46 glib.ads
-37K9*Glib 2|2r6 9r6 30r11 34r18 43r26 46|402e9
+37K9*Glib 2|2r6 9r6 32r11 36r18 45r26 46|402e9
 149P9*C_Proxy(146R9)
 X 47 glib-error.ads
-32K14*Error 2|2w11 9w11 30r16 34r23 43r31 47|67e15
-35P9*GError<46|149P9> 2|34r29
-43U14*Error_Free 2|44s10
-59V13*Get_Message{string} 2|43s37
+32K14*Error 2|2w11 9w11 32r16 36r23 45r31 47|67e15
+35P9*GError<46|149P9> 2|36r29
+43U14*Error_Free 2|46s10
+59V13*Get_Message{string} 2|45s37
 X 51 glib-object.ads
 40P9*GObject(39R9)
-83U14*Unref 2|58R7
-415V13*Convert{102|64M9} 49|57i21 50|49i21
+83U14*Unref 2|60R7
+415V13*Convert{104|64M9} 49|57i21 50|49i21
 416V13*Convert{40P9} 49|58i21 50|50i21
 X 55 gtk.ads
-41K9*Gtk 2|1r6 3r6 37r7 55r7 56r7 55|77e8
+41K9*Gtk 2|1r6 3r6 39r7 57r7 58r7 55|77e8
 X 59 gtk-builder.ads
-83V13*Add_From_File{47|35P9} 2|40R17
-109V13*Get_Widget{65|72P9} 2|55R28
+83V13*Add_From_File{47|35P9} 2|42R17
+109V13*Get_Widget{67|72P9} 2|57R28
 X 61 gtk-enums.ads
-442V13*Convert{102|64M9} 49|57i21 50|49i21
+442V13*Convert{104|64M9} 49|57i21 50|49i21
 443V13*Convert{string} 49|58i21 50|50i21
 X 62 gtk-main.ads
-41K13*Main 2|1w10 37r11 56r11 62|513e13
-48U14*Init 2|37s16
-148U14*Main 2|56s16
+41K13*Main 2|1w10 39r11 58r11 62|513e13
+48U14*Init 2|39s16
+148U14*Main 2|58s16
 X 63 gtk-object.ads
 100P9*Gtk_Object(99R9)
-137V13*Convert{102|64M9} 50|49i21
+137V13*Convert{104|64M9} 50|49i21
 138V13*Convert{100P9} 50|50i21
-X 65 gtk-widget.ads
-70K13*Widget 2|3w10 55r11 65|2429e15
+X 67 gtk-widget.ads
+70K13*Widget 2|3w10 57r11 67|2429e15
 72P9*Gtk_Widget(71R9)
-115V13*Convert{102|64M9} 49|57i21 50|49i21
+115V13*Convert{104|64M9} 49|57i21 50|49i21
 116V13*Convert{72P9} 49|58i21 50|50i21
-161U14*Show_All 2|55R18
-X 66 gtkada.ads
-30K9*Gtkada 2|4r6 16r50 31r11 66|34e11
-X 67 gtkada-builder.ads
-81K16*Builder 2|4w13 16r57 31r18 67|174e19
-85P9*Gtkada_Builder(83R9) 2|16r65 33r26
-87U14*Gtk_New 2|39s7
-91U14*Do_Connect 2|53s7
-X 94 pidconfigurationguilogic.ads
-5K9*PIDConfigurationGUILogic 2|6w6 94|21e29
-X 95 simulator.ads
-1K9*Simulator 1|1r6 5r33 2|11r6 22r37 25r39 28r34 95|5e14
-X 96 simulator-model.ads
-9K19*Model 1|1w16 5r43 2|22r47 28r44 96|53e20
-14P9*pCModel(13R9) 1|5r49 2|22r53 28r50
-X 100 simulator-viewmodel_actuators.ads
-3K19*ViewModel_Actuators 2|11w16 25r49 100|22e34
+161U14*Show_All 2|57R18
+X 68 gtkada.ads
+30K9*Gtkada 2|4r6 16r50 18r7 33r11 68|34e11
+X 69 gtkada-builder.ads
+81K16*Builder 2|4w13 16r57 18r14 33r18 69|174e19
+85P9*Gtkada_Builder(83R9) 2|16r65 35r26
+87U14*Gtk_New 2|41s7
+91U14*Do_Connect 2|55s7
+102P9*Builder_Handler
+108U14*Register_Handler 2|18s22
+109p7 Builder(83R9) 2|19r10
+110s7 Handler_Name{string} 2|20r10
+111p7 Handler{102P9} 2|21r10
+X 96 pidconfigurationguilogic.ads
+5K9*PIDConfigurationGUILogic 2|6w6 96|21e29
+X 97 simulator.ads
+1K9*Simulator 1|1r6 5r33 2|11r6 24r37 27r39 30r34 97|5e14
+X 98 simulator-model.ads
+9K19*Model 1|1w16 5r43 2|24r47 30r44 98|53e20
+14P9*pCModel(13R9) 1|5r49 2|24r53 30r50
+X 102 simulator-viewmodel_actuators.ads
+3K19*ViewModel_Actuators 2|11w16 27r49 102|22e34
 6P9*pCViewModel_Actuators(5R9)
-10V13*pxCreate{6P9} 2|25s69
-X 102 system.ads
+10V13*pxCreate{6P9} 2|27s69
+X 104 system.ads
 64M9*Address
 
