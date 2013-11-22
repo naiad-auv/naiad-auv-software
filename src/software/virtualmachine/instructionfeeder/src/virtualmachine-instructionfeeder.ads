@@ -111,6 +111,7 @@ package VirtualMachine.InstructionFeeder is
    procedure Free(pxInstructionFeederToDeallocate : in out pCInstructionFeeder);
 
    procedure Set_Program_Counter(this : in out CInstructionFeeder; iNewProgramCounterValue : in integer);
+   procedure Get_Program_Counter(this: in CInstructionFeeder; iCurrentProgramCounterValue : out integer);
 
    function Feed_Instruction(this : in CInstructionFeeder) return VirtualMachine.InstructionFeeder.EInstruction;
 
@@ -177,5 +178,6 @@ private
 
    procedure Add_Instruction(this : in out CInstructionFeeder; pxNewInstruction : in pCInstruction);
    procedure Finalize(this : in out CInstructionFeeder);
+   procedure Initialize(this : in out CInstructionFeeder);
 
 end VirtualMachine.InstructionFeeder;

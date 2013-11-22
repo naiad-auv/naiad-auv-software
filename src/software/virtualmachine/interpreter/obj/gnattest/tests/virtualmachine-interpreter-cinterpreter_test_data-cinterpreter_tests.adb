@@ -20,8 +20,13 @@ package body VirtualMachine.Interpreter.CInterpreter_Test_Data.CInterpreter_Test
 
       pragma Unreferenced (Gnattest_T);
 
+      pxInterpreter : pCInterpreter := new CInterpreter;
    begin
 
+      pxInterpreter.Step(fDeltaTime => 0.1);
+      pxInterpreter.Step(fDeltaTime => 0.1);
+      pxInterpreter.Step(fDeltaTime => 0.1);
+      pxInterpreter.Test_Print_Vector;
       AUnit.Assertions.Assert
         (Gnattest_Generated.Default_Assert_Value,
          "Test not implemented.");

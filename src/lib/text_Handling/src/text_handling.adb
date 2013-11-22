@@ -44,11 +44,13 @@ package body Text_Handling is
 
    function iFind_Next(sText : in string; cCharacterToFind : in character; iStartFromIndex : in integer) return integer is
    begin
-      for i in iStartFromIndex .. sText'Length loop
-         if sText(i) = cCharacterToFind then
+
+      for i in sText'Range loop
+         if iStartFromIndex <= i and then sText(i) = cCharacterToFind then
             return i;
          end if;
       end loop;
+
       return -1;
    end iFind_Next;
 
