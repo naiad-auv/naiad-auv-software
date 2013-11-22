@@ -12,7 +12,6 @@
 ---------------------------------------------------------------------------
 
 with Ada.Text_IO;
-with UartWrapper;
 with GNAT.Serial_Communications;
 with CAN_Link_Utils;
 with Exception_Handling;
@@ -24,12 +23,12 @@ package body BBB_CAN is
 
    pxUart : UartWrapper.pCUartHandler;
 
-   procedure Init(sPort : String; baud : GNAT.Serial_Communications.Data_Rate) is
+   procedure Init(sPort : String; baud : UartWrapper.BaudRates) is
    begin
       --initiates UART commiunication:
     --  Ada.Text_IO.Put_Line("Opening " & "/dev/" & sPort & ", baudrate: " & baud'Img);
     --  pxUart := UartWrapper.pxCreate(GNAT.Serial_Communications.Port_Name("/dev/" & sPort), baud, 0.2, 100);
-      pxUart := UartWrapper.pxCreate(GNAT.Serial_Communications.Port_Name("/dev/" & sPort), baud, 0.2, 200, 1);
+      pxUart := UartWrapper.pxCreate("/dev/" & sPort, baud, 0.2, 200, 1);
    end Init;
 
 --     function Handshake return Boolean is
@@ -131,8 +130,8 @@ package body BBB_CAN is
       iBytes : Integer;
 
    begin
-      pxUart.UartReadSpecificAmount(Queue.iSIZE - Queue.iDataAvailable - 1, iTempBytesRead, sTempBuffer);
---pxUart.UartRead(sTempBuffer, iNumBytesRead =>
+
+	pxUart.UartReadSpecificAmount(sTempBuffer, Queue.iSIZE - Queue.iDataAvailable - 1, iTempBytesRead);
       --Ada.Text_IO.Put_Line("pxUart.UartReadSpecificAmount iTempBytesRead=" & iTempBytesRead'Img);
 
 

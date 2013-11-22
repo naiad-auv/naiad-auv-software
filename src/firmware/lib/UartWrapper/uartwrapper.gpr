@@ -2,7 +2,7 @@ project Uartwrapper is
 
    for Source_Dirs use ("src");
    for Object_Dir use "obj";
-   for Main use ("main.adb");
+   for Main use ("uartwrapper.adb");
 
    package Ide is
    end Ide;

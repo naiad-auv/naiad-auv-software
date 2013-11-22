@@ -1,7 +1,7 @@
+with "../lib/UartWrapper/uartwrapper.gpr";
 with "../../lib/exception_handling/exception_handling.gpr";
 with "../queue/queue.gpr";
 with "../can_link_utils/can_link_utils_testing.gpr";
-with "../../lib/BeagleBoneBlack/UartWrapper/uartwrapper.gpr";
 
 project BBB_CAN is
 
