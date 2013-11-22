@@ -6,6 +6,8 @@ with Math.Vectors;
 
 package Parser is
 
+   function sAdd_Instr_String(sInstruction : in string) return string;
+   function sCharacter_To_String(cCharacter : in character) return string;
    function sGet_Next_Word_From_File (xFile : in Ada.Text_IO.File_Type; sReturnString : string := "") return string;
    function sGet_Next_Character_From_File (xFile : in Ada.Text_IO.File_Type) return character;
    function sGet_Vector_From_File (xFile : in Ada.Text_IO.File_Type; sReturnString : in string := ""; iState : in integer := 0) return string;

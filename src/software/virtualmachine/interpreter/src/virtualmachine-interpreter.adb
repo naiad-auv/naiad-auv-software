@@ -1,3 +1,4 @@
+with Ada.Text_IO;
 package body VirtualMachine.Interpreter is
 
    procedure Free(pxInterpreterToDeallocate : in out pCInterpreter) is
@@ -219,6 +220,14 @@ package body VirtualMachine.Interpreter is
       end if;
 
    end Finalize;
+
+   procedure Initialize(this : in out CInterpreter) is
+   begin
+      this.pxInstructionFeeder := new VirtualMachine.InstructionFeeder.CInstructionFeeder;
+      this.pxInstructionFeeder.Get_Program_Counter(this.iProgramCounter);
+
+      this.pxMemoryManager := new VirtualMachine.MemoryManager.CMemoryManager;
+   end Initialize;
 
 
    procedure Instr_Push_Bool(this : in out CInterpreter; bArgument : in boolean) is
@@ -721,6 +730,13 @@ package body VirtualMachine.Interpreter is
       this.iProgramCounter := this.iProgramCounter + 1;
       this.pxInstructionFeeder.Set_Program_Counter(iNewProgramCounterValue => this.iProgramCounter);
    end Instr_Multiply_Matrix;
+
+   procedure Test_Print_Vector(this : in out CInterpreter) is
+      xVector : Math.Vectors.CVector;
+   begin
+      this.pxMemoryManager.Pop_Vector(xValue => xVector);
+      Ada.Text_IO.Put_Line("Vector: " & xVector.fGet_X'Img & xVector.fGet_Y'Img & xVector.fGet_Z'Img);
+   end Test_Print_Vector;
 
 
 end VirtualMachine.Interpreter;

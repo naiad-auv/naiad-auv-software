@@ -65,6 +65,7 @@ private
 
 
    procedure Finalize(this : in out CMemoryManager);
+   procedure Initialize(this : in out CMemoryManager);
 
 
 end VirtualMachine.MemoryManager;
