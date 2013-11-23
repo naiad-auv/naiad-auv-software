@@ -20,11 +20,11 @@ package Can_Float_Conversions is
 
    --all 8 bytes of b8Message need to be sent
    procedure Acceleration_To_Message(fAccX : float; fAccY : float; fAccZ : float; b8Message : out AVR.AT90CAN128.CAN.Byte8);
-   procedure Message_To_Acceleration(b8Message : AVR.AT90CAN128.CAN.Byte8; fAccX : out float; fAccY : out float; fAccZ : out float);
+   procedure Message_To_Acceleration(fAccX : out float; fAccY : out float; fAccZ : out float; b8Message : AVR.AT90CAN128.CAN.Byte8);
 
    --only the 3 first bytes of b8Message need to be sent
    procedure GyroReading_To_Message(fGyroReading : float; b8Message : out AVR.AT90CAN128.CAN.Byte8);
-   procedure Message_To_GyroReading(b8Message : AVR.AT90CAN128.CAN.Byte8; fGyroReading : out float);
+   procedure Message_To_GyroReading(fGyroReading : out float; b8Message : AVR.AT90CAN128.CAN.Byte8);
 
 private
 
@@ -32,15 +32,15 @@ private
    fPITCH_MAX   : constant float := 90.0;
    fROLL_MAX 	: constant float := 180.0;
 
-   fYAW_RESOLUTION   : constant float  := fYAW_MAX   / Float(2 ** 21);  --angles in degrees
-   fPITCH_RESOLUTION : constant float  := fPITCH_MAX / Float(2 ** 21);
-   fROLL_RESOLUTION  : constant float  := fROLL_MAX   / Float(2 ** 21);
+   fYAW_RESOLUTION   : constant float  := 2.0 * fYAW_MAX   / Float(2 ** 21);  --angles in degrees
+   fPITCH_RESOLUTION : constant float  := 2.0 * fPITCH_MAX / Float(2 ** 21);
+   fROLL_RESOLUTION  : constant float  := 2.0 * fROLL_MAX   / Float(2 ** 21);
 
    fACCELERATION_MAX 		: float := 20.0; --acceleration in m/s^2
-   fACCELERATION_RESOLUTION 	: float := fACCELERATION_MAX / Float(2 ** 21);
+   fACCELERATION_RESOLUTION 	: float := 2.0 * fACCELERATION_MAX / Float(2 ** 21);
 
    fGYRO_MAX 		: float := 180.0; --angle in degrees
-   fGYRO_RESOLUTION 	: float := fGYRO_MAX / Float(2 ** 24);
+   fGYRO_RESOLUTION 	: float := 2.0 * fGYRO_MAX / Float(2 ** 24);
 
 
    type Integer_21 is range -2 ** 20 .. 2 ** 20 - 1;
@@ -62,7 +62,7 @@ private
    end record;
    for TOrientation'Size use 64;
 
-   function TOrientationToMessage is new Ada.Unchecked_Conversion(TOrientation, AVR.AT90CAN128.CAN.Byte8);
+   function b8OrientationToMessage is new Ada.Unchecked_Conversion(TOrientation, AVR.AT90CAN128.CAN.Byte8);
    function TMessageToOrientation is new Ada.Unchecked_Conversion(AVR.AT90CAN128.CAN.Byte8, TOrientation);
 
    type Integer_24 is range -2 ** 23 .. 2 ** 23 - 1;
