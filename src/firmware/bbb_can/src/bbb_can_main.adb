@@ -13,7 +13,8 @@
 with Ada.Text_IO;
 with Ada.Command_line;
 with Ada.Text_IO;
-with GNAT.Serial_Communications;
+
+with UartWrapper;
 
 with AVR.AT90CAN128;
 with AVR.AT90CAN128.CAN;
@@ -36,16 +37,12 @@ begin
    else
       declare
          sPort : String := Ada.Command_line.Argument(1);
-         baud : GNAT.Serial_Communications.Data_Rate;
+         baud : UartWrapper.BaudRates;
       begin
          if Ada.Command_line.Argument(2) = "9600" then
-            baud := GNAT.Serial_Communications.B9600;
-         elsif Ada.Command_line.Argument(2) = "38400" then
-            baud := GNAT.Serial_Communications.B38400;
-         elsif Ada.Command_line.Argument(2) = "57600" then
-            baud := GNAT.Serial_Communications.B57600;
+            baud := UartWrapper.B9600;
          elsif Ada.Command_line.Argument(2) = "115200" then
-            baud := GNAT.Serial_Communications.B115200;
+            baud := UartWrapper.B115200;
          else
             Ada.Text_IO.Put_Line("ERROR: Incorrect baudrate!");
             return;

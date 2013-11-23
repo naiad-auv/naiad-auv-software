@@ -210,5 +210,10 @@ package body VirtualMachine.MemoryManager is
    end Reset_Previous_Frame_Pointer;
 
 
+   procedure Initialize(this : in out CMemoryManager) is
+   begin
+      this.pxMemoryStack := new VirtualMachine.MemoryStack.CMemoryStack;
+   end Initialize;
+
 
 end VirtualMachine.MemoryManager;

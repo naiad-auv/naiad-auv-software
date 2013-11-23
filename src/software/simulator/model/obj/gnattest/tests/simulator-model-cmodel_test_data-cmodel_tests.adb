@@ -32,7 +32,7 @@ type TArrayOfPidScalings is array (PositionX .. RotationZ) of simulator.Model.TP
       pxModel := simulator.Model.pxCreate(4);
 
       pxModel.pxSubmarine.Set_Position_Vector(xPositionVector => xPositionVector);
-      Put_Line("Before Setting Updating X:" & pxModel.xGet_Current_Submarine_Positional_Vector.fGet_X'img & " Y: " & pxModel.xGet_Current_Submarine_Positional_Vector.fGet_Y'img & " Z: " & pxModel.xGet_Current_Submarine_Positional_Vector.fGet_Z'img);
+      -- Put_Line("Before Setting Updating X:" & pxModel.xGet_Current_Submarine_Positional_Vector.fGet_X'img & " Y: " & pxModel.xGet_Current_Submarine_Positional_Vector.fGet_Y'img & " Z: " & pxModel.xGet_Current_Submarine_Positional_Vector.fGet_Z'img);
 
       pxModel.Update_Model(fDeltaTime => 1.0);
       pxModel.Update_Model(fDeltaTime => 1.0);
@@ -40,7 +40,7 @@ type TArrayOfPidScalings is array (PositionX .. RotationZ) of simulator.Model.TP
                               Message   => "Simulator.Model.Update_Model failed, Faulty X Value, should be equal");
       aunit.Assertions.Assert(Condition => pxModel.xGet_Current_Submarine_Positional_Vector.fGet_Y = xPositionVector.fGet_Y,
                               Message   => "Simulator.Model.Update_Model failed, Faulty Y Value, should be equal");
-      Put_Line("Before Setting txPidScalings X:" & pxModel.xGet_Current_Submarine_Positional_Vector.fGet_X'img & " Y: " & pxModel.xGet_Current_Submarine_Positional_Vector.fGet_Y'img & " Z: " & pxModel.xGet_Current_Submarine_Positional_Vector.fGet_Z'img);
+      -- Put_Line("Before Setting txPidScalings X:" & pxModel.xGet_Current_Submarine_Positional_Vector.fGet_X'img & " Y: " & pxModel.xGet_Current_Submarine_Positional_Vector.fGet_Y'img & " Z: " & pxModel.xGet_Current_Submarine_Positional_Vector.fGet_Z'img);
 
       txPidScalings(PositionX) :=(0.1,0.2,0.5);
       txPidScalings(PositionY) :=(0.3,0.6,0.7);
@@ -56,7 +56,7 @@ type TArrayOfPidScalings is array (PositionX .. RotationZ) of simulator.Model.TP
       pxModel.pxSubmarine.Set_Position_Vector(xPositionVector => xPositionVector);
       pxModel.Update_Model(fDeltaTime => 1.0);
       pxModel.Update_Model(fDeltaTime => 1.0);
-      Put_Line("After Updating with pids set X:" & pxModel.xGet_Current_Submarine_Positional_Vector.fGet_X'img & " Y: " & pxModel.xGet_Current_Submarine_Positional_Vector.fGet_Y'img & " Z: " & pxModel.xGet_Current_Submarine_Positional_Vector.fGet_Z'img);
+      -- Put_Line("After Updating with pids set X:" & pxModel.xGet_Current_Submarine_Positional_Vector.fGet_X'img & " Y: " & pxModel.xGet_Current_Submarine_Positional_Vector.fGet_Y'img & " Z: " & pxModel.xGet_Current_Submarine_Positional_Vector.fGet_Z'img);
 
       aunit.Assertions.Assert(Condition => pxModel.xGet_Current_Submarine_Positional_Vector.fGet_X /= xPositionVector.fGet_X,
                               Message   => "Simulator.Model.Update_Model failed, Faulty X Value, should be different");
@@ -305,7 +305,7 @@ type TArrayOfPidScalings is array (PositionX .. RotationZ) of simulator.Model.TP
                               Message   => "Simulator.Model.Restart Failed, Pointers from old to new Submarine is the same");
       pxModel.Update_Model(fDeltaTime => 1.0);
       pxModel.Update_Model(fDeltaTime => 1.0);
-      Put_Line("After Updating with pids set X:" & pxModel.xGet_Current_Submarine_Positional_Vector.fGet_X'img & " Y: " & pxModel.xGet_Current_Submarine_Positional_Vector.fGet_Y'img & " Z: " & pxModel.xGet_Current_Submarine_Positional_Vector.fGet_Z'img);
+      -- Put_Line("After Updating with pids set X:" & pxModel.xGet_Current_Submarine_Positional_Vector.fGet_X'img & " Y: " & pxModel.xGet_Current_Submarine_Positional_Vector.fGet_Y'img & " Z: " & pxModel.xGet_Current_Submarine_Positional_Vector.fGet_Z'img);
 
       aunit.Assertions.Assert(Condition => pxModel.xGet_Current_Submarine_Positional_Vector.fGet_X = xPositionVector.fGet_X,
                               Message   => "Simulator.Model.Restart failed, Faulty X Value, should be equal");

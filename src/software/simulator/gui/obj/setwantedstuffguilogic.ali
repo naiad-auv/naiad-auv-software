@@ -133,10 +133,10 @@ D i-cstrin.ads		20090417131547 f3023ec4
 D i-cstrea.ads		20100622165701 1bd72c32
 D math.ads		20131104082225 6eeac05e
 D math-angles.ads	20131104082225 31c28d09
-D math-matrices.ads	20131104082225 da992515
+D math-matrices.ads	20131121091623 576dea10
 D math-planes.ads	20131104082225 57637e7b
 D math-quaternions.ads	20131104082225 f5582cff
-D math-vectors.ads	20131104082225 8121913e
+D math-vectors.ads	20131121091623 20c0c877
 D navigation.ads	20131104082225 afdfd964
 D navigation-dispatcher.ads  20131112092154 bb53e3cd
 D navigation-motion_component.ads  20131112092154 5201bdd1

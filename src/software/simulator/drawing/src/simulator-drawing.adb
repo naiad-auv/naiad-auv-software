@@ -5,98 +5,85 @@ with Math.Matrices;
 with Gdk.Drawable;
 with Glib;
 with Gtk.Widget;
+with Gtk.Window;
 with Math.Vectors;
+with Ada.Text_IO;
 
 package body Simulator.Drawing is
 
    function bDraw_View (xView : in TView) return Boolean is
+
+      use Glib;
+
       xWindowForView : Gdk.Window.Gdk_Window;
-
       xColors : ViewColors;
+      xViewPositions : TViewPositions := fGet_Positions_For_View(xView.eId, xView.xMainWindowViewModel, Integer(xView.xGraph.Get_Allocation_Width), Integer(xView.xGraph.Get_Allocation_Height));
+      xWindowSize : TRectSize;
 
-      xViewPositions : TViewPositions := fGet_Positions_For_View(xView.eId, xView.xMainWindowViewModel);
    begin
       xWindowForView := Gtk.Drawing_Area.Get_Window (xView.xGraph);
 
+      xWindowSize  := xGet_Window_Size(xWindow => xWindowForView);
+
       xColors := xGet_Colors(xWindowForView);
 
-      Gdk.Drawable.Draw_Line
-        (Drawable => xWindowForView,
-         GC       => xColors.xBlackColor,
-         X1       => 0,
-         Y1       => 150,
-         X2       => 500,
-         Y2       => 150);
+      Draw_Cross(xCanvas           => xWindowForView,
+                 xColor            => xColors.xBlackColor,
+                 xCenterPoint      => TPoint'(xWindowSize.fWidth / 2.0 - 1.0,
+                   			      xWindowSize.fHeight / 2.0),
+                 iHorizontalLength => Integer(xWindowSize.fWidth),
+                 iVerticalLength   => Integer(xWindowSize.fHeight));
 
-      Gdk.Drawable.Draw_Line
-        (Drawable => xWindowForView,
-         GC       => xColors.xBlackColor,
-         X1       => 150,
-         Y1       => 0,
-         X2       => 150,
-         Y2       => 500);
+      Draw_Target_Point(xCanvas      => xWindowForView,
+                        xColor       => xColors.xRedColor,
+                        xCenterPoint => xViewPositions.xWantedPosition);
 
-      Gdk.Drawable.Draw_Point
-        (Drawable => xWindowForView,
-         GC       => xColors.xBlueColor,
-         X        => Glib.Gint(151.0 + xViewPositions.xCurrentPosition.X),
-         Y        => Glib.Gint(150.0 - xViewPositions.xCurrentPosition.Y));
-
-
-      Gdk.Drawable.Draw_Point
-        (Drawable => xWindowForView,
-         GC       => xColors.xRedColor,
-         X        => Glib.Gint(150.0 + xViewPositions.xWantedPosition.X + 1.0),
-         Y        => Glib.Gint(150.0 - xViewPositions.xWantedPosition.Y));
-
-      Gdk.Drawable.Draw_Point
-        (Drawable => xWindowForView,
-         GC       => xColors.xRedColor,
-         X        => Glib.Gint(150.0 + xViewPositions.xWantedPosition.X),
-         Y        => Glib.Gint(150.0 - xViewPositions.xWantedPosition.Y + 1.0));
-
-      Gdk.Drawable.Draw_Point
-        (Drawable => xWindowForView,
-         GC       => xColors.xRedColor,
-         X        => Glib.Gint(150.0 + xViewPositions.xWantedPosition.X - 1.0),
-         Y        => Glib.Gint(150.0 - xViewPositions.xWantedPosition.Y));
-
-      Gdk.Drawable.Draw_Point
-        (Drawable => xWindowForView,
-         GC       => xColors.xRedColor,
-         X        => Glib.Gint(150.0 + xViewPositions.xWantedPosition.X),
-         Y        => Glib.Gint(150.0 - xViewPositions.xWantedPosition.Y - 1.0));
-
-      Gdk.Drawable.Draw_Point
-        (Drawable => xWindowForView,
-         GC       => xColors.xRedColor,
-         X        => Glib.Gint(150.0 + xViewPositions.xWantedPosition.X),
-         Y        => Glib.Gint(150.0 - xViewPositions.xWantedPosition.Y));
-
+      Draw_Point_Relative_To_Center_Of_View(xCanvas          => xWindowForView,
+                                            xColor           => xColors.xBlueColor,
+                                            xCurrentPosition => xViewPositions.xCurrentPosition);
       return True;
    end bDraw_View;
 
-   procedure Draw_Cross(xCanvas : Gdk.Window.Gdk_Window; xColor : Gdk.GC.Gdk_GC; xStartPoint : TPoint; xEndPoint : TPoint) is
+   procedure Draw_Target_Point(xCanvas : Gdk.Window.Gdk_Window; xColor : Gdk.GC.Gdk_GC; xCenterPoint : TPoint) is
+   begin
+      Draw_Cross(xCanvas           => xCanvas,
+                 xColor            => xColor,
+                 xCenterPoint      => xCenterPoint,
+                 iHorizontalLength => 3,
+                 iVerticalLength   => 3);
+   end Draw_Target_Point;
+
+   procedure Draw_Point_Relative_To_Center_Of_View(xCanvas : Gdk.Window.Gdk_Window; xColor : Gdk.GC.Gdk_GC; xCurrentPosition : TPoint) is
+   begin
+      Gdk.Drawable.Draw_Point
+        (Drawable => xCanvas,
+         GC       => xColor,
+         X        => Glib.Gint(xCurrentPosition.X),
+         Y        => Glib.Gint(xCurrentPosition.Y));
+
+   end Draw_Point_Relative_To_Center_Of_View;
+
+   procedure Draw_Cross(xCanvas : Gdk.Window.Gdk_Window; xColor : Gdk.GC.Gdk_GC; xCenterPoint : TPoint; iHorizontalLength : Integer; iVerticalLength : Integer) is
    begin
       Gdk.Drawable.Draw_Line
         (Drawable => xCanvas,
-         GC       => xColors.xBlackColor,
-         X1       => 0,
-         Y1       => 150,
-         X2       => 500,
-         Y2       => 150);
+         GC       => xColor,
+         X1       => Glib.Gint(xCenterPoint.X - float(iHorizontalLength / 2)),
+         Y1       => Glib.Gint(xCenterPoint.Y),
+         X2       => Glib.Gint(xCenterPoint.X + float(iHorizontalLength / 2)),
+         Y2       => Glib.Gint(xCenterPoint.Y));
 
       Gdk.Drawable.Draw_Line
         (Drawable => xCanvas,
-         GC       => xColors.xBlackColor,
-         X1       => 150,
-         Y1       => 0,
-         X2       => 150,
-         Y2       => 500);
+         GC       => xColor,
+         X1       => Glib.Gint(xCenterPoint.X),
+         Y1       => Glib.Gint(xCenterPoint.Y - float(iVerticalLength / 2)),
+         X2       => Glib.Gint(xCenterPoint.X),
+         Y2       => Glib.Gint(xCenterPoint.Y + float(iVerticalLength / 2)));
+
    end Draw_Cross;
 
    function bDraw_3DView (xView : T3DView) return Boolean is
-
       use Math.Matrices;
 
       xWindowForView : Gdk.Window.Gdk_Window;
@@ -106,10 +93,13 @@ package body Simulator.Drawing is
 
       xOrientationToDraw : Math.Matrices.CMatrix;
 
+      xWindowSize : TRectSize;
    begin
       Gdk.Window.Clear(Gtk.Drawing_Area.Get_Window(xView.xCanvas));
 
       xWindowForView := Gtk.Drawing_Area.Get_Window (xView.xCanvas);
+
+      xWindowSize  := xGet_Window_Size(xWindow => xWindowForView);
 
       Case xView.eId is
          when Full =>
@@ -120,13 +110,11 @@ package body Simulator.Drawing is
             return true;
       end case;
 
-
-      xEndPoints := Projection_2D.txGet_Orientation_2D_Projection(iCenterX     => Integer(xView.iWidth/2),
-                                                                  iCenterY     => Integer(xView.iHeight/2),
-                                                                  iWidth       => xView.iWidth,
-                                                                  iHeight      => xView.iHeight,
+      xEndPoints := Projection_2D.txGet_Orientation_2D_Projection(iCenterX     => Integer(xWindowSize.fWidth / 2.0),
+                                                                  iCenterY     => Integer(xWindowSize.fHeight / 2.0),
+                                                                  iWidth       => Integer(xWindowSize.fWidth),
+                                                                  iHeight      => Integer(xWindowSize.fHeight),
                                                                   xOrientation => xOrientationToDraw);
-
 
       xColors := xGet_Colors(xWindowForView);
 
@@ -163,14 +151,17 @@ package body Simulator.Drawing is
    end xGet_Colors;
 
    procedure Draw_Plane(xWindowForView : Gdk.Window.Gdk_Window; xColors : ViewColors; xOrientationToDraw : Math.Matrices.CMatrix; xView : T3DView) is
+
       xPlaneEndPoints : Projection_2D.TPlaneProjectionPoints;
+
+      xWindowSize : TRectSize := xGet_Window_Size(xWindowForView);
 
    begin
 
-      xPlaneEndPoints := Projection_2D.txGet_Plane_2D_Projection(iCenterX     => Integer(xView.iWidth/2),
-                                                                 iCenterY     => Integer(xView.iHeight/2),
-                                                                 iWidth       => xView.iWidth,
-                                                                 iHeight      => xView.iHeight,
+      xPlaneEndPoints := Projection_2D.txGet_Plane_2D_Projection(iCenterX     => Integer(xWindowSize.fWidth / 2.0),
+                                                                 iCenterY     => Integer(xWindowSize.fHeight / 2.0),
+                                                                 iWidth       => Integer(xWindowSize.fWidth),
+                                                                 iHeight      => Integer(xWindowSize.fHeight),
                                                                  xOrientation => xOrientationToDraw);
       Gdk.Drawable.Draw_Line
         (Drawable => xWindowForView,
@@ -206,12 +197,15 @@ package body Simulator.Drawing is
    end Draw_Plane;
 
    procedure Draw_Axis_Arrow(xWindowForView : Gdk.Window.Gdk_Window; xColor : Gdk.GC.Gdk_GC; xView : T3DView; xAxisArrowPoints : Projection_2D.TAxisArrow) is
+
+      xWindowSize : TRectSize := xGet_Window_Size(xWindowForView);
    begin
+
       Gdk.Drawable.Draw_Line
         (Drawable => xWindowForView,
          GC       => xColor,
-         X1       => Glib.Gint(xView.iWidth / 2),
-         Y1       => Glib.Gint(xView.iHeight / 2),
+         X1       => Glib.Gint(xWindowSize.fWidth / 2.0),
+         Y1       => Glib.Gint(xWindowSize.fWidth / 2.0),
          X2       => Glib.Gint(xAxisArrowPoints(Projection_2D.Head).X),
          Y2       => Glib.Gint(xAxisArrowPoints(Projection_2D.Head).Y));
 
@@ -237,7 +231,7 @@ package body Simulator.Drawing is
          Y2       => Glib.Gint(xAxisArrowPoints(Projection_2D.RightTail).Y));
    end Draw_Arrow_Head;
 
-   function fGet_Positions_For_View (eID : Simulator.Drawing.EView; xViewModel : Simulator.ViewModel_Representation.pCViewModel_Representation) return TViewPositions is
+   function fGet_Positions_For_View (eID : Simulator.Drawing.EView; xViewModel : Simulator.ViewModel_Representation.pCViewModel_Representation; iWindowHeight : integer; iWindowWidth : integer) return TViewPositions is
       xViewPositions : TViewPositions;
       xCurrent_Position : math.Vectors.CVector := xViewmodel.xGet_Submarine_Current_Position;
       xWanted_Position : math.Vectors.CVector := xViewmodel.xGet_Submarine_Wanted_Position;
@@ -245,23 +239,33 @@ package body Simulator.Drawing is
 
       case eID is
          when Side =>
-            xViewPositions.xCurrentPosition := (xCurrent_Position.fGet_X, xCurrent_Position.fGet_Z);
-            xViewPositions.xWantedPosition := (xWanted_Position.fGet_X, xWanted_Position.fGet_Z);
+            xViewPositions.xCurrentPosition := (xCurrent_Position.fGet_X, -xCurrent_Position.fGet_Z);
+            xViewPositions.xWantedPosition := (xWanted_Position.fGet_X, -xWanted_Position.fGet_Z);
          when Top =>
-            xViewPositions.xCurrentPosition := (-xCurrent_Position.fGet_Y, xCurrent_Position.fGet_X);
-            xViewPositions.xWantedPosition := (-xWanted_Position.fGet_Y, xWanted_Position.fGet_X);
+            xViewPositions.xCurrentPosition := (-xCurrent_Position.fGet_Y, -xCurrent_Position.fGet_X);
+            xViewPositions.xWantedPosition := (-xWanted_Position.fGet_Y, -xWanted_Position.fGet_X);
          when Back =>
-            xViewPositions.xCurrentPosition := (-xCurrent_Position.fGet_Y, xCurrent_Position.fGet_Z);
-            xViewPositions.xWantedPosition := (-xWanted_Position.fGet_Y, xWanted_Position.fGet_Z);
+            xViewPositions.xCurrentPosition := (-xCurrent_Position.fGet_Y, -xCurrent_Position.fGet_Z);
+            xViewPositions.xWantedPosition := (-xWanted_Position.fGet_Y, -xWanted_Position.fGet_Z);
          when others =>
             xViewPositions := ((5.0, 5.0), (5.0, 5.0));
-
       end case;
 
-      return xViewPositions;
+      return xMove_Into_View(xViewPositions, iWindowHeight, iWindowWidth);
    end fGet_Positions_For_View;
 
- function bDraw_Pid (xPid : in TPidGraph) return Boolean is
+   function xMove_Into_View(xViewPositions : TViewPositions; iWindowHeight : Integer; iWindowWidth : integer) return TViewPositions is
+   begin
+      return TViewPositions'(TPoint'(xViewPositions.xCurrentPosition.X + float(iWindowWidth / 2), xViewPositions.xCurrentPosition.Y + float(iWindowHeight / 2)),
+                             TPoint'(xViewPositions.xWantedPosition.X + float(iWindowWidth / 2), xViewPositions.xWantedPosition.Y + float(iWindowHeight / 2)));
+   end xMove_Into_View;
+
+   function xMove_Point_Into_View(xPoint : TPoint; iWindowHeight : Integer; iWindowWidth : integer) return TPoint is
+   begin
+      return TPoint'(xPoint.X + float(iWindowWidth / 2), xPoint.Y + float(iWindowHeight / 2));
+   end xMove_Point_Into_View;
+
+   function bDraw_Pid (xPid : in TPidGraph) return Boolean is
       xWindowForPid : Gdk.Window.Gdk_Window;
       xBlackColor   : Gdk.GC.Gdk_GC;
       xBlueColor : Gdk.GC.Gdk_GC;
@@ -326,7 +330,7 @@ package body Simulator.Drawing is
       return bRestart;
    end bPid_Counter_Restarted;
 
-  function fGet_Pid_Scaling_In_Y(xPid : Simulator.ViewModel_Pid_Errors.EMotionComponent) return float is
+   function fGet_Pid_Scaling_In_Y(xPid : Simulator.ViewModel_Pid_Errors.EMotionComponent) return float is
    begin
       return xPid_Scaling(xPid);
    end fGet_Pid_Scaling_In_Y;
@@ -336,5 +340,35 @@ package body Simulator.Drawing is
       xPid_Scaling(xPid) := 2.0 * xPid_Scaling(xPid);
    end Double_Pid_Scaling_In_Y;
 
+   function fGet_Window_Width(xWindow : Gdk.Window.Gdk_Window) return float is
+   begin
+      return xGet_Window_Size(xWindow => xWindow).fHeight;
+   end fGet_Window_Width;
 
+   function fGet_Window_Height(xWindow : Gdk.Window.Gdk_Window) return float is
+   begin
+      return xGet_Window_Size(xWindow => xWindow).fHeight;
+   end fGet_Window_Height;
+
+   function xGet_Window_Size(xWindow : Gdk.Window.Gdk_Window) return TRectSize is
+      use Glib;
+
+      iWindowHeight : Glib.Gint;
+      iWindowWidth  : Glib.Gint;
+      iWindowX : Glib.Gint;
+      iWindowY  : Glib.Gint;
+      iWindowDepth : Glib.Gint;
+
+   begin
+
+      Gdk.Window.Get_Geometry(Window => xWindow,
+                              X      => iWindowX,
+                              Y      => iWindowY,
+                              Width  => iWindowWidth,
+                              Height => iWindowHeight,
+                              Depth  => iWindowDepth);
+
+      return TRectSize'(fWidth  => float(iWindowWidth),
+                        fHeight => float(iWindowHeight));
+   end xGet_Window_Size;
 end Simulator.Drawing;

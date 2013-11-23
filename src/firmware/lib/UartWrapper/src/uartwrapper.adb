@@ -57,7 +57,7 @@ package body UartWrapper is
    -- sUart_Read --
    ----------------
 
-   procedure UartRead (this : in CUartHandler; sStringRead : out string; iNumBytesRead : out integer) is
+   procedure UartRead (this : in out CUartHandler; sStringRead : out string; iNumBytesRead : out integer) is
       use C;
 
       function Read(this : in CUartHandler) return string is
@@ -80,4 +80,13 @@ package body UartWrapper is
       sStringRead(sReturnString'Range) := sReturnString;
       iNumBytesRead := sReturnString'Length;
    end UartRead;
+
+   procedure UartReadSpecificAmount(this : in out CUartHandler; sStringRead : out string; iBytesToRead : integer;  iNumBytesRead : out integer) is
+   	use C;
+	iOriginalBufferSize : integer := integer(this.bufferSize);
+   begin
+	this.bufferSize := C.Int(iBytesToRead);
+	this.UartRead(sStringRead, iNumBytesRead);
+	this.bufferSize := C.int(iOriginalBufferSize);
+   end UartReadSpecificAmount;
 end UartWrapper;
