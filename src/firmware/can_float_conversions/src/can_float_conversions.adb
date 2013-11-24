@@ -38,29 +38,37 @@ package body Can_Float_Conversions is
 
    -----------------------------------------------------------------------------------------------------------------------------------------------------------
 
-   procedure Acceleration_To_Message(fAccX : float; fAccY : float; fAccZ : float; b8Message : out AVR.AT90CAN128.CAN.Byte8) is
+   procedure Acceleration_To_Message(fAccX : float; fAccY : float; fAccZ : float;
+                                     b8Message : out AVR.AT90CAN128.CAN.Byte8;
+                                     fAccelerationMax : float := fACCELERATION_MAX) is
+
+      fAccelerationResolution : float := 2.0 * fAccelerationMax / Float(2 ** 21);
       Data : TOrientation;
    begin
       -- We are using the same conversion technique as for orientation simply
       -- because there is no need to do differently...
-      Data.i21Yaw   := i21_Get_Integer(fAccX, fACCELERATION_RESOLUTION);
-      Data.i21Pitch := i21_Get_Integer(fAccY, fACCELERATION_RESOLUTION);
-      Data.i21Roll  := i21_Get_Integer(fAccZ, fACCELERATION_RESOLUTION);
+      Data.i21Yaw   := i21_Get_Integer(fAccX, fAccelerationResolution);
+      Data.i21Pitch := i21_Get_Integer(fAccY, fAccelerationResolution);
+      Data.i21Roll  := i21_Get_Integer(fAccZ, fAccelerationResolution);
 
       b8Message :=  b8Orientation_To_Message(Data);
    end Acceleration_To_Message;
 
 
 
-   procedure Message_To_Acceleration(fAccX : out float; fAccY : out float; fAccZ : out float; b8Message : AVR.AT90CAN128.CAN.Byte8) is
+   procedure Message_To_Acceleration(fAccX : out float; fAccY : out float; fAccZ : out float;
+                                     b8Message : AVR.AT90CAN128.CAN.Byte8;
+                                     fAccelerationMax : float := fACCELERATION_MAX) is
+
+      fAccelerationResolution : float := 2.0 * fAccelerationMax / Float(2 ** 21);
       Data : TOrientation;
    begin
       -- We are using the same conversion technique as for orientation simply
       -- because there is no need to do differently...
       Data  := TMessage_To_Orientation(b8Message);
-      fAccX := Float(Data.i21Yaw)   * fACCELERATION_RESOLUTION;
-      fAccY := Float(Data.i21Pitch) * fACCELERATION_RESOLUTION;
-      fAccZ := Float(Data.i21Roll)  * fACCELERATION_RESOLUTION;
+      fAccX := Float(Data.i21Yaw)   * fAccelerationResolution;
+      fAccY := Float(Data.i21Pitch) * fAccelerationResolution;
+      fAccZ := Float(Data.i21Roll)  * fAccelerationResolution;
    end Message_To_Acceleration;
 
    -----------------------------------------------------------------------------------------------------------------------------------------------------------

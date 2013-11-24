@@ -14,13 +14,19 @@ with AVR.AT90CAN128.CAN;
 
 package Can_Float_Conversions is
 
+   fACCELERATION_MAX 		: float := 20.0; --acceleration in m/s^2
+
     --all 8 bytes of b8Message need to be sent
    procedure Orientation_To_Message(fYaw : float; fPitch : float; fRoll : float; b8Message : out AVR.AT90CAN128.CAN.Byte8);
    procedure Message_To_Orientation(fYaw : out float; fPitch : out float; fRoll : out float; b8Message : AVR.AT90CAN128.CAN.Byte8);
 
    --all 8 bytes of b8Message need to be sent
-   procedure Acceleration_To_Message(fAccX : float; fAccY : float; fAccZ : float; b8Message : out AVR.AT90CAN128.CAN.Byte8);
-   procedure Message_To_Acceleration(fAccX : out float; fAccY : out float; fAccZ : out float; b8Message : AVR.AT90CAN128.CAN.Byte8);
+   procedure Acceleration_To_Message(fAccX : float; fAccY : float; fAccZ : float;
+                                     b8Message : out AVR.AT90CAN128.CAN.Byte8;
+                                     fAccelerationMax : float := fACCELERATION_MAX);
+   procedure Message_To_Acceleration(fAccX : out float; fAccY : out float; fAccZ : out float;
+                                     b8Message : AVR.AT90CAN128.CAN.Byte8;
+                                     fAccelerationMax : float := fACCELERATION_MAX);
 
    --only the 3 first bytes of b8Message need to be sent
    procedure GyroReading_To_Message(fGyroReading : float; b8Message : out AVR.AT90CAN128.CAN.Byte8);
@@ -35,9 +41,6 @@ private
    fYAW_RESOLUTION   : constant float  := 2.0 * fYAW_MAX   / Float(2 ** 21);  --angles in degrees
    fPITCH_RESOLUTION : constant float  := 2.0 * fPITCH_MAX / Float(2 ** 21);
    fROLL_RESOLUTION  : constant float  := 2.0 * fROLL_MAX   / Float(2 ** 21);
-
-   fACCELERATION_MAX 		: float := 20.0; --acceleration in m/s^2
-   fACCELERATION_RESOLUTION 	: float := 2.0 * fACCELERATION_MAX / Float(2 ** 21);
 
    fGYRO_MAX 		: float := 180.0; --angle in degrees
    fGYRO_RESOLUTION 	: float := 2.0 * fGYRO_MAX / Float(2 ** 24);
