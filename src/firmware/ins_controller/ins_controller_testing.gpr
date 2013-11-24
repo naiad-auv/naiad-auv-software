@@ -1,3 +1,5 @@
+with "../str2float/str2float.gpr";
+with "../can_float_conversions/can_float_conversions_testing.gpr";
 with "../../lib/math/matrices/matrices.gpr";
 with "../../lib/math/vectors/vectors.gpr";
 
@@ -6,8 +8,7 @@ project Ins_Controller_Testing is
    for Object_Dir use "build";
    for Exec_Dir use "target";
    for Source_Dirs use ("src", "../at90can128lib_testing", "../lib");
-   for Source_Files use ("avr-at90can128-adc.adb", "avr-at90can128-adc.ads", "avr-at90can128-can.adb", "avr-at90can128-can.adb", "avr-at90can128-can.ads", "avr-at90can128-clock.adb", "avr-at90can128-clock.ads", 
-      "avr-at90can128-interrupt.adb", "avr-at90can128-interrupt.ads", "avr-at90can128-usart.adb", "avr-at90can128-usart.ads", "avr-at90can128.ads", "avr.ads", "ins_controller.adb", "ins_controller.ads", "ins_controller_main.adb");
+   for Source_Files use ("avr-at90can128-usart.adb", "avr-at90can128-usart.ads", "can_defs.ads", "ins_controller.adb", "ins_controller.ads", "ins_controller_main.adb", "ins_controller_utils.adb", "ins_controller_utils.ads");
    for Main use ("ins_controller_main.adb");
 
    package Ide is

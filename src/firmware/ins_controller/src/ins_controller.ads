@@ -1,6 +1,8 @@
 
 --  Written by: Nils Brynedal Ignell for the Naiad AUV project
---  Last changed (yyyy-mm-dd): 2013-11-19
+--  Last changed (yyyy-mm-dd): 2013-11-24
+
+--  TODO: Hardware testing....
 
 with Interfaces;
 with AVR.AT90CAN128;
@@ -14,10 +16,9 @@ package Ins_Controller is
 
    pragma Suppress (All_Checks);
 
-   procedure Init(port : AVR.AT90CAN128.USART.USARTID; canBaud_Rate : AVR.AT90CAN128.CAN.Baud_Rate);
+   procedure Init(port : AVR.AT90CAN128.USART.USARTID; canBaud_Rate : AVR.AT90CAN128.CAN.Baud_Rate; bUseExtendedID : Boolean);
 
    procedure SimulationModeOn;
-
    procedure SimulationModeOff;
 
 --     function Get_Orientation return Math.Matrices.CMatrix;
@@ -32,19 +33,16 @@ private
  --  xFixedPositionVector : math.Vectors.CVector := math.Vectors.xCreate(0.0, 0.0, 0.0);
 
   -- xOrientationMatrix : Math.Matrices.CMatrix;
+--   fDeltaTime : Constant float := 0.005;
 
    bSimulationMode : Boolean := false;
-
-   fDeltaTime : Constant float := 0.005;
-
+   bExtendedIds : Boolean;
    usart_port : AVR.AT90CAN128.USART.USARTID;
 
-   procedure sChecksum(sData : String; iSize : Integer; sStr : out String);
-   function Wrap_Around(fAngle : Float) return Float;
+--     function Wrap_Around(fAngle : Float) return Float;
 
    procedure Imu_Interrupt;
    pragma Machine_Attribute (Imu_Interrupt, "signal");
    pragma Export (C, Imu_Interrupt, AVR.AT90CAN128.Vector_Int2);
-
 
 end Ins_Controller;
