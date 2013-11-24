@@ -75,5 +75,7 @@ private
    function i24ToGyroReading is new Ada.Unchecked_Conversion(Integer_24, TGyroReadingArray);
    function GyroReadingToi24 is new Ada.Unchecked_Conversion(TGyroReadingArray, Integer_24);
 
+   function i21GetInteger(fValue : float; fResolution : float) return Integer_21;
+
 
 end Can_Float_Conversions;

@@ -16,14 +16,12 @@ package body Can_Float_Conversions is
 
    procedure Orientation_To_Message(fYaw : float; fPitch : float; fRoll : float; b8Message : out AVR.AT90CAN128.CAN.Byte8) is
       Data : TOrientation;
-      fYawInternal 	: float := Float'Max(Float'Min(fYaw,   fYAW_MAX),   -fYAW_MAX);
-      fPitchInternal 	: float := Float'Max(Float'Min(fPitch, fPITCH_MAX), -fPITCH_MAX);
-      fRollInternal 	: float := Float'Max(Float'Min(fRoll,  fROLL_MAX),  -fROLL_MAX);
    begin
-
-      Data.i21Yaw   := Integer_21(fYawInternal   / fYAW_RESOLUTION);
-      Data.i21Pitch := Integer_21(fPitchInternal / fPITCH_RESOLUTION);
-      Data.i21Roll  := Integer_21(fRollInternal  / fROLL_RESOLUTION);
+      -- We are using the same conversion technique as for orientation simply
+      -- because there is no need to do differently...
+      Data.i21Yaw   := i21GetInteger(fYaw,   fYAW_RESOLUTION);
+      Data.i21Pitch := i21GetInteger(fPitch, fPITCH_RESOLUTION);
+      Data.i21Roll  := i21GetInteger(fRoll,  fROLL_RESOLUTION);
 
       b8Message :=  b8OrientationToMessage(Data);
    end Orientation_To_Message;
@@ -42,39 +40,14 @@ package body Can_Float_Conversions is
 
    procedure Acceleration_To_Message(fAccX : float; fAccY : float; fAccZ : float; b8Message : out AVR.AT90CAN128.CAN.Byte8) is
       Data : TOrientation;
-
-      fAccXInternal 	: float := Float'Max(Float'Min(fAccX, fACCELERATION_MAX - 1.0E-05), -fACCELERATION_MAX); -- if these lines are doing anything to the values, then the robot is doing things it shouldn't be doing (crashing into stuff etc...)
-      fAccYInternal 	: float := Float'Max(Float'Min(fAccY, fACCELERATION_MAX - 1.0E-05), -fACCELERATION_MAX);
-      fAccZInternal 	: float := Float'Max(Float'Min(fAccZ, fACCELERATION_MAX - 1.0E-05), -fACCELERATION_MAX);
-
-      fTemp : float;
    begin
-
-      Ada.Text_IO.Put_Line("fAccYInternal=" & fAccYInternal'Img);
-      Ada.Text_IO.Put_Line("fACCELERATION_RESOLUTION=" & fACCELERATION_RESOLUTION'Img);
-
-      fTemp := fAccYInternal / fACCELERATION_RESOLUTION;
-      Ada.Text_IO.Put_Line("fAccYInternal / fACCELERATION_RESOLUTION=" &fTemp'Img);
-
       -- We are using the same conversion technique as for orientation simply
       -- because there is no need to do differently...
---        Data.i21Yaw   := Integer_21(fAccXInternal / fACCELERATION_RESOLUTION);
---        Data.i21Pitch := Integer_21(fAccYInternal / fACCELERATION_RESOLUTION);
---        Data.i21Roll  := Integer_21(fAccZInternal / fACCELERATION_RESOLUTION);
-
-      Data.i21Yaw   := Integer_21(Float'Min(fAccXInternal / fACCELERATION_RESOLUTION, fACCELERATION_MAX - 2.0E-04));
-      Data.i21Pitch := Integer_21(Float'Min(fAccYInternal / fACCELERATION_RESOLUTION, fACCELERATION_MAX - 2.0E-04));
-      Data.i21Roll  := Integer_21(Float'Min(fAccZInternal / fACCELERATION_RESOLUTION, fACCELERATION_MAX - 2.0E-04));
+      Data.i21Yaw   := i21GetInteger(fAccX, fACCELERATION_RESOLUTION);
+      Data.i21Pitch := i21GetInteger(fAccY, fACCELERATION_RESOLUTION);
+      Data.i21Roll  := i21GetInteger(fAccZ, fACCELERATION_RESOLUTION);
 
       b8Message :=  b8OrientationToMessage(Data);
-
-      Ada.Text_IO.Put_Line("Data.i21Pitch=" & Data.i21Pitch'Img);
-      Ada.Text_IO.Put_Line("Integer_21'Last=" & Integer_21'Last'img);
-
-      fTemp := Float'Min(fAccXInternal / fACCELERATION_RESOLUTION, fACCELERATION_MAX - 2.0E-04);
-
-      Ada.Text_IO.Put_Line("fTemp=" & fTemp'Img);
-
    end Acceleration_To_Message;
 
 
@@ -93,12 +66,30 @@ package body Can_Float_Conversions is
    -----------------------------------------------------------------------------------------------------------------------------------------------------------
 
    procedure GyroReading_To_Message(fGyroReading : float; b8Message : out AVR.AT90CAN128.CAN.Byte8) is
+
+      function i24GetInteger(fValue : float; fResolution : float) return Integer_24 is
+         fInternal : float;
+         function fMod(fValue : float; fRange : float) return float is
+         begin
+            if fValue >= fRange then
+               return fMod(fValue - fRange, fRange);
+            elsif  fValue <= -fRange then
+               return fMod(fValue + fRange, fRange);
+             end if;
+               return  fValue;
+         end fMod;
+
+      begin
+         fInternal := fValue / fResolution;
+         return Integer_24(fMod(fInternal, Float(Integer_24'Last)));
+      end i24GetInteger;
+
+
       i24Reading : Integer_24;
       ReadingArr : TGyroReadingArray;
-      fReading 	: float := Float'Max(Float'Min(fGyroReading, fGYRO_MAX), -fGYRO_MAX); --something is wrong if this value is needed...
    begin
 
-      i24Reading   := Integer_24(fReading / fGYRO_RESOLUTION);
+      i24Reading   := i24GetInteger(fGyroReading, fGYRO_RESOLUTION);
       ReadingArr := i24ToGyroReading(i24Reading);
 
       b8Message(1) := ReadingArr(1);
@@ -119,6 +110,20 @@ package body Can_Float_Conversions is
 
       fGyroReading := Float(i24Reading) * fGYRO_RESOLUTION;
    end Message_To_GyroReading;
+
+   function i21GetInteger(fValue : float; fResolution : float) return Integer_21 is
+      fInternal : float;
+   begin
+      fInternal := fValue / fResolution;
+
+      if fInternal >= Float(Integer_21'Last) then
+         return Integer_21'Last;
+      elsif fInternal <= Float(Integer_21'First) then
+         return Integer_21'First;
+      else
+         return Integer_21(fInternal);
+      end if;
+   end i21GetInteger;
 
 end Can_Float_Conversions;
 
