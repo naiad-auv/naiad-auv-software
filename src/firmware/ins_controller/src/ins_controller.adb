@@ -123,6 +123,7 @@ package body Ins_Controller is
 
    begin
       Init_Uart(port);
+      AVR.AT90CAN128.CAN.Can_Init(AVR.AT90CAN128.CAN.K250);
 
       --All commands start with a dollar sign, followed by a five character command, a comma,
       --command specific parameters, an asterisk, a checksum, and a newline character
@@ -135,24 +136,22 @@ package body Ins_Controller is
       Async_Data_Output_Type_Register;
 
       Init_Interrupts;
-
-      AVR.AT90CAN128.CLOCK.Delay_ms(10);
       AVR.AT90CAN128.USART.Flush_Receive_Buffer(usart_port);
 
    end Init;
 
 
-   procedure Get_Position(fX : out Float; fY : out Float; fZ : out Float) is
-   begin
-      fX := xFixedPositionVector.fGet_X;
-      fY := xFixedPositionVector.fGet_Y;
-      fZ := xFixedPositionVector.fGet_Z;
-   end Get_Position;
+--     procedure Get_Position(fX : out Float; fY : out Float; fZ : out Float) is
+--     begin
+--        fX := xFixedPositionVector.fGet_X;
+--        fY := xFixedPositionVector.fGet_Y;
+--        fZ := xFixedPositionVector.fGet_Z;
+--     end Get_Position;
 
-   function Get_Orientation return Math.Matrices.CMatrix is
-   begin
-      return xOrientationMatrix;
-   end Get_Orientation;
+--     function Get_Orientation return Math.Matrices.CMatrix is
+--     begin
+--        return xOrientationMatrix;
+--     end Get_Orientation;
 
    --ensures that the angle is in the -180 to +180 degree range
    function Wrap_Around(fAngle : Float) return Float is

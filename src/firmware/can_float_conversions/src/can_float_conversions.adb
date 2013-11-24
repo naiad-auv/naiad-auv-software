@@ -19,17 +19,17 @@ package body Can_Float_Conversions is
    begin
       -- We are using the same conversion technique as for orientation simply
       -- because there is no need to do differently...
-      Data.i21Yaw   := i21GetInteger(fYaw,   fYAW_RESOLUTION);
-      Data.i21Pitch := i21GetInteger(fPitch, fPITCH_RESOLUTION);
-      Data.i21Roll  := i21GetInteger(fRoll,  fROLL_RESOLUTION);
+      Data.i21Yaw   := i21_Get_Integer(fMod(fYaw, fYAW_MAX),   fYAW_RESOLUTION);
+      Data.i21Pitch := i21_Get_Integer(fPitch, fPITCH_RESOLUTION);
+      Data.i21Roll  := i21_Get_Integer(fMod(fRoll, fROLL_MAX),  fROLL_RESOLUTION);
 
-      b8Message :=  b8OrientationToMessage(Data);
+      b8Message :=  b8Orientation_To_Message(Data);
    end Orientation_To_Message;
 
    procedure Message_To_Orientation(fYaw : out float; fPitch : out float; fRoll : out float; b8Message : AVR.AT90CAN128.CAN.Byte8) is
       Data : TOrientation;
    begin
-      Data :=  TMessageToOrientation(b8Message);
+      Data :=  TMessage_To_Orientation(b8Message);
       fYaw   := Float(Data.i21Yaw)   * fYAW_RESOLUTION;
       fPitch := Float(Data.i21Pitch) * fPITCH_RESOLUTION;
       fRoll  := Float(Data.i21Roll)  * fROLL_RESOLUTION;
@@ -43,11 +43,11 @@ package body Can_Float_Conversions is
    begin
       -- We are using the same conversion technique as for orientation simply
       -- because there is no need to do differently...
-      Data.i21Yaw   := i21GetInteger(fAccX, fACCELERATION_RESOLUTION);
-      Data.i21Pitch := i21GetInteger(fAccY, fACCELERATION_RESOLUTION);
-      Data.i21Roll  := i21GetInteger(fAccZ, fACCELERATION_RESOLUTION);
+      Data.i21Yaw   := i21_Get_Integer(fAccX, fACCELERATION_RESOLUTION);
+      Data.i21Pitch := i21_Get_Integer(fAccY, fACCELERATION_RESOLUTION);
+      Data.i21Roll  := i21_Get_Integer(fAccZ, fACCELERATION_RESOLUTION);
 
-      b8Message :=  b8OrientationToMessage(Data);
+      b8Message :=  b8Orientation_To_Message(Data);
    end Acceleration_To_Message;
 
 
@@ -57,7 +57,7 @@ package body Can_Float_Conversions is
    begin
       -- We are using the same conversion technique as for orientation simply
       -- because there is no need to do differently...
-      Data  := TMessageToOrientation(b8Message);
+      Data  := TMessage_To_Orientation(b8Message);
       fAccX := Float(Data.i21Yaw)   * fACCELERATION_RESOLUTION;
       fAccY := Float(Data.i21Pitch) * fACCELERATION_RESOLUTION;
       fAccZ := Float(Data.i21Roll)  * fACCELERATION_RESOLUTION;
@@ -67,30 +67,20 @@ package body Can_Float_Conversions is
 
    procedure GyroReading_To_Message(fGyroReading : float; b8Message : out AVR.AT90CAN128.CAN.Byte8) is
 
-      function i24GetInteger(fValue : float; fResolution : float) return Integer_24 is
+      function i24Get_Integer(fValue : float; fResolution : float) return Integer_24 is
          fInternal : float;
-         function fMod(fValue : float; fRange : float) return float is
-         begin
-            if fValue >= fRange then
-               return fMod(fValue - fRange, fRange);
-            elsif  fValue <= -fRange then
-               return fMod(fValue + fRange, fRange);
-             end if;
-               return  fValue;
-         end fMod;
-
       begin
          fInternal := fValue / fResolution;
          return Integer_24(fMod(fInternal, Float(Integer_24'Last)));
-      end i24GetInteger;
+      end i24Get_Integer;
 
 
       i24Reading : Integer_24;
       ReadingArr : TGyroReadingArray;
    begin
 
-      i24Reading   := i24GetInteger(fGyroReading, fGYRO_RESOLUTION);
-      ReadingArr := i24ToGyroReading(i24Reading);
+      i24Reading   := i24Get_Integer(fGyroReading, fGYRO_RESOLUTION);
+      ReadingArr := i24To_Gyro_Reading(i24Reading);
 
       b8Message(1) := ReadingArr(1);
       b8Message(2) := ReadingArr(2);
@@ -106,12 +96,12 @@ package body Can_Float_Conversions is
       ReadingArr(2) := b8Message(2);
       ReadingArr(3) := b8Message(3);
 
-      i24Reading := GyroReadingToi24(ReadingArr);
+      i24Reading := Gyro_Reading_To_i24(ReadingArr);
 
       fGyroReading := Float(i24Reading) * fGYRO_RESOLUTION;
    end Message_To_GyroReading;
 
-   function i21GetInteger(fValue : float; fResolution : float) return Integer_21 is
+   function i21_Get_Integer(fValue : float; fResolution : float) return Integer_21 is
       fInternal : float;
    begin
       fInternal := fValue / fResolution;
@@ -123,7 +113,17 @@ package body Can_Float_Conversions is
       else
          return Integer_21(fInternal);
       end if;
-   end i21GetInteger;
+   end i21_Get_Integer;
+
+   function fMod(fValue : float; fRange : float) return float is
+   begin
+      if fValue >= fRange then
+         return fMod(fValue - 2.0 * fRange, fRange);
+      elsif  fValue <= -fRange then
+         return fMod(fValue + 2.0 * fRange, fRange);
+      end if;
+      return  fValue;
+   end fMod;
 
 end Can_Float_Conversions;
 

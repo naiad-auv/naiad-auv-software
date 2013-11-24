@@ -62,8 +62,8 @@ private
    end record;
    for TOrientation'Size use 64;
 
-   function b8OrientationToMessage is new Ada.Unchecked_Conversion(TOrientation, AVR.AT90CAN128.CAN.Byte8);
-   function TMessageToOrientation is new Ada.Unchecked_Conversion(AVR.AT90CAN128.CAN.Byte8, TOrientation);
+   function b8Orientation_To_Message is new Ada.Unchecked_Conversion(TOrientation, AVR.AT90CAN128.CAN.Byte8);
+   function TMessage_To_Orientation is new Ada.Unchecked_Conversion(AVR.AT90CAN128.CAN.Byte8, TOrientation);
 
    type Integer_24 is range -2 ** 23 .. 2 ** 23 - 1;
    for Integer_24'Size use 24;
@@ -72,10 +72,11 @@ private
    for TGyroReadingArray'Size use  24;
 
 
-   function i24ToGyroReading is new Ada.Unchecked_Conversion(Integer_24, TGyroReadingArray);
-   function GyroReadingToi24 is new Ada.Unchecked_Conversion(TGyroReadingArray, Integer_24);
+   function i24To_Gyro_Reading is new Ada.Unchecked_Conversion(Integer_24, TGyroReadingArray);
+   function Gyro_Reading_To_i24 is new Ada.Unchecked_Conversion(TGyroReadingArray, Integer_24);
 
-   function i21GetInteger(fValue : float; fResolution : float) return Integer_21;
+   function i21_Get_Integer(fValue : float; fResolution : float) return Integer_21;
+   function fMod(fValue : float; fRange : float) return float;
 
 
 end Can_Float_Conversions;

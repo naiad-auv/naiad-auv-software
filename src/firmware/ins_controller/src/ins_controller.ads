@@ -5,6 +5,7 @@
 with Interfaces;
 with AVR.AT90CAN128;
 with AVR.AT90CAN128.USART;
+with AVR.AT90CAN128.CAN;
 
 with Math.Vectors;
 with Math.Matrices;
@@ -17,17 +18,17 @@ package Ins_Controller is
 
    function Get_Orientation return Math.Matrices.CMatrix;
 
-   procedure Get_Position(fX : out Float; fY : out Float; fZ : out Float);
+  -- procedure Get_Position(fX : out Float; fY : out Float; fZ : out Float);
 
 private
 
    -- the robot's velocity relative to an inertial reference system
-   xFixedVelocityVector : math.Vectors.CVector := math.Vectors.xCreate(0.0, 0.0, 0.0);
+ --  xFixedVelocityVector : math.Vectors.CVector := math.Vectors.xCreate(0.0, 0.0, 0.0);
 
    -- the robot's position relative to an inertial reference system
-   xFixedPositionVector : math.Vectors.CVector := math.Vectors.xCreate(0.0, 0.0, 0.0);
+ --  xFixedPositionVector : math.Vectors.CVector := math.Vectors.xCreate(0.0, 0.0, 0.0);
 
-   xOrientationMatrix : Math.Matrices.CMatrix;
+  -- xOrientationMatrix : Math.Matrices.CMatrix;
 
    fDeltaTime : Constant float := 0.005;
 
