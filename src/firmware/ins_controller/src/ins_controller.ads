@@ -14,10 +14,13 @@ package Ins_Controller is
 
    pragma Suppress (All_Checks);
 
-   procedure Init(port : AVR.AT90CAN128.USART.USARTID);
+   procedure Init(port : AVR.AT90CAN128.USART.USARTID; canBaud_Rate : AVR.AT90CAN128.CAN.Baud_Rate);
 
-   function Get_Orientation return Math.Matrices.CMatrix;
+   procedure SimulationModeOn;
 
+   procedure SimulationModeOff;
+
+--     function Get_Orientation return Math.Matrices.CMatrix;
   -- procedure Get_Position(fX : out Float; fY : out Float; fZ : out Float);
 
 private
@@ -29,6 +32,8 @@ private
  --  xFixedPositionVector : math.Vectors.CVector := math.Vectors.xCreate(0.0, 0.0, 0.0);
 
   -- xOrientationMatrix : Math.Matrices.CMatrix;
+
+   bSimulationMode : Boolean := false;
 
    fDeltaTime : Constant float := 0.005;
 

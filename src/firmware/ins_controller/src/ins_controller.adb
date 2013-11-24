@@ -4,6 +4,7 @@
 
 with AVR.AT90CAN128.INTERRUPT;
 with AVR.AT90CAN128.CLOCK;
+with CAN_Defs;
 
 with Str2Float;
 
@@ -48,7 +49,7 @@ package body Ins_Controller is
       Write("$" & sCommand & "*" & sCheckSumStr & Character'Val(10), sCommand'Length + 3);
    end Send_Command;
 
-   procedure Init(port : AVR.AT90CAN128.USART.USARTID) is
+   procedure Init(port : AVR.AT90CAN128.USART.USARTID; canBaud_Rate : AVR.AT90CAN128.CAN.Baud_Rate) is
 
       procedure Init_Uart(port : AVR.AT90CAN128.USART.USARTID) is
       begin
@@ -123,7 +124,9 @@ package body Ins_Controller is
 
    begin
       Init_Uart(port);
-      AVR.AT90CAN128.CAN.Can_Init(AVR.AT90CAN128.CAN.K250);
+      AVR.AT90CAN128.CAN.Can_Init(canBaud_Rate);
+      AVR.AT90CAN128.CAN.Can_Set_MOB_ID_MASK(CAN_Defs.MSG_SIMULATION_MODE_ID);
+
 
       --All commands start with a dollar sign, followed by a five character command, a comma,
       --command specific parameters, an asterisk, a checksum, and a newline character
@@ -231,6 +234,7 @@ package body Ins_Controller is
 
       use Math.Matrices;
       use Math.Vectors;
+
    begin
 
 --        Send_Command("$VNRRG,36"); --sends command for reading the cosine orientation matrix
@@ -245,27 +249,36 @@ package body Ins_Controller is
       fYAccelerationNew := Read_Next_Float;
       fZAccelerationNew := Read_Next_Float;
 
-                               Math.Quaternions.xCreate(
-
-      Math.Matrices.xCreate_From_Quaternion(
-
-
       AVR.AT90CAN128.USART.Flush_Receive_Buffer(usart_port);
 
-      xOrientationMatrix := Math.Matrices.xCreate_Rotation_Around_X_Axis(Math.Angles.TAngle(Wrap_Around(fYaw)))
-        		  * Math.Matrices.xCreate_Rotation_Around_Y_Axis(Math.Angles.TAngle(Wrap_Around(fPitch)))
-        		  * Math.Matrices.xCreate_Rotation_Around_Z_Axis(Math.Angles.TAngle(Wrap_Around(fRoll)));
+      if not bSimulationMode then
 
-      xOrientationMatrixInverse := xOrientationMatrix.xGet_Inverse;
+      end if;
 
-      xRelativeAccelerationVector := math.Vectors.xCreate(fXAccelerationNew, fYAccelerationNew, fZAccelerationNew);
 
-      xFixedAccelerationVector := xOrientationMatrixInverse * xRelativeAccelerationVector;
-
-      xFixedVelocityVector := xFixedVelocityVector + (xFixedAccelerationVector * fDeltaTime);
-
-      xFixedPositionVector := xFixedPositionVector + (xFixedVelocityVector * fDeltaTime);
+--        xOrientationMatrix := Math.Matrices.xCreate_Rotation_Around_X_Axis(Math.Angles.TAngle(Wrap_Around(fYaw)))
+--          		  * Math.Matrices.xCreate_Rotation_Around_Y_Axis(Math.Angles.TAngle(Wrap_Around(fPitch)))
+--          		  * Math.Matrices.xCreate_Rotation_Around_Z_Axis(Math.Angles.TAngle(Wrap_Around(fRoll)));
+--
+--        xOrientationMatrixInverse := xOrientationMatrix.xGet_Inverse;
+--
+--        xRelativeAccelerationVector := math.Vectors.xCreate(fXAccelerationNew, fYAccelerationNew, fZAccelerationNew);
+--
+--        xFixedAccelerationVector := xOrientationMatrixInverse * xRelativeAccelerationVector;
+--
+--        xFixedVelocityVector := xFixedVelocityVector + (xFixedAccelerationVector * fDeltaTime);
+--
+--        xFixedPositionVector := xFixedPositionVector + (xFixedVelocityVector * fDeltaTime);
 
    end Imu_Interrupt;
 
+   procedure SimulationModeOn is
+   begin
+      bSimulationMode := true;
+   end SimulationModeOn;
+
+   procedure SimulationModeOff is
+   begin
+      bSimulationMode := false;
+   end SimulationModeOff;
 end Ins_Controller;
