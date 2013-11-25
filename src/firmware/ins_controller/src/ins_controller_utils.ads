@@ -23,5 +23,5 @@ package Ins_Controller_Utils is
    procedure Synchronization_Control(port : AVR.AT90CAN128.USART.USARTID);
    procedure VPE_Basic_Control(port : AVR.AT90CAN128.USART.USARTID);
    procedure Async_Data_Output_Type_Register(port : AVR.AT90CAN128.USART.USARTID);
-   procedure sChecksum(sData : String; iSize : Integer; sStr : out String);
+--     procedure sChecksum(sData : String; iSize : Integer; sStr : out String);
 end Ins_Controller_Utils;

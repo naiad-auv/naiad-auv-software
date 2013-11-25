@@ -7,7 +7,7 @@
 -- TODO:
 ---------------------------------------------------------------------------
 
-with Ada.Text_IO;
+--  with Ada.Text_IO;
 
 package body Str2Float is
 
@@ -43,20 +43,20 @@ package body Str2Float is
       iIndex := iIndex + 1;
       fValue := 0.1;
 
-      Ada.Text_IO.New_Line;
-      Ada.Text_IO.Put_Line("fRet=" & fRet'Img);
+--        Ada.Text_IO.New_Line;
+--        Ada.Text_IO.Put_Line("fRet=" & fRet'Img);
 
       for i in iIndex..sStr'Last loop
          fRet := fRet + fChar2Float(sStr(i)) * fValue;
-         declare
-            f : float := fChar2Float(sStr(i)) * fValue;
-         begin
-            Ada.Text_IO.Put_Line("fChar2Float(sStr(i)) * fValue=" & f'Img);
-         end;
+--           declare
+--              f : float := fChar2Float(sStr(i)) * fValue;
+--           begin
+--              Ada.Text_IO.Put_Line("fChar2Float(sStr(i)) * fValue=" & f'Img);
+--           end;
 
          fValue := fValue / 10.0;
 
-         Ada.Text_IO.Put_Line("fRet=" & fRet'Img);
+--           Ada.Text_IO.Put_Line("fRet=" & fRet'Img);
       end loop;
 
       return fRet * fSign;
