@@ -1,0 +1,69 @@
+in_objects	:	protected type Object_List
+				procedure Add
+				procedure Remove
+
+out_objects	:	protected type Object_List
+				procedure Add
+				procedure Remove
+
+in_msgs		:	protected type CAN_Msg_List
+				procedure Add
+				procedure Remove
+
+sim_msgs	:	protected type CAN_Msg_List
+				procedure Add
+				procedure Remove
+
+out_msgs	:	protected type CAN_Msg_List
+				procedure Add
+				procedure Remove
+
+orders		:	protected type Order_List
+				procedure Add
+				procedure Remove
+
+CAN out
+	out_objects.Remove
+	out_msgs.Add
+CAN in
+	in_objects.Add
+	sim_msgs.Remove
+	in_msgs.Add
+
+TCP out
+	in_msgs.Remove
+	out_msgs.Remove
+
+TCP in
+	sim_msgs.Add
+	orders.Add
+
+Main
+	in_objects.Remove
+	out_object.Add
+	orders.Remove
+
+
+out_objects:
+	CAN out (rem)
+	Main (add)
+
+out_msgs:
+	CAN out (add)
+	TCP out (rem)
+
+orders:
+	TCP in (add)
+	Main (rem)
+
+in_objects:
+	CAN in (add)
+	Main (rem)
+
+in_msgs:
+	CAN in (add)
+	TCP out (rem)
+
+sim_msgs:
+	TCP in (add)
+	CAN in (rem)
