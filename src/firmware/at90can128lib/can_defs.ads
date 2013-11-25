@@ -1,5 +1,5 @@
 -- Written by: Konstantinos Konstantopoulos for the Naiad AUV project
--- Last changed (yyyy-mm-dd): 2013-10-22 by Konstantinos Konstantopoulos
+-- Last changed (yyyy-mm-dd): 2013-11-24 by Nils Brynedal Ignell
 
 with Interfaces;
 with AVR.AT90CAN128.CAN;
@@ -41,5 +41,10 @@ package CAN_Defs is
    MSG_GRIPPER_ROTATE_CW_CONFIRM	: constant AVR.AT90CAN128.CAN.CAN_Message := (ID => MSG_PNEUMATICS_CONFIRM_ID, 	Len => 1, Data => (7, others => 0) );
    MSG_GRIPPER_ROTATE_ACW		: constant AVR.AT90CAN128.CAN.CAN_Message := (ID => MSG_PNEUMATICS_ID, 		Len => 1, Data => (8, others => 0) );
    MSG_GRIPPER_ROTATE_ACW_CONFIRM	: constant AVR.AT90CAN128.CAN.CAN_Message := (ID => MSG_PNEUMATICS_CONFIRM_ID, 	Len => 1, Data => (8, others => 0) );
+
+   MSG_IMU_ORIENTATION_ID		: constant AVR.AT90CAN128.CAN.CAN_ID := (12, False);
+   MSG_IMU_ACCELERATION_ID		: constant AVR.AT90CAN128.CAN.CAN_ID := (13, False);
+   MSG_GYRO_YAW_ID			: constant AVR.AT90CAN128.CAN.CAN_ID := (14, False);
+
 
 end CAN_Defs;
