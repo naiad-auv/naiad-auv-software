@@ -1,3 +1,4 @@
+with Ada.Text_IO;
 with Ada.Unchecked_Deallocation;
 
 package body VirtualMachine.MemoryStack is
@@ -88,6 +89,26 @@ package body VirtualMachine.MemoryStack is
          Free(pxOldNode);
       end if;
    end Pop;
+
+   procedure Peek(this : in out CMemoryStack; xStackData : in out TStackData'class; iIndex : in integer) is
+      pxNode : pTNode := this.pxHead;
+   begin
+      for i in 1 .. iIndex loop
+         pxNode := pxNode.pxNext;
+      end loop;
+      xStackData := pxNode.pxData.all;
+   end Peek;
+
+   procedure Change(this : in out CMemoryStack; xStackData : in out TStackData'class; iIndex : in integer) is
+      pxNode : pTNode := this.pxHead;
+   begin
+      for i in 1 .. iIndex loop
+         pxNode := pxNode.pxNext;
+      end loop;
+      pxNode.pxData.all := xStackData;
+   end Change;
+
+
 
    -- Fill in Data with the top of the stack, if any.
    procedure Top (this : CMemoryStack; xStackData : in out TStackData'class) is

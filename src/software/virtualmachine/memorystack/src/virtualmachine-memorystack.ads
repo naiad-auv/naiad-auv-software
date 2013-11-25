@@ -24,6 +24,8 @@ package VirtualMachine.MemoryStack is
    -- Stack operations.
    procedure Push(this : in out CMemoryStack; xStackData : TStackData'class);
    procedure Pop(this : in out CMemoryStack; xStackData : in out TStackData'class);
+   procedure Peek(this : in out CMemoryStack; xStackData : in out TStackData'class; iIndex : in integer);
+   procedure Change(this : in out CMemoryStack; xStackData : in out TStackData'class; iIndex : in integer);
    procedure Top(this : CMemoryStack; xStackData : in out TStackData'class);
    function Empty(this : CMemoryStack) return Boolean;
 

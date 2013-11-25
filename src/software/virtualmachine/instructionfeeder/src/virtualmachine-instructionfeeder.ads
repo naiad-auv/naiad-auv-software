@@ -1,58 +1,65 @@
+with Math.Vectors;
+with Math.Matrices;
+
 with Ada.Finalization;
 with Ada.Unchecked_Deallocation;
+with Ada.Streams.Stream_IO;
 
 package VirtualMachine.InstructionFeeder is
 
    type EInstruction is
      (
+      INSTR_NULL,
+      INSTR_MAIN,
+
       -- Activation record
       INSTR_LINK,
       INSTR_UNLINK,
 
       -- Jumps
-      INSTR_BRF,
-      INSTR_BRA,
+      INSTR_BRF,	-- int
+      INSTR_BRA,	-- int
 
       -- Subroutines
-      INSTR_BRS,
+      INSTR_BSR,	-- int
       INSTR_RTS,
 
       -- Memory allocation
       INSTR_DECLINT,
       INSTR_DECLBOOL,
       INSTR_DECLFLOAT,
-      INSTR_DECLMATRIX,
-      INSTR_DECLVECTOR,
+      INSTR_DECLMAT,
+      INSTR_DECLVEC,
 
       -- Memory deallocation
-      INSTR_POP,
+      INSTR_POP,	-- int
 
       -- Constants
       INSTR_PUSHINT,		-- PUSHINT 3
       INSTR_PUSHBOOL,		-- PUSHBOOL TRUE
       INSTR_PUSHFLOAT,		-- PUSHFLOAT 8.34
-      INSTR_PUSHMATRIX,		-- PUSHMATRIX [[11.0,12.0,13.0],[21.0,22.0,23.0],[31.0,32.0,33.0]]
-      INSTR_PUSHVECTOR,		-- PUSHVECTOR [1.0,2.0,3.0]
+      INSTR_PUSHMAT,		-- PUSHMATRIX [[11.0,12.0,13.0],[21.0,22.0,23.0],[31.0,32.0,33.0]]
+      INSTR_PUSHVEC,		-- PUSHVECTOR [1.0,2.0,3.0]
 
       -- Right value (variable values)
-      INSTR_RVALINT,
-      INSTR_RVALBOOL,
-      INSTR_RVALFLOAT,
-      INSTR_RVALMATRIX,
-      INSTR_RVALVECTOR,
+      INSTR_RVALINT,		-- int
+      INSTR_RVALBOOL,		-- int
+      INSTR_RVALFLOAT,		-- int
+      INSTR_RVALMAT,		-- int
+      INSTR_RVALVEC,		-- int
 
       -- Left value (variable addresses)
-      INSTR_LVAL,
+      INSTR_LVAL,		-- int
 
       -- Assignments
       INSTR_ASSINT,
       INSTR_ASSBOOL,
       INSTR_ASSFLOAT,
-      INSTR_ASSMATRIX,
-      INSTR_ASSVECTOR,
+      INSTR_ASSMAT,
+      INSTR_ASSVEC,
 
       -- Timer
-      INSTR_TIMERESET,
+      INSTR_TIMERST,
       INSTR_TIME,
 
       -- Conditions for integers
@@ -72,38 +79,37 @@ package VirtualMachine.InstructionFeeder is
       INSTR_EQBOOL,
 
       -- Conditions for matrices
-      INSTR_EQMATRIX,
+      INSTR_EQMAT,
 
       -- Conditions for matrices
-      INSTR_EQVECTOR,
+      INSTR_EQVEC,
 
       -- Arithmetics for integers
       INSTR_NEGINT,
       INSTR_ADDINT,
-      INSTR_SUBINT,
-      INSTR_MULTINT,
-      INSTR_DIVINT,
+      INSTR_MULINT,
 
       -- Arithmetics for floats
       INSTR_NEGFLOAT,
       INSTR_ADDFLOAT,
-      INSTR_SUBFLOAT,
-      INSTR_MULTFLOAT,
-      INSTR_DIVFLOAT,
+      INSTR_MULFLOAT,
 
       -- Arithmetics for vectors
-      INSTR_NEGVECTOR,
-      INSTR_ADDVECTOR,
-      INSTR_SUBVECTOR,
-      INSTR_SCALEVECTOR,
-      INSTR_CROSSVECTOR,
-      INSTR_DOTVECTOR,
+      INSTR_NEGVEC,
+      INSTR_ADDVEC,
+      INSTR_MULVEC,
+
+      -- Getters for vectors
+      INSTR_VECCOMP,		-- int
 
       -- Arithmetics for matrices
-      INSTR_MULTMATRIX,
-      INSTR_INVERSEMATRIX,
-      INSTR_DETERMINANTMATRIX
+      INSTR_MULMAT,
 
+      -- Trigonometry
+      INSTR_SIN,
+      INSTR_COS,
+      INSTR_ARCSIN,
+      INSTR_ARCCOS
      );
 
 
@@ -114,33 +120,63 @@ package VirtualMachine.InstructionFeeder is
    procedure Free(pxInstructionFeederToDeallocate : in out pCInstructionFeeder);
 
    procedure Set_Program_Counter(this : in out CInstructionFeeder; iNewProgramCounterValue : in integer);
+   procedure Get_Program_Counter(this: in CInstructionFeeder; iCurrentProgramCounterValue : out integer);
+
    function Feed_Instruction(this : in CInstructionFeeder) return VirtualMachine.InstructionFeeder.EInstruction;
-   function Feed_Argument(this : in CInstructionFeeder) return string;
+
+   function Feed_Boolean_Argument(this : in CInstructionFeeder) return boolean;
+   function Feed_Integer_Argument(this : in CInstructionFeeder) return integer;
+   function Feed_Float_Argument(this : in CInstructionFeeder) return float;
+   function Feed_Vector_Argument(this : in CInstructionFeeder) return Math.Vectors.CVector;
+   function Feed_Matrix_Argument(this : in CInstructionFeeder) return Math.Matrices.CMatrix;
+
+   procedure Read_Next_Instruction(this : in out CInstructionFeeder; xFileStream : in Ada.Streams.Stream_IO.Stream_Access);
+   procedure Go_To_Entry_Point(this : in out CInstructionFeeder; iInstructionAddress : out integer);
 
 private
+
+   type CInstruction is tagged
+      record
+         iLineNumber : integer;
+         eInstr : EInstruction;
+      end record;
+   type pCInstruction is access CInstruction'Class;
+   type CInstructionBooleanArgument is new CInstruction with
+      record
+         bArgument : boolean;
+      end record;
+   type CInstructionIntegerArgument is new CInstruction with
+      record
+         iArgument : integer;
+      end record;
+   type CInstructionFloatArgument is new CInstruction with
+      record
+         fArgument : float;
+      end record;
+   type CInstructionVectorArgument is new CInstruction with
+      record
+         xArgument : Math.Vectors.CVector;
+      end record;
+   type CInstructionMatrixArgument is new CInstruction with
+      record
+         xArgument : Math.Matrices.CMatrix;
+      end record;
+
 
    type CInstructionItem is tagged;
    type pCInstructionItem is access CInstructionItem;
    type CInstructionItem is tagged
       record
-         iLineNumber : integer;
-         iInstruction : integer;
-         sArgument : string (1 .. 256);
-         iArgumentLength : integer;
+         pxInstruction : pCInstruction;
          pxNextInstruction : pCInstructionItem;
          pxPreviousInstruction : pCInstructionItem;
       end record;
-
-
-   procedure Add_Instruction(this : in out CInstructionItem;
-                             iLineNumber : in integer;
-                             iInstruction : in integer;
-                             sArgument : in string);
 
    procedure Free(pxInstructionItemToDeallocate : in out pCInstructionItem);
    procedure Destroy_Element(this : in out CInstructionItem; iStopAt : in integer);
    procedure Destroy(this : in out CInstructionItem);
    function Find_Instruction(this : in CInstructionItem; iLineNumberToFind : in integer) return pCInstructionItem;
+   procedure Insert_Instruction(this : in out CInstructionItem; pxNewInstructionItem : in out pCInstructionItem);
 
 
    type CInstructionFeeder is new Ada.Finalization.Controlled with
@@ -149,6 +185,8 @@ private
          pxInstructionList : pCInstructionItem;
       end record;
 
+   procedure Add_Instruction(this : in out CInstructionFeeder; pxNewInstruction : in pCInstruction);
    procedure Finalize(this : in out CInstructionFeeder);
+   procedure Initialize(this : in out CInstructionFeeder);
 
 end VirtualMachine.InstructionFeeder;
