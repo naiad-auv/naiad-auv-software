@@ -1,3 +1,4 @@
+with Ada.Text_IO;
 package body VirtualMachine.MemoryManager is
 
    procedure Free(pxMemoryManagerToDeallocate : in out pCMemoryManager) is
@@ -33,6 +34,7 @@ package body VirtualMachine.MemoryManager is
    begin
       this.iStackPointer := this.iStackPointer - 1;
       this.pxMemoryStack.Push(xStackData => VirtualMachine.FloatStack.xCreate(fValue => fValue));
+      Ada.Text_IO.Put_Line("Pushed float to address: " & this.iStackPointer'Img);
    end Push_Float;
 
    procedure Push_Vector(this : in out CMemoryManager; xValue : in Math.Vectors.CVector) is
@@ -74,6 +76,7 @@ package body VirtualMachine.MemoryManager is
    procedure Pop_Float(this : in out CMemoryManager; fValue : out float) is
       xFloatStackData : VirtualMachine.FloatStack.TFloatStackData;
    begin
+      Ada.Text_IO.Put_Line("Popping float from address: " & this.iStackPointer'Img);
       this.pxMemoryStack.Pop(xStackData => xFloatStackData);
       fValue := xFloatStackData.fGet_Value;
       this.iStackPointer := this.iStackPointer + 1;
@@ -105,8 +108,10 @@ package body VirtualMachine.MemoryManager is
 
 
    procedure Pop(this : in out CMemoryManager) is
-      xStackData : VirtualMachine.MemoryStack.TStackData;
+      --      xStackData : VirtualMachine.MemoryStack.TStackData;
+      xStackData : VirtualMachine.VectorStack.TVectorStackData;
    begin
+      Ada.Text_IO.Put_Line("Generic pop: " & this.iStackPointer'Img);
       this.pxMemoryStack.Pop(xStackData => xStackData);
       this.iStackPointer := this.iStackPointer + 1;
    end Pop;
@@ -171,6 +176,8 @@ package body VirtualMachine.MemoryManager is
       xFloatStackData : VirtualMachine.FloatStack.TFloatStackData := VirtualMachine.FloatStack.xCreate(fValue => fValue);
       iIndex : integer := (iOffset + this.iFramePointer) - this.iStackPointer;
    begin
+      Ada.Text_IO.Put_Line("Trying to change address: " & iIndex'Img);
+      iIndex := abs(this.iStackPointer - iIndex);
       this.pxMemoryStack.Change(xStackData => xFloatStackData,
                                 iIndex     => iIndex);
    end Change_Float;

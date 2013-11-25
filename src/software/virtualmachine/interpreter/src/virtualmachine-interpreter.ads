@@ -9,6 +9,7 @@ with Text_Handling;
 
 with Ada.Finalization;
 with Ada.Unchecked_Deallocation;
+with Ada.Numerics.Elementary_Functions;
 
 package VirtualMachine.Interpreter is
 
@@ -20,7 +21,7 @@ package VirtualMachine.Interpreter is
    procedure Step (this : in out CInterpreter; fDeltaTime : in float);
 
    procedure Test_Print_Vector(this : in out CInterpreter);
-
+   procedure Test_Print_Float(this : in out CInterpreter);
 
 private
    type CInterpreter is new Ada.Finalization.Controlled with
@@ -109,4 +110,12 @@ private
    procedure Instr_Multiply_Vector (this : in out CInterpreter);
 
    procedure Instr_Multiply_Matrix (this : in out CInterpreter);
+
+   procedure Instr_Sin (this : in out CInterpreter);
+   procedure Instr_Cos (this : in out CInterpreter);
+   procedure Instr_ArcSin (this : in out CInterpreter);
+   procedure Instr_ArcCos (this : in out CInterpreter);
+
+   procedure Instr_Null (this : in out CInterpreter);
+
 end VirtualMachine.Interpreter;

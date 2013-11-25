@@ -178,6 +178,14 @@ package body VirtualMachine.InstructionFeeder is
       this.iProgramCounter := this.pxInstructionList.pxInstruction.iLineNumber;
    end Initialize;
 
+   procedure Go_To_Entry_Point(this : in out CInstructionFeeder; iInstructionAddress : out integer) is
+   begin
+      while this.pxInstructionList.pxInstruction.eInstr /= INSTR_MAIN loop
+         this.Set_Program_Counter(iNewProgramCounterValue => this.pxInstructionList.pxNextInstruction.pxInstruction.iLineNumber);
+      end loop;
+      iInstructionAddress := this.iProgramCounter;
+   end Go_To_Entry_Point;
+
 
 
    procedure Add_Instruction(this : in out CInstructionFeeder; pxNewInstruction : in pCInstruction) is
