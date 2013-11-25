@@ -23,21 +23,22 @@ package body Ins_Controller_Utils is
       AVR.AT90CAN128.USART.Read(sData, port, iSize, iCharsRead);
    end Read;
 
-   procedure sChecksum(sData : String; iSize : Integer; sStr : out String) is
-      u8Xor : Interfaces.Unsigned_8 := 0;
-      use Interfaces;
-   begin
-      for i in 1..iSize loop
-         u8Xor := u8Xor xor Interfaces.Unsigned_8(Character'Pos(sData(i)));
-      end loop;
-      sStr(1) := Character'Val(Integer(u8Xor));
-   end sChecksum;
+--     procedure sChecksum(sData : String; iSize : Integer; sStr : out String) is
+--        u8Xor : Interfaces.Unsigned_8 := 0;
+--        use Interfaces;
+--     begin
+--        for i in 1..iSize loop
+--           u8Xor := u8Xor xor Interfaces.Unsigned_8(Character'Pos(sData(i)));
+--        end loop;
+--        sStr(1) := Character'Val(Integer(u8Xor));
+--     end sChecksum;
 
    procedure Send_Command(sCommand : String; port : AVR.AT90CAN128.USART.USARTID) is
       sCheckSumStr : String(1..1);
    begin
-      sChecksum(sCommand, sCommand'Length, sCheckSumStr);
-      Write("$" & sCommand & "*" & sCheckSumStr & Character'Val(10), sCommand'Length + 3, port);
+    --  sChecksum(sCommand, sCommand'Length, sCheckSumStr);
+    --  Write("$" & sCommand & "*" & sCheckSumStr & Character'Val(10), sCommand'Length + 3, port);
+Write("$" & sCommand & "*" & Character'Val(10), sCommand'Length + 2, port);
    end Send_Command;
 
    procedure Init_Uart(port : AVR.AT90CAN128.USART.USARTID) is
@@ -70,7 +71,8 @@ package body Ins_Controller_Utils is
       -- SerialChecksum = 0 (off)
       -- spi checksum = off
       --ErrorMode = off
-      Send_Command("VNWRG,30,0,0,0,0,0,0,1", port);
+      --    Send_Command("VNWRG,30,0,0,0,0,0,0,1", port);
+        Write("$VNWRG,30,0,0,0,0,0,0,1*68", 26, port);
    end Communication_Protocol_Control;
 
    procedure Async_Data_Output_Frequency_Register(port : AVR.AT90CAN128.USART.USARTID) is
@@ -81,15 +83,15 @@ package body Ins_Controller_Utils is
 
    procedure Synchronization_Control(port : AVR.AT90CAN128.USART.USARTID) is
    begin
-      -- SyncInMode = COUNT
-      --SyncInEdge = 0 rising edge
-      --SyncInSkipFactor = 1
+      -- SyncInMode = COUNT  (not used, irrelevant)
+      --SyncInEdge = 0 rising edge (not used, irrelevant)
+      --SyncInSkipFactor = 1 (not used, irrelevant)
       --RESERVED
       --Set SyncOutMode to AHRS = "Trigger when attitude measurements are available"
       --Set SyncOutPolarity to IMU = Positive pulse
       --SyncOutSkipFactor = 1
       -- Async Data Output Frequency = 200 Hz
-      Send_Command("VNWRG,20,3,0,1,0,3,1,1,500000,0", port);
+      Send_Command("VNWRG,32,3,0,1,0,3,1,1,500000,0", port);
    end Synchronization_Control;
 
 
@@ -105,7 +107,11 @@ package body Ins_Controller_Utils is
    procedure Async_Data_Output_Type_Register(port : AVR.AT90CAN128.USART.USARTID) is
    begin
       --Async Data Output Type Register
+
+      --Asynchronous output: Yaw, Pitch, Roll, Body True Acceleration, and Angular Rates
+      Send_Command("VNWRG,06,16", port);
+
       -- Asynchronous output turned off
-      Send_Command("VNWRG,06,0", port);
+--        Send_Command("VNWRG,06,0", port);
    end Async_Data_Output_Type_Register;
 end Ins_Controller_Utils;

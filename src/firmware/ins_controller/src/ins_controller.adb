@@ -67,7 +67,7 @@ package body Ins_Controller is
    procedure Imu_Interrupt is
 
       procedure Start_Message is
-         sBuffer : String(1..100);
+         sBuffer : String(1..2);
          sTempString : String(1..100);
 
          iTemp : Integer;
@@ -81,13 +81,13 @@ package body Ins_Controller is
             Ins_Controller_Utils.Read(sBuffer, 1, iTemp, usart_port);
          end loop;
 
-         -- read the "VNRRG,239,":
-         while iCharsTotal < 10 loop
-            Ins_Controller_Utils.Read(sTempString, 10 - iCharsTotal, iCharsRead, usart_port);
+         -- read the "VNYBA,":
+         while iCharsTotal < 6 loop
+            Ins_Controller_Utils.Read(sTempString, 6 - iCharsTotal, iCharsRead, usart_port);
 
-            for i in 1..iCharsRead loop
-               sBuffer(iCharsTotal + i) := sTempString(i);
-            end loop;
+--              for i in 1..iCharsRead loop
+--                 sBuffer(iCharsTotal + i) := sTempString(i);
+--              end loop;
 
             iCharsTotal := iCharsTotal + iCharsRead;
          end loop;
@@ -97,7 +97,7 @@ package body Ins_Controller is
       function Read_Next_Float return float is
          sTemp : String(1..1);
          iCharsRead : Integer;
-         sBuffer : String(1..10);
+         sBuffer : String(1..20);
          i : Integer := 0;
       begin
          loop
@@ -111,8 +111,16 @@ package body Ins_Controller is
             end if;
          end loop;
 
-	--return Float'Value(sBuffer);
-         return Str2Float.fStr2Float(sBuffer); --this function assumes the format +1235.156
+         declare
+            sValue : String(1..i);
+         begin
+            for j in sValue'Range loop
+               sValue(j) := sBuffer(j);
+            end loop;
+
+            --return Float'Value(sBuffer);
+            return Str2Float.fStr2Float(sValue); --this function assumes the format +1235.156
+         end;
       end Read_Next_Float;
 
 

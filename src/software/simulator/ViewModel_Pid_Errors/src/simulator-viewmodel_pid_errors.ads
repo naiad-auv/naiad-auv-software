@@ -34,7 +34,6 @@ package Simulator.ViewModel_Pid_Errors is
 private
     type CViewModel_Pid_Errors is tagged
       record
-         pxPidErrors : simulator.Pid_Errors.pCPidErrors;
          pxModel : Simulator.Model.pCModel;
 
          tMaximumPIDErrors : TErrorsArray;
