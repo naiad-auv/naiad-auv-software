@@ -14,22 +14,12 @@ package body Simulator.ViewModel_Pid_Errors is
    ---------------------
 
    function fGet_Pid_Errors(this : in CViewModel_Pid_Errors ; eErrorComponent : in EMotionComponent) return float is
-      xMotionalErrors : Navigation.Dispatcher.TMotionalErrors;
    begin
-      this.pxPidErrors.Update_Errors(xCurrentAbsolutePosition    => this.pxModel.xGet_Current_Submarine_Positional_Vector,
-                                     xWantedAbsolutePosition     => this.pxModel.xGet_Wanted_Submarine_Positional_Vector,
-                                     xCurrentAbsoluteOrientation => this.pxModel.xGet_Current_Submarine_Orientation_Matrix,
-                                     xWantedAbsoluteOrientation  => this.pxModel.xGet_Wanted_Submarine_Orientation_Matrix);
-      xMotionalErrors := navigation.Dispatcher.TMotionalErrors(this.pxPidErrors.tGet_PID_Errors);
-
-      case eErrorComponent is
-      when PositionX .. PositionZ =>
-         return xMotionalErrors(Navigation.Motion_Component.EMotionComponent(eErrorComponent));
-         when others =>
-            null;
-      end case;
-
-      return xMotionalErrors(Navigation.Motion_Component.EMotionComponent(eErrorComponent)) * 180.0 / Ada.Numerics.Pi;
+      return simulator.Pid_Errors.fCalculate_Error_Component(eErrorComponent             => simulator.Pid_Errors.EMotionComponent(eErrorComponent),
+                                                             xCurrentAbsolutePosition    => this.pxModel.xGet_Current_Submarine_Positional_Vector,
+                                                             xWantedAbsolutePosition     => this.pxModel.xGet_Wanted_Submarine_Positional_Vector,
+                                                             xCurrentAbsoluteOrientation => this.pxModel.xGet_Current_Submarine_Orientation_Matrix,
+                                                             xWantedAbsoluteOrientation  => this.pxModel.xGet_Wanted_Submarine_Orientation_Matrix);
    exception
       when E : others =>
          Ada.Text_IO.Put_Line(Ada.Exceptions.Exception_Message(E));
@@ -56,7 +46,6 @@ package body Simulator.ViewModel_Pid_Errors is
    begin
       pxNewViewModel := new Simulator.ViewModel_Pid_Errors.CViewModel_Pid_Errors;
       pxNewViewModel.pxModel := pxModel;
-      pxNewViewModel.pxPidErrors := new simulator.Pid_Errors.CPidErrors;
 
       pxNewViewModel.tMaximumPIDErrors := (others => 0.0);
       pxNewViewModel.tMinimumPIDErrors := (others => 0.0);
@@ -79,7 +68,6 @@ package body Simulator.ViewModel_Pid_Errors is
    procedure Free(pxViewModel_Pid_Errors : in out pCViewModel_Pid_Errors) is
       procedure Dealloc is new Ada.Unchecked_Deallocation(CViewModel_Pid_Errors, pCViewModel_Pid_Errors);
    begin
-      simulator.Pid_Errors.Free(pxViewModel_Pid_Errors.pxPidErrors);
       Dealloc(pxViewModel_Pid_Errors);
    end;
 
@@ -88,15 +76,16 @@ package body Simulator.ViewModel_Pid_Errors is
       xCurrentErrors : Navigation.Dispatcher.TMotionalErrors;
       xCurrentErrorDirections : Navigation.Dispatcher.TMotionalErrors;
       fTemp : float;
+
    begin
-      this.pxPidErrors.Update_Errors(xCurrentAbsolutePosition    => this.pxModel.xGet_Current_Submarine_Positional_Vector,
-                                     xWantedAbsolutePosition     => this.pxModel.xGet_Wanted_Submarine_Positional_Vector,
-                                     xCurrentAbsoluteOrientation => this.pxModel.xGet_Current_Submarine_Orientation_Matrix,
-                                     xWantedAbsoluteOrientation  => this.pxModel.xGet_Wanted_Submarine_Orientation_Matrix);
-      xCurrentErrors := navigation.Dispatcher.TMotionalErrors(this.pxPidErrors.tGet_PID_Errors);
+
 
       for i in xCurrentErrors'Range loop
-
+         xCurrentErrors(i) := simulator.Pid_Errors.fCalculate_Error_Component(eErrorComponent             => Pid_Errors.EMotionComponent(i),
+                                                                          xCurrentAbsolutePosition    => this.pxModel.xGet_Current_Submarine_Positional_Vector,
+                                                                          xWantedAbsolutePosition     => this.pxModel.xGet_Wanted_Submarine_Positional_Vector,
+                                                                          xCurrentAbsoluteOrientation => this.pxModel.xGet_Current_Submarine_Orientation_Matrix,
+                                                                          xWantedAbsoluteOrientation  => this.pxModel.xGet_Wanted_Submarine_Orientation_Matrix);
          fTemp := xCurrentErrors(i) - this.tPreviousPIDErrors(ViewModel_Pid_Errors.EMotionComponent(i));
          if abs(fTemp) = 0.0 then
             --            xCurrentErrorDirections(i) := 0.0;

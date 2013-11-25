@@ -1,9 +1,22 @@
-V "GNAT Lib v4.6"
+V "GNAT Lib v2013"
 A -O2
 A -gnat05
 A -gnatA
 P SS ZX
-R nnnnnnnnnnnvvnnnnnvvnvnnvvnnnnnnnnnnnnnnnvnnvnnnnnnnnnnnnnvnnvnnnnnnnnnnnnnnnnnn
+
+RN
+RV NO_DISPATCH
+RV NO_DISPATCHING_CALLS
+RV NO_EXCEPTION_HANDLERS
+RV NO_EXCEPTION_PROPAGATION
+RV NO_EXCEPTIONS
+RV NO_FLOATING_POINT
+RV NO_IO
+RV NO_SECONDARY_STACK
+RV NO_STANDARD_STORAGE_POOLS
+RV NO_DEFAULT_INITIALIZATION
+RV NO_IMPLEMENTATION_PRAGMAS
+RV SPARK
 
 U setwantedstuffguilogic%b  setwantedstuffguilogic.adb  7265b1c0 NE OO PK
 W ada%s			ada.ads			ada.ali
@@ -36,157 +49,164 @@ W simulator%s		simulator.adb		simulator.ali
 W simulator.model%s	simulator-model.adb	simulator-model.ali
 W simulator.viewmodel_set_wanted_position%s  simulator-viewmodel_set_wanted_position.adb  simulator-viewmodel_set_wanted_position.ali
 
-D ada.ads		20070406091342 3ffc8e18
-D a-charac.ads		20070912115821 2d3ec45b
-D a-chlat1.ads		20070912115821 2825df20
-D a-contai.ads		20101025135029 61e5e089
-D a-cohata.ads		20101026104202 f4016a1a
-D a-cohama.ads		20090409150019 6b402e54
-D a-except.ads		20090727140100 0c711ac9
-D a-finali.ads		20090409150019 e5e85fa4
-D a-filico.ads		20090409150019 872dc219
-D a-ioexce.ads		20091130110856 8b9de6cd
-D a-numeri.ads		20080324174807 bb51c45a
-D a-nuelfu.ads		20070406091342 03e83d1c
-D a-ngelfu.ads		20070406091342 47731de9
-D a-stream.ads		20090409150019 2ca4ee37
-D a-string.ads		20070406091342 90ac6797
-D a-strmap.ads		20090409150019 9cb836fb
-D a-strunb.ads		20101008130255 fe8d9a91
-D a-stunha.ads		20070406091342 115e053b
-D a-tags.ads		20101021101406 c7695348
-D a-textio.ads		20091028140912 386df5d4
-D a-unccon.ads		20070406091342 f9eb8f06
-D a-uncdea.ads		20070406091342 f15a5ed1
-D cairo.ads		20130726070842 8dc0603a
-D cairo-region.ads	20130726070842 b7133728
-D exception_handling.ads  20131104082225 270b34e9
-D gdk.ads		20130726070842 f909352d
-D gdk-bitmap.ads	20130726070842 a30f71c4
-D gdk-color.ads		20130726070842 8aa593ee
-D gdk-cursor.ads	20130726070842 d92b2ac1
-D gdk-display.ads	20130726070842 f1fc98fd
-D gdk-dnd.ads		20130726070842 db64775b
-D gdk-drawable.ads	20130726070842 15e54888
-D gdk-event.ads		20130726070842 8e0f7bb6
-D gdk-font.ads		20130726070842 46e43fa8
-D gdk-gc.ads		20130726070842 a96f1ba5
-D gdk-image.ads		20130726070842 2cf51d65
-D gdk-pixbuf.ads	20130726070842 8572dcfc
-D gdk-pixmap.ads	20130726070842 677b62c0
-D gdk-rectangle.ads	20130726070842 7b900608
-D gdk-region.ads	20130726070842 ff429b15
-D gdk-rgb.ads		20130726070842 724abbe3
-D gdk-types.ads		20130726070842 b1082506
-D gdk-visual.ads	20130726070842 615e934c
-D gdk-window.ads	20130726070842 a02582f1
-D glib.ads		20130726070842 0f441d83
-D glib-error.ads	20130726070842 e055fabe
-D glib-g_icon.ads	20130726070842 dee6b47c
-D glib-generic_properties.ads  20130726070842 a1807006
-D glib-glist.ads	20130726070842 65a6e1be
-D glib-gslist.ads	20130726070842 8fe7d6f1
-D glib-main.ads		20130726070842 e9472c66
-D glib-object.ads	20130726070842 948e384a
-D glib-properties.ads	20130726070842 48c8d9fb
-D glib-types.ads	20130726070842 497ce66f
-D glib-values.ads	20130726070842 37b4897e
-D gnat.ads		20050905075125 fd2ad2f1
-D g-string.ads		20090409150019 c6abc540
-D gtk.ads		20130726070842 81513fe2
-D gtk-accel_group.ads	20130726070842 db8139a9
-D gtk-adjustment.ads	20130726070842 6a3f2d37
-D gtk-bin.ads		20130726070842 5a1f8184
-D gtk-buildable.ads	20130726070842 0156d377
-D gtk-builder.ads	20130726070842 f4ad2f95
-D gtk-cell_editable.ads	20130726070842 16b4fe5e
-D gtk-cell_layout.ads	20130726070842 6fc2335f
-D gtk-cell_renderer.ads	20130726070842 3320f36f
-D gtk-combo_box.ads	20130726070842 945de294
-D gtk-container.ads	20130726070842 93cfa083
-D gtk-drawing_area.ads	20130726070842 b23c236e
-D gtk-editable.ads	20130726070842 702f62cd
-D gtk-entry_completion.ads  20130726070842 7af3bc39
-D gtk-enums.ads		20130726070842 31c39095
-D gtk-gentry.ads	20130726070842 b68ecae8
-D gtk-icon_factory.ads	20130726070842 66ec8586
-D gtk-image.ads		20130726070842 fa4a314a
-D gtk-main.ads		20130726070842 47a9747a
-D gtk-misc.ads		20130726070842 e0beea74
-D gtk-object.ads	20130726070842 2b4b2b20
-D gtk-selection.ads	20130726070842 68400ca2
-D gtk-settings.ads	20130726070842 4b429e27
-D gtk-style.ads		20130726070842 1c4cbc80
-D gtk-tooltip.ads	20130726070842 d5d8d85a
-D gtk-tooltips.ads	20130726070842 960d936f
-D gtk-tree_model.ads	20130726070842 c173923c
-D gtk-tree_selection.ads  20130726070842 6cab21b3
-D gtk-tree_view.ads	20130726070842 96137578
-D gtk-tree_view_column.ads  20130726070842 e0d60443
-D gtk-widget.ads	20130726070842 468b5cfd
-D gtkada.ads		20130726070842 57aea1c7
-D gtkada-builder.ads	20130726070842 eeaa61f1
-D gtkada-types.ads	20130726070842 b7bc0c77
-D interfac.ads		20090409150019 f77d8799
-D i-c.ads		20101007125900 809c38c4
-D i-cstrin.ads		20090417131547 f3023ec4
-D i-cstrea.ads		20100622165701 1bd72c32
-D math.ads		20131104082225 6eeac05e
-D math-angles.ads	20131104082225 31c28d09
-D math-matrices.ads	20131104082225 da992515
-D math-planes.ads	20131104082225 57637e7b
-D math-quaternions.ads	20131104082225 f5582cff
-D math-vectors.ads	20131104082225 8121913e
-D navigation.ads	20131104082225 afdfd964
-D navigation-dispatcher.ads  20131112092154 bb53e3cd
-D navigation-motion_component.ads  20131112092154 5201bdd1
-D navigation-orientational_controller.ads  20131112075616 74a5f50b
-D navigation-pid_controller.ads  20131111143307 4c7c5406
-D navigation-positional_controller.ads  20131112092154 4a6df394
-D navigation-thruster_configurator.ads  20131104082225 9ef7f03c
-D navigation-thrusters.ads  20131104082225 2b8825c3
-D pango.ads		20130726070842 d3c8e76d
-D pango-attributes.ads	20130726070842 34135516
-D pango-context.ads	20130726070842 a00383e5
-D pango-enums.ads	20130726070842 8ef2dddf
-D pango-font.ads	20130726070842 375007f3
-D pango-layout.ads	20130726070842 0814381c
-D pango-tabs.ads	20130726070842 1dd550ef
-D setwantedstuffguilogic.ads  20131115084553 3c611973
-D setwantedstuffguilogic.adb  20131118100947 27041a23
-D simulator.ads		20131104082225 19a68e1a
-D simulator-model.ads	20131112144053 3155fb3c
-D simulator-motion_control_wrapper.ads  20131115120314 e4f0c950
-D simulator-motor_info.ads  20131105072747 317185f1
-D simulator-submarine.ads  20131105072747 63940499
-D simulator-viewmodel_set_wanted_position.ads  20131111151730 13058685
-D system.ads		20130419124236 2d1a1afa
-D s-addima.ads		20090409150019 a1ec9d3a
-D s-crtl.ads		20100617122610 ac77b159
-D s-exctab.ads		20090417131547 66e51330
-D s-ficobl.ads		20100909103250 443b9d66
-D s-finimp.ads		20090409150019 46853fe8
-D s-finroo.ads		20090409150019 dbb860c9
-D s-parame.ads		20091130110856 9c5d83fa
-D s-secsta.ads		20090707124243 eea35a36
-D s-soflin.ads		20090729085153 9414c974
-D s-stache.ads		20090417130712 596fc1b4
-D s-stalib.ads		20101021102512 c4241c00
-D s-stoele.ads		20090417130712 facd7d98
-D s-stoele.adb		20100617152355 afc5dc80
-D s-stratt.ads		20100909123135 aedef97e
-D s-string.ads		20090417130712 46b01415
-D s-ststop.ads		20090417130712 ee472be4
-D s-traent.ads		20090417130712 5221ee41
-D s-unstyp.ads		20090409150019 6ae15c76
-D s-valrea.ads		20090409150019 fe297711
-D s-wchcon.ads		20090417130712 bfeb2e3d
-D unchconv.ads		20070406091342 ca2f9e18
+D ada.ads		20130417131023 3ffc8e18
+D a-charac.ads		20130417131019 2d3ec45b
+D a-chlat1.ads		20130417131019 2825df20
+D a-contai.ads		20130417131019 61e5e089
+D a-cohata.ads		20130417131019 04abccc5
+D a-cohama.ads		20130417131019 9f97b812
+D a-except.ads		20130417131019 10fcae55
+D a-finali.ads		20130417131020 52ecdc1b
+D a-ioexce.ads		20130417131020 8b9de6cd
+D a-iteint.ads		20130417131020 7c7305e9
+D a-numeri.ads		20130417131020 bb51c45a
+D a-nuelfu.ads		20130417131020 03e83d1c
+D a-ngelfu.ads		20130417131020 243903c9
+D a-stream.ads		20130417131021 2ca4ee37
+D a-string.ads		20130417131021 90ac6797
+D a-strmap.ads		20130417131021 9cb836fb
+D a-strunb.ads		20130417131021 3f91d4c5
+D a-stunha.ads		20130417131021 115e053b
+D a-tags.ads		20130417131022 6c0509d0
+D a-textio.ads		20130417131022 386df5d4
+D a-unccon.ads		20130417131022 f9eb8f06
+D a-uncdea.ads		20130417131022 f15a5ed1
+D cairo.ads		20120115140819 8dc0603a
+D cairo-region.ads	20120115140819 b7133728
+D exception_handling.ads  20131101131501 270b34e9
+D gdk.ads		20120115140819 f909352d
+D gdk-bitmap.ads	20120115140819 a30f71c4
+D gdk-color.ads		20120115140819 8aa593ee
+D gdk-cursor.ads	20120115140819 d92b2ac1
+D gdk-display.ads	20120115140819 f1fc98fd
+D gdk-dnd.ads		20120115140819 db64775b
+D gdk-drawable.ads	20120115140819 15e54888
+D gdk-event.ads		20120115140819 8e0f7bb6
+D gdk-font.ads		20120115140819 46e43fa8
+D gdk-gc.ads		20120115140819 a96f1ba5
+D gdk-image.ads		20120115140819 2cf51d65
+D gdk-pixbuf.ads	20120115140819 8572dcfc
+D gdk-pixmap.ads	20120115140819 677b62c0
+D gdk-rectangle.ads	20120115140819 7b900608
+D gdk-region.ads	20120115140819 ff429b15
+D gdk-rgb.ads		20120115140819 724abbe3
+D gdk-types.ads		20120115140819 b1082506
+D gdk-visual.ads	20120115140819 615e934c
+D gdk-window.ads	20120115140819 a02582f1
+D glib.ads		20120115140820 0f441d83
+D glib-error.ads	20120115140820 e055fabe
+D glib-g_icon.ads	20120115140820 dee6b47c
+D glib-generic_properties.ads  20120115140820 a1807006
+D glib-glist.ads	20120115140820 65a6e1be
+D glib-gslist.ads	20120115140820 8fe7d6f1
+D glib-main.ads		20120115140820 e9472c66
+D glib-object.ads	20120115140820 948e384a
+D glib-properties.ads	20120115140820 48c8d9fb
+D glib-types.ads	20120115140820 497ce66f
+D glib-values.ads	20120115140820 37b4897e
+D gnat.ads		20130417131026 fd2ad2f1
+D g-string.ads		20130417131026 c6abc540
+D gtk.ads		20120115140820 81513fe2
+D gtk-accel_group.ads	20120115140819 db8139a9
+D gtk-adjustment.ads	20120115140819 6a3f2d37
+D gtk-bin.ads		20120115140819 5a1f8184
+D gtk-buildable.ads	20120115140819 0156d377
+D gtk-builder.ads	20120115140820 f4ad2f95
+D gtk-cell_editable.ads	20120115140819 16b4fe5e
+D gtk-cell_layout.ads	20120115140820 6fc2335f
+D gtk-cell_renderer.ads	20120115140820 3320f36f
+D gtk-combo_box.ads	20120115140820 945de294
+D gtk-container.ads	20120115140820 93cfa083
+D gtk-drawing_area.ads	20120115140819 b23c236e
+D gtk-editable.ads	20120115140820 702f62cd
+D gtk-entry_completion.ads  20120115140820 7af3bc39
+D gtk-enums.ads		20120115140820 31c39095
+D gtk-gentry.ads	20120115140820 b68ecae8
+D gtk-icon_factory.ads	20120115140820 66ec8586
+D gtk-image.ads		20120115140820 fa4a314a
+D gtk-main.ads		20120115140820 47a9747a
+D gtk-misc.ads		20120115140820 e0beea74
+D gtk-object.ads	20120115140820 2b4b2b20
+D gtk-selection.ads	20120115140820 68400ca2
+D gtk-settings.ads	20120115140820 4b429e27
+D gtk-style.ads		20120115140820 1c4cbc80
+D gtk-tooltip.ads	20120115140820 d5d8d85a
+D gtk-tooltips.ads	20120115140820 960d936f
+D gtk-tree_model.ads	20120115140820 c173923c
+D gtk-tree_selection.ads  20120115140820 6cab21b3
+D gtk-tree_view.ads	20120115140820 96137578
+D gtk-tree_view_column.ads  20120115140820 e0d60443
+D gtk-widget.ads	20120115140820 468b5cfd
+D gtkada.ads		20120115140820 57aea1c7
+D gtkada-builder.ads	20120115140820 eeaa61f1
+D gtkada-types.ads	20120115140820 b7bc0c77
+D interfac.ads		20130417131027 cb4a8015
+D i-c.ads		20130417131026 5421119b
+D i-cstrin.ads		20130417131027 341d0ddf
+D i-cstrea.ads		20130417131026 8128536b
+D math.ads		20131017151746 6eeac05e
+D math-angles.ads	20131017151746 31c28d09
+D math-matrices.ads	20131030162716 da992515
+D math-planes.ads	20131101131501 57637e7b
+D math-quaternions.ads	20131030162716 f5582cff
+D math-vectors.ads	20131030162716 8121913e
+D navigation.ads	20131017151746 afdfd964
+D navigation-dispatcher.ads  20131112111443 bb53e3cd
+D navigation-motion_component.ads  20131112111443 5201bdd1
+D navigation-orientational_controller.ads  20131112111443 74a5f50b
+D navigation-pid_controller.ads  20131112111443 4c7c5406
+D navigation-positional_controller.ads  20131112111443 4a6df394
+D navigation-thruster_configurator.ads  20131029105656 9ef7f03c
+D navigation-thrusters.ads  20131029105656 2b8825c3
+D pango.ads		20120115140820 d3c8e76d
+D pango-attributes.ads	20120115140820 34135516
+D pango-context.ads	20120115140820 a00383e5
+D pango-enums.ads	20120115140820 8ef2dddf
+D pango-font.ads	20120115140820 375007f3
+D pango-layout.ads	20120115140820 0814381c
+D pango-tabs.ads	20120115140820 1dd550ef
+D setwantedstuffguilogic.ads  20131114145536 3c611973
+D setwantedstuffguilogic.adb  20131119081446 27041a23
+D simulator.ads		20131018074231 19a68e1a
+D simulator-model.ads	20131112131036 3155fb3c
+D simulator-motion_control_wrapper.ads  20131119081446 e4f0c950
+D simulator-motor_info.ads  20131104113703 317185f1
+D simulator-submarine.ads  20131119162321 63940499
+D simulator-viewmodel_set_wanted_position.ads  20131112111443 13058685
+D system.ads		20130417131036 90249111
+D s-addima.ads		20130417131028 a1ec9d3a
+D s-atocou.ads		20130417131028 4a9c6cb4
+D s-atocou.adb		20130417131028 7116b4cf
+D s-crtl.ads		20130417131029 dfcfca61
+D s-exctab.ads		20130417131029 66e51330
+D s-ficobl.ads		20130417131029 55a71d43
+D s-finmas.ads		20130417131029 b95bb341
+D s-finroo.ads		20130417131029 4ff27390
+D s-parame.ads		20130417131032 b6e20cc0
+D s-pooglo.ads		20130417131032 542f33d0
+D s-secsta.ads		20130417131032 eea35a36
+D s-soflin.ads		20130417131032 24c8153c
+D s-stache.ads		20130417131032 596fc1b4
+D s-stalib.ads		20130417131032 f78bcf95
+D s-stoele.ads		20130417131032 facd7d98
+D s-stoele.adb		20130417131032 afc5dc80
+D s-stopoo.ads		20130417131032 7b8fbeee
+D s-stposu.ads		20130417131032 ffeba1c5
+D s-stratt.ads		20130417131032 aedef97e
+D s-string.ads		20130417131032 46b01415
+D s-ststop.ads		20130417131032 ee472be4
+D s-traent.ads		20130417131033 5221ee41
+D s-unstyp.ads		20130417131034 6ae15c76
+D s-valrea.ads		20130417131034 fe297711
+D s-wchcon.ads		20130417131034 bfeb2e3d
+D unchconv.ads		20130417131036 ca2f9e18
 X 1 ada.ads
 16K9*Ada 19e8 118|14r6 27r7 37r10
+X 10 a-iteint.ads
+24h9 Forward_Iterator
 X 20 a-textio.ads
-49K13*Text_IO 472e16 118|14w10 27r11 37r14
-264U14*Put_Line 118|27s19 37s22
+49K13*Text_IO 471e16 118|14w10 27r11 37r14
+263U14*Put_Line 118|27s19 37s22
 X 26 gdk.ads
 34K9*Gdk 60e8 118|6w6 7r6 8r6 9r6 10r6 13r6
 41P9*Gdk_Drawable<45|149P9>
@@ -200,12 +220,12 @@ X 34 gdk-font.ads
 X 35 gdk-gc.ads
 55K13*GC 376e11 118|8w10
 X 43 gdk-visual.ads
-77V13*Convert[146|20]{125|64M9} 49|57i21
-78V13*Convert[146|20]{26|50P9} 49|58i21
+77V13*Convert[151|20]{125|64M9} 49|57i21
+78V13*Convert[151|20]{26|50P9} 49|58i21
 X 44 gdk-window.ads
 63K13*Window 719e15 118|7w10
-531V13*Convert[146|20]{125|64M9} 49|57i21
-532V13*Convert[146|20]{26|41P9} 49|58i21
+531V13*Convert[151|20]{125|64M9} 49|57i21
+532V13*Convert[151|20]{26|41P9} 49|58i21
 X 45 glib.ads
 37K9*Glib 402e9 118|2r6
 76A12*UTF8_String{string}<integer>
@@ -278,8 +298,8 @@ X 118 setwantedstuffguilogic.adb
 23p7 sRotationX{73|59P9} 32r97
 24p7 sRotationY{73|59P9} 33r97
 25p7 sRotationZ{73|59P9} 34r97
-36r12 E{7|68R9}
-45r12 E{7|68R9}
+36r12 E{7|66R9}
+45r12 E{7|66R9}
 X 119 simulator.ads
 1K9*Simulator 117|2r6 3r6 7r17 119|5e14
 X 120 simulator-model.ads
