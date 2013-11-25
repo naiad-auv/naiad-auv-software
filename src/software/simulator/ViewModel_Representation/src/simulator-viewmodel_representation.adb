@@ -3,6 +3,7 @@ with Navigation.Dispatcher;
 with Navigation.Motion_Component;with Ada.Numerics;
 with Ada.Text_IO;
 with Ada.Exceptions;
+with Simulator.Pid_Errors;
 package body Simulator.ViewModel_Representation is
 
    --------------
@@ -124,18 +125,12 @@ package body Simulator.ViewModel_Representation is
    function fGet_Pid_Errors (this : in CViewModel_Representation ; eErrorComponent : in Simulator.Model.EMotionComponent) return float is
       use Simulator.Model;
 
-      xMotionalErrors : Navigation.Dispatcher.TMotionalErrors;
    begin
-      xMotionalErrors := this.pxModel.xGet_Current_Motional_Errors;
-
-      case eErrorComponent is
-      when PositionX .. PositionZ =>
-         return xMotionalErrors(Navigation.Motion_Component.EMotionComponent(eErrorComponent));
-         when others =>
-            null;
-      end case;
-
-      return xMotionalErrors(Navigation.Motion_Component.EMotionComponent(eErrorComponent)) * 180.0 / Ada.Numerics.Pi;
+      return simulator.Pid_Errors.fCalculate_Error_Component(eErrorComponent             => simulator.Pid_Errors.EMotionComponent(eErrorComponent),
+                                                             xCurrentAbsolutePosition    => this.pxModel.xGet_Current_Submarine_Positional_Vector,
+                                                             xWantedAbsolutePosition     => this.xGet_Submarine_Wanted_Position,
+                                                             xCurrentAbsoluteOrientation => this.xGet_Submarine_Current_Orientation,
+                                                             xWantedAbsoluteOrientation  => this.xGet_Submarine_Wanted_Orientation);
    exception
       when E : others =>
          Ada.Text_IO.Put_Line(Ada.Exceptions.Exception_Message(E));

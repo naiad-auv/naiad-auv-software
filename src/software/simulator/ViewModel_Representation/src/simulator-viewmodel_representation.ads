@@ -8,19 +8,9 @@ with Math.Angles;
 with Navigation.Thrusters;
 with Exception_Handling;
 
-
-
-
 package Simulator.ViewModel_Representation is
 
-
-
    type iMotorIndex is new simulator.Model.iMotorIndex;
-
-
-
-
-
 
    type CViewModel_Representation is tagged private;
    type pCViewModel_Representation is access CViewModel_Representation;

@@ -1,15 +1,16 @@
 with Ada.Unchecked_Deallocation;
 with Exception_Handling;
+with Ada.Numerics;
 
 package body Simulator.Pid_Errors is
 
 
-   -------------------------------------
-   -- Update_Current_Z_Rotation_Error --
-   -------------------------------------
+   -----------------------------------------
+   -- fCalculate_Current_Z_Rotation_Error --
+   -----------------------------------------
 
 
- procedure Update_Current_Z_Rotation_Error (this : in out CPidErrors; xWantedAbsoluteOrientation : math.Matrices.CMatrix ; xCurrentAbsoluteOrientationInverse : math.Matrices.CMatrix) is
+ function fCalculate_Current_Z_Rotation_Error (xWantedAbsoluteOrientation : math.Matrices.CMatrix ; xCurrentAbsoluteOrientationInverse : math.Matrices.CMatrix) return float is
       use Math.Matrices;
       xWantedRelativeOrientation : Math.Matrices.CMatrix;
       xCurrentRelativeOrientation : Math.Matrices.CMatrix;
@@ -52,19 +53,20 @@ package body Simulator.Pid_Errors is
       if Math.Vectors.fDot_Product(xWantedXVector, Math.Vectors.xCross_Product(xCurrentXVector, xWantedRelativePlane.xGet_Normal_Vector)) < 0.0 then
          fError := fError * (-1.0);
       end if;
-      this.tfPIDErrors(EMotionComponent(RotationZ)) := fError;
+      return fError*180.0/ada.Numerics.Pi;
    exception
       when E : others =>
          Exception_Handling.Reraise_Exception(E       => E,
                                               Message => "Navigation.Orientational_Controller.Update_Current_Z_Rotation_Error (this : in COrientationalController)");
+         return -1.0;
 
-   end Update_Current_Z_Rotation_Error;
+   end fCalculate_Current_Z_Rotation_Error;
 
-   -------------------------------------
-   -- Update_Current_Y_Rotation_Error --
-   -------------------------------------
+   -----------------------------------------
+   -- fCalculate_Current_Y_Rotation_Error --
+   -----------------------------------------
 
- procedure Update_Current_Y_Rotation_Error (this : in out CPidErrors; xWantedAbsoluteOrientation : math.Matrices.CMatrix ; xCurrentAbsoluteOrientationInverse : math.Matrices.CMatrix) is
+ function fCalculate_Current_Y_Rotation_Error (xWantedAbsoluteOrientation : math.Matrices.CMatrix ; xCurrentAbsoluteOrientationInverse : math.Matrices.CMatrix) return float is
       use Math.Matrices;
       xWantedRelativeOrientation : Math.Matrices.CMatrix;
       xCurrentRelativeOrientation : Math.Matrices.CMatrix;
@@ -107,20 +109,20 @@ package body Simulator.Pid_Errors is
       if Math.Vectors.fDot_Product(xWantedZVector, Math.Vectors.xCross_Product(xCurrentZVector, xWantedRelativePlane.xGet_Normal_Vector)) < 0.0 then
          fError := fError * (-1.0);
       end if;
-
-      this.tfPIDErrors(EMotionComponent(RotationY)) := fError;
+      return fError*180.0/ada.Numerics.Pi;
    exception
       when E : others =>
          Exception_Handling.Reraise_Exception(E       => E,
                                               Message => "Navigation.Orientational_Controller.Update_Current_Y_Rotation_Error (this : in COrientationalController)");
+         return -1.0;
 
-   end Update_Current_Y_Rotation_Error;
+   end fCalculate_Current_Y_Rotation_Error;
 
-   -------------------------------------
-   -- Update_Current_X_Rotation_Error --
-   -------------------------------------
+   -----------------------------------------
+   -- fCalculate_Current_X_Rotation_Error --
+   -----------------------------------------
 
- procedure Update_Current_X_Rotation_Error (this : in out CPidErrors; xWantedAbsoluteOrientation : math.Matrices.CMatrix ; xCurrentAbsoluteOrientationInverse : math.Matrices.CMatrix) is
+ function fCalculate_Current_X_Rotation_Error (xWantedAbsoluteOrientation : math.Matrices.CMatrix ; xCurrentAbsoluteOrientationInverse : math.Matrices.CMatrix) return float is
       use Math.Matrices;
       xWantedRelativeOrientation : Math.Matrices.CMatrix;
       xCurrentRelativeOrientation : Math.Matrices.CMatrix;
@@ -163,21 +165,21 @@ package body Simulator.Pid_Errors is
       if Math.Vectors.fDot_Product(xWantedYVector, Math.Vectors.xCross_Product(xCurrentYVector, xWantedRelativePlane.xGet_Normal_Vector)) < 0.0 then
          fError := fError * (-1.0);
       end if;
-
-      this.tfPIDErrors(EMotionComponent(RotationX)) := fError;
+      return fError*180.0/ada.Numerics.Pi;
    exception
       when E : others =>
          Exception_Handling.Reraise_Exception(E       => E,
                                               Message => "Navigation.Orientational_Controller.Update_Current_X_Rotation_Error (this : in COrientationalController)");
+         return -1.0;
 
-   end Update_Current_X_Rotation_Error;
+   end fCalculate_Current_X_Rotation_Error;
 
 
    --------------------------------------
    -- Update_Current_Positional_Errors --
    --------------------------------------
 
-   procedure Update_Current_Positional_Errors (this : in out CPidErrors ; xWantedAbsolutePosition : math.Vectors.CVector ; xCurrentAbsolutePosition : math.Vectors.CVector; xCurrentAbsoluteOrientationInverse : math.Matrices.CMatrix) is
+   function fCalculate_Current_Positional_Errors (ePositionComponent : EmotionComponentPosition; xWantedAbsolutePosition : math.Vectors.CVector ; xCurrentAbsolutePosition : math.Vectors.CVector; xCurrentAbsoluteOrientationInverse : math.Matrices.CMatrix) return float is
       use Math.Vectors;
       use Math.Matrices;
 
@@ -187,65 +189,55 @@ package body Simulator.Pid_Errors is
       xAbsoluteDifferenceVector := xWantedAbsolutePosition - xCurrentAbsolutePosition;
       xRelativeWantedPositionVector := xCurrentAbsoluteOrientationInverse * xAbsoluteDifferenceVector;
 
-      this.tfPIDErrors(PositionX) := xRelativeWantedPositionVector.fGet_X;
-      this.tfPIDErrors(PositionY) := xRelativeWantedPositionVector.fGet_Y;
-      this.tfPIDErrors(PositionZ) := xRelativeWantedPositionVector.fGet_Z;
+      case ePositionComponent is
+         when PositionX =>
+            return xRelativeWantedPositionVector.fGet_X;
+         when PositionY =>
+            return xRelativeWantedPositionVector.fGet_Y;
+         when PositionZ =>
+            return xRelativeWantedPositionVector.fGet_Z;
+      end case;
 
-   end Update_Current_Positional_Errors;
+   end fCalculate_Current_Positional_Errors;
 
    -------------------
    -- Update_Errors --
    -------------------
 
-   procedure Update_Errors
-     (this : in out CPidErrors ; xCurrentAbsolutePosition : math.Vectors.CVector ; xWantedAbsolutePosition : math.Vectors.CVector ; xCurrentAbsoluteOrientation : math.Matrices.CMatrix; xWantedAbsoluteOrientation : math.Matrices.CMatrix) is
+   function fCalculate_Error_Component (eErrorComponent : EMotionComponentPosAndOrientation ; xCurrentAbsolutePosition : math.Vectors.CVector ; xWantedAbsolutePosition : math.Vectors.CVector ; xCurrentAbsoluteOrientation : math.Matrices.CMatrix; xWantedAbsoluteOrientation : math.Matrices.CMatrix) return float is
 
 
       xCurrentAbsoluteOrientationInverse : math.Matrices.CMatrix :=  xCurrentAbsoluteOrientation.xGet_Inverse;
    begin
 
+      case eErrorComponent is
+         when PositionX =>
+            return fCalculate_Current_Positional_Errors(ePositionComponent                 => PositionX,
+                                                        xWantedAbsolutePosition            => xWantedAbsolutePosition,
+                                                        xCurrentAbsolutePosition           => xCurrentAbsolutePosition,
+                                                        xCurrentAbsoluteOrientationInverse => xCurrentAbsoluteOrientationInverse);
+         when PositionY =>
+            return fCalculate_Current_Positional_Errors(ePositionComponent                 => PositionY,
+                                                        xWantedAbsolutePosition            => xWantedAbsolutePosition,
+                                                        xCurrentAbsolutePosition           => xCurrentAbsolutePosition,
+                                                        xCurrentAbsoluteOrientationInverse => xCurrentAbsoluteOrientationInverse);
+         when PositionZ =>
+            return fCalculate_Current_Positional_Errors(ePositionComponent                 => PositionZ,
+                                                        xWantedAbsolutePosition            => xWantedAbsolutePosition,
+                                                        xCurrentAbsolutePosition           => xCurrentAbsolutePosition,
+                                                        xCurrentAbsoluteOrientationInverse => xCurrentAbsoluteOrientationInverse);
+         when RotationX =>
+            return fCalculate_Current_X_Rotation_Error(xWantedAbsoluteOrientation         => xWantedAbsoluteOrientation,
+                                                       xCurrentAbsoluteOrientationInverse => xCurrentAbsoluteOrientationInverse);
+         when RotationY =>
+            return fCalculate_Current_Y_Rotation_Error(xWantedAbsoluteOrientation         => xWantedAbsoluteOrientation,
+                                                       xCurrentAbsoluteOrientationInverse => xCurrentAbsoluteOrientationInverse);
+         when RotationZ =>
+            return fCalculate_Current_Z_Rotation_Error(xWantedAbsoluteOrientation         => xWantedAbsoluteOrientation,
+                                                       xCurrentAbsoluteOrientationInverse => xCurrentAbsoluteOrientationInverse);
+      end case;
 
-      this.Update_Current_Z_Rotation_Error(xWantedAbsoluteOrientation         => xWantedAbsoluteOrientation,
-                                           xCurrentAbsoluteOrientationInverse => xCurrentAbsoluteOrientationInverse);
-      this.Update_Current_Y_Rotation_Error(xWantedAbsoluteOrientation         => xWantedAbsoluteOrientation,
-                                           xCurrentAbsoluteOrientationInverse => xCurrentAbsoluteOrientationInverse);
-      this.Update_Current_X_Rotation_Error(xWantedAbsoluteOrientation         => xWantedAbsoluteOrientation,
-                                           xCurrentAbsoluteOrientationInverse => xCurrentAbsoluteOrientationInverse);
-      this.Update_Current_Positional_Errors(xWantedAbsolutePosition            => xWantedAbsolutePosition,
-                                            xCurrentAbsolutePosition           => xCurrentAbsolutePosition,
-                                            xCurrentAbsoluteOrientationInverse => xCurrentAbsoluteOrientationInverse);
-   end Update_Errors;
-
-   --------------
-   -- pxCreate --
-   --------------
-
-   function pxCreate return pCPidErrors is
-      pxPidErrors : pCPidErrors;
-   begin
-      pxPidErrors := new CPidErrors;
-      return pxPidErrors;
-   end pxCreate;
-
-   ----------
-   -- Free --
-   ----------
-
-   procedure Free(pxPidErrors: in out pCPidErrors) is
-      procedure Dealloc is new Ada.Unchecked_Deallocation(CPidErrors, pCPidErrors);
-   begin
-      Dealloc(pxPidErrors);
-   end;
-
-   ---------------------
-   -- fGet_PID_Errors --
-   ---------------------
-
-   function tGet_PID_Errors(this : in CPidErrors) return TPIDErrors is
-   begin
-      return this.tfPIDErrors;
-   end tGet_PID_Errors;
-
+   end fCalculate_Error_Component;
 
 
 end Simulator.Pid_Errors;

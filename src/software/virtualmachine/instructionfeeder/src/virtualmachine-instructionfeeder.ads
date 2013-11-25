@@ -9,6 +9,9 @@ package VirtualMachine.InstructionFeeder is
 
    type EInstruction is
      (
+      INSTR_NULL,
+      INSTR_MAIN,
+
       -- Activation record
       INSTR_LINK,
       INSTR_UNLINK,
@@ -100,7 +103,13 @@ package VirtualMachine.InstructionFeeder is
       INSTR_VECCOMP,		-- int
 
       -- Arithmetics for matrices
-      INSTR_MULMAT
+      INSTR_MULMAT,
+
+      -- Trigonometry
+      INSTR_SIN,
+      INSTR_COS,
+      INSTR_ARCSIN,
+      INSTR_ARCCOS
      );
 
 
@@ -122,7 +131,7 @@ package VirtualMachine.InstructionFeeder is
    function Feed_Matrix_Argument(this : in CInstructionFeeder) return Math.Matrices.CMatrix;
 
    procedure Read_Next_Instruction(this : in out CInstructionFeeder; xFileStream : in Ada.Streams.Stream_IO.Stream_Access);
-
+   procedure Go_To_Entry_Point(this : in out CInstructionFeeder; iInstructionAddress : out integer);
 
 private
 

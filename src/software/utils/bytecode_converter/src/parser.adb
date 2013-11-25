@@ -3,6 +3,14 @@ package body Parser is
 
    function sAdd_Instr_String(sInstruction : in string) return string is
    begin
+      if sInstruction(sInstruction'First) = '[' and then sInstruction(sInstruction'Last) = ']' then
+         if Text_Handling.sGet_Lower_Case(sInstruction) = "[main]" then
+            return "INSTR_MAIN";
+         end if;
+
+         return "INSTR_NULL";
+      end if;
+
       return "INSTR_" & sInstruction;
    end sAdd_Instr_String;
 
