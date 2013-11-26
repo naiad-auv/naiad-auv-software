@@ -5,11 +5,11 @@ package MissionControl.TCP is
 
 
 
-   task TCP_IN is
-   end TCP_IN;
+   task TASK_TCP_IN is
+   end TASK_TCP_IN;
 
-   task TCP_OUT is
-   end TCP_OUT;
+   task TASK_TCP_OUT is
+   end TASK_TCP_OUT;
 
 
 

@@ -25,8 +25,9 @@ package MissionControl.SharedTypes is
    end TCANMessageList;
 
    protected type TObjectList is
-      procedure Add(xNewObject : in TObjectListItem);
-      procedure Remove(xObjectRemoved : out TObjectListItem);
+      procedure Add(xNewObject : in TObjectListItem'Class);
+      procedure Remove(xObjectRemoved : in out TObjectListItem'Class);
+      function iCount(xObjectType : in TObjectListItem'Class) return integer;
       function bEmpty return boolean;
       private
       pxObjectList : pCObjectListsListItem;
@@ -48,11 +49,20 @@ private
          pxNextObject : pTObjectListItem;
       end record;
 
+   function iCount(this : in TObjectListItem'Class) return integer;
+   function bIs_Same_Type_As(this : in TObjectListItem'Class; xCompareWith : in TObjectListItem'Class) return boolean;
+
+
+
+
    type CCANMessageListItem is tagged
       record
          xMessage : CAN_Message;--AVR.AT90CAN128.CAN.CAN_Message;
          pxNextMessage : pCCANMessageListItem;
       end record;
+
+
+
 
    type CObjectListsListItem is tagged
       record
@@ -60,8 +70,11 @@ private
          pxNextObjectList : pCObjectListsListItem;
       end record;
 
-   procedure Add(this : in out CObjectListsListItem; pxObjectListItem : in pTObjectListItem);
-   function bSame_Type(this : in TObjectListItem'Class; xCompareWith : in TObjectListItem'Class) return boolean;
+
+
+   -- memory deallocation
    procedure Free is new Ada.Unchecked_Deallocation(CCANMessageListItem, pCCANMessageListItem);
+   procedure Free is new Ada.Unchecked_Deallocation(CObjectListsListItem, pCObjectListsListItem);
+   procedure Free is new Ada.Unchecked_Deallocation(TObjectListItem'Class, pTObjectListItem);
 
 end MissionControl.SharedTypes;
