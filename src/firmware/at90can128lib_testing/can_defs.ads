@@ -5,6 +5,21 @@ with Interfaces;
 with AVR.AT90CAN128.CAN;
 
 package CAN_Defs is
+   ---- Moved from AVR.AT90CAN128.CAN ------------------------------------
+   type Baud_Rate is (K100,K125,K200, K250, K500, M1);
+   type CAN_Identifier is range 0..536870911;
+   type CAN_ID is record
+      Identifier : CAN_Identifier;
+      isExtended : Boolean := False;
+   end record;
+   type Byte8 is array (DLC_Type range 1..8) of Unsigned_8;
+   type CAN_Message is record
+      ID   : CAN_ID;
+      Len  : DLC_Type;
+      Data : Byte8;
+   end record;
+   ------------------------------------
+   
    MSG_KILL_SWITCH_ID			: constant AVR.AT90CAN128.CAN.CAN_ID := (10, False);
    MSG_KILL_SWITCH_CONFIRM_ID		: constant AVR.AT90CAN128.CAN.CAN_ID := (88, False);
    MSG_KILL_SWITCH_ACTIVE		: constant AVR.AT90CAN128.CAN.CAN_Message := (ID => MSG_KILL_SWITCH_ID, Len => 1, Data => (0, others => 0) );
