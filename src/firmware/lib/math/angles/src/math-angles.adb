@@ -28,10 +28,10 @@ package body Math.Angles is
    begin
       fNewAngle := fAngle;
       while fNewAngle <= fRangeFromExclusive loop
-         fNewAngle := fNewAngle + (2.0 * Pi);
+         fNewAngle := fNewAngle + (2.0 * Math.Elementary.Pi);
       end loop;
-      while fNewAngle > (fRangeFromExclusive + (2.0 * Pi)) loop
-         fNewAngle := fNewAngle - (2.0 * Pi);
+      while fNewAngle > (fRangeFromExclusive + (2.0 * Math.Elementary.Pi)) loop
+         fNewAngle := fNewAngle - (2.0 * Math.Elementary.Pi);
       end loop;
       return fNewAngle;
    end fGet_Angle_Radians_In_Range;
@@ -39,13 +39,13 @@ package body Math.Angles is
 
    function fRadians_To_Degrees (fAngle : in float) return float is
    begin
-      return (fAngle * 180.0) / Pi;
+      return (fAngle * 180.0) / Math.Elementary.Pi;
    end fRadians_To_Degrees;
 
 
    function fDegrees_To_Radians (fAngle : in float) return float is
    begin
-      return (fAngle * Pi) / 180.0;
+      return (fAngle * Math.Elementary.Pi) / 180.0;
    end fDegrees_To_Radians;
 
    function fTAngle_To_FAngle (tfAngle : in TAngle) return float is

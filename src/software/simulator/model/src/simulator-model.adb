@@ -4,12 +4,12 @@ package body Simulator.Model is
    -- pxCreate --
    --------------
 
-   function pxCreate return pcModel is
+   function pxCreate(iMotorUpdateFrequency : Integer) return pcModel is
       pxModel : Simulator.Model.pCModel;
 
    begin
       pxModel := new Simulator.Model.CModel;
-
+      pxModel.fTimeBetweenMotorUpdates:=1.0/float(iMotorUpdateFrequency);
       pxModel.pxSubmarine := Simulator.submarine.pxCreate_Naiad;
       pxModel.pxMotionControlWrapper := Simulator.Motion_Control_Wrapper.pxCreate_Wrap_Dispatcher;
       --pxModel.pOwnerUpdateProcedure := pOwnerUpdateProcedure;
@@ -22,15 +22,39 @@ package body Simulator.Model is
    -----------------
 
    procedure Update_Model (this : in out CModel; fDeltaTime : float) is
-      tfMotorValuesSubmarine : simulator.submarine.TMotorForce;
+      fMaximumMotorForce : float := 66.776;
+      fMotorForceChangePerSecond : float := fMaximumMotorForce/0.0001;--1.5;
+      tfMotorValuesSubmarine : simulator.Model.TMotorForce;
+      tfChangeInMotorValues : simulator.Model.TMotorForce;
    begin
-      this.pxMotionControlWrapper.Update_Values(xNewCurrentAbsolutePosition => this.pxSubmarine.xGet_Position_Vector,
-                                                xNewCurrentOrientation      => this.pxSubmarine.xGet_Orientation_Matrix,
-                                                tfMotorValuesSubmarine       => tfMotorValuesSubmarine, --out
-                                                fDeltaTime                   => fDeltaTime);
+      if this.fTimeSinceLastMotorUpdate>this.fTimeBetweenMotorUpdates then
+         this.fTimeSinceLastMotorUpdate := this.fTimeSinceLastMotorUpdate - this.fTimeBetweenMotorUpdates;
+         this.pxMotionControlWrapper.Update_Values(xNewCurrentAbsolutePosition => this.pxSubmarine.xGet_Position_Vector,
+                                                   xNewCurrentOrientation      => this.pxSubmarine.xGet_Orientation_Matrix,
+                                                   tfMotorValuesSubmarine      => simulator.submarine.TMotorForce(this.tWantedMotorForces), --out
+                                                   fDeltaTime                  => this.fTimeBetweenMotorUpdates);
 
-      this.pxSubmarine.Time_Step_Motor_Force_To_Integrate(txMotorForce => tfMotorValuesSubmarine,
+      end if;
+      this.fTimeSinceLastMotorUpdate := this.fTimeSinceLastMotorUpdate+fDeltaTime;
+
+      tfMotorValuesSubmarine := simulator.Model.TMotorForce(this.pxSubmarine.xGet_Motor_Values);
+      for iMotorIndex in tfMotorValuesSubmarine'Range loop
+         tfChangeInMotorValues(iMotorIndex) := this.tWantedMotorForces(iMotorIndex)-tfMotorValuesSubmarine(iMotorIndex);
+         if tfChangeInMotorValues(iMotorIndex)>fMotorForceChangePerSecond*fDeltaTime then
+            tfChangeInMotorValues(iMotorIndex) := fMotorForceChangePerSecond*fDeltaTime;
+         end if;
+         if tfChangeInMotorValues(iMotorIndex)<-fMotorForceChangePerSecond*fDeltaTime then
+            tfChangeInMotorValues(iMotorIndex) := -fMotorForceChangePerSecond*fDeltaTime;
+         end if;
+         tfMotorValuesSubmarine(iMotorIndex) := tfMotorValuesSubmarine(iMotorIndex) + tfChangeInMotorValues(iMotorIndex);
+      end loop;
+
+      --tfMotorValuesSubmarine := (-3.0,0.0,3.0,0.0,0.0,0.0);
+      --tfMotorValuesSubmarine := (0.0,-3.0,3.0,0.0,0.0,0.0);
+
+      this.pxSubmarine.Time_Step_Motor_Force_To_Integrate(txMotorForce => Simulator.submarine.TMotorForce(tfMotorValuesSubmarine),
                                                           fDeltaTime   => fDeltaTime);
+
    end Update_Model;
 
    -------------------------------------------
@@ -125,9 +149,9 @@ package body Simulator.Model is
 
 
 
-
-
-
-
+   function xGet_Current_Motional_Errors(this : in CModel) return Navigation.Dispatcher.TMotionalErrors is
+   begin
+      return this.pxMotionControlWrapper.xGet_Motional_Errors;
+   end xGet_Current_Motional_Errors;
 
 end Simulator.Model;

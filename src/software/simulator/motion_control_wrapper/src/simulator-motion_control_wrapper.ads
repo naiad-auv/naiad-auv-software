@@ -6,7 +6,6 @@ with Navigation.Motion_Component;
 with Navigation.Thrusters;
 with Math.Angles;
 with math.Vectors;
-with Simulator.Pid_Errors;
 with Navigation.PID_Controller;
 
 package simulator.Motion_Control_Wrapper is
@@ -35,6 +34,8 @@ package simulator.Motion_Control_Wrapper is
                                     xWantedOrientation : in math.Matrices.CMatrix );
    function xGet_Wanted_Position(this : in CWrapDispatcher) return math.Vectors.CVector;
    function xGet_Wanted_Orientation(this : in CWrapDispatcher) return math.Matrices.CMatrix;
+
+   function xGet_Motional_Errors(this : in CWrapDispatcher) return Navigation.Dispatcher.TMotionalErrors;
 
 
 private

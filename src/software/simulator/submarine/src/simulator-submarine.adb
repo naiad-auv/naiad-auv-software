@@ -16,40 +16,43 @@ package body simulator.submarine is
       pxSubmarine : pCSubmarine;
       txMotorInfo : simulator.submarine.TMotors;
       tfRawMatrix : Math.Matrices.TMatrix;
+      xPositionVectorCOMtoReferencePos : Math.Vectors.CVector := math.Vectors.xCreate(fX => -0.089,
+                                                                                      fY => -0.025,
+                                                                                      fZ => 0.0);
 
-      xPositionVectorMotorFrontLeftXYPlane : math.Vectors.CVector := math.Vectors.xCreate(fX => 0.5,
-                                                                                          fY => 0.8660254037844386467637231707529361834714026269051903,
-                                                                                          fZ => 0.0);
+      xPositionVectorMotorFrontLeftXYPlane : math.Vectors.CVector := math.Vectors.xCreate(fX => 0.218,
+                                                                                          fY => 0.238,
+                                                                                          fZ => 0.041)+xPositionVectorCOMtoReferencePos;
       xForceVectorMotorFrontLeftXYPlane : math.Vectors.CVector := math.Vectors.xCreate(fX => -0.8660254037844386467637231707529361834714026269051903,
                                                                                        fY => 0.5,
                                                                                        fZ => 0.0);
-      xPositionVectorMotorRearXYPlane : math.Vectors.CVector := math.Vectors.xCreate(fX => -1.0,
-                                                                                     fY => 0.0,
-                                                                                     fZ => 0.0);
+      xPositionVectorMotorRearXYPlane : math.Vectors.CVector := math.Vectors.xCreate(fX => -0.249,
+                                                                                     fY => 0.055,
+                                                                                     fZ => 0.035)+xPositionVectorCOMtoReferencePos;
       xForceVectorMotorRearXYPlane : math.Vectors.CVector := math.Vectors.xCreate(fX => 0.0,
                                                                                   fY => -1.0,
                                                                                   fZ => 0.0);
-      xPositionVectorMotorFrontRightXYPlane : math.Vectors.CVector := math.Vectors.xCreate(fX => 0.5,
-                                                                                           fY => -0.8660254037844386467637231707529361834714026269051903,
-                                                                                           fZ => 0.0);
+      xPositionVectorMotorFrontRightXYPlane : math.Vectors.CVector := math.Vectors.xCreate(fX => 0.218,
+                                                                                           fY => -0.238,
+                                                                                           fZ => 0.041)+xPositionVectorCOMtoReferencePos;
       xForceVectorMotorFrontRightXYPlane : math.Vectors.CVector := math.Vectors.xCreate(fX => 0.8660254037844386467637231707529361834714026269051903,
                                                                                         fY => 0.5,
                                                                                         fZ => 0.0);
-      xPositionVectorMotorFrontLeftZAxis : math.Vectors.CVector := math.Vectors.xCreate(fX => 0.5,
-                                                                                        fY => 0.8660254037844386467637231707529361834714026269051903,
-                                                                                        fZ => 0.0);
+      xPositionVectorMotorFrontLeftZAxis : math.Vectors.CVector := math.Vectors.xCreate(fX => 0.184,
+                                                                                        fY => 0.136,
+                                                                                        fZ => 0.040)+xPositionVectorCOMtoReferencePos;
       xForceVectorMotorFrontLeftZAxis : math.Vectors.CVector := math.Vectors.xCreate(fX => 0.0,
                                                                                      fY => 0.0,
                                                                                      fZ => 1.0);
-      xPositionVectorMotorRearZAxis : math.Vectors.CVector := math.Vectors.xCreate(fX => -1.0,
+      xPositionVectorMotorRearZAxis : math.Vectors.CVector := math.Vectors.xCreate(fX => -0.387,
                                                                                    fY => 0.0,
-                                                                                   fZ => 0.0);
+                                                                                   fZ => 0.040)+xPositionVectorCOMtoReferencePos;
       xForceVectorMotorRearZAxis : math.Vectors.CVector := math.Vectors.xCreate(fX => 0.0,
                                                                                 fY => 0.0,
                                                                                 fZ => 1.0);
-      xPositionVectorMotorFrontRightZAxis : math.Vectors.CVector := math.Vectors.xCreate(fX => 0.5,
-                                                                                         fY => -0.8660254037844386467637231707529361834714026269051903,
-                                                                                         fZ => 0.0);
+      xPositionVectorMotorFrontRightZAxis : math.Vectors.CVector := math.Vectors.xCreate(fX => 0.184,
+                                                                                         fY => -0.136,
+                                                                                         fZ => 0.040)+xPositionVectorCOMtoReferencePos;
       xForceVectorMotorFrontRightZAxis : math.Vectors.CVector := math.Vectors.xCreate(fX => 0.0,
                                                                                       fY => 0.0,
                                                                                       fZ => 1.0);
@@ -79,8 +82,8 @@ package body simulator.submarine is
       pxSubmarine.txMotorForce := (0.0,0.0,0.0,0.0,0.0,0.0);
       pxSubmarine.fWeight:=28.0;
       pxSubmarine.fBuoyancyForce:=30.0*9.82;
-      pxSubmarine.pxBuoyancyForcePositionVector:= math.Vectors.pxGet_Allocated_Copy(math.Vectors.xCreate(0.0,0.0,0.1));
-      pxSubmarine.pxRotationFrictionVector := math.Vectors.pxGet_Allocated_Copy(math.Vectors.xCreate(0.1 , 0.1 , 0.1));
+      pxSubmarine.pxBuoyancyForcePositionVector:= math.Vectors.pxGet_Allocated_Copy(math.Vectors.xCreate(0.0,0.0,0.01));
+      pxSubmarine.pxRotationFrictionVector := math.Vectors.pxGet_Allocated_Copy(math.Vectors.xCreate(0.5 , 0.5 , 0.5));
       pxSubmarine.pxVelocityFrictionVector := math.Vectors.pxGet_Allocated_Copy(math.Vectors.xCreate(0.1 , 0.1 , 0.1));
 
 
@@ -414,7 +417,7 @@ package body simulator.submarine is
 
       if this.pxAccelerationVector /= null and this.pxAngularAccelerationVector /= null then
          xDeltaRotationMovement := this.pxAngularVelocityVector*fTimeDuration;
-         Put_Line("xDeltaMovement X: " & xDeltaRotationMovement.fGet_X'Img & " Y: " & xDeltaRotationMovement.fGet_Y'img & " Z: " & xDeltaRotationMovement.fGet_Z'img);
+       --  Put_Line("xDeltaMovement X: " & xDeltaRotationMovement.fGet_X'Img & " Y: " & xDeltaRotationMovement.fGet_Y'img & " Z: " & xDeltaRotationMovement.fGet_Z'img);
 
          if xDeltaRotationMovement.fLength_Squared /= 0.0 then
 

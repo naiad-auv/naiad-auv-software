@@ -2,35 +2,20 @@ with AVR.AT90CAN128.CLOCK;
 
 package AVR.AT90CAN128.CAN is
 
-   type Baud_Rate is (K100,K125,K200, K250, K500, M1);
+ -- I moved the definition of CAN_Message etc. to the CAN_Defs.ads file // Nils
 
-   Default_Speed : constant Baud_Rate := K100;
-
-   type CAN_Identifier is range 0..536870911;
-
-   type CAN_ID is record
-      Identifier : CAN_Identifier;
-      isExtended : Boolean := False;
-   end record;
-
-   type Byte8 is array (DLC_Type range 1..8) of Unsigned_8;
-
-   type CAN_Message is record
-      ID   : CAN_ID;
-      Len  : DLC_Type;
-      Data : Byte8;
-   end record;
-
-   procedure Can_Init (Rate : Baud_Rate);
-   procedure Can_SetBaudRate(Rate : Baud_Rate);
+ --  Default_Speed : constant Baud_Rate := K100;
+ 
+   procedure Can_Init (Rate : CAN_Defs.Baud_Rate);
+   procedure Can_SetBaudRate(Rate : CAN_Defs.Baud_Rate);
    procedure Can_Enable;
    procedure Can_Disable;
 
-   procedure Can_Set_MOB_ID_MASK (mob : READ_MOB_ID;  ID, Mask : CAN_ID);
-   procedure Can_Set_All_MOB_ID_MASK (ID, Mask : CAN_ID);
+   procedure Can_Set_MOB_ID_MASK (mob : READ_MOB_ID;  ID, Mask : CAN_Defs.CAN_ID);
+   procedure Can_Set_All_MOB_ID_MASK (ID, Mask : CAN_Defs.CAN_ID);
 
-   procedure Can_Send (Msg : CAN_Message);
-   procedure Can_Get (Msg : out CAN_Message; Ret : out Boolean; Wait : in AVR.AT90CAN128.CLOCK.Time_Duration);
+   procedure Can_Send (Msg : CAN_Defs.CAN_Message);
+   procedure Can_Get (Msg : out CAN_Defs.CAN_Message; Ret : out Boolean; Wait : in AVR.AT90CAN128.CLOCK.Time_Duration);
    function Can_Valid_Message  return Boolean;
 
 end AVR.AT90CAN128.CAN;

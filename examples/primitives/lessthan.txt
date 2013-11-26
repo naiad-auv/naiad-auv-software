@@ -1,0 +1,13 @@
+primitive LessThanInt is
+
+	input1 : in integer;
+	input2 : in integer;
+
+	output1 : out boolean;
+
+	procedure Main is
+	begin
+		output1 := input1 < input2;
+	end;
+
+end primitive;

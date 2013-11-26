@@ -28,6 +28,6 @@ package AVR.AT90CAN128.USART is
       Size   : Positive;
       Num    : out Integer);
 
-   procedure Flush_Receive_Buffer;
+   procedure Flush_Receive_Buffer(Port : USARTID);
 
 end AVR.AT90CAN128.USART;

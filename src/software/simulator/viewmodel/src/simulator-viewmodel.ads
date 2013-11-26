@@ -19,10 +19,6 @@ package Simulator.ViewModel is
 
    type iMotorIndex is new simulator.Model.iMotorIndex;
 
-
-
-
-
  --  type pTProcedure is new simulator.Model.pTProcedure;
 
    type CViewModel is tagged private; --new Simulator.Update_Interface.CWithUpdate with private;
@@ -30,9 +26,9 @@ package Simulator.ViewModel is
 
    type EMotionComponent is new Simulator.Pid_Errors.EMotionComponent;
 
-   type txPIDComponentScalingArray is array (X .. AllComponents) of TPIDComponentScalings;
+   type txPIDComponentScalingArray is array (PositionX .. AllComponents) of TPIDComponentScalings;
 
-   type TVectorComponents is new Navigation.Thrusters.EThrusterEffectsComponents range Navigation.Thrusters.XRotation .. Navigation.Thrusters.ZRotation;
+--   type TVectorComponents is new Navigation.Thrusters.EThrusterEffectsComponents range Navigation.Thrusters.XRotation .. Navigation.Thrusters.ZRotation;
 
    function pxCreate return pCViewModel;
    function pxCreate (pxModel : Simulator.Model.pCModel) return pcViewModel;
@@ -45,20 +41,20 @@ package Simulator.ViewModel is
    function xGet_Submarine_Current_Orientation(this : in CViewModel) return math.Matrices.CMatrix;
    function xGet_Submarine_Wanted_Orientation(this : in CViewModel) return math.Matrices.CMatrix;
 
-   function fGet_Selected_Pid_Scaling_Proprotional_Part(this : in CViewModel) return float;
-   function fGet_Selected_Pid_Scaling_Integrating_Part(this : in CViewModel) return float;
-   function fGet_Selected_Pid_Scaling_Derivative_Part(this : in CViewModel) return float;
+
    function fGet_Motor_Force(this : in CViewModel; iIndexMotor  : iMotorIndex) return float;
-
-
    function fGet_Pid_Errors(this : in CViewModel ; eErrorComponent : in EMotionComponent) return float;
 
+
+
+
+   procedure Set_Wanted_Position_And_Orientation(this : in CViewModel; fPositionX : float ;  fPositionY : float ; fPositionZ : float ; fOrientationR : float ;fOrientationP : float ;fOrientationY : float);
    procedure Set_Selected_Pid(this : in out CviewModel; eSelectedPid : EMotionComponent);
    procedure Set_Value_Of_Selected_Pid(this : in out CViewModel; fProporitonalPart : float; fIntegratingPart : float; fDerivativePart:float);
    procedure Restart(this : in CViewModel);
 
    procedure Update_View_Model(this : in CViewModel; fDeltaTime : in float);
-   procedure Set_Wanted_Position_And_Orientation(this : in CViewModel; fPositionX : float ;  fPositionY : float ; fPositionZ : float ; fOrientationR : float ;fOrientationP : float ;fOrientationY : float);
+
 
 
 --     overriding

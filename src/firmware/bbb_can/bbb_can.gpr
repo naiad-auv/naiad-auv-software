@@ -1,13 +1,13 @@
+with "../lib/UartWrapper/uartwrapper.gpr";
 with "../../lib/exception_handling/exception_handling.gpr";
 with "../queue/queue.gpr";
 with "../can_link_utils/can_link_utils_testing.gpr";
-with "../../lib/BeagleBoneBlack/UartWrapper/uartwrapper.gpr";
 
 project BBB_CAN is
 
    for Object_Dir use "build";
    for Exec_Dir use "target";
-   for Source_Dirs use ("src", "../at90can128lib_testing");
+   for Source_Dirs use ("src");
    for Source_Files use ("bbb_can.adb", "bbb_can.ads", "bbb_can_main.adb");
    for Main use ("bbb_can_main.adb");
 

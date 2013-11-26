@@ -24,6 +24,8 @@ package Navigation.Orientational_Controller is
    type COrientationalController is new Ada.Finalization.Controlled with private;
    type pCOrientationalController is access COrientationalController;
 
+   type TOrientationalErrors is array (Navigation.Motion_Component.RotationX .. Navigation.Motion_Component.RotationZ) of float;
+
    procedure Free(pxOrientationalControllerToDeallocate : in out pCOrientationalController);
 
    function pxCreate (pxCurrentAbsoluteOrientation : in Math.Matrices.pCMatrix; pxWantedAbsoluteOrientation : in Math.Matrices.pCMatrix; pxCurrentAbsoluteOrientationInverse : in Math.Matrices.pCMatrix) return pCOrientationalController;
@@ -31,13 +33,13 @@ package Navigation.Orientational_Controller is
    --  <parameter name="pxCurrentAbsoluteOrientation">A reference to the current absolute orientation</parameter>
    --  <parameter name="pxWantedAbsoluteOrientation">A reference to the wanted absolute orientation</parameter>
 
-   function xGet_Orientational_Thruster_Control_Values (this : in COrientationalController; fDeltaTime : in float) return Navigation.Thrusters.TThrusterEffects;
+   procedure Get_Orientational_Thruster_Control_Values (this : in out COrientationalController; fDeltaTime : in float; tfValues : out Navigation.Thrusters.TThrusterEffects);
    --  <summary>Calculates thruster control values for all thrusters and scales them accordingly</summary>
    --  <parameter name="this">The COrientationalController to do the calculations upon.</parameter>
    --  <parameter name="fDeltaTime">The time difference since the last calculation.</parameter>
 
 
-   procedure Update_Current_Errors (this : in COrientationalController);
+   procedure Update_Current_Errors (this : in out COrientationalController);
    --  <summary>Cascades the difference between the current orientation and the wanted orientation to all motion components</summary>
    --  <parameter name="this">The COrientationalController object that holds the objects that needs to be updated</parameter>
 
@@ -47,11 +49,14 @@ package Navigation.Orientational_Controller is
    --  <parameter name="xNewPIDSCalings">The TPIDComponetScalings object to set for the object.</parameter>
    --  <parameter name="eComponentToChange">The index of the component to change.</parameter>
 
+
+   function fGetCurrentErrors(this : in COrientationalController) return TOrientationalErrors;
+
 private
 
-   procedure Update_Current_X_Rotation_Error (this : in COrientationalController);
-   procedure Update_Current_Y_Rotation_Error (this : in COrientationalController);
-   procedure Update_Current_Z_Rotation_Error (this : in COrientationalController);
+   procedure Update_Current_X_Rotation_Error (this : in out COrientationalController);
+   procedure Update_Current_Y_Rotation_Error (this : in out COrientationalController);
+   procedure Update_Current_Z_Rotation_Error (this : in out COrientationalController);
 
    function xGet_X_Rotation_Thruster_Control_Value (this : in COrientationalController; fDeltaTime : in float) return Navigation.Thrusters.TThrusterEffects;
    function xGet_Y_Rotation_Thruster_Control_Value (this : in COrientationalController; fDeltaTime : in float) return Navigation.Thrusters.TThrusterEffects;
@@ -66,6 +71,11 @@ private
          pxXRotMotionComponent : Navigation.Motion_Component.pCMotionComponent;
          pxYRotMotionComponent : Navigation.Motion_Component.pCMotionComponent;
          pxZRotMotionComponent : Navigation.Motion_Component.pCMotionComponent;
+
+         fCurrentXRotationError : float;
+         fCurrentYRotationError : float;
+         fCurrentZRotationError : float;
+         fSavedDeltaTime : float;
 
          -- temporary for testing
 --           fXRotError : float;

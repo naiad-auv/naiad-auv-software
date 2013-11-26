@@ -102,4 +102,9 @@ package body Navigation.PID_Controller is
       Dealloc(pxPIDControllerToDeallocate);
    end Free;
 
+   function fGetCurrentError(this : in CPIDController) return float is
+   begin
+      return this.fCurrentValue - this.fCurrentSetPoint;
+   end fGetCurrentError;
+
 end Navigation.PID_Controller;
