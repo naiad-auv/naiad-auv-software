@@ -19,11 +19,11 @@ with UartWrapper;
 with AVR.AT90CAN128;
 with AVR.AT90CAN128.CAN;
 with BBB_CAN;
-
+with CAN_Defs;
 
 procedure BBB_CAN_main is
    pragma Suppress (All_Checks);
-   msg : AVR.AT90CAN128.CAN.CAN_Message;
+   msg : CAN_Defs.CAN_Message;
    bMsg : Boolean;
    bOk  : Boolean;
 
@@ -74,7 +74,7 @@ begin
 
       if bMsg then
          if Integer(msg.ID.Identifier) = 15 then
-            msg.ID.Identifier := AVR.AT90CAN128.CAN.CAN_Identifier(16);
+            msg.ID.Identifier := CAN_Defs.CAN_Identifier(16);
 
             Ada.Text_IO.Put_Line("Sending CAN message: ID=" & Integer'Image(Integer(msg.ID.Identifier)) & ", length=" & msg.Len'Img & ", data(1)=" & Integer'Image(Integer(msg.Data(1))));
             BBB_CAN.Send(msg);
