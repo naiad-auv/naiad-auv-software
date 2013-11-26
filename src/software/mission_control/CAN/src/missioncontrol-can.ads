@@ -1,6 +1,8 @@
 with MissionControl;
 with MissionControl.SharedTypes;
 
+--with Ada.Text_IO; -- for testing
+
 package MissionControl.CAN is
 
    protected CAN_Resource is

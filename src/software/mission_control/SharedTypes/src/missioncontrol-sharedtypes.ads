@@ -2,6 +2,8 @@ with MissionControl;
 --with AVR.AT90CAN128.CAN;
 with Ada.Unchecked_Deallocation;
 
+--with Ada.Text_IO; -- for testing
+
 package MissionControl.SharedTypes is
 
    type CAN_Message is null record; -- temporary until this can be built with AT90CAN128 messages

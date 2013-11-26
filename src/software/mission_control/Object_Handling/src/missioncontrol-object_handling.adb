@@ -8,6 +8,7 @@ package body MissionControl.Object_Handling is
      (xObject : in MissionControl.SharedTypes.TListObject'Class)
    is
    begin
+      --Ada.Text_IO.Put_Line("Handling object."); -- for testing
       null;
    end Handle_Object;
 

@@ -13,6 +13,9 @@ package body VirtualMachine.Interpreter is
 
    begin
 
+      --Ada.Text_IO.Put_Line("VM step with delta time: " & fDeltaTime'Img & "."); -- for testing
+      --return; -- for testing
+
       this.fTimer := this.fTimer + fDeltaTime;
 
       case this.pxInstructionFeeder.Feed_Instruction is

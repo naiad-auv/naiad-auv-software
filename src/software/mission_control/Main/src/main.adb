@@ -8,6 +8,8 @@ with VirtualMachine.Interpreter;
 
 with Ada.Real_Time; -- measure time
 
+--with Ada.Text_IO; -- for testing
+
 -- TODO List:
 
 -- Complete protected object TCP_Resource (in TCP project) and
@@ -29,13 +31,15 @@ procedure Main is
 begin
 
    -- BOOT UP STUFF HERE
+   --Ada.Text_IO.New_Line; Ada.Text_IO.New_Line; Ada.Text_IO.New_Line; Ada.Text_IO.New_Line; -- for testing
+   --Ada.Text_IO.Put_Line("Booting up main frame."); -- for testing
    pxVMInterpreter := new VirtualMachine.Interpreter.CInterpreter;
 
 
    loop -- BOOT UP COMPLETE... NOW LOOP FOREVER
 
 
-      if MissionControl.SharedTypes.xObjectsInList.iCount >= 0 then
+      if MissionControl.SharedTypes.xObjectsInList.iCount > 0 then
 
          MissionControl.SharedTypes.xObjectsInList.Remove(pxObjectRemoved => pxObject);
          MissionControl.Object_Handling.Handle_Object(xObject => pxObject.all);
@@ -52,6 +56,7 @@ begin
 ---------Virtual Machine ends here-----------------------------------------------------------------------------------------
 
 
+      --delay 0.5; -- for testing
    end loop;
 
 end Main;

@@ -3,14 +3,16 @@ package body MissionControl.TCP is
    protected body TCP_Resource is
       procedure Send(xCANMessage : in MissionControl.SharedTypes.CAN_Message) is
       begin
+         --Ada.Text_IO.Put_Line("TCP_Resource: Send called."); -- for testing
          null;
       end Send;
 
       procedure Receive(xCANMessage : out MissionControl.SharedTypes.CAN_Message; bMessageReceived : out boolean) is
          xNewCANMessage : MissionControl.SharedTypes.CAN_Message;
       begin
+         --Ada.Text_IO.Put_Line("TCP_Resource: Receive called."); -- for testing
          xCANMessage := xNewCANMessage;
-         bMessageReceived := false;
+         bMessageReceived := true;
       end Receive;
    end TCP_Resource;
 
@@ -27,6 +29,7 @@ package body MissionControl.TCP is
             MissionControl.SharedTypes.xCANSimulatedMessageList.Add(xCANMessage => xCANMessageFromShore);
          end if;
 
+         --delay 0.5; -- for testing
       end loop;
    end TASK_TCP_IN;
 
@@ -35,7 +38,7 @@ package body MissionControl.TCP is
    begin
       loop
 
-         if MissionControl.SharedTypes.xCANOutMessageList.iCount >= 0 then
+         if MissionControl.SharedTypes.xCANOutMessageList.iCount > 0 then
 
             MissionControl.SharedTypes.xCANOutMessageList.Remove(xCANMessage => xCANMessageToShore);
             TCP_Resource.Send(xCANMessage => xCANMessageToShore);
@@ -43,13 +46,14 @@ package body MissionControl.TCP is
          end if;
 
 
-         if MissionControl.SharedTypes.xCANInMessageList.iCount >= 0 then
+         if MissionControl.SharedTypes.xCANInMessageList.iCount > 0 then
 
             MissionControl.SharedTypes.xCANInMessageList.Remove(xCANMessage => xCANMessageToShore);
             TCP_Resource.Send(xCANMessage => xCANMessageToShore);
 
          end if;
 
+         --delay 0.5; -- for testing
       end loop;
    end TASK_TCP_OUT;
 

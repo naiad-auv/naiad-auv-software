@@ -1,6 +1,8 @@
 with MissionControl;
 with MissionControl.SharedTypes;
 
+--with Ada.Text_IO; -- for testing
+
 package MissionControl.TCP is
 
    protected TCP_Resource is
