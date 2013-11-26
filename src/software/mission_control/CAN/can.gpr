@@ -1,3 +1,4 @@
+with "../SharedTypes/sharedtypes.gpr";
 with "../missioncontrol.gpr";
 
 project Can is
