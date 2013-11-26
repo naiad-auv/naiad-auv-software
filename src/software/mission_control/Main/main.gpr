@@ -1,3 +1,6 @@
+with "../../virtualmachine/interpreter/interpreter.gpr";
+with "../Object_Handling/object_handling.gpr";
+with "../SharedTypes/sharedtypes.gpr";
 with "../TCP/tcp.gpr";
 with "../CAN/can.gpr";
 
