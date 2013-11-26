@@ -1,14 +1,16 @@
 with AVR.AT90CAN128 ;
 
+with CAN_Defs;
+
 package body AVR.AT90CAN128.CAN is
    pragma Suppress (All_Checks);
 
    Buffer_Size : constant := 16;
    type Buffer_pointer is mod 2 ** 5;
-   type Can_Buffer_Array is array (Buffer_pointer range 0..15) of CAN_Message;
+   type Can_Buffer_Array is array (Buffer_pointer range 0..15) of CAN_Defs.CAN_Message;
 
-   ID_Tag_array : array (READ_MOB_ID) of CAN_ID;
-   ID_Mask_array : array (READ_MOB_ID) of CAN_ID;
+   ID_Tag_array : array (READ_MOB_ID) of CAN_Defs.CAN_ID;
+   ID_Mask_array : array (READ_MOB_ID) of CAN_Defs.CAN_ID;
 
    pRXWrite   : Buffer_pointer := 0;
    pRXRead	: Buffer_pointer := 0;
@@ -35,7 +37,7 @@ package body AVR.AT90CAN128.CAN is
    end iGetBufferSize;
 
    procedure CanWriteTXMOB is
-      Msg : CAN_Message;
+      Msg : CAN_Defs.CAN_Message;
    begin
       if pTXRead = pTXWrite then
          return;
@@ -72,7 +74,7 @@ package body AVR.AT90CAN128.CAN is
    -- Can_Send  : Send out a CAN messaage
    -- Parameter :
    --		 Msg : the CAN message which is going to be sent.
-   procedure Can_Send (Msg : CAN_Message) is
+   procedure Can_Send (Msg : CAN_Defs.CAN_Message) is
       tmp : Buffer_pointer;
    begin
       if iGetBufferSize(pTXWrite,pTXRead) = Buffer_Size then
@@ -107,12 +109,12 @@ package body AVR.AT90CAN128.CAN is
          Temp := CANSTMOB;
 	 if Temp.RXOK then
             declare
-               Msg : CAN_Message;
+               Msg : CAN_Defs.CAN_Message;
             begin
                if CANCDMOB.Extended_ID then
-                  Msg.ID.Identifier := CAN_Identifier (Shift_Right (CANIDT,3));
+                  Msg.ID.Identifier := CAN_Defs.CAN_Identifier (Shift_Right (CANIDT,3));
                else
-                  Msg.ID.Identifier := CAN_Identifier (Shift_Right (CANIDT,21));
+                  Msg.ID.Identifier := CAN_Defs.CAN_Identifier (Shift_Right (CANIDT,21));
                end if;
                Msg.ID.isExtended := CANCDMOB.Extended_ID;
                Msg.Len := CANCDMOB.DLC;
@@ -165,8 +167,10 @@ package body AVR.AT90CAN128.CAN is
 
    function findHighestPriorityMessage( buffer : in Can_Buffer_Array ; pRead, pWrite : in Buffer_pointer) return Buffer_pointer is
       ret : Buffer_pointer := pRead;
-      prio : CAN_Identifier := CAN_Identifier'Last;
+      prio : CAN_Defs.CAN_Identifier := CAN_Defs.CAN_Identifier'Last;
       counter : Buffer_pointer;
+
+      use CAN_Defs;
    begin
       counter := pRead;
       while counter /= pWrite loop
@@ -188,7 +192,7 @@ package body AVR.AT90CAN128.CAN is
    --           Ret (out): this parameter will be False if there is
    --                      no message is available. Otherwise it will
    --                      be True.
-   Procedure Can_Get(Msg : out CAN_Message; Ret : out Boolean; Wait : AVR.AT90CAN128.CLOCK.Time_Duration) is
+   Procedure Can_Get(Msg : out CAN_Defs.CAN_Message; Ret : out Boolean; Wait : AVR.AT90CAN128.CLOCK.Time_Duration) is
       use AVR.AT90CAN128.CLOCK;
       timer : Time;
       curr : Time;
@@ -226,31 +230,31 @@ package body AVR.AT90CAN128.CAN is
    -- Can_SetBaudRate: set baud rate of CAN bus
    -- Parameter:
    --        Baud_Rate: value of baud rate
-   procedure Can_SetBaudRate(Rate : Baud_Rate) is
+   procedure Can_SetBaudRate(Rate : CAN_Defs.Baud_Rate) is
    begin
       CANGCON.SWRES := True; -- Software Reset
       case Rate is
-         when K100 =>
+         when CAN_Defs.K100 =>
             CANBT1 := 16#12#;
             CANBT2 := 16#0C#;
             CANBT3 := 16#37#;
-         when K125 =>
+         when CAN_Defs.K125 =>
             CANBT1 := 16#0E#;
             CANBT2 := 16#0C#;
             CANBT3 := 16#37#;
-         when K200 =>
+         when CAN_Defs.K200 =>
             CANBT1 := 16#08#;
             CANBT2 := 16#0C#;
             CANBT3 := 16#37#;
-         when K250 =>
+         when CAN_Defs.K250 =>
             CANBT1 := 16#06#;
             CANBT2 := 16#0C#;
             CANBT3 := 16#37#;
-         when K500 =>
+         when CAN_Defs.K500 =>
             CANBT1 := 16#06#;
             CANBT2 := 16#04#;
             CANBT3 := 16#13#;
-         when M1 =>
+         when CAN_Defs.M1 =>
             CANBT1 := 16#02#;
             CANBT2 := 16#04#;
             CANBT3 := 16#13#;
@@ -261,7 +265,7 @@ package body AVR.AT90CAN128.CAN is
    -- Can_Init : Initialize the CAN controller.
    -- Parameter:
    --           Rate : baud rate.
-   procedure Can_Init(Rate : Baud_Rate) is
+   procedure Can_Init(Rate : CAN_Defs.Baud_Rate) is
    begin
 --        Can_SetBaudRate(Rate);
 --        -- can_clear_all_mob
@@ -284,7 +288,7 @@ package body AVR.AT90CAN128.CAN is
       null;
    end Can_Init;
 
-   procedure Can_Set_Mob_ID_MASK (MOB : READ_MOB_ID;  ID, Mask : CAN_ID) is
+   procedure Can_Set_Mob_ID_MASK (MOB : READ_MOB_ID;  ID, Mask : CAN_Defs.CAN_ID) is
    begin
 --        if not CANEN (MOB) then
 --           CANPAGE := (MOB, True, 0);
@@ -307,7 +311,7 @@ package body AVR.AT90CAN128.CAN is
       null;
    end Can_Set_Mob_ID_MASK;
 
-   procedure Can_Set_All_MOB_ID_MASK (ID, Mask : CAN_ID) is
+   procedure Can_Set_All_MOB_ID_MASK (ID, Mask : CAN_Defs.CAN_ID) is
    begin
 --        for M in READ_MOB_ID loop
 --           Can_Set_Mob_ID_MASK (M ,ID ,Mask);

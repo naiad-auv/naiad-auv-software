@@ -58,14 +58,14 @@ package body BBB_CAN is
 --        return false;
 --     end Handshake;
 
-   procedure Send(msg : AVR.AT90CAN128.CAN.CAN_Message) is
+   procedure Send(msg : CAN_Defs.CAN_Message) is
       sBuffer : String(1 .. (Integer(msg.Len) + CAN_Link_Utils.HEADLEN));
    begin
       CAN_Link_Utils.Message_To_Bytes(sBuffer, msg);
       Usart_Write(sBuffer, Integer(msg.Len) + CAN_Link_Utils.HEADLEN);
    end Send;
 
-   procedure Get(msg : out AVR.AT90CAN128.CAN.CAN_Message; bMsgReceived : out Boolean; bUARTChecksumOK : out Boolean) is
+   procedure Get(msg : out CAN_Defs.CAN_Message; bMsgReceived : out Boolean; bUARTChecksumOK : out Boolean) is
 
       use Interfaces;
 

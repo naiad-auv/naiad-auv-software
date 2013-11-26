@@ -1,5 +1,6 @@
 with Interfaces; use Interfaces;
 with System;
+with CAN_Defs;
 
 package AVR.AT90CAN128 is
    type General_Register is record
@@ -653,14 +654,11 @@ package AVR.AT90CAN128 is
 
    for MOB_State'size use 2;
 
-   type DLC_Type is range 0..8;
-   for DLC_Type'size use 4;
-
    type CAN_MOB_Control is record
       State : MOB_State;
       Reply_Valid : Boolean;
       Extended_ID : Boolean;
-      DLC         : DLC_Type;
+      DLC         : CAN_Defs.DLC_Type;
    end record;
 
    for CAN_MOB_Control use record
