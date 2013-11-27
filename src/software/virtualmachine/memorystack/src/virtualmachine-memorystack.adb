@@ -1,3 +1,4 @@
+with Ada.Text_IO;
 with Ada.Unchecked_Deallocation;
 
 package body VirtualMachine.MemoryStack is

@@ -12,7 +12,6 @@
 ---------------------------------------------------------------------------
 
 with Ada.Text_IO;
-with UartWrapper;
 with GNAT.Serial_Communications;
 with CAN_Link_Utils;
 with Exception_Handling;
@@ -24,12 +23,12 @@ package body BBB_CAN is
 
    pxUart : UartWrapper.pCUartHandler;
 
-   procedure Init(sPort : String; baud : GNAT.Serial_Communications.Data_Rate) is
+   procedure Init(sPort : String; baud : UartWrapper.BaudRates) is
    begin
       --initiates UART commiunication:
     --  Ada.Text_IO.Put_Line("Opening " & "/dev/" & sPort & ", baudrate: " & baud'Img);
     --  pxUart := UartWrapper.pxCreate(GNAT.Serial_Communications.Port_Name("/dev/" & sPort), baud, 0.2, 100);
-      pxUart := UartWrapper.pxCreate(GNAT.Serial_Communications.Port_Name("/dev/" & sPort), baud, 0.2, 200, 1);
+      pxUart := UartWrapper.pxCreate("/dev/" & sPort, baud, 0.2, 200, 1);
    end Init;
 
 --     function Handshake return Boolean is
@@ -59,14 +58,14 @@ package body BBB_CAN is
 --        return false;
 --     end Handshake;
 
-   procedure Send(msg : AVR.AT90CAN128.CAN.CAN_Message) is
+   procedure Send(msg : CAN_Defs.CAN_Message) is
       sBuffer : String(1 .. (Integer(msg.Len) + CAN_Link_Utils.HEADLEN));
    begin
       CAN_Link_Utils.Message_To_Bytes(sBuffer, msg);
       Usart_Write(sBuffer, Integer(msg.Len) + CAN_Link_Utils.HEADLEN);
    end Send;
 
-   procedure Get(msg : out AVR.AT90CAN128.CAN.CAN_Message; bMsgReceived : out Boolean; bUARTChecksumOK : out Boolean) is
+   procedure Get(msg : out CAN_Defs.CAN_Message; bMsgReceived : out Boolean; bUARTChecksumOK : out Boolean) is
 
       use Interfaces;
 
@@ -131,8 +130,8 @@ package body BBB_CAN is
       iBytes : Integer;
 
    begin
-      pxUart.UartReadSpecificAmount(Queue.iSIZE - Queue.iDataAvailable - 1, iTempBytesRead, sTempBuffer);
---pxUart.UartRead(sTempBuffer, iNumBytesRead =>
+
+	pxUart.UartReadSpecificAmount(sTempBuffer, Queue.iSIZE - Queue.iDataAvailable - 1, iTempBytesRead);
       --Ada.Text_IO.Put_Line("pxUart.UartReadSpecificAmount iTempBytesRead=" & iTempBytesRead'Img);
 
 

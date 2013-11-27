@@ -1,18 +1,38 @@
 package body Parser is
 
-   --------------------
-   -- sGet_Next_Word --
-   --------------------
+
+   function sAdd_Instr_String(sInstruction : in string) return string is
+   begin
+      if sInstruction(sInstruction'First) = '[' and then sInstruction(sInstruction'Last) = ']' then
+         if Text_Handling.sGet_Lower_Case(sInstruction) = "[main]" then
+            return "INSTR_MAIN";
+         end if;
+
+         return "INSTR_NULL";
+      end if;
+
+      return "INSTR_" & sInstruction;
+   end sAdd_Instr_String;
+
+   function sCharacter_To_String(cCharacter : in character) return string is
+      sRet : string := cCharacter'Img;
+   begin
+      return sRet(2 .. 2);
+   end sCharacter_To_String;
 
    function sGet_Next_Word_From_File (xFile : in Ada.Text_IO.File_Type; sReturnString : string := "") return string is
       cReadCharacter : character := ' ';
    begin
       while not Ada.Text_IO.End_Of_File(xFile) loop
+         if Ada.Text_IO.End_Of_Line(xFile) and then sReturnString'Length > 0 then
+            return sReturnString;
+         end if;
+
          Ada.Text_IO.Get(File => xFile,
                          Item => cReadCharacter);
          if not Text_Handling.bIs_White_Space(cReadCharacter) then
             return  sGet_Next_Word_From_File(xFile         => xFile,
-                                   sReturnString => sReturnString & cReadCharacter'Img);
+                                             sReturnString => sReturnString & sCharacter_To_String(cReadCharacter));
          else
             if sReturnString'Length > 0 then
                exit;
@@ -40,6 +60,7 @@ package body Parser is
    function sGet_Vector_From_File (xFile : in Ada.Text_IO.File_Type; sReturnString : in string := ""; iState : in integer := 0) return string is
       cNextCharacter : character;
    begin
+
       case iState is
          when 0 =>
             cNextCharacter := sGet_Next_Character_From_File(xFile);
@@ -48,66 +69,68 @@ package body Parser is
             end loop;
 
             return sGet_Vector_From_File(xFile         => xFile,
-                                         sReturnString => cNextCharacter'Img,
+                                         sReturnString => sCharacter_To_String(cNextCharacter),
                                          iState        => 1);
 
          when 1 =>
             cNextCharacter := sGet_Next_Character_From_File(xFile);
             return sGet_Vector_From_File(xFile         => xFile,
-                                         sReturnString => sReturnString & cNextCharacter'Img,
+                                         sReturnString => sReturnString & sCharacter_To_String(cNextCharacter),
                                          iState        => 2);
          when 2 =>
             cNextCharacter := sGet_Next_Character_From_File(xFile);
             if cNextCharacter = ',' then
                return sGet_Vector_From_File(xFile         => xFile,
-                                            sReturnString => sReturnString & cNextCharacter'Img,
+                                            sReturnString => sReturnString & sCharacter_To_String(cNextCharacter),
                                             iState        => 3);
             else
                return sGet_Vector_From_File(xFile         => xFile,
-                                            sReturnString => sReturnString & cNextCharacter'Img,
+                                            sReturnString => sReturnString & sCharacter_To_String(cNextCharacter),
                                             iState        => 2);
             end if;
 
          when 3 =>
             cNextCharacter := sGet_Next_Character_From_File(xFile);
             return sGet_Vector_From_File(xFile         => xFile,
-                                         sReturnString => sReturnString & cNextCharacter'Img,
+                                         sReturnString => sReturnString & sCharacter_To_String(cNextCharacter),
                                          iState        => 4);
          when 4 =>
             cNextCharacter := sGet_Next_Character_From_File(xFile);
             if cNextCharacter = ',' then
                return sGet_Vector_From_File(xFile         => xFile,
-                                            sReturnString => sReturnString & cNextCharacter'Img,
+                                            sReturnString => sReturnString & sCharacter_To_String(cNextCharacter),
                                             iState        => 5);
             else
                return sGet_Vector_From_File(xFile         => xFile,
-                                            sReturnString => sReturnString & cNextCharacter'Img,
+                                            sReturnString => sReturnString & sCharacter_To_String(cNextCharacter),
                                             iState        => 4);
             end if;
 
          when 5 =>
             cNextCharacter := sGet_Next_Character_From_File(xFile);
             return sGet_Vector_From_File(xFile         => xFile,
-                                         sReturnString => sReturnString & cNextCharacter'Img,
+                                         sReturnString => sReturnString & sCharacter_To_String(cNextCharacter),
                                          iState        => 6);
          when 6 =>
             cNextCharacter := sGet_Next_Character_From_File(xFile);
             if cNextCharacter = ']' then
-               return sReturnString & cNextCharacter'Img;
+               Ada.Text_IO.Put_Line(sReturnString & sCharacter_To_String(cNextCharacter));
+               return sReturnString & sCharacter_To_String(cNextCharacter);
             else
                return sGet_Vector_From_File(xFile         => xFile,
-                                            sReturnString => sReturnString & cNextCharacter'Img,
+                                            sReturnString => sReturnString & sCharacter_To_String(cNextCharacter),
                                             iState        => 5);
             end if;
 
          when others =>
-            return "";
+            raise Numeric_Error;
       end case;
    end sGet_Vector_From_File;
 
    function sGet_Matrix_From_File (xFile : in Ada.Text_IO.File_Type; sReturnString : in string := ""; iState : in integer := 0) return string is
       cNextCharacter : character;
    begin
+
       case iState is
          when 0 =>
             cNextCharacter := sGet_Next_Character_From_File(xFile);
@@ -116,28 +139,28 @@ package body Parser is
             end loop;
 
             return sGet_Matrix_From_File(xFile         => xFile,
-                                         sReturnString => cNextCharacter'Img & sGet_Vector_From_File(xFile),
+                                         sReturnString => sCharacter_To_String(cNextCharacter) & sGet_Vector_From_File(xFile),
                                          iState        => 1);
          when 1 =>
             cNextCharacter := sGet_Next_Character_From_File(xFile);
             if cNextCharacter = ',' then
-               return sGet_Vector_From_File(xFile         => xFile,
-                                            sReturnString => sReturnString & cNextCharacter'Img & sGet_Vector_From_File(xFile),
+               return sGet_Matrix_From_File(xFile         => xFile,
+                                            sReturnString => sReturnString & sCharacter_To_String(cNextCharacter) & sGet_Vector_From_File(xFile),
                                             iState        => 2);
             else
-               return sGet_Vector_From_File(xFile         => xFile,
+               return sGet_Matrix_From_File(xFile         => xFile,
                                             sReturnString => sReturnString,
                                             iState        => 1);
             end if;
 
          when 2 =>
-             cNextCharacter := sGet_Next_Character_From_File(xFile);
+            cNextCharacter := sGet_Next_Character_From_File(xFile);
             if cNextCharacter = ',' then
-               return sGet_Vector_From_File(xFile         => xFile,
-                                            sReturnString => sReturnString & cNextCharacter'Img & sGet_Vector_From_File(xFile),
+               return sGet_Matrix_From_File(xFile         => xFile,
+                                            sReturnString => sReturnString & sCharacter_To_String(cNextCharacter) & sGet_Vector_From_File(xFile),
                                             iState        => 3);
             else
-               return sGet_Vector_From_File(xFile         => xFile,
+               return sGet_Matrix_From_File(xFile         => xFile,
                                             sReturnString => sReturnString,
                                             iState        => 2);
             end if;
@@ -148,7 +171,8 @@ package body Parser is
                cNextCharacter := sGet_Next_Character_From_File(xFile);
             end loop;
 
-            return sReturnString & cNextCharacter'Img;
+            Ada.Text_IO.Put_Line(sReturnString & sCharacter_To_String(cNextCharacter));
+            return sReturnString & sCharacter_To_String(cNextCharacter);
 
          when others =>
             return "";
@@ -173,22 +197,25 @@ package body Parser is
    begin
       iStart := Text_Handling.iFind_Next(sText            => sMatrix,
                                          cCharacterToFind => '[',
-                                         iStartFromIndex  => 1) + 1;
+                                         iStartFromIndex  => sMatrix'First) + 1;
       iStop := Text_Handling.iFind_Next(sText            => sMatrix,
                                         cCharacterToFind => ']',
                                         iStartFromIndex  => iStart);
+
       xXVector := xGet_Vector_From_String(sVector => sMatrix(iStart .. iStop));
 
       iStart := iStop + 2;
       iStop := Text_Handling.iFind_Next(sText            => sMatrix,
                                         cCharacterToFind => ']',
                                         iStartFromIndex  => iStart);
+
       xYVector := xGet_Vector_From_String(sVector => sMatrix(iStart .. iStop));
 
       iStart := iStop + 2;
       iStop := Text_Handling.iFind_Next(sText            => sMatrix,
                                         cCharacterToFind => ']',
                                         iStartFromIndex  => iStart);
+
       xZVector := xGet_Vector_From_String(sVector => sMatrix(iStart .. iStop));
 
       tfMatrix := ((xXVector.fGet_X, xYVector.fGet_X, xZVector.fGet_X),
@@ -204,7 +231,7 @@ package body Parser is
    begin
       iStart := Text_Handling.iFind_Next(sText            => sVector,
                                          cCharacterToFind => '[',
-                                         iStartFromIndex  => 1) + 1;
+                                         iStartFromIndex  => sVector'First) + 1;
       iStop := Text_Handling.iFind_Next(sText            => sVector,
                                         cCharacterToFind => ',',
                                         iStartFromIndex  => iStart) - 1;

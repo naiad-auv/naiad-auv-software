@@ -1,3 +1,4 @@
+with Ada.Text_IO;
 package body VirtualMachine.InstructionFeeder is
    procedure Free is new Ada.Unchecked_Deallocation(CInstruction'Class, pCInstruction);
 
@@ -45,7 +46,6 @@ package body VirtualMachine.InstructionFeeder is
       pxNewInstruction.eInstr := xNewInstruction.eInstr;
 
       this.Add_Instruction(pxNewInstruction);
-
    end Read_Next_Instruction;
 
 
@@ -55,6 +55,11 @@ package body VirtualMachine.InstructionFeeder is
       this.iProgramCounter := iNewProgramCounterValue;
       this.pxInstructionList := this.pxInstructionList.Find_Instruction(this.iProgramCounter);
    end Set_Program_Counter;
+
+   procedure Get_Program_Counter(this: in CInstructionFeeder; iCurrentProgramCounterValue : out integer) is
+   begin
+      iCurrentProgramCounterValue := this.iProgramCounter;
+   end Get_Program_Counter;
 
 
 
@@ -153,6 +158,34 @@ package body VirtualMachine.InstructionFeeder is
       end if;
 
    end Finalize;
+
+
+   procedure Initialize(this : in out CInstructionFeeder) is
+      xFile : Ada.Streams.Stream_IO.File_Type;
+      xStreamAccess : Ada.Streams.Stream_IO.Stream_Access;
+   begin
+      Ada.Streams.Stream_IO.Open(File => xFile,
+                                 Mode => Ada.Streams.Stream_IO.In_File,
+                                 Name => "/home/evr/git/naiad-auv-software/src/software/utils/bytecode_converter/obj/test.byte");
+      xStreamAccess := Ada.Streams.Stream_IO.Stream(xFile);
+
+      while not Ada.Streams.Stream_IO.End_Of_File(xFile) loop
+         this.Read_Next_Instruction(xStreamAccess);
+      end loop;
+
+      Ada.Streams.Stream_IO.Close(xFile);
+
+      this.iProgramCounter := this.pxInstructionList.pxInstruction.iLineNumber;
+   end Initialize;
+
+   procedure Go_To_Entry_Point(this : in out CInstructionFeeder; iInstructionAddress : out integer) is
+   begin
+      while this.pxInstructionList.pxInstruction.eInstr /= INSTR_MAIN loop
+         this.Set_Program_Counter(iNewProgramCounterValue => this.pxInstructionList.pxNextInstruction.pxInstruction.iLineNumber);
+      end loop;
+      iInstructionAddress := this.iProgramCounter;
+   end Go_To_Entry_Point;
+
 
 
    procedure Add_Instruction(this : in out CInstructionFeeder; pxNewInstruction : in pCInstruction) is

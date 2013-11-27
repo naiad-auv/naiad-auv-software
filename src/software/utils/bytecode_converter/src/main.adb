@@ -16,6 +16,7 @@ procedure Main is
 
    iLineNumber : integer;
    eInstr : VirtualMachine.InstructionFeeder.EInstruction;
+
 begin
 
    if Ada.Command_Line.Argument_Count /= 2 then
@@ -34,17 +35,27 @@ begin
 
    while not Ada.Text_IO.End_Of_File(xTextInFile) loop
 
-      iLineNumber := Integer'Value(Parser.sGet_Next_Word_From_File(xTextInFile));
+      declare
+         sLineNumber : string := Parser.sGet_Next_Word_From_File(xTextInFile);
+      begin
+
+         if sLineNumber'Length = 0 then
+            exit;
+         end if;
+
+         iLineNumber := Integer'Value(sLineNumber);
+      end;
 
       Integer'Write(xBinaryOutStreamAccess, iLineNumber);
+      Ada.Text_IO.Put(iLineNumber'Img & "    ");
 
       declare
          use VirtualMachine.InstructionFeeder;
       begin
-
-         eInstr := EInstruction'Value(Parser.sGet_Next_Word_From_File(xTextInFile));
+         eInstr := EInstruction'Value(Parser.sAdd_Instr_String(Parser.sGet_Next_Word_From_File(xTextInFile)));
 
          EInstruction'Write(xBinaryOutStreamAccess, eInstr);
+         Ada.Text_IO.Put(eInstr'Img & " ");
 
 
          case eInstr is
@@ -54,6 +65,7 @@ begin
                   INSTR_LVAL ! INSTR_VECCOMP =>
 
             Integer'Write(xBinaryOutStreamAccess, Integer'Value(Parser.sGet_Next_Word_From_File(xTextInFile)));
+
 
          when INSTR_PUSHBOOL =>
 
@@ -78,6 +90,8 @@ begin
          end case;
       end;
 
+      Ada.Text_IO.New_Line;
+
    end loop;
 
    Ada.Text_IO.Close(xTextInFile);
@@ -90,4 +104,8 @@ exception
       Parser.Unexpected_EOF(xInFile     => xTextInFile,
                             xOutFile    => xBinaryOutFile,
                             iLineNumber => iLineNumber);
+   when others =>
+      Ada.Text_IO.Close(xTextInFile);
+      Ada.Streams.Stream_IO.Close(xBinaryOutFile);
+
 end Main;

@@ -9,6 +9,7 @@ with Text_Handling;
 
 with Ada.Finalization;
 with Ada.Unchecked_Deallocation;
+with Ada.Numerics.Elementary_Functions;
 
 package VirtualMachine.Interpreter is
 
@@ -19,6 +20,8 @@ package VirtualMachine.Interpreter is
    procedure Free(pxInterpreterToDeallocate : in out pCInterpreter);
    procedure Step (this : in out CInterpreter; fDeltaTime : in float);
 
+   procedure Test_Print_Vector(this : in out CInterpreter);
+   procedure Test_Print_Float(this : in out CInterpreter);
 
 private
    type CInterpreter is new Ada.Finalization.Controlled with
@@ -29,11 +32,12 @@ private
          fTimer : float;
 
          fFloatPrecision : float := 0.0;
-         fVectorPrecision : float;
-         fMatrixPrecision : float;
+         fVectorPrecision : float := Math.Vectors.fVECTOR_PRECISION;
+         fMatrixPrecision : float := Math.Matrices.fMATRIX_PRECISION;
       end record;
 
    procedure Finalize(this : in out CInterpreter);
+   procedure Initialize(this : in out CInterpreter);
 
    procedure Instr_Push_Bool (this : in out CInterpreter; bArgument : in boolean);
    procedure Instr_Push_Int (this : in out CInterpreter; iArgument : in integer);
@@ -106,4 +110,12 @@ private
    procedure Instr_Multiply_Vector (this : in out CInterpreter);
 
    procedure Instr_Multiply_Matrix (this : in out CInterpreter);
+
+   procedure Instr_Sin (this : in out CInterpreter);
+   procedure Instr_Cos (this : in out CInterpreter);
+   procedure Instr_ArcSin (this : in out CInterpreter);
+   procedure Instr_ArcCos (this : in out CInterpreter);
+
+   procedure Instr_Null (this : in out CInterpreter);
+
 end VirtualMachine.Interpreter;

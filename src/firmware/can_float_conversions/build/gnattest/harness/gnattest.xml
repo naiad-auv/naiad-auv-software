@@ -1,0 +1,121 @@
+<tests_mapping mode="monolith">
+   <unit source_file="avr-at90can128-can.ads">
+      <test_unit target_file="avr-at90can128-can-test_data-tests.ads">
+         <setup file="avr-at90can128-can-test_data.adb" line="3"  column="4"/>
+         <teardown file="avr-at90can128-can-test_data.adb" line="9"  column="4"/>
+         <tested name="Can_Init" line="24" column="4">
+            <test file="avr-at90can128-can-test_data-tests.adb" line="13" column="1" timestamp="2013-11-23 19:37:12"/>
+         </tested>
+         <tested name="Can_SetBaudRate" line="25" column="4">
+            <test file="avr-at90can128-can-test_data-tests.adb" line="34" column="1" timestamp="2013-11-23 19:37:12"/>
+         </tested>
+         <tested name="Can_Enable" line="26" column="4">
+            <test file="avr-at90can128-can-test_data-tests.adb" line="55" column="1" timestamp="2013-11-23 19:37:12"/>
+         </tested>
+         <tested name="Can_Disable" line="27" column="4">
+            <test file="avr-at90can128-can-test_data-tests.adb" line="76" column="1" timestamp="2013-11-23 19:37:12"/>
+         </tested>
+         <tested name="Can_Set_MOB_ID_MASK" line="29" column="4">
+            <test file="avr-at90can128-can-test_data-tests.adb" line="97" column="1" timestamp="2013-11-23 19:37:12"/>
+         </tested>
+         <tested name="Can_Set_All_MOB_ID_MASK" line="30" column="4">
+            <test file="avr-at90can128-can-test_data-tests.adb" line="118" column="1" timestamp="2013-11-23 19:37:12"/>
+         </tested>
+         <tested name="Can_Send" line="32" column="4">
+            <test file="avr-at90can128-can-test_data-tests.adb" line="139" column="1" timestamp="2013-11-23 19:37:12"/>
+         </tested>
+         <tested name="Can_Get" line="33" column="4">
+            <test file="avr-at90can128-can-test_data-tests.adb" line="160" column="1" timestamp="2013-11-23 19:37:12"/>
+         </tested>
+         <tested name="Can_Valid_Message" line="34" column="4">
+            <test file="avr-at90can128-can-test_data-tests.adb" line="181" column="1" timestamp="2013-11-23 19:37:12"/>
+         </tested>
+         <dangling>
+         </dangling>
+      </test_unit>
+   </unit>
+   <unit source_file="avr-at90can128-clock.ads">
+      <test_unit target_file="avr-at90can128-clock-test_data-tests.ads">
+         <setup file="avr-at90can128-clock-test_data.adb" line="3"  column="4"/>
+         <teardown file="avr-at90can128-clock-test_data.adb" line="9"  column="4"/>
+         <tested name="getClockTime" line="8" column="4">
+            <test file="avr-at90can128-clock-test_data-tests.adb" line="13" column="1" timestamp="2013-11-23 19:37:12"/>
+         </tested>
+         <tested name="Plus" line="10" column="4">
+            <test file="avr-at90can128-clock-test_data-tests.adb" line="34" column="1" timestamp="2013-11-23 19:37:12"/>
+         </tested>
+         <tested name="Plus" line="15" column="4">
+            <test file="avr-at90can128-clock-test_data-tests.adb" line="55" column="1" timestamp="2013-11-23 19:37:12"/>
+         </tested>
+         <tested name="Minus" line="20" column="4">
+            <test file="avr-at90can128-clock-test_data-tests.adb" line="76" column="1" timestamp="2013-11-23 19:37:12"/>
+         </tested>
+         <tested name="Minus" line="25" column="4">
+            <test file="avr-at90can128-clock-test_data-tests.adb" line="97" column="1" timestamp="2013-11-23 19:37:12"/>
+         </tested>
+         <tested name="Less_Than" line="30" column="4">
+            <test file="avr-at90can128-clock-test_data-tests.adb" line="118" column="1" timestamp="2013-11-23 19:37:12"/>
+         </tested>
+         <tested name="Less_Than_Or_Equal" line="34" column="4">
+            <test file="avr-at90can128-clock-test_data-tests.adb" line="139" column="1" timestamp="2013-11-23 19:37:12"/>
+         </tested>
+         <tested name="Greater_Than" line="38" column="4">
+            <test file="avr-at90can128-clock-test_data-tests.adb" line="160" column="1" timestamp="2013-11-23 19:37:12"/>
+         </tested>
+         <tested name="Greater_Than_Or_Equal" line="42" column="4">
+            <test file="avr-at90can128-clock-test_data-tests.adb" line="181" column="1" timestamp="2013-11-23 19:37:12"/>
+         </tested>
+         <tested name="Delay_ms" line="46" column="4">
+            <test file="avr-at90can128-clock-test_data-tests.adb" line="202" column="1" timestamp="2013-11-23 19:37:12"/>
+         </tested>
+         <tested name="Delay_Until" line="49" column="4">
+            <test file="avr-at90can128-clock-test_data-tests.adb" line="223" column="1" timestamp="2013-11-23 19:37:12"/>
+         </tested>
+         <tested name="Init" line="52" column="4">
+            <test file="avr-at90can128-clock-test_data-tests.adb" line="244" column="1" timestamp="2013-11-23 19:37:12"/>
+         </tested>
+         <dangling>
+         </dangling>
+      </test_unit>
+   </unit>
+   <unit source_file="avr-at90can128-interrupt.ads">
+      <test_unit target_file="avr-at90can128-interrupt-test_data-tests.ads">
+         <setup file="avr-at90can128-interrupt-test_data.adb" line="3"  column="4"/>
+         <teardown file="avr-at90can128-interrupt-test_data.adb" line="9"  column="4"/>
+         <tested name="enableInterrupt" line="4" column="4">
+            <test file="avr-at90can128-interrupt-test_data-tests.adb" line="13" column="1" timestamp="2013-11-23 19:37:12"/>
+         </tested>
+         <tested name="disableInterrupt" line="6" column="4">
+            <test file="avr-at90can128-interrupt-test_data-tests.adb" line="34" column="1" timestamp="2013-11-23 19:37:12"/>
+         </tested>
+         <dangling>
+         </dangling>
+      </test_unit>
+   </unit>
+   <unit source_file="can_float_conversions.ads">
+      <test_unit target_file="can_float_conversions-test_data-tests.ads">
+         <setup file="can_float_conversions-test_data.adb" line="3"  column="4"/>
+         <teardown file="can_float_conversions-test_data.adb" line="9"  column="4"/>
+         <tested name="Orientation_To_Message" line="18" column="4">
+            <test file="can_float_conversions-test_data-tests.adb" line="13" column="1" timestamp="2013-11-23 19:37:12"/>
+         </tested>
+         <tested name="Message_To_Orientation" line="19" column="4">
+            <test file="can_float_conversions-test_data-tests.adb" line="34" column="1" timestamp="2013-11-23 19:37:12"/>
+         </tested>
+         <tested name="Acceleration_To_Message" line="22" column="4">
+            <test file="can_float_conversions-test_data-tests.adb" line="55" column="1" timestamp="2013-11-23 19:37:12"/>
+         </tested>
+         <tested name="Message_To_Acceleration" line="23" column="4">
+            <test file="can_float_conversions-test_data-tests.adb" line="76" column="1" timestamp="2013-11-23 19:37:12"/>
+         </tested>
+         <tested name="GyroReading_To_Message" line="26" column="4">
+            <test file="can_float_conversions-test_data-tests.adb" line="97" column="1" timestamp="2013-11-23 19:37:12"/>
+         </tested>
+         <tested name="Message_To_GyroReading" line="27" column="4">
+            <test file="can_float_conversions-test_data-tests.adb" line="118" column="1" timestamp="2013-11-23 19:37:12"/>
+         </tested>
+         <dangling>
+         </dangling>
+      </test_unit>
+   </unit>
+</tests_mapping>

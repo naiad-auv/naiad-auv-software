@@ -10,9 +10,10 @@
 -- TODO: Hardware testing
 ---------------------------------------------------------------------------
 
-
+with CAN_Defs;
 with AVR.AT90CAN128;
 with AVR.AT90CAN128.CAN;
+with UartWrapper;
 with GNAT.Serial_Communications;
 
 with Interfaces;
@@ -21,17 +22,17 @@ package BBB_CAN is
 
    iHANDSHAKE_WAIT_TIME_MS : constant Integer := 200;
 
-   procedure Init(sPort : String; baud : GNAT.Serial_Communications.Data_Rate);
+   procedure Init(sPort : String; baud : UartWrapper.BaudRates);
 
    -- Tries a handshake, if no answer is received after iHANDSHAKE_WAIT_TIME_MS it returns false
    -- if handshake was successful, true is returned
  --  function Handshake return Boolean;
 
-   procedure Send(msg : AVR.AT90CAN128.CAN.CAN_Message);
+   procedure Send(msg : CAN_Defs.CAN_Message);
 
    -- Tries to return a CAN message
    -- bUARTChecksumOK returns false if there was an error in the data transfer over the UART
-   procedure Get(msg : out AVR.AT90CAN128.CAN.CAN_Message; bMsgReceived : out Boolean; bUARTChecksumOK : out Boolean);
+   procedure Get(msg : out CAN_Defs.CAN_Message; bMsgReceived : out Boolean; bUARTChecksumOK : out Boolean);
 
 
 private
