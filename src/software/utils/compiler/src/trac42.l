@@ -82,7 +82,17 @@ while         {yylval.yyLineNr = yylineno; return (WHILE);}
 return        {yylval.yyLineNr = yylineno; return (RETURN);}
 end           {yylval.yyLineNr = yylineno; return (END);}
 exit          {yylval.yyLineNr = yylineno; return (EXIT);}
+then          {yylval.yyLineNr = yylineno; return (THEN);}
+loop          {yylval.yyLineNr = yylineno; return (LOOP);}
+procedure     {yylval.yyLineNr = yylineno; return (PROCEDURE);}
+function      {yylval.yyLineNr = yylineno; return (FUNCTION);}
 then          {yylval.yyLineNr = yylineno; return (END);}
+is            {yylval.yyLineNr = yylineno; return (IS);}
+begin         {yylval.yyLineNr = yylineno; return (BEGIN);}
+in            {yylval.yyLineNr = yylineno; return (IN);}
+out           {yylval.yyLineNr = yylineno; return (OUT);}
+":="          {yylval.yyLineNr = yylineno; return (ASSIGN);}
+
 
 
 //read          {yylval.yyLineNr = yylineno; return (READ);}
@@ -110,13 +120,13 @@ and           {yylval.yyOperator.lineNr = yylineno;
                return (LELTOP);}
 ">="          {yylval.yyOperator.lineNr = yylineno;
                yylval.yyOperator.opType = ME;
-               return (LELTOP);}
+               return (MEMTOP);}
 ">"           {yylval.yyOperator.lineNr = yylineno;
                yylval.yyOperator.opType = MT;
-               return (LELTOP);}
+               return (MEMTOP);}
 "/="          {yylval.yyOperator.lineNr = yylineno;
                yylval.yyOperator.opType = NE;
-               return (LELTOP);}
+               return (EQOP);}
 
 
 "+"           {yylval.yyOperator.lineNr = yylineno;
@@ -137,6 +147,10 @@ true          {yylval.yyInt.intVal = 1; yylval.yyInt.lineNr = yylineno;
 false         {yylval.yyInt.intVal = 0; yylval.yyInt.lineNr = yylineno;
                return (BOOL_CONST);}
 
+false         {yylval.yyInt.intVal = 0; yylval.yyInt.lineNr = yylineno;
+               return (BOOL_CONST);}
+
+
 /*
 {STR}         {yytext[yyleng-1] = 0;
                yylval.yyString.strVal = dstrcpy(yytext+1);
@@ -150,6 +164,11 @@ false         {yylval.yyInt.intVal = 0; yylval.yyInt.lineNr = yylineno;
 {DIGIT}+      {yylval.yyInt.intVal = atoi(yytext);
                yylval.yyInt.lineNr = yylineno;
                return (INT_CONST);}
+
+{DIGIT}+.{DIGIT}+     {yylval.yyInt.intVal = atof(yytext);
+               	       yylval.yyInt.lineNr = yylineno;
+                       return (FLOAT_CONST);}
+
 
 {ID}          {yylval.yyString.strVal = dstrcpy(yytext);
                yylval.yyString.lineNr = yylineno;

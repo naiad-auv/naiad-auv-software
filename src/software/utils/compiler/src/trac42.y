@@ -59,7 +59,7 @@ int yylex(void);
 %token <yyType>   BASIC_TYPE
 %token <yyString> ID STRING_CONST
 %token <yyInt>    INT_CONST BOOL_CONST
-%token <yyLineNr> IF ELSE WHILE RETURN READ WRITE
+%token <yyLineNr> IF THEN ELSE WHILE RETURN END EXIT LOOP PROCEDURE FUNCTION IS BEGIN IN OUT ASSIGN
 
 %expect 1
 
@@ -74,51 +74,35 @@ functions   : functions function								{ $$ = connectFunctions($1,$2); }
             | function										{ $$ = $1; }
             ;
 
-function    : BASIC_TYPE ID '(' formals ')' '{' decls stmnts '}' 				{ $$ = mFunction(connectVariables($4, $7),$8,$2.strVal,$1.type,$2.lineNr); }
-            ; 'procedure' 
+function    : PROCEDURE ID '(' formals ')' IS decls BEGIN stmts END ID ';'			{ $$ = mFunction(connectVariables($4, $7), $9, $2.strVal, VOID, $2.lineNr); }
+            | PROCEDURE ID IS decls BEGIN stmts END ID ';'					{ $$ = mFunction($4, $6, $2.strVal, VOID, $2.lineNr); }
+            | FUNCTION ID '(' formals ')' RETURN BASIC_TYPE IS decls BEGIN stmts END ID ';'	{ $$ = mFunction(connectVariables($4, $9), $11, $2.strVal, $7.type, $2.lineNr); }
+            | FUNCTION ID RETURN BASIC_TYPE IS decls BEGIN stmts END ID ';'			{ $$ = mFunction($6, $8, $2.strVal, $4.type, $2.lineNr); }
+            ;  
 
-formals     : formals_non_emtpty								{ $$ = $1; }
-            | BASIC_TYPE 									{if ($1.type != VOID)	{ yyerror("invalid formal parameter list"); YYERROR; } $$ = NULL;}
-            | {$$ = NULL;}
-            ;
-
-formals_non_emtpty : formals_non_emtpty ',' formal						{ $$ = connectVariables($1,$3); }
+formals     : formals ';' formal								{ $$ = connectVariables($1,$3); }
             | formal										{ $$ = $1; }
             ;
 
-formal      : BASIC_TYPE ID 									{ $$ = mVariable(kFormal, $2.strVal, $1.type, $2.lineNr); }
+formal      : ID ':' BASIC_TYPE 								{ $$ = mVariable(kFormal, $1.strVal, $3.type, $1.lineNr); }
             ;
 
 decls       : decls decl									{ if ($1 != NULL) { $$ = connectVariables($1, $2); } else { $$ = $2; } }
             |											{ $$ = NULL; }
             ;
 
-/*
-decl        : BASIC_TYPE { $<yyType> = BASIC_TYPE; } idents ';'   { $$ = $2; }
-            ;
-*/
-
-decl        : BASIC_TYPE idents ';'   								{ $$ = addType($2, $1.type); }
+decl        : ID ':' BASIC_TYPE ';'   								{ $$ = mVariable(kLocal, $1.strVal, $3.type, $1.lineNr); }
             ;
 
-
-/* idents      : idents { $<yyType> = $<yyType>0; } ',' ident	{ $3->Node.Variable.Type = $<yyType>0; $$ = connectVariables($1,$3); } */
-/* idents      : idents ',' ident	{ $3->Node.Variable.Type = $<yyType>0; $$ = connectVariables($1,$3); } */
-/*            | ident				{ $1->Node.Variable.Type = $<yyType>0; $$ = $1; } */
-idents      : idents ',' ident									{ $$ = connectVariables($1,$3); }
-            | ident										{ $$ = $1; }
-            ;
-
-ident       : ID                      								{ $$ = mVariable(kLocal, $1.strVal,VOID,$1.lineNr); }
-            ;
 
 stmnts      : stmnts stmnt									{ $$ = connectStmnts($1,$2); }
             | stmnt										{ $$ = $1; }
             ;
 
-stmnt       : ID '=' expr ';'                       						{ $$ = mAssign($1.strVal, $3, $1.lineNr); }
-            | IF '(' expr ')' stmnt ELSE stmnt      						{ $$ = mIf($3, $5, $7, $1); }
-            | IF '(' expr ')' stmnt                 						{ $$ = mIf($3, $5, NULL, $1); }
+stmnt       : ID ASSIGN expr ';'                       						{ $$ = mAssign($1.strVal, $3, $1.lineNr); }
+            | IF expr THEN stmnt ELSE stmnt END IF ';'						{ $$ = mIf($2, $4, $6, $1); }
+            | IF expr THEN stmnt END IF ';'            						{ $$ = mIf($2, $4, NULL, $1); }
+            | WHILE expr LOOP stmnts END LOOP ';'						{ $$ = mWhile($3, $5, $1); }
             | WHILE '(' expr ')' stmnt              						{ $$ = mWhile($3, $5, $1); }
             | RETURN expr ';'                       						{ $$ = mReturn($2, $1); }
             | READ ID ';'                           						{ $$ = mRead($2.strVal, $1); }
@@ -141,7 +125,11 @@ expr        : MINUSOP expr %prec UNOP								{ $$ = mUnary($1.opType, $2, $1.lin
             | ID										{ $$ = mRValue($1.strVal, $1.lineNr); }
             | INT_CONST										{ $$ = mIntConst($1.intVal, $1.lineNr); }
             | BOOL_CONST									{ $$ = mBoolConst($1.intVal, $1.lineNr); }
-            | STRING_CONST									{ $$ = mStringConst($1.strVal, $1.lineNr); }
+            | FLOAT_CONST									{ $$ = mFloatConst($1.floatVal, $1.lineNr); }
+            | '[' FLOAT_CONST ',' FLOAT_CONST ',' FLOAT_CONST ']'				{ $$ = mVecConst($2.floatVal, $4.floatVal, $6.floatVal, $1.lineNr); }
+            | '[' '[' FLOAT_CONST ',' FLOAT_CONST ',' FLOAT_CONST ']' ',' '[' FLOAT_CONST ',' FLOAT_CONST ',' FLOAT_CONST ']' ',' '[' FLOAT_CONST ',' FLOAT_CONST ',' FLOAT_CONST ']' ']'				{ $$ = mMatConst($2.floatVal, $4.floatVal, $6.floatVal, $8.floatVal, $10.floatVal, $12.floatVal, $14.floatVal, $16.floatVal, $18.floatVal, $1.lineNr); }
+
+//            | STRING_CONST									{ $$ = mStringConst($1.strVal, $1.lineNr); }
             ;
 
 actuals     : exprs										{ $$ = $1; }
