@@ -1,7 +1,7 @@
 with Math.Vectors;
 with Ada.Numerics.Elementary_Functions;
 with Ada.Numerics;
-with Exception_Handling;
+
 with Ada.Text_IO;
 
 package body Math.Quaternions is
@@ -43,7 +43,7 @@ package body Math.Quaternions is
       --Math.Vectors.Free(pxVectorToDeallocate => pxNormalizedAxisVector);
       --Ada.Text_IO.Put_Line("Lol 4");
 
-      return CQuaternion'(fX => fX,
+      return Math.Quaternions.xCreate(fX => fX,
                           fY => fY,
                           fZ => fZ,
                           fW => fW);
@@ -51,7 +51,7 @@ package body Math.Quaternions is
       when E : others =>
          Exception_Handling.Reraise_Exception(E       => E,
                                               Message => "Math.Quaternions.xCreate (xAxisVector : in Math.Vectors.CVector; fAngleInDegrees : in float) return CQuaternion");
-         return CQuaternion'(fX => fX,
+         return xCreate(fX => fX,
                              fY => fY,
                              fZ => fZ,
                              fW => fW);
@@ -68,23 +68,26 @@ package body Math.Quaternions is
 
       Exception_Handling.Raise_Exception(E       => Exception_Handling.NullPointer'Identity,
                                          Message => "Math.Quaternions.xCreate (pxAxisVector : in Math.Vectors.pCVector; fAngleInDegrees : in float) return CQuaternion");
-      return CQuaternion'(fX => 0.0,
+      return xCreate(fX => 0.0,
                           fY => 0.0,
                           fZ => 0.0,
                           fW => 0.0);
    end xCreate;
 
    function pxGet_Allocated_Copy (this : in CQuaternion) return pCQuaternion is
+      pxNewQuat : pCQuaternion;
    begin
-      return new CQuaternion'(fX => this.fX,
+      pxNewQuat := new CQuaternion;
+      pxNewQuat.all := xCreate(fX => this.fX,
                               fY => this.fY,
                               fZ => this.fZ,
-                              fW => this.fW);
+                               fW => this.fW);
+      return pxNewQuat;
    end pxGet_Allocated_Copy;
 
    function "*" (xLeftOperandQuaternion, xRightOperandQuaternion : in CQuaternion) return CQuaternion is
    begin
-      return Math.Quaternions.CQuaternion'(fX => ((xLeftOperandQuaternion.fW*xRightOperandQuaternion.fX)+(xLeftOperandQuaternion.fX*xRightOperandQuaternion.fW)+(xLeftOperandQuaternion.fY*xRightOperandQuaternion.fZ)-(xLeftOperandQuaternion.fZ*xRightOperandQuaternion.fY)),
+      return Math.Quaternions.xCreate(fX => ((xLeftOperandQuaternion.fW*xRightOperandQuaternion.fX)+(xLeftOperandQuaternion.fX*xRightOperandQuaternion.fW)+(xLeftOperandQuaternion.fY*xRightOperandQuaternion.fZ)-(xLeftOperandQuaternion.fZ*xRightOperandQuaternion.fY)),
                                            fY => ((xLeftOperandQuaternion.fW*xRightOperandQuaternion.fY)-(xLeftOperandQuaternion.fX*xRightOperandQuaternion.fZ)+(xLeftOperandQuaternion.fY*xRightOperandQuaternion.fW)+(xLeftOperandQuaternion.fZ*xRightOperandQuaternion.fX)),
                                            fZ => ((xLeftOperandQuaternion.fW*xRightOperandQuaternion.fZ)+(xLeftOperandQuaternion.fX*xRightOperandQuaternion.fY)-(xLeftOperandQuaternion.fY*xRightOperandQuaternion.fX)-(xLeftOperandQuaternion.fZ*xRightOperandQuaternion.fW)),
                                            fW => ((xLeftOperandQuaternion.fW*xRightOperandQuaternion.fW)-(xLeftOperandQuaternion.fX*xRightOperandQuaternion.fX)-(xLeftOperandQuaternion.fY*xRightOperandQuaternion.fY)-(xLeftOperandQuaternion.fZ*xRightOperandQuaternion.fZ)));
@@ -192,7 +195,7 @@ package body Math.Quaternions is
 
       fLength := this.fGet_Length;
 
-      return Math.Quaternions.CQuaternion'(fX => this.fX / fLength,
+      return Math.Quaternions.xCreate(fX => this.fX / fLength,
                                        fY => this.fY / fLength,
                                        fZ => this.fZ / fLength,
                                        fW => this.fW / fLength);
@@ -268,5 +271,16 @@ package body Math.Quaternions is
    begin
       Dealloc(pxQuaternionToDeallocate);
    end Free;
+
+   function xCreate(fX : in float; fY : in float; fZ : in float; fW : in float) return CQuaternion is
+      xNewQuat : CQuaternion;
+   begin
+      xNewQuat.fX := fX;
+      xNewQuat.fY := fY;
+      xNewQuat.fZ := fZ;
+      xNewQuat.fW := fW;
+      return xNewQuat;
+   end xCreate;
+
 
 end Math.Quaternions;

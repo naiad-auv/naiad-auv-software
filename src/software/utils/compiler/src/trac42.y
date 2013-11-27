@@ -67,30 +67,30 @@ int yylex(void);
 
 %%
 
-program     : functions { treeRoot = mProgram($1); }
+program     : functions 									{ treeRoot = mProgram($1); }
             ;
 
-functions   : functions function	{ $$ = connectFunctions($1,$2); }
-            | function				{ $$ = $1; }
+functions   : functions function								{ $$ = connectFunctions($1,$2); }
+            | function										{ $$ = $1; }
             ;
 
-function    : BASIC_TYPE ID '(' formals ')' '{' decls stmnts '}' { $$ = mFunction(connectVariables($4, $7),$8,$2.strVal,$1.type,$2.lineNr); }
-            ;
+function    : BASIC_TYPE ID '(' formals ')' '{' decls stmnts '}' 				{ $$ = mFunction(connectVariables($4, $7),$8,$2.strVal,$1.type,$2.lineNr); }
+            ; 'procedure' 
 
-formals     : formals_non_emtpty				{ $$ = $1; }
-            | BASIC_TYPE {if ($1.type != VOID)	{ yyerror("invalid formal parameter list"); YYERROR; } $$ = NULL;}
+formals     : formals_non_emtpty								{ $$ = $1; }
+            | BASIC_TYPE 									{if ($1.type != VOID)	{ yyerror("invalid formal parameter list"); YYERROR; } $$ = NULL;}
             | {$$ = NULL;}
             ;
 
-formals_non_emtpty : formals_non_emtpty ',' formal	{ $$ = connectVariables($1,$3); }
-            | formal								{ $$ = $1; }
+formals_non_emtpty : formals_non_emtpty ',' formal						{ $$ = connectVariables($1,$3); }
+            | formal										{ $$ = $1; }
             ;
 
-formal      : BASIC_TYPE ID { $$ = mVariable(kFormal, $2.strVal, $1.type, $2.lineNr); }
+formal      : BASIC_TYPE ID 									{ $$ = mVariable(kFormal, $2.strVal, $1.type, $2.lineNr); }
             ;
 
-decls       : decls decl	{ if ($1 != NULL) { $$ = connectVariables($1, $2); } else { $$ = $2; } }
-            |				{ $$ = NULL; }
+decls       : decls decl									{ if ($1 != NULL) { $$ = connectVariables($1, $2); } else { $$ = $2; } }
+            |											{ $$ = NULL; }
             ;
 
 /*
@@ -98,58 +98,58 @@ decl        : BASIC_TYPE { $<yyType> = BASIC_TYPE; } idents ';'   { $$ = $2; }
             ;
 */
 
-decl        : BASIC_TYPE idents ';'   { $$ = addType($2, $1.type); }
+decl        : BASIC_TYPE idents ';'   								{ $$ = addType($2, $1.type); }
             ;
 
 
 /* idents      : idents { $<yyType> = $<yyType>0; } ',' ident	{ $3->Node.Variable.Type = $<yyType>0; $$ = connectVariables($1,$3); } */
 /* idents      : idents ',' ident	{ $3->Node.Variable.Type = $<yyType>0; $$ = connectVariables($1,$3); } */
 /*            | ident				{ $1->Node.Variable.Type = $<yyType>0; $$ = $1; } */
-idents      : idents ',' ident	{ $$ = connectVariables($1,$3); }
-            | ident				{ $$ = $1; }
+idents      : idents ',' ident									{ $$ = connectVariables($1,$3); }
+            | ident										{ $$ = $1; }
             ;
 
-ident       : ID                      { $$ = mVariable(kLocal, $1.strVal,VOID,$1.lineNr); }
+ident       : ID                      								{ $$ = mVariable(kLocal, $1.strVal,VOID,$1.lineNr); }
             ;
 
-stmnts      : stmnts stmnt		{ $$ = connectStmnts($1,$2); }
-            | stmnt				{ $$ = $1; }
+stmnts      : stmnts stmnt									{ $$ = connectStmnts($1,$2); }
+            | stmnt										{ $$ = $1; }
             ;
 
-stmnt       : ID '=' expr ';'                       { $$ = mAssign($1.strVal, $3, $1.lineNr); }
-            | IF '(' expr ')' stmnt ELSE stmnt      { $$ = mIf($3, $5, $7, $1); }
-            | IF '(' expr ')' stmnt                 { $$ = mIf($3, $5, NULL, $1); }
-            | WHILE '(' expr ')' stmnt              { $$ = mWhile($3, $5, $1); }
-            | RETURN expr ';'                       { $$ = mReturn($2, $1); }
-            | READ ID ';'                           { $$ = mRead($2.strVal, $1); }
-            | WRITE expr ';'                        { $$ = mWrite($2, $1); }
-            | '{' stmnts '}'                        { $$ = $2; }
-            | ID '(' actuals ')' ';'                { $$ = mFuncCallStmnt($3, $1.strVal, $1.lineNr); }
+stmnt       : ID '=' expr ';'                       						{ $$ = mAssign($1.strVal, $3, $1.lineNr); }
+            | IF '(' expr ')' stmnt ELSE stmnt      						{ $$ = mIf($3, $5, $7, $1); }
+            | IF '(' expr ')' stmnt                 						{ $$ = mIf($3, $5, NULL, $1); }
+            | WHILE '(' expr ')' stmnt              						{ $$ = mWhile($3, $5, $1); }
+            | RETURN expr ';'                       						{ $$ = mReturn($2, $1); }
+            | READ ID ';'                           						{ $$ = mRead($2.strVal, $1); }
+            | WRITE expr ';'                        						{ $$ = mWrite($2, $1); }
+            | '{' stmnts '}'                        						{ $$ = $2; }
+            | ID '(' actuals ')' ';'                						{ $$ = mFuncCallStmnt($3, $1.strVal, $1.lineNr); }
             ;
 
-expr        : MINUSOP expr %prec UNOP	{ $$ = mUnary($1.opType, $2, $1.lineNr); }
-            | NOTOP expr				{ $$ = mUnary($1.opType, $2, $1.lineNr); }
-            | expr PLUSOP expr			{ $$ = mBinary($1, $2.opType, $3, $2.lineNr); }
-            | expr MINUSOP expr			{ $$ = mBinary($1, $2.opType, $3, $2.lineNr); }
-            | expr MULDIVOP expr		{ $$ = mBinary($1, $2.opType, $3, $2.lineNr); }
-            | expr ANDOP expr			{ $$ = mBinary($1, $2.opType, $3, $2.lineNr); }
-            | expr OROP expr			{ $$ = mBinary($1, $2.opType, $3, $2.lineNr); }
-            | expr EQOP expr			{ $$ = mBinary($1, $2.opType, $3, $2.lineNr); }
-            | expr LELTOP expr			{ $$ = mBinary($1, $2.opType, $3, $2.lineNr); }
-            |'(' expr ')'				{ $$ = $2; }
-            | ID '(' actuals ')'		{ $$ = mFuncCallExpr($3, $1.strVal, $1.lineNr); }
-            | ID						{ $$ = mRValue($1.strVal, $1.lineNr); }
-            | INT_CONST					{ $$ = mIntConst($1.intVal, $1.lineNr); }
-            | BOOL_CONST				{ $$ = mBoolConst($1.intVal, $1.lineNr); }
-            | STRING_CONST				{ $$ = mStringConst($1.strVal, $1.lineNr); }
+expr        : MINUSOP expr %prec UNOP								{ $$ = mUnary($1.opType, $2, $1.lineNr); }
+            | NOTOP expr									{ $$ = mUnary($1.opType, $2, $1.lineNr); }
+            | expr PLUSOP expr									{ $$ = mBinary($1, $2.opType, $3, $2.lineNr); }
+            | expr MINUSOP expr									{ $$ = mBinary($1, $2.opType, $3, $2.lineNr); }
+            | expr MULDIVOP expr								{ $$ = mBinary($1, $2.opType, $3, $2.lineNr); }
+            | expr ANDOP expr									{ $$ = mBinary($1, $2.opType, $3, $2.lineNr); }
+            | expr OROP expr									{ $$ = mBinary($1, $2.opType, $3, $2.lineNr); }
+            | expr EQOP expr									{ $$ = mBinary($1, $2.opType, $3, $2.lineNr); }
+            | expr LELTOP expr									{ $$ = mBinary($1, $2.opType, $3, $2.lineNr); }
+            |'(' expr ')'									{ $$ = $2; }
+            | ID '(' actuals ')'								{ $$ = mFuncCallExpr($3, $1.strVal, $1.lineNr); }
+            | ID										{ $$ = mRValue($1.strVal, $1.lineNr); }
+            | INT_CONST										{ $$ = mIntConst($1.intVal, $1.lineNr); }
+            | BOOL_CONST									{ $$ = mBoolConst($1.intVal, $1.lineNr); }
+            | STRING_CONST									{ $$ = mStringConst($1.strVal, $1.lineNr); }
             ;
 
-actuals     : exprs		{ $$ = $1; }
-            |			{ $$ = NULL; }
+actuals     : exprs										{ $$ = $1; }
+            |											{ $$ = NULL; }
             ;
 
-exprs       : exprs ',' expr	{ $$ = connectActuals($1, mActual($3)); }
-            | expr				{ $$ = mActual($1); }
+exprs       : exprs ',' expr									{ $$ = connectActuals($1, mActual($3)); }
+            | expr										{ $$ = mActual($1); }
             ;
 
 %%
