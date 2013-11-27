@@ -64,6 +64,8 @@ it is not possible.)
 
 ```
 export PATH=/usr/gnat/bin:$PATH
+export ADA_PROJECT_PATH=/usr/lib/gnat
+export GPR_PROJECT_PATH=/usr/lib/gnat
 env | grep -i shell
 cd scripts
 pwd
