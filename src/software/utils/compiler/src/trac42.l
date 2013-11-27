@@ -55,32 +55,51 @@ int           {yylval.yyType.lineNr = yylineno;
 bool          {yylval.yyType.lineNr = yylineno;
                yylval.yyType.type = BOOL;
                return (BASIC_TYPE);}
-string        {yylval.yyType.lineNr = yylineno;
+/*string        {yylval.yyType.lineNr = yylineno;
                yylval.yyType.type = STRING;
-               return (BASIC_TYPE);}
+               return (BASIC_TYPE);}*/
 void          {yylval.yyType.lineNr = yylineno;
                yylval.yyType.type = VOID;
                return (BASIC_TYPE);}
+float         {yylval.yyType.lineNr = yylineno;
+               yylval.yyType.type = FLOAT;
+               return (BASIC_TYPE);}
+vector        {yylval.yyType.lineNr = yylineno;
+               yylval.yyType.type = VECTOR;
+               return (BASIC_TYPE);}
+matrix        {yylval.yyType.lineNr = yylineno;
+               yylval.yyType.type = MATRIX;
+               return (BASIC_TYPE);}
+pointer       {yylval.yyType.lineNr = yylineno;
+               yylval.yyType.type = POINTER;
+               return (BASIC_TYPE);}
+
+
 
 if            {yylval.yyLineNr = yylineno; return (IF);}
 else          {yylval.yyLineNr = yylineno; return (ELSE);}
 while         {yylval.yyLineNr = yylineno; return (WHILE);}
 return        {yylval.yyLineNr = yylineno; return (RETURN);}
-read          {yylval.yyLineNr = yylineno; return (READ);}
-write         {yylval.yyLineNr = yylineno; return (WRITE);}
+end           {yylval.yyLineNr = yylineno; return (END);}
+exit          {yylval.yyLineNr = yylineno; return (EXIT);}
+then          {yylval.yyLineNr = yylineno; return (END);}
+
+
+//read          {yylval.yyLineNr = yylineno; return (READ);}
+//write         {yylval.yyLineNr = yylineno; return (WRITE);}
 
 "\n"          {yylineno++;}
-"!"           {yylval.yyOperator.lineNr = yylineno;
+not           {yylval.yyOperator.lineNr = yylineno;
                yylval.yyOperator.opType = NOT;
                return (NOTOP);}
-"||"          {yylval.yyOperator.lineNr = yylineno;
+or            {yylval.yyOperator.lineNr = yylineno;
                yylval.yyOperator.opType = OR;
                return (OROP);}
-"&&"          {yylval.yyOperator.lineNr = yylineno;
+and           {yylval.yyOperator.lineNr = yylineno;
                yylval.yyOperator.opType = AND;
                return (ANDOP);}
 
-"=="          {yylval.yyOperator.lineNr = yylineno;
+"="           {yylval.yyOperator.lineNr = yylineno;
                yylval.yyOperator.opType = EQ;
                return (EQOP);}
 "<="          {yylval.yyOperator.lineNr = yylineno;
@@ -89,6 +108,16 @@ write         {yylval.yyLineNr = yylineno; return (WRITE);}
 "<"           {yylval.yyOperator.lineNr = yylineno;
                yylval.yyOperator.opType = LT;
                return (LELTOP);}
+">="          {yylval.yyOperator.lineNr = yylineno;
+               yylval.yyOperator.opType = ME;
+               return (LELTOP);}
+">"           {yylval.yyOperator.lineNr = yylineno;
+               yylval.yyOperator.opType = MT;
+               return (LELTOP);}
+"/="          {yylval.yyOperator.lineNr = yylineno;
+               yylval.yyOperator.opType = NE;
+               return (LELTOP);}
+
 
 "+"           {yylval.yyOperator.lineNr = yylineno;
                yylval.yyOperator.opType = PLUS;
@@ -108,6 +137,7 @@ true          {yylval.yyInt.intVal = 1; yylval.yyInt.lineNr = yylineno;
 false         {yylval.yyInt.intVal = 0; yylval.yyInt.lineNr = yylineno;
                return (BOOL_CONST);}
 
+/*
 {STR}         {yytext[yyleng-1] = 0;
                yylval.yyString.strVal = dstrcpy(yytext+1);
                if (strlen(yylval.yyString.strVal) >= STRING_SIZE) {
@@ -115,6 +145,7 @@ false         {yylval.yyInt.intVal = 0; yylval.yyInt.lineNr = yylineno;
                }
                yylval.yyString.lineNr = yylineno;
                return (STRING_CONST);}
+*/
 
 {DIGIT}+      {yylval.yyInt.intVal = atoi(yytext);
                yylval.yyInt.lineNr = yylineno;

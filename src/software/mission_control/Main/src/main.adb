@@ -12,11 +12,9 @@ with Ada.Real_Time; -- measure time
 
 -- TODO List:
 
--- Complete protected object TCP_Resource (in TCP project) and
+-- Complete protected objects TCP_Resource (in TCP project) and
 -- CAN_Resource (in CAN project) to send and receive messages.
 
--- Figure out a way to measure time in main thread and forward it
--- to VM. (can easily be done with C binding and linux libs)
 
 procedure Main is
    use Ada.Real_Time;

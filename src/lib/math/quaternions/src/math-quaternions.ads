@@ -3,6 +3,7 @@ with Math.Vectors; --use Math.Vectors;
 with System; use System;
 with Ada.Exceptions;
 with Ada.Unchecked_Deallocation;
+with Exception_Handling;
 
 -- Quaternions package for classes and functionality regarding quaternions. A quaternion object is stored in a pCQuaternion variable and is created with the pxCreate functions.
 package Math.Quaternions is
@@ -89,6 +90,8 @@ package Math.Quaternions is
    --  <parameter name="this">The quaternion to be overwritten.</parameter>
    --  <parameter name="xSourceQuaternion">The quaternion to be to copy values from.</parameter>
 
+   function xCreate(fX : in float; fY : in float; fZ : in float; fW : in float) return CQuaternion;
+
 private
 
    --function xCreate (fX : in float; fY : in float; fZ : in float; fW : in float) return CQuaternion;
@@ -100,5 +103,7 @@ private
          fZ : float;
          fW : float;
       end record;
+
+
 
 end Math.Quaternions;

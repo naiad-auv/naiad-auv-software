@@ -45,7 +45,7 @@ typedef enum {
 typedef enum { NEG=MINUS, NOT } UNOP_KIND;
 
 /* To distinguish between different kinds of binary expression nodes. */
-typedef enum { SUB=MINUS, PLUS, MULT, DIV, OR, AND, EQ, LT, LE } BINOP_KIND;
+typedef enum { SUB=MINUS, PLUS, MULT, DIV, OR, AND, EQ, LT, LE, ME, MT, NE } BINOP_KIND;
 
 /* To distinguish between formal parameters and local variables in variable nodes. */
 typedef enum {kFormal, kLocal} vKind;
