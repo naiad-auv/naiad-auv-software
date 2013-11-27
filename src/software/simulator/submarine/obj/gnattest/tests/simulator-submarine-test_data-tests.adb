@@ -9,7 +9,7 @@ with AUnit.Assertions; use AUnit.Assertions;
 with Math.Vectors; use Math.Vectors;
 with Math.Matrices; use math.Matrices;
 with simulator.Motor_Info; use Simulator.Motor_Info;
-with ada.Text_IO;
+-- with ada.Text_IO;
 
 package body simulator.submarine.Test_Data.Tests is
 
