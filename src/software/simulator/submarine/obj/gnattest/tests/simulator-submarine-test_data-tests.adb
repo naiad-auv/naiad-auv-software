@@ -51,19 +51,19 @@ package body simulator.submarine.Test_Data.Tests is
       AUnit.Assertions.Assert(Condition => pxSubmarine.pxVelocityFrictionVector /=null,
                               Message   => "Simulator.Submarine.pxCreateNaiad failed, didn't set velocity friction");
 
-      ada.Text_IO.Put_Line("Motor 1 Force X:" & pxSubmarine.txMotorInfo(1).xGet_Force_Vector.fGet_X'img & " Y: " & pxSubmarine.txMotorInfo(1).xGet_Force_Vector.fGet_Y'img & " Z: " & pxSubmarine.txMotorInfo(1).xGet_Force_Vector.fGet_Z'img);
-      ada.Text_IO.Put_Line("Motor 2 Force X:" & pxSubmarine.txMotorInfo(2).xGet_Force_Vector.fGet_X'img & " Y: " & pxSubmarine.txMotorInfo(2).xGet_Force_Vector.fGet_Y'img & " Z: " & pxSubmarine.txMotorInfo(2).xGet_Force_Vector.fGet_Z'img);
-      ada.Text_IO.Put_Line("Motor 3 Force X:" & pxSubmarine.txMotorInfo(3).xGet_Force_Vector.fGet_X'img & " Y: " & pxSubmarine.txMotorInfo(3).xGet_Force_Vector.fGet_Y'img & " Z: " & pxSubmarine.txMotorInfo(3).xGet_Force_Vector.fGet_Z'img);
-      ada.Text_IO.Put_Line("Motor 4 Force X:" & pxSubmarine.txMotorInfo(4).xGet_Force_Vector.fGet_X'img & " Y: " & pxSubmarine.txMotorInfo(4).xGet_Force_Vector.fGet_Y'img & " Z: " & pxSubmarine.txMotorInfo(4).xGet_Force_Vector.fGet_Z'img);
-      ada.Text_IO.Put_Line("Motor 5 Force X:" & pxSubmarine.txMotorInfo(5).xGet_Force_Vector.fGet_X'img & " Y: " & pxSubmarine.txMotorInfo(5).xGet_Force_Vector.fGet_Y'img & " Z: " & pxSubmarine.txMotorInfo(5).xGet_Force_Vector.fGet_Z'img);
-      ada.Text_IO.Put_Line("Motor 6 Force X:" & pxSubmarine.txMotorInfo(6).xGet_Force_Vector.fGet_X'img & " Y: " & pxSubmarine.txMotorInfo(6).xGet_Force_Vector.fGet_Y'img & " Z: " & pxSubmarine.txMotorInfo(6).xGet_Force_Vector.fGet_Z'img);
-
-      ada.Text_IO.Put_Line("Motor 1 Torque X:" & pxSubmarine.txMotorInfo(1).xGet_Torque_Vector.fGet_X'img & " Y: " & pxSubmarine.txMotorInfo(1).xGet_Torque_Vector.fGet_Y'img & " Z: " & pxSubmarine.txMotorInfo(1).xGet_Torque_Vector.fGet_Z'img);
-      ada.Text_IO.Put_Line("Motor 2 Torque X:" & pxSubmarine.txMotorInfo(2).xGet_Torque_Vector.fGet_X'img & " Y: " & pxSubmarine.txMotorInfo(2).xGet_Torque_Vector.fGet_Y'img & " Z: " & pxSubmarine.txMotorInfo(2).xGet_Torque_Vector.fGet_Z'img);
-      ada.Text_IO.Put_Line("Motor 3 Torque X:" & pxSubmarine.txMotorInfo(3).xGet_Torque_Vector.fGet_X'img & " Y: " & pxSubmarine.txMotorInfo(3).xGet_Torque_Vector.fGet_Y'img & " Z: " & pxSubmarine.txMotorInfo(3).xGet_Torque_Vector.fGet_Z'img);
-      ada.Text_IO.Put_Line("Motor 4 Torque X:" & pxSubmarine.txMotorInfo(4).xGet_Torque_Vector.fGet_X'img & " Y: " & pxSubmarine.txMotorInfo(4).xGet_Torque_Vector.fGet_Y'img & " Z: " & pxSubmarine.txMotorInfo(4).xGet_Torque_Vector.fGet_Z'img);
-      ada.Text_IO.Put_Line("Motor 5 Torque X:" & pxSubmarine.txMotorInfo(5).xGet_Torque_Vector.fGet_X'img & " Y: " & pxSubmarine.txMotorInfo(5).xGet_Torque_Vector.fGet_Y'img & " Z: " & pxSubmarine.txMotorInfo(5).xGet_Torque_Vector.fGet_Z'img);
-      ada.Text_IO.Put_Line("Motor 6 Torque X:" & pxSubmarine.txMotorInfo(6).xGet_Torque_Vector.fGet_X'img & " Y: " & pxSubmarine.txMotorInfo(6).xGet_Torque_Vector.fGet_Y'img & " Z: " & pxSubmarine.txMotorInfo(6).xGet_Torque_Vector.fGet_Z'img);
+--      ada.Text_IO.Put_Line("Motor 1 Force X:" & pxSubmarine.txMotorInfo(1).xGet_Force_Vector.fGet_X'img & " Y: " & pxSubmarine.txMotorInfo(1).xGet_Force_Vector.fGet_Y'img & " Z: " & pxSubmarine.txMotorInfo(1).xGet_Force_Vector.fGet_Z'img);
+--      ada.Text_IO.Put_Line("Motor 2 Force X:" & pxSubmarine.txMotorInfo(2).xGet_Force_Vector.fGet_X'img & " Y: " & pxSubmarine.txMotorInfo(2).xGet_Force_Vector.fGet_Y'img & " Z: " & pxSubmarine.txMotorInfo(2).xGet_Force_Vector.fGet_Z'img);
+--      ada.Text_IO.Put_Line("Motor 3 Force X:" & pxSubmarine.txMotorInfo(3).xGet_Force_Vector.fGet_X'img & " Y: " & pxSubmarine.txMotorInfo(3).xGet_Force_Vector.fGet_Y'img & " Z: " & pxSubmarine.txMotorInfo(3).xGet_Force_Vector.fGet_Z'img);
+--      ada.Text_IO.Put_Line("Motor 4 Force X:" & pxSubmarine.txMotorInfo(4).xGet_Force_Vector.fGet_X'img & " Y: " & pxSubmarine.txMotorInfo(4).xGet_Force_Vector.fGet_Y'img & " Z: " & pxSubmarine.txMotorInfo(4).xGet_Force_Vector.fGet_Z'img);
+--      ada.Text_IO.Put_Line("Motor 5 Force X:" & pxSubmarine.txMotorInfo(5).xGet_Force_Vector.fGet_X'img & " Y: " & pxSubmarine.txMotorInfo(5).xGet_Force_Vector.fGet_Y'img & " Z: " & pxSubmarine.txMotorInfo(5).xGet_Force_Vector.fGet_Z'img);
+--      ada.Text_IO.Put_Line("Motor 6 Force X:" & pxSubmarine.txMotorInfo(6).xGet_Force_Vector.fGet_X'img & " Y: " & pxSubmarine.txMotorInfo(6).xGet_Force_Vector.fGet_Y'img & " Z: " & pxSubmarine.txMotorInfo(6).xGet_Force_Vector.fGet_Z'img);
+--
+--      ada.Text_IO.Put_Line("Motor 1 Torque X:" & pxSubmarine.txMotorInfo(1).xGet_Torque_Vector.fGet_X'img & " Y: " & pxSubmarine.txMotorInfo(1).xGet_Torque_Vector.fGet_Y'img & " Z: " & pxSubmarine.txMotorInfo(1).xGet_Torque_Vector.fGet_Z'img);
+--      ada.Text_IO.Put_Line("Motor 2 Torque X:" & pxSubmarine.txMotorInfo(2).xGet_Torque_Vector.fGet_X'img & " Y: " & pxSubmarine.txMotorInfo(2).xGet_Torque_Vector.fGet_Y'img & " Z: " & pxSubmarine.txMotorInfo(2).xGet_Torque_Vector.fGet_Z'img);
+--      ada.Text_IO.Put_Line("Motor 3 Torque X:" & pxSubmarine.txMotorInfo(3).xGet_Torque_Vector.fGet_X'img & " Y: " & pxSubmarine.txMotorInfo(3).xGet_Torque_Vector.fGet_Y'img & " Z: " & pxSubmarine.txMotorInfo(3).xGet_Torque_Vector.fGet_Z'img);
+--      ada.Text_IO.Put_Line("Motor 4 Torque X:" & pxSubmarine.txMotorInfo(4).xGet_Torque_Vector.fGet_X'img & " Y: " & pxSubmarine.txMotorInfo(4).xGet_Torque_Vector.fGet_Y'img & " Z: " & pxSubmarine.txMotorInfo(4).xGet_Torque_Vector.fGet_Z'img);
+--      ada.Text_IO.Put_Line("Motor 5 Torque X:" & pxSubmarine.txMotorInfo(5).xGet_Torque_Vector.fGet_X'img & " Y: " & pxSubmarine.txMotorInfo(5).xGet_Torque_Vector.fGet_Y'img & " Z: " & pxSubmarine.txMotorInfo(5).xGet_Torque_Vector.fGet_Z'img);
+--      ada.Text_IO.Put_Line("Motor 6 Torque X:" & pxSubmarine.txMotorInfo(6).xGet_Torque_Vector.fGet_X'img & " Y: " & pxSubmarine.txMotorInfo(6).xGet_Torque_Vector.fGet_Y'img & " Z: " & pxSubmarine.txMotorInfo(6).xGet_Torque_Vector.fGet_Z'img);
 
 
 
