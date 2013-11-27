@@ -52,12 +52,12 @@ void Core_Wrap::img_buffer()
     char strStorage[50]; // enough to hold all numbers up to 64-bits
     int bufSize=0;
   
-    std::string folderPath = "/home/vision/Documents/project/cdt508/Robosub2012_logging/Loggning/log 3/Bottom/";
+    //std::string folderPath = "/home/vision/Documents/project/cdt508/Robosub2012_logging/Loggning/log 3/Bottom/";
     //std::string folderPath = "//home/bork/Data/cdt508/Robosub2012_logging/Loggning/log 3/Bottom/";
     //std::string folderPath = "/home/gerard/Documents/project/cdt508/Robosub2012_logging/Loggning/log 3/Bottom/";
     
     //std::string folderPath = "/home/gerard/Downloads/pix/";
-	//std::string folderPath = "/home/vision/Downloads/pix/";
+	std::string folderPath = "/home/vision/Downloads/pix/";
     
     std::string result;
     std::string imageType = ".jpg";
@@ -132,12 +132,13 @@ void Core_Wrap::imstore(int src, char * name)
  
 ///////////////////////////////////// WRITE IMAGE TO FILE ////////////////////////////////////////////
  
-int Core_Wrap::imwrite(char * name, int src)
+void Core_Wrap::imwrite(char * name, int src)
 {
-    if (cv::imwrite(name, img.at(src)))
+	cv::imwrite(name, img.at(src));
+    /*if (cv::imwrite(name, img.at(src)))
         return 1;
     else
-        return 0;
+        return 0;*/
 }
  
  
@@ -145,7 +146,7 @@ int Core_Wrap::imwrite(char * name, int src)
  
 void Core_Wrap::imshow(char * name, int src)
 {
-    cv::imshow(name, img.at(src));
+    //cv::imshow(name, img.at(src));
 }
  
  
@@ -153,7 +154,7 @@ void Core_Wrap::imshow(char * name, int src)
  
 void Core_Wrap::waitKey(int time)
 {
-    cv::waitKey(time);
+    //cv::waitKey(time);
 }
  
  
@@ -258,7 +259,7 @@ void Processing_Wrap::LabelPoints(int src)
         }
     }
     std::cout<<"height"<<dim.height<<"width"<<dim.width;
-    cv::waitKey(0);
+    //cv::waitKey(0);
 }
  
  
@@ -288,7 +289,7 @@ void Processing_Wrap::DrawHoughLines(int cdst)
         pt2.x = cvRound(x0 + 1000*(-b));
         pt2.y = cvRound(y0 + 1000*(a));
         line( img.at(cdst), pt1, pt2, cv::Scalar(0,0,255), 10, CV_AA);
-        cv::imshow("liney", img.at(cdst));  
+        cv::imwrite("liney.jpg", img.at(cdst));  
     }
 }
 
@@ -329,7 +330,7 @@ void Processing_Wrap::HoughLinesP(int src)
         {
             std::cout<<"line detected\n"<<houLineStorage[i][0]<<"\t"<<houLineStorage[i][1]<<"\t"<<houLineStorage[i][2]<<"\t"<<houLineStorage[i][3];
         }
-        cv::waitKey(0);
+        //cv::waitKey(0);
     }   
 }
 
@@ -439,8 +440,8 @@ void Processing_Wrap::showBGRHistogram(int histSize)
                        cv::Point( bin_w*(i), histHeight - cvRound(redHistVals.at<float>(i)) ),
                        cv::Scalar( 0, 0, 255), 2, 8, 0  );//red
       }
-      cv::imshow("Histogram", histImage );
-    cv::waitKey(0);
+      cv::imwrite("Histogram.jpg", histImage );
+    //cv::waitKey(0);
 }
  
  
@@ -478,8 +479,8 @@ void Processing_Wrap::showHSIHistogram(int histSize[])
                         CV_FILLED );
         }
     }
-    cv::imshow( "H-S Histogram", histImg );
-    cv::waitKey();
+    cv::imwrite( "H-S Histogram.jpg", histImg );
+    //cv::waitKey();
 }
  
  
@@ -571,8 +572,8 @@ void Processing_Wrap::thresh(int src, int dst, int blueLow, int blueUp, int gree
 		
 		mask = 255-dstD; //invert mask
 		
-		cv::imshow("mask",mask);
-		cv::waitKey(0);
+		cv::imwrite("mask.jpg",mask);
+		//cv::waitKey(0);
 	}
 	else
 	{
@@ -646,7 +647,7 @@ void Processing_Wrap::objectTracking(int src)
             p.y = (int)(q.y+9*sin(angle-3.14/4));
             cv::line(img.at(src),p,q,line_color,line_thickness,CV_AA,0);
         }
-        cv::imshow("why so tracking?",img.at(src));
+        cv::imwrite("why so tracking?.jpg",img.at(src));
     }
 }
 
@@ -670,10 +671,25 @@ void Processing_Wrap::roi(int src, int dst)
     cv::Mat F = img.at(src).clone(), G;
     //img.at(dst)
     G = F(cv::Range(0,0), cv::Range(100,100));
-    cv::imshow("roi", G);
-    cv::waitKey(0);
+    cv::imwrite("roi.jpg", G);
+    //cv::waitKey(0);
 }
 
+
+///////////////////////// GAUSSIAN BLUR SHARPENER     //////////////////////////////////////////////////////////////
+
+void Processing_Wrap::GaussianBlurSharpener(int src,int destination,int accuracy)
+{
+    cv::Mat tempImStorage;
+    tempImStorage=img.at(src).clone();
+   
+    for(int t=0;t<accuracy;t++)
+        {
+            cv::GaussianBlur(tempImStorage, img.at(destination), cv::Size(0, 0), 3);
+            cv::addWeighted(tempImStorage, 1.5, img.at(destination), -0.5, 0, img.at(destination));
+            tempImStorage=img.at(destination).clone();
+        }
+}
 
 ///////////////////////// ESTIMATE VELOCITY    //////////////////////////////////////////////////////////////
 
@@ -763,6 +779,30 @@ void Processing_Wrap::estPosition(void)
 }
 
 
+/////////////////////// FUSION ////////////////////////////////////////////////////////////
+
+void Processing_Wrap::fusion(int src, int dst)
+{
+    //DO STUFF
+    cv::Mat img1=img.at(src).clone(), img2, img3, img4, img5=img.at(src).clone();
+    cv::cvtColor(img5, img4, CV_BGR2HSV);
+    //cv::cvtColor(img1, img2, CV_BGR2GRAY);
+    double alpha = 1,beta = 2;
+    //cv::addWeighted(img2, alpha, img4, beta, (double)(000,000,000), img3);
+    img5.copyTo(img3,img4);
+    //img3.copyTo(img3,img4);
+    int i = 0;
+    for (i = 0; i < 100; i++)
+    {
+        //DO
+        img3.copyTo(img3,img4);
+    }
+    std::cout<<"\n loops :"<<i;
+    img.at(dst) = img3.clone();
+   
+}
+
+
 //////////////////////////INVERT IMAGE ///////////////////////////////////////////////////////
 
 void Processing_Wrap::invertImage(int src, int dst)
@@ -789,9 +829,9 @@ int Processing_Wrap::matchImage(int src)
     cv::drawContours(img.at(0), contours, -1, cv::Scalar(255,255,0), 1, CV_AA );
     
     ///show image and num of contours found for debug
-    cv::imshow("drawn contours on base image",img.at(0));
+    cv::imwrite("drawn contours on base image.jpg",img.at(0));
     std::cout<<"num of contours in base image \t"<<contours.size()<<"\n";
-    cv::waitKey(0);
+    //cv::waitKey(0);
     
 	///find biggest contour by finding contourn with biggest area 
 	int largest_area=0;
@@ -842,17 +882,17 @@ void Processing_Wrap::classifyMatch(int bestTemplateMatch)
 	if (bestTemplateMatch==22)
 	{
 		std::cout<<"Sword\n";
-		cv::waitKey(0);
+		//cv::waitKey(0);
 	}
 	if (bestTemplateMatch==23)
 	{
 		std::cout<<"Honeycomb\n";
-		cv::waitKey(0);
+		//cv::waitKey(0);
 	}
 	if (bestTemplateMatch==24)
 	{
 		std::cout<<"Circle\n";
-		cv::waitKey(0);
+		//cv::waitKey(0);
 	}
 }
 ////////////////////////////// fill in poly func //////////////////////////////////////////
@@ -897,64 +937,9 @@ void Processing_Wrap::fillInPoly(void)
 }
 
 
-/////////////////////////////// CLONE IMAGE ////////////////////////////////////
-
-void Processing_Wrap::cloneImage(int src,int dst)
-{
-	img.at(dst)=img.at(src).clone();
-}
-
-/////////////////////////////////////
-/////////////////////////////////////
-Processing_Wrap::Processing_Wrap(){}
-/*********************************************************************************************************************
-*               END PROCESSING WRAP                                                                                  *
-*********************************************************************************************************************/
-
-
-/*********************************************************************************************************************
-*               START PREPROCESSING WRAP                                                                             *
-*********************************************************************************************************************/
-
-
-///////////////////////  VIDEO CAPTURE        ///////////////////////////////////////////
-
-void Preprocessing_Wrap::VideoCaptureOpen(void)
-{
-  cap.open(0);
-}
- 
- 
-///////////////////////  NAMED WINDOW        ///////////////////////////////////////////
-
-void Preprocessing_Wrap::namedWindow(char * name, int num)
-{
-  cv::namedWindow(name, num);
-}
-
-
-///////////////////////  VIDEO NEXT FRAME        /////////////////////////////////////////// 
-
-void Preprocessing_Wrap::nextFrame(int dst)
-{
-  cap >> img.at(dst);
-}
-
-
-///////////////////////  CONTRAST        ///////////////////////////////////////////
-
-void Preprocessing_Wrap::contrast(int src, int dst, int gain, int bias) //change gain to double ?? , gain > bias
-{
-	cv::Mat image = img.at(src).clone();
-	image.convertTo(img.at(dst), -1, gain, bias);
-	cv::imshow("contrast", img.at(dst));
-	cv::waitKey(0);	
-}
- 
-
 /////////////////////////////// ENHANCE COLORS IN IMAGE ////////////////////////////////////
  
-void Preprocessing_Wrap::enhanceColors(int src,int dest,int channel,double level)
+void Processing_Wrap::enhanceColors(int src,int dest,int channel,double level)
 {
 	///convert image to hsv
 	cv::Mat tempImage=img.at(src).clone();
@@ -975,46 +960,51 @@ void Preprocessing_Wrap::enhanceColors(int src,int dest,int channel,double level
 }
 
 
-/////////////////////// FUSION ////////////////////////////////////////////////////////////
+/////////////////////////////// CLONE IMAGE ////////////////////////////////////
 
-void Preprocessing_Wrap::fusion(int src, int dst)
+void Processing_Wrap::cloneImage(int src,int dst)
 {
-    //DO STUFF
-    cv::Mat img1=img.at(src).clone(), img2, img3, img4, img5=img.at(src).clone();
-    cv::cvtColor(img5, img4, CV_BGR2HSV);
-    //cv::cvtColor(img1, img2, CV_BGR2GRAY);
-    double alpha = 1,beta = 2;
-    //cv::addWeighted(img2, alpha, img4, beta, (double)(000,000,000), img3);
-    img5.copyTo(img3,img4);
-    //img3.copyTo(img3,img4);
-    int i = 0;
-    for (i = 0; i < 100; i++)
-    {
-        //DO
-        img3.copyTo(img3,img4);
-    }
-    std::cout<<"\n loops :"<<i;
-    img.at(dst) = img3.clone();
-   
+	img.at(dst)=img.at(src).clone();
 }
 
+/////////////////////////////////////
+/////////////////////////////////////
+Processing_Wrap::Processing_Wrap(){}
+/*********************************************************************************************************************
+*               END PROCESSING WRAP                                                                                  *
+*********************************************************************************************************************/
+
+
+/*********************************************************************************************************************
+*               START PREPROCESSING WRAP                                                                             *
+*********************************************************************************************************************/
+
+///////////////////////  VIDEO CAPTURE        ///////////////////////////////////////////
+
+void Preprocessing_Wrap::VideoCaptureOpen(void)
+{
+  cap.open(0);
+}
  
-///////////////////////// GAUSSIAN BLUR SHARPENER     //////////////////////////////////////////////////////////////
-
-void Preprocessing_Wrap::GaussianBlurSharpener(int src,int destination,int accuracy)
+void Preprocessing_Wrap::namedWindow(char * name, int num)
 {
-    cv::Mat tempImStorage;
-    tempImStorage=img.at(src).clone();
-   
-    for(int t=0;t<accuracy;t++)
-        {
-            cv::GaussianBlur(tempImStorage, img.at(destination), cv::Size(0, 0), 3);
-            cv::addWeighted(tempImStorage, 1.5, img.at(destination), -0.5, 0, img.at(destination));
-            tempImStorage=img.at(destination).clone();
-        }
+  cv::namedWindow(name, num);
+}
+ 
+void Preprocessing_Wrap::nextFrame(int dst)
+{
+  cap >> img.at(dst);
 }
 
-
+void Preprocessing_Wrap::contrast(int src, int dst, int gain, int bias) //change gain to double ?? , gain > bias
+{
+	cv::Mat image = img.at(src).clone();
+	image.convertTo(img.at(dst), -1, gain, bias);
+	cv::imwrite("contrast.jpg", img.at(dst));
+	//cv::waitKey(0);
+	
+}
+ 
 ///////////////////////  QUATERNION SWITCHING FILTER        /////////////////////////////////////////// 
 
 void Preprocessing_Wrap::quaterNionSwitchingFilter(int src, int dst, double QNSFThresh)
@@ -1142,11 +1132,11 @@ void Preprocessing_Wrap::quaterNionSwitchingFilter(int src, int dst, double QNSF
 	}
 	///copy temp to dest
 	img.at(dst)=tempImage.clone();
-	cv::imshow("cleaned",img.at(dst));
+	cv::imwrite("cleaned.jpg",img.at(dst));
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////
+
+
 Preprocessing_Wrap::Preprocessing_Wrap(){}
  
 /*********************************************************************************************************************

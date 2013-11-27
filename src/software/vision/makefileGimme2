@@ -1,0 +1,93 @@
+##Shared-Part linked Makefile
+##Version 2.03&½
+##
+##Grown by Debajyoti Nag and Gerard Duff (and a lot of coffee)(and Trocadero)
+##yield THIS power responsibly
+
+#Root Directory
+ROOT_DIRECTORY = ./
+
+#Auto-generate directories
+#DIRS := ${sort ${dir ${wildcard ${ROOT_DIRECTORY}/*/${ROOT_DIRECTORY}/*/*/}}}
+
+
+#OpenCV object
+OCVOB = visionBindings/visionBindings
+
+#Package List
+CSC_LIST = imagepreprocessing imageprocessing #mission
+
+#Main program
+MAIN = src/main
+
+#source objects
+#IMAGEMAIN = image/src/vision-image
+PREPROMAIN = imagepreprocessing/src/vision-image_preprocessing
+PROMAIN = imageprocessing/src/vision-image_processing
+#MISSIONMAIN = mission/src/vision-mission
+
+#additional source directories - use only with gnatmake
+VISIONSRCDIR = src/
+VISIONBINDINGSDIR = visionBindings/
+#IMAGESRCDIR = image/src/
+IMAGEPREPROCESSINGSRCDIR = imagepreprocessing/src/
+IMAGEPROCESSINGSRCDIR = imageprocessing/src/
+#MISSIONSRCDIR = mission/src/
+
+#additional object directories - use only with gnatbind
+VISIONOBJDIR = obj/
+#IMAGEOBJDIR = image/src/
+IMAGEPREPROCESSINGOBJDIR = imagepreprocessing/src/
+IMAGEPROCESSINGOBJDIR = imageprocessing/src/
+#MISSIONOBJDIR = mission/obj/
+
+#additional ob
+ADDOBJ1 = visionBindings/visionBindings.o
+
+#-fPIC, not needed
+NEED_FPIC = -fPIC
+
+#g++ directory
+GPLUS = /usr/bin/g++-4.6
+
+#path for gnatlib.so , through 'gnatls -v'
+GLIB = /usr/lib/gcc/arm-linux-gnueabihf/4.6/adalib/
+
+#Library directories
+#Expanded from Package List
+LIB_DIR = ${foreach dir,${CSC_LIST},${dir}/lib/lib${dir}.a}
+
+${MAIN} : objects preproobject proobject 
+	gnatbind -aOvisionBindings/ -aOimagepreprocessing/src/ -aOimageprocessing/src/ src/main  -static	
+	gnatlink -f ${MAIN}.ali ${CSC_LIST :%= -l%} -static ${ADDOBJ1} `pkg-config opencv --cflags --libs` #${GPLUS}
+
+objects : 
+	#recompile the sources
+	gnatmake -aI${VISIONBINDINGSDIR} -aI${IMAGEPREPROCESSINGSRCDIR} -aI${IMAGEPROCESSINGSRCDIR} -c -d -i  -gnat05 -gnato -gnatwa -fstack-check -o ${MAIN} ${MAIN}.adb ${NEED_FPIC} ${CSC_LIST :%= -I%} -largs ${OCVOB}.o -lstdc++ `pkg-config opencv --cflags --libs`
+
+preproobject :
+	gnatmake imagepreprocessing/src/vision-image_preprocessing.adb -IvisionBindings/ -Isrc/
+
+proobject :
+	gnatmake imageprocessing/src/vision-image_processing.adb -IvisionBindings/ -Isrc/
+
+#makes lib directories
+${LIB_DIR} : 
+	mkdir -p ${dir $@}
+	cd ${dir $@} && gcc -static -o ${notdir $} ../*.o -L${GLIB}	-lgnat
+	cd ${dir $@} && cp -f ../obj/*.ali .
+
+#Dependencies for the modules
+image/lib/libimageimage.a : image/obj/*.o
+imagepreprocessing/lib/libimagepreprocessing.a : imagepreprocessing/obj/*.o
+imageprocession/lib/libimageprocessing.a : imageprocessing/obj/*.o
+#mission/lib/libmission.so : mission/obj/*.o
+
+run ::
+	LD_LIBRARY_PATH = `pwd`/image/lib:`pwd`/imagepreprocessing/lib:`pwd`/imageprocessing/lib ./${MAIN} 
+
+clean :: 
+	${RM} -rf ${CSC_LIST :%=%/lib}
+	${RM} ${CSC_LIST :%=%/*.ali}
+	${RM} ${CSC_LIST :%=%/*.o}
+	${RM} *.o *.ali ${MAIN} 

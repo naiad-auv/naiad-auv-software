@@ -34,7 +34,7 @@ procedure main is
    iDoWriteImageToFile : Integer :=0;
    iDoEnhanceColors : Integer :=0;
    iDoContrast : Integer := 1;
-   iDoQuaternionSwitchingFilter : Integer := 1;
+   iDoQuaternionSwitchingFilter : Integer :=0;
 
 
    --image locations
@@ -141,7 +141,7 @@ procedure main is
    iBias : Interfaces.C.int := 0;
 
    --QNSF
-   iQNSFThresh : Interfaces.C.Double := 50.0;
+   iQNSFThresh : Interfaces.C.Double := 0.5;
 
    --wait time when displaying images
    iWaitTime : interfaces.c.int := 0;
@@ -173,9 +173,9 @@ begin
       if (iDoUseBuffer = 1) then -- read from buffer
          CoreWrap.img_buffer;
       elsif (iDoUseStatic =1) then --read in single image
-         CoreWrap.imstore(iImageSource,New_String("noise.jpg"));
+         CoreWrap.imstore(iImageSource,New_String("Square.jpg"));
       elsif (iDoMakeMovie = 1) then --capture from video
-         Vision.Image_Preprocessing.Capture_Video(iImageSource,iWaitTime,videoOpen);
+         --Vision.Image_Preprocessing.Capture_Video(iImageSource,iWaitTime,videoOpen);
          videoOpen:=1;
       end if;
 
@@ -277,8 +277,8 @@ begin
          processingWrap.estPosition;
 
          if velCount>0 then
-            preprocessingWrap.GaussianBlurSharpener(iImageSource,2,3);
-            preprocessingWrap.GaussianBlurSharpener(1,3,3);
+            processingWrap.GaussianBlurSharpener(iImageSource,2,3);
+            processingWrap.GaussianBlurSharpener(1,3,3);
             estVel:=processingWrap.estimateVelocity;
          end if;
          velCount:=1;
@@ -286,7 +286,7 @@ begin
 
       --write image to file
       if(iDoWriteImageToFile =1) then
-         ret := CoreWrap.imwrite(New_String("CannyOut.jpg"),iImageSource);
+         CoreWrap.imwrite(New_String("CannyOut.jpg"),iImageSource);
       end if;
 
       --enhance colors in image
@@ -306,12 +306,12 @@ begin
             --cleanup templates
             iTemplate:=iTemplate1;
             for iTemplateIndex in 1 .. iTemplateSize loop
-               preprocessingWrap.enhanceColors(iTemplate,iTemplate,1,30.0);
-               preprocessingWrap.GaussianBlurSharpener(iTemplate,iTemplate,2);
+               processingWrap.enhanceColors(iTemplate,iTemplate,1,30.0);
+               processingWrap.GaussianBlurSharpener(iTemplate,iTemplate,2);
                processingWrap.cvtColor(iTemplate, itemplateTempStorage, iHSIFilter);
                processingWrap.thresh(itemplateTempStorage, itemplateTempStorage, 0, 0, 0, 0, 50, 255);
                processingWrap.gaussianBlur(itemplateTempStorage,itemplateTempStorage,11,0.0,0.0);
-               preprocessingWrap.GaussianBlurSharpener(itemplateTempStorage,itemplateTempStorage,4);
+               processingWrap.GaussianBlurSharpener(itemplateTempStorage,itemplateTempStorage,4);
                processingWrap.cvtColor(itemplateTempStorage,itemplateTempStorage, iGreyFilter);
                processingWrap.Canny(itemplateTempStorage,iTemplate, 100, 300, iCannyKernelSize);
                iTemplate:=iTemplate+1;
@@ -322,14 +322,14 @@ begin
          --coreWrap.waitKey(0);
 
          --cleanup source image
-         preprocessingWrap.enhanceColors(iImageSource,iImageSource,1,30.0);
+         processingWrap.enhanceColors(iImageSource,iImageSource,1,30.0);
          processingWrap.cvtColor(iImageSource, iHSILocation, iHSIFilter);
          processingWrap.thresh(iHSILocation,iThreshedImageLocation, 0, 0, 0, 0, 50, 255);
 
          processingWrap.gaussianBlur(iThreshedImageLocation,iThreshedImageLocation,11,0.0,0.0);
-         preprocessingWrap.GaussianBlurSharpener(iThreshedImageLocation,iThreshedImageLocation,4);
+         processingWrap.GaussianBlurSharpener(iThreshedImageLocation,iThreshedImageLocation,4);
          processingWrap.cvtColor(iThreshedImageLocation,iGreyScaleLocation, iGreyFilter);
-         CoreWrap.imshow(New_String("test grey"),iGreyScaleLocation);
+         --CoreWrap.imwrite(New_String("test grey"),iGreyScaleLocation);
          processingWrap.Canny(iGreyScaleLocation,iCannyLocation, 100, 300, iCannyKernelSize);
          bestTempleteMatchFound:=processingWrap.matchImage(iCannyLocation);
          processingWrap.classifyMatch(bestTempleteMatchFound);
@@ -339,7 +339,7 @@ begin
          Vision.Image_Preprocessing.Do_Contrast(iImageSource, iContrastOut, iGain, iBias );
       end if;
 
-      if(iDoQuaternionSwitchingFilter =1) then
+       if(iDoQuaternionSwitchingFilter =1) then
          Vision.Image_Preprocessing.QNSF(iImageSource, iQNSFLocation, iQNSFThresh);
          Vision.Image_Preprocessing.QNSF(iQNSFLocation, iQNSFLocation, iQNSFThresh);
       end if;
