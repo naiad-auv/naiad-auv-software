@@ -22,9 +22,7 @@ package body Math.Quaternions.CQuaternion_Test_Data.CQuaternion_Tests is
 
    begin
 
-      AUnit.Assertions.Assert
-        (Gnattest_Generated.Default_Assert_Value,
-         "Test not implemented.");
+      null;
 
 --  begin read only
    end Test_1_xCreate;
@@ -43,9 +41,7 @@ package body Math.Quaternions.CQuaternion_Test_Data.CQuaternion_Tests is
 
    begin
 
-      AUnit.Assertions.Assert
-        (Gnattest_Generated.Default_Assert_Value,
-         "Test not implemented.");
+      null;
 
 --  begin read only
    end Test_2_xCreate;
@@ -62,11 +58,34 @@ package body Math.Quaternions.CQuaternion_Test_Data.CQuaternion_Tests is
 
       pragma Unreferenced (Gnattest_T);
 
+      pxTestQuaternion : pCQuaternion;
+      pxCopiedQuaternion : pCQuaternion;
+      fExpectedXValue : float := 3.0;
+      fExpectedYValue : float := 4.0;
+      fExpectedZValue : float := -5.0;
+      fExpectedWValue : float := 10.0;
    begin
 
-      AUnit.Assertions.Assert
-        (Gnattest_Generated.Default_Assert_Value,
-         "Test not implemented.");
+      pxTestQuaternion := Math.Quaternions.xCreate(fX => fExpectedXValue,
+                                                    fY => fExpectedYValue,
+                                                    fZ => fExpectedZValue,
+                                                    fW => fExpectedWValue).pxGet_Allocated_Copy;
+      pxCopiedQuaternion := pxTestQuaternion.pxGet_Allocated_Copy;
+
+      AUnit.Assertions.Assert(Condition => pxCopiedQuaternion.all'Address /= pxTestQuaternion.all'Address,
+                              Message   => "CQuaternion.pxGet_Copy failed, pointer to copy is the same as pointer to original.");
+
+      AUnit.Assertions.Assert(Condition => pxCopiedQuaternion.fX = fExpectedXValue,
+                              Message   => "CQuaternion.pxGet_Copy failed, fX got the wrong value. Value:" & float'Image(pxCopiedQuaternion.fX) & ". Expected:" & float'Image(fExpectedXValue) & ".");
+      AUnit.Assertions.Assert(Condition => pxCopiedQuaternion.fY = fExpectedYValue,
+                              Message   => "CQuaternion.pxGet_Copy failed, fY got the wrong value. Value:" & float'Image(pxCopiedQuaternion.fY) & ". Expected:" & float'Image(fExpectedYValue) & ".");
+      AUnit.Assertions.Assert(Condition => pxCopiedQuaternion.fZ = fExpectedZValue,
+                              Message   => "CQuaternion.pxGet_Copy failed, fZ got the wrong value. Value:" & float'Image(pxCopiedQuaternion.fZ) & ". Expected:" & float'Image(fExpectedZValue) & ".");
+      AUnit.Assertions.Assert(Condition => pxCopiedQuaternion.fW = fExpectedWValue,
+                              Message   => "CQuaternion.pxGet_Copy failed, fW got the wrong value. Value:" & float'Image(pxCopiedQuaternion.fW) & ". Expected:" & float'Image(fExpectedWValue) & ".");
+
+      Math.Quaternions.Free(pxQuaternionToDeallocate => pxTestQuaternion);
+      Math.Quaternions.Free(pxQuaternionToDeallocate => pxCopiedQuaternion);
 
 --  begin read only
    end Test_pxGet_Allocated_Copy;
@@ -82,7 +101,7 @@ package body Math.Quaternions.CQuaternion_Test_Data.CQuaternion_Tests is
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
-      
+
       pxLeftOperandQuaternion : pCQuaternion;
       pxRightOperandQuaternion : pCQuaternion;
       pxProductQuaternion : pCQuaternion;
@@ -121,7 +140,7 @@ package body Math.Quaternions.CQuaternion_Test_Data.CQuaternion_Tests is
       AUnit.Assertions.Assert(Condition => pxProductQuaternion.fW = fExpectedW,
                               Message   => "CQuaternion.*(binary) failed, wrong result in W component. Value: " & float'Image(pxProductQuaternion.fW) & ". Expected: " & float'Image(fExpectedW) & ".");
 
-   
+
       Math.Quaternions.Free(pxQuaternionToDeallocate => pxLeftOperandQuaternion);
       Math.Quaternions.Free(pxQuaternionToDeallocate => pxRightOperandQuaternion);
       Math.Quaternions.Free(pxQuaternionToDeallocate => pxProductQuaternion);
@@ -178,7 +197,7 @@ package body Math.Quaternions.CQuaternion_Test_Data.CQuaternion_Tests is
       AUnit.Assertions.Assert(Condition => pxProductQuaternion.fW = fExpectedW,
                               Message   => "CQuaternion.*(binary) failed, wrong result in W component. Value: " & float'Image(pxProductQuaternion.fW) & ". Expected: " & float'Image(fExpectedW) & ".");
 
-   
+
       Math.Quaternions.Free(pxQuaternionToDeallocate => pxLeftOperandQuaternion);
       Math.Quaternions.Free(pxQuaternionToDeallocate => pxRightOperandQuaternion);
       Math.Quaternions.Free(pxQuaternionToDeallocate => pxProductQuaternion);
@@ -236,7 +255,7 @@ package body Math.Quaternions.CQuaternion_Test_Data.CQuaternion_Tests is
       AUnit.Assertions.Assert(Condition => pxProductQuaternion.fW = fExpectedW,
                               Message   => "CQuaternion.*(binary) failed, wrong result in W component. Value: " & float'Image(pxProductQuaternion.fW) & ". Expected: " & float'Image(fExpectedW) & ".");
 
-   
+
       Math.Quaternions.Free(pxQuaternionToDeallocate => pxLeftOperandQuaternion);
       Math.Quaternions.Free(pxQuaternionToDeallocate => pxRightOperandQuaternion);
       Math.Quaternions.Free(pxQuaternionToDeallocate => pxProductQuaternion);
@@ -293,7 +312,7 @@ package body Math.Quaternions.CQuaternion_Test_Data.CQuaternion_Tests is
       AUnit.Assertions.Assert(Condition => pxProductQuaternion.fW = fExpectedW,
                               Message   => "CQuaternion.*(binary) failed, wrong result in W component. Value: " & float'Image(pxProductQuaternion.fW) & ". Expected: " & float'Image(fExpectedW) & ".");
 
-   
+
       Math.Quaternions.Free(pxQuaternionToDeallocate => pxLeftOperandQuaternion);
       Math.Quaternions.Free(pxQuaternionToDeallocate => pxRightOperandQuaternion);
       Math.Quaternions.Free(pxQuaternionToDeallocate => pxProductQuaternion);
@@ -326,14 +345,14 @@ package body Math.Quaternions.CQuaternion_Test_Data.CQuaternion_Tests is
       AUnit.Assertions.Assert(Condition => pxLeftOperandQuaternion.all = pxRightOperandQuaternion.all,
                               Message   => "CQuaternion.=(binary) failed, left operand does not equal right operand.");
 
-      
+
       pxRightOperandQuaternion.fX := pxRightOperandQuaternion.fX + 0.01;
-        
+
     AUnit.Assertions.Assert(Condition => pxLeftOperandQuaternion.all /= pxRightOperandQuaternion.all,
                               Message   => "CQuaternion.=(binary) failed, left operand equals right operand.");
 
       Math.Quaternions.Free(pxQuaternionToDeallocate => pxLeftOperandQuaternion);
-      Math.Quaternions.Free(pxQuaternionToDeallocate => pxRightOperandQuaternion);      
+      Math.Quaternions.Free(pxQuaternionToDeallocate => pxRightOperandQuaternion);
 
 --  begin read only
    end Test_Equal;
@@ -370,7 +389,7 @@ package body Math.Quaternions.CQuaternion_Test_Data.CQuaternion_Tests is
                               Message   => "CQuaternion.fGet_Dot_Product failed, wrong value. Value: " & float'Image(fDotProduct) & ". Expected: " & float'Image(-487.7) & ".");
 
       Math.Quaternions.Free(pxQuaternionToDeallocate => pxLeftOperandQuaternion);
-      Math.Quaternions.Free(pxQuaternionToDeallocate => pxRightOperandQuaternion);      
+      Math.Quaternions.Free(pxQuaternionToDeallocate => pxRightOperandQuaternion);
 
 
 --  begin read only
@@ -408,7 +427,7 @@ package body Math.Quaternions.CQuaternion_Test_Data.CQuaternion_Tests is
                               Message   => "CQuaternion.fGet_Dot_Product failed, wrong value. Value: " & float'Image(fDotProduct) & ". Expected: " & float'Image(-487.7) & ".");
 
       Math.Quaternions.Free(pxQuaternionToDeallocate => pxLeftOperandQuaternion);
-      Math.Quaternions.Free(pxQuaternionToDeallocate => pxRightOperandQuaternion);      
+      Math.Quaternions.Free(pxQuaternionToDeallocate => pxRightOperandQuaternion);
 
 
 --  begin read only
@@ -446,7 +465,7 @@ package body Math.Quaternions.CQuaternion_Test_Data.CQuaternion_Tests is
                               Message   => "CQuaternion.fGet_Dot_Product failed, wrong value. Value: " & float'Image(fDotProduct) & ". Expected: " & float'Image(-487.7) & ".");
 
       Math.Quaternions.Free(pxQuaternionToDeallocate => pxLeftOperandQuaternion);
-      Math.Quaternions.Free(pxQuaternionToDeallocate => pxRightOperandQuaternion);      
+      Math.Quaternions.Free(pxQuaternionToDeallocate => pxRightOperandQuaternion);
 
 
 --  begin read only
@@ -491,8 +510,8 @@ package body Math.Quaternions.CQuaternion_Test_Data.CQuaternion_Tests is
 
       Math.Quaternions.Free(pxQuaternionToDeallocate => pxTestQuaternion);
       Math.Quaternions.Free(pxQuaternionToDeallocate => pxNormalizedQuaternion);
-      
-      
+
+
      -- test exceptions
       pxTestQuaternion := Math.Quaternions.xCreate(fX => 0.0,
                                                     fY => 0.0,
@@ -726,7 +745,7 @@ package body Math.Quaternions.CQuaternion_Test_Data.CQuaternion_Tests is
 
 
       Math.Vectors.Free(pxVectorToDeallocate => pxTestVector);
-      Math.Vectors.Free(pxVectorToDeallocate => pxAxisVector);      
+      Math.Vectors.Free(pxVectorToDeallocate => pxAxisVector);
       pxTestVector := Math.Vectors.xCreate(fX => 1.0,
                                             fY => 0.0,
                                             fZ => 0.0).pxGet_Allocated_Copy;
@@ -740,8 +759,8 @@ package body Math.Quaternions.CQuaternion_Test_Data.CQuaternion_Tests is
                               Message   => "CQuaternion.pxGet_Axis_Vector failed, wrong Z value. Value: " & float'Image(pxAxisVector.fGet_Z) & ". Expected: " & float'Image(pxTestVector.fGet_Z) & ".");
 
       Math.Vectors.Free(pxVectorToDeallocate => pxTestVector);
-      Math.Vectors.Free(pxVectorToDeallocate => pxAxisVector);  
-      Math.Quaternions.Free(pxQuaternionToDeallocate => pxTestQuaternion);      
+      Math.Vectors.Free(pxVectorToDeallocate => pxAxisVector);
+      Math.Quaternions.Free(pxQuaternionToDeallocate => pxTestQuaternion);
 
 --  begin read only
    end Test_xGet_Axis_Vector;
@@ -770,9 +789,9 @@ package body Math.Quaternions.CQuaternion_Test_Data.CQuaternion_Tests is
       AUnit.Assertions.Assert(Condition => abs(pxTestQuaternion.fGet_Angle_In_Degrees - fAngle) < 0.001,
                               Message   => "CQuaternion.pxGet_Angle_In_Degrees failed, wrong value. Value: " & float'Image(pxTestQuaternion.fGet_Angle_In_Degrees) & ". Expected: " & float'Image(fAngle) & ".");
 
-      Math.Quaternions.Free(pxQuaternionToDeallocate => pxTestQuaternion);      
-      
-      
+      Math.Quaternions.Free(pxQuaternionToDeallocate => pxTestQuaternion);
+
+
 --  begin read only
    end Test_fGet_Angle_In_Degrees;
 --  end read only
@@ -800,7 +819,7 @@ package body Math.Quaternions.CQuaternion_Test_Data.CQuaternion_Tests is
                                                     fY => fExpectedYValue,
                                                     fZ => fExpectedZValue,
                                                     fW => fExpectedWValue).pxGet_Allocated_Copy;
-           
+
       xCopiedQuaternion.Copy_From(pxTestQuaternion.all);
 
       AUnit.Assertions.Assert(Condition => xCopiedQuaternion.fX = fExpectedXValue,
@@ -811,7 +830,7 @@ package body Math.Quaternions.CQuaternion_Test_Data.CQuaternion_Tests is
                               Message   => "CQuaternion.pxGet_Copy failed, fZ got the wrong value. Value:" & float'Image(xCopiedQuaternion.fZ) & ". Expected:" & float'Image(fExpectedZValue) & ".");
       AUnit.Assertions.Assert(Condition => xCopiedQuaternion.fW = fExpectedWValue,
                               Message   => "CQuaternion.pxGet_Copy failed, fW got the wrong value. Value:" & float'Image(xCopiedQuaternion.fW) & ". Expected:" & float'Image(fExpectedWValue) & ".");
- 
+
       Math.Quaternions.Free(pxQuaternionToDeallocate => pxTestQuaternion);
 
 --  begin read only
@@ -825,9 +844,9 @@ package body Math.Quaternions.CQuaternion_Test_Data.CQuaternion_Tests is
 --  id:2.1/d4ad3014ebf1a501/pxGet_Copy/0/1/
    --  procedure Test_pxGet_Copy (Gnattest_T : in out Test) is
 --  end read only
---  
+--
 --        pragma Unreferenced (Gnattest_T);
---  
+--
 --        pxTestQuaternion : pCQuaternion;
 --        pxCopiedQuaternion : pCQuaternion;
 --        fExpectedXValue : float := 3.0;
@@ -835,16 +854,16 @@ package body Math.Quaternions.CQuaternion_Test_Data.CQuaternion_Tests is
 --        fExpectedZValue : float := -5.0;
 --        fExpectedWValue : float := 10.0;
 --     begin
---  
+--
 --        pxTestQuaternion := Math.Quaternions.xCreate(fX => fExpectedXValue,
 --                                                      fY => fExpectedYValue,
 --                                                      fZ => fExpectedZValue,
 --                                                      fW => fExpectedWValue).pxGet_Allocated_Copy;
 --        pxCopiedQuaternion := pxTestQuaternion.pxGet_Allocated_Copy;
---  
+--
 --        AUnit.Assertions.Assert(Condition => pxCopiedQuaternion.all'Address /= pxTestQuaternion.all'Address,
 --                                Message   => "CQuaternion.pxGet_Copy failed, pointer to copy is the same as pointer to original.");
---  
+--
 --        AUnit.Assertions.Assert(Condition => pxCopiedQuaternion.fX = fExpectedXValue,
 --                                Message   => "CQuaternion.pxGet_Copy failed, fX got the wrong value. Value:" & float'Image(pxCopiedQuaternion.fX) & ". Expected:" & float'Image(fExpectedXValue) & ".");
 --        AUnit.Assertions.Assert(Condition => pxCopiedQuaternion.fY = fExpectedYValue,
@@ -853,10 +872,10 @@ package body Math.Quaternions.CQuaternion_Test_Data.CQuaternion_Tests is
 --                                Message   => "CQuaternion.pxGet_Copy failed, fZ got the wrong value. Value:" & float'Image(pxCopiedQuaternion.fZ) & ". Expected:" & float'Image(fExpectedZValue) & ".");
 --        AUnit.Assertions.Assert(Condition => pxCopiedQuaternion.fW = fExpectedWValue,
 --                                Message   => "CQuaternion.pxGet_Copy failed, fW got the wrong value. Value:" & float'Image(pxCopiedQuaternion.fW) & ". Expected:" & float'Image(fExpectedWValue) & ".");
---   
+--
 --        Math.Quaternions.Free(pxQuaternionToDeallocate => pxTestQuaternion);
 --        Math.Quaternions.Free(pxQuaternionToDeallocate => pxCopiedQuaternion);
---        
+--
 --  begin read only
    --  end Test_pxGet_Copy;
 --  end read only
