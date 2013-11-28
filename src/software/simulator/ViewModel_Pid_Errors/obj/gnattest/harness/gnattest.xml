@@ -1,0 +1,46 @@
+<tests_mapping mode="monolith">
+   <unit source_file="simulator-viewmodel_pid_errors.ads">
+      <test_unit target_file="simulator-viewmodel_pid_errors-cviewmodel_pid_errors_test_data-cviewmodel_pid_errors_tests.ads">
+         <setup file="simulator-viewmodel_pid_errors-cviewmodel_pid_errors_test_data.adb" line="4"  column="4"/>
+         <teardown file="simulator-viewmodel_pid_errors-cviewmodel_pid_errors_test_data.adb" line="8"  column="4"/>
+         <tested name="fGet_Pid_Errors" line="14" column="4">
+            <test file="simulator-viewmodel_pid_errors-cviewmodel_pid_errors_test_data-cviewmodel_pid_errors_tests.adb" line="13" column="1" timestamp="2013-11-14 16:50:54"/>
+         </tested>
+         <tested name="fGet_Maximum_Error" line="16" column="4">
+            <test file="simulator-viewmodel_pid_errors-cviewmodel_pid_errors_test_data-cviewmodel_pid_errors_tests.adb" line="34" column="1" timestamp="2013-11-14 16:50:54"/>
+         </tested>
+         <tested name="fGet_Minimum_Error" line="18" column="4">
+            <test file="simulator-viewmodel_pid_errors-cviewmodel_pid_errors_test_data-cviewmodel_pid_errors_tests.adb" line="55" column="1" timestamp="2013-11-14 16:50:54"/>
+         </tested>
+         <tested name="fGet_Min_Max_Error_Diff" line="20" column="4">
+            <test file="simulator-viewmodel_pid_errors-cviewmodel_pid_errors_test_data-cviewmodel_pid_errors_tests.adb" line="76" column="1" timestamp="2013-11-14 16:50:54"/>
+         </tested>
+         <tested name="fGet_OscilationTime" line="22" column="4">
+            <test file="simulator-viewmodel_pid_errors-cviewmodel_pid_errors_test_data-cviewmodel_pid_errors_tests.adb" line="97" column="1" timestamp="2013-11-14 16:50:54"/>
+         </tested>
+         <tested name="Update_Min_Max_Error_Buffers" line="26" column="4">
+            <test file="simulator-viewmodel_pid_errors-cviewmodel_pid_errors_test_data-cviewmodel_pid_errors_tests.adb" line="118" column="1" timestamp="2013-11-14 16:50:54"/>
+         </tested>
+         <tested name="Update_Delta_Time" line="28" column="4">
+            <test file="simulator-viewmodel_pid_errors-cviewmodel_pid_errors_test_data-cviewmodel_pid_errors_tests.adb" line="139" column="1" timestamp="2013-11-14 16:50:54"/>
+         </tested>
+         <tested name="Reset_Min_Max_Error_Buffers" line="30" column="4">
+            <test file="simulator-viewmodel_pid_errors-cviewmodel_pid_errors_test_data-cviewmodel_pid_errors_tests.adb" line="160" column="1" timestamp="2013-11-14 16:50:54"/>
+         </tested>
+         <dangling>
+         </dangling>
+      </test_unit>
+      <test_unit target_file="simulator-viewmodel_pid_errors-test_data-tests.ads">
+         <setup file="simulator-viewmodel_pid_errors-test_data.adb" line="3"  column="4"/>
+         <teardown file="simulator-viewmodel_pid_errors-test_data.adb" line="9"  column="4"/>
+         <tested name="pxCreate" line="24" column="4">
+            <test file="simulator-viewmodel_pid_errors-test_data-tests.adb" line="13" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="Free" line="32" column="4">
+            <test file="simulator-viewmodel_pid_errors-test_data-tests.adb" line="36" column="1" timestamp="2013-11-14 16:50:54"/>
+         </tested>
+         <dangling>
+         </dangling>
+      </test_unit>
+   </unit>
+</tests_mapping>
