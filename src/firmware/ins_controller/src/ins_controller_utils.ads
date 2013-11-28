@@ -1,15 +1,14 @@
 
 -- This file contains functions for ins_controller in order to reduce its number of lines of code.
 --  Written by: Nils Brynedal Ignell for the Naiad AUV project
---  Last changed (yyyy-mm-dd): 2013-11-24
+--  Last changed (yyyy-mm-dd): 2013-11-28
 
 --  TODO: Hardware testing....
 
 
-with Interfaces;
+
 with AVR.AT90CAN128;
 with AVR.AT90CAN128.USART;
-with AVR.AT90CAN128.CAN;
 
 package Ins_Controller_Utils is
 
