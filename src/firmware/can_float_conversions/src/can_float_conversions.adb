@@ -4,17 +4,16 @@
 -- Written by Nils Brynedal Ignell for the Naiad AUV project
 -- Last changed (yyyy-mm-dd): 2013-11-23
 
--- TODO: Unit testing
 ---------------------------------------------------------------------------
 
-with Ada.Text_IO;
+--  with Ada.Text_IO;
 
 package body Can_Float_Conversions is
 
    pragma Suppress(All_Checks);
 
 
-   procedure Orientation_To_Message(fYaw : float; fPitch : float; fRoll : float; b8Message : out AVR.AT90CAN128.CAN.Byte8) is
+   procedure Orientation_To_Message(fYaw : float; fPitch : float; fRoll : float; b8Message : out Can_Defs.Byte8) is
       Data : TOrientation;
    begin
       -- We are using the same conversion technique as for orientation simply
@@ -26,7 +25,7 @@ package body Can_Float_Conversions is
       b8Message :=  b8Orientation_To_Message(Data);
    end Orientation_To_Message;
 
-   procedure Message_To_Orientation(fYaw : out float; fPitch : out float; fRoll : out float; b8Message : AVR.AT90CAN128.CAN.Byte8) is
+   procedure Message_To_Orientation(fYaw : out float; fPitch : out float; fRoll : out float; b8Message : Can_Defs.Byte8) is
       Data : TOrientation;
    begin
       Data :=  TMessage_To_Orientation(b8Message);
@@ -39,7 +38,7 @@ package body Can_Float_Conversions is
    -----------------------------------------------------------------------------------------------------------------------------------------------------------
 
    procedure Acceleration_To_Message(fAccX : float; fAccY : float; fAccZ : float;
-                                     b8Message : out AVR.AT90CAN128.CAN.Byte8;
+                                     b8Message : out Can_Defs.Byte8;
                                      fAccelerationMax : float := fACCELERATION_MAX) is
 
       fAccelerationResolution : float := 2.0 * fAccelerationMax / Float(2 ** 21);
@@ -57,7 +56,7 @@ package body Can_Float_Conversions is
 
 
    procedure Message_To_Acceleration(fAccX : out float; fAccY : out float; fAccZ : out float;
-                                     b8Message : AVR.AT90CAN128.CAN.Byte8;
+                                     b8Message : Can_Defs.Byte8;
                                      fAccelerationMax : float := fACCELERATION_MAX) is
 
       fAccelerationResolution : float := 2.0 * fAccelerationMax / Float(2 ** 21);
@@ -73,7 +72,7 @@ package body Can_Float_Conversions is
 
    -----------------------------------------------------------------------------------------------------------------------------------------------------------
 
-   procedure GyroReading_To_Message(fGyroReading : float; b8Message : out AVR.AT90CAN128.CAN.Byte8) is
+   procedure GyroReading_To_Message(fGyroReading : float; b8Message : out Can_Defs.Byte8) is
 
       function i24Get_Integer(fValue : float; fResolution : float) return Integer_24 is
          fInternal : float;
@@ -96,7 +95,7 @@ package body Can_Float_Conversions is
    end GyroReading_To_Message;
 
 
-   procedure Message_To_GyroReading(fGyroReading : out float; b8Message : AVR.AT90CAN128.CAN.Byte8) is
+   procedure Message_To_GyroReading(fGyroReading : out float; b8Message : Can_Defs.Byte8) is
       i24Reading : Integer_24;
       ReadingArr : TGyroReadingArray;
    begin
