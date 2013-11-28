@@ -13,6 +13,7 @@
 
 with Interfaces;
 with CAN_Link_Utils;
+with AVR.AT90CAN128.CAN;
 
 package body CAN_Link_pack is
    pragma Suppress (All_Checks);
@@ -67,7 +68,7 @@ package body CAN_Link_pack is
 
 
 
-   procedure Send_CanData_To_BBB(Msg : AVR.AT90CAN128.CAN.CAN_Message) is
+   procedure Send_CanData_To_BBB(Msg : Can_Defs.CAN_Message) is
       Can_Buf   : String(1..Integer(Msg.Len) + CAN_Link_Utils.HEADLEN);
    begin
       CAN_Link_Utils.Message_To_Bytes(Can_Buf, Msg);
@@ -75,7 +76,7 @@ package body CAN_Link_pack is
    end Send_CanData_To_BBB;
 
    procedure CANBUS_Monitoring is
-      Msg_In : AVR.AT90CAN128.CAN.CAN_Message;
+      Msg_In : Can_Defs.CAN_Message;
       Ret    : Boolean;
    begin
 
@@ -87,15 +88,15 @@ package body CAN_Link_pack is
       end loop;
    end CANBUS_Monitoring;
 
-   --     procedure Send_CanData_To_Can(ID : AVR.AT90CAN128.CAN.CAN_ID; Len : AVR.AT90CAN128.DLC_Type ; Data : String) is
-   --        Msg : AVR.AT90CAN128.CAN.CAN_Message;
+   --     procedure Send_CanData_To_Can(ID : Can_Defs.CAN_ID; Len : AVR.AT90CAN128.DLC_Type ; Data : String) is
+   --        Msg : Can_Defs.CAN_Message;
    --     begin
    --        Msg.ID := ID;
    --        Msg.Len := Len;
    --        for I in 1..Len loop
    --           Msg.Data (I) := Character'Pos(Data(Integer(I)));
    --        end loop;
-   --        AVR.AT90CAN128.CAN.Can_Send (Msg);
+   --        ACan_Defs.Can_Send (Msg);
    --     end Send_CanData_To_Can;
 
    procedure Cmd_Handler is
@@ -107,7 +108,7 @@ package body CAN_Link_pack is
       Head_Buf     	  : String(1..CAN_Link_Utils.HEADLEN);
       u8ActualChecksum    : Interfaces.Unsigned_8;
       u8ReceivedChecksum  : Interfaces.Unsigned_8;
-      msg 		  : AVR.AT90CAN128.CAN.CAN_Message;
+      msg 		  : Can_Defs.CAN_Message;
    begin
 
       loop
@@ -211,7 +212,7 @@ package body CAN_Link_pack is
 
       --   Handshake_With_BBB;
 
-      AVR.AT90CAN128.CAN.Can_Init(AVR.AT90CAN128.CAN.K250);
+      AVR.AT90CAN128.CAN.Can_Init(Can_Defs.K250);
 
       for i in 0..3 loop
          AVR.AT90CAN128.CAN.Can_Set_MOB_ID_MASK(
