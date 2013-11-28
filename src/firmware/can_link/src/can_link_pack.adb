@@ -5,7 +5,7 @@
 -- It has been tested in hardware and it works.
 
 -- Rewritten by Nils Brynedal Ignell for the Naiad AUV project
--- Last changed (yyyy-mm-dd): 2013-10-24
+-- Last changed (yyyy-mm-dd): 2013-10-28
 
 -- To do: Hardware testing.
 

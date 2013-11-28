@@ -5,7 +5,7 @@
 --
 
 -- Rewritten by Nils Brynedal Ignell for the Naiad AUV project
--- Last changed (yyyy-mm-dd): 2013-10-23
+-- Last changed (yyyy-mm-dd): 2013-10-28
 
 ---------------------------------------------------------------------------
 

@@ -1,3 +1,8 @@
+---------------------------------------------------------------------------
+-- Written by Nils Brynedal Ignell for the Naiad AUV project
+-- Last changed (yyyy-mm-dd): 2013-10-28
+---------------------------------------------------------------------------
+
 
 package body CAN_Link_Utils is
    pragma Suppress (All_Checks);

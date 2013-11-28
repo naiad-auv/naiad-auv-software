@@ -1,11 +1,11 @@
 
 ---------------------------------------------------------------------------
--- This code handle functionallities that will be on both the CAN-link
--- firmware and in the BBB's drivers for communicationg with the CAN-link.
+-- This code handle functionalities that will be on both the CAN-link
+-- firmware and in the BBB's drivers for communications with the CAN-link.
 -- This code is partially based on code from the Vasa project.
 
 -- Written by Nils Brynedal Ignell for the Naiad AUV project
--- Last changed (yyyy-mm-dd): 2013-10-23
+-- Last changed (yyyy-mm-dd): 2013-10-28
 
 -- To do: Hardware testing with the BBB.
 ---------------------------------------------------------------------------
