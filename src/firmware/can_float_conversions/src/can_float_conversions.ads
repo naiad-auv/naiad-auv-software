@@ -2,35 +2,35 @@
 ---------------------------------------------------------------------------
 -- This code implements functions to put INS-data (float values) into can messages.
 -- Written by Nils Brynedal Ignell for the Naiad AUV project
--- Last changed (yyyy-mm-dd): 2013-11-23
-
--- TODO: Unit testing
+-- Last changed (yyyy-mm-dd): 2013-11-28
 --------------------------------------------------------------------------
 
 with Ada.Unchecked_Conversion;
 with Interfaces;
 
-with AVR.AT90CAN128.CAN;
+with Can_Defs;
 
 package Can_Float_Conversions is
+
+   pragma Suppress(All_Checks);
 
    fACCELERATION_MAX 		: float := 20.0; --acceleration in m/s^2
 
     --all 8 bytes of b8Message need to be sent
-   procedure Orientation_To_Message(fYaw : float; fPitch : float; fRoll : float; b8Message : out AVR.AT90CAN128.CAN.Byte8);
-   procedure Message_To_Orientation(fYaw : out float; fPitch : out float; fRoll : out float; b8Message : AVR.AT90CAN128.CAN.Byte8);
+   procedure Orientation_To_Message(fYaw : float; fPitch : float; fRoll : float; b8Message : out Can_Defs.Byte8);
+   procedure Message_To_Orientation(fYaw : out float; fPitch : out float; fRoll : out float; b8Message : Can_Defs.Byte8);
 
    --all 8 bytes of b8Message need to be sent
    procedure Acceleration_To_Message(fAccX : float; fAccY : float; fAccZ : float;
-                                     b8Message : out AVR.AT90CAN128.CAN.Byte8;
+                                     b8Message : out Can_Defs.Byte8;
                                      fAccelerationMax : float := fACCELERATION_MAX);
    procedure Message_To_Acceleration(fAccX : out float; fAccY : out float; fAccZ : out float;
-                                     b8Message : AVR.AT90CAN128.CAN.Byte8;
+                                     b8Message : Can_Defs.Byte8;
                                      fAccelerationMax : float := fACCELERATION_MAX);
 
    --only the 3 first bytes of b8Message need to be sent
-   procedure GyroReading_To_Message(fGyroReading : float; b8Message : out AVR.AT90CAN128.CAN.Byte8);
-   procedure Message_To_GyroReading(fGyroReading : out float; b8Message : AVR.AT90CAN128.CAN.Byte8);
+   procedure GyroReading_To_Message(fGyroReading : float; b8Message : out Can_Defs.Byte8);
+   procedure Message_To_GyroReading(fGyroReading : out float; b8Message : Can_Defs.Byte8);
 
 private
 
@@ -65,8 +65,8 @@ private
    end record;
    for TOrientation'Size use 64;
 
-   function b8Orientation_To_Message is new Ada.Unchecked_Conversion(TOrientation, AVR.AT90CAN128.CAN.Byte8);
-   function TMessage_To_Orientation is new Ada.Unchecked_Conversion(AVR.AT90CAN128.CAN.Byte8, TOrientation);
+   function b8Orientation_To_Message is new Ada.Unchecked_Conversion(TOrientation, Can_Defs.Byte8);
+   function TMessage_To_Orientation is new Ada.Unchecked_Conversion(Can_Defs.Byte8, TOrientation);
 
    type Integer_24 is range -2 ** 23 .. 2 ** 23 - 1;
    for Integer_24'Size use 24;

@@ -34,7 +34,7 @@ package body Ins_Controller_Utils is
 --     end sChecksum;
 
    procedure Send_Command(sCommand : String; port : AVR.AT90CAN128.USART.USARTID) is
-      sCheckSumStr : String(1..1);
+      --sCheckSumStr : String(1..1);
    begin
     --  sChecksum(sCommand, sCommand'Length, sCheckSumStr);
     --  Write("$" & sCommand & "*" & sCheckSumStr & Character'Val(10), sCommand'Length + 3, port);

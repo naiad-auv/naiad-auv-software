@@ -5,14 +5,13 @@
 --
 
 -- Rewritten by Nils Brynedal Ignell for the Naiad AUV project
--- Last changed (yyyy-mm-dd): 2013-10-23
+-- Last changed (yyyy-mm-dd): 2013-10-28
 
 ---------------------------------------------------------------------------
 
 with AVR.AT90CAN128;
 with AVR.AT90CAN128.USART;
-with AVR.AT90CAN128.CAN;
-
+with CAN_Defs;
 
 package CAN_Link_pack is
 
@@ -31,9 +30,9 @@ private
    procedure Usart_Read(sBuffer : out String; Port : AVR.AT90CAN128.USART.USARTID := AVR.AT90CAN128.USART.Default_USART;
                         iSize   : Positive; iNumber : out integer);
 
-   procedure Send_CanData_To_BBB(Msg : AVR.AT90CAN128.CAN.CAN_Message);
+   procedure Send_CanData_To_BBB(Msg : Can_Defs.CAN_Message);
 
-  -- procedure Send_CanData_To_Can(ID : AVR.AT90CAN128.CAN.CAN_ID; Len : AVR.AT90CAN128.DLC_Type ; Data : String);
+  -- procedure Send_CanData_To_Can(ID : Can_Defs.CAN_ID; Len : AVR.AT90CAN128.DLC_Type ; Data : String);
 
    procedure CANBUS_Monitoring;
 
