@@ -100,15 +100,14 @@ stmnts      : stmnts stmnt									{ $$ = connectStmnts($1,$2); }
             ;
 
 stmnt       : ID ASSIGN expr ';'                       						{ $$ = mAssign($1.strVal, $3, $1.lineNr); }
-            | IF expr THEN stmnt ELSE stmnt END IF ';'						{ $$ = mIf($2, $4, $6, $1); }
-            | IF expr THEN stmnt END IF ';'            						{ $$ = mIf($2, $4, NULL, $1); }
-            | WHILE expr LOOP stmnts END LOOP ';'						{ $$ = mWhile($3, $5, $1); }
-            | WHILE '(' expr ')' stmnt              						{ $$ = mWhile($3, $5, $1); }
+            | IF expr THEN stmnts ELSE stmnts END IF ';'					{ $$ = mIf($2, $4, $6, $1); }
+            | IF expr THEN stmnts END IF ';'            					{ $$ = mIf($2, $4, NULL, $1); }
+            | WHILE expr LOOP stmnts END LOOP ';'						{ $$ = mWhile($2, $4, $1); }
             | RETURN expr ';'                       						{ $$ = mReturn($2, $1); }
-            | READ ID ';'                           						{ $$ = mRead($2.strVal, $1); }
-            | WRITE expr ';'                        						{ $$ = mWrite($2, $1); }
-            | '{' stmnts '}'                        						{ $$ = $2; }
+            | RETURN ';'                       							{ $$ = mReturn(NULL, $1); }
             | ID '(' actuals ')' ';'                						{ $$ = mFuncCallStmnt($3, $1.strVal, $1.lineNr); }
+            | LOOP stmnts END LOOP ';'                						{ $$ = mLoopStmnt($2, $1); }
+            | EXIT ';'    		            						{ $$ = mExitStmnt($1); }
             ;
 
 expr        : MINUSOP expr %prec UNOP								{ $$ = mUnary($1.opType, $2, $1.lineNr); }
