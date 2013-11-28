@@ -20,7 +20,7 @@ project_pragmas
 b__test_runner.adb
 b__test_runner.ads
 test_runner
-
+*.exe
 
 # Hidden system files
 *.DS_Store
