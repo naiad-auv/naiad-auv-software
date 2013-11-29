@@ -1,3 +1,4 @@
+with "../Interface_Simulator/interface_simulator.gpr";
 with "../../navigation/thruster_configurator/thruster_configurator.gpr";
 with "../../../lib/math/angles/angles.gpr";
 with "../../../lib/math/quaternions/quaternions.gpr";
@@ -10,7 +11,6 @@ project Submarine is
 
    for Source_Dirs use ("src");
    for Object_Dir use "obj";
-   for Main use ();
 
 end Submarine;
 
