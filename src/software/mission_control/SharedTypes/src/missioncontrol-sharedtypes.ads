@@ -2,6 +2,8 @@ with MissionControl;
 --with AVR.AT90CAN128.CAN;
 with Ada.Unchecked_Deallocation;
 
+--with Ada.Text_IO; -- for testing
+
 package MissionControl.SharedTypes is
 
    type CAN_Message is null record; -- temporary until this can be built with AT90CAN128 messages
@@ -9,28 +11,30 @@ package MissionControl.SharedTypes is
    type CCANMessageListItem is tagged private;
    type pCCANMessageListItem is access CCANMessageListItem;
 
-   type CObjectListsListItem is tagged private;
-   type pCObjectListsListItem is access CObjectListsListItem;
 
-   type TObjectListItem is tagged private;
-   type pTObjectListItem is access TObjectListItem'class;
+   type TListObject is tagged private;
+   type pTListObject is access TListObject'class;
+
+
+
 
 
    protected type TCANMessageList is
       procedure Add(xCANMessage : in CAN_Message);
       procedure Remove(xCANMessage : out CAN_Message);
-      function bEmpty return boolean;
-      private
+      function iCount return integer;
+
+   private
       pxCANMessageList : pCCANMessageListItem;
    end TCANMessageList;
 
    protected type TObjectList is
-      procedure Add(xNewObject : in TObjectListItem'Class);
-      procedure Remove(xObjectRemoved : in out TObjectListItem'Class);
-      function iCount(xObjectType : in TObjectListItem'Class) return integer;
-      function bEmpty return boolean;
-      private
-      pxObjectList : pCObjectListsListItem;
+      procedure Add(xNewObject : in TListObject'Class);
+      procedure Remove (pxObjectRemoved : out pTListObject); -- NEEDS TO FREE pxObjectRemoved AFTER!
+      function iCount return integer;
+
+   private
+      pxObjectList : pTListObject;
    end TObjectList;
 
 
@@ -41,18 +45,20 @@ package MissionControl.SharedTypes is
    xObjectsInList : TObjectList;
    xObjectsOutList : TObjectList;
 
+   function xGet_CAN_Message_From_Object(this : in TListObject'Class) return CAN_Message;
+   function xGet_Object_From_CAN_Message(xCANMessage : in CAN_Message) return TListObject'Class;
+   procedure Dealloc(pxListObject : in out pTListObject);
 
 private
 
-   type TObjectListItem is tagged
+   type TListObject is tagged
       record
-         pxNextObject : pTObjectListItem;
+         xCANMessage : CAN_Message;
+         pxNextObject : pTListObject;
       end record;
 
-   function iCount(this : in TObjectListItem'Class) return integer;
-   function bIs_Same_Type_As(this : in TObjectListItem'Class; xCompareWith : in TObjectListItem'Class) return boolean;
-
-
+   function iCount(this : in TListObject'Class) return integer;
+   function bIs_Same_Type_As(this : in TListObject'Class; xCompareWith : in TListObject'Class) return boolean;
 
 
    type CCANMessageListItem is tagged
@@ -61,20 +67,13 @@ private
          pxNextMessage : pCCANMessageListItem;
       end record;
 
+   function iCount(this : in CCANMessageListItem) return integer;
 
-
-
-   type CObjectListsListItem is tagged
-      record
-         pxObjectList : pTObjectListItem;
-         pxNextObjectList : pCObjectListsListItem;
-      end record;
 
 
 
    -- memory deallocation
    procedure Free is new Ada.Unchecked_Deallocation(CCANMessageListItem, pCCANMessageListItem);
-   procedure Free is new Ada.Unchecked_Deallocation(CObjectListsListItem, pCObjectListsListItem);
-   procedure Free is new Ada.Unchecked_Deallocation(TObjectListItem'Class, pTObjectListItem);
+   procedure Free is new Ada.Unchecked_Deallocation(TListObject'Class, pTListObject);
 
 end MissionControl.SharedTypes;

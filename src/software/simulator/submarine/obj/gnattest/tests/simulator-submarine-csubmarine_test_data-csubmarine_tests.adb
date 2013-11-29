@@ -599,20 +599,20 @@ package body simulator.submarine.CSubmarine_Test_Data.CSubmarine_Tests is
                                                                                                              fAngleInDegrees                       => Math.Angles.fRadians_To_Degrees(0.5*1.73205080757))));
 
 
-      for i in 1..3 loop
-         for j in 1..3 loop
-            FLOAT_INUT.Put(pxSubmarine.pxOrientationMatrix.tfGet_Raw_Matrix(i,j));
-         end loop;
-         new_line;
-      end loop;
-      new_line;
-      new_line;
-      for i in 1..3 loop
-         for j in 1..3 loop
-            FLOAT_INUT.Put(pxCalculateOrientationMatrix.tfGet_Raw_Matrix(i,j));
-         end loop;
-         new_line;
-      end loop;
+--       for i in 0..3 loop
+--          for j in 1..3 loop
+--             -- FLOAT_INUT.Put(pxSubmarine.pxOrientationMatrix.tfGet_Raw_Matrix(i,j));
+--          end loop;
+--          new_line;
+--       end loop;
+--       new_line;
+--       new_line;
+--       for i in 1..3 loop
+--          for j in 1..3 loop
+--             -- FLOAT_INUT.Put(pxCalculateOrientationMatrix.tfGet_Raw_Matrix(i,j));
+--          end loop;
+--          new_line;
+--       end loop;
 
       pxCalculatedPositionVector := math.Vectors.pxGet_Allocated_Copy(math.Vectors.xCreate(0.5 , 0.0 , 0.0));
 

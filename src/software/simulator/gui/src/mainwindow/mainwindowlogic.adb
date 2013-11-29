@@ -117,12 +117,12 @@ package body MainWindowLogic is
       end if;
 
       if xTimeoutCurrent3D = 0 then
-         xTimeoutCurrent3D := Simulator.Drawing.Drawing_Timeout_Drawing_3DView.Timeout_Add
+         xTimeoutCurrent3D := Simulator.Drawing.Drawing_Timeout_Drawing_View.Timeout_Add
            (xUpdateIntervall, Simulator.Drawing.bDraw_3DView'Access, (Gtk.Drawing_Area.Gtk_Drawing_Area(Gtkada.Builder.Get_Widget(pxObject, "drw3D")), Simulator.Drawing.Full, xViewModel));
       end if;
 
       if xTimeoutWanted3D = 0 then
-         xTimeoutWanted3D := Simulator.Drawing.Drawing_Timeout_Drawing_3DView.Timeout_Add
+         xTimeoutWanted3D := Simulator.Drawing.Drawing_Timeout_Drawing_View.Timeout_Add
            (xUpdateIntervall, Simulator.Drawing.bDraw_3DView'Access, (Gtk.Drawing_Area.Gtk_Drawing_Area(Gtkada.Builder.Get_Widget(pxObject, "drwWantedFull")), Simulator.Drawing.FullWanted, xViewModel));
       end if;
 

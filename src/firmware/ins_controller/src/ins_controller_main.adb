@@ -1,16 +1,16 @@
-
+--------------------------------------------------------------------------
 --  IMU firmware
 --  This code handles the gyro and UART communication with the IMU.
 --  Orientation and acceleration data as well as the gyro data is
 --  outputted on the can bus at 200 Hz.
 
 --  Written by: Nils Brynedal Ignell for the Naiad AUV project
---  Last changed (yyyy-mm-dd): 2013-11-24
+--  Last changed (yyyy-mm-dd): 2013-11-28
 
 --  TODO: Bootload functionallity
 --  TODO: Receiving CAN messages for bootload functionallity.
 --  TODO: Test everything...
-
+--------------------------------------------------------------------------
 
 
 pragma Profile (Ravenscar);
@@ -26,12 +26,14 @@ procedure Ins_Controller_Main is
 
    pragma Suppress (All_Checks);
 
-   msg : AVR.AT90CAN128.CAN.CAN_Message;
+   msg : Can_Defs.CAN_Message;
    bMessageReceived : Boolean := false;
+
+   use CAN_Defs;
 
 begin
 
-   Ins_Controller.Init(AVR.AT90CAN128.USART.USART0, AVR.AT90CAN128.CAN.K250, false); --this will initiate the can bus as well
+   Ins_Controller.Init(AVR.AT90CAN128.USART.USART0, Can_Defs.K250, false); --this will initiate the can bus as well
 
    loop
       AVR.AT90CAN128.CAN.Can_Get(msg, bMessageReceived, 0);

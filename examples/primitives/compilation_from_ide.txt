@@ -1,0 +1,78 @@
+<xml>
+<primitive:Bajs ....
+
+</xml>
+
+primitive Bajs is
+
+	lol : in integer;
+	fis : in boolean;
+
+	ghey : out float;
+
+
+	procedure main is
+	begin
+		if lol > 5 then
+			ghey := 2.5;
+		else
+			if fis then
+				ghey := 2.0;
+			else
+				ghey := 1.0;
+			end if;
+		end if;
+	end main;
+end Bajs;
+
+primitive Skit is
+
+	fjant : in float;
+
+	lol : out float;
+	
+	procedure main is
+	begin
+		lol := fjant * 2.0;
+	end main;
+end Skit;
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+procedure mainBajs(lol : in integer; fis : in boolean; ghey : out float) is
+begin
+	if lol > 5 then
+		ghey := 2.5;
+	else
+		if fis then
+			ghey := 2.0;
+		else
+			ghey := 1.0;
+		end if;
+	end if;
+end main;
+
+procedure mainSkit(fjant : in float; lol : in float) is
+begin
+	lol := fjant * 2.0;
+end main;
+
+procedure main is
+-- från primitive Bajs1
+	lolBajs1 : integer;
+	fisBajs1 : boolean;
+	gheyBajs1 : float;
+
+-- från primitive Skit1
+	fjantSkit1 : float;
+	lolSkit1 : float;
+	
+begin
+
+	mainBajs(lolBajs1, fisBajs1, gheyBajs1);
+	fjantSkit1 := gheyBajs1;
+	mainSkit(fjantSkit1, lolSkit1);
+
+end main;
+

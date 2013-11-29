@@ -514,6 +514,33 @@ package body simulator.submarine is
       return this.fDepth;
    end fGet_Depth;
 
+   function xGet_Wanted_Position(this : in CSubmarine) return math.Vectors.CVector is
+   begin
+      return this.pxWantedPositionVector.all;
+   end xGet_Wanted_Position;
+
+   function xGet_Wanted_Orientation(this : in CSubmarine) return math.Matrices.CMatrix is
+   begin
+      return this.pxWantedOrientationMatrix.all;
+   end xGet_Wanted_Orientation;
+
+   procedure Set_Wanted_Position(this : in out CSubmarine; xWantedPosition : in math.Vectors.CVector) is
+   begin
+      if(this.pxWantedPositionVector=null) then
+         this.pxWantedPositionVector := xWantedPosition.pxGet_Allocated_Copy;
+      else
+         this.pxWantedPositionVector.Copy_From(xWantedPosition);
+      end if;
+   end Set_Wanted_Position;
+
+   procedure Set_Wanted_Orientation(this : in out CSubmarine; xWantedOrientation : in math.Matrices.CMatrix) is
+   begin
+      if(this.pxWantedOrientationMatrix=null) then
+         this.pxWantedOrientationMatrix := xWantedOrientation.pxGet_Allocated_Copy;
+      else
+         this.pxWantedOrientationMatrix.Copy_From(xWantedOrientation);
+      end if;
+   end Set_Wanted_Orientation;
 
 
 

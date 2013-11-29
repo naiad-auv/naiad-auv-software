@@ -23,8 +23,6 @@ package body simulator.Motion_Control_Wrapper is
                                                             xNewPIDSCalings    => (0.0,0.0,0.0));
       pxWrapper.pxDispatcher.Set_New_Component_PID_Scalings(eComponentToChange => Navigation.Motion_Component.RotationZ,
                                                             xNewPIDSCalings    => (0.0,0.0,0.0));
-      pxWrapper.pxWantedPositionVector:=math.Vectors.xCreate(0.0,0.0,0.0).pxGet_Allocated_Copy;
-      pxWrapper.pxWantedOrientationMatrix:= math.Matrices.xCreate_Identity.pxGet_Allocated_Copy;
 
       return pxWrapper;
 
@@ -68,24 +66,11 @@ package body simulator.Motion_Control_Wrapper is
                                      xWantedOrientation : in math.Matrices.CMatrix) is
 
    begin
-      this.pxWantedPositionVector.Copy_From(xWantedPosition);
-      this.pxWantedOrientationMatrix.Copy_From(xWantedOrientation);
+
 
       this.pxDispatcher.Update_Wanted_Absolute_Position(xWantedPosition);
       this.pxDispatcher.Update_Wanted_Absolute_Orientation(xWantedOrientation);
    end Update_Wanted_Position;
-
-   function xGet_Wanted_Position(this : in CWrapDispatcher) return math.Vectors.CVector is
-
-   begin
-     return this.pxWantedPositionVector.all;
-   end xGet_Wanted_Position;
-
-   function xGet_Wanted_Orientation(this : in CWrapDispatcher) return math.Matrices.CMatrix is
-
-   begin
-      return this.pxWantedOrientationMatrix.all;
-   end xGet_Wanted_Orientation;
 
    procedure Update_Pid_Scaling(this : in CWrapDispatcher ; xComponentScaling : TPIDComponentScalings; eComponentToScale : EMotionComponent) is
 

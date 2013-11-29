@@ -1,32 +1,21 @@
 package body MissionControl.SharedTypes is
 
-   ---------------------
-   -- TCANMessageList --
-   ---------------------
-
    protected body TCANMessageList is
-
-      ---------
-      -- Add --
-      ---------
-
       procedure Add(xCANMessage : in CAN_Message) is
          pxNewCANMessageListItem : pCCANMessageListItem;
       begin
+         --Ada.Text_IO.Put_Line("TCANMessageList: Add called."); -- for testing
          pxNewCANMessageListItem := new CCANMessageListItem;
          pxNewCANMessageListItem.xMessage := xCANMessage;
          pxNewCANMessageListItem.pxNextMessage := pxCANMessageList;
          pxCANMessageList := pxNewCANMessageListItem;
       end Add;
 
-      ------------
-      -- Remove --
-      ------------
-
       procedure Remove(xCANMessage : out CAN_Message) is
          pxListItem : pCCANMessageListItem;
          pxTrailingListItem : pCCANMessageListItem;
       begin
+         --Ada.Text_IO.Put_Line("TCANMessageList: Remove called."); -- for testing
          if pxCANMessageList /= null then
             if pxCANMessageList.pxNextMessage = null then
                xCANMessage := pxCANMessageList.xMessage;
@@ -46,198 +35,98 @@ package body MissionControl.SharedTypes is
          end if;
       end Remove;
 
-      ------------
-      -- bEmpty --
-      ------------
-
-      function bEmpty return boolean is
+      function iCount return integer is
       begin
-         return pxCANMessageList = null;
-      end bEmpty;
+         if pxCANMessageList = null then
+            return 0;
+         end if;
 
+         return pxCANMessageList.iCount;
+      end iCount;
    end TCANMessageList;
 
-   -----------------
-   -- TObjectList --
-   -----------------
 
    protected body TObjectList is
-
-
-      function iCount(xObjectType : in TObjectListItem'Class) return integer is
-         pxObjectListsIterator : pCObjectListsListItem;
+      function iCount return integer is
       begin
-
-         while pxObjectListsIterator /= null and then
-           pxObjectListsIterator.pxObjectList /= null and then
-           not xObjectType.bIs_Same_Type_As(pxObjectListsIterator.pxObjectList.all) loop
-
-            pxObjectListsIterator := pxObjectListsIterator.pxNextObjectList;
-
-         end loop;
-
-         if pxObjectListsIterator /= null and then
-           pxObjectListsIterator.pxObjectList /= null and then
-           xObjectType.bIs_Same_Type_As(pxObjectListsIterator.pxObjectList.all) then
-
-            return pxObjectListsIterator.pxObjectList.iCount;
+         if pxObjectList = null then
+            return 0;
          end if;
-
-         return 0;
+         return pxObjectList.iCount;
       end iCount;
 
-      ---------
-      -- Add --
-      ---------
-
-      procedure Add(xNewObject : in TObjectListItem'Class) is
-         pxObjectListsIterator : pCObjectListsListItem;
-         pxNewObject : pTObjectListItem;
+      procedure Add(xNewObject : in TListObject'Class) is
+         pxNewObject : pTListObject;
       begin
-         if pxObjectList = null then
-
-            pxObjectList := new CObjectListsListItem;
-            pxObjectList.pxObjectList := new TObjectListItem'class'(xNewObject);
-            pxObjectList.pxObjectList.pxNextObject := null;
-            pxObjectList.pxNextObjectList := null;
-
-         else
-
-            pxObjectListsIterator := pxObjectList;
-
-            while pxObjectListsIterator /= null and then
-              pxObjectListsIterator.pxObjectList /= null and then
-              not xNewObject.bIs_Same_Type_As(pxObjectListsIterator.pxObjectList.all) loop
-
-               pxObjectListsIterator := pxObjectListsIterator.pxNextObjectList;
-
-            end loop;
-
-            if pxObjectListsIterator /= null and then
-              pxObjectListsIterator.pxObjectList /= null and then
-              xNewObject.bIs_Same_Type_As(pxObjectListsIterator.pxObjectList.all) then
-
-               -- found list
-               pxNewObject := new TObjectListItem'class'(xNewObject);
-               pxNewObject.pxNextObject := pxObjectListsIterator.pxObjectList;
-               pxObjectListsIterator.pxObjectList := pxNewObject;
-
-            else
-
-               -- no list found
-               pxObjectListsIterator := pxObjectList;
-
-               while pxObjectListsIterator.pxNextObjectList /= null loop
-                  pxObjectListsIterator := pxObjectListsIterator.pxNextObjectList;
-               end loop;
-
-               pxObjectListsIterator.pxNextObjectList := new CObjectListsListItem;
-               pxObjectListsIterator := pxObjectListsIterator.pxNextObjectList;
-               pxObjectListsIterator.pxObjectList := new TObjectListItem'class'(xNewObject);
-               pxObjectListsIterator.pxObjectList.pxNextObject := null;
-
-            end if;
-
-         end if;
-
+         --Ada.Text_IO.Put_Line("TObjectList: Add called."); -- for testing
+         pxNewObject := new TListObject'class'(xNewObject);
+         pxNewObject.pxNextObject := pxObjectList;
+         pxObjectList := pxNewObject;
       end Add;
 
-      ------------
-      -- Remove --
-      ------------
-
-      procedure Remove(xObjectRemoved : in out TObjectListItem'Class) is
-         pxObjectListsIterator : pCObjectListsListItem;
-         pxTrailingObjectListsIterator : pCObjectListsListItem;
-         pxObject : pTObjectListItem;
-         pxTrailingObject : pTObjectListItem;
+      procedure Remove(pxObjectRemoved : out pTListObject) is
+         pxObject : pTListObject;
+         pxTrailingObject : pTListObject;
       begin
-         if pxObjectList = null then
-            null;
-         else
-
-            pxObjectListsIterator := pxObjectList;
-
-            while pxObjectListsIterator /= null and then
-              pxObjectListsIterator.pxObjectList /= null and then
-              not xObjectRemoved.bIs_Same_Type_As(pxObjectListsIterator.pxObjectList.all) loop
-
-               pxTrailingObjectListsIterator := pxObjectListsIterator;
-               pxObjectListsIterator := pxObjectListsIterator.pxNextObjectList;
-
-            end loop;
-
-            if pxObjectListsIterator /= null and then
-              pxObjectListsIterator.pxObjectList /= null and then
-              xObjectRemoved.bIs_Same_Type_As(pxObjectListsIterator.pxObjectList.all) then
-
-               -- list found
-
-               pxObject := pxObjectListsIterator.pxObjectList;
-               if pxObject.pxNextObject = null then
-                  -- only 1 item in object list
-                  xObjectRemoved := pxObject.all;
-                  Free(pxObjectListsIterator.pxObjectList);
-               else
-                  -- more than 1 items in object list
-                  while pxObject.pxNextObject /= null loop
-                     -- goto last item
-                     pxTrailingObject := pxObject;
-                     pxObject := pxObject.pxNextObject;
-                  end loop;
-                  xObjectRemoved := pxObject.all;
-                  Free(pxTrailingObject.pxNextObject);
-               end if;
-
-               if pxObjectListsIterator.pxObjectList = null then
-                  -- object list is now empty
-                  if pxObjectListsIterator = pxObjectList then
-                     -- object list is the only list left
-                     Free(pxObjectList);
-                  else
-                     -- object list is one among many
-                     Free(pxTrailingObjectListsIterator.pxNextObjectList);
-                  end if;
-               end if;
+         --Ada.Text_IO.Put_Line("TObjectList: Remove called."); -- for testing
+         if pxObjectList /= null then
+            if pxObjectList.pxNextObject = null then
+               pxObjectRemoved := new TListObject'class'(pxObjectList.all);
+               Free(pxObjectList);
             else
-               null;
+               pxObject := pxObjectList;
+               while pxObject.pxNextObject /= null loop
+                  pxTrailingObject := pxObject;
+                  pxObject := pxObject.pxNextObject;
+               end loop;
+               pxObjectRemoved := new TListObject'class'(pxObject.all);
+               Free(pxTrailingObject.pxNextObject);
             end if;
-
          end if;
-
       end Remove;
-
-      ------------
-      -- bEmpty --
-      ------------
-
-      function bEmpty return boolean is
-      begin
-         return pxObjectList = null;
-      end bEmpty;
-
    end TObjectList;
 
-   ----------------
-   -- bIs_Same_Type_As --
-   ----------------
 
-   function bIs_Same_Type_As
-     (this : in TObjectListItem'Class;
-      xCompareWith : in TObjectListItem'Class)
-      return boolean
-   is
+   function bIs_Same_Type_As (this : in TListObject'Class; xCompareWith : in TListObject'Class) return boolean is
    begin
       return this in xCompareWith;
    end bIs_Same_Type_As;
 
-   function iCount(this : in TObjectListItem'Class) return integer is
+   function iCount(this : in TListObject'Class) return integer is
    begin
       if this.pxNextObject = null then
          return 1;
       end if;
       return this.pxNextObject.iCount + 1;
    end iCount;
+
+   function iCount(this : in CCANMessageListItem) return integer is
+   begin
+      if this.pxNextMessage = null then
+         return 1;
+      end if;
+      return this.pxNextMessage.iCount + 1;
+   end iCount;
+
+   procedure Dealloc(pxListObject : in out pTListObject) is
+   begin
+      Free(pxListObject);
+   end Dealloc;
+
+   function xGet_CAN_Message_From_Object(this : in TListObject'Class) return CAN_Message is
+      xCANMessage : CAN_Message;
+   begin
+      -- TODO: build CAN message based on object
+      -- Types inheriting from TListObject should override this function
+      return xCANMessage;
+   end xGet_CAN_Message_From_Object;
+
+   function xGet_Object_From_CAN_Message(xCANMessage : in CAN_Message) return TListObject'Class is
+      xObject : TListObject;
+   begin
+      -- TODO: this function should be overridden in inheriting types
+      return xObject;
+   end xGet_Object_From_CAN_Message;
 
 
 end MissionControl.SharedTypes;

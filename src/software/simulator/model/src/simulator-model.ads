@@ -12,7 +12,7 @@ package Simulator.Model is
 
    type CModel is tagged private; --new Simulator.Update_Interface.CWithUpdate with private;
    type pCModel is access CModel;
-
+   type EOperatingMode is (OfflineMode, EthernetSimulationMode, ObserveMode);
    type TMotorForce is new simulator.submarine.TMotorForce;
    subtype iMotorIndex is Integer range 1..6;
    type TPIDComponentScalings is new simulator.Motion_Control_Wrapper.TPIDComponentScalings;
@@ -28,7 +28,8 @@ package Simulator.Model is
    function xGet_Current_Submarine_Velocity_Vector(this : in CModel) return Math.Vectors.CVector;
    function fGet_Motor_Force(this : in CModel; iIndexMotor  : iMotorIndex) return float;
 
-   function xGet_Current_Motional_Errors(this : in CModel) return Navigation.Dispatcher.TMotionalErrors;
+   function eGet_Operation_Mode(this : in CModel) return EOperatingMode;
+   procedure Set_Operation_Mode(this : in out CModel; eOperationMode : EOperatingMode);
 
    procedure Set_Wanted_Position_And_Orientation(this : in CModel; xWantedPosition : math.Vectors.CVector; xWantedOrientation : math.Matrices.CMatrix);
 
@@ -39,10 +40,15 @@ package Simulator.Model is
 --     procedure Update(this : in CModel);
 
 private
+
+   procedure Update_Offline_Mode(this : in out CModel; fDeltaTime : float);
+   procedure Update_Ethernet_Simulation_Mode(this : in out CModel; fDeltaTime : float);
+   procedure Update_Observe_Mode(this : in out CModel; fDeltaTime : float);
+
    --procedure On_Update;
    type CModel is tagged --new Simulator.Update_Interface.CWithUpdate with
       record
-         --pxOwner : access Simulator.Update_Interface.CWithUpdate'Class;
+         eOperationMode : EOperatingMode;
          fTimeSinceLastMotorUpdate : float := 0.0;
          fTimeBetweenMotorUpdates : float;
          tWantedMotorForces : TMotorForce := (others => 0.0);

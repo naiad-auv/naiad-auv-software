@@ -34,16 +34,23 @@ through any suitable webbrowser.
 5. Press "Check now" in the bottom right corner to update list of available plugins.
 6. Go to "Available" tab.
 7. Check "Github plugin" and "xUnit plugin", install without restart.
+**(This can randomly fail. If it does not work, try again)**.
 8. Go to "Updates" (tab) and make sure that the "Credentials plugin" is up to date.
+9. Enable basic security. Go to "Manage Jenkins" > "Configure Global Security".
+10. Check to box "Enable security".
+11. Choose "Jenkins own user database".
+12. Check "Allow users to sign up" if it is not already checked.
+13. Check "Logged-in users can do anything".
+14. Press apply or save.
+15. Sign up for a new account.
 
 ### Configuration
 1. Go to "Manage Jenkins" > "Configure System"
 2. Under the "Git" section the default values should be enough.
 3. Under the "Git plugin" section set any value that you found reasonable.
-
 4. Go back to start page.
 5. Select "New Job".
-6. Select a suitable "Job name" without spaces (stay with lower-case and underscore).
+6. Select a suitable "Job name" without spaces (stay with lower-case, dash and underscore).
 7. Select "Build a free-style software project" and press "OK".
 8. On the new page fill in a simple description (will help you in the long run).
 9. Fill in your GitHub Project URL in the first section.
@@ -53,13 +60,19 @@ through any suitable webbrowser.
 ("Build when a change is pushed to GitHub" is preferred but without a public ip,
 it is not possible.)
 13. As Schedule "H/5 * * * *" will be more than enough.
-14. Under "Build" ad new build step "Execute shell".
+14. Under "Build" add new build step "Execute shell".
 
 ```
 export PATH=/usr/gnat/bin:$PATH
+export ADA_PROJECT_PATH=/usr/lib/gnat
+export GPR_PROJECT_PATH=/usr/lib/gnat
 env | grep -i shell
-./build_script /var/lib/jenkins/workspace/naiad-auv-software/src/
+cd scripts
+pwd
+ls -al
+./build_script.sh -o XML -d OFF
 ```
+
 The above lines are for debbugging to make sure you have the correct path
 for compiling Ada with gnatmake. As well as confirming you are running bash
 as shell and nothing else.
