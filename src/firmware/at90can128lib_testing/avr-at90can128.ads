@@ -1,5 +1,6 @@
 with Interfaces; use Interfaces;
 with System;
+with CAN_Defs;
 
 package AVR.AT90CAN128 is
    type General_Register is record
@@ -193,6 +194,9 @@ package AVR.AT90CAN128 is
    TCCR1B : General_Register;
    for TCCR1B'Address use System'To_Address (16#81#);
 
+   TCCR1C : General_Register;
+   for TCCR1C'Address use System'To_Address (16#82#);
+
    TCNT1 : Unsigned_16;
    for TCNT1'Address use System'To_Address (16#84#);
 
@@ -222,6 +226,9 @@ package AVR.AT90CAN128 is
 
    ICR1 : Unsigned_16;
    for ICR1'Address use System'To_Address (16#86#);
+
+   TIMSK1 : General_Register;
+   for TIMSK1'Address use System'To_Address (16#6F#);
 
    --Timer 3
    TCCR3A : General_Register;
@@ -647,14 +654,11 @@ package AVR.AT90CAN128 is
 
    for MOB_State'size use 2;
 
-   type DLC_Type is range 0..8;
-   for DLC_Type'size use 4;
-
    type CAN_MOB_Control is record
       State : MOB_State;
       Reply_Valid : Boolean;
       Extended_ID : Boolean;
-      DLC         : DLC_Type;
+      DLC         : CAN_Defs.DLC_Type;
    end record;
 
    for CAN_MOB_Control use record

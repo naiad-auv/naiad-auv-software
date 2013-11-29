@@ -1,22 +1,25 @@
-
+--------------------------------------------------------------------------
 --  Written by: Nils Brynedal Ignell for the Naiad AUV project
---  Last changed (yyyy-mm-dd): 2013-11-24
+--  Last changed (yyyy-mm-dd): 2013-11-28
 
 --  TODO: Hardware testing....
+--------------------------------------------------------------------------
 
-with Interfaces;
+--  with Interfaces;
 with AVR.AT90CAN128;
 with AVR.AT90CAN128.USART;
-with AVR.AT90CAN128.CAN;
 
-with Math.Vectors;
-with Math.Matrices;
+--  with Math.Vectors;
+--  with Math.Matrices;
+
+
+with CAN_Defs;
 
 package Ins_Controller is
 
    pragma Suppress (All_Checks);
 
-   procedure Init(port : AVR.AT90CAN128.USART.USARTID; canBaud_Rate : AVR.AT90CAN128.CAN.Baud_Rate; bUseExtendedID : Boolean);
+   procedure Init(port : AVR.AT90CAN128.USART.USARTID; canBaud_Rate : Can_Defs.Baud_Rate; bUseExtendedID : Boolean);
 
    procedure SimulationModeOn;
    procedure SimulationModeOff;

@@ -10,10 +10,10 @@ package Math.Quaternions.Test_Data.Tests is
    with null record;
 
    procedure Test_Free_01a444 (Gnattest_T : in out Test);
-   --  math-quaternions.ads:15:4:Free
+   --  math-quaternions.ads:16:4:Free
 
    procedure Test_fGet_Dot_Product_be0506 (Gnattest_T : in out Test);
-   --  math-quaternions.ads:44:4:fGet_Dot_Product
+   --  math-quaternions.ads:45:4:fGet_Dot_Product
 
 end Math.Quaternions.Test_Data.Tests;
 --  end read only

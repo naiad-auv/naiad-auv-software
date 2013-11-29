@@ -10,7 +10,7 @@
 -- TODO: Hardware testing
 ---------------------------------------------------------------------------
 
-
+with CAN_Defs;
 with AVR.AT90CAN128;
 with AVR.AT90CAN128.CAN;
 with UartWrapper;
@@ -28,11 +28,11 @@ package BBB_CAN is
    -- if handshake was successful, true is returned
  --  function Handshake return Boolean;
 
-   procedure Send(msg : AVR.AT90CAN128.CAN.CAN_Message);
+   procedure Send(msg : CAN_Defs.CAN_Message);
 
    -- Tries to return a CAN message
    -- bUARTChecksumOK returns false if there was an error in the data transfer over the UART
-   procedure Get(msg : out AVR.AT90CAN128.CAN.CAN_Message; bMsgReceived : out Boolean; bUARTChecksumOK : out Boolean);
+   procedure Get(msg : out CAN_Defs.CAN_Message; bMsgReceived : out Boolean; bUARTChecksumOK : out Boolean);
 
 
 private

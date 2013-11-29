@@ -1,10 +1,18 @@
 -- Written by: Konstantinos Konstantopoulos for the Naiad AUV project
--- Last changed (yyyy-mm-dd): 2013-11-24 by Nils Brynedal Ignell
+-- Last changed (yyyy-mm-dd): 2013-11-26 by Nils Brynedal Ignell
 
 with Interfaces;
-with AVR.AT90CAN128.CAN;
+--  with AVR.AT90CAN128.CAN;
 
 package CAN_Defs is
+
+   pragma Suppress(All_Checks);
+
+     ---- Moved from AVR.AT90CAN128 ------------------------------------
+   type DLC_Type is range 0..8;
+   for DLC_Type'size use 4;
+   -----------------------------------
+
    ---- Moved from AVR.AT90CAN128.CAN ------------------------------------
    type Baud_Rate is (K100,K125,K200, K250, K500, M1);
    type CAN_Identifier is range 0..536870911;
@@ -12,14 +20,14 @@ package CAN_Defs is
       Identifier : CAN_Identifier;
       isExtended : Boolean := False;
    end record;
-   type Byte8 is array (DLC_Type range 1..8) of Unsigned_8;
+   type Byte8 is array (DLC_Type range 1..8) of Interfaces.Unsigned_8;
    type CAN_Message is record
       ID   : CAN_ID;
       Len  : DLC_Type;
       Data : Byte8;
    end record;
    ------------------------------------
-   
+
    MSG_KILL_SWITCH_ID			: constant CAN_ID := (10, False);
    MSG_KILL_SWITCH_CONFIRM_ID		: constant CAN_ID := (88, False);
    MSG_KILL_SWITCH_ACTIVE		: constant CAN_Message := (ID => MSG_KILL_SWITCH_ID, Len => 1, Data => (0, others => 0) );

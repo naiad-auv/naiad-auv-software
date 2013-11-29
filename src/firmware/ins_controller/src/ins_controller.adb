@@ -1,12 +1,14 @@
-
+--------------------------------------------------------------------------
 --  Written by: Nils Brynedal Ignell for the Naiad AUV project
 --  Last changed (yyyy-mm-dd): 2013-11-24
 
 --  TODO: Hardware testing....
+--------------------------------------------------------------------------
 
-with AVR.AT90CAN128.INTERRUPT;
-with AVR.AT90CAN128.CLOCK;
-with CAN_Defs;
+--  with AVR.AT90CAN128.INTERRUPT;
+--  with AVR.AT90CAN128.CLOCK;
+
+with AVR.AT90CAN128.CAN;
 
 with Can_Float_Conversions;
 with Str2Float;
@@ -15,8 +17,8 @@ with Str2Float;
 --  with My_Secondary_Stack;
 --  with My_Last_Chance_Handler;
 
-with Math.Angles;
-with Math.Quaternions;
+--  --  with Math.Angles;
+--  with Math.Quaternions;
 
 with Ins_Controller_Utils;
 
@@ -25,7 +27,7 @@ package body Ins_Controller is
    pragma Suppress (All_Checks);
 
 
-   procedure Init(port : AVR.AT90CAN128.USART.USARTID; canBaud_Rate : AVR.AT90CAN128.CAN.Baud_Rate; bUseExtendedID : Boolean) is
+   procedure Init(port : AVR.AT90CAN128.USART.USARTID; canBaud_Rate : Can_Defs.Baud_Rate; bUseExtendedID : Boolean) is
 
    begin
      bExtendedIds := bUseExtendedID;
@@ -133,10 +135,10 @@ package body Ins_Controller is
 --        xFixedAccelerationVector 		: math.Vectors.CVector;  --acceleration relative to an inertial reference system
 --        xOrientationQuaternion : Math.Quaternions.CQuaternion;
 
-      use Math.Matrices;
-      use Math.Vectors;
+--        use Math.Matrices;
+--        use Math.Vectors;
 
-      msg : AVR.AT90CAN128.CAN.CAN_Message;
+      msg : Can_Defs.CAN_Message;
 
       fGyroYaw : float := 0.0;
       fYaw, fPitch, fRoll : float;

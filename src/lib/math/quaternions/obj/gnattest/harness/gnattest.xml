@@ -3,92 +3,86 @@
       <test_unit target_file="math-quaternions-cquaternion_test_data-cquaternion_tests.ads">
          <setup file="math-quaternions-cquaternion_test_data.adb" line="4"  column="4"/>
          <teardown file="math-quaternions-cquaternion_test_data.adb" line="8"  column="4"/>
-         <tested name="pxGet_Copy" line="23" column="4">
-            <test file="math-quaternions-cquaternion_test_data-cquaternion_tests.adb" line="13" column="1" timestamp="modified"/>
+         <tested name="xCreate" line="18" column="4">
+            <test file="math-quaternions-cquaternion_test_data-cquaternion_tests.adb" line="13" column="1" timestamp="2013-11-27 07:51:48"/>
          </tested>
-         <tested name="Multiply" line="28" column="4">
-            <test file="math-quaternions-cquaternion_test_data-cquaternion_tests.adb" line="57" column="1" timestamp="2013-10-24 11:41:10"/>
+         <tested name="xCreate" line="19" column="4">
+            <test file="math-quaternions-cquaternion_test_data-cquaternion_tests.adb" line="34" column="1" timestamp="2013-11-27 07:51:48"/>
+         </tested>
+         <tested name="pxGet_Allocated_Copy" line="24" column="4">
+            <test file="math-quaternions-cquaternion_test_data-cquaternion_tests.adb" line="55" column="1" timestamp="2013-11-27 07:51:48"/>
          </tested>
          <tested name="Multiply" line="29" column="4">
-            <test file="math-quaternions-cquaternion_test_data-cquaternion_tests.adb" line="78" column="1" timestamp="2013-10-24 11:41:10"/>
+            <test file="math-quaternions-cquaternion_test_data-cquaternion_tests.adb" line="76" column="1" timestamp="modified"/>
          </tested>
          <tested name="Multiply" line="30" column="4">
-            <test file="math-quaternions-cquaternion_test_data-cquaternion_tests.adb" line="99" column="1" timestamp="2013-10-24 11:41:10"/>
+            <test file="math-quaternions-cquaternion_test_data-cquaternion_tests.adb" line="133" column="1" timestamp="modified"/>
          </tested>
          <tested name="Multiply" line="31" column="4">
-            <test file="math-quaternions-cquaternion_test_data-cquaternion_tests.adb" line="120" column="1" timestamp="2013-10-24 11:41:10"/>
+            <test file="math-quaternions-cquaternion_test_data-cquaternion_tests.adb" line="191" column="1" timestamp="modified"/>
          </tested>
-         <tested name="Equal" line="36" column="4">
-            <test file="math-quaternions-cquaternion_test_data-cquaternion_tests.adb" line="141" column="1" timestamp="2013-10-24 11:41:10"/>
+         <tested name="Multiply" line="32" column="4">
+            <test file="math-quaternions-cquaternion_test_data-cquaternion_tests.adb" line="248" column="1" timestamp="modified"/>
          </tested>
-         <tested name="fGet_Dot_Product" line="41" column="4">
-            <test file="math-quaternions-cquaternion_test_data-cquaternion_tests.adb" line="162" column="1" timestamp="2013-10-24 11:41:10"/>
+         <tested name="Equal" line="37" column="4">
+            <test file="math-quaternions-cquaternion_test_data-cquaternion_tests.adb" line="306" column="1" timestamp="modified"/>
          </tested>
          <tested name="fGet_Dot_Product" line="42" column="4">
-            <test file="math-quaternions-cquaternion_test_data-cquaternion_tests.adb" line="183" column="1" timestamp="2013-10-24 11:41:10"/>
+            <test file="math-quaternions-cquaternion_test_data-cquaternion_tests.adb" line="343" column="1" timestamp="modified"/>
          </tested>
          <tested name="fGet_Dot_Product" line="43" column="4">
-            <test file="math-quaternions-cquaternion_test_data-cquaternion_tests.adb" line="204" column="1" timestamp="2013-10-24 11:41:10"/>
+            <test file="math-quaternions-cquaternion_test_data-cquaternion_tests.adb" line="381" column="1" timestamp="modified"/>
          </tested>
-         <tested name="xGet_Normalized" line="50" column="4">
-            <test file="math-quaternions-cquaternion_test_data-cquaternion_tests.adb" line="225" column="1" timestamp="2013-10-24 11:41:10"/>
+         <tested name="fGet_Dot_Product" line="44" column="4">
+            <test file="math-quaternions-cquaternion_test_data-cquaternion_tests.adb" line="419" column="1" timestamp="modified"/>
          </tested>
-         <tested name="fGet_Length" line="54" column="4">
-            <test file="math-quaternions-cquaternion_test_data-cquaternion_tests.adb" line="246" column="1" timestamp="modified"/>
+         <tested name="xGet_Normalized" line="51" column="4">
+            <test file="math-quaternions-cquaternion_test_data-cquaternion_tests.adb" line="457" column="1" timestamp="modified"/>
          </tested>
-         <tested name="fGet_Length_Squared" line="58" column="4">
-            <test file="math-quaternions-cquaternion_test_data-cquaternion_tests.adb" line="273" column="1" timestamp="modified"/>
+         <tested name="fGet_Length" line="55" column="4">
+            <test file="math-quaternions-cquaternion_test_data-cquaternion_tests.adb" line="519" column="1" timestamp="modified"/>
          </tested>
-         <tested name="fGet_X" line="62" column="4">
-            <test file="math-quaternions-cquaternion_test_data-cquaternion_tests.adb" line="302" column="1" timestamp="modified"/>
+         <tested name="fGet_Length_Squared" line="59" column="4">
+            <test file="math-quaternions-cquaternion_test_data-cquaternion_tests.adb" line="546" column="1" timestamp="modified"/>
          </tested>
-         <tested name="fGet_Y" line="66" column="4">
-            <test file="math-quaternions-cquaternion_test_data-cquaternion_tests.adb" line="331" column="1" timestamp="modified"/>
+         <tested name="fGet_X" line="63" column="4">
+            <test file="math-quaternions-cquaternion_test_data-cquaternion_tests.adb" line="575" column="1" timestamp="modified"/>
          </tested>
-         <tested name="fGet_Z" line="70" column="4">
-            <test file="math-quaternions-cquaternion_test_data-cquaternion_tests.adb" line="359" column="1" timestamp="modified"/>
+         <tested name="fGet_Y" line="67" column="4">
+            <test file="math-quaternions-cquaternion_test_data-cquaternion_tests.adb" line="604" column="1" timestamp="modified"/>
          </tested>
-         <tested name="fGet_W" line="74" column="4">
-            <test file="math-quaternions-cquaternion_test_data-cquaternion_tests.adb" line="387" column="1" timestamp="modified"/>
+         <tested name="fGet_Z" line="71" column="4">
+            <test file="math-quaternions-cquaternion_test_data-cquaternion_tests.adb" line="632" column="1" timestamp="modified"/>
          </tested>
-         <tested name="xGet_Axis_Vector" line="79" column="4">
-            <test file="math-quaternions-cquaternion_test_data-cquaternion_tests.adb" line="415" column="1" timestamp="2013-10-24 11:41:10"/>
+         <tested name="fGet_W" line="75" column="4">
+            <test file="math-quaternions-cquaternion_test_data-cquaternion_tests.adb" line="660" column="1" timestamp="modified"/>
          </tested>
-         <tested name="fGet_Angle_In_Degrees" line="83" column="4">
-            <test file="math-quaternions-cquaternion_test_data-cquaternion_tests.adb" line="436" column="1" timestamp="modified"/>
+         <tested name="xGet_Axis_Vector" line="80" column="4">
+            <test file="math-quaternions-cquaternion_test_data-cquaternion_tests.adb" line="688" column="1" timestamp="modified"/>
          </tested>
-         <tested name="Copy_From" line="87" column="4">
-            <test file="math-quaternions-cquaternion_test_data-cquaternion_tests.adb" line="466" column="1" timestamp="2013-10-24 11:41:10"/>
+         <tested name="fGet_Angle_In_Degrees" line="84" column="4">
+            <test file="math-quaternions-cquaternion_test_data-cquaternion_tests.adb" line="751" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="Copy_From" line="88" column="4">
+            <test file="math-quaternions-cquaternion_test_data-cquaternion_tests.adb" line="781" column="1" timestamp="modified"/>
          </tested>
          <dangling>
-            <test file="math-quaternions-cquaternion_test_data-cquaternion_tests.adb" line="486" column="1"/>
-            <test file="math-quaternions-cquaternion_test_data-cquaternion_tests.adb" line="547" column="1"/>
-            <test file="math-quaternions-cquaternion_test_data-cquaternion_tests.adb" line="608" column="1"/>
+            <test file="math-quaternions-cquaternion_test_data-cquaternion_tests.adb" line="821" column="1"/>
          </dangling>
       </test_unit>
       <test_unit target_file="math-quaternions-test_data-tests.ads">
          <setup file="math-quaternions-test_data.adb" line="3"  column="4"/>
          <teardown file="math-quaternions-test_data.adb" line="9"  column="4"/>
-         <tested name="Free" line="15" column="4">
-            <test file="math-quaternions-test_data-tests.adb" line="13" column="1" timestamp="2013-10-24 11:41:10"/>
+         <tested name="Free" line="16" column="4">
+            <test file="math-quaternions-test_data-tests.adb" line="13" column="1" timestamp="modified"/>
          </tested>
-         <tested name="pxCreate" line="17" column="4">
-            <test file="math-quaternions-test_data-tests.adb" line="34" column="1" timestamp="modified"/>
-         </tested>
-         <tested name="pxCreate" line="18" column="4">
-            <test file="math-quaternions-test_data-tests.adb" line="76" column="1" timestamp="modified"/>
-         </tested>
-         <tested name="fGet_Dot_Product" line="44" column="4">
-            <test file="math-quaternions-test_data-tests.adb" line="126" column="1" timestamp="modified"/>
-         </tested>
-         <tested name="pxCreate" line="91" column="4">
-            <test file="math-quaternions-test_data-tests.adb" line="166" column="1" timestamp="2013-10-24 11:41:10"/>
+         <tested name="fGet_Dot_Product" line="45" column="4">
+            <test file="math-quaternions-test_data-tests.adb" line="48" column="1" timestamp="modified"/>
          </tested>
          <dangling>
-            <test file="math-quaternions-test_data-tests.adb" line="186" column="1"/>
-            <test file="math-quaternions-test_data-tests.adb" line="224" column="1"/>
-            <test file="math-quaternions-test_data-tests.adb" line="270" column="1"/>
-            <test file="math-quaternions-test_data-tests.adb" line="316" column="1"/>
+            <test file="math-quaternions-test_data-tests.adb" line="87" column="1"/>
+            <test file="math-quaternions-test_data-tests.adb" line="136" column="1"/>
+            <test file="math-quaternions-test_data-tests.adb" line="173" column="1"/>
          </dangling>
       </test_unit>
    </unit>

@@ -15,7 +15,7 @@ package body Math.Quaternions.Test_Data.Tests is
    procedure Test_Free_01a444 (Gnattest_T : in out Test) renames Test_Free;
 --  id:2.1/01a444368f13390c/Free/1/0/
    procedure Test_Free (Gnattest_T : in out Test) is
-   --  math-quaternions.ads:15:4:Free
+   --  math-quaternions.ads:16:4:Free
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -27,7 +27,7 @@ package body Math.Quaternions.Test_Data.Tests is
       fExpectedWValue : float := 10.0;
    begin
 
-      pxNewQuaternion := Math.Quaternions.CQuaternion'(fX => fExpectedXValue,
+      pxNewQuaternion := Math.Quaternions.xCreate(fX => fExpectedXValue,
                                                    fY => fExpectedYValue,
                                                    fZ => fExpectedZValue,
                                                    fW => fExpectedWValue).pxGet_Allocated_Copy;
@@ -50,7 +50,7 @@ package body Math.Quaternions.Test_Data.Tests is
    procedure Test_fGet_Dot_Product_be0506 (Gnattest_T : in out Test) renames Test_1_fGet_Dot_Product;
 --  id:2.1/be0506155b2e61ac/fGet_Dot_Product/1/0/
    procedure Test_1_fGet_Dot_Product (Gnattest_T : in out Test) is
-   --  math-quaternions.ads:44:4:fGet_Dot_Product
+   --  math-quaternions.ads:45:4:fGet_Dot_Product
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
@@ -61,11 +61,11 @@ package body Math.Quaternions.Test_Data.Tests is
    begin
 
       --(,,,) dot (12.0,,,)
-      pxLeftOperandQuaternion := Math.Quaternions.CQuaternion'(fX => 4.3,
+      pxLeftOperandQuaternion := Math.Quaternions.xCreate(fX => 4.3,
                                                            fY => 7.3,
                                                            fZ => -12.3,
                                                            fW => 63.0).pxGet_Allocated_Copy;
-      pxRightOperandQuaternion := Math.Quaternions.CQuaternion'(fX => 12.0,
+      pxRightOperandQuaternion := Math.Quaternions.xCreate(fX => 12.0,
                                                             fY => 76.3,
                                                             fZ => 12.3,
                                                             fW => -15.0).pxGet_Allocated_Copy;
@@ -149,11 +149,11 @@ package body Math.Quaternions.Test_Data.Tests is
 --     begin
 --  
 --        --(,,,) dot (12.0,,,)
---        pxLeftOperandQuaternion := Math.Quaternions.CQuaternion'(fX => 4.3,
+--        pxLeftOperandQuaternion := Math.Quaternions.xCreate(fX => 4.3,
 --                                                             fY => 7.3,
 --                                                             fZ => -12.3,
 --                                                             fW => 63.0).pxGet_Allocated_Copy;
---        pxRightOperandQuaternion := Math.Quaternions.CQuaternion'(fX => 12.0,
+--        pxRightOperandQuaternion := Math.Quaternions.xCreate(fX => 12.0,
 --                                                              fY => 76.3,
 --                                                              fZ => 12.3,
 --                                                              fW => -15.0).pxGet_Allocated_Copy;
@@ -187,7 +187,7 @@ package body Math.Quaternions.Test_Data.Tests is
 --        fExpectedWValue : float := 10.0;
 --     begin
 --  
---        pxNewQuaternion := Math.Quaternions.CQuaternion'(fX => fExpectedXValue,
+--        pxNewQuaternion := Math.Quaternions.xCreate(fX => fExpectedXValue,
 --                                                     fY => fExpectedYValue,
 --                                                     fZ => fExpectedZValue,
 --                                                     fW => fExpectedWValue).pxGet_Allocated_Copy;
