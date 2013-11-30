@@ -61,27 +61,23 @@ begin
 
    loop
 
-      delay(3.0);
-
       BBB_CAN.Get(msg, bMsg, bOk);
       if bMsg then
-         Ada.Text_IO.Put_Line("Received CAN message: ID=" & Integer'Image(Integer(msg.ID.Identifier)) & ", length=" & msg.Len'Img & ", data(1)=" & Integer'Image(Integer(msg.Data(1))));
+         Ada.Text_IO.Put_Line("ID=" & Integer'Image(Integer(msg.ID.Identifier)) & ", length=" & msg.Len'Img & ", data(1)=" & Integer'Image(Integer(msg.Data(1))));
+         Ada.Text_IO.New_Line;
+
+
+         --if Integer(msg.ID.Identifier) = 15 then
+         msg.Data(1) := 2;
+
+         -- Ada.Text_IO.Put_Line("Sending CAN message: ID=" & Integer'Image(Integer(msg.ID.Identifier)) & ", length=" & msg.Len'Img & ", data(1)=" & Integer'Image(Integer(msg.Data(1))));
+         BBB_CAN.Send(msg);
+         --  end if;
+
       else
-         Ada.Text_IO.Put_Line("No message read");
-      end if;
-
-      Ada.Text_IO.New_Line;
-
-      if bMsg then
-         if Integer(msg.ID.Identifier) = 15 then
-            msg.ID.Identifier := CAN_Defs.CAN_Identifier(16);
-
-            Ada.Text_IO.Put_Line("Sending CAN message: ID=" & Integer'Image(Integer(msg.ID.Identifier)) & ", length=" & msg.Len'Img & ", data(1)=" & Integer'Image(Integer(msg.Data(1))));
-            BBB_CAN.Send(msg);
-         end if;
+         delay(0.1);
+         --           Ada.Text_IO.Put_Line("No message read");
       end if;
 
    end loop;
-
-
 end BBB_CAN_main;
