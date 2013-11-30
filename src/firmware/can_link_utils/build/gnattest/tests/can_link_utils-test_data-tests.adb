@@ -20,7 +20,7 @@ package body CAN_Link_Utils.Test_Data.Tests is
 
       pragma Unreferenced (Gnattest_T);
       use Interfaces;
-      Data : AVR.AT90CAN128.CAN.Byte8;
+      Data : CAN_Defs.Byte8;
    begin
 
       Data(1) := 0;
@@ -56,22 +56,21 @@ package body CAN_Link_Utils.Test_Data.Tests is
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
-      use AVR.AT90CAN128.CAN;
-      use AVR.AT90CAN128;
+--        use AVR.AT90CAN128.CAN;
+--        use AVR.AT90CAN128;
       use Interfaces;
+      use CAN_Defs;
 
-      msg : AVR.AT90CAN128.CAN.CAN_Message;
-      sBytes : String(1..16);
+      msg : CAN_Defs.CAN_Message;
+      sBytes : String(1..13);
       u8CheckSum : Interfaces.Unsigned_8;
    begin
-      sBytes(CAN_Link_Utils.BUSTYPE_POS) := Character'Val(0);
+
       sBytes(CAN_Link_Utils.IDHIGH_POS) := Character'Val(0);
       sBytes(CAN_Link_Utils.IDHIGH_POS + 1) := Character'Val(0);
       sBytes(CAN_Link_Utils.IDHIGH_POS + 2) := Character'Val(0);
       sBytes(CAN_Link_Utils.IDHIGH_POS + 3) := Character'Val(0);
-      sBytes(CAN_Link_Utils.MSG_TYPE_POS) := Character'Val(1); --extended msg id
-      sBytes(CAN_Link_Utils.LEN_POS) := Character'Val(7);
-      sBytes(CAN_Link_Utils.CHECKSUM_POS) := Character'Val(0);
+      sBytes(CAN_Link_Utils.HEADER_INFO_POS) := Character'Val(16+7); --extended msg id, length = 7
 
       CAN_Link_Utils.Bytes_To_Message_Header(sBytes, msg, u8CheckSum);
 
@@ -80,16 +79,12 @@ package body CAN_Link_Utils.Test_Data.Tests is
          "msg.ID.isExtended is incorrect");
 
       AUnit.Assertions.Assert
-        (msg.ID.Identifier = AVR.AT90CAN128.CAN.CAN_Identifier(0),
+        (msg.ID.Identifier = CAN_Defs.CAN_Identifier(0),
          "msg.ID.Identifier is incorrect");
 
       AUnit.Assertions.Assert
-        (msg.Len = AVR.AT90CAN128.DLC_Type(7),
+        (msg.Len = CAN_Defs.DLC_Type(7),
          "msg.ID.Len is incorrect");
-
-      AUnit.Assertions.Assert
-        (u8CheckSum = Interfaces.Unsigned_8(0),
-         "checksum is incorrect");
 
 --  begin read only
    end Test_Bytes_To_Message_Header;
@@ -105,11 +100,11 @@ package body CAN_Link_Utils.Test_Data.Tests is
 --  end read only
 
       pragma Unreferenced (Gnattest_T);
-      use AVR.AT90CAN128.CAN;
-      use AVR.AT90CAN128;
+--        use AVR.AT90CAN128.CAN;
+--        use AVR.AT90CAN128;
       use Interfaces;
 
-      msg : AVR.AT90CAN128.CAN.CAN_Message;
+      msg : CAN_Defs.CAN_Message;
       sBytes : String(1..7);
       u8CheckSum : Interfaces.Unsigned_8;
    begin
@@ -135,10 +130,6 @@ package body CAN_Link_Utils.Test_Data.Tests is
            msg.Data(7) = Unsigned_8(255),
          "msg.Data is incorrect");
 
-      AUnit.Assertions.Assert
-        (u8CheckSum = Unsigned_8(255),
-         "checksum incorrect");
-
 
 --  begin read only
    end Test_Bytes_To_Message_Data;
@@ -155,7 +146,9 @@ package body CAN_Link_Utils.Test_Data.Tests is
 
       pragma Unreferenced (Gnattest_T);
 
-      msg : AVR.AT90CAN128.CAN.CAN_Message;
+      use Interfaces;
+
+      msg : CAN_Defs.CAN_Message;
       sBytes : String(1..16);
       iTemp : Integer;
    begin
@@ -165,9 +158,7 @@ package body CAN_Link_Utils.Test_Data.Tests is
       msg.Data := (255, 255, 255, 255, 255, 255, 255, 255);
       CAN_Link_Utils.Message_To_Bytes(sBytes, msg);
 
-      AUnit.Assertions.Assert
-        (sBytes(CAN_Link_Utils.BUSTYPE_POS) = Character'Val(0), --message type 0 means CAN message
-         "Message_To_Bytes: Incorrect message type.");
+
       AUnit.Assertions.Assert
         (sBytes(CAN_Link_Utils.IDHIGH_POS) = Character'Val(0) and
            sBytes(CAN_Link_Utils.IDHIGH_POS + 1) = Character'Val(0) and
@@ -175,16 +166,19 @@ package body CAN_Link_Utils.Test_Data.Tests is
            sBytes(CAN_Link_Utils.IDHIGH_POS + 3) = Character'Val(2), --message id
          "Message_To_Bytes: Incorrect message ID.");
 
-      iTemp := Character'Pos(sBytes(CAN_Link_Utils.LEN_POS));
+      iTemp := Character'Pos(sBytes(CAN_Link_Utils.HEADER_INFO_POS));
+      iTemp := Integer(Interfaces.Unsigned_8(iTemp) and MSG_LEN_MASK);
+
       AUnit.Assertions.Assert
-        (sBytes(CAN_Link_Utils.LEN_POS) = Character'Val(8),
+        (iTemp = 8,
          "Message_To_Bytes: Incorrect message length: " & iTemp'Img);
+
+      iTemp := Character'Pos(sBytes(CAN_Link_Utils.HEADER_INFO_POS));
+      iTemp := Integer(Interfaces.Unsigned_8(iTemp) and MSG_TYPE_MASK);
+
       AUnit.Assertions.Assert
-        (sBytes(CAN_Link_Utils.CHECKSUM_POS) = Character'Val(0),
-         "Message_To_Bytes: Incorrect checksum.");
-      AUnit.Assertions.Assert
-        (sBytes(CAN_Link_Utils.MSG_TYPE_POS) = Character'Val(0),
-         "Message_To_Bytes: Incorrect message id type.");
+        (iTemp = 0,
+         "Message_To_Bytes: Incorrect message id type. iTemp=" & iTemp'img);
 
       AUnit.Assertions.Assert
           (sBytes(CAN_Link_Utils.HEADLEN + 1) = Character'Val(255) and
