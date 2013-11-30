@@ -5,7 +5,7 @@
 -- the CAN-link.
 
 -- Written by Nils Brynedal Ignell for the Naiad AUV project
--- Last changed (yyyy-mm-dd): 2013-11-01
+-- Last changed (yyyy-mm-dd): 2013-11-28
 
 -- TODO: hardware testing
 
@@ -57,7 +57,7 @@ begin
    msg.Len := 8;
    msg.Data := (0, 0, 0, 0, 0, 0, 0, 0);
 
-   BBB_CAN.Send(msg);
+  -- BBB_CAN.Send(msg);
 
    loop
 
@@ -75,7 +75,7 @@ begin
          --  end if;
 
       else
-         delay(0.1);
+         delay(0.001);
          --           Ada.Text_IO.Put_Line("No message read");
       end if;
 
