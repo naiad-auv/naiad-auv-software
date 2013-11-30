@@ -6,9 +6,6 @@
 
 --------------------------------------------------------------------------
 
-
---pragma Profile (Ravenscar);
-
 with Ada.Text_IO;
 with Interfaces;		use Interfaces;
 with Ins_Controller_Utils;
@@ -85,8 +82,6 @@ begin
    Ada.Text_IO.New_Line;
 
   Ins_Controller_Utils.Init;
---$VNRRG,07,
-
    
    loop
       Start_Message;
