@@ -25,22 +25,28 @@ procedure Imu_Testing_Main is
       iCharsRead : Integer := 0;
    begin
       sBuffer(1) := ' ';
+      
+--           Ada.Text_IO.Put_Line("Goes to the start of the message.");
+--           Ada.Text_IO.New_Line;
 
-      --goes to the start of the message:
-      while sBuffer(1) /= '$' loop
-         Ins_Controller_Utils.Read(sBuffer, 1, iTemp);
-      end loop;
+         --goes to the start of the message:
+         while sBuffer(1) /= '$' loop
+            Ins_Controller_Utils.Read(sBuffer, 1, iTemp);
+--              Ada.Text_IO.Put(sBuffer(1));
+         end loop;
 
-      -- read the "VNYBA,":
-      while iCharsTotal < 6 loop
-         Ins_Controller_Utils.Read(sTempString, 6 - iCharsTotal, iCharsRead);
+--           Ada.Text_IO.Put_Line("Done. Reading the 'VNYBA,'");
+--           Ada.Text_IO.New_Line;
 
-         --              for i in 1..iCharsRead loop
-         --                 sBuffer(iCharsTotal + i) := sTempString(i);
-         --              end loop;
+         -- read the "VNYBA,":
+         while iCharsTotal < 6 loop
+            Ins_Controller_Utils.Read(sTempString, 6 - iCharsTotal, iCharsRead);
 
-         iCharsTotal := iCharsTotal + iCharsRead;
-      end loop;
+            iCharsTotal := iCharsTotal + iCharsRead;
+         end loop;
+
+--           Ada.Text_IO.Put_Line("Reading " & sTempString);
+--           Ada.Text_IO.New_Line;
    end Start_Message;
 
    --this function assumes the format +1235.156
@@ -68,6 +74,9 @@ procedure Imu_Testing_Main is
             sValue(j) := sBuffer(j);
          end loop;
 
+--        Ada.Text_IO.Put_Line("Float read= " & sValue);
+--        Ada.Text_IO.New_Line;
+
          return Str2Float.fStr2Float(sValue); --this function assumes the format +1235.156
       end;
    end Read_Next_Float;
@@ -82,10 +91,16 @@ begin
    Ada.Text_IO.New_Line;
 
   Ins_Controller_Utils.Init;
+
+   Ada.Text_IO.Put_Line("Init complete.");
+   Ada.Text_IO.New_Line;
    
    loop
       Start_Message;
-      
+
+--        Ada.Text_IO.Put_Line("Start_Message complete.");
+--        Ada.Text_IO.New_Line;
+
       fYaw 	:= Read_Next_Float;
       fPitch 	:= Read_Next_Float;
       fRoll 	:= Read_Next_Float;
@@ -93,10 +108,9 @@ begin
       fYAcceleration := Read_Next_Float;
       fZAcceleration := Read_Next_Float;
       
-      Ada.Text_IO.Put_Line("fYaw= " & fYaw'Img & "fPitch= " & fPitch'Img & "fRoll= " & fRoll'Img);
-      Ada.Text_IO.New_Line;
-      Ada.Text_IO.Put_Line("fXAcceleration= " & fXAcceleration'Img & "fYAcceleration= " & fYAcceleration'Img & "fZAcceleration= " & fZAcceleration'Img);
-      Ada.Text_IO.New_Line;
+      Ada.Text_IO.Put_Line("fYaw= " & fYaw'Img & "  fPitch= " & fPitch'Img & "  fRoll= " & fRoll'Img);
+
+      Ada.Text_IO.Put_Line("fXAcceleration= " & fXAcceleration'Img & "  fYAcceleration= " & fYAcceleration'Img & "  fZAcceleration= " & fZAcceleration'Img);
       Ada.Text_IO.New_Line;
 
       delay(0.001);

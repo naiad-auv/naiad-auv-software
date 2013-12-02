@@ -14,6 +14,7 @@ package Ins_Controller_Utils is
    procedure Read(sData : out String; iSize : Integer; iCharsRead : out Integer);
    procedure Send_Command(sCommand : String);
    procedure Init;
+   procedure Async_Data_Output_Type_Register_Off;
    procedure Communication_Protocol_Control;
    procedure Async_Data_Output_Frequency_Register;
    procedure Synchronization_Control;
