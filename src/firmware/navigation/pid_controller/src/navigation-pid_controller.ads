@@ -2,7 +2,7 @@ with Navigation;
 
 package Navigation.PID_Controller is
 
-   type CPIDController is tagged private;
+   type CPIDController is private;
 
 
    type TPIDComponentScalings is
@@ -54,7 +54,7 @@ package Navigation.PID_Controller is
    --  <parameter name=" : ">The CPIDController to retrive the scaling from.</parameter>
 
 private
-   type CPIDController is tagged
+   type CPIDController is
       record
          fCurrentValue : float;
          fCurrentSetPoint: float;

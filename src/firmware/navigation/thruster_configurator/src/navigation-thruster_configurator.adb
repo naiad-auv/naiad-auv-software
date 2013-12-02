@@ -16,8 +16,9 @@ package body Navigation.Thruster_Configurator is
                                                                         fYRotation => -0.0355070,
                                                                         fZRotation => 0.248963);
 
-      xNewThrusterConfigurator.xThrusterList.Add_Thruster_With_Effects(tfThrusterEffects => tfThrusterEffects,
-                                                                       iIndex            => 1);
+      Navigation.Thrusters.Add_Thruster_With_Effects(this              => xNewThrusterConfigurator.xThrusterList,
+                                                     tfThrusterEffects => tfThrusterEffects,
+                                                     iIndex            => 1);
 
       tfThrusterEffects := Navigation.Thrusters.tfMake_Thruster_Effects(fXPosition => 0.00000,
                                                                         fYPosition => -1.00000,
@@ -26,8 +27,9 @@ package body Navigation.Thruster_Configurator is
                                                                         fYRotation => 0.00000,
                                                                         fZRotation => 0.338000);
 
-      xNewThrusterConfigurator.xThrusterList.Add_Thruster_With_Effects(tfThrusterEffects => tfThrusterEffects,
-                                                                       iIndex            => 2);
+      Navigation.Thrusters.Add_Thruster_With_Effects(this              => xNewThrusterConfigurator.xThrusterList,
+                                                     tfThrusterEffects => tfThrusterEffects,
+                                                     iIndex            => 2);
 
       tfThrusterEffects := Navigation.Thrusters.tfMake_Thruster_Effects(fXPosition => 0.866025,
                                                                         fYPosition => 0.500000,
@@ -36,8 +38,9 @@ package body Navigation.Thruster_Configurator is
                                                                         fYRotation => 0.0355070,
                                                                         fZRotation => 0.292265);
 
-      xNewThrusterConfigurator.xThrusterList.Add_Thruster_With_Effects(tfThrusterEffects => tfThrusterEffects,
-                                                                       iIndex            => 3);
+      Navigation.Thrusters.Add_Thruster_With_Effects(this              => xNewThrusterConfigurator.xThrusterList,
+                                                     tfThrusterEffects => tfThrusterEffects,
+                                                     iIndex            => 3);
 
       tfThrusterEffects := Navigation.Thrusters.tfMake_Thruster_Effects(fXPosition => 0.00000,
                                                                         fYPosition => 0.00000,
@@ -46,8 +49,9 @@ package body Navigation.Thruster_Configurator is
                                                                         fYRotation => -0.0950000,
                                                                         fZRotation => 0.00000);
 
-      xNewThrusterConfigurator.xThrusterList.Add_Thruster_With_Effects(tfThrusterEffects => tfThrusterEffects,
-                                                                       iIndex            => 4);
+      Navigation.Thrusters.Add_Thruster_With_Effects(this              => xNewThrusterConfigurator.xThrusterList,
+                                                     tfThrusterEffects => tfThrusterEffects,
+                                                     iIndex            => 4);
 
       tfThrusterEffects := Navigation.Thrusters.tfMake_Thruster_Effects(fXPosition => 0.00000,
                                                                         fYPosition => 0.00000,
@@ -56,8 +60,9 @@ package body Navigation.Thruster_Configurator is
                                                                         fYRotation => 0.476000,
                                                                         fZRotation => 0.00000);
 
-      xNewThrusterConfigurator.xThrusterList.Add_Thruster_With_Effects(tfThrusterEffects => tfThrusterEffects,
-                                                                       iIndex            => 5);
+      Navigation.Thrusters.Add_Thruster_With_Effects(this              => xNewThrusterConfigurator.xThrusterList,
+                                                     tfThrusterEffects => tfThrusterEffects,
+                                                     iIndex            => 5);
 
       tfThrusterEffects := Navigation.Thrusters.tfMake_Thruster_Effects(fXPosition => 0.00000,
                                                                         fYPosition => 0.00000,
@@ -66,11 +71,12 @@ package body Navigation.Thruster_Configurator is
                                                                         fYRotation => -0.0950000,
                                                                         fZRotation => 0.00000);
 
-      xNewThrusterConfigurator.xThrusterList.Add_Thruster_With_Effects(tfThrusterEffects => tfThrusterEffects,
+      Navigation.Thrusters.Add_Thruster_With_Effects(this              => xNewThrusterConfigurator.xThrusterList,
+                                                     tfThrusterEffects => tfThrusterEffects,
                                                                        iIndex            => 6);
 
 
-      xNewThrusterConfigurator.Set_Inverse;
+      Set_Inverse(this => xNewThrusterConfigurator);
 
       return xNewThrusterConfigurator;
    end xCreate;
@@ -78,7 +84,7 @@ package body Navigation.Thruster_Configurator is
    procedure Set_Inverse(this : in out CThrusterConfigurator) is
       tfExtendedMatrix : TExtendedMatrix;
    begin
-      tfExtendedMatrix := this.tfCreate_Extended_Matrix;
+      tfExtendedMatrix := tfCreate_Extended_Matrix(this);
 
       Perform_Gauss_Jordan_Elimination_On(tfExtendedMatrix => tfExtendedMatrix);
 
@@ -105,14 +111,15 @@ package body Navigation.Thruster_Configurator is
 
    function tfGet_Thruster_Effects_Matrix (this : in CThrusterConfigurator) return Navigation.Thrusters.TThrusterEffectsMatrix is
    begin
-      return this.xThrusterList.txGet_Thruster_Effects_Matrix;
+      return Navigation.Thrusters.txGet_Thruster_Effects_Matrix(this.xThrusterList);
    end tfGet_Thruster_Effects_Matrix;
 
 
    function tfGet_Thruster_Values(this : in CThrusterConfigurator; tfComponentValues : in Navigation.Thrusters.TThrusterEffects) return Navigation.Thrusters.TThrusterValuesArray is
 
    begin
-      return this.tfMultiply_Values_With_Matrix(tfComponentValues);
+      return tfMultiply_Values_With_Matrix(this              => this,
+                                           tfComponentValues => tfComponentValues);
    end tfGet_Thruster_Values;
 
    function tfMultiply_Values_With_Matrix(this : in CThrusterConfigurator; tfComponentValues : in Navigation.Thrusters.TThrusterEffects) return Navigation.Thrusters.TThrusterValuesArray is
@@ -271,12 +278,12 @@ package body Navigation.Thruster_Configurator is
       --iIterator : integer;
 
    begin
-      tfThrusterMatrix := this.tfGet_Thruster_Effects_Matrix;
+      tfThrusterMatrix := tfGet_Thruster_Effects_Matrix(this);
       for iThrusterIndex in tfExtendedMatrix'Range(2)
       loop
 
          --iIterator := 1;
-         if iThrusterIndex <= this.iGet_Number_Of_Thrusters then
+         if iThrusterIndex <= iGet_Number_Of_Thrusters(this) then
             for iY in tfThrusterMatrix(iThrusterIndex)'Range
             loop
                tfExtendedMatrix(Navigation.Thrusters.EThrusterEffectsComponents'Pos(iY)+1, iThrusterIndex) := tfThrusterMatrix(iThrusterIndex)(iY);
@@ -286,7 +293,7 @@ package body Navigation.Thruster_Configurator is
             for iY in tfExtendedMatrix'Range(1) loop
                tfExtendedMatrix(iY, iThrusterIndex) := 0.0;
             end loop;
-            tfExtendedMatrix(iThrusterIndex - this.iGet_Number_Of_Thrusters, iThrusterIndex) := 1.0;
+            tfExtendedMatrix(iThrusterIndex - iGet_Number_Of_Thrusters(this), iThrusterIndex) := 1.0;
          end if;
 
       end loop;

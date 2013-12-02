@@ -28,12 +28,16 @@ package body Navigation.Positional_Controller is
       fPositionY : float;
       fPositionZ : float;
    begin
-      this.xXMotionComponent.Get_New_Component_Control_Value(fDeltaTime    => fDeltaTime,
-                                                             fControlValue => fPositionX);
-      this.xYMotionComponent.Get_New_Component_Control_Value(fDeltaTime    => fDeltaTime,
-                                                             fControlValue => fPositionY);
-      this.xZMotionComponent.Get_New_Component_Control_Value(fDeltaTime    => fDeltaTime,
-                                                             fControlValue => fPositionZ);
+      Navigation.Motion_Component.Get_New_Component_Control_Value(this          =>  this.xXMotionComponent,
+                                                                  fDeltaTime    => fDeltaTime,
+                                                                  fControlValue => fPositionX);
+      Navigation.Motion_Component.Get_New_Component_Control_Value(this          =>  this.xYMotionComponent,
+                                                                  fDeltaTime    => fDeltaTime,
+                                                                  fControlValue => fPositionY);
+      Navigation.Motion_Component.Get_New_Component_Control_Value(this          =>  this.xZMotionComponent,
+                                                                  fDeltaTime    => fDeltaTime,
+                                                                  fControlValue => fPositionZ);
+
       tfValues := (Navigation.Thrusters.XPosition => fPositionX,
                    Navigation.Thrusters.YPosition => fPositionY,
                    Navigation.Thrusters.ZPosition => fPositionZ,
@@ -53,10 +57,12 @@ package body Navigation.Positional_Controller is
       xAbsoluteDifferenceVector := this.pxWantedAbsolutePosition.all - this.pxCurrentAbsolutePosition.all;
       xRelativeWantedPositionVector := this.pxCurrentAbsoluteOrientationInverse.all * xAbsoluteDifferenceVector;
 
-      this.xXMotionComponent.Update_Current_Error(xRelativeWantedPositionVector.fGet_X);
-      this.xYMotionComponent.Update_Current_Error(xRelativeWantedPositionVector.fGet_Y);
-      this.xZMotionComponent.Update_Current_Error(xRelativeWantedPositionVector.fGet_Z);
-
+      Navigation.Motion_Component.Update_Current_Error(this           => this.xXMotionComponent,
+                                                       fNewErrorValue => Math.Vectors.fGet_X(xRelativeWantedPositionVector));
+      Navigation.Motion_Component.Update_Current_Error(this           => this.xYMotionComponent,
+                                                       fNewErrorValue => Math.Vectors.fGet_Y(xRelativeWantedPositionVector));
+      Navigation.Motion_Component.Update_Current_Error(this           => this.xZMotionComponent,
+                                                       fNewErrorValue => Math.Vectors.fGet_Z(xRelativeWantedPositionVector));
    end Update_Current_Errors;
 
 
@@ -65,15 +71,21 @@ package body Navigation.Positional_Controller is
    begin
       case eComponentToUpdate is
          when Navigation.Motion_Component.PositionX =>
-            this.xXMotionComponent.Set_New_PID_Component_Scalings(xNewPIDScaling);
+            Navigation.Motion_Component.Set_New_PID_Component_Scalings(this         => this.xXMotionComponent,
+                                                                       xNewScalings => xNewPIDScaling);
          when Navigation.Motion_Component.PositionY =>
-            this.xYMotionComponent.Set_New_PID_Component_Scalings(xNewPIDScaling);
+            Navigation.Motion_Component.Set_New_PID_Component_Scalings(this         => this.xYMotionComponent,
+                                                                       xNewScalings => xNewPIDScaling);
          when Navigation.Motion_Component.PositionZ =>
-            this.xZMotionComponent.Set_New_PID_Component_Scalings(xNewPIDScaling);
+            Navigation.Motion_Component.Set_New_PID_Component_Scalings(this         => this.xZMotionComponent,
+                                                                       xNewScalings => xNewPIDScaling);
          when Navigation.Motion_Component.AllComponents =>
-            this.xXMotionComponent.Set_New_PID_Component_Scalings(xNewPIDScaling);
-            this.xYMotionComponent.Set_New_PID_Component_Scalings(xNewPIDScaling);
-            this.xZMotionComponent.Set_New_PID_Component_Scalings(xNewPIDScaling);
+            Navigation.Motion_Component.Set_New_PID_Component_Scalings(this         => this.xXMotionComponent,
+                                                                       xNewScalings => xNewPIDScaling);
+            Navigation.Motion_Component.Set_New_PID_Component_Scalings(this         => this.xYMotionComponent,
+                                                                       xNewScalings => xNewPIDScaling);
+            Navigation.Motion_Component.Set_New_PID_Component_Scalings(this         => this.xZMotionComponent,
+                                                                       xNewScalings => xNewPIDScaling);
          when others =>
             null;
       end case;

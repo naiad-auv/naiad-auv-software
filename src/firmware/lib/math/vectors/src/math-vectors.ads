@@ -6,7 +6,7 @@ package Math.Vectors is
 
    fVECTOR_PRECISION : constant float := 0.0001;
 
-   type CVector is tagged private;
+   type CVector is private;
    --  <summary>Class for vector.</summary>
 
    function xCreate (fX, fY, fZ : float) return CVector;
@@ -104,7 +104,7 @@ package Math.Vectors is
    --  <parameter name="pxSourceVector">The CVector object to copy the component values from.</parameter>
 
 private
-   type CVector is tagged
+   type CVector is
       record
          fX : float;
          fY : float;
