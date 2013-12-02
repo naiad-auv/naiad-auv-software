@@ -68,9 +68,11 @@ package body AVR.AT90CAN128.USART is
                UBRR0L := 16;  -- 16 Mhz Osc.  56700 Baud
             when BAUD115200 =>
                UBRR0L := 8;   -- 16 Mhz Osc.  115200 Baud
+            when BAUD230400 =>
+               UBRR0L := 3;
          end case;
 
---           UBRR0H := 0;
+         --UBRR0H := 0;
 --
 --           UCSR0C := (false, -- reserved
 --                      false, -- asynchronous mode
@@ -95,6 +97,8 @@ package body AVR.AT90CAN128.USART is
                UBRR1L := 16;  -- 16 Mhz Osc.  56700 Baud
             when BAUD115200 =>
                UBRR1L := 8;   -- 16 Mhz Osc.  115200 Baud
+            when BAUD230400 =>
+               UBRR1L := 3;
          end case;
 --           UBRR1H := 0;
 --
