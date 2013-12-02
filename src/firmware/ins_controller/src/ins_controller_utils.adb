@@ -2,11 +2,12 @@
 -- This file contains functions for ins_controller in order to reduce its number of lines of code.
 
 --  Written by: Nils Brynedal Ignell for the Naiad AUV project
---  Last changed (yyyy-mm-dd): 2013-11-24
+--  Last changed (yyyy-mm-dd): 2013-12-02
 
 --  TODO: Hardware testing....
 
 with AVR.AT90CAN128.INTERRUPT;
+with AVR.AT90CAN128.CLOCK;
 
 package body Ins_Controller_Utils is
 
@@ -38,7 +39,8 @@ package body Ins_Controller_Utils is
    begin
     --  sChecksum(sCommand, sCommand'Length, sCheckSumStr);
     --  Write("$" & sCommand & "*" & sCheckSumStr & Character'Val(10), sCommand'Length + 3, port);
-Write("$" & sCommand & "*" & Character'Val(10), sCommand'Length + 2, port);
+      Write("$" & sCommand & "*" & Character'Val(10), sCommand'Length + 2, port);
+      AVR.AT90CAN128.CLOCK.Delay_ms(20);
    end Send_Command;
 
    procedure Init_Uart(port : AVR.AT90CAN128.USART.USARTID) is
@@ -73,6 +75,7 @@ Write("$" & sCommand & "*" & Character'Val(10), sCommand'Length + 2, port);
       --ErrorMode = off
       --    Send_Command("VNWRG,30,0,0,0,0,0,0,1", port);
         Write("$VNWRG,30,0,0,0,0,0,0,1*68", 26, port);
+      AVR.AT90CAN128.CLOCK.Delay_ms(20);
    end Communication_Protocol_Control;
 
    procedure Async_Data_Output_Frequency_Register(port : AVR.AT90CAN128.USART.USARTID) is
