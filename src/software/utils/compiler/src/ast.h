@@ -23,8 +23,8 @@ typedef enum {
    kAssign,
    kIf,
    kWhile,
-   kRead,
-   kWrite,
+   kLoop,
+   kExit,
    kFuncCallStmnt,
    kReturn,
    kActual,
@@ -32,7 +32,9 @@ typedef enum {
    kBinary,
    kIntConst,
    kBoolConst,
-   kStringConst,
+   kFloatConst,
+   kVecConst,
+   kMatConst,
    kFuncCallExpr,
    kRValue
 } NODETYPE;
@@ -51,7 +53,7 @@ typedef enum { SUB=MINUS, PLUS, MULT, DIV, OR, AND, EQ, LT, LE, ME, MT, NE } BIN
 typedef enum {kFormal, kLocal} vKind;
 
 /* To distinguish between the data types in the trac42 language. */
-typedef enum {VOID, BOOL, INT, STRING, ERROR_TYPE} eType;
+typedef enum {VOID, BOOL, INT, FLOAT, VECTOR, MATRIX, POINTER, ERROR_TYPE} eType;
 
 /* The program. */
 typedef struct {
@@ -102,18 +104,17 @@ typedef struct {
    t_tree Stmnt;      /* The list of statements in body of the while-statement. */
 } yWhile;
 
-/* The read statement. */
+/* The while statement. */
 typedef struct {
    t_tree Next;
-   char *Id;         /* The name of the variable to be read to. */
-} yRead;
+   t_tree Stmnt;      /* The list of statements in body of the while-statement. */
+} yLoop;
 
-/* The write statement. */
+/* The exit statement. */
 typedef struct {
    t_tree Next;
-   t_tree Expr;       /* The expression whose value is to be written. */
-   eType Type; // added!
-} yWrite;
+} yExit;
+
 
 /* The return statement. */
 typedef struct {
@@ -157,13 +158,23 @@ typedef struct {
 
 /* The bool constant expression. */
 typedef struct {
-   int Value;        /* The integer equivalent of the boolean value of the constant */
+   char *Value;        /* The string equivalent of the boolean value of the constant */
 } yBoolConst;
 
-/* The string constant expression. */
+/* The float constant expression. */
 typedef struct {
-   char *Value;     /* The string value of this constant. */
-} yStringConst;
+   float Value;     /* The float value of this constant. */
+} yFloatConst;
+
+/* The vector constant expression. */
+typedef struct {
+   float Values[3];     /* The vector values of this constant. */
+} yVecConst;
+
+/* The matrix constant expression. */
+typedef struct {
+   float Values[9];     /* The matrix values of this constant. */
+} yMatConst;
 
 /* The function call expression. */
 typedef struct {
@@ -184,11 +195,11 @@ struct t_tree {
       yFunction Function;
       yVariable Variable;
       yStmnt Stmnt;
+      yLoop Loop;
+      yExit Exit;
       yAssign Assign;
       yIf If;
       yWhile While;
-      yRead Read;
-      yWrite Write;
       yReturn Return;
       yFuncCallStmnt FuncCallStmnt;
       yFuncCallExpr FuncCallExpr;
@@ -197,7 +208,9 @@ struct t_tree {
       yBinary Binary;
       yIntConst IntConst;
       yBoolConst BoolConst;
-      yStringConst StringConst;
+      yFloatConst FloatConst;
+      yVecConst VecConst;
+      yMatConst MatConst;
       yRValue RValue;
    } Node;
 };
@@ -222,11 +235,16 @@ extern t_tree mIf(t_tree pExpr, t_tree pThen, t_tree pElse, int pLineNr);
 /* Returns a pointer to a while statement node. */
 extern t_tree mWhile(t_tree pExpr, t_tree pStmnts, int pLineNr);
 
-/* Returns a pointer to a read statement node. */
-extern t_tree mRead(const char *pId, int pLineNr);
 
-/* Returns a pointer to a write statement node. */
-extern t_tree mWrite(t_tree pExpr, int pLineNr);
+
+// mLoop($2, $1)
+extern t_tree mLoop(t_tree pStmnts, int pLineNr);
+
+// mExit($1)
+extern t_tree mExit(int pLineNr);
+
+
+
 
 /* Returns a pointer to a return statement node. */
 extern t_tree mReturn(t_tree pExpr, int pLineNr);
@@ -250,10 +268,23 @@ extern t_tree mBinary(t_tree pLeftOperand, BINOP_KIND pOperator, t_tree pRightOp
 extern t_tree mIntConst(int pValue, int pLineNr);
 
 /* Returns a pointer to a bool constant expression node. */
-extern t_tree mBoolConst(int pValue, int pLineNr);
+extern t_tree mBoolConst(const char *pValue, int pLineNr);
 
-/* Returns a pointer to a string constant expression node. */
-extern t_tree mStringConst(const char *pValue, int pLineNr);
+
+// mFloatConst($1.floatVal, $1.lineNr)
+extern t_tree mFloatConst(float fValue, int pLineNr);
+
+// mVecConst($2.floatVal, $4.floatVal, $6.floatVal, $2.lineNr)
+extern t_tree mVecConst(float fXValue, float fYValue, float fZValue, int pLineNr);
+
+
+// mMatConst($3.floatVal, $5.floatVal, $7.floatVal, $11.floatVal, $13.floatVal, $15.floatVal, $19.floatVal, $21.floatVal, $23.floatVal, $3.lineNr)
+extern t_tree mMatConst(float fAAValue, float fABValue, float fACValue, 
+			float fBAValue, float fBBValue, float fBCValue, 
+			float fCAValue, float fCBValue, float fCCValue, 
+			int pLineNr);
+
+
 
 /* Returns a pointer to an rvalue(identifier) expression node. */
 extern t_tree mRValue(const char *pId, int pLineNr);

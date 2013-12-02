@@ -18,6 +18,12 @@ typedef struct {
   int intVal;
 } intStruct;
 
+/* The attribute of a float token. */
+typedef struct {
+  int lineNr;
+  float floatVal;
+} floatStruct;
+
 /* The attribute of the string and id tokens. */
 typedef struct {
   int lineNr;
