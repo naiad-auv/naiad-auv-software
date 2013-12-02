@@ -8,17 +8,28 @@ package body UartWrapper is
 
    function pxCreate (path : string; speed : BaudRates; blockingTime : Duration; bufferSize : C.int; iShouldBlock : C.int) return pCUartHandler is
       pxUartHandler : pCUartHandler;
-
+      iBaudrateInt  : C.int;
    begin
 
       Ada.Text_IO.Put_Line("Trying to open from ada: " & path);
 
       pxUartHandler := new CUartHandler;
 
-      pxUartHandler.serialHandler := openUartPort(portname     => C.To_C(Item =>path,
-                                                                         Append_Nul => true),
-                                                  speed        => C.int(blockingTime),
-                                                  should_block => 1);
+      -- kks: Translates baudrate to int number that the driver accepts.
+      case speed is
+         when UartWrapper.B9600 =>
+            iBaudrateInt := 1;
+         when UartWrapper.B115200 =>
+            iBaudrateInt := 2;
+         when others =>
+            iBaudrateInt := 1;
+      end case;
+      --
+
+      pxUartHandler.serialHandler := openUartPort(portname     => C.To_C(Item =>path, Append_Nul => true),
+                                                  speed        => iBaudrateInt,
+                                                  should_block => 0,
+                                                  blocking_time => 8);
       pxUartHandler.bufferSize := bufferSize;
 
       Ada.Text_IO.Put_Line("Port open");
@@ -39,7 +50,7 @@ package body UartWrapper is
       if bAppendEOT then
          success := UartWrapper.uartUartWrite(this.serialHandler, C.To_C(sStringToBeWritten & character'val(4)), C.int(sStringToBeWritten'Length + 1));
       else
-         success := UartWrapper.uartUartWrite(this.serialHandler, C.To_C(sStringToBeWritten), C.int(sStringToBeWritten'Length + 1));
+         success := UartWrapper.uartUartWrite(this.serialHandler, C.To_C(sStringToBeWritten), C.int(sStringToBeWritten'Length));
       end if;
 
       if success < 0 then
@@ -70,8 +81,12 @@ package body UartWrapper is
             Ada.Text_IO.Put_Line("Error occured when reading: " & C.int'Image(bytesRead));
          end if;
 
+         --Ada.Text_IO.Put_Line("bytesRead   =" & bytesRead'Img);
+         Ada.Text_IO.Put_Line("   uart C driver read bytes: " & C.size_t(bytesRead)'Img);
+
+         --Ada.Text_IO.Put_Line("C Converted" & C.To_Ada(item => readBuffer(1..C.size_t(bytesRead)),Trim_Nul => false) );
          return C.To_Ada(item 	  => readBuffer(1 .. C.size_t(bytesRead)),
-                         Trim_Nul => false);
+                         Trim_Nul => False);
       end Read;
 
       sReturnString : string := Read(this);

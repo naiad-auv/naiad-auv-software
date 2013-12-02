@@ -7,7 +7,8 @@
 #include <fcntl.h>
 #include <stdio.h>
 
-int openPort(char* portname, int speed, int should_block);
+// kks: blocking_time parameter added.
+int openPort(char* portname, int speed, int vmin, int vtime);
 int uartWrite(int fileDescriptor, char* message, int messageSize);
 int uartRead(int fileDescriptor, char* buffer, int bufferSize);
 
