@@ -1,0 +1,10 @@
+procedure main(i : integer; v : vector; m : matrix) return integer is
+begin
+	v := [32.5,63.2,-123.4];
+	m := [	[43.2,63.2,-123.4],
+		[32.5,63.2,-123.4], 
+		[32.5,63.2,-123.4] ];
+	i := 3;
+
+	return i;
+end main;

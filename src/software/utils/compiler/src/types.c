@@ -17,8 +17,8 @@ eType typeLocal(t_tree node);
 eType typeAssign(t_tree node);
 eType typeIf(t_tree node);
 eType typeWhile(t_tree node);
-eType typeRead(t_tree node);
-eType typeWrite(t_tree node);
+eType typeLoop(t_tree node);
+eType typeExit(t_tree node);
 eType typeReturn(t_tree node);
 eType typeFuncCallStmnt(t_tree node);
 eType typeFuncCallExpr(t_tree node);
@@ -27,7 +27,9 @@ eType typeUnary(t_tree node);
 eType typeBinary(t_tree node);
 eType typeIntConst(t_tree node);
 eType typeBoolConst(t_tree node);
-eType typeStringConst(t_tree node);
+eType typeFloatConst(t_tree node);
+eType typeVecConst(t_tree node);
+eType typeMatConst(t_tree node);
 eType typeRValue(t_tree node);
 
 

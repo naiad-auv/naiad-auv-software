@@ -24,8 +24,8 @@
 #include "trac42.y.h"   /* Declaration of tokens, genereated by bison. */
 #include "gentrac42.h"
 #include "name.h"
-#include "types.h"
-#include "gensmc.h"
+//#include "types.h"
+//#include "gensmc.h"
 
 extern FILE *yyin;
 int yyerror(const char *s);
@@ -35,6 +35,7 @@ int yylex(void);
 /* Alternative types of teh elements on the parse-value stack */
 %union {
    t_tree       yyNode;
+   floatStruct  yyFloat;
    intStruct    yyInt;
    stringStruct yyString;
    typeStruct   yyType;
@@ -46,22 +47,23 @@ int yylex(void);
 %left  <yyOperator> OROP
 %left  <yyOperator> ANDOP
 %left  <yyOperator> EQOP
-%left  <yyOperator> LELTOP
+%left  <yyOperator> LELTOP MEMTOP
 %left  <yyOperator> MINUSOP PLUSOP
 %left  <yyOperator> MULDIVOP
 %right <yyOperator> NOTOP UNOP
 
 /* Rule types on parse stack */
-%type  <yyNode>   program functions function formals_non_emtpty formals formal
-%type  <yyNode>   decls decl stmnts stmnt expr actuals exprs idents ident
+%type  <yyNode>   program functions function formals formal
+%type  <yyNode>   decls decl stmnts stmnt expr actuals exprs
+%type  <yyFloat>  vec_comp
 
 /* Specifies the types of other tokens than the operators, when on the parse stack */
 %token <yyType>   BASIC_TYPE
-%token <yyString> ID STRING_CONST
-%token <yyInt>    INT_CONST BOOL_CONST
-%token <yyLineNr> IF THEN ELSE WHILE RETURN END EXIT LOOP PROCEDURE FUNCTION IS BEGIN IN OUT ASSIGN
+%token <yyString> ID BOOL_CONST
+%token <yyInt>    INT_CONST
+%token <yyFloat>  FLOAT_CONST
+%token <yyLineNr> IF THEN ELSE WHILE RETURN END EXIT LOOP PROCEDURE FUNCTION IS BGN ASSIGN
 
-%expect 1
 
 %start program
 
@@ -74,11 +76,12 @@ functions   : functions function								{ $$ = connectFunctions($1,$2); }
             | function										{ $$ = $1; }
             ;
 
-function    : PROCEDURE ID '(' formals ')' IS decls BEGIN stmts END ID ';'			{ $$ = mFunction(connectVariables($4, $7), $9, $2.strVal, VOID, $2.lineNr); }
-            | PROCEDURE ID IS decls BEGIN stmts END ID ';'					{ $$ = mFunction($4, $6, $2.strVal, VOID, $2.lineNr); }
-            | FUNCTION ID '(' formals ')' RETURN BASIC_TYPE IS decls BEGIN stmts END ID ';'	{ $$ = mFunction(connectVariables($4, $9), $11, $2.strVal, $7.type, $2.lineNr); }
-            | FUNCTION ID RETURN BASIC_TYPE IS decls BEGIN stmts END ID ';'			{ $$ = mFunction($6, $8, $2.strVal, $4.type, $2.lineNr); }
+function    : PROCEDURE ID '(' formals ')' IS decls BGN stmnts END ID ';'			{ $$ = mFunction(connectVariables($4, $7), $9, $2.strVal, VOID, $2.lineNr); }
+            | PROCEDURE ID IS decls BGN stmnts END ID ';' 					{ $$ = mFunction($4, $6, $2.strVal, VOID, $2.lineNr); }
+            | FUNCTION ID '(' formals ')' RETURN BASIC_TYPE IS decls BGN stmnts END ID ';'	{ $$ = mFunction(connectVariables($4, $9), $11, $2.strVal, $7.type, $2.lineNr); }
+            | FUNCTION ID RETURN BASIC_TYPE IS decls BGN stmnts END ID ';' 			 { $$ = mFunction($6, $8, $2.strVal, $4.type, $2.lineNr); } 
             ;  
+
 
 formals     : formals ';' formal								{ $$ = connectVariables($1,$3); }
             | formal										{ $$ = $1; }
@@ -100,14 +103,14 @@ stmnts      : stmnts stmnt									{ $$ = connectStmnts($1,$2); }
             ;
 
 stmnt       : ID ASSIGN expr ';'                       						{ $$ = mAssign($1.strVal, $3, $1.lineNr); }
+            | IF expr THEN stmnts END IF ';' 							{ $$ = mIf($2, $4, NULL, $1); }
             | IF expr THEN stmnts ELSE stmnts END IF ';'					{ $$ = mIf($2, $4, $6, $1); }
-            | IF expr THEN stmnts END IF ';'            					{ $$ = mIf($2, $4, NULL, $1); }
             | WHILE expr LOOP stmnts END LOOP ';'						{ $$ = mWhile($2, $4, $1); }
             | RETURN expr ';'                       						{ $$ = mReturn($2, $1); }
             | RETURN ';'                       							{ $$ = mReturn(NULL, $1); }
             | ID '(' actuals ')' ';'                						{ $$ = mFuncCallStmnt($3, $1.strVal, $1.lineNr); }
-            | LOOP stmnts END LOOP ';'                						{ $$ = mLoopStmnt($2, $1); }
-            | EXIT ';'    		            						{ $$ = mExitStmnt($1); }
+            | LOOP stmnts END LOOP ';'                						{ $$ = mLoop($2, $1); }
+            | EXIT ';'    		            						{ $$ = mExit($1); }
             ;
 
 expr        : MINUSOP expr %prec UNOP								{ $$ = mUnary($1.opType, $2, $1.lineNr); }
@@ -119,17 +122,25 @@ expr        : MINUSOP expr %prec UNOP								{ $$ = mUnary($1.opType, $2, $1.lin
             | expr OROP expr									{ $$ = mBinary($1, $2.opType, $3, $2.lineNr); }
             | expr EQOP expr									{ $$ = mBinary($1, $2.opType, $3, $2.lineNr); }
             | expr LELTOP expr									{ $$ = mBinary($1, $2.opType, $3, $2.lineNr); }
+            | expr MEMTOP expr									{ $$ = mBinary($1, $2.opType, $3, $2.lineNr); }
             |'(' expr ')'									{ $$ = $2; }
             | ID '(' actuals ')'								{ $$ = mFuncCallExpr($3, $1.strVal, $1.lineNr); }
             | ID										{ $$ = mRValue($1.strVal, $1.lineNr); }
             | INT_CONST										{ $$ = mIntConst($1.intVal, $1.lineNr); }
-            | BOOL_CONST									{ $$ = mBoolConst($1.intVal, $1.lineNr); }
+            | BOOL_CONST									{ $$ = mBoolConst($1.strVal, $1.lineNr); }
             | FLOAT_CONST									{ $$ = mFloatConst($1.floatVal, $1.lineNr); }
-            | '[' FLOAT_CONST ',' FLOAT_CONST ',' FLOAT_CONST ']'				{ $$ = mVecConst($2.floatVal, $4.floatVal, $6.floatVal, $1.lineNr); }
-            | '[' '[' FLOAT_CONST ',' FLOAT_CONST ',' FLOAT_CONST ']' ',' '[' FLOAT_CONST ',' FLOAT_CONST ',' FLOAT_CONST ']' ',' '[' FLOAT_CONST ',' FLOAT_CONST ',' FLOAT_CONST ']' ']'				{ $$ = mMatConst($2.floatVal, $4.floatVal, $6.floatVal, $8.floatVal, $10.floatVal, $12.floatVal, $14.floatVal, $16.floatVal, $18.floatVal, $1.lineNr); }
-
-//            | STRING_CONST									{ $$ = mStringConst($1.strVal, $1.lineNr); }
+            | '[' vec_comp ',' vec_comp ',' vec_comp ']'					{ $$ = mVecConst($2.floatVal, $4.floatVal, $6.floatVal, $2.lineNr); }
+            | '[' '[' vec_comp ',' vec_comp ',' vec_comp ']' ',' 
+	          '[' vec_comp ',' vec_comp ',' vec_comp ']' ',' 
+                  '[' vec_comp ',' vec_comp ',' vec_comp ']' ']'				{ $$ = mMatConst($3.floatVal, $5.floatVal, $7.floatVal, 
+													         $11.floatVal, $13.floatVal, $15.floatVal, 
+														 $19.floatVal, $21.floatVal, $23.floatVal, 
+														 $3.lineNr); }
             ;
+
+vec_comp    : MINUSOP FLOAT_CONST								{ $$ = $2; $$.floatVal *= -1.0; }
+	    | FLOAT_CONST									{ $$ = $1; }
+	    ;
 
 actuals     : exprs										{ $$ = $1; }
             |											{ $$ = NULL; }
@@ -145,7 +156,7 @@ int main (int argc, char *argv[])
    int syntax_errors;
    char *p, *objname, *basename, *lstname;
    t_symtable *symbolTable;
-   eType typeRet;
+   //eType typeRet;
 
    symbolTable = NULL;
 
@@ -168,19 +179,24 @@ int main (int argc, char *argv[])
          strcpy(lstname, basename);
          strcat(objname, ".obj");
          strcat(lstname, "_.lst");
-		 printf("Building AST...\n");
+		 printf("Building AST...");
          syntax_errors = yyparse();
          if (!syntax_errors) {
 			
+			printf("DONE.\n");			
+
 			// pass 1 - generate trac42 code back from AST
-			printf("Generating trac42 code from AST to file \"generatedcode.t42\"...\n");
+			printf("Generating trac42 code from AST to file \"generatedcode.t42\"...");
 			genTrac42Traverse(treeRoot);
 
+			printf("DONE.\n");
+
 			//pass 2 - name analysis
-			printf("Building symbol tables and performing name analysis...\n");
+			printf("Building symbol tables and performing name analysis...");
 			symbolTable = nameAnalysis(treeRoot);
 			if (nameErrorType > 0)
 			{
+				printf("\n");
 				// name analysis error
 				fprintf (stderr, "Name analysis found an error on line %d: '", nameErrorLineNr);
 				fprintf (stderr, nameErrorId);
@@ -195,9 +211,11 @@ int main (int argc, char *argv[])
 				default:
 					break;
 				}
-			}
+			}/*
 			else
 			{
+				printf("DONE.\n");
+
 				// pass 3 - type control
 				printf("Performing type control...\n");
 				typeRet = typeControl(treeRoot, symbolTable);
@@ -220,20 +238,21 @@ int main (int argc, char *argv[])
 					printf("Cleaning up and exiting...\n");
 				}
 			}
-				
+				*/
 			
             //fprintf (stderr, "The answer is 42\n");
          } else {
             fprintf (stderr, "There were syntax errors.\n");
          }
-		 destroyTables(symbolTable);
+		 //destroyTables(symbolTable); 
 		 destroy_tree(treeRoot);
          free(basename);
          free(objname);
          free(lstname);
       }
    }
-   system("pause");
+   //system("pause");
+   printf("\n");
    return 0;
 }
 
