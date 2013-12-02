@@ -47,7 +47,7 @@ package body Ins_Controller is
 
       Ins_Controller_Utils.Serial_Baud_Rate_Register(usart_port);
 
-      Ins_Controller_Utils.Init_Uart(port, AVR.AT90CAN128.USART.BAUD9600);
+      Ins_Controller_Utils.Init_Uart(port, AVR.AT90CAN128.USART.BAUD230400);
 
       AVR.AT90CAN128.USART.Flush_Receive_Buffer(usart_port);
       Ins_Controller_Utils.Init_Interrupts;
