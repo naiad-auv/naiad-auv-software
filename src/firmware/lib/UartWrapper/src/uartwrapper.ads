@@ -22,7 +22,7 @@ package UartWrapper is
   procedure UartReadSpecificAmount(this : in out CUartHandler; sStringRead : out string; iBytesToRead : in integer;  iNumBytesRead : out integer);
 private
 
-   function openUartPort(portname : C.char_array; speed : C.int; should_block : C.int) return C.int;
+   function openUartPort(portname : C.char_array; speed : C.int; should_block : C.int; blocking_time : C.int) return C.int;
    pragma Import(Convention => C, Entity => openUartPort, External_Name => "openPort");
 
    function uartUartWrite(port : C.int; message : C.char_array; messageSize : C.int) return C.int;

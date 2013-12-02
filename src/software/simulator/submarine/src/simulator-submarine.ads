@@ -7,7 +7,7 @@ with Math.Quaternions;
 
 package simulator.submarine is
 
-   type CSubmarine is tagged private;
+   type CSubmarine is tagged private;-- private;
    type pCSubmarine is access CSubmarine;
 
    type TMotors is array (1..6) of Simulator.Motor_Info.pCMotorInfo;
@@ -22,6 +22,8 @@ package simulator.submarine is
    function xGet_Orientation_Matrix(this : in CSubmarine) return math.Matrices.CMatrix;
    function xGet_Angular_Velocity_Vector(this : in CSubmarine) return math.Vectors.CVector;
    function xGet_Motor_Values(this : in CSubmarine) return TMotorForce;
+   function xGet_Wanted_Position(this : in CSubmarine) return math.Vectors.CVector;
+   function xGet_Wanted_Orientation(this : in CSubmarine) return math.Matrices.CMatrix;
 
    procedure Set_Position_Vector(this : in out CSubmarine ; xPositionVector : in math.Vectors.CVector);
    procedure Set_Orientation_Matrix(this : in out CSubmarine; xOrientationMatrix : in Math.Matrices.CMatrix);
@@ -30,6 +32,9 @@ package simulator.submarine is
 
    procedure Set_Motor_Info(this : in out CSubmarine; txMotorInfo : in TMotors);
    procedure Set_Motor_Force(this : in out CSubmarine; txMotorForce : in TmotorForce);
+
+   procedure Set_Wanted_Position(this : in out CSubmarine; xWantedPosition : in math.Vectors.CVector);
+   procedure Set_Wanted_Orientation(this : in out CSubmarine; xWantedOrientation : in math.Matrices.CMatrix);
 
    procedure Set_Weight(this : in out CSubmarine; fWeight : in float);
    procedure Set_Buoyancy_Force(this : in out CSubmarine; fBuoyancyForce : in float);
@@ -76,6 +81,9 @@ private
 
          pxAccelerationVector : Math.Vectors.pCVector;
          pxAngularAccelerationVector : Math.Vectors.pCVector;
+
+         pxWantedPositionVector : math.Vectors.pCVector;
+         pxWantedOrientationMatrix : math.Matrices.pCMatrix;
 
          bGripperLeft : Boolean;
          bGripperRight : Boolean;

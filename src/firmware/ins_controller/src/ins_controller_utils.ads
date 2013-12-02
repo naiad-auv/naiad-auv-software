@@ -1,7 +1,7 @@
 
 -- This file contains functions for ins_controller in order to reduce its number of lines of code.
 --  Written by: Nils Brynedal Ignell for the Naiad AUV project
---  Last changed (yyyy-mm-dd): 2013-11-28
+--  Last changed (yyyy-mm-dd): 2013-11-02
 
 --  TODO: Hardware testing....
 
@@ -18,6 +18,7 @@ package Ins_Controller_Utils is
    procedure Init_Uart(port : AVR.AT90CAN128.USART.USARTID);
    procedure Init_Interrupts;
    procedure Communication_Protocol_Control(port : AVR.AT90CAN128.USART.USARTID);
+   procedure Async_Data_Output_Type_Register_Off;
    procedure Async_Data_Output_Frequency_Register(port : AVR.AT90CAN128.USART.USARTID);
    procedure Synchronization_Control(port : AVR.AT90CAN128.USART.USARTID);
    procedure VPE_Basic_Control(port : AVR.AT90CAN128.USART.USARTID);

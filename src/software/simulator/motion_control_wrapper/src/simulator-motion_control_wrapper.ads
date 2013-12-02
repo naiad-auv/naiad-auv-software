@@ -32,10 +32,6 @@ package simulator.Motion_Control_Wrapper is
    procedure Update_Wanted_Position(this : in out CWrapDispatcher;
                                     xWantedPosition : in math.Vectors.CVector ;
                                     xWantedOrientation : in math.Matrices.CMatrix );
-   function xGet_Wanted_Position(this : in CWrapDispatcher) return math.Vectors.CVector;
-   function xGet_Wanted_Orientation(this : in CWrapDispatcher) return math.Matrices.CMatrix;
-
-   function xGet_Motional_Errors(this : in CWrapDispatcher) return Navigation.Dispatcher.TMotionalErrors;
 
 
 private
@@ -43,8 +39,6 @@ private
    type CWrapDispatcher is tagged
       record
          pxDispatcher : navigation.Dispatcher.pCDispatcher;
-         pxWantedPositionVector : math.Vectors.pCVector;
-         pxWantedOrientationMatrix : math.Matrices.pCMatrix;
       end record;
 
 
