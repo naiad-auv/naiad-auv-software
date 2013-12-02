@@ -1,6 +1,6 @@
 --------------------------------------------------------------------------
 --  Written by: Nils Brynedal Ignell for the Naiad AUV project
---  Last changed (yyyy-mm-dd): 2013-11-24
+--  Last changed (yyyy-mm-dd): 2013-12-02
 
 --  TODO: Hardware testing....
 --------------------------------------------------------------------------
@@ -30,22 +30,24 @@ package body Ins_Controller is
    procedure Init(port : AVR.AT90CAN128.USART.USARTID; canBaud_Rate : Can_Defs.Baud_Rate; bUseExtendedID : Boolean) is
 
    begin
-     bExtendedIds := bUseExtendedID;
+      bExtendedIds := bUseExtendedID;
 
-      Ins_Controller_Utils.Init_Uart(port);
+      Ins_Controller_Utils.Init_Uart(port, AVR.AT90CAN128.USART.BAUD115200);
       AVR.AT90CAN128.CAN.Can_Init(canBaud_Rate);
       AVR.AT90CAN128.CAN.Can_Set_MOB_ID_MASK(0,(CAN_Defs.MSG_SIMULATION_MODE_ID.Identifier, bUseExtendedID),
                                                (536870911, bUseExtendedID));
 
-      --All commands start with a dollar sign, followed by a five character command, a comma,
-      --command specific parameters, an asterisk, a checksum, and a newline character
-      -- $VNRRG,11*73
 
       Ins_Controller_Utils.Communication_Protocol_Control(usart_port);
+      Ins_Controller_Utils.Async_Data_Output_Type_Register_Off(usart_port);
       Ins_Controller_Utils.Async_Data_Output_Frequency_Register(usart_port);
       Ins_Controller_Utils.Synchronization_Control(usart_port);
       Ins_Controller_Utils.VPE_Basic_Control(usart_port);
       Ins_Controller_Utils.Async_Data_Output_Type_Register(usart_port);
+
+      Ins_Controller_Utils.Serial_Baud_Rate_Register(usart_port);
+
+      Ins_Controller_Utils.Init_Uart(port, AVR.AT90CAN128.USART.BAUD9600);
 
       AVR.AT90CAN128.USART.Flush_Receive_Buffer(usart_port);
       Ins_Controller_Utils.Init_Interrupts;
@@ -67,33 +69,6 @@ package body Ins_Controller is
 
 
    procedure Imu_Interrupt is
-
-      procedure Start_Message is
-         sBuffer : String(1..2);
-         sTempString : String(1..100);
-
-         iTemp : Integer;
-         iCharsTotal : Integer := 0;
-         iCharsRead : Integer := 0;
-      begin
-         sBuffer(1) := ' ';
-
-         --goes to the start of the message:
-         while sBuffer(1) /= '$' loop
-            Ins_Controller_Utils.Read(sBuffer, 1, iTemp, usart_port);
-         end loop;
-
-         -- read the "VNYBA,":
-         while iCharsTotal < 6 loop
-            Ins_Controller_Utils.Read(sTempString, 6 - iCharsTotal, iCharsRead, usart_port);
-
---              for i in 1..iCharsRead loop
---                 sBuffer(iCharsTotal + i) := sTempString(i);
---              end loop;
-
-            iCharsTotal := iCharsTotal + iCharsRead;
-         end loop;
-      end Start_Message;
 
       --this function assumes the format +1235.156
       function Read_Next_Float return float is
@@ -147,7 +122,7 @@ package body Ins_Controller is
 
 --        Send_Command("$VNRRG,36"); --sends command for reading the cosine orientation matrix
 
-      Start_Message;
+      Ins_Controller_Utils.Start_Message("VNYBA,", usart_port);
 
       fYaw 	:= Read_Next_Float;
       fPitch 	:= Read_Next_Float;

@@ -113,8 +113,6 @@ package body Ins_Controller_Utils is
 --        Send_Command("VNWRG,05,9600");
       Send_Command("VNWRG,05,115200");
 
-     -- Write("$VNWRG,05,9600*" & Character'Val(10), 16);
-
    end Serial_Baud_Rate_Register;
 
    procedure Async_Data_Output_Frequency_Register is
