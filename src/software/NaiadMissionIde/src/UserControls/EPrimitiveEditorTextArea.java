@@ -1,4 +1,4 @@
-package ExtendedComponents;
+package UserControls;
 
 import Interfaces.ICommand;
 
@@ -14,7 +14,6 @@ import java.awt.*;
  * To change this template use File | Settings | File Templates.
  */
 public class EPrimitiveEditorTextArea extends JTextArea {
-
 
     private ICommand getPrimitiveContents;
 

@@ -1,12 +1,9 @@
 package UserControls;
 
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JMenuItem;
 
 import ViewModels.MainWindowMenuViewModel;
-import ExtendedComponents.EJMenu;
-import ExtendedComponents.EJMenuBar;
 import Interfaces.IViewModel;
 
 public class MainWindowMenu {
