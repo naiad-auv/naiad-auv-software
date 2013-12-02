@@ -21,7 +21,7 @@ package body Ins_Controller_Utils is
       iCharsTotal : Integer := 0;
 
    begin
-      wrapper := UartWrapper.pxCreate("/dev/ttyUSB0", UartWrapper.B115200, 0.0, 1000, 0);
+      wrapper := UartWrapper.pxCreate("/dev/ttyUSB0", UartWrapper.B115200, 1, 1000, 0);
 
       Communication_Protocol_Control;
       Async_Data_Output_Type_Register_Off;
@@ -62,7 +62,7 @@ package body Ins_Controller_Utils is
 --        Ada.Text_IO.Put_Line("Done");
 --        Ada.Text_IO.New_Line;
 
-      wrapper := UartWrapper.pxCreate("/dev/ttyUSB0", UartWrapper.B9600, 2.0, 1000, 1);
+      wrapper := UartWrapper.pxCreate("/dev/ttyUSB0", UartWrapper.B9600, 1, 1000, 0);
       Ada.Text_IO.Put_Line("Baudrate changed");
    end Init;
 
@@ -109,9 +109,10 @@ package body Ins_Controller_Utils is
 
    procedure Serial_Baud_Rate_Register is
    begin
+
       -- set Baud rate:
---        Send_Command("VNWRG,05,9600");
-      Send_Command("VNWRG,05,115200");
+     --   Send_Command("VNWRG,05,9600");
+        Send_Command("VNWRG,05,115200");
 
    end Serial_Baud_Rate_Register;
 

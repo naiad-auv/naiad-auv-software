@@ -82,7 +82,7 @@ package body UartWrapper is
          end if;
 
          --Ada.Text_IO.Put_Line("bytesRead   =" & bytesRead'Img);
-         Ada.Text_IO.Put_Line("   uart C driver read bytes: " & C.size_t(bytesRead)'Img);
+       --  Ada.Text_IO.Put_Line("   uart C driver read bytes: " & C.size_t(bytesRead)'Img);
 
          --Ada.Text_IO.Put_Line("C Converted" & C.To_Ada(item => readBuffer(1..C.size_t(bytesRead)),Trim_Nul => false) );
          return C.To_Ada(item 	  => readBuffer(1 .. C.size_t(bytesRead)),
