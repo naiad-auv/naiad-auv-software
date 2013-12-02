@@ -6,7 +6,7 @@ package body UartWrapper is
    -- pxCreate --
    --------------
 
-   function pxCreate (path : string; speed : BaudRates; blockingTime : Duration; bufferSize : C.int; iShouldBlock : C.int) return pCUartHandler is
+   function pxCreate (path : string; speed : BaudRates; vtime : C.int; bufferSize : C.int; vmin : C.int) return pCUartHandler is
       pxUartHandler : pCUartHandler;
       iBaudrateInt  : C.int;
    begin
@@ -28,8 +28,8 @@ package body UartWrapper is
 
       pxUartHandler.serialHandler := openUartPort(portname     => C.To_C(Item =>path, Append_Nul => true),
                                                   speed        => iBaudrateInt,
-                                                  should_block => 0,
-                                                  blocking_time => 8);
+                                                  vmin => vmin,
+                                                  vtime => vtime);
       pxUartHandler.bufferSize := bufferSize;
 
       Ada.Text_IO.Put_Line("Port open");
