@@ -17,4 +17,9 @@ public class MainWindowViewModel implements IViewModel{
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
+    @Override
+    public Object getScope() {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
 }

@@ -1,6 +1,5 @@
-package ExtendedComponents;
+package UserControls;
 
-import Commands.DummyCommand;
 import Interfaces.ICommand;
 
 import javax.swing.*;

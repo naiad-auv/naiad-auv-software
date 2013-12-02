@@ -9,7 +9,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import ExtendedComponents.JImagePanel;
+import UserControls.JImagePanel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 

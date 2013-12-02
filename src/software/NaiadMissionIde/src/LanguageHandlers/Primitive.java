@@ -1,5 +1,6 @@
 package LanguageHandlers;
 
+import Exceptions.NullReferenceException;
 import Interfaces.ILanguageObject;
 import Interfaces.IPrimitive;
 
@@ -25,9 +26,21 @@ public class Primitive implements IPrimitive, ILanguageObject{
         this.loadFile();
     }
 
+    public Primitive(Primitive base) {
+        this.primitiveName = base.primitiveName;
+        this.primitiveInputs = base.primitiveInputs;
+        this.primitiveOutputs = base.primitiveOutputs;
+        this.filePath = base.filePath;
+
+        this.loadFile();
+    }
+
     @Override
-    public Path getFilePath() {
-        return this.filePath;
+    public Path getFilePath() throws NullReferenceException
+    {
+        if(this.filePath != null)
+            return this.filePath;
+        throw new NullReferenceException("this.filePath");
     }
 
     @Override
@@ -38,8 +51,10 @@ public class Primitive implements IPrimitive, ILanguageObject{
 
     @Override
     public String getFileContents() throws IOException {
-        BufferedReader br = new BufferedReader(new FileReader(this.getFilePath().toString()));
+        BufferedReader br = null;
         try {
+            br = new BufferedReader(new FileReader(this.getFilePath().toString()));
+
             StringBuilder sb = new StringBuilder();
             String line = br.readLine();
 
@@ -53,10 +68,25 @@ public class Primitive implements IPrimitive, ILanguageObject{
         }
         catch (IOException e)
         {
-            System.out.println("unable to read file contents of primitive: " + this.toString());
+            System.out.println("unable to read file contents of primitive, IOException: " + this.toString());
             e.printStackTrace();
-            br.close();
-        } finally
+
+            if(br != null)
+            {
+                br.close();
+            }
+        }
+        catch (NullReferenceException e)
+        {
+            System.out.println("unable to read file contents of primitive, NullReferenceException: " + this.toString());
+            e.printStackTrace();
+
+            if(br != null)
+            {
+                br.close();
+            }
+        }
+        finally
         {
             br.close();
         }
