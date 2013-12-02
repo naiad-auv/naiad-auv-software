@@ -42,7 +42,7 @@ public class LanguageObjectDropTargetListener extends DropTargetAdapter {
 
                 event.acceptDrop(DnDConstants.ACTION_COPY);
 
-                this.transferObjectHandler.setScope(new ArrayList<Object>() {{ add(transferObject); }});
+                this.transferObjectHandler.setScope(new ArrayList<Object>() {{ add(transferObject); add(event.getLocation().x); add(event.getLocation().y); }});
                 this.transferObjectHandler.execute();
 
                 event.dropComplete(true);

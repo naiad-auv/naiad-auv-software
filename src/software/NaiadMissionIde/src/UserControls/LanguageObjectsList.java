@@ -31,9 +31,9 @@ public class LanguageObjectsList extends JList implements Observer, DragGestureL
     private DragSource dragSource;
 
 
-    public LanguageObjectsList()
+    public LanguageObjectsList(ICommand handleObjectiveEditorCommand)
     {
-        this.viewModel = new LanguageObjectsListViewModel();
+        this.viewModel = new LanguageObjectsListViewModel(handleObjectiveEditorCommand);
         this.viewModel.addObserver(this);
         this.viewModel.Initialize();
         this.viewModel.WireEvents(this);

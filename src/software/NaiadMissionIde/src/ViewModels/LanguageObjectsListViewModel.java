@@ -37,13 +37,15 @@ public class LanguageObjectsListViewModel extends Observable implements IViewMod
     private ILanguageObject currentlySelectedObject;
 
 
-    public ICommand handlePrimitiveEditorCommand;
+    private ICommand handlePrimitiveEditorCommand;
+    private ICommand handleObjectiveEditorCommand;
 
-    public LanguageObjectsListViewModel()
+    public LanguageObjectsListViewModel(ICommand handleObjectiveEditorCommand)
     {
         this.languageObjects = new ArrayList<ILanguageObject>();
 
         this.handlePrimitiveEditorCommand = new HandlePrimitiveEditorCommand();
+        this.handleObjectiveEditorCommand = handleObjectiveEditorCommand;
 
     }
 
@@ -84,18 +86,49 @@ public class LanguageObjectsListViewModel extends Observable implements IViewMod
             public void mouseClicked(MouseEvent event) {
                 if(event.getClickCount() == 2)
                 {
-                    //TODO om det är en primitiv så ska editorn öppnas, annars så ska en ny tab skapas för edit av den objectiven
+                    try
+                    {
+                        if((Primitive)currentlySelectedObject != null)
+                        {
+                            try
+                            {
+                                handlePrimitiveEditorCommand.setScope(new ArrayList<Object>() {{ add(currentlySelectedObject); }});
+                                handlePrimitiveEditorCommand.execute();
+                            }
+                            catch(Exception e)
+                            {
+                                ExceptionLogger.Log(e);
+                                return;
+                            }
+                        }
+                            return;
+                    }
+                    catch(Exception e)
+                    {
+                    }
 
                     try
                     {
-                        handlePrimitiveEditorCommand.setScope(new ArrayList<Object>() {{ add(currentlySelectedObject); }});
+                        if((Objective)currentlySelectedObject != null)
+                        {
+                            try
+                            {
+                                handleObjectiveEditorCommand.setScope(new ArrayList<Object>() {{ add(currentlySelectedObject); }});
+                                handleObjectiveEditorCommand.execute();
+                            }
+                            catch(Exception e)
+                            {
+                                ExceptionLogger.Log(e);
+                                return;
+                            }
+                            return;
+                        }
                     }
-                    catch (ScopeModificationNotSupported e)
+                    catch(Exception e)
                     {
-                        ExceptionLogger.Log(e);
-                        return;
                     }
-                    handlePrimitiveEditorCommand.execute();
+
+                    throw new IllegalArgumentException();
                 }
             }
         });
@@ -103,11 +136,6 @@ public class LanguageObjectsListViewModel extends Observable implements IViewMod
         view.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent listSelectionEvent) {
-
-                if(listSelectionEvent.getValueIsAdjusting())
-                {
-                    return;
-                }
 
                 LanguageObjectsList source = (LanguageObjectsList)listSelectionEvent.getSource();
                 if(source == null)
@@ -125,6 +153,11 @@ public class LanguageObjectsListViewModel extends Observable implements IViewMod
     @Override
     public Dictionary<String, ICommand> getCommandsDictionary() {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public Object getScope() {
+        return this.languageObjects;
     }
 
     public ILanguageObject getSelectedItem() {

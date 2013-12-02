@@ -16,11 +16,13 @@ int set_interface_attribs (int fd, int speed, int parity)
 	{
         case 1:
 		cfsetospeed (&tty, B9600);
-        	cfsetispeed (&tty, B9600);
+		cfsetispeed (&tty, B9600);
+		break;
 	case 2:
 		cfsetospeed (&tty, B115200);
 		cfsetispeed (&tty, B115200);
-	}	
+		break;
+    	}
 
         tty.c_cflag = (tty.c_cflag & ~CSIZE) | CS8;     // 8-bit chars
         // disable IGNBRK for mismatched speed tests; otherwise receive break
@@ -28,7 +30,9 @@ int set_interface_attribs (int fd, int speed, int parity)
         tty.c_iflag &= ~IGNBRK;         // ignore break signal
         tty.c_lflag = 0;                // no signaling chars, no echo,
                                         // no canonical processing
-        tty.c_oflag = 0;                // no remapping, no delays
+  	tty.c_oflag = 0;                // no remapping, no delays
+  
+ 	// kks :  this attributes will get overwrite by function set_blocking()
         tty.c_cc[VMIN]  = 0;            // read doesn't block
         tty.c_cc[VTIME] = 5;            // 0.5 seconds read timeout
 
@@ -49,7 +53,7 @@ int set_interface_attribs (int fd, int speed, int parity)
         return 0;
 }
 
-void set_blocking (int fd, int should_block)
+void set_blocking (int fd, int vmin, int vtime)
 {
         struct termios tty;
         memset (&tty, 0, sizeof tty);
@@ -59,14 +63,16 @@ void set_blocking (int fd, int should_block)
                 return;
         }
 
-        tty.c_cc[VMIN]  = should_block ? 1 : 0;
-        tty.c_cc[VTIME] = 5;           
+  	// kks: VMIN = blocking for number of characters.
+	// kks:	VTIME = blocking time between each character.
+        tty.c_cc[VMIN]  = vmin;// ? 1 : 0;
+        tty.c_cc[VTIME] = vtime;//5;           
 
         if (tcsetattr (fd, TCSANOW, &tty) != 0)
                 printf("error %d setting term attributes", errno);
 }
 
-int openPort(char* portname, int speed, int should_block)
+int openPort(char* portname, int speed, int vmin, int vtime)
 {
 	printf("trying to open port %s\n", portname);
 
@@ -79,7 +85,7 @@ int openPort(char* portname, int speed, int should_block)
 	}
 
 	set_interface_attribs (fd, speed, 0);  
-	set_blocking (fd, should_block);
+	set_blocking (fd, vmin, vtime);
 
 	return fd;
 }

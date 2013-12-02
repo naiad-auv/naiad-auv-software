@@ -1,4 +1,4 @@
-package ExtendedComponents;
+package UserControls;
 
 import javax.swing.JMenuBar;
 import Exceptions.ItemNotFoundException;

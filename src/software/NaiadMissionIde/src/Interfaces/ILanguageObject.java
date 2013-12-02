@@ -1,5 +1,7 @@
 package Interfaces;
 
+import Exceptions.NullReferenceException;
+
 import java.nio.file.Path;
 
 /**
@@ -11,7 +13,7 @@ import java.nio.file.Path;
  */
 public interface ILanguageObject {
 
-    public Path getFilePath();
+    public Path getFilePath() throws NullReferenceException;
 
     public String toString();
 }

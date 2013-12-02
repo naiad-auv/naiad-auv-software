@@ -11,7 +11,7 @@ import javax.swing.*;
  */
 public final class ExceptionLogger {
 
-    public static boolean notifyUser = true;
+    public static boolean notifyUser = false;
 
     public static void Log(Exception e)
     {
@@ -19,6 +19,7 @@ public final class ExceptionLogger {
 
         sb.append("Exception occured: ");
         sb.append(e.getStackTrace());
+        e.printStackTrace();
 
         //TODO add exception logging
         if(ExceptionLogger.notifyUser)

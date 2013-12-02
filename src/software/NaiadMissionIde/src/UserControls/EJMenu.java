@@ -1,4 +1,4 @@
-package ExtendedComponents;
+package UserControls;
 
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
@@ -21,15 +21,21 @@ public class EJMenu extends JMenu
 				JMenuItem currentItem = this.getItem(i);
 				
 				if(currentItem == null)
-					continue;
+                {
+                    continue;
+                }
 				
 				String itemName = currentItem.getName();
 				
 				if(itemName == null)
-					continue;
+                {
+                    continue;
+                }
 				
 				if(itemName.equals(name))
-					return this.getItem(i);
+                {
+                    return this.getItem(i);
+                }
 			}
 			
 			throw new ItemNotFoundException(name);
