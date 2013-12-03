@@ -11,7 +11,7 @@ package UartWrapper is
 
    type BaudRates is (B9600, B115200);
 
-   function pxCreate (path : string; speed : BaudRates; blockingTime : Duration; bufferSize : C.int; iShouldBlock : C.int) return pCUartHandler;
+   function pxCreate (path : string; speed : BaudRates; vtime : C.int; bufferSize : C.int; vmin : C.int) return pCUartHandler;
 
    procedure Uart_Write (this : in out CUartHandler; sStringToBeWritten : string; iLengthOfString : Integer; bAppendEOT : Boolean := false);
 
@@ -22,7 +22,7 @@ package UartWrapper is
   procedure UartReadSpecificAmount(this : in out CUartHandler; sStringRead : out string; iBytesToRead : in integer;  iNumBytesRead : out integer);
 private
 
-   function openUartPort(portname : C.char_array; speed : C.int; should_block : C.int; blocking_time : C.int) return C.int;
+   function openUartPort(portname : C.char_array; speed : C.int; vmin : C.int; vtime : C.int) return C.int;
    pragma Import(Convention => C, Entity => openUartPort, External_Name => "openPort");
 
    function uartUartWrite(port : C.int; message : C.char_array; messageSize : C.int) return C.int;

@@ -3,7 +3,7 @@ with Navigation.PID_Controller;
 
 package Navigation.Motion_Component is
 
-   type CMotionComponent is tagged private;
+   type CMotionComponent is private;
 
 
    type EMotionComponent is (PositionX, PositionY, PositionZ, RotationX, RotationY, RotationZ, AllComponents);
@@ -35,7 +35,7 @@ package Navigation.Motion_Component is
 
 private
 
-   type CMotionComponent is tagged
+   type CMotionComponent is
       record
          eComponentIndex : EMotionComponent;
 

@@ -12,7 +12,7 @@ with Math.Matrices;
 
 package Navigation.Dispatcher is
 
-   type CDispatcher is tagged private;
+   type CDispatcher is private;
 
 
    function xCreate return CDispatcher;
@@ -57,7 +57,7 @@ private
    procedure Scale_Thruster_Values (tfThrusterValues : in out Navigation.Thrusters.TThrusterValuesArray);
    function bThruster_Values_Need_Scaling (tfThrusterValues : in Navigation.Thrusters.TThrusterValuesArray) return boolean;
 
-   type CDispatcher is tagged
+   type CDispatcher is
       record
 
          xThrusterConfigurator : Navigation.Thruster_Configurator.CThrusterConfigurator;

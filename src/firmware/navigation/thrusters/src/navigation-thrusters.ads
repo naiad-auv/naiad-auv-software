@@ -2,7 +2,7 @@
 package Navigation.Thrusters is
    NumberOfThrusters : constant := 6;
 
-   type CThrusterList is tagged private;
+   type CThrusterList is private;
 
    type EThrusterEffectsComponents is (XPosition, YPosition, ZPosition, XRotation, YRotation, ZRotation);
    type TThrusterEffects is array (XPosition .. ZRotation) of float;
@@ -19,7 +19,7 @@ package Navigation.Thrusters is
 
 private
 
-   type CThrusterList is tagged
+   type CThrusterList is
       record
          tfThrusterEffects : TThrusterEffectsMatrix;
       end record;

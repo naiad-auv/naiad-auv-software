@@ -6,7 +6,7 @@ package body UartWrapper is
    -- pxCreate --
    --------------
 
-   function pxCreate (path : string; speed : BaudRates; blockingTime : Duration; bufferSize : C.int; iShouldBlock : C.int) return pCUartHandler is
+   function pxCreate (path : string; speed : BaudRates; vtime : C.int; bufferSize : C.int; vmin : C.int) return pCUartHandler is
       pxUartHandler : pCUartHandler;
       iBaudrateInt  : C.int;
    begin
@@ -28,8 +28,8 @@ package body UartWrapper is
 
       pxUartHandler.serialHandler := openUartPort(portname     => C.To_C(Item =>path, Append_Nul => true),
                                                   speed        => iBaudrateInt,
-                                                  should_block => 0,
-                                                  blocking_time => 8);
+                                                  vmin => vmin,
+                                                  vtime => vtime);
       pxUartHandler.bufferSize := bufferSize;
 
       Ada.Text_IO.Put_Line("Port open");
@@ -82,7 +82,7 @@ package body UartWrapper is
          end if;
 
          --Ada.Text_IO.Put_Line("bytesRead   =" & bytesRead'Img);
-         Ada.Text_IO.Put_Line("   uart C driver read bytes: " & C.size_t(bytesRead)'Img);
+       --  Ada.Text_IO.Put_Line("   uart C driver read bytes: " & C.size_t(bytesRead)'Img);
 
          --Ada.Text_IO.Put_Line("C Converted" & C.To_Ada(item => readBuffer(1..C.size_t(bytesRead)),Trim_Nul => false) );
          return C.To_Ada(item 	  => readBuffer(1 .. C.size_t(bytesRead)),

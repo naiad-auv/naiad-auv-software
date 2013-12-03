@@ -9,14 +9,19 @@ package body Math.Matrices is
       fDeterminant : float;
    begin
       xMatrix := Math.Matrices.xCreate_Identity;
-      xXVector := xMatrix.xGet_X_Vector;
-      xYVector := xMatrix.xGet_Y_Vector;
-      xZVector := xMatrix.xGet_Z_Vector;
-      xMatrix.Copy_From(xSourceMatrix => this);
+      xXVector := xGet_X_Vector(xMatrix);
+      xYVector := xGet_Y_Vector(xMatrix);
+      xZVector := xGet_Z_Vector(xMatrix);
+      Copy_From(this          => xMatrix,
+                xSourceMatrix => this);
 
-      xXVector.Copy_From(xSourceVector => xMatrix * xXVector);
-      xYVector.Copy_From(xSourceVector => xMatrix * xYVector);
-      xZVector.Copy_From(xSourceVector => xMatrix * xZVector);
+      Math.Vectors.Copy_From(this          => xXVector,
+                             xSourceVector => xMatrix * xXVector);
+      Math.Vectors.Copy_From(this          => xYVector,
+                             xSourceVector => xMatrix * xYVector);
+      Math.Vectors.Copy_From(this          => xZVector,
+                             xSourceVector => xMatrix * xZVector);
+
 
       fDeterminant := Math.Vectors.fDot_Product(xXVector, Math.Vectors.xCross_Product(xYVector, xZVector));
 
@@ -51,14 +56,14 @@ package body Math.Matrices is
       fD : float;
    begin
 
-      if xFromQuaternion.fGet_Length = 0.0 then
+      if Math.Quaternions.fGet_Length(xFromQuaternion) = 0.0 then
          return Math.Matrices.xCreate_Identity; -- should raise exception here instead
       end if;
 
-      fA := xFromQuaternion.fGet_W;
-      fB := xFromQuaternion.fGet_X;
-      fC := xFromQuaternion.fGet_Y;
-      fD := xFromQuaternion.fGet_Z;
+      fA := Math.Quaternions.fGet_W(xFromQuaternion);
+      fB := Math.Quaternions.fGet_X(xFromQuaternion);
+      fC := Math.Quaternions.fGet_Y(xFromQuaternion);
+      fD := Math.Quaternions.fGet_Z(xFromQuaternion);
 
       tfMatrix(1,1) := 1.0-2.0*(fC*fC+fD*fD);
       tfMatrix(1,2) := 2.0*(fB*fC-fA*fD);
@@ -213,19 +218,19 @@ package body Math.Matrices is
       xProductVector : Math.Vectors.CVector;
    begin
       xProductVector := Math.Vectors.xCreate(fX =>
-                                                 ( (xLeftOperandMatrix.tfMatrix(1,1) * xRightOperandVector.fGet_X) +
-                                                  (xLeftOperandMatrix.tfMatrix(1,2) * xRightOperandVector.fGet_Y) +
-                                                  (xLeftOperandMatrix.tfMatrix(1,3) * xRightOperandVector.fGet_Z) ),
+                                                 ( (xLeftOperandMatrix.tfMatrix(1,1) * Math.Vectors.fGet_X(xRightOperandVector)) +
+                                                  (xLeftOperandMatrix.tfMatrix(1,2) * Math.Vectors.fGet_Y(xRightOperandVector)) +
+                                                  (xLeftOperandMatrix.tfMatrix(1,3) * Math.Vectors.fGet_Z(xRightOperandVector)) ),
 
                                                fY =>
-                                                 ( (xLeftOperandMatrix.tfMatrix(2,1) * xRightOperandVector.fGet_X) +
-                                                  (xLeftOperandMatrix.tfMatrix(2,2) * xRightOperandVector.fGet_Y) +
-                                                  (xLeftOperandMatrix.tfMatrix(2,3) * xRightOperandVector.fGet_Z) ),
+                                                 ( (xLeftOperandMatrix.tfMatrix(2,1) * Math.Vectors.fGet_X(xRightOperandVector)) +
+                                                  (xLeftOperandMatrix.tfMatrix(2,2) * Math.Vectors.fGet_Y(xRightOperandVector)) +
+                                                  (xLeftOperandMatrix.tfMatrix(2,3) * Math.Vectors.fGet_Z(xRightOperandVector)) ),
 
                                                fZ =>
-                                                 ( (xLeftOperandMatrix.tfMatrix(3,1) * xRightOperandVector.fGet_X) +
-                                                  (xLeftOperandMatrix.tfMatrix(3,2) * xRightOperandVector.fGet_Y) +
-                                                  (xLeftOperandMatrix.tfMatrix(3,3) * xRightOperandVector.fGet_Z) ));
+                                                 ( (xLeftOperandMatrix.tfMatrix(3,1) * Math.Vectors.fGet_X(xRightOperandVector)) +
+                                                  (xLeftOperandMatrix.tfMatrix(3,2) * Math.Vectors.fGet_Y(xRightOperandVector)) +
+                                                  (xLeftOperandMatrix.tfMatrix(3,3) * Math.Vectors.fGet_Z(xRightOperandVector)) ));
       return xProductVector;
    end "*";
 
@@ -235,8 +240,8 @@ package body Math.Matrices is
       xNewPlane : Math.Planes.CPlane;
 
    begin
-      xNewPlane := Math.Planes.xCreate(xNormalVector      => Math.Vectors.CVector(xLeftOperandMatrix * xRightOperandPlane.xGet_Normal_Vector),
-                                         fDistanceFromOrigin => xRightOperandPlane.fGet_Distance_From_Origin);
+      xNewPlane := Math.Planes.xCreate(xNormalVector      => Math.Vectors.CVector(xLeftOperandMatrix * Math.Planes.xGet_Normal_Vector(xRightOperandPlane)),
+                                         fDistanceFromOrigin => Math.Planes.fGet_Distance_From_Origin(xRightOperandPlane));
       return xNewPlane;
    end "*";
 

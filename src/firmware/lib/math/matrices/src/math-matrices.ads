@@ -13,7 +13,7 @@ package Math.Matrices is
 
    fMATRIX_PRECISION : constant float := 0.000001;
 
-   type CMatrix is tagged private;
+   type CMatrix is private;
 
    --  <summary>Class for 3x3 rotation matrix.</summary>
 
@@ -101,7 +101,7 @@ package Math.Matrices is
 
 private
    type TExtendedMatrix is array(1 .. 3, 1 .. 6) of float;
-   type CMatrix is tagged
+   type CMatrix is
       record
          tfMatrix : TMatrix;
       end record;

@@ -5,7 +5,7 @@ with Math.Angles;
 -- Planes package for classes and functionality regarding planes. A plane object is stored in a pCPlane variable and is created with the pxCreate function.
 package Math.Planes is
 
-   type CPlane is tagged private;
+   type CPlane is private;
    --  <summary>Class for plane.</summary>
 
 
@@ -43,7 +43,7 @@ package Math.Planes is
 
 
 private
-   type CPlane is tagged
+   type CPlane is
       record
          fA : float;
          fB : float;

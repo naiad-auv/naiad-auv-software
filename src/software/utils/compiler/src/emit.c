@@ -95,7 +95,7 @@ static void format_instruction(tInstr *instr, char *s)
       switch (instr->type) {
          case INT: sprintf(s,"ASSINT"); break;
          case BOOL: sprintf(s,"ASSBOOL"); break;
-         case STRING: sprintf(s,"ASSSTRING"); break;
+         //case STRING: sprintf(s,"ASSSTRING"); break;
          default: sprintf(s," Unknown type for assign");
       }
       break;
@@ -109,7 +109,7 @@ static void format_instruction(tInstr *instr, char *s)
       switch (instr->type) {
          case INT: sprintf(s,"READINT"); break;
          case BOOL: sprintf(s,"READBOOL"); break;
-         case STRING: sprintf(s,"READSTRING"); break;
+         //case STRING: sprintf(s,"READSTRING"); break;
          default: sprintf(s," Unknown type for read");
       }
       break;
@@ -117,7 +117,7 @@ static void format_instruction(tInstr *instr, char *s)
       switch (instr->type) {
          case INT: sprintf(s,"WRITEINT"); break;
          case BOOL: sprintf(s,"WRITEBOOL"); break;
-         case STRING: sprintf(s,"WRITESTRING"); break;
+         //case STRING: sprintf(s,"WRITESTRING"); break;
          default: sprintf(s," Unknown type for write");
       }
       break;
@@ -143,7 +143,7 @@ static void format_instruction(tInstr *instr, char *s)
       switch (instr->type) {
          case INT: sprintf(s,"EQINT"); break;
          case BOOL: sprintf(s,"EQBOOL"); break;
-         case STRING: sprintf(s,"EQSTRING"); break;
+         //case STRING: sprintf(s,"EQSTRING"); break;
          default: sprintf(s," Unknown type for ==");
       }
       break;
@@ -151,7 +151,7 @@ static void format_instruction(tInstr *instr, char *s)
       switch (instr->type) {
          case INT: sprintf(s,"LTINT"); break;
          case BOOL: sprintf(s,"LTBOOL"); break;
-         case STRING: sprintf(s,"LTSTRING"); break;
+         //case STRING: sprintf(s,"LTSTRING"); break;
          default: sprintf(s," Unknown type for <");
       }
       break;
@@ -159,7 +159,7 @@ static void format_instruction(tInstr *instr, char *s)
       switch (instr->type) {
          case INT: sprintf(s,"LEINT"); break;
          case BOOL: sprintf(s,"LEBOOL"); break;
-         case STRING: sprintf(s,"LESTRING"); break;
+         //case STRING: sprintf(s,"LESTRING"); break;
          default: sprintf(s," Unknown type for <=");
       }
       break;
@@ -179,7 +179,7 @@ static void format_instruction(tInstr *instr, char *s)
       switch (instr->type) {
          case INT: sprintf(s,"PUSHINT %d", instr->intval); break;
          case BOOL: sprintf(s,"PUSHBOOL %s", instr->intval?"true":"false"); break;
-         case STRING: sprintf(s,"PUSHSTRING %s", instr->strval); break;
+         //case STRING: sprintf(s,"PUSHSTRING %s", instr->strval); break;
          default: sprintf(s," Unknown type for push");
       }
       break;
@@ -189,14 +189,14 @@ static void format_instruction(tInstr *instr, char *s)
          switch (instr->type) {
             case INT: sprintf(s,"RVALINT (FP+OR)"); break;
             case BOOL: sprintf(s,"RVALBOOL (FP+OR)"); break;
-            case STRING: sprintf(s,"RVALSTRING (FP+OR)"); break;
+            //case STRING: sprintf(s,"RVALSTRING (FP+OR)"); break;
             default: sprintf(s," Unknown type for rval");
          }
       } else {
          switch (instr->type) {
             case INT: sprintf(s,"RVALINT %d(FP)", instr->osa); break;
             case BOOL: sprintf(s,"RVALBOOL %d(FP)", instr->osa); break;
-            case STRING: sprintf(s,"RVALSTRING %d(FP)", instr->osa); break;
+            //case STRING: sprintf(s,"RVALSTRING %d(FP)", instr->osa); break;
             default: sprintf(s," Unknown type for rval");
          }
       }
@@ -279,7 +279,7 @@ tInstr *emit_add(tCode *code)             {return emit_instr(code, ADDi, 0, 0, 0
 tInstr *emit_sub(tCode *code)             {return emit_instr(code, SUBi, 0, 0, 0, 0); }
 tInstr *emit_mult(tCode *code)            {return emit_instr(code, MULTi, 0, 0, 0, 0); }
 tInstr *emit_div(tCode *code)             {return emit_instr(code, DIVi, 0, 0, 0, 0); }
-tInstr *emit_push_string(tCode *code, const char *str)  {return emit_instr(code, PUSHi, 0, STRING, 0, str); }
+//tInstr *emit_push_string(tCode *code, const char *str)  {return emit_instr(code, PUSHi, 0, STRING, 0, str); }
 tInstr *emit_push_int(tCode *code, int x) {return emit_instr(code, PUSHi, 0, INT, x, 0); }
 tInstr *emit_push_bool(tCode *code, int x){return emit_instr(code, PUSHi, 0, BOOL, x, 0); }
 tInstr *emit_rval(tCode *code, eType t, int offset, const char *debug) {return emit_instr(code, RVALi, offset, t, 0, debug); }
@@ -339,8 +339,8 @@ int code_buffer_print(tCode *code, const char *list_file, const char *obj_file)
 
 int code_buffer_print(tCode *code, const char *list_file)
 {
-   FILE *lfile, *ofile;
-   int n;
+   FILE *lfile;//, *ofile;
+   //int n;
    t_iterator *i;
 
    lfile = fopen(list_file, "w");

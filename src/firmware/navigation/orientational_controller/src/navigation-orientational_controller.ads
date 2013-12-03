@@ -11,7 +11,7 @@ with Navigation.Thrusters;
 
 package Navigation.Orientational_Controller is
 
-   type COrientationalController is tagged private;
+   type COrientationalController is private;
 
 
    function xCreate (pxCurrentAbsoluteOrientation : access Math.Matrices.CMatrix; pxWantedAbsoluteOrientation : access Math.Matrices.CMatrix; pxCurrentAbsoluteOrientationInverse : access Math.Matrices.CMatrix) return COrientationalController;
@@ -45,7 +45,7 @@ private
    procedure Get_Y_Rotation_Thruster_Control_Value (this : in out COrientationalController; fDeltaTime : in float; fControlValue : out float);
    procedure Get_Z_Rotation_Thruster_Control_Value (this : in out COrientationalController; fDeltaTime : in float; fControlValue : out float);
 
-   type COrientationalController is tagged
+   type COrientationalController is
       record
          pxCurrentAbsoluteOrientation : access Math.Matrices.CMatrix;
          pxWantedAbsoluteOrientation : access Math.Matrices.CMatrix;
