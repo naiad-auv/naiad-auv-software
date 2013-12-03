@@ -17,8 +17,6 @@ public class EPrimitiveEditorTextArea extends JTextArea {
 
     private ICommand getPrimitiveContents;
 
-    private JScrollPane scrollBars;
-
     public EPrimitiveEditorTextArea(ICommand primitiveContentsGetter)
     {
         this.getPrimitiveContents = primitiveContentsGetter;
@@ -35,9 +33,6 @@ public class EPrimitiveEditorTextArea extends JTextArea {
     private void setupVisual() {
 
         this.setMargin(new Insets(10,10,10,10));
-
-        this.scrollBars = new JScrollPane(this);
-
         this.enableInputMethods(true);
         this.setVisible(true);
     }

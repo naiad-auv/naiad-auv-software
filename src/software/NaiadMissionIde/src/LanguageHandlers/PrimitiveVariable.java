@@ -9,11 +9,6 @@ public class PrimitiveVariable {
     private VariableType variableType;
     private String variableValue;
 
-    public PrimitiveVariable()
-    {
-
-    }
-
     public PrimitiveVariable(VariableMode mode, VariableType type, String value)
     {
         this.variableMode = mode;

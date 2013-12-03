@@ -23,6 +23,9 @@ public class Objective implements ILanguageObject {
     private String objectiveName;
     private List<ILanguageObject> executionalSteps;
 
+    private List<PrimitiveVariable> inputVariables;
+    private List<PrimitiveVariable> outputVariables;
+
     public Objective()
     {
 
@@ -33,6 +36,8 @@ public class Objective implements ILanguageObject {
         this.objectiveName = name;
 
         this.executionalSteps = new ArrayList<ILanguageObject>();
+        this.inputVariables = new ArrayList<PrimitiveVariable>();
+        this.outputVariables = new ArrayList<PrimitiveVariable>();
     }
 
     public List<ILanguageObject> getExecutionalSteps() throws NullReferenceException {
@@ -65,6 +70,16 @@ public class Objective implements ILanguageObject {
     public String toString()
     {
         return "O : " + this.objectiveName;
+    }
+
+    @Override
+    public List<PrimitiveVariable> getInputVariables() {
+        return this.inputVariables;
+    }
+
+    @Override
+    public List<PrimitiveVariable> getOutputVariables() {
+        return this.outputVariables;
     }
 
     @Override

@@ -58,21 +58,10 @@ public class PresentationObjective extends Observable
     {
          for(int i = 0; i < ILanguageObjectPresentationObjects.size(); i++)
          {
-             ILanguageObjectPresentationObject objectToDraw = this.ILanguageObjectPresentationObjects.get(i);
-
-             DrawPresentationObject(objectToDraw,g);
+             this.ILanguageObjectPresentationObjects.get(i).Draw(g);
          }
 
         return g;
-    }
-
-    private void DrawPresentationObject(ILanguageObjectPresentationObject object, Graphics g)
-    {
-        Graphics canvas =  g.create(object.x, object.y, object.width, object.height);
-
-        canvas.drawRect(0,0,object.width - 1, object.height - 1);
-        canvas.drawString(object.toString(), 0, object.height/2);
-
     }
 
     public void addItem(ILanguageObject object, int x, int y) throws UnableToPreformActionException {
