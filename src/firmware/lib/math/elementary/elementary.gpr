@@ -3,23 +3,8 @@ with "../math.gpr";
 project Elementary is
 
    for Source_Dirs use ("src");
-   for Object_Dir use "build";
-   for Exec_Dir use "target";
+   for Object_Dir use "obj";
 
-   package Ide is
-      for Gnat use "avr-gnat";
-      for Gnatlist use "avr-gnatls";
-      for Debugger_Command use "avr-gdb";
-      for Compiler_Command ("ada") use "C:\GNAT\2012\bin\avr-gnatmake";
-   end Ide;
-
-   package Linker is
-      for Default_Switches ("ada") use ("-nostdlib", "-Wl,-Tdata=0x800100", "-T..\..\avr5.x", "..\crt1-at90can128.o.org", "-lgcc", "-mavr5");
-   end Linker;
-
-   package Compiler is
-      for Default_Switches ("ada") use ("-O3", "-gnatwa", "-mmcu=avr5", "-gnat12");
-   end Compiler;
 
 end Elementary;
 
