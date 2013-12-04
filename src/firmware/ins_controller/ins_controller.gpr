@@ -1,4 +1,4 @@
-with "../can_float_conversions/can_float_conversions_testing.gpr";
+with "..\can_float_conversions\can_float_conversions.gpr";
 with "../str2float/str2float.gpr";
 --with "../lib/math/vectors/vectors.gpr";
 --with "../lib/math/matrices/matrices.gpr";

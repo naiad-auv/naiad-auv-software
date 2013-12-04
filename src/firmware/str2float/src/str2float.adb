@@ -11,6 +11,8 @@
 
 package body Str2Float is
 
+   pragma Suppress(All_Checks);
+
    function fChar2Float(cChar : Character) return float is
    begin
       return Float(Character'Pos(cChar) -
