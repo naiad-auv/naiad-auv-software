@@ -9,6 +9,7 @@ with Vision.Image_Preprocessing;
 procedure main is
 
    --user decisions
+   iNumRuns : Integer := 1;
    iDoUseBuffer : Integer := 0;
    iDoUseStatic : Integer := 1;
    iDoShowOriginal : Integer := 1;
@@ -21,7 +22,7 @@ procedure main is
    iDoCanny : Integer := 0;
    iDoThresh : Integer := 0;
    iDoHoughCircles : Integer := 0;
-   iDoContours : Integer := 0;
+   iDoContours : Integer := 1;
    iDoApproxPoly : Integer := 0;
    iDoObjectTracking : Integer := 0;
    iDoFusion : Integer := 0;
@@ -33,7 +34,7 @@ procedure main is
    iDoMatchTemplete : Integer := 0;
    iDoWriteImageToFile : Integer :=0;
    iDoEnhanceColors : Integer :=0;
-   iDoContrast : Integer := 1;
+   iDoContrast : Integer := 0;
    iDoQuaternionSwitchingFilter : Integer :=0;
 
 
@@ -343,6 +344,8 @@ begin
          Vision.Image_Preprocessing.QNSF(iImageSource, iQNSFLocation, iQNSFThresh);
          Vision.Image_Preprocessing.QNSF(iQNSFLocation, iQNSFLocation, iQNSFThresh);
       end if;
+
+      exit Endless_Loop when iNumRuns = 1;
 
 
    end loop Endless_Loop;
