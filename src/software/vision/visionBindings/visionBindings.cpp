@@ -309,6 +309,7 @@ void Processing_Wrap::showContours(int src, int contourOut, int contourId = -1, 
 {
     img.at(contourOut)=img.at(src).clone();
     cv::drawContours(img.at(contourOut), contours, contourId, cv::Scalar(0,0,255), thickness, CV_AA );
+    cv::imwrite("contoury.jpg",img.at(contourOut));
 }
 
  
