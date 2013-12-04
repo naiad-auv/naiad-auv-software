@@ -5,27 +5,22 @@ package body Navigation.Dispatcher is
    begin
       xNewDispatcher.xThrusterConfigurator := Navigation.Thruster_Configurator.xCreate;
 
-      xNewDispatcher.xCurrentAbsoluteOrientation := Math.Matrices.xCreate_Identity;
-      xNewDispatcher.xWantedAbsoluteOrientation := Math.Matrices.xCreate_Identity;
-      xNewDispatcher.xCurrentAbsoluteOrientationInverse := Math.Matrices.xCreate_Identity;
+      Navigation.Globals.xCurrentAbsoluteOrientation := Math.Matrices.xCreate_Identity;
+      Navigation.Globals.xWantedAbsoluteOrientation := Math.Matrices.xCreate_Identity;
+      Navigation.Globals.xCurrentAbsoluteOrientationInverse := Math.Matrices.xCreate_Identity;
 
 
-      xNewDispatcher.xCurrentAbsolutePosition := Math.Vectors.xCreate(fX => 0.0,
-                                                                         fY => 0.0,
-                                                                         fZ => 0.0);
+      Navigation.Globals.xCurrentAbsolutePosition := Math.Vectors.xCreate(fX => 0.0,
+                                                               fY => 0.0,
+                                                               fZ => 0.0);
 
-      xNewDispatcher.xWantedAbsolutePosition := Math.Vectors.xCreate(fX => 0.0,
-                                                                     fY => 0.0,
-                                                                     fZ => 0.0);
+      Navigation.Globals.xWantedAbsolutePosition := Math.Vectors.xCreate(fX => 0.0,
+                                                              fY => 0.0,
+                                                              fZ => 0.0);
 
-      xNewDispatcher.xOrientationalController := Navigation.Orientational_Controller.xCreate(pxCurrentAbsoluteOrientation => xNewDispatcher.xCurrentAbsoluteOrientation'Access,
-                                                                                             pxWantedAbsoluteOrientation  => xNewDispatcher.xWantedAbsoluteOrientation'Access,
-                                                                                             pxCurrentAbsoluteOrientationInverse => xNewDispatcher.xCurrentAbsoluteOrientationInverse'Access);
+      xNewDispatcher.xOrientationalController := Navigation.Orientational_Controller.xCreate;
 
-      xNewDispatcher.xPositionalController := Navigation.Positional_Controller.xCreate(pxCurrentAbsolutePosition    => xNewDispatcher.xCurrentAbsolutePosition'Access,
-                                                                                       pxWantedAbsolutePosition     => xNewDispatcher.xWantedAbsolutePosition'Access,
-                                                                                       pxCurrentAbsoluteOrientation => xNewDispatcher.xCurrentAbsoluteOrientation'Access,
-                                                                                       pxCurrentAbsoluteOrientationInverse => xNewDispatcher.xCurrentAbsoluteOrientationInverse'Access);
+      xNewDispatcher.xPositionalController := Navigation.Positional_Controller.xCreate;
 
       return xNewDispatcher;
    end xCreate;
@@ -82,27 +77,27 @@ package body Navigation.Dispatcher is
 
    procedure Update_Current_Absolute_Position (this : in out CDispatcher; xNewCurrentAbsolutePosition : in Math.Vectors.CVector) is
    begin
-      Math.Vectors.Copy_From(this          => this.xCurrentAbsolutePosition,
+      Math.Vectors.Copy_From(this          => Navigation.Globals.xCurrentAbsolutePosition,
                              xSourceVector => xNewCurrentAbsolutePosition);
    end Update_Current_Absolute_Position;
 
    procedure Update_Wanted_Absolute_Position (this : in out CDispatcher; xNewWantedAbsolutePosition : in Math.Vectors.CVector) is
    begin
-      Math.Vectors.Copy_From(this          => this.xWantedAbsolutePosition,
+      Math.Vectors.Copy_From(this          => Navigation.Globals.xWantedAbsolutePosition,
                              xSourceVector => xNewWantedAbsolutePosition);
    end Update_Wanted_Absolute_Position;
 
    procedure Update_Current_Absolute_Orientation (this : in out CDispatcher; xNewCurrentAbsoluteOrientation : in Math.Matrices.CMatrix) is
    begin
-      Math.Matrices.Copy_From(this          => this.xCurrentAbsoluteOrientation,
+      Math.Matrices.Copy_From(this          => Navigation.Globals.xCurrentAbsoluteOrientation,
                               xSourceMatrix => xNewCurrentAbsoluteOrientation);
-      Math.Matrices.Copy_From(this          => this.xCurrentAbsoluteOrientationInverse,
-                              xSourceMatrix => Math.Matrices.xGet_Inverse(this.xCurrentAbsoluteOrientation));
+      Math.Matrices.Copy_From(this          => Navigation.Globals.xCurrentAbsoluteOrientationInverse,
+                              xSourceMatrix => Math.Matrices.xGet_Inverse(Navigation.Globals.xCurrentAbsoluteOrientation));
    end Update_Current_Absolute_Orientation;
 
    procedure Update_Wanted_Absolute_Orientation (this : in out CDispatcher; xNewWantedAbsoluteOrientation : in Math.Matrices.CMatrix) is
    begin
-      Math.Matrices.Copy_From(this          => this.xWantedAbsoluteOrientation,
+      Math.Matrices.Copy_From(this          => Navigation.Globals.xWantedAbsoluteOrientation,
                               xSourceMatrix => xNewWantedAbsoluteOrientation);
    end Update_Wanted_Absolute_Orientation;
 

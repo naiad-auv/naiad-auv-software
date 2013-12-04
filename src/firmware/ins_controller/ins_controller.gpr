@@ -1,15 +1,14 @@
-with "../can_float_conversions/can_float_conversions_testing.gpr";
+with "..\can_float_conversions\can_float_conversions.gpr";
 with "../str2float/str2float.gpr";
-with "../lib/math/vectors/vectors.gpr";
-with "../lib/math/matrices/matrices.gpr";
+--with "../lib/math/vectors/vectors.gpr";
+--with "../lib/math/matrices/matrices.gpr";
 
 project Ins_Controller is
 
    for Object_Dir use "build";
    for Exec_Dir use "target";
-   for Source_Dirs use ("src", "..\at90can128lib", "..\lib");
-   for Source_Files use ("avr-at90can128-usart.adb", "avr-at90can128-usart.ads", "ins_controller.adb", "ins_controller.ads", "ins_controller_main.adb", "ins_controller_utils.adb", "ins_controller_utils.ads", 
-      "my_last_chance_handler.adb", "my_last_chance_handler.ads", "my_memcpy.adb", "my_memcpy.ads", "my_secondary_stack.adb", "my_secondary_stack.ads");
+   for Source_Dirs use ("src", "../at90can128lib", "../lib");
+   for Source_Files use ("avr-at90can128-usart.adb", "avr-at90can128-usart.ads", "ins_controller.adb", "ins_controller.ads", "ins_controller_main.adb", "ins_controller_utils.adb", "ins_controller_utils.ads");
    for Main use ("ins_controller_main.adb");
 
    package Ide is
@@ -19,7 +18,7 @@ project Ins_Controller is
    end Ide;
 
    package Linker is
-      for Default_Switches ("ada") use ("-nostdlib", "-Wl,-Tdata=0x800100", "-T..\..\lib\avr5.x", "..\lib\crt1-at90can128.o.org", "-lgcc", "-mavr5", "..\lib\libm.a");
+      for Default_Switches ("ada") use ("-nostdlib", "-Wl,-Tdata=0x800100", "-T../../lib/avr5.x", "../lib/crt1-at90can128.o.org", "-lgcc", "-mavr5", "../lib/libm.a");
    end Linker;
 
    package Compiler is

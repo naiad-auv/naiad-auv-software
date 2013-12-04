@@ -110,6 +110,14 @@ t_tree mExit(int pLineNr)
    return node;
 }
 
+t_tree mAsm(const char * pArgument, int pLineNr)
+{
+   t_tree node = allocateNode(kAsm, pLineNr);
+   node->Node.Asm.Next = NULL;
+   node->Node.Asm.Arg = dstrcpy(pArgument);
+   return node;
+}
+
 t_tree mReturn(t_tree pExpr, int pLineNr)
 {
    t_tree node = allocateNode(kReturn, pLineNr);

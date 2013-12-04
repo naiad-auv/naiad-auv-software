@@ -90,6 +90,9 @@ void nameStmnt(t_tree node)
 	case kExit:
 		nameExit(node);
 		break;
+	case kAsm:
+		nameAsm(node);
+		break;
 	default:
 		printf("Error in name.c!\n");
 		break;
@@ -228,6 +231,10 @@ void nameLoop(t_tree node)
 	nameStmnt(node->Node.Stmnt.Next);
 }
 void nameExit(t_tree node)
+{
+	nameStmnt(node->Node.Stmnt.Next);
+}
+void nameAsm(t_tree node)
 {
 	nameStmnt(node->Node.Stmnt.Next);
 }

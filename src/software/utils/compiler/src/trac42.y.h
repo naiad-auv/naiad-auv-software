@@ -45,26 +45,29 @@
      PLUSOP = 263,
      MINUSOP = 264,
      MULDIVOP = 265,
-     UNOP = 266,
-     NOTOP = 267,
-     BASIC_TYPE = 268,
-     ID = 269,
-     BOOL_CONST = 270,
-     INT_CONST = 271,
-     FLOAT_CONST = 272,
-     IF = 273,
-     THEN = 274,
-     ELSE = 275,
-     WHILE = 276,
-     RETURN = 277,
-     END = 278,
-     EXIT = 279,
-     LOOP = 280,
-     PROCEDURE = 281,
-     FUNCTION = 282,
-     IS = 283,
-     BGN = 284,
-     ASSIGN = 285
+     VECOP = 266,
+     UNOP = 267,
+     NOTOP = 268,
+     BASIC_TYPE = 269,
+     ID = 270,
+     BOOL_CONST = 271,
+     STRING_CONST = 272,
+     INT_CONST = 273,
+     FLOAT_CONST = 274,
+     IF = 275,
+     THEN = 276,
+     ELSE = 277,
+     WHILE = 278,
+     RETURN = 279,
+     END = 280,
+     EXIT = 281,
+     LOOP = 282,
+     PROCEDURE = 283,
+     FUNCTION = 284,
+     IS = 285,
+     BGN = 286,
+     ASSIGN = 287,
+     ASM = 288
    };
 #endif
 
@@ -75,7 +78,7 @@ typedef union YYSTYPE
 {
 
 /* Line 2068 of yacc.c  */
-#line 36 "./src/trac42.y"
+#line 37 "./src/trac42.y"
 
    t_tree       yyNode;
    floatStruct  yyFloat;
@@ -88,7 +91,7 @@ typedef union YYSTYPE
 
 
 /* Line 2068 of yacc.c  */
-#line 92 "./src/trac42.y.h"
+#line 95 "./src/trac42.y.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */

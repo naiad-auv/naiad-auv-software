@@ -21,6 +21,7 @@ void genTrac42If(t_tree node);
 void genTrac42While(t_tree node);
 void genTrac42Loop(t_tree node);
 void genTrac42Exit(t_tree node);
+void genTrac42Asm(t_tree node);
 void genTrac42Return(t_tree node);
 void genTrac42FuncCallStmnt(t_tree node);
 void genTrac42FuncCallExpr(t_tree node);
@@ -86,6 +87,9 @@ void genTrac42Stmnt(t_tree node)
 		break;
 	case kExit:
 		genTrac42Exit(node);
+		break;
+	case kAsm:
+		genTrac42Asm(node);
 		break;
 	default:
 		// error
@@ -399,6 +403,19 @@ void genTrac42Exit(t_tree node)
 	genTrac42Stmnt(node->Node.Stmnt.Next);
 }
 
+// handles asm statements
+void genTrac42Asm(t_tree node)
+{
+	genTrac42NewLine();
+	fprintf(genTrac42FilePtr, "asm(");
+	fprintf(genTrac42FilePtr, node->Node.Asm.Arg);
+	fprintf(genTrac42FilePtr, ");");
+
+	genTrac42Stmnt(node->Node.Stmnt.Next);
+}
+
+
+
 // handles return statements
 void genTrac42Return(t_tree node)
 {
@@ -460,8 +477,14 @@ void genTrac42Unary(t_tree node)
 		fprintf(genTrac42FilePtr, "-(");
 		break;
 	case NOT:
-		fprintf(genTrac42FilePtr, "not (");
+		fprintf(genTrac42FilePtr, "not(");
 		break;
+	case FLOATOP:
+		fprintf(genTrac42FilePtr, "float(");
+		break;
+	case INTOP:
+		fprintf(genTrac42FilePtr, "integer(");
+		break;		
 	default:
 		fprintf(genTrac42FilePtr, "error");
 		break;
@@ -477,6 +500,12 @@ void genTrac42Binary(t_tree node)
 
 	switch (node->Node.Binary.Operator)
 	{
+	case DOT:
+		fprintf(genTrac42FilePtr, " dot ");
+		break;
+	case CROSS:
+		fprintf(genTrac42FilePtr, " cross ");
+		break;
 	case SUB:
 		fprintf(genTrac42FilePtr, " - ");
 		break;

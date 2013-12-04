@@ -85,6 +85,7 @@ procedure     {yylval.yyLineNr = yylineno; return (PROCEDURE);}
 function      {yylval.yyLineNr = yylineno; return (FUNCTION);}
 is            {yylval.yyLineNr = yylineno; return (IS);}
 begin         {yylval.yyLineNr = yylineno; return (BGN);}
+asm	      {yylval.yyLineNr = yylineno; return (ASM);}
 ":="          {yylval.yyLineNr = yylineno; return (ASSIGN);}
 
 
@@ -98,6 +99,7 @@ or            {yylval.yyOperator.lineNr = yylineno;
 and           {yylval.yyOperator.lineNr = yylineno;
                yylval.yyOperator.opType = AND;
                return (ANDOP);}
+
 
 "="           {yylval.yyOperator.lineNr = yylineno;
                yylval.yyOperator.opType = EQ;
@@ -132,12 +134,26 @@ and           {yylval.yyOperator.lineNr = yylineno;
                yylval.yyOperator.opType = DIV;
                return (MULDIVOP);}
 
+cross         {yylval.yyOperator.lineNr = yylineno;
+               yylval.yyOperator.opType = CROSS;
+               return (VECOP);}
+dot           {yylval.yyOperator.lineNr = yylineno;
+               yylval.yyOperator.opType = DOT;
+               return (VECOP);}
+
+
 true          {yylval.yyString.strVal = dstrcpy(yytext); yylval.yyString.lineNr = yylineno;
                return (BOOL_CONST);}
 false         {yylval.yyString.strVal = dstrcpy(yytext); yylval.yyString.lineNr = yylineno;
                return (BOOL_CONST);}
 
-
+{STR}         {yytext[yyleng-1] = 0;
+               yylval.yyString.strVal = dstrcpy(yytext+1);
+               if (strlen(yylval.yyString.strVal) >= STRING_SIZE) {
+                  yylval.yyString.strVal[STRING_SIZE] = 0;
+               }
+               yylval.yyString.lineNr = yylineno;
+               return (STRING_CONST);}
 
 {DIGIT}+      {yylval.yyInt.intVal = atoi(yytext);
                yylval.yyInt.lineNr = yylineno;

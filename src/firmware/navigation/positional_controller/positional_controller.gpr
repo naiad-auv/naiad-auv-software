@@ -1,3 +1,4 @@
+with "../globals/globals.gpr";
 with "../../lib/math/matrices/matrices.gpr";
 with "../../lib/math/vectors/vectors.gpr";
 with "../thrusters/thrusters.gpr";
