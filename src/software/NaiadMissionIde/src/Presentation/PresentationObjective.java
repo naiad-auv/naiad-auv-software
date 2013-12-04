@@ -6,11 +6,9 @@ import Interfaces.ILanguageObject;
 import LanguageHandlers.Objective;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
-import java.util.Observer;
 
 /**
  * Created with IntelliJ IDEA.
@@ -22,6 +20,8 @@ import java.util.Observer;
 public class PresentationObjective extends Observable
 {
     private List<ILanguageObjectPresentationObject> ILanguageObjectPresentationObjects;
+    private List<ILanguageObjectTransitionPresentationObject> ILangueageObjectTransitions;
+
     private Objective objective;
 
     int posX;
@@ -42,6 +42,8 @@ public class PresentationObjective extends Observable
             System.out.println("NullReferenceException thrown");
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
+
+        this.ILangueageObjectTransitions = new ArrayList<ILanguageObjectTransitionPresentationObject>();
     }
 
     private void populatePrimitivePresentationObjects() throws NullReferenceException {
@@ -61,6 +63,11 @@ public class PresentationObjective extends Observable
              this.ILanguageObjectPresentationObjects.get(i).Draw(g);
          }
 
+        for(int i = 0; i < ILangueageObjectTransitions.size(); i++)
+        {
+            this.ILangueageObjectTransitions.get(i).Draw(g);
+        }
+
         return g;
     }
 
@@ -71,7 +78,17 @@ public class PresentationObjective extends Observable
         this.notifyObservers();
     }
 
+    public void addTransition(ILanguageObjectPresentationObject predecessor, ILanguageObjectPresentationObject successor)
+    {
+        //TODO ta bort text
+        System.out.println("Adding transition");
+
+        this.ILangueageObjectTransitions.add(new ILanguageObjectTransitionPresentationObject(predecessor,successor));
+        this.setChanged();
+        this.notifyObservers();
+    }
+
     public Object getScope() {
-        return this.objective;
+        return new Object[]{ this.objective, this.ILanguageObjectPresentationObjects, this.ILangueageObjectTransitions };
     }
 }

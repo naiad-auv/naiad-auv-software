@@ -1,18 +1,24 @@
 package ViewModels;
 
+import Commands.DrawingAreaEventHandlingCommands.DrawingAreaClickedCommand;
+import Commands.DrawingAreaEventHandlingCommands.DrawingAreaMousePressedCommand;
+import Commands.DrawingAreaEventHandlingCommands.DrawingAreaMouseReleasedCommand;
+import Commands.DummyCommand;
+import Exceptions.ScopeModificationNotSupported;
 import Exceptions.UnableToPreformActionException;
 import Interfaces.ICommand;
 import Interfaces.ILanguageObject;
 import Interfaces.IViewModel;
 import LanguageHandlers.Objective;
+import Presentation.ILanguageObjectPresentationObject;
 import Presentation.PresentationObjective;
 import UserControls.EJDrawingArea;
 
 import java.awt.*;
-import java.util.Dictionary;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.*;
 import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
 
 /**
  * Created with IntelliJ IDEA.
@@ -25,10 +31,18 @@ public class DrawingAreaViewModel extends Observable implements IViewModel, Obse
 
     private PresentationObjective presentationObjective;
 
+    private ICommand onMouseClickedCommand;
+    private ICommand onMousePressedCommand;
+    private ICommand onMouseReleasedCommand;
+
     public DrawingAreaViewModel(Objective objective)
     {
         this.presentationObjective = new PresentationObjective(0,0,objective);
         this.presentationObjective.addObserver(this);
+
+        this.onMouseClickedCommand = new DrawingAreaClickedCommand();
+        this.onMousePressedCommand = new DrawingAreaMousePressedCommand();
+        this.onMouseReleasedCommand = new DrawingAreaMouseReleasedCommand();
     }
 
     public Graphics Draw(Graphics g)
@@ -44,6 +58,53 @@ public class DrawingAreaViewModel extends Observable implements IViewModel, Obse
 
         if(view == null)
             throw new IllegalArgumentException();
+
+        view.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(final MouseEvent eventArgs) {
+
+              /*  try
+                {
+                    onMouseClickedCommand.setScope(new ArrayList<Object>(){{ add(presentationObjective); add(eventArgs);}});
+                }
+                catch (ScopeModificationNotSupported scopeModificationNotSupported) {
+                    scopeModificationNotSupported.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                }
+                onMouseClickedCommand.execute(); */
+
+            }
+
+            @Override
+            public void mousePressed(final MouseEvent eventArgs) {
+
+                try {
+                    onMousePressedCommand.setScope(new ArrayList<Object>() {{ add(presentationObjective); add(eventArgs); }});
+                    final ILanguageObjectPresentationObject selectedObject = (ILanguageObjectPresentationObject)onMousePressedCommand.execute();
+
+                    if(selectedObject == null)
+                        return;
+
+
+                    onMouseReleasedCommand.setScope(new ArrayList<Object>() {{
+                        add(selectedObject);
+                    }});
+                } catch (ScopeModificationNotSupported scopeModificationNotSupported) {
+                    scopeModificationNotSupported.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                }
+            }
+
+            @Override
+            public void mouseReleased(final MouseEvent eventArgs)
+            {  try {
+                onMouseReleasedCommand.setScope(new ArrayList<Object>() {{
+                    add(presentationObjective); add(eventArgs);
+                }});
+            } catch (ScopeModificationNotSupported scopeModificationNotSupported) {
+                scopeModificationNotSupported.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            }
+                onMouseReleasedCommand.execute();
+            }
+        });
 
     }
 

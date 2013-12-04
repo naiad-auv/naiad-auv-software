@@ -36,6 +36,8 @@ public class EJDrawingArea extends JPanel implements Observer {
         this.viewModel = new DrawingAreaViewModel(objective);
         this.viewModel.addObserver(this);
 
+        this.viewModel.WireEvents(this);
+
         this.dropTargetListener = new LanguageObjectDropTargetListener(new HandleAddDroppedILanguageObject(this.viewModel), this);
     }
 
