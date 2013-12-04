@@ -1,13 +1,9 @@
 package body Navigation.Orientational_Controller is
 
 
-   function xCreate (pxCurrentAbsoluteOrientation : access Math.Matrices.CMatrix; pxWantedAbsoluteOrientation : access Math.Matrices.CMatrix; pxCurrentAbsoluteOrientationInverse : access Math.Matrices.CMatrix) return COrientationalController is
+   function xCreate return COrientationalController is
       xOrientationalController : Navigation.Orientational_Controller.COrientationalController;
    begin
-
-      xOrientationalController.pxCurrentAbsoluteOrientation := pxCurrentAbsoluteOrientation;
-      xOrientationalController.pxWantedAbsoluteOrientation := pxWantedAbsoluteOrientation;
-      xOrientationalController.pxCurrentAbsoluteOrientationInverse := pxCurrentAbsoluteOrientationInverse;
 
       xOrientationalController.xXRotMotionComponent := Navigation.Motion_Component.xCreate(eAxisIndex    => Navigation.Motion_Component.RotationX,
                                                                                                 xPIDScalings => (0.0,0.0,0.0));
@@ -131,7 +127,7 @@ package body Navigation.Orientational_Controller is
       xCurrentRelativeOrientation := Math.Matrices.xCreate_Identity;
       xCurrentXVector := Math.Matrices.xGet_X_Vector(xCurrentRelativeOrientation);
 
-      xWantedRelativeOrientation := this.pxCurrentAbsoluteOrientationInverse.all * this.pxWantedAbsoluteOrientation.all;
+      xWantedRelativeOrientation := Navigation.Globals.xCurrentAbsoluteOrientationInverse * Navigation.Globals.xWantedAbsoluteOrientation;
       xWantedXVector := Math.Matrices.xGet_X_Vector(xWantedRelativeOrientation);
 
 
@@ -180,7 +176,7 @@ package body Navigation.Orientational_Controller is
       xCurrentRelativeOrientation := Math.Matrices.xCreate_Identity;
       xCurrentZVector := Math.Matrices.xGet_Z_Vector(xCurrentRelativeOrientation);
 
-      xWantedRelativeOrientation := this.pxCurrentAbsoluteOrientationInverse.all * this.pxWantedAbsoluteOrientation.all;
+      xWantedRelativeOrientation := Navigation.Globals.xCurrentAbsoluteOrientationInverse * Navigation.Globals.xWantedAbsoluteOrientation;
       xWantedZVector := Math.Matrices.xGet_Z_Vector(xWantedRelativeOrientation);
 
 
@@ -230,7 +226,7 @@ package body Navigation.Orientational_Controller is
       xCurrentRelativeOrientation := Math.Matrices.xCreate_Identity;
       xCurrentYVector := Math.Matrices.xGet_Y_Vector(xCurrentRelativeOrientation);
 
-      xWantedRelativeOrientation := this.pxCurrentAbsoluteOrientationInverse.all * this.pxWantedAbsoluteOrientation.all;
+      xWantedRelativeOrientation := Navigation.Globals.xCurrentAbsoluteOrientationInverse * Navigation.Globals.xWantedAbsoluteOrientation;
       xWantedYVector := Math.Matrices.xGet_Y_Vector(xWantedRelativeOrientation);
 
 

@@ -24,7 +24,8 @@
 #include "trac42.y.h"   /* Declaration of tokens, genereated by bison. */
 #include "gentrac42.h"
 #include "name.h"
-//#include "types.h"
+#include "types.h"
+#include "offset.h"
 //#include "gensmc.h"
 
 extern FILE *yyin;
@@ -50,6 +51,7 @@ int yylex(void);
 %left  <yyOperator> LELTOP MEMTOP
 %left  <yyOperator> MINUSOP PLUSOP
 %left  <yyOperator> MULDIVOP
+%left  <yyOperator> VECOP
 %right <yyOperator> NOTOP UNOP
 
 /* Rule types on parse stack */
@@ -59,10 +61,10 @@ int yylex(void);
 
 /* Specifies the types of other tokens than the operators, when on the parse stack */
 %token <yyType>   BASIC_TYPE
-%token <yyString> ID BOOL_CONST
+%token <yyString> ID BOOL_CONST STRING_CONST
 %token <yyInt>    INT_CONST
 %token <yyFloat>  FLOAT_CONST
-%token <yyLineNr> IF THEN ELSE WHILE RETURN END EXIT LOOP PROCEDURE FUNCTION IS BGN ASSIGN
+%token <yyLineNr> IF THEN ELSE WHILE RETURN END EXIT LOOP PROCEDURE FUNCTION IS BGN ASSIGN ASM
 
 
 %start program
@@ -103,6 +105,7 @@ stmnts      : stmnts stmnt									{ $$ = connectStmnts($1,$2); }
             ;
 
 stmnt       : ID ASSIGN expr ';'                       						{ $$ = mAssign($1.strVal, $3, $1.lineNr); }
+            | ASM '(' STRING_CONST ')' ';' 							{ $$ = mAsm($3.strVal, $1); }
             | IF expr THEN stmnts END IF ';' 							{ $$ = mIf($2, $4, NULL, $1); }
             | IF expr THEN stmnts ELSE stmnts END IF ';'					{ $$ = mIf($2, $4, $6, $1); }
             | WHILE expr LOOP stmnts END LOOP ';'						{ $$ = mWhile($2, $4, $1); }
@@ -115,9 +118,11 @@ stmnt       : ID ASSIGN expr ';'                       						{ $$ = mAssign($1.s
 
 expr        : MINUSOP expr %prec UNOP								{ $$ = mUnary($1.opType, $2, $1.lineNr); }
             | NOTOP expr									{ $$ = mUnary($1.opType, $2, $1.lineNr); }
+            | BASIC_TYPE '(' expr ')' %prec UNOP						{ $$ = mUnary(($1.type == INT ? INTOP : ($1.type == FLOAT ? FLOATOP : ERROP)), $3, $1.lineNr); }
             | expr PLUSOP expr									{ $$ = mBinary($1, $2.opType, $3, $2.lineNr); }
             | expr MINUSOP expr									{ $$ = mBinary($1, $2.opType, $3, $2.lineNr); }
             | expr MULDIVOP expr								{ $$ = mBinary($1, $2.opType, $3, $2.lineNr); }
+            | expr VECOP expr									{ $$ = mBinary($1, $2.opType, $3, $2.lineNr); }
             | expr ANDOP expr									{ $$ = mBinary($1, $2.opType, $3, $2.lineNr); }
             | expr OROP expr									{ $$ = mBinary($1, $2.opType, $3, $2.lineNr); }
             | expr EQOP expr									{ $$ = mBinary($1, $2.opType, $3, $2.lineNr); }
@@ -156,7 +161,7 @@ int main (int argc, char *argv[])
    int syntax_errors;
    char *p, *objname, *basename, *lstname;
    t_symtable *symbolTable;
-   //eType typeRet;
+   eType typeRet;
 
    symbolTable = NULL;
 
@@ -186,13 +191,13 @@ int main (int argc, char *argv[])
 			printf("DONE.\n");			
 
 			// pass 1 - generate trac42 code back from AST
-			printf("Generating trac42 code from AST to file \"generatedcode.t42\"...");
+			printf("Generating trac42 code from AST to file \"generatedcode.t42\"... ");
 			genTrac42Traverse(treeRoot);
 
 			printf("DONE.\n");
 
 			//pass 2 - name analysis
-			printf("Building symbol tables and performing name analysis...");
+			printf("Building symbol tables and performing name analysis... ");
 			symbolTable = nameAnalysis(treeRoot);
 			if (nameErrorType > 0)
 			{
@@ -211,13 +216,13 @@ int main (int argc, char *argv[])
 				default:
 					break;
 				}
-			}/*
+			}
 			else
 			{
 				printf("DONE.\n");
 
 				// pass 3 - type control
-				printf("Performing type control...\n");
+				printf("Performing type control... ");
 				typeRet = typeControl(treeRoot, symbolTable);
 				if (typeRet != VOID)
 				{
@@ -225,10 +230,15 @@ int main (int argc, char *argv[])
 				}
 				else
 				{
+					printf("DONE.\n");
+					
 					// pass 4 - offset calculations
-					printf("Calculating offsets for IDs...\n");
+					printf("Calculating offsets for IDs... ");
 					offsetCalc(treeRoot, symbolTable);
 
+
+					printf("DONE.\n");
+/*
 					// pass 5 - generate list file
 					printf("Generating trac42 stack machine code to file \"");
 					printf(lstname);
@@ -236,15 +246,16 @@ int main (int argc, char *argv[])
 					generateSMC(treeRoot, symbolTable, lstname);
 					printf("Done!\n");
 					printf("Cleaning up and exiting...\n");
+					*/
 				}
 			}
-				*/
+				
 			
             //fprintf (stderr, "The answer is 42\n");
          } else {
             fprintf (stderr, "There were syntax errors.\n");
          }
-		 //destroyTables(symbolTable); 
+		 destroyTables(symbolTable); 
 		 destroy_tree(treeRoot);
          free(basename);
          free(objname);

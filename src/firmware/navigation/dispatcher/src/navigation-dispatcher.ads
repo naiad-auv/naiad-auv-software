@@ -7,7 +7,7 @@ with Navigation.PID_Controller;
 
 with Math.Vectors;
 with Math.Matrices;
-
+with Navigation.Globals;
 
 
 package Navigation.Dispatcher is
@@ -66,12 +66,6 @@ private
 
          xPositionalController : Navigation.Positional_Controller.CPositionalController;
 
-         xCurrentAbsolutePosition : aliased Math.Vectors.CVector;
-         xWantedAbsolutePosition : aliased Math.Vectors.CVector;
-
-         xCurrentAbsoluteOrientation : aliased Math.Matrices.CMatrix;
-         xWantedAbsoluteOrientation : aliased Math.Matrices.CMatrix;
-         xCurrentAbsoluteOrientationInverse : aliased Math.Matrices.CMatrix;
       end record;
 
 end Navigation.Dispatcher;
