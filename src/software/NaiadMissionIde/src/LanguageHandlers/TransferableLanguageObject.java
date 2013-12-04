@@ -8,6 +8,7 @@ import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.List;
 import java.util.concurrent.TransferQueue;
 
 /**
@@ -36,6 +37,16 @@ public class TransferableLanguageObject implements ILanguageObject, Transferable
     public Path getFilePath() throws NullReferenceException
     {
         return object.getFilePath();
+    }
+
+    @Override
+    public List<PrimitiveVariable> getInputVariables() {
+        return object.getInputVariables();
+    }
+
+    @Override
+    public List<PrimitiveVariable> getOutputVariables() {
+        return object.getOutputVariables();
     }
 
     @Override

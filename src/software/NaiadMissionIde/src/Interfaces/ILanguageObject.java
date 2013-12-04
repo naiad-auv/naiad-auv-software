@@ -1,8 +1,10 @@
 package Interfaces;
 
 import Exceptions.NullReferenceException;
+import LanguageHandlers.PrimitiveVariable;
 
 import java.nio.file.Path;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -16,4 +18,8 @@ public interface ILanguageObject {
     public Path getFilePath() throws NullReferenceException;
 
     public String toString();
+
+    public List<PrimitiveVariable> getInputVariables();
+
+    public List<PrimitiveVariable> getOutputVariables();
 }

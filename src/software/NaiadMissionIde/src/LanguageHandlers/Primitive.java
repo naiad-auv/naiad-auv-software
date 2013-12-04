@@ -1,5 +1,7 @@
 package LanguageHandlers;
 
+import Enums.VariableMode;
+import Enums.VariableType;
 import Exceptions.NullReferenceException;
 import Interfaces.ILanguageObject;
 import Interfaces.IPrimitive;
@@ -9,6 +11,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Primitive implements IPrimitive, ILanguageObject{
 
@@ -22,7 +25,10 @@ public class Primitive implements IPrimitive, ILanguageObject{
     {
         this.primitiveName = name;
         this.filePath = path;
-    
+
+        this.primitiveInputs = new ArrayList<PrimitiveVariable>();
+        this.primitiveOutputs  = new ArrayList<PrimitiveVariable>();
+
         this.loadFile();
     }
 
@@ -47,6 +53,16 @@ public class Primitive implements IPrimitive, ILanguageObject{
     public String toString()
     {
         return "P : " + this.primitiveName;
+    }
+
+    @Override
+    public List<PrimitiveVariable> getInputVariables() {
+        return this.primitiveInputs;
+    }
+
+    @Override
+    public List<PrimitiveVariable> getOutputVariables() {
+        return this.primitiveOutputs;
     }
 
     @Override
@@ -100,6 +116,17 @@ public class Primitive implements IPrimitive, ILanguageObject{
 
     private void loadFile()
     {
+        //TODO detta ska läsas från filen
+        this.primitiveInputs.add(new PrimitiveVariable(VariableMode.IN, VariableType.Integer, "unset"));
+        this.primitiveInputs.add(new PrimitiveVariable(VariableMode.IN, VariableType.Integer, "unset"));
+        this.primitiveInputs.add(new PrimitiveVariable(VariableMode.IN, VariableType.Integer, "unset"));
+        this.primitiveInputs.add(new PrimitiveVariable(VariableMode.IN, VariableType.Integer, "unset"));
+
+
+        this.primitiveOutputs.add(new PrimitiveVariable(VariableMode.OUT, VariableType.Integer, "unset"));
+        this.primitiveOutputs.add(new PrimitiveVariable(VariableMode.OUT, VariableType.Integer, "unset"));
+        this.primitiveOutputs.add(new PrimitiveVariable(VariableMode.OUT, VariableType.Integer, "unset"));
+        this.primitiveOutputs.add(new PrimitiveVariable(VariableMode.OUT, VariableType.Integer, "unset"));
 
     }
 }

@@ -3,7 +3,11 @@ package Presentation;
 import Interfaces.ILanguageObject;
 import LanguageHandlers.Objective;
 import LanguageHandlers.Primitive;
+import Settings.CoreSettings.PenumbraCoreSettings;
 
+import java.awt.*;
+import java.awt.font.FontRenderContext;
+import java.awt.geom.AffineTransform;
 import java.nio.file.Path;
 
 /**
@@ -20,13 +24,13 @@ public class ILanguageObjectPresentationObject
     int x;
     int y;
 
-    //TODO dessa ska deriveras från objectets inputs och outputs
-    int width = 50;
-    int height = 50;
+    int width;
+    int height;
 
     public ILanguageObjectPresentationObject(ILanguageObject object)
     {
         this.object = object;
+        this.calculateDrawingSize(object);
     }
 
     public ILanguageObjectPresentationObject(ILanguageObject object, int x, int y)
@@ -34,6 +38,66 @@ public class ILanguageObjectPresentationObject
         this.x = x;
         this.y = y;
         this.object = object;
+
+        this.calculateDrawingSize(object);
+    }
+
+    private void calculateDrawingSize(ILanguageObject object)
+    {
+        this.width = calculateDrawingWidth(object);
+        this.height = calculateDrawingHeight(object);
+    }
+
+    private static int calculateDrawingHeight(ILanguageObject object)
+    {
+        int height = 70;
+        return height;
+    }
+
+    private static int calculateDrawingWidth(ILanguageObject object)
+    {
+        int width = 0;
+
+        width = Math.max(width, calculateNameWidth(object) + 9);
+        width = Math.max(width, object.getInputVariables().size() * 10 + 20);
+        width = Math.max(width, object.getOutputVariables().size() * 10 + 20);
+
+        return width;
+    }
+
+    private static int calculateNameWidth(ILanguageObject object)
+    {
+        FontRenderContext frc = new FontRenderContext( new AffineTransform(),true,true);
+        Font font = new Font(Font.SERIF, Font.BOLD, PenumbraCoreSettings.getInstance().FontSize);
+
+        return (int)(font.getStringBounds(object.toString(), frc).getWidth());
+    }
+
+    public void Draw(Graphics g)
+    {
+        Graphics canvas =  g.create(this.x, this.y, this.width, this.height);
+
+        canvas.setColor(new Color(240,95,216));
+        canvas.fillRoundRect(0, 10, this.width - 1, this.height - 20, 5, 5);
+        canvas.setColor(new Color(148,18,126));
+        canvas.drawRoundRect(0, 10, this.width - 1, this.height - 20, 5, 5);
+
+        canvas.setColor(Color.BLACK);
+
+
+        canvas.setFont(new Font(Font.SERIF, Font.BOLD, PenumbraCoreSettings.getInstance().FontSize));
+        canvas.drawString(this.toString(), 3, this.height / 2 + 3);
+
+        for(int i = 0; i < this.object.getInputVariables().size(); i++)
+        {
+            canvas.drawLine((i + 1) * this.width/(this.object.getInputVariables().size() + 1),0,(i + 1) * this.width/(this.object.getInputVariables().size() + 1), 20);
+        }
+
+
+        for(int i = 0; i < this.object.getOutputVariables().size(); i++)
+        {
+            canvas.drawLine((i + 1) * this.width/(this.object.getInputVariables().size() + 1),this.height - 20,(i + 1) * this.width/(this.object.getInputVariables().size() + 1), this.height);
+        }
     }
 
     @Override

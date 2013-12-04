@@ -12,11 +12,8 @@ import Exceptions.ScopeModificationNotSupported;
 import Interfaces.ICommand;
 import Interfaces.ILanguageObject;
 import LanguageHandlers.Objective;
-import UserControls.EJDrawingArea;
+import UserControls.*;
 import Interfaces.IViewModel;
-import UserControls.EJTabbedPane;
-import UserControls.LanguageObjectsList;
-import UserControls.MainWindowMenu;
 import ViewModels.MainWindowViewModel;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
@@ -61,7 +58,7 @@ public class MainWindow {
         splitPane_1.setOrientation(JSplitPane.VERTICAL_SPLIT);
         panel.add(splitPane_1);
 
-        splitPane_1.setTopComponent(new LanguageObjectsList(new HandleObjectiveEditorCommand(this.tabbedPane)));
+        splitPane_1.setTopComponent(new LanguageObjectsListPresenter(new HandleObjectiveEditorCommand(this.tabbedPane)));
 
         splitPane.setRightComponent(tabbedPane);
     }

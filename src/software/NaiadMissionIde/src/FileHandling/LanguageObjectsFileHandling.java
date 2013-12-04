@@ -3,6 +3,7 @@ package FileHandling;
 import Interfaces.ILanguageObject;
 import LanguageHandlers.Objective;
 import LanguageHandlers.Primitive;
+import Settings.CoreSettings.PenumbraCoreSettings;
 
 import java.io.File;
 import java.nio.file.FileSystems;
@@ -21,11 +22,6 @@ import java.util.List;
 public class LanguageObjectsFileHandling {
 
 
-    //TODO ska läggas i en config fil nån stans, serialisation eller nåt
-    private static final Path primitivesPath = Paths.get(new File(".").getAbsolutePath(),"src", "LanguageObjects", "Primitives");
-    private static final Path objectivesPath = FileSystems.getDefault().getPath(".","LanguageObjects", "Objectives");
-
-
     public static List<ILanguageObject> LoadFiles()
     {
         List<ILanguageObject> objects = loadPrimitives();
@@ -37,7 +33,7 @@ public class LanguageObjectsFileHandling {
     {
         List<ILanguageObject> primitives = new ArrayList<ILanguageObject>();
 
-        File folder = new File(primitivesPath.toString());
+        File folder = new File(PenumbraCoreSettings.getInstance().PrimitivesPath);
         File[] listOfFiles = folder.listFiles();
 
         for (int i = 0; i < listOfFiles.length; i++)
@@ -54,10 +50,17 @@ public class LanguageObjectsFileHandling {
     private static List<ILanguageObject> loadObjectives()
     {
         List<ILanguageObject> objectives = new ArrayList<ILanguageObject>();
-        //TODO code to load objectives
-        objectives.add(new Objective("Obj1"));
-        objectives.add(new Objective("Obj2"));
-        objectives.add(new Objective("Obj3"));
+
+        File folder = new File(PenumbraCoreSettings.getInstance().ObjectivesPath);
+        File[] listOfFiles = folder.listFiles();
+
+        for (int i = 0; i < listOfFiles.length; i++)
+        {
+            if (listOfFiles[i].isFile())
+            {
+                objectives.add(new Objective(listOfFiles[i].getName()));
+            }
+        }
 
         return objectives;
     }

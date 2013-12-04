@@ -26,38 +26,29 @@ import java.util.Observer;
 public class LanguageObjectsList extends JList implements Observer, DragGestureListener {
 
     private LanguageObjectsListViewModel viewModel;
+
     private AbstractListModel items;
 
     private DragSource dragSource;
 
-
     public LanguageObjectsList(ICommand handleObjectiveEditorCommand)
     {
+        super();
+
         this.viewModel = new LanguageObjectsListViewModel(handleObjectiveEditorCommand);
         this.viewModel.addObserver(this);
         this.viewModel.Initialize();
         this.viewModel.WireEvents(this);
 
-
-
-
         this.setupDragAndDrop();
 
+        this.setVisible(true);
     }
 
     private void setupDragAndDrop()
     {
         this.dragSource = new DragSource();
         this.dragSource.createDefaultDragGestureRecognizer(this, DnDConstants.ACTION_COPY, this);
-    }
-
-    public LanguageObjectsList(LanguageObjectsListViewModel viewModel)
-    {
-    }
-
-    public ILanguageObject getCurrentlySelectedItem()
-    {
-        return this.viewModel.getSelectedItem();
     }
 
     @Override

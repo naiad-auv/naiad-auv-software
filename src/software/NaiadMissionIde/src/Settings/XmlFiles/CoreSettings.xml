@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<PenumbraCoreSettings>
+    <fontsize>10</fontsize>
+    <primitivespath>src/LanguageObjects/Primitives</primitivespath>
+    <objectivespath>src/LanguageObjects/Objectives</objectivespath>
+</PenumbraCoreSettings>

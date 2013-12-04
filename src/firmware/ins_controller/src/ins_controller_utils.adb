@@ -2,7 +2,7 @@
 -- This file contains functions for ins_controller in order to reduce its number of lines of code.
 
 --  Written by: Nils Brynedal Ignell for the Naiad AUV project
---  Last changed (yyyy-mm-dd): 2013-12-02
+--  Last changed (yyyy-mm-dd): 2013-12-03
 
 --  TODO: Hardware testing....
 
@@ -35,11 +35,14 @@ package body Ins_Controller_Utils is
 --     end sChecksum;
 
    procedure Send_Command(sCommand : String; port : AVR.AT90CAN128.USART.USARTID) is
-      --sCheckSumStr : String(1..1);
+      sNewLine : String(1..1);
    begin
-    --  sChecksum(sCommand, sCommand'Length, sCheckSumStr);
-    --  Write("$" & sCommand & "*" & sCheckSumStr & Character'Val(10), sCommand'Length + 3, port);
-      Write("$" & sCommand & "*" & Character'Val(10), sCommand'Length + 3, port);
+      sNewLine(1) := Character'Val(10);
+
+      Write("$", 1, port);
+      Write(sCommand, sCommand'Length, port);
+      Write(sNewLine, 1, port);
+
       AVR.AT90CAN128.CLOCK.Delay_ms(40);
    end Send_Command;
 
@@ -137,6 +140,7 @@ package body Ins_Controller_Utils is
       iCharsTotal : Integer;
       iRet : Integer;
       sRead : String(1..sMsgStr'Length);
+      bExit : Boolean;
    begin
       sTemp(1) := ' ';
 
@@ -160,8 +164,15 @@ package body Ins_Controller_Utils is
             iCharsTotal := iCharsTotal + iRet;
          end loop;
 
-         exit when sRead = sMsgStr;
-
+         --check sRead = sMsgStr:
+         bExit := true;
+         for i in 1..sMsgStr'Length loop
+            if sMsgStr(i) /= sRead(i) then
+               bExit := false;
+               exit;
+            end if;
+         end loop;
+         exit when bExit;
       end loop;
    end Start_Message;
 

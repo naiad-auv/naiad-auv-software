@@ -1,21 +1,14 @@
 --------------------------------------------------------------------------
 --  Written by: Nils Brynedal Ignell for the Naiad AUV project
---  Last changed (yyyy-mm-dd): 2013-12-02
+--  Last changed (yyyy-mm-dd): 2013-12-03
 
 --  TODO: Hardware testing....
 --------------------------------------------------------------------------
-
---  with AVR.AT90CAN128.INTERRUPT;
---  with AVR.AT90CAN128.CLOCK;
 
 with AVR.AT90CAN128.CAN;
 
 with Can_Float_Conversions;
 with Str2Float;
-
---  with My_Memcpy;
---  with My_Secondary_Stack;
---  with My_Last_Chance_Handler;
 
 --  --  with Math.Angles;
 --  with Math.Quaternions;

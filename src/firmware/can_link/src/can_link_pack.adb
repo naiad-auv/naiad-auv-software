@@ -5,7 +5,7 @@
 -- It has been tested in hardware and it works.
 
 -- Rewritten by Nils Brynedal Ignell for the Naiad AUV project
--- Last changed (yyyy-mm-dd): 2013-10-28
+-- Last changed (yyyy-mm-dd): 2013-12-12
 
 -- To do: Hardware testing.
 
@@ -214,7 +214,7 @@ package body CAN_Link_pack is
 
    procedure Hardware_Init is
    begin
-      AVR.AT90CAN128.USART.Init(USART_PORT,  AVR.AT90CAN128.USART.BAUD38400);
+      AVR.AT90CAN128.USART.Init(USART_PORT,  AVR.AT90CAN128.USART.BAUD115200);
 
       --   Handshake_With_BBB;
 
