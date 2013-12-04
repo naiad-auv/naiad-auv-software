@@ -112,8 +112,13 @@ public class ILanguageObjectPresentationObject
                 point.y > this.y && point.y < this.y + this.height);
     }
 
-    public Point getPosition()
+    public Point getPredecessorPosition()
     {
-        return new Point(this.x,this.y);
+        return new Point(this.x + this.width, this.y + this.height/2);
+    }
+
+    public Point getSuccessorPosition()
+    {
+        return new Point(this.x, this.y + this.height /2);
     }
 }

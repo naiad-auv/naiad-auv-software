@@ -31,13 +31,16 @@ public class DrawingAreaViewModel extends Observable implements IViewModel, Obse
 
     private PresentationObjective presentationObjective;
 
+    private Objective objectiveScope;
+
     private ICommand onMouseClickedCommand;
     private ICommand onMousePressedCommand;
     private ICommand onMouseReleasedCommand;
 
     public DrawingAreaViewModel(Objective objective)
     {
-        this.presentationObjective = new PresentationObjective(0,0,objective);
+        this.objectiveScope = objective;
+        this.presentationObjective = new PresentationObjective();
         this.presentationObjective.addObserver(this);
 
         this.onMouseClickedCommand = new DrawingAreaClickedCommand();

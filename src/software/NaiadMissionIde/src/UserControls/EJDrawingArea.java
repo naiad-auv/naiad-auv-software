@@ -19,13 +19,7 @@ import java.util.List;
 
 public class EJDrawingArea extends JPanel implements Observer {
 
-    private Objective currentObjective;
-    private LanguageObjectDropTargetListener dropTargetListener;
-
     private DrawingAreaViewModel viewModel;
-
-
-    //TODO här ska en referens till motsvarande objectivs lista ligga via ett interface hämta ut innehållet och rita elementen
 
     public EJDrawingArea(Objective objective)
     {
@@ -38,7 +32,7 @@ public class EJDrawingArea extends JPanel implements Observer {
 
         this.viewModel.WireEvents(this);
 
-        this.dropTargetListener = new LanguageObjectDropTargetListener(new HandleAddDroppedILanguageObject(this.viewModel), this);
+        new LanguageObjectDropTargetListener(new HandleAddDroppedILanguageObject(this.viewModel), this);
     }
 
     public ILanguageObject getScope()
