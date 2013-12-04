@@ -6,11 +6,11 @@ import java.util.Dictionary;
 
 import Commands.*;
 import Exceptions.ItemNotFoundException;
-import ExtendedComponents.EJMenu;
-import ExtendedComponents.EJMenuBar;
 import Interfaces.ICommand;
 import Interfaces.IViewModel;
 import Logging.ExceptionLogger;
+import UserControls.EJMenu;
+import UserControls.EJMenuBar;
 
 public class MainWindowMenuViewModel implements IViewModel
 {
@@ -60,6 +60,11 @@ public class MainWindowMenuViewModel implements IViewModel
 
     @Override
     public Dictionary<String, ICommand> getCommandsDictionary() {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public Object getScope() {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 

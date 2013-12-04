@@ -17,8 +17,8 @@ eType typeLocal(t_tree node);
 eType typeAssign(t_tree node);
 eType typeIf(t_tree node);
 eType typeWhile(t_tree node);
-eType typeRead(t_tree node);
-eType typeWrite(t_tree node);
+eType typeLoop(t_tree node);
+eType typeExit(t_tree node);
 eType typeReturn(t_tree node);
 eType typeFuncCallStmnt(t_tree node);
 eType typeFuncCallExpr(t_tree node);
@@ -27,7 +27,9 @@ eType typeUnary(t_tree node);
 eType typeBinary(t_tree node);
 eType typeIntConst(t_tree node);
 eType typeBoolConst(t_tree node);
-eType typeStringConst(t_tree node);
+eType typeFloatConst(t_tree node);
+eType typeVecConst(t_tree node);
+eType typeMatConst(t_tree node);
 eType typeRValue(t_tree node);
 
 
@@ -47,11 +49,14 @@ eType typeStmnt(t_tree node)
 	case kWhile:
 		return typeWhile(node);
 		break;
-	case kRead:
-		return typeRead(node);
+	case kLoop:
+		return typeLoop(node);
 		break;
-	case kWrite:
-		return typeWrite(node);
+	case kExit:
+		return typeExit(node);
+		break;
+	case kAsm:
+		return typeAsm(node);
 		break;
 	case kFuncCallStmnt:
 		return typeFuncCallStmnt(node);
@@ -63,6 +68,7 @@ eType typeStmnt(t_tree node)
 		printf("Error in types.c\n");
 		break;
 	}
+	return ERROR_TYPE;
 }
 
 eType typeExpr(t_tree node)
@@ -81,8 +87,14 @@ eType typeExpr(t_tree node)
 	case kBoolConst:
 		return typeBoolConst(node);
 		break;
-	case kStringConst:
-		return typeStringConst(node);
+	case kFloatConst:
+		return typeFloatConst(node);
+		break;
+	case kVecConst:
+		return typeVecConst(node);
+		break;
+	case kMatConst:
+		return typeMatConst(node);
 		break;
 	case kFuncCallExpr:
 		return typeFuncCallExpr(node);
@@ -94,6 +106,7 @@ eType typeExpr(t_tree node)
 		printf("Error in types.c!\n");
 		break;
 	}
+	return ERROR_TYPE;
 }
 
 eType typeProgram(t_tree node)
@@ -158,22 +171,29 @@ eType typeWhile(t_tree node)
 		typeErrorLineNr = node->LineNr;
 	return ERROR_TYPE;
 }
-eType typeRead(t_tree node)
+eType typeLoop(t_tree node)
+{
+	if (typeStmnt(node->Node.Loop.Stmnt) == VOID)
+		return typeStmnt(node->Node.Stmnt.Next);
+	return ERROR_TYPE;
+}
+eType typeAsm(t_tree node)
 {
 	return typeStmnt(node->Node.Stmnt.Next);
 }
-eType typeWrite(t_tree node)
+eType typeExit(t_tree node)
 {
-	node->Node.Write.Type = typeExpr(node->Node.Write.Expr);
-	if (node->Node.Write.Type != ERROR_TYPE)
-		return typeStmnt(node->Node.Stmnt.Next);
-	return ERROR_TYPE;
+	return typeStmnt(node->Node.Stmnt.Next);
 }
 eType typeReturn(t_tree node)
 {
 	eType exprType;
 
-	exprType = typeExpr(node->Node.Return.Expr);
+	if (node->Node.Return.Expr == NULL)
+		exprType = VOID;
+	else
+		exprType = typeExpr(node->Node.Return.Expr);
+
 	if (exprType == scope->type)
 		return VOID;
 
@@ -270,6 +290,32 @@ eType typeUnary(t_tree node)
 			node->Node.Unary.Type = exprType;
 			return exprType;
 		}
+		if (exprType == FLOAT)
+		{
+			node->Node.Unary.Type = exprType;
+			return exprType;
+		}
+		if (exprType == VECTOR)
+		{
+			node->Node.Unary.Type = exprType;
+			return exprType;
+		}
+	}
+	else if (node->Node.Unary.Operator == INTOP)
+	{
+		if (exprType == FLOAT)
+		{
+			node->Node.Unary.Type = INT;
+			return INT;
+		}
+	}
+	else if (node->Node.Unary.Operator == FLOATOP)
+	{
+		if (exprType == INT)
+		{
+			node->Node.Unary.Type = FLOAT;
+			return FLOAT;
+		}
 	}
 	else if (exprType == BOOL)
 	{
@@ -315,13 +361,39 @@ eType typeBinary(t_tree node)
 			}
 			break;
 		default:
-			if (leftType == INT)
+			if (leftType == INT || leftType == MATRIX || leftType == VECTOR || leftType == FLOAT)
 			{
 				node->Node.Binary.Type = leftType;
 				return leftType;
 			}
 			break;		
 		}
+	}
+	else
+	{
+		if (leftType == VECTOR && leftType == rightType)
+		{
+			if (node->Node.Binary.Operator == CROSS)
+			{
+				node->Node.Binary.Type = VECTOR;
+				return VECTOR;
+			}
+			else if (node->Node.Binary.Operator == DOT)
+			{
+				node->Node.Binary.Type = FLOAT;
+				return FLOAT;
+			}
+		}
+		else if ((leftType == MATRIX && rightType == VECTOR) || (leftType == VECTOR && rightType == MATRIX))
+		{
+			node->Node.Binary.Type = VECTOR;
+			return VECTOR;
+		}
+		else if ((leftType == VECTOR && rightType == FLOAT) || (leftType == FLOAT && rightType == VECTOR))
+		{
+			node->Node.Binary.Type = VECTOR;	
+			return VECTOR;
+		}		
 	}
 	if (typeErrorLineNr < 0)
 		typeErrorLineNr = node->LineNr;
@@ -335,9 +407,17 @@ eType typeBoolConst(t_tree node)
 {
 	return BOOL;
 }
-eType typeStringConst(t_tree node)
+eType typeFloatConst(t_tree node)
 {
-	return STRING;
+	return FLOAT;
+}
+eType typeVecConst(t_tree node)
+{
+	return VECTOR;
+}
+eType typeMatConst(t_tree node)
+{
+	return MATRIX;
 }
 eType typeRValue(t_tree node)
 {

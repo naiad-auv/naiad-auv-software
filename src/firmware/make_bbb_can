@@ -6,8 +6,6 @@ all:
 	gnatmake -c -P  queue/queue.gpr
 	gnatmake -c -P  bbb_can/bbb_can.gpr
 
-	#gnatmake -f lib/UartWrapper/src/uartwrapper.adb
-
 	gnatbind bbb_can/build/bbb_can_main.ali  -Ilib/UartWrapper/obj/ -Ican_link_utils/build/ -I../lib/exception_handling/obj/ -Iqueue/build/
 	gnatlink bbb_can/build/bbb_can_main.ali lib/UartWrapper/obj/uartlib.o
 

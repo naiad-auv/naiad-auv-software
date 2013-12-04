@@ -5,27 +5,22 @@ package body Navigation.Dispatcher is
    begin
       xNewDispatcher.xThrusterConfigurator := Navigation.Thruster_Configurator.xCreate;
 
-      xNewDispatcher.xCurrentAbsoluteOrientation := Math.Matrices.xCreate_Identity;
-      xNewDispatcher.xWantedAbsoluteOrientation := Math.Matrices.xCreate_Identity;
-      xNewDispatcher.xCurrentAbsoluteOrientationInverse := Math.Matrices.xCreate_Identity;
+      Navigation.Globals.xCurrentAbsoluteOrientation := Math.Matrices.xCreate_Identity;
+      Navigation.Globals.xWantedAbsoluteOrientation := Math.Matrices.xCreate_Identity;
+      Navigation.Globals.xCurrentAbsoluteOrientationInverse := Math.Matrices.xCreate_Identity;
 
 
-      xNewDispatcher.xCurrentAbsolutePosition := Math.Vectors.xCreate(fX => 0.0,
-                                                                         fY => 0.0,
-                                                                         fZ => 0.0);
+      Navigation.Globals.xCurrentAbsolutePosition := Math.Vectors.xCreate(fX => 0.0,
+                                                               fY => 0.0,
+                                                               fZ => 0.0);
 
-      xNewDispatcher.xWantedAbsolutePosition := Math.Vectors.xCreate(fX => 0.0,
-                                                                     fY => 0.0,
-                                                                     fZ => 0.0);
+      Navigation.Globals.xWantedAbsolutePosition := Math.Vectors.xCreate(fX => 0.0,
+                                                              fY => 0.0,
+                                                              fZ => 0.0);
 
-      xNewDispatcher.xOrientationalController := Navigation.Orientational_Controller.xCreate(pxCurrentAbsoluteOrientation => xNewDispatcher.xCurrentAbsoluteOrientation'Access,
-                                                                                             pxWantedAbsoluteOrientation  => xNewDispatcher.xWantedAbsoluteOrientation'Access,
-                                                                                             pxCurrentAbsoluteOrientationInverse => xNewDispatcher.xCurrentAbsoluteOrientationInverse'Access);
+      xNewDispatcher.xOrientationalController := Navigation.Orientational_Controller.xCreate;
 
-      xNewDispatcher.xPositionalController := Navigation.Positional_Controller.xCreate(pxCurrentAbsolutePosition    => xNewDispatcher.xCurrentAbsolutePosition'Access,
-                                                                                       pxWantedAbsolutePosition     => xNewDispatcher.xWantedAbsolutePosition'Access,
-                                                                                       pxCurrentAbsoluteOrientation => xNewDispatcher.xCurrentAbsoluteOrientation'Access,
-                                                                                       pxCurrentAbsoluteOrientationInverse => xNewDispatcher.xCurrentAbsoluteOrientationInverse'Access);
+      xNewDispatcher.xPositionalController := Navigation.Positional_Controller.xCreate;
 
       return xNewDispatcher;
    end xCreate;
@@ -36,18 +31,22 @@ package body Navigation.Dispatcher is
       tfOrientationalValues : Navigation.Thrusters.TThrusterEffects;
    begin
 
-      this.xPositionalController.Update_Current_Errors;
-      this.xOrientationalController.Update_Current_Errors;
+      Navigation.Positional_Controller.Update_Current_Errors(this.xPositionalController);
+      Navigation.Orientational_Controller.Update_Current_Errors(this.xOrientationalController);
 
-      this.xPositionalController.Get_Positional_Thruster_Control_Values(fDeltaTime => fDeltaTime,
-                                                                        tfValues   => tfPositionalValues);
-      this.xOrientationalController.Get_Orientational_Thruster_Control_Values(fDeltaTime => fDeltaTime,
-                                                                              tfValues   => tfOrientationalValues);
+      Navigation.Positional_Controller.Get_Positional_Thruster_Control_Values(this       => this.xPositionalController,
+                                                                              fDeltaTime => fDeltaTime,
+                                                                              tfValues   => tfPositionalValues);
+      Navigation.Orientational_Controller.Get_Orientational_Thruster_Control_Values(this       => this.xOrientationalController,
+                                                                                    fDeltaTime => fDeltaTime,
+                                                                                    tfValues   => tfOrientationalValues);
 
-      tfThrusterValues := this.xThrusterConfigurator.tfGet_Thruster_Values(tfComponentValues => tfPositionalValues + tfOrientationalValues);
+      tfThrusterValues := Navigation.Thruster_Configurator.tfGet_Thruster_Values(this              => this.xThrusterConfigurator,
+                                                                                 tfComponentValues => tfPositionalValues + tfOrientationalValues);
 
       if bThruster_Values_Need_Scaling(tfThrusterValues) then
-         tfThrusterValues := this.xThrusterConfigurator.tfGet_Thruster_Values(tfComponentValues => tfPositionalValues);
+         tfThrusterValues := Navigation.Thruster_Configurator.tfGet_Thruster_Values(this              => this.xThrusterConfigurator,
+                                                                                    tfComponentValues => tfPositionalValues);
          if bThruster_Values_Need_Scaling(tfThrusterValues) then
             Scale_Thruster_Values(tfThrusterValues);
          end if;
@@ -58,39 +57,48 @@ package body Navigation.Dispatcher is
    begin
       case eComponentToChange is
          when Navigation.Motion_Component.PositionX .. Navigation.Motion_Component.PositionZ =>
-            this.xPositionalController.Set_New_PID_Component_Scalings(eComponentToUpdate => eComponentToChange,
-                                                                       xNewPIDScaling     => xNewPIDSCalings);
+            Navigation.Positional_Controller.Set_New_PID_Component_Scalings(this               => this.xPositionalController,
+                                                                            eComponentToUpdate => eComponentToChange,
+                                                                            xNewPIDScaling     => xNewPIDSCalings);
          when Navigation.Motion_Component.RotationX .. Navigation.Motion_Component.RotationZ =>
-            this.xOrientationalController.Set_New_PID_Component_Scalings(eComponentToUpdate => eComponentToChange,
-                                                                          xNewPIDScaling     => xNewPIDSCalings);
+            Navigation.Orientational_Controller.Set_New_PID_Component_Scalings(this               => this.xOrientationalController,
+                                                                               eComponentToUpdate => eComponentToChange,
+                                                                               xNewPIDScaling     => xNewPIDSCalings);
          when Navigation.Motion_Component.AllComponents =>
-            this.xPositionalController.Set_New_PID_Component_Scalings(eComponentToUpdate => eComponentToChange,
-                                                                       xNewPIDScaling     => xNewPIDSCalings);
-            this.xOrientationalController.Set_New_PID_Component_Scalings(eComponentToUpdate => eComponentToChange,
-                                                                         xNewPIDScaling     => xNewPIDSCalings);
+            Navigation.Positional_Controller.Set_New_PID_Component_Scalings(this               => this.xPositionalController,
+                                                                            eComponentToUpdate => eComponentToChange,
+                                                                            xNewPIDScaling     => xNewPIDSCalings);
+            Navigation.Orientational_Controller.Set_New_PID_Component_Scalings(this               => this.xOrientationalController,
+                                                                               eComponentToUpdate => eComponentToChange,
+                                                                               xNewPIDScaling     => xNewPIDSCalings);
       end case;
 
    end Set_New_Component_PID_Scalings;
 
    procedure Update_Current_Absolute_Position (this : in out CDispatcher; xNewCurrentAbsolutePosition : in Math.Vectors.CVector) is
    begin
-      this.xCurrentAbsolutePosition.Copy_From(xNewCurrentAbsolutePosition);
+      Math.Vectors.Copy_From(this          => Navigation.Globals.xCurrentAbsolutePosition,
+                             xSourceVector => xNewCurrentAbsolutePosition);
    end Update_Current_Absolute_Position;
 
    procedure Update_Wanted_Absolute_Position (this : in out CDispatcher; xNewWantedAbsolutePosition : in Math.Vectors.CVector) is
    begin
-      this.xWantedAbsolutePosition.Copy_From(xNewWantedAbsolutePosition);
+      Math.Vectors.Copy_From(this          => Navigation.Globals.xWantedAbsolutePosition,
+                             xSourceVector => xNewWantedAbsolutePosition);
    end Update_Wanted_Absolute_Position;
 
    procedure Update_Current_Absolute_Orientation (this : in out CDispatcher; xNewCurrentAbsoluteOrientation : in Math.Matrices.CMatrix) is
    begin
-      this.xCurrentAbsoluteOrientation.Copy_From(xNewCurrentAbsoluteOrientation);
-      this.xCurrentAbsoluteOrientationInverse.Copy_From(xSourceMatrix => this.xCurrentAbsoluteOrientation.xGet_Inverse);
+      Math.Matrices.Copy_From(this          => Navigation.Globals.xCurrentAbsoluteOrientation,
+                              xSourceMatrix => xNewCurrentAbsoluteOrientation);
+      Math.Matrices.Copy_From(this          => Navigation.Globals.xCurrentAbsoluteOrientationInverse,
+                              xSourceMatrix => Math.Matrices.xGet_Inverse(Navigation.Globals.xCurrentAbsoluteOrientation));
    end Update_Current_Absolute_Orientation;
 
    procedure Update_Wanted_Absolute_Orientation (this : in out CDispatcher; xNewWantedAbsoluteOrientation : in Math.Matrices.CMatrix) is
    begin
-      this.xWantedAbsoluteOrientation.Copy_From(xNewWantedAbsoluteOrientation);
+      Math.Matrices.Copy_From(this          => Navigation.Globals.xWantedAbsoluteOrientation,
+                              xSourceMatrix => xNewWantedAbsoluteOrientation);
    end Update_Wanted_Absolute_Orientation;
 
    procedure Scale_Thruster_Values (tfThrusterValues : in out Navigation.Thrusters.TThrusterValuesArray) is

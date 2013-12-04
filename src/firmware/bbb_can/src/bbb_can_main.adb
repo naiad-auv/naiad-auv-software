@@ -5,7 +5,7 @@
 -- the CAN-link.
 
 -- Written by Nils Brynedal Ignell for the Naiad AUV project
--- Last changed (yyyy-mm-dd): 2013-11-01
+-- Last changed (yyyy-mm-dd): 2013-11-28
 
 -- TODO: hardware testing
 
@@ -57,31 +57,27 @@ begin
    msg.Len := 8;
    msg.Data := (0, 0, 0, 0, 0, 0, 0, 0);
 
-   BBB_CAN.Send(msg);
+  -- BBB_CAN.Send(msg);
 
    loop
 
-      delay(3.0);
-
       BBB_CAN.Get(msg, bMsg, bOk);
       if bMsg then
-         Ada.Text_IO.Put_Line("Received CAN message: ID=" & Integer'Image(Integer(msg.ID.Identifier)) & ", length=" & msg.Len'Img & ", data(1)=" & Integer'Image(Integer(msg.Data(1))));
+         Ada.Text_IO.Put_Line("ID=" & Integer'Image(Integer(msg.ID.Identifier)) & ", length=" & msg.Len'Img & ", data(1)=" & Integer'Image(Integer(msg.Data(1))));
+         Ada.Text_IO.New_Line;
+
+
+         --if Integer(msg.ID.Identifier) = 15 then
+         msg.Data(1) := 2;
+
+         -- Ada.Text_IO.Put_Line("Sending CAN message: ID=" & Integer'Image(Integer(msg.ID.Identifier)) & ", length=" & msg.Len'Img & ", data(1)=" & Integer'Image(Integer(msg.Data(1))));
+         BBB_CAN.Send(msg);
+         --  end if;
+
       else
-         Ada.Text_IO.Put_Line("No message read");
-      end if;
-
-      Ada.Text_IO.New_Line;
-
-      if bMsg then
-         if Integer(msg.ID.Identifier) = 15 then
-            msg.ID.Identifier := CAN_Defs.CAN_Identifier(16);
-
-            Ada.Text_IO.Put_Line("Sending CAN message: ID=" & Integer'Image(Integer(msg.ID.Identifier)) & ", length=" & msg.Len'Img & ", data(1)=" & Integer'Image(Integer(msg.Data(1))));
-            BBB_CAN.Send(msg);
-         end if;
+         delay(0.001);
+         --           Ada.Text_IO.Put_Line("No message read");
       end if;
 
    end loop;
-
-
 end BBB_CAN_main;

@@ -8,13 +8,14 @@ with Math.Quaternions;
 with Navigation.Motion_Component;
 with Navigation.PID_Controller;
 with Navigation.Thrusters;
+with Navigation.Globals;
 
 package Navigation.Orientational_Controller is
 
-   type COrientationalController is tagged private;
+   type COrientationalController is private;
 
 
-   function xCreate (pxCurrentAbsoluteOrientation : access Math.Matrices.CMatrix; pxWantedAbsoluteOrientation : access Math.Matrices.CMatrix; pxCurrentAbsoluteOrientationInverse : access Math.Matrices.CMatrix) return COrientationalController;
+   function xCreate return COrientationalController;
    --  <summary>Creates an object of type COrientationalController and sets references to the current and wanted orientation</summary>
    --  <parameter name="pxCurrentAbsoluteOrientation">A reference to the current absolute orientation</parameter>
    --  <parameter name="pxWantedAbsoluteOrientation">A reference to the wanted absolute orientation</parameter>
@@ -45,11 +46,8 @@ private
    procedure Get_Y_Rotation_Thruster_Control_Value (this : in out COrientationalController; fDeltaTime : in float; fControlValue : out float);
    procedure Get_Z_Rotation_Thruster_Control_Value (this : in out COrientationalController; fDeltaTime : in float; fControlValue : out float);
 
-   type COrientationalController is tagged
+   type COrientationalController is
       record
-         pxCurrentAbsoluteOrientation : access Math.Matrices.CMatrix;
-         pxWantedAbsoluteOrientation : access Math.Matrices.CMatrix;
-         pxCurrentAbsoluteOrientationInverse : access Math.Matrices.CMatrix;
 
          xXRotMotionComponent : Navigation.Motion_Component.CMotionComponent;
          xYRotMotionComponent : Navigation.Motion_Component.CMotionComponent;

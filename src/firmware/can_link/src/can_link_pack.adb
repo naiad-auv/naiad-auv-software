@@ -5,7 +5,7 @@
 -- It has been tested in hardware and it works.
 
 -- Rewritten by Nils Brynedal Ignell for the Naiad AUV project
--- Last changed (yyyy-mm-dd): 2013-10-28
+-- Last changed (yyyy-mm-dd): 2013-12-12
 
 -- To do: Hardware testing.
 
@@ -27,7 +27,7 @@ package body CAN_Link_pack is
    begin
       iPos  := 0;
       iLeft := iSize;
-      -- This procedure will not return until if it has sent all data
+      -- This procedure will not return until it has sent all data
       while iLeft > 0 loop
          for I in 1..iLeft loop
             sTemp(I) := sBuffer(iPos + I);
@@ -79,13 +79,19 @@ package body CAN_Link_pack is
       Msg_In : Can_Defs.CAN_Message;
       Ret    : Boolean;
    begin
-
+      -- This function only handles one message at a time, giving
+      -- higher priority to receiving messages on the uart than on the can bus
+      -- An overflow in the can bus buffer causes a missed message.
+      -- An overflow in the uart receive buffer causes the protocal to .
       AVR.AT90CAN128.CAN.Can_Get(Msg_In, Ret, 0);
-      while Ret loop
+      if Ret then
          Send_CanData_To_BBB(Msg_In);
-
-         AVR.AT90CAN128.CAN.Can_Get(Msg_In, Ret, 0);
-      end loop;
+      end if;
+--        while Ret loop
+--           Send_CanData_To_BBB(Msg_In);
+--
+--           AVR.AT90CAN128.CAN.Can_Get(Msg_In, Ret, 0);
+--        end loop;
    end CANBUS_Monitoring;
 
    --     procedure Send_CanData_To_Can(ID : Can_Defs.CAN_ID; Len : AVR.AT90CAN128.DLC_Type ; Data : String) is
@@ -208,7 +214,7 @@ package body CAN_Link_pack is
 
    procedure Hardware_Init is
    begin
-      AVR.AT90CAN128.USART.Init(USART_PORT,  AVR.AT90CAN128.USART.BAUD38400);
+      AVR.AT90CAN128.USART.Init(USART_PORT,  AVR.AT90CAN128.USART.BAUD115200);
 
       --   Handshake_With_BBB;
 

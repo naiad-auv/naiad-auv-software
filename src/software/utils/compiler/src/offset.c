@@ -20,11 +20,12 @@ int offsetSizeOf(eType type)
 	{
 	case INT:
 	case BOOL:
+	case FLOAT:
+	case VECTOR:
+	case MATRIX:
 		return 1;
 	case VOID:
 		return 0;
-	case STRING:
-		return 100;
 	}
 }
 

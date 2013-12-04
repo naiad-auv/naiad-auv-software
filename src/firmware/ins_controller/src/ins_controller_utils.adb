@@ -2,11 +2,12 @@
 -- This file contains functions for ins_controller in order to reduce its number of lines of code.
 
 --  Written by: Nils Brynedal Ignell for the Naiad AUV project
---  Last changed (yyyy-mm-dd): 2013-11-24
+--  Last changed (yyyy-mm-dd): 2013-12-03
 
 --  TODO: Hardware testing....
 
 with AVR.AT90CAN128.INTERRUPT;
+with AVR.AT90CAN128.CLOCK;
 
 package body Ins_Controller_Utils is
 
@@ -34,16 +35,20 @@ package body Ins_Controller_Utils is
 --     end sChecksum;
 
    procedure Send_Command(sCommand : String; port : AVR.AT90CAN128.USART.USARTID) is
-      --sCheckSumStr : String(1..1);
+      sNewLine : String(1..1);
    begin
-    --  sChecksum(sCommand, sCommand'Length, sCheckSumStr);
-    --  Write("$" & sCommand & "*" & sCheckSumStr & Character'Val(10), sCommand'Length + 3, port);
-Write("$" & sCommand & "*" & Character'Val(10), sCommand'Length + 2, port);
+      sNewLine(1) := Character'Val(10);
+
+      Write("$", 1, port);
+      Write(sCommand, sCommand'Length, port);
+      Write(sNewLine, 1, port);
+
+      AVR.AT90CAN128.CLOCK.Delay_ms(40);
    end Send_Command;
 
-   procedure Init_Uart(port : AVR.AT90CAN128.USART.USARTID) is
+   procedure Init_Uart(port : AVR.AT90CAN128.USART.USARTID; baud_rate :  AVR.AT90CAN128.USART.BAUDTYPE) is
    begin
-      AVR.AT90CAN128.USART.Init(port, AVR.AT90CAN128.USART.BAUD115200);
+      AVR.AT90CAN128.USART.Init(port, baud_rate);
    end Init_Uart;
 
    procedure Init_Interrupts is
@@ -72,8 +77,17 @@ Write("$" & sCommand & "*" & Character'Val(10), sCommand'Length + 2, port);
       -- spi checksum = off
       --ErrorMode = off
       --    Send_Command("VNWRG,30,0,0,0,0,0,0,1", port);
-        Write("$VNWRG,30,0,0,0,0,0,0,1*68", 26, port);
+      Write("$VNWRG,30,0,0,0,0,0,0,1*68" & Character'Val(10), 27, port);
+
+      AVR.AT90CAN128.CLOCK.Delay_ms(20);
    end Communication_Protocol_Control;
+
+   procedure Async_Data_Output_Type_Register_Off(port : AVR.AT90CAN128.USART.USARTID) is
+   begin
+      --Async Data Output Type Register
+      --  Asynchronous output turned off
+      Send_Command("VNWRG,06,0", port);
+   end Async_Data_Output_Type_Register_Off;
 
    procedure Async_Data_Output_Frequency_Register(port : AVR.AT90CAN128.USART.USARTID) is
    begin
@@ -94,6 +108,12 @@ Write("$" & sCommand & "*" & Character'Val(10), sCommand'Length + 2, port);
       Send_Command("VNWRG,32,3,0,1,0,3,1,1,500000,0", port);
    end Synchronization_Control;
 
+   procedure Serial_Baud_Rate_Register(port : AVR.AT90CAN128.USART.USARTID) is
+   begin
+      -- set Baud rate:
+      Send_Command("VNWRG,05,230400", port);
+   end Serial_Baud_Rate_Register;
+
 
    procedure VPE_Basic_Control(port : AVR.AT90CAN128.USART.USARTID) is
    begin
@@ -101,7 +121,7 @@ Write("$" & sCommand & "*" & Character'Val(10), sCommand'Length + 2, port);
       -- Indoor Heading
       -- Filtering Mode off
       -- Tuning Mode off
-      Send_Command("VNWRG,35,1,2,0,0", port);
+      Send_Command("VNWRG,35,1,2,1,1", port);
    end VPE_Basic_Control;
 
    procedure Async_Data_Output_Type_Register(port : AVR.AT90CAN128.USART.USARTID) is
@@ -114,4 +134,46 @@ Write("$" & sCommand & "*" & Character'Val(10), sCommand'Length + 2, port);
       -- Asynchronous output turned off
 --        Send_Command("VNWRG,06,0", port);
    end Async_Data_Output_Type_Register;
+
+   procedure Start_Message(sMsgStr : String; port : AVR.AT90CAN128.USART.USARTID) is
+      sTemp : String(1..sMsgStr'Length);
+      iCharsTotal : Integer;
+      iRet : Integer;
+      sRead : String(1..sMsgStr'Length);
+      bExit : Boolean;
+   begin
+      sTemp(1) := ' ';
+
+      loop
+
+         --goes to the start of the message:
+         while sTemp(1) /= '$' loop
+            Read(sTemp, 1, iRet, port);
+         end loop;
+
+         -- read the "VNYBA,":
+         iCharsTotal := 0;
+
+         while iCharsTotal < sMsgStr'Length loop
+            Read(sTemp, 6 - iCharsTotal, iRet, port);
+
+            for i in 1..iRet loop
+               sRead(i + iCharsTotal) := sTemp(i);
+            end loop;
+
+            iCharsTotal := iCharsTotal + iRet;
+         end loop;
+
+         --check sRead = sMsgStr:
+         bExit := true;
+         for i in 1..sMsgStr'Length loop
+            if sMsgStr(i) /= sRead(i) then
+               bExit := false;
+               exit;
+            end if;
+         end loop;
+         exit when bExit;
+      end loop;
+   end Start_Message;
+
 end Ins_Controller_Utils;

@@ -1,22 +1,15 @@
 package views;
 
 import Exceptions.ScopeModificationNotSupported;
-import ExtendedComponents.EPrimitiveEditorEditorArea;
-import ExtendedComponents.EPrimitiveEditorMenu;
-import ExtendedComponents.EPrimitiveEditorMenuButton;
-import ExtendedComponents.EPrimitiveEditorTextArea;
+import UserControls.EPrimitiveEditorEditorArea;
+import UserControls.EPrimitiveEditorMenu;
 import Interfaces.ICommand;
-import Interfaces.ILanguageObject;
 import Interfaces.IPrimitive;
 import Interfaces.IViewModel;
 import ViewModels.PrimitiveEditorViewModel;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.*;
 import java.util.List;
 
 /**

@@ -16,21 +16,25 @@ package body Navigation.Motion_Component is
   
    procedure Get_New_Component_Control_Value (this : in out CMotionComponent; fDeltaTime : float; fControlValue : out float) is
    begin
-      this.xComponentPIDController.Get_New_Control_Value(fDeltaTime    => fDeltaTime,
-                                                         fControlValue => fControlValue); 
+      Navigation.PID_Controller.Get_New_Control_Value(this          => this.xComponentPIDController,
+                                                      fDeltaTime    => fDeltaTime,
+                                                      fControlValue => fControlValue);
    end Get_New_Component_Control_Value;
 
    procedure Set_New_PID_Component_Scalings (this : in out CMotionComponent; xNewScalings : Navigation.PID_Controller.TPIDComponentScalings) is
    begin
-	this.xComponentPIDController.Set_New_PID_Component_Scalings(xNewScalings);
+      Navigation.PID_Controller.Set_New_PID_Component_Scalings(this         => this.xComponentPIDController,
+                                                               xNewScalings => xNewScalings);
    end Set_New_PID_Component_Scalings;
 
 
    procedure Update_Current_Error (this : in out CMotionComponent; fNewErrorValue : float) is
    begin
       this.fCurrentError := fNewErrorValue;
-      this.xComponentPIDController.Set_New_Set_Point(0.0);
-      this.xComponentPIDController.Update_Current_Value_From_External_Source(-this.fCurrentError);
+      Navigation.PID_Controller.Set_New_Set_Point(this         => this.xComponentPIDController,
+                                                  fNewSetPoint => 0.0);
+      Navigation.PID_Controller.Update_Current_Value_From_External_Source(this   => this.xComponentPIDController,
+                                                                          fValue => -this.fCurrentError);
    end Update_Current_Error;
 
 
@@ -39,7 +43,7 @@ package body Navigation.Motion_Component is
    begin
       this.fCurrentError := 0.0;
       
-      this.xComponentPIDController.Reset_Controller;
+      Navigation.PID_Controller.Reset_Controller(this => this.xComponentPIDController);
    end Reset_Component;
    
 

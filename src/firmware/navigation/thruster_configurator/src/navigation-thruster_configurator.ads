@@ -3,7 +3,7 @@ with Math.Elementary;
 
 package Navigation.Thruster_Configurator is
 
-   type CThrusterConfigurator is tagged private;
+   type CThrusterConfigurator is private;
 
    type TExtendedMatrix is array(1 .. 6, 1 .. 12) of float;
    type TMatrix is array(1 .. 6, 1 .. 6) of float;
@@ -32,7 +32,7 @@ private
    function tfGet_Inverse_Part_Of(tfExtendedMatrix : in TExtendedMatrix) return TMatrix;
    function tfMultiply_Values_With_Matrix(this : in CThrusterConfigurator; tfComponentValues : in Navigation.Thrusters.TThrusterEffects) return Navigation.Thrusters.TThrusterValuesArray;
 
-   type CThrusterConfigurator is tagged
+   type CThrusterConfigurator is
       record
          xThrusterList : Navigation.Thrusters.CThrusterList;
          tfInverseMatrixForThrusterConfiguration : TMatrix;

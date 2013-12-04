@@ -5,14 +5,14 @@ package body Math.Planes is
    function xCreate (xNormalVector : in Math.Vectors.CVector; fDistanceFromOrigin : in float) return CPlane is
       UndefinedPlane : exception;
    begin
-      if xNormalVector.fLength_Squared = 0.0 then
+      if Math.Vectors.fLength_Squared(xNormalVector) = 0.0 then
          raise UndefinedPlane;
       end if;
 
-      return CPlane'(fA => xNormalVector.fGet_X,
-                         fB => xNormalVector.fGet_Y,
-                         fC => xNormalVector.fGet_Z,
-                     fD => fDistanceFromOrigin / xNormalVector.fLength);
+      return CPlane'(fA => Math.Vectors.fGet_X(xNormalVector),
+                         fB => Math.Vectors.fGet_Y(xNormalVector),
+                         fC => Math.Vectors.fGet_Z(xNormalVector),
+                     fD => fDistanceFromOrigin / Math.Vectors.fLength(xNormalVector));
    exception
       when UndefinedPlane =>
          return CPlane'(fA => 0.0,
@@ -28,7 +28,7 @@ package body Math.Planes is
       xNormalVector := Math.Vectors.xCreate(fX => this.fA,
                                               fY => this.fB,
                                               fZ => this.fC);
-      xNormalVector := xNormalVector.xGet_Normalized;
+      xNormalVector := Math.Vectors.xGet_Normalized(xNormalVector);
       return xNormalVector;
    end xGet_Normal_Vector;
 
@@ -39,7 +39,7 @@ package body Math.Planes is
       xNormalVector := Math.Vectors.xCreate(fX => this.fA,
                                               fY => this.fB,
                                               fZ => this.fC);
-      fDistanceFromOrigin := this.fD * xNormalVector.fLength;
+      fDistanceFromOrigin := this.fD * Math.Vectors.fLength(xNormalVector);
 
       return abs(fDistanceFromOrigin);
    end fGet_Distance_From_Origin;
@@ -48,13 +48,13 @@ package body Math.Planes is
       use math.Vectors;
 
    begin
-      if xLeftOperandPlane.xGet_Normal_Vector = xRightOperandPlane.xGet_Normal_Vector or
-        xLeftOperandPlane.xGet_Normal_Vector = -xRightOperandPlane.xGet_Normal_Vector then
+      if xGet_Normal_Vector(xLeftOperandPlane) = xGet_Normal_Vector(xRightOperandPlane) or
+        xGet_Normal_Vector(xLeftOperandPlane) = -xGet_Normal_Vector(xRightOperandPlane) then
          return 0.0;
       end if;
 
-      return Math.Vectors.fAngle_Between_In_Radians(xLeftOperandPlane.xGet_Normal_Vector,
-                                                                xRightOperandPlane.xGet_Normal_Vector);
+      return Math.Vectors.fAngle_Between_In_Radians(xGet_Normal_Vector(xLeftOperandPlane),
+                                                                xGet_Normal_Vector(xRightOperandPlane));
    end fAngle_Between_In_Radians;
 
 
@@ -68,13 +68,13 @@ package body Math.Planes is
       use Math.Vectors;
       PlanesNotIntersecting : exception;
    begin
-      if xLeftOperandPlane.fGet_Distance_From_Origin * xLeftOperandPlane.xGet_Normal_Vector /=
-        xRightOperandPlane.fGet_Distance_From_Origin * xRightOperandPlane.xGet_Normal_Vector and then
-        Math.Vectors.fAngle_Between_In_Radians(xLeftOperandPlane.xGet_Normal_Vector, xRightOperandPlane.xGet_Normal_Vector) = 0.0 then
+      if fGet_Distance_From_Origin(xLeftOperandPlane) * xGet_Normal_Vector(xLeftOperandPlane) /=
+        fGet_Distance_From_Origin(xRightOperandPlane) * xGet_Normal_Vector(xRightOperandPlane) and then
+        Math.Vectors.fAngle_Between_In_Radians(xGet_Normal_Vector(xLeftOperandPlane), xGet_Normal_Vector(xRightOperandPlane)) = 0.0 then
          raise PlanesNotIntersecting;
       end if;
 
-      return Math.Vectors.xCross_Product(xLeftOperandPlane.xGet_Normal_Vector, xRightOperandPlane.xGet_Normal_Vector).xGet_Normalized;
+      return xGet_Normalized(Math.Vectors.xCross_Product(xGet_Normal_Vector(xLeftOperandPlane), xGet_Normal_Vector(xRightOperandPlane)));
 
    exception
       when PlanesNotIntersecting =>

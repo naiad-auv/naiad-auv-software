@@ -73,4 +73,9 @@ public class PrimitiveEditorViewModel implements IViewModel {
         return commandsDictionary;
 
     }
+
+    @Override
+    public Object getScope() {
+        return this.scopeObject;
+    }
 }

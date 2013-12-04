@@ -7,12 +7,12 @@ with Navigation.PID_Controller;
 
 with Math.Vectors;
 with Math.Matrices;
-
+with Navigation.Globals;
 
 
 package Navigation.Dispatcher is
 
-   type CDispatcher is tagged private;
+   type CDispatcher is private;
 
 
    function xCreate return CDispatcher;
@@ -57,7 +57,7 @@ private
    procedure Scale_Thruster_Values (tfThrusterValues : in out Navigation.Thrusters.TThrusterValuesArray);
    function bThruster_Values_Need_Scaling (tfThrusterValues : in Navigation.Thrusters.TThrusterValuesArray) return boolean;
 
-   type CDispatcher is tagged
+   type CDispatcher is
       record
 
          xThrusterConfigurator : Navigation.Thruster_Configurator.CThrusterConfigurator;
@@ -66,12 +66,6 @@ private
 
          xPositionalController : Navigation.Positional_Controller.CPositionalController;
 
-         xCurrentAbsolutePosition : aliased Math.Vectors.CVector;
-         xWantedAbsolutePosition : aliased Math.Vectors.CVector;
-
-         xCurrentAbsoluteOrientation : aliased Math.Matrices.CMatrix;
-         xWantedAbsoluteOrientation : aliased Math.Matrices.CMatrix;
-         xCurrentAbsoluteOrientationInverse : aliased Math.Matrices.CMatrix;
       end record;
 
 end Navigation.Dispatcher;

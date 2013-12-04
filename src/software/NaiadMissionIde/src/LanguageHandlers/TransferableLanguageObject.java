@@ -1,5 +1,6 @@
 package LanguageHandlers;
 
+import Exceptions.NullReferenceException;
 import Interfaces.ILanguageObject;
 
 import java.awt.datatransfer.DataFlavor;
@@ -7,6 +8,7 @@ import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.List;
 import java.util.concurrent.TransferQueue;
 
 /**
@@ -32,8 +34,19 @@ public class TransferableLanguageObject implements ILanguageObject, Transferable
     };
 
     @Override
-    public Path getFilePath() {
+    public Path getFilePath() throws NullReferenceException
+    {
         return object.getFilePath();
+    }
+
+    @Override
+    public List<PrimitiveVariable> getInputVariables() {
+        return object.getInputVariables();
+    }
+
+    @Override
+    public List<PrimitiveVariable> getOutputVariables() {
+        return object.getOutputVariables();
     }
 
     @Override

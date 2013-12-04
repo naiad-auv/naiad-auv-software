@@ -11,8 +11,8 @@ package body Math.Quaternions is
       fX, fY, fZ, fW : float;
    begin
 
-      if xAxisVector.fLength_Squared /= 1.0 then
-         xNormalizedAxisVector := xAxisVector.xGet_Normalized;
+      if Math.Vectors.fLength_Squared(xAxisVector) /= 1.0 then
+         xNormalizedAxisVector := Math.Vectors.xGet_Normalized(xAxisVector);
       else
          xNormalizedAxisVector := xAxisVector;
       end if;
@@ -21,9 +21,9 @@ package body Math.Quaternions is
       fNorm :=fAngleInRadians / 2.0;
       fScale := Math.Elementary.Sin(fNorm);
 
-      fX := fScale * xNormalizedAxisVector.fGet_X;
-      fY := fScale * xNormalizedAxisVector.fGet_Y;
-      fZ := fScale * xNormalizedAxisVector.fGet_Z;
+      fX := fScale * Math.Vectors.fGet_X(xNormalizedAxisVector);
+      fY := fScale * Math.Vectors.fGet_Y(xNormalizedAxisVector);
+      fZ := fScale * Math.Vectors.fGet_Z(xNormalizedAxisVector);
       fW := Math.Elementary.Cos(fNorm);
 
       return CQuaternion'(fX => fX,
@@ -66,11 +66,11 @@ package body Math.Quaternions is
       DivisionByZero : exception;
    begin
 
-      if this.fGet_Length_Squared = 0.0 then
+      if fGet_Length_Squared(this) = 0.0 then
          raise DivisionByZero;
       end if;
 
-      fLength := this.fGet_Length;
+      fLength := fGet_Length(this);
 
       return Math.Quaternions.CQuaternion'(fX => this.fX / fLength,
                                            fY => this.fY / fLength,

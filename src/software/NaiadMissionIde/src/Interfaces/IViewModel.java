@@ -8,4 +8,5 @@ public interface IViewModel {
 
     public Dictionary<String, ICommand> getCommandsDictionary();
 
+    public Object getScope();
 }

@@ -1,15 +1,16 @@
 with Navigation.Motion_Component;
 with Navigation.PID_Controller;
 with Navigation.Thrusters;
+with Navigation.Globals;
 
 with Math.Vectors;
 with Math.Matrices;
 
 package Navigation.Positional_Controller is
 
-   type CPositionalController is tagged private;
+   type CPositionalController is private;
 
-   function xCreate (pxCurrentAbsolutePosition : access Math.Vectors.CVector; pxWantedAbsolutePosition : access Math.Vectors.CVector; pxCurrentAbsoluteOrientation : access Math.Matrices.CMatrix; pxCurrentAbsoluteOrientationInverse : access Math.Matrices.CMatrix) return CPositionalController;
+   function xCreate return CPositionalController;
    --  <summary>Creates an object of type CPositionalController and sets references to the current and wanted position</summary>
    --  <parameter name="pxCurrentAbsoluteOrientation">A reference to the current absolute position</parameter>
    --  <parameter name="pxWantedAbsoluteOrientation">A reference to the wanted absolute position</parameter>
@@ -30,15 +31,8 @@ package Navigation.Positional_Controller is
    --  <parameter name="eComponentToChange">The index of the component to change.</parameter>
 
 private
-   type CPositionalController is tagged
+   type CPositionalController is
       record
-
-         pxWantedAbsolutePosition : access Math.Vectors.CVector;
-         pxCurrentAbsolutePosition : access Math.Vectors.CVector;
-
-         pxCurrentAbsoluteOrientation : access Math.Matrices.CMatrix;
-         pxCurrentAbsoluteOrientationInverse : access Math.Matrices.CMatrix;
-
          xXMotionComponent : Navigation.Motion_Component.CMotionComponent;
          xYMotionComponent : Navigation.Motion_Component.CMotionComponent;
          xZMotionComponent : Navigation.Motion_Component.CMotionComponent;

@@ -15,6 +15,121 @@ void genSMCInsertTab();
 void genSMCRemoveTab();
 void genSMCNewLine();
 
+/*
+      -- Jumps
+      INSTR_BRF,	-- int
+      INSTR_BRA,	-- int
+
+      -- Subroutines
+      INSTR_BSR,	-- int
+
+      -- Memory deallocation
+      INSTR_POP,	-- int
+
+      -- Constants
+      INSTR_PUSHINT,		-- PUSHINT 3
+      INSTR_PUSHBOOL,		-- PUSHBOOL TRUE
+      INSTR_PUSHFLOAT,		-- PUSHFLOAT 8.34
+      INSTR_PUSHMAT,		-- PUSHMATRIX [[11.0,12.0,13.0],[21.0,22.0,23.0],[31.0,32.0,33.0]]
+      INSTR_PUSHVEC,		-- PUSHVECTOR [1.0,2.0,3.0]
+
+      -- Right value (variable values)
+      INSTR_RVALINT,		-- int
+      INSTR_RVALBOOL,		-- int
+      INSTR_RVALFLOAT,		-- int
+      INSTR_RVALMAT,		-- int
+      INSTR_RVALVEC,		-- int
+
+      -- Left value (variable addresses)
+      INSTR_LVAL,		-- int
+
+      -- Getters for vectors
+      INSTR_VECCOMP,		-- int
+*/
+
+
+void genSMC_NULL();
+void genSMC_MAIN();
+
+void genSMC_LINK();
+void genSMC_UNLINK();
+
+void genSMC_BRF(int iAddress);
+void genSMC_BRA(int iAddress);
+
+void genSMC_BSR(int iAddress);
+void genSMC_RTS();
+
+void genSMC_DECLINT();
+void genSMC_DECLBOOL();
+void genSMC_DECLFLOAT();
+void genSMC_DECLMAT();
+void genSMC_DECLVEC();
+
+void genSMC_POP(int iAmount);
+
+void genSMC_PUSHINT(int iValue);
+void genSMC_PUSHBOOL(const char * pValue);
+void genSMC_PUSHFLOAT(float fValue);
+void genSMC_PUSHMAT(float fMatrix[9]);
+void genSMC_PUSHVEC(float fVector[3]);
+
+void genSMC_RVALINT(int iAddress);
+void genSMC_RVALBOOL(int iAddress);
+void genSMC_RVALFLOAT(int iAddress);
+void genSMC_RVALMAT(int iAddress);
+void genSMC_RVALVEC(int iAddress);
+
+void genSMC_LVAL(int iAddress);
+
+void genSMC_ASSINT();
+void genSMC_ASSBOOL();
+void genSMC_ASSFLOAT();
+void genSMC_ASSMAT();
+void genSMC_ASSVEC();
+
+void genSMC_TIMERST();
+void genSMC_TIME();
+
+void genSMC_EQINT();
+void genSMC_LTINT();
+void genSMC_LEINT();
+
+void genSMC_EQFLOAT();
+void genSMC_LTFLOAT();
+void genSMC_LEFLOAT();
+
+void genSMC_NOT();
+void genSMC_OR();
+void genSMC_AND();
+void genSMC_EQBOOL();
+
+void genSMC_EQMAT();
+
+void genSMC_EQVEC();
+
+void genSMC_NEGINT();
+void genSMC_ADDINT();
+void genSMC_MULINT();
+
+void genSMC_NEGFLOAT();
+void genSMC_ADDFLOAT();
+void genSMC_MULFLOAT();
+
+void genSMC_NEGVEC();
+void genSMC_ADDVEC();
+void genSMC_MULVEC();
+
+void genSMC_VECCOMP(int iComponent);
+
+void genSMC_MULMAT();
+
+void genSMC_SIN();
+void genSMC_COS();
+void genSMC_ARCSIN();
+void genSMC_ARCCOS();
+
+
 // SMC file writing functions
 void genSMC_LINK();
 void genSMC_UNLINK();

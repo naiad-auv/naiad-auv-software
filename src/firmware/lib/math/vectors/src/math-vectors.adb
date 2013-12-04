@@ -18,7 +18,7 @@ package body Math.Vectors is
 
    function fLength (this : in CVector) return float is
    begin
-      return Math.Elementary.Sqrt(this.fLength_Squared);
+      return Math.Elementary.Sqrt(fLength_Squared(this));
    end fLength;
 
    function "+" (xLeftOperandVector, xRightOperandVector : in CVector) return CVector is
@@ -120,13 +120,13 @@ package body Math.Vectors is
       fDotProduct : float;
       DivisionByZero : exception;
    begin
-      if abs(xLeftOperandVector.fLength_Squared) = 0.0 or abs(xRightOperandVector.fLength_Squared) = 0.0 then
+      if abs(fLength_Squared(xLeftOperandVector)) = 0.0 or abs(fLength_Squared(xRightOperandVector)) = 0.0 then
          raise DivisionByZero;
       end if;
 
       fDotProduct := Math.Vectors.fDot_Product(xLeftOperandVector, xRightOperandVector);
 
-      fDotProduct := fDotProduct / (xLeftOperandVector.fLength * xRightOperandVector.fLength);
+      fDotProduct := fDotProduct / (fLength(xLeftOperandVector) * fLength(xRightOperandVector));
 
       fDotProduct := float'Min(float'Max(fDotProduct,-1.0),1.0);
 
@@ -140,11 +140,11 @@ package body Math.Vectors is
    function xGet_Normalized (this : in CVector) return CVector is
       DivisionByZero : exception;
    begin
-      if this.fLength_Squared = 0.0 then
+      if fLength_Squared(this) = 0.0 then
          raise DivisionByZero;
       end if;
 
-      return this / this.fLength;
+      return this / fLength(this);
 
    exception
       when DivisionByZero =>

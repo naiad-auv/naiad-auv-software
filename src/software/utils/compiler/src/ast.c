@@ -94,19 +94,27 @@ t_tree mWhile(t_tree pExpr, t_tree pStmnt, int pLineNr)
    return node;
 }
 
-t_tree mRead(const char *pId, int pLineNr)
+
+t_tree mLoop(t_tree pStmnts, int pLineNr)
 {
-   t_tree node = allocateNode(kRead, pLineNr);
-   node->Node.Read.Next = NULL;
-   node->Node.Read.Id = dstrcpy(pId);
+   t_tree node = allocateNode(kLoop, pLineNr);
+   node->Node.Loop.Next = NULL;
+   node->Node.Loop.Stmnt = pStmnts;
    return node;
 }
 
-t_tree mWrite(t_tree pExpr, int pLineNr)
+t_tree mExit(int pLineNr)
 {
-   t_tree node = allocateNode(kWrite, pLineNr);
-   node->Node.Write.Next = NULL;
-   node->Node.Write.Expr = pExpr;
+   t_tree node = allocateNode(kExit, pLineNr);
+   node->Node.Exit.Next = NULL;
+   return node;
+}
+
+t_tree mAsm(const char * pArgument, int pLineNr)
+{
+   t_tree node = allocateNode(kAsm, pLineNr);
+   node->Node.Asm.Next = NULL;
+   node->Node.Asm.Arg = dstrcpy(pArgument);
    return node;
 }
 
@@ -159,17 +167,48 @@ t_tree mIntConst(int pValue, int pLineNr)
    return node;
 }
 
-t_tree mBoolConst(int pValue, int pLineNr)
+t_tree mBoolConst(const char *pValue, int pLineNr)
 {
    t_tree node = allocateNode(kBoolConst, pLineNr);
-   node->Node.BoolConst.Value = pValue;
+   node->Node.BoolConst.Value = dstrcpy(pValue);
    return node;
 }
 
-t_tree mStringConst(const char *pValue, int pLineNr)
+t_tree mFloatConst(float fValue, int pLineNr)
 {
-   t_tree node = allocateNode(kStringConst, pLineNr);
-   node->Node.StringConst.Value = dstrcpy(pValue);
+   t_tree node = allocateNode(kFloatConst, pLineNr);
+   node->Node.FloatConst.Value = fValue;
+   return node;
+}
+
+t_tree mVecConst(float fXValue, float fYValue, float fZValue, int pLineNr)
+{
+   t_tree node = allocateNode(kVecConst, pLineNr);
+   node->Node.VecConst.Values[0] = fXValue;
+   node->Node.VecConst.Values[1] = fYValue;
+   node->Node.VecConst.Values[2] = fZValue;
+   return node;
+}
+
+t_tree mMatConst(float fAAValue, float fABValue, float fACValue, 
+			float fBAValue, float fBBValue, float fBCValue, 
+			float fCAValue, float fCBValue, float fCCValue, 
+			int pLineNr)
+{
+   t_tree node = allocateNode(kMatConst, pLineNr);
+
+   node->Node.VecConst.Values[0] = fAAValue;
+   node->Node.VecConst.Values[1] = fABValue;
+   node->Node.VecConst.Values[2] = fACValue;
+
+   node->Node.VecConst.Values[3] = fBAValue;
+   node->Node.VecConst.Values[4] = fBBValue;
+   node->Node.VecConst.Values[5] = fBCValue;
+
+   node->Node.VecConst.Values[6] = fCAValue;
+   node->Node.VecConst.Values[7] = fCBValue;
+   node->Node.VecConst.Values[8] = fCCValue;
+
    return node;
 }
 
@@ -246,14 +285,11 @@ void destroy_node(t_tree node)
    case kAssign:
       free(node->Node.Assign.Id);
       break;
-   case kRead:
-      free(node->Node.Read.Id);
-      break;
    case kFuncCallStmnt:
       free(node->Node.FuncCallStmnt.FuncName);
       break;
-   case kStringConst:
-      free(node->Node.StringConst.Value);
+   case kBoolConst:
+      free(node->Node.BoolConst.Value);
       break;
    case kFuncCallExpr:
       free(node->Node.FuncCallExpr.FuncName);

@@ -24,8 +24,8 @@ void nameLocal(t_tree node);
 void nameAssign(t_tree node);
 void nameIf(t_tree node);
 void nameWhile(t_tree node);
-void nameRead(t_tree node);
-void nameWrite(t_tree node);
+void nameLoop(t_tree node);
+void nameExit(t_tree node);
 void nameReturn(t_tree node);
 void nameFuncCallStmnt(t_tree node);
 void nameFuncCallExpr(t_tree node);
@@ -46,7 +46,9 @@ void nameExpr(t_tree node)
 		break;
 	case kIntConst:
 	case kBoolConst:
-	case kStringConst:
+	case kFloatConst:
+	case kVecConst:
+	case kMatConst:
 		return;
 	case kFuncCallExpr:
 		nameFuncCallExpr(node);
@@ -76,17 +78,20 @@ void nameStmnt(t_tree node)
 	case kWhile:
 		nameWhile(node);
 		break;
-	case kRead:
-		nameRead(node);
-		break;
-	case kWrite:
-		nameWrite(node);
-		break;
 	case kFuncCallStmnt:
 		nameFuncCallStmnt(node);
 		break;
 	case kReturn:
 		nameReturn(node);
+		break;
+	case kLoop:
+		nameLoop(node);
+		break;
+	case kExit:
+		nameExit(node);
+		break;
+	case kAsm:
+		nameAsm(node);
 		break;
 	default:
 		printf("Error in name.c!\n");
@@ -219,21 +224,24 @@ void nameWhile(t_tree node)
 
 	nameStmnt(node->Node.Stmnt.Next);
 }
-void nameRead(t_tree node)
+void nameLoop(t_tree node)
 {
-	checkIdUndefined(node->Node.Read.Id, node->LineNr);
+	nameStmnt(node->Node.Loop.Stmnt);
 
 	nameStmnt(node->Node.Stmnt.Next);
 }
-void nameWrite(t_tree node)
+void nameExit(t_tree node)
 {
-	nameExpr(node->Node.Write.Expr);
-
+	nameStmnt(node->Node.Stmnt.Next);
+}
+void nameAsm(t_tree node)
+{
 	nameStmnt(node->Node.Stmnt.Next);
 }
 void nameReturn(t_tree node)
 {
-	nameExpr(node->Node.Return.Expr);
+	if (node->Node.Return.Expr != NULL)
+		nameExpr(node->Node.Return.Expr);
 
 	nameStmnt(node->Node.Stmnt.Next);
 }

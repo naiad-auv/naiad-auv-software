@@ -1,33 +1,37 @@
 package views;
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JSplitPane;
 import java.awt.BorderLayout;
-import javax.swing.JList;
+import java.util.List;
 import javax.swing.JPanel;
-import javax.swing.ListSelectionModel;
-import javax.swing.AbstractListModel;
 import javax.swing.JTabbedPane;
 
-import ExtendedComponents.EJDrawingArea;
+import Commands.HandleObjectiveEditorCommand;
+import Exceptions.ScopeModificationNotSupported;
+import Interfaces.ICommand;
+import Interfaces.ILanguageObject;
+import LanguageHandlers.Objective;
+import UserControls.*;
 import Interfaces.IViewModel;
-import UserControls.LanguageObjectsList;
-import UserControls.MainWindowMenu;
 import ViewModels.MainWindowViewModel;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class MainWindow {
 
     private IViewModel mainViewModel;
 
     private JFrame frame;
+    private EJTabbedPane tabbedPane;
 
     /**
      * Create the application.
      */
     public MainWindow() {
+        this.tabbedPane = new EJTabbedPane(JTabbedPane.TOP);
+
         initialize();
+
     }
 
     /**
@@ -54,40 +58,14 @@ public class MainWindow {
         splitPane_1.setOrientation(JSplitPane.VERTICAL_SPLIT);
         panel.add(splitPane_1);
 
-		/*JList list = new JList();
-		list.setModel(new AbstractListModel() {
-			String[] values = new String[] {"Item1", "Item2", "Item3", "Item4"};
-			public int getSize() {
-				return values.length;
-			}
-			public Object getElementAt(int index) {
-				return values[index];
-			}
-		});
+        splitPane_1.setTopComponent(new LanguageObjectsListPresenter(new HandleObjectiveEditorCommand(this.tabbedPane)));
 
-		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		splitPane_1.setLeftComponent(list);     */
-
-        LanguageObjectsList loList = new LanguageObjectsList();
-        splitPane_1.setTopComponent(loList);
-
-        JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
         splitPane.setRightComponent(tabbedPane);
-
-        JPanel panel_1 = new EJDrawingArea();
-        JPanel panel_2 = new EJDrawingArea();
-        JPanel panel_3 = new EJDrawingArea();
-
-        tabbedPane.addTab("New tab1", null, panel_1, null);
-        tabbedPane.addTab("New tab2", null, panel_2, null);
-        tabbedPane.addTab("New tab3", null, panel_3, null);
     }
 
     private void setUpBackend()
     {
         this.mainViewModel = new MainWindowViewModel();
-        //TODO skapa objectives listan? skicka med en ICommand för att lägga till / ta bort en drawing area från listan av drawing areas
-        //TODO skapa primitiv listan? skicka med en ICommand för att lägga till / ta bort från listan i sig
     }
 
     public void Show() {

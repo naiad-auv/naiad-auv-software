@@ -1,13 +1,9 @@
 package body Navigation.Orientational_Controller is
 
 
-   function xCreate (pxCurrentAbsoluteOrientation : access Math.Matrices.CMatrix; pxWantedAbsoluteOrientation : access Math.Matrices.CMatrix; pxCurrentAbsoluteOrientationInverse : access Math.Matrices.CMatrix) return COrientationalController is
+   function xCreate return COrientationalController is
       xOrientationalController : Navigation.Orientational_Controller.COrientationalController;
    begin
-
-      xOrientationalController.pxCurrentAbsoluteOrientation := pxCurrentAbsoluteOrientation;
-      xOrientationalController.pxWantedAbsoluteOrientation := pxWantedAbsoluteOrientation;
-      xOrientationalController.pxCurrentAbsoluteOrientationInverse := pxCurrentAbsoluteOrientationInverse;
 
       xOrientationalController.xXRotMotionComponent := Navigation.Motion_Component.xCreate(eAxisIndex    => Navigation.Motion_Component.RotationX,
                                                                                                 xPIDScalings => (0.0,0.0,0.0));
@@ -21,9 +17,9 @@ package body Navigation.Orientational_Controller is
 
    procedure Update_Current_Errors (this : in out COrientationalController) is
    begin
-      this.Update_Current_X_Rotation_Error;
-      this.Update_Current_Y_Rotation_Error;
-      this.Update_Current_Z_Rotation_Error;
+      Update_Current_X_Rotation_Error(this);
+      Update_Current_Y_Rotation_Error(this);
+      Update_Current_Z_Rotation_Error(this);
    end Update_Current_Errors;
 
 
@@ -44,12 +40,15 @@ package body Navigation.Orientational_Controller is
                    others => 0.0);
                   this.fSavedDeltaTime := fDeltaTime;
       else
-         this.Get_X_Rotation_Thruster_Control_Value(fDeltaTime    => fDeltaTime + this.fSavedDeltaTime,
-                                                    fControlValue => fRotationX);
-         this.Get_Y_Rotation_Thruster_Control_Value(fDeltaTime    => fDeltaTime + this.fSavedDeltaTime,
-                                                    fControlValue => fRotationY);
-         this.Get_Z_Rotation_Thruster_Control_Value(fDeltaTime    => fDeltaTime + this.fSavedDeltaTime,
-                                                    fControlValue => fRotationZ);
+         Get_X_Rotation_Thruster_Control_Value(this          => this,
+                                               fDeltaTime    => fDeltaTime + this.fSavedDeltaTime,
+                                               fControlValue => fRotationX);
+         Get_Y_Rotation_Thruster_Control_Value(this          => this,
+                                               fDeltaTime    => fDeltaTime + this.fSavedDeltaTime,
+                                               fControlValue => fRotationY);
+         Get_Z_Rotation_Thruster_Control_Value(this          => this,
+                                               fDeltaTime    => fDeltaTime + this.fSavedDeltaTime,
+                                               fControlValue => fRotationZ);
          tfValues := (Navigation.Thrusters.XRotation => fRotationX,
                       Navigation.Thrusters.YRotation => fRotationY,
                       Navigation.Thrusters.ZRotation => fRotationZ,
@@ -63,15 +62,22 @@ package body Navigation.Orientational_Controller is
    begin
       case eComponentToUpdate is
       when Navigation.Motion_Component.RotationX =>
-           this.xXRotMotionComponent.Set_New_PID_Component_Scalings(xNewPIDScaling);
+         Navigation.Motion_Component.Set_New_PID_Component_Scalings(this         => this.xXRotMotionComponent,
+                                                                    xNewScalings => xNewPIDScaling);
       when Navigation.Motion_Component.RotationY =>
-           this.xYRotMotionComponent.Set_New_PID_Component_Scalings(xNewPIDScaling);
+         Navigation.Motion_Component.Set_New_PID_Component_Scalings(this         => this.xYRotMotionComponent,
+                                                                    xNewScalings => xNewPIDScaling);
       when Navigation.Motion_Component.RotationZ =>
-           this.xZRotMotionComponent.Set_New_PID_Component_Scalings(xNewPIDScaling);
+         Navigation.Motion_Component.Set_New_PID_Component_Scalings(this         => this.xZRotMotionComponent,
+                                                                    xNewScalings => xNewPIDScaling);
       when Navigation.Motion_Component.AllComponents =>
-           this.xXRotMotionComponent.Set_New_PID_Component_Scalings(xNewPIDScaling);
-           this.xYRotMotionComponent.Set_New_PID_Component_Scalings(xNewPIDScaling);
-           this.xZRotMotionComponent.Set_New_PID_Component_Scalings(xNewPIDScaling);
+         Navigation.Motion_Component.Set_New_PID_Component_Scalings(this         => this.xXRotMotionComponent,
+                                                                    xNewScalings => xNewPIDScaling);
+         Navigation.Motion_Component.Set_New_PID_Component_Scalings(this         => this.xYRotMotionComponent,
+                                                                    xNewScalings => xNewPIDScaling);
+         Navigation.Motion_Component.Set_New_PID_Component_Scalings(this         => this.xZRotMotionComponent,
+                                                                    xNewScalings => xNewPIDScaling);
+
       when others =>
          null;
       end case;
@@ -81,21 +87,24 @@ package body Navigation.Orientational_Controller is
 
    procedure Get_X_Rotation_Thruster_Control_Value (this : in out COrientationalController; fDeltaTime : in float; fControlValue : out float) is
    begin
-      this.xXRotMotionComponent.Get_New_Component_Control_Value(fDeltaTime    => fDeltaTime,
-                                                                fControlValue => fControlValue);
+      Navigation.Motion_Component.Get_New_Component_Control_Value(this          => this.xXRotMotionComponent,
+                                                                  fDeltaTime    => fDeltaTime,
+                                                                  fControlValue => fControlValue);
    end Get_X_Rotation_Thruster_Control_Value;
 
    procedure Get_Y_Rotation_Thruster_Control_Value (this : in out COrientationalController; fDeltaTime : in float; fControlValue : out float) is
    begin
-      this.xYRotMotionComponent.Get_New_Component_Control_Value(fDeltaTime    => fDeltaTime,
-                                                                fControlValue => fControlValue);
+      Navigation.Motion_Component.Get_New_Component_Control_Value(this          => this.xYRotMotionComponent,
+                                                                  fDeltaTime    => fDeltaTime,
+                                                                  fControlValue => fControlValue);
    end Get_Y_Rotation_Thruster_Control_Value;
 
 
    procedure Get_Z_Rotation_Thruster_Control_Value (this : in out COrientationalController; fDeltaTime : in float; fControlValue : out float) is
    begin
-      this.xZRotMotionComponent.Get_New_Component_Control_Value(fDeltaTime    => fDeltaTime,
-                                                                fControlValue => fControlValue);
+      Navigation.Motion_Component.Get_New_Component_Control_Value(this          => this.xZRotMotionComponent,
+                                                                  fDeltaTime    => fDeltaTime,
+                                                                  fControlValue => fControlValue);
    end Get_Z_Rotation_Thruster_Control_Value;
 
    procedure Update_Current_Z_Rotation_Error (this : in out COrientationalController) is
@@ -116,13 +125,13 @@ package body Navigation.Orientational_Controller is
 
    begin
       xCurrentRelativeOrientation := Math.Matrices.xCreate_Identity;
-      xCurrentXVector := xCurrentRelativeOrientation.xGet_X_Vector;
+      xCurrentXVector := Math.Matrices.xGet_X_Vector(xCurrentRelativeOrientation);
 
-      xWantedRelativeOrientation := this.pxCurrentAbsoluteOrientationInverse.all * this.pxWantedAbsoluteOrientation.all;
-      xWantedXVector := xWantedRelativeOrientation.xGet_X_Vector;
+      xWantedRelativeOrientation := Navigation.Globals.xCurrentAbsoluteOrientationInverse * Navigation.Globals.xWantedAbsoluteOrientation;
+      xWantedXVector := Math.Matrices.xGet_X_Vector(xWantedRelativeOrientation);
 
 
-      xCurrentRelativePlane := Math.Planes.xCreate(xNormalVector      => xCurrentRelativeOrientation.xGet_Z_Vector,
+      xCurrentRelativePlane := Math.Planes.xCreate(xNormalVector      => Math.Matrices.xGet_Z_Vector(xCurrentRelativeOrientation),
                                                      fDistanceFromOrigin => 0.0);
       xWantedRelativePlane := xWantedRelativeOrientation * xCurrentRelativePlane;
 
@@ -138,12 +147,13 @@ package body Navigation.Orientational_Controller is
 
       fError := Math.Vectors.fAngle_Between_In_Radians(xCurrentXVector, xWantedXVector);
 
-      if Math.Vectors.fDot_Product(xWantedXVector, Math.Vectors.xCross_Product(xCurrentXVector, xWantedRelativePlane.xGet_Normal_Vector)) > 0.0 then
+      if Math.Vectors.fDot_Product(xWantedXVector, Math.Vectors.xCross_Product(xCurrentXVector, Math.Planes.xGet_Normal_Vector(xWantedRelativePlane))) > 0.0 then
          fError := fError * (-1.0);
       end if;
 
       this.fCurrentZRotationError := fError;
-      this.xZRotMotionComponent.Update_Current_Error(fError);
+      Navigation.Motion_Component.Update_Current_Error(this           => this.xZRotMotionComponent,
+                                                       fNewErrorValue => fError);
    end Update_Current_Z_Rotation_Error;
 
    procedure Update_Current_Y_Rotation_Error (this : in out COrientationalController) is
@@ -164,13 +174,13 @@ package body Navigation.Orientational_Controller is
 
    begin
       xCurrentRelativeOrientation := Math.Matrices.xCreate_Identity;
-      xCurrentZVector := xCurrentRelativeOrientation.xGet_Z_Vector;
+      xCurrentZVector := Math.Matrices.xGet_Z_Vector(xCurrentRelativeOrientation);
 
-      xWantedRelativeOrientation := this.pxCurrentAbsoluteOrientationInverse.all * this.pxWantedAbsoluteOrientation.all;
-      xWantedZVector := xWantedRelativeOrientation.xGet_Z_Vector;
+      xWantedRelativeOrientation := Navigation.Globals.xCurrentAbsoluteOrientationInverse * Navigation.Globals.xWantedAbsoluteOrientation;
+      xWantedZVector := Math.Matrices.xGet_Z_Vector(xWantedRelativeOrientation);
 
 
-      xCurrentRelativePlane := Math.Planes.xCreate(xNormalVector      => xCurrentRelativeOrientation.xGet_Y_Vector,
+      xCurrentRelativePlane := Math.Planes.xCreate(xNormalVector      => Math.Matrices.xGet_Y_Vector(xCurrentRelativeOrientation),
                                                      fDistanceFromOrigin => 0.0);
       xWantedRelativePlane := xWantedRelativeOrientation * xCurrentRelativePlane;
 
@@ -186,12 +196,13 @@ package body Navigation.Orientational_Controller is
 
       fError := Math.Vectors.fAngle_Between_In_Radians(xCurrentZVector, xWantedZVector);
 
-      if Math.Vectors.fDot_Product(xWantedZVector, Math.Vectors.xCross_Product(xCurrentZVector, xWantedRelativePlane.xGet_Normal_Vector)) > 0.0 then
+      if Math.Vectors.fDot_Product(xWantedZVector, Math.Vectors.xCross_Product(xCurrentZVector, Math.Planes.xGet_Normal_Vector(xWantedRelativePlane))) > 0.0 then
          fError := fError * (-1.0);
       end if;
 
       this.fCurrentYRotationError := fError;
-      this.xYRotMotionComponent.Update_Current_Error(fError);
+      Navigation.Motion_Component.Update_Current_Error(this           => this.xYRotMotionComponent,
+                                                       fNewErrorValue => fError);
    end Update_Current_Y_Rotation_Error;
 
 
@@ -213,13 +224,13 @@ package body Navigation.Orientational_Controller is
 
    begin
       xCurrentRelativeOrientation := Math.Matrices.xCreate_Identity;
-      xCurrentYVector := xCurrentRelativeOrientation.xGet_Y_Vector;
+      xCurrentYVector := Math.Matrices.xGet_Y_Vector(xCurrentRelativeOrientation);
 
-      xWantedRelativeOrientation := this.pxCurrentAbsoluteOrientationInverse.all * this.pxWantedAbsoluteOrientation.all;
-      xWantedYVector := xWantedRelativeOrientation.xGet_Y_Vector;
+      xWantedRelativeOrientation := Navigation.Globals.xCurrentAbsoluteOrientationInverse * Navigation.Globals.xWantedAbsoluteOrientation;
+      xWantedYVector := Math.Matrices.xGet_Y_Vector(xWantedRelativeOrientation);
 
 
-      xCurrentRelativePlane := Math.Planes.xCreate(xNormalVector      => xCurrentRelativeOrientation.xGet_X_Vector,
+      xCurrentRelativePlane := Math.Planes.xCreate(xNormalVector      => Math.Matrices.xGet_X_Vector(xCurrentRelativeOrientation),
                                                      fDistanceFromOrigin => 0.0);
       xWantedRelativePlane := xWantedRelativeOrientation * xCurrentRelativePlane;
 
@@ -235,12 +246,13 @@ package body Navigation.Orientational_Controller is
 
       fError := Math.Vectors.fAngle_Between_In_Radians(xCurrentYVector, xWantedYVector);
 
-      if Math.Vectors.fDot_Product(xWantedYVector, Math.Vectors.xCross_Product(xCurrentYVector, xWantedRelativePlane.xGet_Normal_Vector)) > 0.0 then
+      if Math.Vectors.fDot_Product(xWantedYVector, Math.Vectors.xCross_Product(xCurrentYVector, Math.Planes.xGet_Normal_Vector(xWantedRelativePlane))) > 0.0 then
          fError := fError * (-1.0);
       end if;
 
       this.fCurrentXRotationError := fError;
-      this.xXRotMotionComponent.Update_Current_Error(fError);
+      Navigation.Motion_Component.Update_Current_Error(this           => this.xXRotMotionComponent,
+                                                       fNewErrorValue => fError);
    end Update_Current_X_Rotation_Error;
 
 

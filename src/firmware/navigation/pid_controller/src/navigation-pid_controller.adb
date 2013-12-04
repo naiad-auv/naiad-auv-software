@@ -20,8 +20,9 @@ package body Navigation.PID_Controller is
    function xCreate(xPIDComponentScalings : TPIDComponentScalings) return CPIDController is
       xNewController : CPIDController;
    begin
-      xNewController.Reset_Controller;
-      xNewController.Set_New_PID_Component_Scalings(xPIDComponentScalings);
+      Navigation.PID_Controller.Reset_Controller(xNewController);
+      Navigation.PID_Controller.Set_New_PID_Component_Scalings(this         => xNewController,
+                                                               xNewScalings => xPIDComponentScalings);
       return xNewController;
    end xCreate;
 
