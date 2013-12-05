@@ -2277,7 +2277,7 @@ int main (int argc, char *argv[])
 
 
 					printf("DONE.\n");
-/*
+
 					// pass 5 - generate list file
 					printf("Generating trac42 stack machine code to file \"");
 					printf(lstname);
@@ -2285,7 +2285,7 @@ int main (int argc, char *argv[])
 					generateSMC(treeRoot, symbolTable, lstname);
 					printf("Done!\n");
 					printf("Cleaning up and exiting...\n");
-					*/
+					
 				}
 			}
 				

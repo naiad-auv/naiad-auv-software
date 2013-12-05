@@ -42,9 +42,6 @@ package body VirtualMachine.Interpreter is
          when INSTR_BRA =>
             this.Instr_Branch_Always(iArgument => this.pxInstructionFeeder.Feed_Integer_Argument);
 
-         when INSTR_BSR =>
-            this.Instr_Branch_Subroutine(iArgument => this.pxInstructionFeeder.Feed_Integer_Argument);
-
          when INSTR_POP =>
             this.Instr_Pop(iArgument => this.pxInstructionFeeder.Feed_Integer_Argument);
 
@@ -79,6 +76,10 @@ package body VirtualMachine.Interpreter is
 
          when INSTR_RTS =>
             this.Instr_Return_To_Subroutine;
+
+
+         when INSTR_BSR =>
+            this.Instr_Branch_Subroutine;
 
 
          when INSTR_DECLINT =>
@@ -297,7 +298,8 @@ package body VirtualMachine.Interpreter is
       this.iProgramCounter := iArgument;
       this.pxInstructionFeeder.Set_Program_Counter(iNewProgramCounterValue => this.iProgramCounter);
    end Instr_Branch_Always;
-   procedure Instr_Branch_Subroutine (this : in out CInterpreter; iArgument : in integer) is
+   procedure Instr_Branch_Subroutine (this : in out CInterpreter) is
+      iAddress : integer;
    begin
       Ada.Text_IO.Put_Line("BRS from address: " & this.iProgramCounter'Img);
       Ada.Text_IO.Put_Line("BRS to address: " & iArgument'Img);

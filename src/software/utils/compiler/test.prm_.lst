@@ -1,0 +1,24 @@
+     2  [hej]
+     3    LINK
+     4    LVAL 3
+     5    PUSHINT 2
+     6    PUSHINT 2
+     7    RVALINT
+     8    MULINT
+     9    ASSINT
+    10    UNLINK
+    11    RTS
+    12    UNLINK
+    13    RTS
+    14  [main]
+    15    LINK
+    16    DECLINT
+    17    LVAL -1
+    18    DECLINT
+    19    PUSHINT 2
+    20    PUSHINT 2
+    21    BSR
+    22    POP 2
+    23    ASSINT
+    24    UNLINK
+    25    RTS

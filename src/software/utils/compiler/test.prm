@@ -1,14 +1,12 @@
-procedure main(i : access(integer); v : vector; m : matrix) is
-	iaccess : integer;
+function hej (i : integer) return integer is
 begin
-	v := [32.5,63.2,-123.4];
-	m := [	[43.2,63.2,-123.4],
-		[32.5,63.2,-123.4], 
-		[32.5,63.2,-123.4] ];
-	i := access(iaccess);
-
-	v := v * float(i);
+	return 2 * i;
+end hej;
 
 
 
+procedure main is
+	i : integer;
+begin
+	i := hej(2);
 end main;

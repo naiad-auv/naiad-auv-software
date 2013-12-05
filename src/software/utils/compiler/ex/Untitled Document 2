@@ -1,0 +1,68 @@
+primitive ZeroVector1 is
+
+	ZeroVector1ReturnVector : out vector;
+
+	procedure ZeroVector1main is
+	begin
+		ZeroVector1ReturnVector := [0.0, 0.0, 0.0];
+	end ZeroVector1main;
+
+end ZeroVector1;
+
+primitive IdentityMatrix1 is
+
+	IdentityMatrix1ReturnMatrix : out matrix;
+
+	procedure IdentityMatrix1main is
+	begin
+		IdentityMatrix1ReturnMatrix := [ [1.0, 0.0, 0.0],
+				  [0.0, 1.0, 0.0],
+				  [0.0, 0.0, 1.0] ];
+	end IdentityMatrix1main;
+
+end IdentityMatrix1;
+
+
+primitive IntLessThan1 is
+	
+	IntLessThan1LeftOperand : in integer;
+	IntLessThan1RightOperand : in integer;
+
+	IntLessThan1Result : out boolean;
+
+	procedure IntLessThan1main is
+	begin
+		Result := LeftOperand < RightOperand;
+	end IntLessThan1main;
+
+end IntLessThan1;
+
+
+primitive Branch1 is
+
+	Branch1Condition : in boolean;
+
+	Branch1FalseBranch : in pointer;
+	Branch1TrueBranch : in pointer;
+
+	Branch1Result : out pointer;
+
+	procedure Branch1main is
+	begin
+		if Branch1Condition then
+			Branch1Result := Branch1TrueBranch;
+		else
+			Branch1Result := Branch1FalseBranch;
+		end if;
+	end Branch1main;
+
+end Branch1;	
+
+primitive Start is
+
+	procedure main is
+	begin
+		null;
+	end main;
+
+end Start;

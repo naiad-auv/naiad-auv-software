@@ -6,6 +6,7 @@
 
 int genSMCLineNr; // keeps track of the current line number in the list file
 int genSMCTabIndex;	// keeps track of the tabs
+int exitLoopAddress;	// keeps track of the address to jump to to get out of a loop stmnt
 FILE * genSMCFilePtr;	// pointer to opened list file
 
 // -----------------------------------------------------------------------------------
@@ -139,6 +140,7 @@ void genSMC_ARCCOS();
 void genSMC_ITOF();
 void genSMC_FTOI();
 
+void genSMC_ASM();
 
 void genSMC_FunctionBegin();
 void genSMC_FunctionEnd();
@@ -154,12 +156,18 @@ void genSMCAssign(t_tree node);
 void genSMCIf(t_tree node);
 void genSMCWhile(t_tree node);
 void genSMCReturn(t_tree node);
+void genSMCLoop(t_tree node);
+void genSMCExit(t_tree node);
+void genSMCAsm(t_tree node);
 void genSMCFuncCallStmnt(t_tree node);
 void genSMCFuncCallExpr(t_tree node);
 void genSMCActual(t_tree node);
 void genSMCUnary(t_tree node);
 void genSMCBinary(t_tree node);
 void genSMCIntConst(t_tree node);
+void genSMCFloatConst(t_tree node);
+void genSMCVecConst(t_tree node);
+void genSMCMatConst(t_tree node);
 void genSMCBoolConst(t_tree node);
 void genSMCRValue(t_tree node);
 void genSMCLValue(t_tree node);
@@ -613,6 +621,24 @@ void genSMC_FTOI()
 	fprintf(genSMCFilePtr, "FTOI");
 }
 
+void genSMC_SCALEVEC()
+{
+	genSMCNewLine();
+	fprintf(genSMCFilePtr, "SCALEVEC");
+}
+void genSMC_MULMATVEC()
+{
+	genSMCNewLine();
+	fprintf(genSMCFilePtr, "MULMATVEC");
+}
+
+void genSMC_ASM(const char * pArg)
+{
+	genSMCNewLine();
+	fprintf(genSMCFilePtr, pArg);
+}
+
+
 
 // ----------------------------------------------------------------------------------
 
@@ -665,6 +691,15 @@ void genSMCCallNodeFunction(t_tree node)
 	case kReturn:
 		genSMCReturn(node);
 		break;
+	case kLoop:
+		genSMCLoop(node);
+		break;
+	case kExit:
+		genSMCExit(node);
+		break;
+	case kAsm:
+		genSMCAsm(node);
+		break;
 	case kActual:
 		genSMCActual(node);
 		break;
@@ -679,6 +714,15 @@ void genSMCCallNodeFunction(t_tree node)
 		break;
 	case kBoolConst:
 		genSMCBoolConst(node);
+		break;
+	case kFloatConst:
+		genSMCFloatConst(node);
+		break;
+	case kVecConst:
+		genSMCVecConst(node);
+		break;
+	case kMatConst:
+		genSMCMatConst(node);
 		break;
 	case kFuncCallExpr:
 		genSMCFuncCallExpr(node);
@@ -741,7 +785,10 @@ void genSMCAssign(t_tree node)
 	eType type = var_table->type;
 
 	if (type > 6 && type < 13)
-		genSMC_RVALINT(var_table->offset);
+	{
+		genSMC_PUSHINT(var_table->offset);
+		genSMC_RVALINT();
+	}
 	else
 		genSMC_LVAL(var_table->offset);
 
@@ -837,6 +884,37 @@ void genSMCWhile(t_tree node)
 	genSMCCallNodeFunction(node->Node.While.Next);
 }
 
+void genSMCLoop(t_tree node)
+{
+	long int braFileOffset;
+	int brfLineNr, exitJump;
+	int loopingAddress = genSMCLineNr + 1;
+	
+	braFileOffset = ftell(genSMCFilePtr);
+	brfLineNr = genSMCLineNr;
+
+	// DUMMIES--------------------------------------------
+	genSMCCallNodeFunction(node->Node.Loop.Stmnt);
+	genSMC_BRA(loopingAddress);
+	exitJump = genSMCLineNr + 1;
+	//----------------------------------------------------
+
+	fseek(genSMCFilePtr, braFileOffset, SEEK_SET);
+	genSMCLineNr = brfLineNr;
+	
+	exitLoopAddress = exitJump;
+	genSMCCallNodeFunction(node->Node.Loop.Stmnt);
+	genSMC_BRA(loopingAddress);
+
+	genSMCCallNodeFunction(node->Node.While.Next);
+}
+
+void genSMCExit(t_tree node)
+{
+	genSMC_BRA(exitLoopAddress);
+	genSMCCallNodeFunction(node->Node.Exit.Next);
+}
+
 void genSMCReturn(t_tree node)
 {
 	int retValOffset;
@@ -924,7 +1002,8 @@ void genSMCFuncCallStmnt(t_tree node)
 		actual_iter = actual_iter->Node.Actual.Next;
 	}
 
-	genSMC_BSR(func_table->offset);
+	genSMC_PUSHINT(func_table->offset);
+	genSMC_BSR();
 
 	table_iter = func_table->child;
 	while(table_iter != NULL)
@@ -937,7 +1016,8 @@ void genSMCFuncCallStmnt(t_tree node)
 		table_iter = table_iter->next;
 	}
 
-	genSMC_POP(func_table->type); // pop return value
+	if (func_table->type != VOID)
+		genSMC_POP(func_table->type); // pop return value
 	genSMCCallNodeFunction(node->Node.FuncCallStmnt.Next);
 }
 void genSMCFuncCallExpr(t_tree node)
@@ -968,7 +1048,8 @@ void genSMCFuncCallExpr(t_tree node)
 	*/
 	genSMCCallNodeFunction(node->Node.FuncCallExpr.Actuals);
 
-	genSMC_BSR(func_table->offset);
+	genSMC_PUSHINT(func_table->offset);
+	genSMC_BSR();
 
 	table_iter = func_table->child;
 	while(table_iter != NULL)
@@ -1030,7 +1111,7 @@ void genSMCBinary(t_tree node)
 {
 	if (node->Node.Binary.Type == VECTOR)
 	{
-		if (node->Node.Binary.RightType == MATRIX || node->Node.Binary.RightType == FLOAT)
+		if (node->Node.Binary.LeftType == MATRIX || node->Node.Binary.LeftType == FLOAT)
 		{
 			genSMCCallNodeFunction(node->Node.Binary.RightOperand);
 			genSMCCallNodeFunction(node->Node.Binary.LeftOperand);
@@ -1059,6 +1140,9 @@ void genSMCBinary(t_tree node)
 			break;
 		case EQ:
 			genSMC_EQBOOL();
+			break;
+		default:
+			printf("Error in smc");
 			break;
 		}
 		break;
@@ -1095,6 +1179,9 @@ void genSMCBinary(t_tree node)
 			genSMC_LTINT();
 			genSMC_NOT();
 			break;
+		default:
+			printf("Error in smc");
+			break;
 		}
 		break;
 	case FLOAT:
@@ -1130,6 +1217,9 @@ void genSMCBinary(t_tree node)
 			genSMC_LTFLOAT();
 			genSMC_NOT();
 			break;
+		default:
+			printf("Error in smc");
+			break;
 		}
 		break;
 	case VECTOR:
@@ -1153,6 +1243,9 @@ void genSMCBinary(t_tree node)
 		case EQ:
 			genSMC_EQVEC();
 			break;
+		default:
+			printf("Error in smc");
+			break;
 		}
 		break;
 	case MATRIX:
@@ -1164,10 +1257,22 @@ void genSMCBinary(t_tree node)
 		case EQ:
 			genSMC_EQMAT();
 			break;
+		default:
+			printf("Error in smc");
+			break;
 		}
+		break;
+	default:
+		printf("Error in smc");
 		break;
 
 	}
+}
+
+void genSMCAsm(t_tree node)
+{
+	genSMC_ASM(node->Node.Asm.Arg);
+	genSMCCallNodeFunction(node->Node.Asm.Next);	
 }
 void genSMCIntConst(t_tree node)
 {
@@ -1176,6 +1281,18 @@ void genSMCIntConst(t_tree node)
 void genSMCBoolConst(t_tree node)
 {
 	genSMC_PUSHBOOL(node->Node.BoolConst.Value);
+}
+void genSMCFloatConst(t_tree node)
+{
+	genSMC_PUSHFLOAT(node->Node.FloatConst.Value);
+}
+void genSMCVecConst(t_tree node)
+{
+	genSMC_PUSHVEC(node->Node.VecConst.Values);
+}
+void genSMCMatConst(t_tree node)
+{
+	genSMC_PUSHMAT(node->Node.MatConst.Values);
 }
 
 void genSMCLValue(t_tree node)
