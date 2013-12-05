@@ -5,6 +5,7 @@
 
 ---------------------------------------------------------------------------
 
+with Digital_IO;
 with AVR.AT90CAN128.USART;
 with AVR.AT90CAN128.CLOCK;
 with AVR.AT90CAN128.ADC;
@@ -43,6 +44,17 @@ procedure ADC_test is
 --     end u16ToStr;
 
 begin
+
+ --  Digital_IO.User_Led(true);
+
+--     loop
+--        Digital_IO.User_Led(true);
+--        Avr.AT90CAN128.CLOCK.Delay_ms(1000);
+--        Digital_IO.User_Led(false);
+--        Avr.AT90CAN128.CLOCK.Delay_ms(1000);
+--     end loop;
+
+
    AVR.AT90CAN128.USART.Init(PORT, AVR.AT90CAN128.USART.BAUD38400);
 
    for i in 0..7 loop
