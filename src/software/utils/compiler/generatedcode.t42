@@ -1,8 +1,9 @@
-procedure main(i : integer; v : vector; m : matrix) is 
+procedure main(i : access(integer); v : vector; m : matrix) is 
+	iaccess : integer;
 begin
 	v := [32.500000, 63.200001, -123.400002];
 	m := [[43.200001, 63.200001, -123.400002], [32.500000, 63.200001, -123.400002], [32.500000, 63.200001, -123.400002]];
-	i := 3;
+	i := access(iaccess);
 	v := v * float(i);
 end main;
 

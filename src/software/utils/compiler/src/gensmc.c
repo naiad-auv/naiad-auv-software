@@ -57,9 +57,10 @@ void genSMC_UNLINK();
 void genSMC_BRF(int iAddress);
 void genSMC_BRA(int iAddress);
 
-void genSMC_BSR(int iAddress);
+void genSMC_BSR(); // (int iAddress); Comment: Now pops address from stack instead
 void genSMC_RTS();
 
+void genSMC_DECL();
 void genSMC_DECLINT();
 void genSMC_DECLBOOL();
 void genSMC_DECLFLOAT();
@@ -74,11 +75,13 @@ void genSMC_PUSHFLOAT(float fValue);
 void genSMC_PUSHMAT(float fMatrix[9]);
 void genSMC_PUSHVEC(float fVector[3]);
 
-void genSMC_RVALINT(int iAddress);
-void genSMC_RVALBOOL(int iAddress);
-void genSMC_RVALFLOAT(int iAddress);
-void genSMC_RVALMAT(int iAddress);
-void genSMC_RVALVEC(int iAddress);
+
+// rval uses address from top of stack instead of argument
+void genSMC_RVALINT();
+void genSMC_RVALBOOL();
+void genSMC_RVALFLOAT();
+void genSMC_RVALMAT();
+void genSMC_RVALVEC();
 
 void genSMC_LVAL(int iAddress);
 
@@ -129,47 +132,10 @@ void genSMC_COS();
 void genSMC_ARCSIN();
 void genSMC_ARCCOS();
 
+void genSMC_ITOF();
+void genSMC_FTOI();
 
-// SMC file writing functions
-void genSMC_LINK();
-void genSMC_UNLINK();
-void genSMC_RTS();
-int genSMC_DECL(eType type);
-void genSMC_ASSINT();
-void genSMC_ASSBOOL();
-void genSMC_ASSSTRING();
-void genSMC_RVALINT(int offset);
-void genSMC_RVALBOOL(int offset);
-void genSMC_RVALSTRING(int offset);
-void genSMC_PUSHINT(int value);
-void genSMC_PUSHBOOL(int value);
-void genSMC_PUSHSTRING(const char * value);
-void genSMC_LVAL(int offset);
-void genSMC_OR();
-void genSMC_AND();
-void genSMC_EQBOOL();
-void genSMC_ADD();
-void genSMC_SUB();
-void genSMC_DIV();
-void genSMC_MULT();
-void genSMC_EQINT();
-void genSMC_LTINT();
-void genSMC_LEINT();
-void genSMC_EQSTRING();
-void genSMC_LTSTRING();
-void genSMC_LESTRING();
-void genSMC_NOT();
-void genSMC_NEG();
-void genSMC_WRITEBOOL();
-void genSMC_WRITEINT();
-void genSMC_WRITESTRING();
-void genSMC_READBOOL();
-void genSMC_READINT();
-void genSMC_READSTRING();
-void genSMC_BSR(int address);
-void genSMC_BRF(int address);
-void genSMC_BRA(int address);
-void genSMC_POP(eType type);
+
 void genSMC_FunctionBegin();
 void genSMC_FunctionEnd();
 
@@ -183,8 +149,6 @@ void genSMCLocal(t_tree node);
 void genSMCAssign(t_tree node);
 void genSMCIf(t_tree node);
 void genSMCWhile(t_tree node);
-void genSMCRead(t_tree node);
-void genSMCWrite(t_tree node);
 void genSMCReturn(t_tree node);
 void genSMCFuncCallStmnt(t_tree node);
 void genSMCFuncCallExpr(t_tree node);
@@ -193,8 +157,8 @@ void genSMCUnary(t_tree node);
 void genSMCBinary(t_tree node);
 void genSMCIntConst(t_tree node);
 void genSMCBoolConst(t_tree node);
-void genSMCStringConst(t_tree node);
 void genSMCRValue(t_tree node);
+void genSMCLValue(t_tree node);
 
 
 //----------------------------------------------------------------------------------------------------------
@@ -237,6 +201,17 @@ void genSMCNewLine()
 		i--;
 	}
 }
+/*
+void genSMC_LINK()
+{
+	genSMCNewLine();
+	fprintf(genSMCFilePtr, "LINK");
+}
+void genSMC_UNLINK()
+{
+	genSMCNewLine();
+	fprintf(genSMCFilePtr, "UNLINK");
+}*/
 
 void genSMC_LINK()
 {
@@ -248,29 +223,186 @@ void genSMC_UNLINK()
 	genSMCNewLine();
 	fprintf(genSMCFilePtr, "UNLINK");
 }
+
+/*
+void genSMC_BRF(int address)
+{
+	genSMCNewLine();
+	fprintf(genSMCFilePtr, "BRF %d", address);
+}
+void genSMC_BRA(int address)
+{
+	genSMCNewLine();
+	fprintf(genSMCFilePtr, "BRA %d", address);
+}
+*/
+void genSMC_BRF(int iAddress)
+{
+	genSMCNewLine();
+	fprintf(genSMCFilePtr, "BRF %d", iAddress);
+}
+void genSMC_BRA(int iAddress)
+{
+	genSMCNewLine();
+	fprintf(genSMCFilePtr, "BRA %d", iAddress);
+}
+
+/*
+void genSMC_BSR(int address)
+{
+	genSMCNewLine();
+	fprintf(genSMCFilePtr, "BSR %d", address);
+}
+*/
+
+void genSMC_BSR() // (int iAddress); Comment: Now pops address from stack instead
+{
+	genSMCNewLine();
+	fprintf(genSMCFilePtr, "BSR");	
+}
+
+/*
 void genSMC_RTS()
 {
 	genSMCNewLine();
 	fprintf(genSMCFilePtr, "RTS");
 }
-int genSMC_DECL(eType type)
+*/
+void genSMC_RTS()
 {
-	int size;
+	genSMCNewLine();
+	fprintf(genSMCFilePtr, "RTS");
+}
+
+void genSMC_DECLINT()
+{
+	genSMCNewLine();
+	fprintf(genSMCFilePtr, "DECLINT");
+}
+void genSMC_DECLBOOL()
+{
+	genSMCNewLine();
+	fprintf(genSMCFilePtr, "DECLBOOL");
+}
+void genSMC_DECLFLOAT()
+{
+	genSMCNewLine();
+	fprintf(genSMCFilePtr, "DECLFLOAT");
+}
+void genSMC_DECLMAT()
+{
+	genSMCNewLine();
+	fprintf(genSMCFilePtr, "DECLMAT");
+}
+void genSMC_DECLVEC()
+{
+	genSMCNewLine();
+	fprintf(genSMCFilePtr, "DECLVEC");
+}
+void genSMC_DECL(eType type)
+{
 	switch (type)
 	{
 	case INT:
+	case POINTER:
+	case BOOL_ADDR:
+	case INT_ADDR:
+	case FLOAT_ADDR:
+	case VECTOR_ADDR:
+	case MATRIX_ADDR:
+	case POINTER_ADDR:
+		genSMC_DECLINT();
+		break;
 	case BOOL:
-		size = 1;
+		genSMC_DECLBOOL();
+		break;
+	case FLOAT:
+		genSMC_DECLFLOAT();
+		break;
+	case VECTOR:
+		genSMC_DECLVEC();
+		break;
+	case MATRIX:
+		genSMC_DECLMAT();
 		break;
 	case VOID:
-		return 0;
-	case STRING:
-		size = 100;
 		break;
+	default:
+		// error
+		printf("\nError when creating SMC file.\n");
+		break;		
 	}
+}
+
+
+void genSMC_POP(int iAmount)
+{
 	genSMCNewLine();
-	fprintf(genSMCFilePtr, "DECL %d", size);
-	return size;
+	fprintf(genSMCFilePtr, "POP %d", iAmount);
+}
+
+
+void genSMC_PUSHINT(int iValue)
+{
+	genSMCNewLine();
+	fprintf(genSMCFilePtr, "PUSHINT %d", iValue);
+}
+void genSMC_PUSHBOOL(const char * pValue)
+{
+	genSMCNewLine();
+	fprintf(genSMCFilePtr, "PUSHBOOL ");
+	fprintf(genSMCFilePtr, pValue);
+}
+void genSMC_PUSHFLOAT(float fValue)
+{
+	genSMCNewLine();
+	fprintf(genSMCFilePtr, "PUSHFLOAT %f", fValue);
+}
+void genSMC_PUSHMAT(float fMatrix[9])
+{
+	genSMCNewLine();
+	fprintf(genSMCFilePtr, "PUSHMAT [[%f,%f,%f], [%f,%f,%f], [%f,%f,%f]]", 
+				fMatrix[0], fMatrix[1], fMatrix[2],
+ 				fMatrix[3], fMatrix[4], fMatrix[5], 
+				fMatrix[6], fMatrix[7], fMatrix[8] );
+}
+void genSMC_PUSHVEC(float fVector[3])
+{
+	genSMCNewLine();
+	fprintf(genSMCFilePtr, "PUSHVEC [%f,%f,%f]", fVector[0], fVector[1], fVector[2]);
+}
+
+
+void genSMC_RVALINT()
+{
+	genSMCNewLine();
+	fprintf(genSMCFilePtr, "RVALINT");
+}
+void genSMC_RVALBOOL()
+{
+	genSMCNewLine();
+	fprintf(genSMCFilePtr, "RVALBOOL");
+}
+void genSMC_RVALFLOAT()
+{
+	genSMCNewLine();
+	fprintf(genSMCFilePtr, "RVALFLOAT");
+}
+void genSMC_RVALMAT()
+{
+	genSMCNewLine();
+	fprintf(genSMCFilePtr, "RVALMAT");
+}
+void genSMC_RVALVEC()
+{
+	genSMCNewLine();
+	fprintf(genSMCFilePtr, "RVALVEC");
+}
+
+void genSMC_LVAL(int iAddress)
+{
+	genSMCNewLine();
+	fprintf(genSMCFilePtr, "LVAL %d", iAddress);
 }
 
 void genSMC_ASSINT()
@@ -283,53 +415,70 @@ void genSMC_ASSBOOL()
 	genSMCNewLine();
 	fprintf(genSMCFilePtr, "ASSBOOL");
 }
-void genSMC_ASSSTRING()
+void genSMC_ASSFLOAT()
 {
 	genSMCNewLine();
-	fprintf(genSMCFilePtr, "ASSSTRING");
+	fprintf(genSMCFilePtr, "ASSFLOAT");
+}
+void genSMC_ASSMAT()
+{
+	genSMCNewLine();
+	fprintf(genSMCFilePtr, "ASSMAT");
+}
+void genSMC_ASSVEC()
+{
+	genSMCNewLine();
+	fprintf(genSMCFilePtr, "ASSVEC");
 }
 
-void genSMC_RVALINT(int offset)
+void genSMC_TIMERST()
 {
 	genSMCNewLine();
-	fprintf(genSMCFilePtr, "RVALINT %d(FP)", offset);
+	fprintf(genSMCFilePtr, "TIMERST");
 }
-void genSMC_RVALBOOL(int offset)
+void genSMC_TIME()
 {
 	genSMCNewLine();
-	fprintf(genSMCFilePtr, "RVALBOOL %d(FP)", offset);
-}
-void genSMC_RVALSTRING(int offset)
-{
-	genSMCNewLine();
-	fprintf(genSMCFilePtr, "RVALSTRING %d(FP)", offset);
-}
-void genSMC_PUSHSTRING(const char * value)
-{
-	genSMCNewLine();
-	fprintf(genSMCFilePtr, "PUSHSTRING ");
-	fprintf(genSMCFilePtr, value);
-}
-void genSMC_PUSHINT(int value)
-{
-	genSMCNewLine();
-	fprintf(genSMCFilePtr, "PUSHINT %d", value);
-}
-void genSMC_PUSHBOOL(int value)
-{
-	genSMCNewLine();
-	if (value == 1)
-		fprintf(genSMCFilePtr, "PUSHBOOL true", value);
-	else
-		fprintf(genSMCFilePtr, "PUSHBOOL false", value);
+	fprintf(genSMCFilePtr, "TIME");
 }
 
-void genSMC_LVAL(int offset)
+void genSMC_EQINT()
 {
 	genSMCNewLine();
-	fprintf(genSMCFilePtr, "LVAL %d(FP)", offset);
+	fprintf(genSMCFilePtr, "EQINT");
+}
+void genSMC_LTINT()
+{
+	genSMCNewLine();
+	fprintf(genSMCFilePtr, "LTINT");
+}
+void genSMC_LEINT()
+{
+	genSMCNewLine();
+	fprintf(genSMCFilePtr, "LEINT");
 }
 
+void genSMC_EQFLOAT()
+{
+	genSMCNewLine();
+	fprintf(genSMCFilePtr, "EQFLOAT");
+}
+void genSMC_LTFLOAT()
+{
+	genSMCNewLine();
+	fprintf(genSMCFilePtr, "LTFLOAT");
+}
+void genSMC_LEFLOAT()
+{
+	genSMCNewLine();
+	fprintf(genSMCFilePtr, "LEFLOAT");
+}
+
+void genSMC_NOT()
+{
+	genSMCNewLine();
+	fprintf(genSMCFilePtr, "NOT");
+}
 void genSMC_OR()
 {
 	genSMCNewLine();
@@ -346,136 +495,121 @@ void genSMC_EQBOOL()
 	fprintf(genSMCFilePtr, "EQBOOL");
 }
 
-void genSMC_ADD()
+void genSMC_EQMAT()
 {
 	genSMCNewLine();
-	fprintf(genSMCFilePtr, "ADD");
+	fprintf(genSMCFilePtr, "EQMAT");
 }
-void genSMC_SUB()
+
+void genSMC_EQVEC()
 {
 	genSMCNewLine();
-	fprintf(genSMCFilePtr, "SUB");
+	fprintf(genSMCFilePtr, "EQVEC");
 }
-void genSMC_DIV()
+
+void genSMC_NEGINT()
 {
 	genSMCNewLine();
-	fprintf(genSMCFilePtr, "DIV");
+	fprintf(genSMCFilePtr, "NEGINT");
 }
-void genSMC_MULT()
+void genSMC_ADDINT()
 {
 	genSMCNewLine();
-	fprintf(genSMCFilePtr, "MULT");
+	fprintf(genSMCFilePtr, "ADDINT");
 }
-void genSMC_EQINT()
+void genSMC_MULINT()
 {
 	genSMCNewLine();
-	fprintf(genSMCFilePtr, "EQINT");
+	fprintf(genSMCFilePtr, "MULINT");
 }
-void genSMC_LTINT()
+
+void genSMC_NEGFLOAT()
 {
 	genSMCNewLine();
-	fprintf(genSMCFilePtr, "LTINT");
+	fprintf(genSMCFilePtr, "NEGFLOAT");
 }
-void genSMC_LEINT()
+void genSMC_ADDFLOAT()
 {
 	genSMCNewLine();
-	fprintf(genSMCFilePtr, "LEINT");
+	fprintf(genSMCFilePtr, "ADDFLOAT");
 }
-void genSMC_EQSTRING()
+void genSMC_MULFLOAT()
 {
 	genSMCNewLine();
-	fprintf(genSMCFilePtr, "EQSTRING");
+	fprintf(genSMCFilePtr, "MULFLOAT");
 }
-void genSMC_LTSTRING()
+
+void genSMC_NEGVEC()
 {
 	genSMCNewLine();
-	fprintf(genSMCFilePtr, "LTSTRING");
+	fprintf(genSMCFilePtr, "NEGVEC");
 }
-void genSMC_LESTRING()
+void genSMC_ADDVEC()
 {
 	genSMCNewLine();
-	fprintf(genSMCFilePtr, "LESTRING");
+	fprintf(genSMCFilePtr, "ADDVEC");
 }
-void genSMC_NOT()
+void genSMC_MULVEC()
 {
 	genSMCNewLine();
-	fprintf(genSMCFilePtr, "NOT");
+	fprintf(genSMCFilePtr, "MULVEC");
 }
-void genSMC_NEG()
+
+void genSMC_VECCOMP(int iComponent)
 {
 	genSMCNewLine();
-	fprintf(genSMCFilePtr, "NEG");
+	fprintf(genSMCFilePtr, "VECCOMP %d", iComponent);
 }
-void genSMC_WRITEBOOL()
+
+void genSMC_MULMAT()
 {
 	genSMCNewLine();
-	fprintf(genSMCFilePtr, "WRITEBOOL");
+	fprintf(genSMCFilePtr, "MULMAT");
 }
-void genSMC_WRITEINT()
+
+void genSMC_SIN()
 {
 	genSMCNewLine();
-	fprintf(genSMCFilePtr, "WRITEINT");
+	fprintf(genSMCFilePtr, "SIN");
 }
-void genSMC_WRITESTRING()
+void genSMC_COS()
 {
 	genSMCNewLine();
-	fprintf(genSMCFilePtr, "WRITESTRING");
+	fprintf(genSMCFilePtr, "COS");
 }
-void genSMC_READBOOL()
+void genSMC_ARCSIN()
 {
 	genSMCNewLine();
-	fprintf(genSMCFilePtr, "READBOOL");
+	fprintf(genSMCFilePtr, "ARCSIN");
 }
-void genSMC_READINT()
+void genSMC_ARCCOS()
 {
 	genSMCNewLine();
-	fprintf(genSMCFilePtr, "READINT");
+	fprintf(genSMCFilePtr, "ARCCOS");
 }
-void genSMC_READSTRING()
+
+void genSMC_ITOF()
 {
 	genSMCNewLine();
-	fprintf(genSMCFilePtr, "READSTRING");
+	fprintf(genSMCFilePtr, "ITOF");
 }
-void genSMC_BSR(int address)
+void genSMC_FTOI()
 {
 	genSMCNewLine();
-	fprintf(genSMCFilePtr, "BSR %d", address);
+	fprintf(genSMCFilePtr, "FTOI");
 }
-void genSMC_BRF(int address)
-{
-	genSMCNewLine();
-	fprintf(genSMCFilePtr, "BRF %d", address);
-}
-void genSMC_BRA(int address)
-{
-	genSMCNewLine();
-	fprintf(genSMCFilePtr, "BRA %d", address);
-}
-void genSMC_POP(eType type)
-{
-	int size;
-	switch (type)
-	{
-	case INT:
-	case BOOL:
-		size = 1;
-		break;
-	case VOID:
-		return;
-	case STRING:
-		size = 100;
-		break;
-	}
-	genSMCNewLine();
-	fprintf(genSMCFilePtr, "POP %d", size);
-}
+
+
+// ----------------------------------------------------------------------------------
+
+
 
 
 void genSMC_FunctionBegin()
 {
 	genSMCNewLine();
 
-	scope->offset = genSMCLineNr; // spar rad offset för funktionen så man kan kalla på den
+	scope->offset = genSMCLineNr; // spar rad offset fr funktionen s man kan kalla p den
 	fprintf(genSMCFilePtr,"["); fprintf(genSMCFilePtr, scope->id); fprintf(genSMCFilePtr, "]");
 
 	genSMCInsertTab();
@@ -511,12 +645,6 @@ void genSMCCallNodeFunction(t_tree node)
 	case kWhile:
 		genSMCWhile(node);
 		break;
-	case kRead:
-		genSMCRead(node);
-		break;
-	case kWrite:
-		genSMCWrite(node);
-		break;
 	case kFuncCallStmnt:
 		genSMCFuncCallStmnt(node);
 		break;
@@ -538,11 +666,11 @@ void genSMCCallNodeFunction(t_tree node)
 	case kBoolConst:
 		genSMCBoolConst(node);
 		break;
-	case kStringConst:
-		genSMCStringConst(node);
-		break;
 	case kFuncCallExpr:
 		genSMCFuncCallExpr(node);
+		break;
+	case kLValue:
+		genSMCLValue(node);
 		break;
 	case kRValue:
 		genSMCRValue(node);
@@ -560,8 +688,8 @@ void genSMCProgram(t_tree node)
 void genSMCFunction(t_tree node)
 {
 	t_tree var_iter;
-	int offset;
-	t_symtable * var_table;
+	//int offset;
+	//t_symtable * var_table;
 
 	if (node == NULL)
 		return;
@@ -576,7 +704,7 @@ void genSMCFunction(t_tree node)
 	{
 		if (var_iter->Node.Variable.VarKind == kLocal)
 		{
-			var_table = FindId(var_iter->Node.Variable.Name, scope);
+			//var_table = FindId(var_iter->Node.Variable.Name, scope);
 			genSMC_DECL(var_iter->Node.Variable.Type); // allocate space for them
 		}
 		var_iter = var_iter->Node.Variable.Next;
@@ -596,20 +724,41 @@ void genSMCFunction(t_tree node)
 void genSMCAssign(t_tree node)
 {
 	t_symtable * var_table = FindId(node->Node.Assign.Id,scope);
+	eType type = var_table->type;
 
-	genSMC_LVAL(var_table->offset);
+	if (type > 6 && type < 13)
+		genSMC_RVALINT(var_table->offset);
+	else
+		genSMC_LVAL(var_table->offset);
+
 	genSMCCallNodeFunction(node->Node.Assign.Expr);
 	
 	switch(var_table->type)
 	{
 	case INT:
+	case INT_ADDR:
+	case POINTER:
+	case POINTER_ADDR:
 		genSMC_ASSINT();
 		break;
 	case BOOL:
+	case BOOL_ADDR:
 		genSMC_ASSBOOL();
 		break;
-	case STRING:
-		genSMC_ASSSTRING();
+	case FLOAT:
+	case FLOAT_ADDR:
+		genSMC_ASSFLOAT();
+		break;
+	case VECTOR:
+	case VECTOR_ADDR:
+		genSMC_ASSVEC();
+		break;
+	case MATRIX:
+	case MATRIX_ADDR:
+		genSMC_ASSMAT();
+		break;
+	default:
+		printf("Error in SMC generation.");
 		break;
 	}
 
@@ -673,50 +822,11 @@ void genSMCWhile(t_tree node)
 
 	genSMCCallNodeFunction(node->Node.While.Next);
 }
-void genSMCRead(t_tree node)
-{
-	t_symtable * var_table = FindId(node->Node.Read.Id,scope);
-	genSMC_LVAL(var_table->offset);
-	switch(var_table->type)
-	{
-	case BOOL:
-		genSMC_READBOOL();
-		genSMC_ASSBOOL();
-		break;
-	case INT:
-		genSMC_READINT();
-		genSMC_ASSINT();
-		break;
-	case STRING:
-		genSMC_READSTRING();
-		genSMC_ASSSTRING();
-		break;
-	}
-	
-	genSMCCallNodeFunction(node->Node.Read.Next);
-}
-void genSMCWrite(t_tree node)
-{
-	genSMCCallNodeFunction(node->Node.Write.Expr);
-	switch(node->Node.Write.Type)
-	{
-	case BOOL:
-		genSMC_WRITEBOOL();
-		break;
-	case INT:
-		genSMC_WRITEINT();
-		break;
-	case STRING:
-		genSMC_WRITESTRING();
-		break;
-	}
-	genSMC_POP(node->Node.Write.Type);
-	genSMCCallNodeFunction(node->Node.Write.Next);
-}
+
 void genSMCReturn(t_tree node)
 {
 	int retValOffset;
-	int size;
+	//int size;
 	t_symtable * var_iter;
 	
 	// figure out the offset of the return value address
@@ -724,6 +834,7 @@ void genSMCReturn(t_tree node)
 	var_iter = scope->child;
 	while (var_iter != NULL)
 	{
+/*
 		switch (var_iter->type)
 		{
 		case BOOL:
@@ -734,8 +845,10 @@ void genSMCReturn(t_tree node)
 			size = 100;
 			break;
 		}
-		if (var_iter->offset > 0 && var_iter->offset + size > retValOffset)
-			retValOffset = var_iter->offset + size;
+*/
+		
+		if (var_iter->offset > 0 && var_iter->offset + 1 > retValOffset)
+			retValOffset = var_iter->offset + 1;
 		var_iter = var_iter->next;
 	}
 
@@ -746,14 +859,24 @@ void genSMCReturn(t_tree node)
 		genSMCCallNodeFunction(node->Node.Return.Expr);
 		switch (scope->type)
 		{
+		case POINTER:
 		case INT:
 			genSMC_ASSINT();
 			break;
 		case BOOL:
 			genSMC_ASSBOOL();
 			break;
-		case STRING:
-			genSMC_ASSSTRING();
+		case FLOAT:
+			genSMC_ASSFLOAT();
+			break;
+		case VECTOR:
+			genSMC_ASSVEC();
+			break;
+		case MATRIX:
+			genSMC_ASSMAT();
+			break;
+		default:
+			printf("Error generating smc file.");
 			break;
 		}
 	}
@@ -807,7 +930,7 @@ void genSMCFuncCallExpr(t_tree node)
 {
 	t_symtable * func_table;
 	t_symtable * table_iter;
-	t_tree actual_iter;
+	//t_tree actual_iter;
 	
 	// get symtable for function
 	table_iter = scope;
@@ -859,7 +982,30 @@ void genSMCUnary(t_tree node)
 		genSMC_NOT();
 		break;
 	case NEG:
-		genSMC_NEG();
+		switch (node->Node.Unary.Type)
+		{
+			case INT:
+				genSMC_NEGINT();
+				break;
+			case FLOAT:
+				genSMC_NEGFLOAT();
+				break;
+			case VECTOR:
+				genSMC_NEGVEC();
+				break;
+			default:
+				printf("Error generating smc file.");
+				break;
+		}
+		break;
+	case INTOP:
+		genSMC_FTOI();
+		break;
+	case FLOATOP:
+		genSMC_ITOF();
+		break;
+	default:
+		printf("ERror in smc file.");
 		break;
 	}
 }
@@ -912,6 +1058,7 @@ void genSMCBinary(t_tree node)
 			break;
 		}
 		break;
+/*
 	case STRING:
 		switch (node->Node.Binary.Operator)
 		{
@@ -926,6 +1073,7 @@ void genSMCBinary(t_tree node)
 			break;
 		}
 		break;
+*/
 	}
 }
 void genSMCIntConst(t_tree node)
@@ -936,24 +1084,50 @@ void genSMCBoolConst(t_tree node)
 {
 	genSMC_PUSHBOOL(node->Node.BoolConst.Value);
 }
-void genSMCStringConst(t_tree node)
+
+void genSMCLValue(t_tree node)
 {
-	genSMC_PUSHSTRING(node->Node.StringConst.Value);
+	t_symtable * var_table = FindId(node->Node.RValue.Id,scope);
+	genSMC_PUSHINT(var_table->offset);
 }
+
 void genSMCRValue(t_tree node)
 {
 	t_symtable * var_table = FindId(node->Node.RValue.Id,scope);
+	if (var_table->type < BOOL_ADDR)
+		genSMC_PUSHINT(var_table->offset);
+	else
+	{
+		genSMC_PUSHINT(var_table->offset);
+		genSMC_RVALINT();		
+	}
 	switch(var_table->type)
 	{
 	case INT:
-		genSMC_RVALINT(var_table->offset);
+	case INT_ADDR:
+	case POINTER:
+	case POINTER_ADDR:
+		genSMC_RVALINT();
 		break;
 	case BOOL:
-		genSMC_RVALBOOL(var_table->offset);
+	case BOOL_ADDR:
+		genSMC_RVALBOOL();
 		break;
-	case STRING:
-		genSMC_RVALSTRING(var_table->offset);
+	case FLOAT:
+	case FLOAT_ADDR:
+		genSMC_RVALFLOAT();
 		break;
+	case VECTOR:
+	case VECTOR_ADDR:
+		genSMC_RVALVEC();
+		break;
+	case MATRIX:
+	case MATRIX_ADDR:
+		genSMC_RVALMAT();
+		break;
+	default:
+		printf("Error building smc file.");
+		break;		
 	}
 }
 

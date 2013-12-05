@@ -86,6 +86,7 @@ function      {yylval.yyLineNr = yylineno; return (FUNCTION);}
 is            {yylval.yyLineNr = yylineno; return (IS);}
 begin         {yylval.yyLineNr = yylineno; return (BGN);}
 asm	      {yylval.yyLineNr = yylineno; return (ASM);}
+access	      {yylval.yyLineNr = yylineno; return (ADDR_TYPE);}
 ":="          {yylval.yyLineNr = yylineno; return (ASSIGN);}
 
 

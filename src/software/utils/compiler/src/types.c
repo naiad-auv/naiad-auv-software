@@ -19,6 +19,7 @@ eType typeIf(t_tree node);
 eType typeWhile(t_tree node);
 eType typeLoop(t_tree node);
 eType typeExit(t_tree node);
+eType typeAsm(t_tree node);
 eType typeReturn(t_tree node);
 eType typeFuncCallStmnt(t_tree node);
 eType typeFuncCallExpr(t_tree node);
@@ -31,6 +32,7 @@ eType typeFloatConst(t_tree node);
 eType typeVecConst(t_tree node);
 eType typeMatConst(t_tree node);
 eType typeRValue(t_tree node);
+eType typeLValue(t_tree node);
 
 
 eType typeStmnt(t_tree node)
@@ -98,6 +100,9 @@ eType typeExpr(t_tree node)
 		break;
 	case kFuncCallExpr:
 		return typeFuncCallExpr(node);
+		break;
+	case kLValue:
+		return typeLValue(node);
 		break;
 	case kRValue:
 		return typeRValue(node);
@@ -421,8 +426,19 @@ eType typeMatConst(t_tree node)
 }
 eType typeRValue(t_tree node)
 {
+	eType type;
+
 	t_symtable * tmpTable = FindId(node->Node.RValue.Id, scope);
-	return tmpTable->type;
+	type = tmpTable->type;
+
+	if (type > POINTER && type != ERROR_TYPE)
+		type -= POINTER;
+	return type;
+}
+eType typeLValue(t_tree node)
+{
+	t_symtable * tmpTable = FindId(node->Node.LValue.Id, scope);
+	return tmpTable->type + POINTER;
 }
 
 eType typeControl(t_tree node, t_symtable * globalScope)

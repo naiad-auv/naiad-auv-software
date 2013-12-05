@@ -34,6 +34,7 @@ void genTrac42FloatConst(t_tree node);
 void genTrac42VecConst(t_tree node);
 void genTrac42MatConst(t_tree node);
 void genTrac42RValue(t_tree node);
+void genTrac42LValue(t_tree node);
 
 // increases tabindex
 void genTrac42InsertTab()
@@ -126,6 +127,9 @@ void genTrac42Expr(t_tree node)
 		break;
 	case kRValue:
 		genTrac42RValue(node);
+		break;
+	case kLValue:
+		genTrac42LValue(node);
 		break;
 	default:
 		// error
@@ -274,6 +278,24 @@ void genTrac42Formal(t_tree node, int first)
 	case POINTER:
 		fprintf(genTrac42FilePtr, " : pointer");
 		break;
+	case INT_ADDR:
+		fprintf(genTrac42FilePtr, " : access(integer)");
+		break;
+	case FLOAT_ADDR:
+		fprintf(genTrac42FilePtr, " : access(float)");
+		break;
+	case BOOL_ADDR:
+		fprintf(genTrac42FilePtr, " : access(boolean)");
+		break;
+	case VECTOR_ADDR:
+		fprintf(genTrac42FilePtr, " : access(vector)");
+		break;
+	case MATRIX_ADDR:
+		fprintf(genTrac42FilePtr, " : access(matrix)");
+		break;
+	case POINTER_ADDR:
+		fprintf(genTrac42FilePtr, " : access(pointer)");
+		break;
 	default:
 		// error
 		fprintf(genTrac42FilePtr, "error ");
@@ -312,6 +334,24 @@ void genTrac42Local(t_tree node)
 		break;
 	case POINTER:
 		fprintf(genTrac42FilePtr, " : pointer;");
+		break;
+	case INT_ADDR:
+		fprintf(genTrac42FilePtr, " : access(integer);");
+		break;
+	case FLOAT_ADDR:
+		fprintf(genTrac42FilePtr, " : access(float);");
+		break;
+	case BOOL_ADDR:
+		fprintf(genTrac42FilePtr, " : access(boolean);");
+		break;
+	case VECTOR_ADDR:
+		fprintf(genTrac42FilePtr, " : access(vector);");
+		break;
+	case MATRIX_ADDR:
+		fprintf(genTrac42FilePtr, " : access(matrix);");
+		break;
+	case POINTER_ADDR:
+		fprintf(genTrac42FilePtr, " : access(pointer);");
 		break;
 	default:
 		// error
@@ -579,6 +619,13 @@ void genTrac42MatConst(t_tree node)
 										 node->Node.MatConst.Values[6], node->Node.MatConst.Values[7], node->Node.MatConst.Values[8]);
 }
 
+
+void genTrac42LValue(t_tree node)
+{
+	fprintf(genTrac42FilePtr, "access(");
+	fprintf(genTrac42FilePtr, node->Node.LValue.Id);
+	fprintf(genTrac42FilePtr, ")");
+}
 
 
 void genTrac42RValue(t_tree node)

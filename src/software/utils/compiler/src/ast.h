@@ -37,7 +37,8 @@ typedef enum {
    kVecConst,
    kMatConst,
    kFuncCallExpr,
-   kRValue
+   kRValue,
+   kLValue
 } NODETYPE;
 
 /* The NEG/SUB originates in the scanner where we not yet know which one it is. This unifiles them
@@ -54,7 +55,7 @@ typedef enum { SUB=MINUS, PLUS, MULT, DIV, OR, AND, EQ, LT, LE, ME, MT, NE, DOT,
 typedef enum {kFormal, kLocal} vKind;
 
 /* To distinguish between the data types in the trac42 language. */
-typedef enum {VOID, BOOL, INT, FLOAT, VECTOR, MATRIX, POINTER, ERROR_TYPE} eType;
+typedef enum {VOID=0, BOOL, INT, FLOAT, VECTOR, MATRIX, POINTER, BOOL_ADDR, INT_ADDR, FLOAT_ADDR, VECTOR_ADDR, MATRIX_ADDR, POINTER_ADDR, ERROR_TYPE} eType;
 
 /* The program. */
 typedef struct {
@@ -193,6 +194,11 @@ typedef struct {
    char *Id;        /* The name of the variable. */
 } yRValue;
 
+/* The access variable expression. */
+typedef struct {
+   char *Id;        /* The name of the variable. */
+} yLValue;
+
 struct t_tree {
    NODETYPE Kind;         /* Key to know which component in the union to select. */
    int LineNr;
@@ -219,6 +225,7 @@ struct t_tree {
       yVecConst VecConst;
       yMatConst MatConst;
       yRValue RValue;
+      yLValue LValue;
    } Node;
 };
 
@@ -291,6 +298,9 @@ extern t_tree mMatConst(float fAAValue, float fABValue, float fACValue,
 			float fCAValue, float fCBValue, float fCCValue, 
 			int pLineNr);
 
+
+/* Returns a pointer to an rvalue(identifier) expression node. */
+extern t_tree mLValue(const char *pId, int pLineNr);
 
 
 /* Returns a pointer to an rvalue(identifier) expression node. */
