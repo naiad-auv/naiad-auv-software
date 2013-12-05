@@ -13,7 +13,7 @@
 --------------------------------------------------------------------------
 
 
-pragma Profile (Ravenscar);
+--  pragma Profile (Ravenscar);
 
 with Interfaces;		use Interfaces;
 with AVR.AT90CAN128.USART;
