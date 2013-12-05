@@ -25,6 +25,7 @@ typedef enum {
    kWhile,
    kLoop,
    kExit,
+   kAsm,
    kFuncCallStmnt,
    kReturn,
    kActual,
@@ -44,10 +45,10 @@ typedef enum {
 #define MINUS 0
 
 /* To distinguish between different kinds of unary expression nodes. */
-typedef enum { NEG=MINUS, NOT } UNOP_KIND;
+typedef enum { NEG=MINUS, NOT, INTOP, FLOATOP, ERROP } UNOP_KIND;
 
 /* To distinguish between different kinds of binary expression nodes. */
-typedef enum { SUB=MINUS, PLUS, MULT, DIV, OR, AND, EQ, LT, LE, ME, MT, NE } BINOP_KIND;
+typedef enum { SUB=MINUS, PLUS, MULT, DIV, OR, AND, EQ, LT, LE, ME, MT, NE, DOT, CROSS } BINOP_KIND;
 
 /* To distinguish between formal parameters and local variables in variable nodes. */
 typedef enum {kFormal, kLocal} vKind;
@@ -115,6 +116,11 @@ typedef struct {
    t_tree Next;
 } yExit;
 
+/* The asm statement. */
+typedef struct {
+   t_tree Next;
+   char *Arg;
+} yAsm;
 
 /* The return statement. */
 typedef struct {
@@ -197,6 +203,7 @@ struct t_tree {
       yStmnt Stmnt;
       yLoop Loop;
       yExit Exit;
+      yAsm Asm;
       yAssign Assign;
       yIf If;
       yWhile While;
@@ -243,7 +250,7 @@ extern t_tree mLoop(t_tree pStmnts, int pLineNr);
 // mExit($1)
 extern t_tree mExit(int pLineNr);
 
-
+extern t_tree mAsm(const char * pArgument, int pLineNr);
 
 
 /* Returns a pointer to a return statement node. */

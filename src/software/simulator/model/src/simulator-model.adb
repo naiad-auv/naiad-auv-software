@@ -122,6 +122,8 @@ package body Simulator.Model is
 
    procedure Set_Wanted_Position_And_Orientation(this : in CModel; xWantedPosition : math.Vectors.CVector; xWantedOrientation : math.Matrices.CMatrix) is
    begin
+      this.pxSubmarine.Set_Wanted_Position(xWantedPosition => xWantedPosition);
+      this.pxSubmarine.Set_Wanted_Orientation(xWantedOrientation => xWantedOrientation);
       this.pxMotionControlWrapper.Update_Wanted_Position(xWantedPosition    => xWantedPosition,
                                                          xWantedOrientation => xWantedOrientation);
    end Set_Wanted_Position_And_Orientation;

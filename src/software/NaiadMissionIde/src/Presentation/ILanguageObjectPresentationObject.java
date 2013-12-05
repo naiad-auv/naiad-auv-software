@@ -50,7 +50,7 @@ public class ILanguageObjectPresentationObject
 
     private static int calculateDrawingHeight(ILanguageObject object)
     {
-        int height = 70;
+        int height = PenumbraCoreSettings.getInstance().FontSize + 60;
         return height;
     }
 
@@ -91,17 +91,34 @@ public class ILanguageObjectPresentationObject
         for(int i = 0; i < this.object.getInputVariables().size(); i++)
         {
             canvas.drawLine((i + 1) * this.width/(this.object.getInputVariables().size() + 1),0,(i + 1) * this.width/(this.object.getInputVariables().size() + 1), 20);
+            canvas.drawString(this.object.getInputVariables().get(i).getVariablePrefix(),(i + 1) * this.width/(this.object.getInputVariables().size() + 1) + 3, 23);
         }
 
 
         for(int i = 0; i < this.object.getOutputVariables().size(); i++)
         {
             canvas.drawLine((i + 1) * this.width/(this.object.getInputVariables().size() + 1),this.height - 20,(i + 1) * this.width/(this.object.getInputVariables().size() + 1), this.height);
+            canvas.drawString(this.object.getInputVariables().get(i).getVariablePrefix(),(i + 1) * this.width/(this.object.getInputVariables().size() + 1) + 3, this.height - 17);
         }
     }
 
     @Override
     public String toString() {
         return this.object.toString();
+    }
+
+    public boolean isPointInside(Point point) {
+        return (point.x > this.x && point.x < this.x + this.width &&
+                point.y > this.y && point.y < this.y + this.height);
+    }
+
+    public Point getPredecessorPosition()
+    {
+        return new Point(this.x + this.width, this.y + this.height/2);
+    }
+
+    public Point getSuccessorPosition()
+    {
+        return new Point(this.x, this.y + this.height /2);
     }
 }

@@ -21,9 +21,6 @@ public class HandlePrimitiveEditorCommand implements ICommand {
 
     @Override
     public Object execute() {
-        //TODO add implementation for opening the text editor
-        System.out.println("HandlePrimitiveEditorCommand executed with name of scope: " + scopeObject.toString());
-
         PrimitiveEditor pe = new PrimitiveEditor(scopeObject);
         pe.setVisible(true);
         pe.requestFocus();

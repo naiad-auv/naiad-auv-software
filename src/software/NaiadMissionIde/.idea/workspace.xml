@@ -4,11 +4,11 @@
     <list default="true" id="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" name="Default" comment="" />
     <ignored path="NaiadMissionIde.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/fragment.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1385987173236" ignored="false" />
+    <file path="/fragment.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1386151364044" ignored="false" />
     <file path="/a.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1385458703411" ignored="false" />
-    <file path="/Primitive.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1386071291873" ignored="false" />
+    <file path="/Primitive.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1386073247288" ignored="false" />
     <file path="/VariableMode.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1385459228319" ignored="false" />
-    <file path="/PrimitiveVariable.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1385459938484" ignored="false" />
+    <file path="/PrimitiveVariable.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1386073082332" ignored="false" />
     <file path="/VariableType.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1385459708671" ignored="false" />
     <file path="/EJDrawingAreaTab.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1385460957722" ignored="false" />
     <file path="/MainWindow.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1386065374368" ignored="false" />
@@ -39,16 +39,16 @@
     <file path="/HandleAboutMenuCommand.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1385626246484" ignored="false" />
     <file path="/HandleExitMenuCommand.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1385626268090" ignored="false" />
     <file path="/EPrimitiveEditorEditorArea.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1385633995916" ignored="false" />
-    <file path="/EJDrawingArea.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1385991186422" ignored="false" />
+    <file path="/EJDrawingArea.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1386149620811" ignored="false" />
     <file path="/DragMouseAdapter.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1385639056641" ignored="false" />
     <file path="/TransferableLanguageObject.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1386055826756" ignored="false" />
     <file path="/LanguageObjectDropTargetListener.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1385975993373" ignored="false" />
     <file path="/DrawingAreaTabHandler.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1385712268246" ignored="false" />
     <file path="/EJMenu.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1385713110331" ignored="false" />
-    <file path="/DrawingAreaViewModel.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1385987627859" ignored="false" />
-    <file path="/PresentationObjective.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1386057278055" ignored="false" />
+    <file path="/DrawingAreaViewModel.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1386161971325" ignored="false" />
+    <file path="/PresentationObjective.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1386162327601" ignored="false" />
     <file path="/PrimitivePresentationObject.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1385969630745" ignored="false" />
-    <file path="/ILanguageObjectPresentationObject.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1386072572123" ignored="false" />
+    <file path="/ILanguageObjectPresentationObject.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1386155865926" ignored="false" />
     <file path="/HandleObjectiveEditorCommand.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1385987939984" ignored="false" />
     <file path="/EJTabbedPane.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1385989509895" ignored="false" />
     <file path="/HandleAddDroppeILanguageObject.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1385991151036" ignored="false" />
@@ -56,6 +56,11 @@
     <file path="/PenumbraCoreSettings.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1386063730672" ignored="false" />
     <file path="/Deserializer.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1386063966752" ignored="false" />
     <file path="/LanguageObjectsListPresenter.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1386069305861" ignored="false" />
+    <file path="/ILanguageObjectTransition.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1386156069346" ignored="false" />
+    <file path="/DrawingAreaClickedCommand.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1386149233613" ignored="false" />
+    <file path="/DrawingAreaMouseReleasedCommand.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1386157483387" ignored="false" />
+    <file path="/DrawingAreaMousePressedCommand.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1386152075970" ignored="false" />
+    <file path="/Marker.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1386162365758" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -106,23 +111,7 @@
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
     </breakpoint_any>
-    <line_breakpoints default_suspend_policy="SuspendAll" default_condition_enabled="true">
-      <breakpoint url="file://$PROJECT_DIR$/src/UserControls/LanguageObjectsListPresenter.java" line="21" class="UserControls.LanguageObjectsListPresenter" package="UserControls">
-        <option name="ENABLED" value="true" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="false" />
-        <option name="REMOVE_AFTER_HIT" value="false" />
-        <option name="SUSPEND_POLICY" value="SuspendAll" />
-        <option name="SUSPEND" value="true" />
-        <option name="COUNT_FILTER_ENABLED" value="false" />
-        <option name="COUNT_FILTER" value="0" />
-        <option name="CONDITION_ENABLED" value="true" />
-        <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="" />
-        <option name="LOG_MESSAGE" value="" />
-      </breakpoint>
-    </line_breakpoints>
+    <line_breakpoints default_suspend_policy="SuspendAll" default_condition_enabled="true" />
     <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
     <breakpoint_rules />
     <ui_properties />
@@ -140,16 +129,7 @@
       <file leaf-file-name="PresentationObjective.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Presentation/PresentationObjective.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="21" column="13" selection-start="515" selection-end="515" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="LanguageObjectsListPresenter.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/UserControls/LanguageObjectsListPresenter.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="26" column="60" selection-start="925" selection-end="925" vertical-scroll-proportion="0.0">
+            <state line="40" column="27" selection-start="1231" selection-end="1231" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -157,73 +137,88 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MainWindow.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/views/MainWindow.java">
+      <file leaf-file-name="Marker.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/LanguageHandlers/Marker.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="57" column="24" selection-start="1480" selection-end="1480" vertical-scroll-proportion="0.0">
-              <folding />
+            <state line="17" column="4" selection-start="362" selection-end="362" vertical-scroll-proportion="0.43515357">
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ILanguageObjectPresentationObject.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="ILanguageObjectPresentationObject.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Presentation/ILanguageObjectPresentationObject.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="102" column="36" selection-start="3111" selection-end="3111" vertical-scroll-proportion="2.5543478">
+            <state line="113" column="0" selection-start="3771" selection-end="3771" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="DrawingAreaTabHandler.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/UserControls/DrawingAreaTabHandler.java">
+      <file leaf-file-name="ILanguageObjectTransitionPresentationObject.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Presentation/ILanguageObjectTransitionPresentationObject.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="11" column="13" selection-start="212" selection-end="212" vertical-scroll-proportion="0.0">
+            <state line="47" column="84" selection-start="1659" selection-end="1659" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MainWindowMenuViewModel.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/ViewModels/MainWindowMenuViewModel.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="22" column="6" selection-start="541" selection-end="541" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PrimitiveVariable.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/LanguageHandlers/PrimitiveVariable.java">
+      <file leaf-file-name="DrawingAreaViewModel.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/ViewModels/DrawingAreaViewModel.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="16" column="44" selection-start="425" selection-end="425" vertical-scroll-proportion="0.0">
+            <state line="107" column="39" selection-start="4095" selection-end="4095" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Primitive.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/LanguageHandlers/Primitive.java">
+      <file leaf-file-name="DrawingAreaClickedCommand.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Commands/DrawingAreaEventHandlingCommands/DrawingAreaClickedCommand.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="118" column="30" selection-start="3060" selection-end="3060" vertical-scroll-proportion="0.0">
+            <state line="43" column="18" selection-start="1361" selection-end="1361" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="EJDrawingArea.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/UserControls/EJDrawingArea.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="36" column="42" selection-start="1099" selection-end="1099" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="EPrimitiveEditorEditorArea.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/UserControls/EPrimitiveEditorEditorArea.java">
+      <file leaf-file-name="DrawingAreaMousePressedCommand.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Commands/DrawingAreaEventHandlingCommands/DrawingAreaMousePressedCommand.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="28" column="0" selection-start="862" selection-end="939" vertical-scroll-proportion="0.0">
+            <state line="34" column="77" selection-start="1011" selection-end="1011" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CoreSettings.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Settings/XmlFiles/CoreSettings.xml">
+      <file leaf-file-name="DrawingAreaMouseReleasedCommand.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Commands/DrawingAreaEventHandlingCommands/DrawingAreaMouseReleasedCommand.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="2" column="16" selection-start="95" selection-end="95" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="PrimitiveEditor.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/views/PrimitiveEditor.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="41" column="40" selection-start="1197" selection-end="1197" vertical-scroll-proportion="0.0">
+            <state line="83" column="103" selection-start="2955" selection-end="2955" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -239,22 +234,22 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/UserControls/EJDrawingArea.java" />
-        <option value="$PROJECT_DIR$/src/Interfaces/ILanguageObject.java" />
-        <option value="$PROJECT_DIR$/src/LanguageHandlers/TransferableLanguageObject.java" />
-        <option value="$PROJECT_DIR$/src/LanguageHandlers/Objective.java" />
-        <option value="$PROJECT_DIR$/src/Presentation/PresentationObjective.java" />
-        <option value="$PROJECT_DIR$/src/Settings/Deserializer.java" />
-        <option value="$PROJECT_DIR$/src/Settings/CoreSettings/PenumbraCoreSettings.java" />
-        <option value="$PROJECT_DIR$/src/FileHandling/LanguageObjectsFileHandling.java" />
-        <option value="$PROJECT_DIR$/src/UserControls/EPrimitiveEditorTextArea.java" />
-        <option value="$PROJECT_DIR$/src/views/MainWindow.java" />
-        <option value="$PROJECT_DIR$/src/UserControls/LanguageObjectsList.java" />
         <option value="$PROJECT_DIR$/src/UserControls/LanguageObjectsListPresenter.java" />
         <option value="$PROJECT_DIR$/src/Settings/XmlFiles/CoreSettings.xml" />
         <option value="$PROJECT_DIR$/src/LanguageHandlers/PrimitiveVariable.java" />
+        <option value="$PROJECT_DIR$/src/Commands/HandlePrimitiveEditorCommand.java" />
         <option value="$PROJECT_DIR$/src/LanguageHandlers/Primitive.java" />
+        <option value="$PROJECT_DIR$/src/Commands/DrawingAreaEventHandlingCommands/DrawingAreaClickedCommand.java" />
+        <option value="$PROJECT_DIR$/src/LanguageHandlers/ILanguageObjectTransition.java" />
+        <option value="$PROJECT_DIR$/src/LanguageHandlers/ILanguageObjectTransitionPresentationObject.java" />
         <option value="$PROJECT_DIR$/src/Presentation/ILanguageObjectPresentationObject.java" />
+        <option value="$PROJECT_DIR$/src/Presentation/ILanguageObjectTransitionPresentationObject.java" />
+        <option value="$PROJECT_DIR$/src/UserControls/EJDrawingArea.java" />
+        <option value="$PROJECT_DIR$/src/ViewModels/DrawingAreaViewModel.java" />
+        <option value="$PROJECT_DIR$/src/Commands/DrawingAreaEventHandlingCommands/DrawingAreaMouseReleasedCommand.java" />
+        <option value="$PROJECT_DIR$/src/Commands/DrawingAreaEventHandlingCommands/DrawingAreaMousePressedCommand.java" />
+        <option value="$PROJECT_DIR$/src/Presentation/PresentationObjective.java" />
+        <option value="$PROJECT_DIR$/src/LanguageHandlers/Marker.java" />
       </list>
     </option>
   </component>
@@ -645,6 +640,7 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="Commands.DrawingAreaEventHandlingCommands" />
       <recent name="Commands" />
       <recent name="Exceptions" />
     </key>
@@ -833,18 +829,18 @@
     <frame x="64" y="-4" width="1857" height="959" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32946378" sideWeight="0.7755857" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32990575" sideWeight="0.84564644" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23304562" sideWeight="0.4997236" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21948212" sideWeight="0.5002764" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3292232" sideWeight="0.4997236" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23087071" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3292232" sideWeight="0.4997236" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23057953" sideWeight="0.4997236" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24935733" sideWeight="0.6701847" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.34494194" sideWeight="0.7805179" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.34494194" sideWeight="0.7805179" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.16086236" sideWeight="0.7805179" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21948212" sideWeight="0.4997236" order="2" side_tool="false" content_ui="tabs" />
@@ -921,82 +917,19 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/ViewModels/MainWindowMenuViewModel.java">
+    <entry file="file://$PROJECT_DIR$/src/Commands/DummyCommand.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="13" selection-start="347" selection-end="347" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/UserControls/LanguageObjectsList.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="34" column="18" selection-start="940" selection-end="958" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/UserControls/MainWindowMenu.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="13" selection-start="171" selection-end="171" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/UserControls/EPrimitiveEditorMenuButton.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="13" selection-start="314" selection-end="314" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/UserControls/EPrimitiveEditorMenu.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="13" selection-start="289" selection-end="289" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/UserControls/EPrimitiveEditorTextArea.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="36" column="0" selection-start="823" selection-end="853" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/UserControls/EPrimitiveEditorEditorArea.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="28" column="0" selection-start="862" selection-end="939" vertical-scroll-proportion="0.0">
+        <state line="17" column="13" selection-start="430" selection-end="430" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/UserControls/LanguageObjectsListPresenter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="26" column="60" selection-start="925" selection-end="925" vertical-scroll-proportion="0.0">
+        <state line="21" column="0" selection-start="516" selection-end="516" vertical-scroll-proportion="0.0">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Settings/XmlFiles/CoreSettings.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="16" selection-start="95" selection-end="95" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/views/PrimitiveEditor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="41" column="40" selection-start="1197" selection-end="1197" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/views/MainWindow.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="57" column="24" selection-start="1480" selection-end="1480" vertical-scroll-proportion="0.0">
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1009,29 +942,100 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/LanguageHandlers/PrimitiveVariable.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="44" selection-start="425" selection-end="425" vertical-scroll-proportion="0.0">
+        <state line="38" column="1" selection-start="848" selection-end="848" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ViewModels/LanguageObjectsListViewModel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="33" column="13" selection-start="990" selection-end="990" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/LanguageHandlers/Primitive.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="118" column="30" selection-start="3060" selection-end="3060" vertical-scroll-proportion="0.0">
+        <state line="118" column="10" selection-start="3040" selection-end="3040" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/UserControls/EJDrawingArea.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="36" column="42" selection-start="1099" selection-end="1099" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ViewModels/MainWindowMenuViewModel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="22" column="6" selection-start="541" selection-end="541" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ViewModels/DrawingAreaViewModel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="107" column="39" selection-start="4095" selection-end="4095" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Commands/DrawingAreaEventHandlingCommands/DrawingAreaClickedCommand.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="43" column="18" selection-start="1361" selection-end="1361" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Commands/DrawingAreaEventHandlingCommands/DrawingAreaMouseReleasedCommand.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="83" column="103" selection-start="2955" selection-end="2955" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Commands/DrawingAreaEventHandlingCommands/DrawingAreaMousePressedCommand.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="34" column="77" selection-start="1011" selection-end="1011" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Presentation/ILanguageObjectTransitionPresentationObject.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="47" column="84" selection-start="1659" selection-end="1659" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Presentation/ILanguageObjectPresentationObject.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="113" column="0" selection-start="3771" selection-end="3771" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Presentation/PresentationObjective.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="21" column="13" selection-start="515" selection-end="515" vertical-scroll-proportion="0.0">
-          <folding />
+        <state line="40" column="27" selection-start="1231" selection-end="1231" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Presentation/ILanguageObjectPresentationObject.java">
+    <entry file="file://$PROJECT_DIR$/src/LanguageHandlers/Marker.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="102" column="36" selection-start="3111" selection-end="3111" vertical-scroll-proportion="2.5543478">
-          <folding />
+        <state line="17" column="4" selection-start="362" selection-end="362" vertical-scroll-proportion="0.43515357">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

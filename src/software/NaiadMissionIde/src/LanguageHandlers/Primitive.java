@@ -118,15 +118,15 @@ public class Primitive implements IPrimitive, ILanguageObject{
     {
         //TODO detta ska läsas från filen
         this.primitiveInputs.add(new PrimitiveVariable(VariableMode.IN, VariableType.Integer, "unset"));
-        this.primitiveInputs.add(new PrimitiveVariable(VariableMode.IN, VariableType.Integer, "unset"));
-        this.primitiveInputs.add(new PrimitiveVariable(VariableMode.IN, VariableType.Integer, "unset"));
+        this.primitiveInputs.add(new PrimitiveVariable(VariableMode.IN, VariableType.Float, "unset"));
+        this.primitiveInputs.add(new PrimitiveVariable(VariableMode.IN, VariableType.Boolean, "unset"));
         this.primitiveInputs.add(new PrimitiveVariable(VariableMode.IN, VariableType.Integer, "unset"));
 
 
         this.primitiveOutputs.add(new PrimitiveVariable(VariableMode.OUT, VariableType.Integer, "unset"));
+        this.primitiveOutputs.add(new PrimitiveVariable(VariableMode.OUT, VariableType.Float, "unset"));
         this.primitiveOutputs.add(new PrimitiveVariable(VariableMode.OUT, VariableType.Integer, "unset"));
-        this.primitiveOutputs.add(new PrimitiveVariable(VariableMode.OUT, VariableType.Integer, "unset"));
-        this.primitiveOutputs.add(new PrimitiveVariable(VariableMode.OUT, VariableType.Integer, "unset"));
+        this.primitiveOutputs.add(new PrimitiveVariable(VariableMode.OUT, VariableType.Boolean, "unset"));
 
     }
 }

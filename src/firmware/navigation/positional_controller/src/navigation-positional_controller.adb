@@ -1,16 +1,10 @@
 package body Navigation.Positional_Controller is
 
 
-   function xCreate (pxCurrentAbsolutePosition : access Math.Vectors.CVector; pxWantedAbsolutePosition : access Math.Vectors.CVector; pxCurrentAbsoluteOrientation : access Math.Matrices.CMatrix; pxCurrentAbsoluteOrientationInverse : access Math.Matrices.CMatrix) return CPositionalController is
+   function xCreate return CPositionalController is
       xPositionalController : CPositionalController;
 
    begin
-
-      xPositionalController.pxWantedAbsolutePosition := pxWantedAbsolutePosition;
-      xPositionalController.pxCurrentAbsolutePosition := pxCurrentAbsolutePosition;
-      xPositionalController.pxCurrentAbsoluteOrientation := pxCurrentAbsoluteOrientation;
-      xPositionalController.pxCurrentAbsoluteOrientationInverse := pxCurrentAbsoluteOrientationInverse;
-
       xPositionalController.xXMotionComponent := Navigation.Motion_Component.xCreate(eAxisIndex    => Navigation.Motion_Component.PositionX,
                                                                                        xPIDScalings => Navigation.PID_Controller.TPIDComponentScalings'(0.0,0.0,0.0));
 
@@ -54,8 +48,8 @@ package body Navigation.Positional_Controller is
       xRelativeWantedPositionVector : Math.Vectors.CVector;
       xAbsoluteDifferenceVector : Math.Vectors.CVector;
    begin
-      xAbsoluteDifferenceVector := this.pxWantedAbsolutePosition.all - this.pxCurrentAbsolutePosition.all;
-      xRelativeWantedPositionVector := this.pxCurrentAbsoluteOrientationInverse.all * xAbsoluteDifferenceVector;
+      xAbsoluteDifferenceVector := Navigation.Globals.xWantedAbsolutePosition - Navigation.Globals.xCurrentAbsolutePosition;
+      xRelativeWantedPositionVector := Navigation.Globals.xCurrentAbsoluteOrientationInverse * xAbsoluteDifferenceVector;
 
       Navigation.Motion_Component.Update_Current_Error(this           => this.xXMotionComponent,
                                                        fNewErrorValue => Math.Vectors.fGet_X(xRelativeWantedPositionVector));

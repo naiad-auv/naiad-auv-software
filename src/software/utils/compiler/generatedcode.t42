@@ -1,8 +1,8 @@
-function main(i : integer; v : vector; m : matrix)return integer  is 
+procedure main(i : integer; v : vector; m : matrix) is 
 begin
 	v := [32.500000, 63.200001, -123.400002];
 	m := [[43.200001, 63.200001, -123.400002], [32.500000, 63.200001, -123.400002], [32.500000, 63.200001, -123.400002]];
 	i := 3;
-	return i;
+	v := v * float(i);
 end main;
 
