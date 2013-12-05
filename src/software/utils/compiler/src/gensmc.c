@@ -113,19 +113,23 @@ void genSMC_EQVEC();
 
 void genSMC_NEGINT();
 void genSMC_ADDINT();
+void genSMC_DIVINT();
 void genSMC_MULINT();
 
 void genSMC_NEGFLOAT();
 void genSMC_ADDFLOAT();
+void genSMC_DIVFLOAT();
 void genSMC_MULFLOAT();
 
 void genSMC_NEGVEC();
 void genSMC_ADDVEC();
 void genSMC_MULVEC();
+void genSMC_SCALEVEC();
 
 void genSMC_VECCOMP(int iComponent);
 
 void genSMC_MULMAT();
+void genSMC_MULMATVEC();
 
 void genSMC_SIN();
 void genSMC_COS();
@@ -522,6 +526,11 @@ void genSMC_MULINT()
 	genSMCNewLine();
 	fprintf(genSMCFilePtr, "MULINT");
 }
+void genSMC_DIVINT()
+{
+	genSMCNewLine();
+	fprintf(genSMCFilePtr, "DIVINT");
+}
 
 void genSMC_NEGFLOAT()
 {
@@ -537,6 +546,11 @@ void genSMC_MULFLOAT()
 {
 	genSMCNewLine();
 	fprintf(genSMCFilePtr, "MULFLOAT");
+}
+void genSMC_DIVFLOAT()
+{
+	genSMCNewLine();
+	fprintf(genSMCFilePtr, "DIVFLOAT");
 }
 
 void genSMC_NEGVEC()
@@ -1014,8 +1028,24 @@ void genSMCUnary(t_tree node)
 // the type of a Binary node will be equal to the type of both operands
 void genSMCBinary(t_tree node)
 {
-	genSMCCallNodeFunction(node->Node.Binary.LeftOperand);
-	genSMCCallNodeFunction(node->Node.Binary.RightOperand);
+	if (node->Node.Binary.Type == VECTOR)
+	{
+		if (node->Node.Binary.RightType == MATRIX || node->Node.Binary.RightType == FLOAT)
+		{
+			genSMCCallNodeFunction(node->Node.Binary.RightOperand);
+			genSMCCallNodeFunction(node->Node.Binary.LeftOperand);
+		}
+		else
+		{
+			genSMCCallNodeFunction(node->Node.Binary.LeftOperand);
+			genSMCCallNodeFunction(node->Node.Binary.RightOperand);
+		}
+	}
+	else
+	{
+		genSMCCallNodeFunction(node->Node.Binary.LeftOperand);
+		genSMCCallNodeFunction(node->Node.Binary.RightOperand);
+	}
 	switch (node->Node.Binary.Type)
 	{
 	case BOOL:
@@ -1036,16 +1066,17 @@ void genSMCBinary(t_tree node)
 		switch (node->Node.Binary.Operator)
 		{
 		case PLUS:
-			genSMC_ADD();
+			genSMC_ADDINT();
 			break;
 		case SUB:
-			genSMC_SUB();
+			genSMC_NEGINT();
+			genSMC_ADDINT();
 			break;
 		case DIV:
-			genSMC_DIV();
+			genSMC_DIVINT();
 			break;
 		case MULT:
-			genSMC_MULT();
+			genSMC_MULINT();
 			break;
 		case EQ:
 			genSMC_EQINT();
@@ -1056,24 +1087,86 @@ void genSMCBinary(t_tree node)
 		case LE:
 			genSMC_LEINT();
 			break;
+		case MT:
+			genSMC_LEINT();
+			genSMC_NOT();
+			break;
+		case ME:
+			genSMC_LTINT();
+			genSMC_NOT();
+			break;
 		}
 		break;
-/*
-	case STRING:
+	case FLOAT:
 		switch (node->Node.Binary.Operator)
 		{
+		case PLUS:
+			genSMC_ADDFLOAT();
+			break;
+		case SUB:
+			genSMC_NEGFLOAT();
+			genSMC_ADDFLOAT();
+			break;
+		case DIV:
+			genSMC_DIVFLOAT();
+			break;
+		case MULT:
+			genSMC_MULFLOAT();
+			break;
 		case EQ:
-			genSMC_EQSTRING();
+			genSMC_EQFLOAT();
 			break;
 		case LT:
-			genSMC_LTSTRING();
+			genSMC_LTFLOAT();
 			break;
 		case LE:
-			genSMC_LESTRING();
+			genSMC_LEFLOAT();
+			break;
+		case MT:
+			genSMC_LEFLOAT();
+			genSMC_NOT();
+			break;
+		case ME:
+			genSMC_LTFLOAT();
+			genSMC_NOT();
 			break;
 		}
 		break;
-*/
+	case VECTOR:
+		switch (node->Node.Binary.Operator)
+		{
+		case PLUS:
+			genSMC_ADDVEC();
+			break;
+		case SUB:
+			genSMC_NEGVEC();
+			genSMC_ADDVEC();
+			break;
+		case MULT:
+			if (node->Node.Binary.LeftType == FLOAT || node->Node.Binary.RightType == FLOAT)
+				genSMC_SCALEVEC();
+			else if (node->Node.Binary.LeftType == MATRIX || node->Node.Binary.RightType == MATRIX)
+				genSMC_MULMATVEC();
+			else
+				genSMC_MULVEC();
+			break;
+		case EQ:
+			genSMC_EQVEC();
+			break;
+		}
+		break;
+	case MATRIX:
+		switch (node->Node.Binary.Operator)
+		{
+		case MULT:
+			genSMC_MULMAT();
+			break;
+		case EQ:
+			genSMC_EQMAT();
+			break;
+		}
+		break;
+
 	}
 }
 void genSMCIntConst(t_tree node)

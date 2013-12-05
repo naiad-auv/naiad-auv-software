@@ -156,6 +156,8 @@ typedef struct {
    BINOP_KIND Operator; /* The operator type */
    t_tree RightOperand;     /* The right hand side sub-expression to operate on. */
    eType Type; // added!
+   eType LeftType;
+   eType RightType;
 } yBinary;
 
 /* The int constant expression. */

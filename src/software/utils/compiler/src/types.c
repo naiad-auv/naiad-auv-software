@@ -337,6 +337,9 @@ eType typeBinary(t_tree node)
 {
 	eType leftType = typeExpr(node->Node.Binary.LeftOperand);
 	eType rightType = typeExpr(node->Node.Binary.RightOperand);
+
+	node->Node.Binary.LeftType = leftType;
+	node->Node.Binary.RightType = rightType;
 	
 	if (leftType == rightType)
 	{
