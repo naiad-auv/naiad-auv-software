@@ -1,14 +1,16 @@
 package LanguageHandlers;
 
+import Drawables.LanguageObjectDrawable;
+import Enums.ILanguageObjectType;
 import Exceptions.NullReferenceException;
 import Exceptions.UnableToPreformActionException;
 import Interfaces.ILanguageObject;
+import Settings.CoreSettings.PenumbraCoreSettings;
 
-import javax.security.auth.Subject;
+import java.awt.*;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Observable;
 
 /**
  * Created with IntelliJ IDEA.
@@ -21,15 +23,10 @@ public class Objective implements ILanguageObject {
 
     private Path path;
     private String objectiveName;
-    private List<ILanguageObject> executionalSteps;
 
+    private List<ILanguageObject> executionalSteps;
     private List<PrimitiveVariable> inputVariables;
     private List<PrimitiveVariable> outputVariables;
-
-    public Objective()
-    {
-
-    }
 
     public Objective(String name)
     {
@@ -80,6 +77,11 @@ public class Objective implements ILanguageObject {
     @Override
     public List<PrimitiveVariable> getOutputVariables() {
         return this.outputVariables;
+    }
+
+    @Override
+    public ILanguageObjectType getType() {
+        return ILanguageObjectType.Objective;
     }
 
     @Override

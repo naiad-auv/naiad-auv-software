@@ -1,5 +1,6 @@
 package Interfaces;
 
+import Enums.ILanguageObjectType;
 import Exceptions.NullReferenceException;
 import LanguageHandlers.PrimitiveVariable;
 
@@ -22,4 +23,6 @@ public interface ILanguageObject {
     public List<PrimitiveVariable> getInputVariables();
 
     public List<PrimitiveVariable> getOutputVariables();
+
+    public ILanguageObjectType getType();
 }

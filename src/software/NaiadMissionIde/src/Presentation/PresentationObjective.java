@@ -1,10 +1,12 @@
 package Presentation;
 
-import Exceptions.NullReferenceException;
+import Drawables.LanguageObjectDrawable;
+import Drawables.MarkerObjectDrawable;
+import Drawables.TransactionObjectDrawable;
 import Exceptions.UnableToPreformActionException;
+import Interfaces.IDrawable;
 import Interfaces.ILanguageObject;
 import LanguageHandlers.EndMarker;
-import LanguageHandlers.Objective;
 import LanguageHandlers.StartMarker;
 
 import java.awt.*;
@@ -22,18 +24,18 @@ import java.util.Observable;
 public class PresentationObjective extends Observable
 {
 
-    private StartMarker startMarker;
-    private EndMarker endMarker;
-    private List<ILanguageObjectPresentationObject> ILanguageObjectPresentationObjects;
-    private List<ILanguageObjectTransitionPresentationObject> ILangueageObjectTransitions;
+    private IDrawable startMarker;
+    private IDrawable endMarker;
+    private List<IDrawable> ILanguageObjectPresentationObjects;
+    private List<IDrawable> ILanguageObjectTransitions;
 
     public PresentationObjective()
     {
-        this.startMarker = new StartMarker();
-        this.endMarker = new EndMarker();
+        this.startMarker = new MarkerObjectDrawable(new StartMarker(), new Point(100,100), 50);
+        this.endMarker =  new MarkerObjectDrawable(new EndMarker(), new Point(500,500), 50);
 
-        this.ILangueageObjectTransitions = new ArrayList<ILanguageObjectTransitionPresentationObject>();
-        this.ILanguageObjectPresentationObjects = new ArrayList<ILanguageObjectPresentationObject>();
+        this.ILanguageObjectTransitions = new ArrayList<IDrawable>();
+        this.ILanguageObjectPresentationObjects = new ArrayList<IDrawable>();
     }
 
     public Graphics Draw(Graphics g)
@@ -46,37 +48,37 @@ public class PresentationObjective extends Observable
              this.ILanguageObjectPresentationObjects.get(i).Draw(g);
          }
 
-        for(int i = 0; i < ILangueageObjectTransitions.size(); i++)
+        for(int i = 0; i < ILanguageObjectTransitions.size(); i++)
         {
-            this.ILangueageObjectTransitions.get(i).Draw((Graphics2D)g);
+            this.ILanguageObjectTransitions.get(i).Draw(g);
         }
 
         return g;
     }
 
-    public void addItem(ILanguageObject object, int x, int y) throws UnableToPreformActionException {
-       this.ILanguageObjectPresentationObjects.add(new ILanguageObjectPresentationObject(object,x,y));
+    public void addItem(ILanguageObject object, Point position) throws UnableToPreformActionException {
+       this.ILanguageObjectPresentationObjects.add(new LanguageObjectDrawable(object, position));
         this.setChanged();
         this.notifyObservers();
     }
 
-    public void addTransition(ILanguageObjectPresentationObject predecessor, ILanguageObjectPresentationObject successor)
+    public void addTransition(IDrawable predecessor, IDrawable successor)
     {
-        this.ILangueageObjectTransitions.add(new ILanguageObjectTransitionPresentationObject(predecessor,successor));
+        this.ILanguageObjectTransitions.add(new TransactionObjectDrawable(predecessor, successor));
         this.setChanged();
         this.notifyObservers();
     }
 
     public Object[] getScope() {
-        return new Object[]{ this.ILanguageObjectPresentationObjects, this.ILangueageObjectTransitions };
+        return new Object[]{ this.ILanguageObjectPresentationObjects, this.ILanguageObjectTransitions};
     }
 
-    public List<ILanguageObjectTransitionPresentationObject> getTransitions() {
-        return this.ILangueageObjectTransitions;
+    public List<IDrawable> getTransitions() {
+        return this.ILanguageObjectTransitions;
     }
 
-    public void removeTransition(ILanguageObjectTransitionPresentationObject transitionToRemove) {
-        this.ILangueageObjectTransitions.remove(transitionToRemove);
+    public void removeTransition(IDrawable transitionToRemove) {
+        this.ILanguageObjectTransitions.remove(transitionToRemove);
         this.setChanged();
         this.notifyObservers();
     }
