@@ -1,0 +1,14 @@
+with "aunit";
+with "../../../viewmodel_wanted_pos.gpr";
+project test_viewmodel_wanted_pos is
+
+   for Source_Dirs use
+     ("../tests",
+      "common");
+
+   package Compiler is
+      for Default_Switches ("ada") use
+        ("-g", "-O1", "-gnatyM0", "-gnata");
+   end Compiler;
+
+end test_viewmodel_wanted_pos;

@@ -1,7 +1,7 @@
+with "../ViewModel_Wanted_Pos/viewmodel_wanted_pos.gpr";
 with "../drawing/drawing.gpr";
 with "../../../lib/text_Handling/text_handling.gpr";
 with "../ViewModel_Actuators/viewmodel_actuators.gpr";
-with "../ViewModel_Set_Wanted_Position/viewmodel_set_wanted_position.gpr";
 with "../ViewModel_Sensors/viewmodel_sensors.gpr";
 with "../ViewModel_Representation/viewmodel_representation.gpr";
 with "../ViewModel_Pid_Errors/viewmodel_pid_errors.gpr";
@@ -42,3 +42,4 @@ project GUI is
    end Linker;
 
 end GUI;
+

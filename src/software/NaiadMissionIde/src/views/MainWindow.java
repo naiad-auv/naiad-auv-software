@@ -7,6 +7,7 @@ import java.util.List;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
+import Commands.DummyCommand;
 import Commands.HandleObjectiveEditorCommand;
 import Exceptions.ScopeModificationNotSupported;
 import Interfaces.ICommand;
@@ -59,6 +60,7 @@ public class MainWindow {
         panel.add(splitPane_1);
 
         splitPane_1.setTopComponent(new LanguageObjectsListPresenter(new HandleObjectiveEditorCommand(this.tabbedPane)));
+        splitPane_1.setBottomComponent(new StandardTypesListPresenter(new DummyCommand("ABO")));
 
         splitPane.setRightComponent(tabbedPane);
     }

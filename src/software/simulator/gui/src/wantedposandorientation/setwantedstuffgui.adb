@@ -5,7 +5,7 @@ with Exception_Handling;
 with Ada.Text_IO;
 with Glib.Error;
 with SetWantedStuffGUILogic;
-with Simulator.Viewmodel_Set_Wanted_Position;
+with Simulator.ViewModel_Wanted_Pos;
 
 package body SetWantedStuffGUI is
 
@@ -20,7 +20,7 @@ package body SetWantedStuffGUI is
 
    procedure Setup_Backend(xModel : Simulator.Model.pCModel) is
    begin
-     SetWantedStuffGUILogic.xViewmodel := Simulator.Viewmodel_Set_Wanted_Position.pxCreate(xModel);
+     SetWantedStuffGUILogic.xViewmodel := Simulator.ViewModel_Wanted_Pos.pxCreate(xModel);
    end Setup_Backend;
 
    procedure Start_GUI (xModel : Simulator.Model.pCModel) is

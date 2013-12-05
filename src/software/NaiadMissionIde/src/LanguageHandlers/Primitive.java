@@ -1,11 +1,15 @@
 package LanguageHandlers;
 
+import Drawables.LanguageObjectDrawable;
+import Enums.ILanguageObjectType;
 import Enums.VariableMode;
 import Enums.VariableType;
 import Exceptions.NullReferenceException;
 import Interfaces.ILanguageObject;
 import Interfaces.IPrimitive;
+import Settings.CoreSettings.PenumbraCoreSettings;
 
+import java.awt.*;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -118,15 +122,20 @@ public class Primitive implements IPrimitive, ILanguageObject{
     {
         //TODO detta ska läsas från filen
         this.primitiveInputs.add(new PrimitiveVariable(VariableMode.IN, VariableType.Integer, "unset"));
-        this.primitiveInputs.add(new PrimitiveVariable(VariableMode.IN, VariableType.Integer, "unset"));
-        this.primitiveInputs.add(new PrimitiveVariable(VariableMode.IN, VariableType.Integer, "unset"));
+        this.primitiveInputs.add(new PrimitiveVariable(VariableMode.IN, VariableType.Float, "unset"));
+        this.primitiveInputs.add(new PrimitiveVariable(VariableMode.IN, VariableType.Boolean, "unset"));
         this.primitiveInputs.add(new PrimitiveVariable(VariableMode.IN, VariableType.Integer, "unset"));
 
 
         this.primitiveOutputs.add(new PrimitiveVariable(VariableMode.OUT, VariableType.Integer, "unset"));
+        this.primitiveOutputs.add(new PrimitiveVariable(VariableMode.OUT, VariableType.Float, "unset"));
         this.primitiveOutputs.add(new PrimitiveVariable(VariableMode.OUT, VariableType.Integer, "unset"));
-        this.primitiveOutputs.add(new PrimitiveVariable(VariableMode.OUT, VariableType.Integer, "unset"));
-        this.primitiveOutputs.add(new PrimitiveVariable(VariableMode.OUT, VariableType.Integer, "unset"));
+        this.primitiveOutputs.add(new PrimitiveVariable(VariableMode.OUT, VariableType.Boolean, "unset"));
 
+    }
+
+    @Override
+    public ILanguageObjectType getType() {
+        return ILanguageObjectType.Primitive;
     }
 }

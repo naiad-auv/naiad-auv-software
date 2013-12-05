@@ -1,16 +1,18 @@
 package Presentation;
 
-import Exceptions.NullReferenceException;
+import Drawables.LanguageObjectDrawable;
+import Drawables.MarkerObjectDrawable;
+import Drawables.TransactionObjectDrawable;
 import Exceptions.UnableToPreformActionException;
+import Interfaces.IDrawable;
 import Interfaces.ILanguageObject;
-import LanguageHandlers.Objective;
+import LanguageHandlers.EndMarker;
+import LanguageHandlers.StartMarker;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
-import java.util.Observer;
 
 /**
  * Created with IntelliJ IDEA.
@@ -21,57 +23,63 @@ import java.util.Observer;
  */
 public class PresentationObjective extends Observable
 {
-    private List<ILanguageObjectPresentationObject> ILanguageObjectPresentationObjects;
-    private Objective objective;
 
-    int posX;
-    int posY;
+    private IDrawable startMarker;
+    private IDrawable endMarker;
+    private List<IDrawable> ILanguageObjectPresentationObjects;
+    private List<IDrawable> ILanguageObjectTransitions;
 
-    public PresentationObjective(int x,int y, Objective objective)
+    public PresentationObjective()
     {
-        this.posX = x;
-        this.posY = y;
+        this.startMarker = new MarkerObjectDrawable(new StartMarker(), new Point(100,100), 50);
+        this.endMarker =  new MarkerObjectDrawable(new EndMarker(), new Point(500,500), 50);
 
-        this.objective = objective;
-
-        try
-        {
-            this.populatePrimitivePresentationObjects();
-        }
-        catch (NullReferenceException e) {
-            System.out.println("NullReferenceException thrown");
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        }
-    }
-
-    private void populatePrimitivePresentationObjects() throws NullReferenceException {
-        List<ILanguageObject> executionalSteps  = this.objective.getExecutionalSteps();
-
-        this.ILanguageObjectPresentationObjects = new ArrayList<ILanguageObjectPresentationObject>();
-        for(int i = 0; i < executionalSteps.size(); i++)
-        {
-            this.ILanguageObjectPresentationObjects.add(new ILanguageObjectPresentationObject(executionalSteps.get(i)));
-        }
+        this.ILanguageObjectTransitions = new ArrayList<IDrawable>();
+        this.ILanguageObjectPresentationObjects = new ArrayList<IDrawable>();
     }
 
     public Graphics Draw(Graphics g)
     {
+        this.startMarker.Draw(g);
+        this.endMarker.Draw(g);
+
          for(int i = 0; i < ILanguageObjectPresentationObjects.size(); i++)
          {
              this.ILanguageObjectPresentationObjects.get(i).Draw(g);
          }
 
+        for(int i = 0; i < ILanguageObjectTransitions.size(); i++)
+        {
+            this.ILanguageObjectTransitions.get(i).Draw(g);
+        }
+
         return g;
     }
 
-    public void addItem(ILanguageObject object, int x, int y) throws UnableToPreformActionException {
-        this.objective.AddExecutionalStep(object);
-        this.ILanguageObjectPresentationObjects.add(new ILanguageObjectPresentationObject(object,x,y));
+    public void addItem(ILanguageObject object, Point position) throws UnableToPreformActionException {
+       this.ILanguageObjectPresentationObjects.add(new LanguageObjectDrawable(object, position));
         this.setChanged();
         this.notifyObservers();
     }
 
-    public Object getScope() {
-        return this.objective;
+    public void addTransition(IDrawable predecessor, IDrawable successor)
+    {
+        this.ILanguageObjectTransitions.add(new TransactionObjectDrawable(predecessor, successor));
+        this.setChanged();
+        this.notifyObservers();
+    }
+
+    public Object[] getScope() {
+        return new Object[]{ this.ILanguageObjectPresentationObjects, this.ILanguageObjectTransitions};
+    }
+
+    public List<IDrawable> getTransitions() {
+        return this.ILanguageObjectTransitions;
+    }
+
+    public void removeTransition(IDrawable transitionToRemove) {
+        this.ILanguageObjectTransitions.remove(transitionToRemove);
+        this.setChanged();
+        this.notifyObservers();
     }
 }

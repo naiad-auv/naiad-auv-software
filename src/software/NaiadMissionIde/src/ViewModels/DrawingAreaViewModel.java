@@ -1,7 +1,12 @@
 package ViewModels;
 
+import Commands.DrawingAreaEventHandlingCommands.DrawingAreaClickedCommand;
+import Commands.DrawingAreaEventHandlingCommands.DrawingAreaMousePressedCommand;
+import Commands.DrawingAreaEventHandlingCommands.DrawingAreaMouseReleasedCommand;
+import Exceptions.ScopeModificationNotSupported;
 import Exceptions.UnableToPreformActionException;
 import Interfaces.ICommand;
+import Interfaces.IDrawable;
 import Interfaces.ILanguageObject;
 import Interfaces.IViewModel;
 import LanguageHandlers.Objective;
@@ -9,10 +14,9 @@ import Presentation.PresentationObjective;
 import UserControls.EJDrawingArea;
 
 import java.awt.*;
-import java.util.Dictionary;
-import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -25,10 +29,21 @@ public class DrawingAreaViewModel extends Observable implements IViewModel, Obse
 
     private PresentationObjective presentationObjective;
 
+    private Objective objectiveScope;
+
+    private ICommand onMouseClickedCommand;
+    private ICommand onMousePressedCommand;
+    private ICommand onMouseReleasedCommand;
+
     public DrawingAreaViewModel(Objective objective)
     {
-        this.presentationObjective = new PresentationObjective(0,0,objective);
+        this.objectiveScope = objective;
+        this.presentationObjective = new PresentationObjective();
         this.presentationObjective.addObserver(this);
+
+        this.onMouseClickedCommand = new DrawingAreaClickedCommand();
+        this.onMousePressedCommand = new DrawingAreaMousePressedCommand();
+        this.onMouseReleasedCommand = new DrawingAreaMouseReleasedCommand();
     }
 
     public Graphics Draw(Graphics g)
@@ -45,6 +60,53 @@ public class DrawingAreaViewModel extends Observable implements IViewModel, Obse
         if(view == null)
             throw new IllegalArgumentException();
 
+        view.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(final MouseEvent eventArgs) {
+
+              /*  try
+                {
+                    onMouseClickedCommand.setScope(new ArrayList<Object>(){{ add(presentationObjective); add(eventArgs);}});
+                }
+                catch (ScopeModificationNotSupported scopeModificationNotSupported) {
+                    scopeModificationNotSupported.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                }
+                onMouseClickedCommand.execute(); */
+
+            }
+
+            @Override
+            public void mousePressed(final MouseEvent eventArgs) {
+
+                try {
+                    onMousePressedCommand.setScope(new ArrayList<Object>() {{ add(presentationObjective); add(eventArgs); }});
+                    final IDrawable selectedObject = (IDrawable)onMousePressedCommand.execute();
+
+                    if(selectedObject == null)
+                        return;
+
+
+                    onMouseReleasedCommand.setScope(new ArrayList<Object>() {{
+                        add(selectedObject);
+                    }});
+                } catch (ScopeModificationNotSupported scopeModificationNotSupported) {
+                    scopeModificationNotSupported.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                }
+            }
+
+            @Override
+            public void mouseReleased(final MouseEvent eventArgs)
+            {  try {
+                onMouseReleasedCommand.setScope(new ArrayList<Object>() {{
+                    add(presentationObjective); add(eventArgs);
+                }});
+            } catch (ScopeModificationNotSupported scopeModificationNotSupported) {
+                scopeModificationNotSupported.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            }
+                onMouseReleasedCommand.execute();
+            }
+        });
+
     }
 
     @Override
@@ -58,8 +120,8 @@ public class DrawingAreaViewModel extends Observable implements IViewModel, Obse
         this.notifyObservers();
     }
 
-    public void addItem(ILanguageObject object, int x, int y) throws UnableToPreformActionException {
-        this.presentationObjective.addItem(object,x,y);
+    public void addItem(ILanguageObject object, Point position) throws UnableToPreformActionException {
+        this.presentationObjective.addItem(object, position);
     }
 
     public Object getScope() {

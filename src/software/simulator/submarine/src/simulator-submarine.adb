@@ -74,6 +74,8 @@ package body simulator.submarine is
       txMotorInfo(6) := simulator.Motor_Info.pxCreate(xPositionVectorMotorFrontRightZAxis,xForceVectorMotorFrontRightZAxis);
 
 
+      pxSubmarine.pxWantedPositionVector := math.Vectors.xCreate(0.0 , 0.0 , 0.0).pxGet_Allocated_Copy;
+      pxSubmarine.pxWantedOrientationMatrix := math.Matrices.xCreate_Identity.pxGet_Allocated_Copy;
       pxSubmarine.pxPositionVector := math.Vectors.pxGet_Allocated_Copy(math.Vectors.xCreate(0.0 , 0.0 , 0.0));
       pxSubmarine.pxVelocityVector := math.Vectors.pxGet_Allocated_Copy(math.Vectors.xCreate(0.0 , 0.0 , 0.0));
       pxSubmarine.pxOrientationMatrix := math.Matrices.pxGet_Allocated_Copy(math.Matrices.xCreate_Identity);

@@ -1,8 +1,10 @@
 package LanguageHandlers;
 
+import Enums.ILanguageObjectType;
 import Exceptions.NullReferenceException;
 import Interfaces.ILanguageObject;
 
+import java.awt.*;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
@@ -20,7 +22,7 @@ import java.util.concurrent.TransferQueue;
  */
 public class TransferableLanguageObject implements ILanguageObject, Transferable{
 
-    ILanguageObject object;
+    private ILanguageObject object;
 
     public TransferableLanguageObject(ILanguageObject objectToTransfer)
     {
@@ -47,6 +49,11 @@ public class TransferableLanguageObject implements ILanguageObject, Transferable
     @Override
     public List<PrimitiveVariable> getOutputVariables() {
         return object.getOutputVariables();
+    }
+
+    @Override
+    public ILanguageObjectType getType() {
+        return this.object.getType();
     }
 
     @Override

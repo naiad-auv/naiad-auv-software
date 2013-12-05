@@ -1,6 +1,6 @@
 --------------------------------------------------------------------------
 --  Written by: Nils Brynedal Ignell for the Naiad AUV project
---  Last changed (yyyy-mm-dd): 2013-12-03
+--  Last changed (yyyy-mm-dd): 2013-12-04
 
 --  TODO: Hardware testing....
 --------------------------------------------------------------------------
@@ -9,11 +9,14 @@ with AVR.AT90CAN128.CAN;
 
 with Can_Float_Conversions;
 with Str2Float;
+with Digital_IO;
 
 --  --  with Math.Angles;
 --  with Math.Quaternions;
 
 with Ins_Controller_Utils;
+
+with AVR.AT90CAN128.CLOCK;
 
 package body Ins_Controller is
 
@@ -26,12 +29,11 @@ package body Ins_Controller is
       bExtendedIds := bUseExtendedID;
 
       Ins_Controller_Utils.Init_Uart(port, AVR.AT90CAN128.USART.BAUD115200);
-      AVR.AT90CAN128.CAN.Can_Init(canBaud_Rate);
-      AVR.AT90CAN128.CAN.Can_Set_MOB_ID_MASK(0,(CAN_Defs.MSG_SIMULATION_MODE_ID.Identifier, bUseExtendedID),
-                                               (536870911, bUseExtendedID));
-
 
       Ins_Controller_Utils.Communication_Protocol_Control(usart_port);
+
+      Digital_IO.User_Led(true);
+
       Ins_Controller_Utils.Async_Data_Output_Type_Register_Off(usart_port);
       Ins_Controller_Utils.Async_Data_Output_Frequency_Register(usart_port);
       Ins_Controller_Utils.Synchronization_Control(usart_port);
@@ -43,7 +45,25 @@ package body Ins_Controller is
       Ins_Controller_Utils.Init_Uart(port, AVR.AT90CAN128.USART.BAUD230400);
 
       AVR.AT90CAN128.USART.Flush_Receive_Buffer(usart_port);
+
+
+      AVR.AT90CAN128.CAN.Can_Init(canBaud_Rate);
+      AVR.AT90CAN128.CAN.Can_Set_MOB_ID_MASK(0,(CAN_Defs.MSG_SIMULATION_MODE_ID.Identifier, bUseExtendedID),
+                                             (536870911, bUseExtendedID));
+
       Ins_Controller_Utils.Init_Interrupts;
+
+      AVR.AT90CAN128.CLOCK.Delay_ms(500);
+      Digital_IO.User_Led(false);
+      AVR.AT90CAN128.CLOCK.Delay_ms(500);
+      Digital_IO.User_Led(true);
+      AVR.AT90CAN128.CLOCK.Delay_ms(500);
+      Digital_IO.User_Led(false);
+
+      loop
+         null;
+      end loop;
+
 
    end Init;
 
