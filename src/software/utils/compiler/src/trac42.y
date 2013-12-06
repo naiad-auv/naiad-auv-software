@@ -38,6 +38,7 @@ int yylex(void);
    t_tree       yyNode;
    floatStruct  yyFloat;
    intStruct    yyInt;
+   
    stringStruct yyString;
    typeStruct   yyType;
    opStruct     yyOperator;
@@ -58,13 +59,14 @@ int yylex(void);
 %type  <yyNode>   program functions function formals formal
 %type  <yyNode>   decls decl stmnts stmnt expr actuals exprs
 %type  <yyFloat>  vec_comp
+%type  <yyType>   type
 
 /* Specifies the types of other tokens than the operators, when on the parse stack */
 %token <yyType>   BASIC_TYPE
 %token <yyString> ID BOOL_CONST STRING_CONST
 %token <yyInt>    INT_CONST
 %token <yyFloat>  FLOAT_CONST
-%token <yyLineNr> IF THEN ELSE WHILE RETURN END EXIT LOOP PROCEDURE FUNCTION IS BGN ASSIGN ASM
+%token <yyLineNr> IF THEN ELSE WHILE RETURN END EXIT LOOP PROCEDURE FUNCTION IS BGN ASSIGN ASM ADDR_TYPE
 
 
 %start program
@@ -89,16 +91,19 @@ formals     : formals ';' formal								{ $$ = connectVariables($1,$3); }
             | formal										{ $$ = $1; }
             ;
 
-formal      : ID ':' BASIC_TYPE 								{ $$ = mVariable(kFormal, $1.strVal, $3.type, $1.lineNr); }
+formal      : ID ':' type	 								{ $$ = mVariable(kFormal, $1.strVal, $3.type, $1.lineNr); }
             ;
 
 decls       : decls decl									{ if ($1 != NULL) { $$ = connectVariables($1, $2); } else { $$ = $2; } }
             |											{ $$ = NULL; }
             ;
 
-decl        : ID ':' BASIC_TYPE ';'   								{ $$ = mVariable(kLocal, $1.strVal, $3.type, $1.lineNr); }
+decl        : ID ':' type ';'   								{ $$ = mVariable(kLocal, $1.strVal, $3.type, $1.lineNr); }
             ;
 
+type	    : BASIC_TYPE									{ $$ = $1; }
+	    | ADDR_TYPE '(' BASIC_TYPE ')'							{ $$.lineNr = $1; $$.type = $3.type + POINTER; }
+	    ;
 
 stmnts      : stmnts stmnt									{ $$ = connectStmnts($1,$2); }
             | stmnt										{ $$ = $1; }
@@ -131,6 +136,7 @@ expr        : MINUSOP expr %prec UNOP								{ $$ = mUnary($1.opType, $2, $1.lin
             |'(' expr ')'									{ $$ = $2; }
             | ID '(' actuals ')'								{ $$ = mFuncCallExpr($3, $1.strVal, $1.lineNr); }
             | ID										{ $$ = mRValue($1.strVal, $1.lineNr); }
+	    | ADDR_TYPE '(' ID ')'								{ $$ = mLValue($3.strVal, $1); }
             | INT_CONST										{ $$ = mIntConst($1.intVal, $1.lineNr); }
             | BOOL_CONST									{ $$ = mBoolConst($1.strVal, $1.lineNr); }
             | FLOAT_CONST									{ $$ = mFloatConst($1.floatVal, $1.lineNr); }
@@ -238,7 +244,7 @@ int main (int argc, char *argv[])
 
 
 					printf("DONE.\n");
-/*
+
 					// pass 5 - generate list file
 					printf("Generating trac42 stack machine code to file \"");
 					printf(lstname);
@@ -246,7 +252,7 @@ int main (int argc, char *argv[])
 					generateSMC(treeRoot, symbolTable, lstname);
 					printf("Done!\n");
 					printf("Cleaning up and exiting...\n");
-					*/
+					
 				}
 			}
 				

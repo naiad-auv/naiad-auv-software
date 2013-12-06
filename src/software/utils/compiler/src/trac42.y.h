@@ -67,7 +67,8 @@
      IS = 285,
      BGN = 286,
      ASSIGN = 287,
-     ASM = 288
+     ASM = 288,
+     ADDR_TYPE = 289
    };
 #endif
 
@@ -83,6 +84,7 @@ typedef union YYSTYPE
    t_tree       yyNode;
    floatStruct  yyFloat;
    intStruct    yyInt;
+   
    stringStruct yyString;
    typeStruct   yyType;
    opStruct     yyOperator;
@@ -91,7 +93,7 @@ typedef union YYSTYPE
 
 
 /* Line 2068 of yacc.c  */
-#line 95 "./src/trac42.y.h"
+#line 97 "./src/trac42.y.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */

@@ -18,14 +18,13 @@ int offsetSizeOf(eType type)
 {
 	switch (type)
 	{
-	case INT:
-	case BOOL:
-	case FLOAT:
-	case VECTOR:
-	case MATRIX:
-		return 1;
+	case ERROR_TYPE:
+		printf("Error in offset");
+		return -1;
 	case VOID:
 		return 0;
+	default:
+		return 1;
 	}
 }
 

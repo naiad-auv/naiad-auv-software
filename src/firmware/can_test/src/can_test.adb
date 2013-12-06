@@ -36,8 +36,10 @@ procedure CAN_Test is
    iReceived : Integer;
 
 begin
-   AVR.AT90CAN128.CAN.Can_Init(CAN_Defs.K250);
+
    AVR.AT90CAN128.CAN.Can_Set_All_MOB_ID_MASK((0, false), (0, false));
+   AVR.AT90CAN128.CAN.Can_Init(CAN_Defs.K250);
+
 
  --  AVR.AT90CAN128.CAN.
 

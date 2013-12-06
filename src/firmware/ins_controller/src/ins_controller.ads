@@ -19,7 +19,8 @@ package Ins_Controller is
 
    pragma Suppress (All_Checks);
 
-   procedure Init(port : AVR.AT90CAN128.USART.USARTID; canBaud_Rate : Can_Defs.Baud_Rate; bUseExtendedID : Boolean);
+      procedure Init(port : AVR.AT90CAN128.USART.USARTID; canBaud_Rate : Can_Defs.Baud_Rate; bUseExtendedID : Boolean);
+--      procedure Init(port : AVR.AT90CAN128.USART.USARTID; bUseExtendedID : Boolean);
 
    procedure SimulationModeOn;
    procedure SimulationModeOff;

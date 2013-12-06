@@ -227,6 +227,13 @@ t_tree mRValue(const char *pId, int pLineNr)
    return node;
 }
 
+t_tree mLValue(const char *pId, int pLineNr)
+{
+   t_tree node = allocateNode(kLValue, pLineNr);
+   node->Node.LValue.Id = dstrcpy(pId);
+   return node;
+}
+
 t_tree connectVariables(t_tree pVariables, t_tree pVariable)
 {
    if ((pVariables && pVariables->Kind != kVariable) ||
