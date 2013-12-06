@@ -1,6 +1,8 @@
 package ActionHandlers;
 
+import Drawables.LanguageObjectDrawable;
 import Interfaces.ICommand;
+import Interfaces.IDrawable;
 import Interfaces.ILanguageObject;
 import LanguageHandlers.TransferableLanguageObject;
 
@@ -36,13 +38,13 @@ public class LanguageObjectDropTargetListener extends DropTargetAdapter {
 
             Transferable tr = event.getTransferable();
 
-            final ILanguageObject transferObject = (ILanguageObject)tr.getTransferData(TransferableLanguageObject.languageObjectFlavor);
+            final ILanguageObject transferData = (ILanguageObject)tr.getTransferData(TransferableLanguageObject.languageObjectFlavor);
 
             if (event.isDataFlavorSupported(TransferableLanguageObject.languageObjectFlavor)) {
 
                 event.acceptDrop(DnDConstants.ACTION_COPY);
 
-                this.transferObjectHandler.setScope(new ArrayList<Object>() {{ add(transferObject); add(event.getLocation().x); add(event.getLocation().y); }});
+                this.transferObjectHandler.setScope(new ArrayList<Object>() {{ add(transferData); add(event); }});
                 this.transferObjectHandler.execute();
 
                 event.dropComplete(true);

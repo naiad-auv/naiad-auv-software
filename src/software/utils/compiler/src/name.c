@@ -26,6 +26,7 @@ void nameIf(t_tree node);
 void nameWhile(t_tree node);
 void nameLoop(t_tree node);
 void nameExit(t_tree node);
+void nameAsm(t_tree node);
 void nameReturn(t_tree node);
 void nameFuncCallStmnt(t_tree node);
 void nameFuncCallExpr(t_tree node);
@@ -33,6 +34,7 @@ void nameActual(t_tree node, int number);
 void nameUnary(t_tree node);
 void nameBinary(t_tree node);
 void nameRValue(t_tree node);
+void nameLValue(t_tree node);
 
 void nameExpr(t_tree node)
 {
@@ -54,6 +56,9 @@ void nameExpr(t_tree node)
 		nameFuncCallExpr(node);
 		break;
 	case kRValue:
+		nameRValue(node);
+		break;
+	case kLValue:
 		nameRValue(node);
 		break;
 	default:
@@ -282,7 +287,10 @@ void nameRValue(t_tree node)
 {
 	checkIdUndefined(node->Node.RValue.Id, node->LineNr);
 }
-
+void nameLValue(t_tree node)
+{
+	checkIdUndefined(node->Node.LValue.Id, node->LineNr);
+}
 
 t_symtable *nameAnalysis(t_tree node)
 {

@@ -3,14 +3,13 @@ package ViewModels;
 import Commands.DrawingAreaEventHandlingCommands.DrawingAreaClickedCommand;
 import Commands.DrawingAreaEventHandlingCommands.DrawingAreaMousePressedCommand;
 import Commands.DrawingAreaEventHandlingCommands.DrawingAreaMouseReleasedCommand;
-import Commands.DummyCommand;
 import Exceptions.ScopeModificationNotSupported;
 import Exceptions.UnableToPreformActionException;
 import Interfaces.ICommand;
+import Interfaces.IDrawable;
 import Interfaces.ILanguageObject;
 import Interfaces.IViewModel;
 import LanguageHandlers.Objective;
-import Presentation.ILanguageObjectPresentationObject;
 import Presentation.PresentationObjective;
 import UserControls.EJDrawingArea;
 
@@ -18,7 +17,6 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.*;
-import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -82,7 +80,7 @@ public class DrawingAreaViewModel extends Observable implements IViewModel, Obse
 
                 try {
                     onMousePressedCommand.setScope(new ArrayList<Object>() {{ add(presentationObjective); add(eventArgs); }});
-                    final ILanguageObjectPresentationObject selectedObject = (ILanguageObjectPresentationObject)onMousePressedCommand.execute();
+                    final IDrawable selectedObject = (IDrawable)onMousePressedCommand.execute();
 
                     if(selectedObject == null)
                         return;
@@ -122,8 +120,8 @@ public class DrawingAreaViewModel extends Observable implements IViewModel, Obse
         this.notifyObservers();
     }
 
-    public void addItem(ILanguageObject object, int x, int y) throws UnableToPreformActionException {
-        this.presentationObjective.addItem(object,x,y);
+    public void addItem(ILanguageObject object, Point position) throws UnableToPreformActionException {
+        this.presentationObjective.addItem(object, position);
     }
 
     public Object getScope() {

@@ -1,0 +1,68 @@
+primitive ZeroVector is
+
+	ReturnVector : out vector;
+
+	procedure main is
+	begin
+		ReturnVector := [0.0, 0.0, 0.0];
+	end main;
+
+end ZeroVector;
+
+primitive IdentityMatrix is
+
+	ReturnMatrix : out matrix;
+
+	procedure main is
+	begin
+		ReturnMatrix := [ [1.0, 0.0, 0.0],
+				  [0.0, 1.0, 0.0],
+				  [0.0, 0.0, 1.0] ];
+	end main;
+
+end IdentityMatrix;
+
+
+primitive IntLessThan is
+	
+	LeftOperand : in integer;
+	RightOperand : in integer;
+
+	Result : out boolean;
+
+	procedure main is
+	begin
+		Result := LeftOperand < RightOperand;
+	end main;
+
+end IntLessThan;
+
+
+primitive Branch is
+
+	Condition : in boolean;
+
+	FalseBranch : in pointer;
+	TrueBranch : in pointer;
+
+	Result : out pointer;
+
+	procedure main is
+	begin
+		if Condition then
+			Result := TrueBranch;
+		else
+			Result := FalseBranch;
+		end if;
+	end main;
+
+end Branch;	
+
+primitive Start is
+
+	procedure main is
+	begin
+		null;
+	end main;
+
+end Start;

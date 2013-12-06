@@ -24,6 +24,7 @@ typedef struct {
   float floatVal;
 } floatStruct;
 
+
 /* The attribute of the string and id tokens. */
 typedef struct {
   int lineNr;

@@ -1,5 +1,10 @@
 package LanguageHandlers;
 
+import Enums.ILanguageObjectType;
+import Interfaces.ILanguageObject;
+
+import java.awt.*;
+
 /**
  * Created with IntelliJ IDEA.
  * User: emil
@@ -7,5 +12,8 @@ package LanguageHandlers;
  * Time: 9:08 AM
  * To change this template use File | Settings | File Templates.
  */
-public class StartMarker {
+public class StartMarker extends Marker implements ILanguageObject {
+    public StartMarker() {
+        super(ILanguageObjectType.Startmarker);
+    }
 }
