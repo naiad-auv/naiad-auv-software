@@ -21,9 +21,21 @@ package body Ins_Controller is
 
 
    procedure Init(port : AVR.AT90CAN128.USART.USARTID; canBaud_Rate : Can_Defs.Baud_Rate; bUseExtendedID : Boolean) is
---        procedure Init(port : AVR.AT90CAN128.USART.USARTID; bUseExtendedID : Boolean) is
-
+      tempMSG : CAN_Defs.CAN_Message;
    begin
+
+      usart_port := port;
+
+      AVR.AT90CAN128.CAN.Can_Set_MOB_ID_MASK(0,(CAN_Defs.MSG_SIMULATION_MODE_ID.Identifier, bUseExtendedID),
+                                             (536870911, bUseExtendedID));
+      AVR.AT90CAN128.CAN.Can_Init(canBaud_Rate);
+
+      tempMSG.ID := (1, false);
+      tempMSG.Len := 8;
+      tempMSG.Data := (1, 2, 3, 4, 5, 6, 7, 8);
+
+      AVR.AT90CAN128.CAN.Can_Send(tempMSG);
+
       bExtendedIds := bUseExtendedID;
 
       AVR.AT90CAN128.CLOCK.Delay_ms(1000);
@@ -38,40 +50,26 @@ package body Ins_Controller is
       Ins_Controller_Utils.Async_Data_Output_Type_Register(usart_port);
 
       --the default 115.2 kBaud is not enough for 200 Hz output rate:
-      Ins_Controller_Utils.Serial_Baud_Rate_Register(usart_port);
+   --   Ins_Controller_Utils.Serial_Baud_Rate_Register(usart_port);
 
-      Ins_Controller_Utils.Init_Uart(port, AVR.AT90CAN128.USART.BAUD230400);
+      --   Ins_Controller_Utils.Init_Uart(port, AVR.AT90CAN128.USART.BAUD230400);
+
+      tempMSG.ID := (11, false);
+      AVR.AT90CAN128.CAN.Can_Send(tempMSG);
 
       AVR.AT90CAN128.USART.Flush_Receive_Buffer(usart_port);
 
+      tempMSG.ID := (12, false);
+      AVR.AT90CAN128.CAN.Can_Send(tempMSG);
 
-      AVR.AT90CAN128.CAN.Can_Set_MOB_ID_MASK(0,(CAN_Defs.MSG_SIMULATION_MODE_ID.Identifier, bUseExtendedID),
-                                             (536870911, bUseExtendedID));
-      AVR.AT90CAN128.CAN.Can_Init(canBaud_Rate);
+--        AVR.AT90CAN128.CLOCK.Delay_ms(1000);
 
       Ins_Controller_Utils.Init_Interrupts;
 
---        AVR.AT90CAN128.CLOCK.Delay_ms(500);
---        Digital_IO.User_Led(false);
---        AVR.AT90CAN128.CLOCK.Delay_ms(500);
---        Digital_IO.User_Led(true);
---        AVR.AT90CAN128.CLOCK.Delay_ms(500);
---        Digital_IO.User_Led(false);
+      tempMSG.ID := (13, false);
+      AVR.AT90CAN128.CAN.Can_Send(tempMSG);
+
    end Init;
-
-
---     procedure Get_Position(fX : out Float; fY : out Float; fZ : out Float) is
---     begin
---        fX := xFixedPositionVector.fGet_X;
---        fY := xFixedPositionVector.fGet_Y;
---        fZ := xFixedPositionVector.fGet_Z;
---     end Get_Position;
-
---     function Get_Orientation return Math.Matrices.CMatrix is
---     begin
---        return xOrientationMatrix;
---     end Get_Orientation;
-
 
    procedure Imu_Interrupt is
 
@@ -105,18 +103,9 @@ package body Ins_Controller is
          end;
       end Read_Next_Float;
 
-
       fXAccelerationNew : float := 0.0;
       fYAccelerationNew : float := 0.0;
       fZAccelerationNew : float := 0.0;
-
---        xOrientationMatrixInverse 	: Math.Matrices.CMatrix;
---        xRelativeAccelerationVector 	: math.Vectors.CVector;  --acceleration relative to the robot's reference system
---        xFixedAccelerationVector 		: math.Vectors.CVector;  --acceleration relative to an inertial reference system
---        xOrientationQuaternion : Math.Quaternions.CQuaternion;
-
---        use Math.Matrices;
---        use Math.Vectors;
 
       msg : Can_Defs.CAN_Message;
 
@@ -127,9 +116,25 @@ package body Ins_Controller is
 
       Digital_IO.User_Led(true);
 
+      msg.ID := (3, false);
+      msg.Len := 7;
+      msg.Data  := (0, 0, 0, 0, 0, 0, 0, 0);
+      AVR.AT90CAN128.CAN.Can_Send(msg);
+
+
       Ins_Controller_Utils.Start_Message("VNYBA,", usart_port);
 
+      msg.ID := (4, false);
+      AVR.AT90CAN128.CAN.Can_Send(msg);
+
+      return;
+
+
       fYaw 	:= Read_Next_Float;
+
+      msg.ID := (5, false);
+      AVR.AT90CAN128.CAN.Can_Send(msg);
+
       fPitch 	:= Read_Next_Float;
       fRoll 	:= Read_Next_Float;
 
@@ -137,9 +142,19 @@ package body Ins_Controller is
       fYAccelerationNew := Read_Next_Float;
       fZAccelerationNew := Read_Next_Float;
 
+      msg.ID := (6, false);
+      AVR.AT90CAN128.CAN.Can_Send(msg);
+
       AVR.AT90CAN128.USART.Flush_Receive_Buffer(usart_port);
 
+      msg.ID := (7, false);
+      AVR.AT90CAN128.CAN.Can_Send(msg);
+
       if not bSimulationMode then
+
+         msg.ID := (8, false);
+         AVR.AT90CAN128.CAN.Can_Send(msg);
+
          msg.ID := (CAN_Defs.MSG_IMU_ORIENTATION_ID.Identifier, bExtendedIds);
          Can_Float_Conversions.Orientation_To_Message(fYaw, fPitch, fRoll, msg.Data);
          msg.Len := 8;
@@ -154,23 +169,7 @@ package body Ins_Controller is
          Can_Float_Conversions.Acceleration_To_Message(fXAccelerationNew, fYAccelerationNew, fZAccelerationNew, msg.Data);
          msg.Len := 8;
          AVR.AT90CAN128.CAN.Can_Send(msg);
---           null;
       end if;
-
-
---        xOrientationMatrix := Math.Matrices.xCreate_Rotation_Around_X_Axis(Math.Angles.TAngle(Wrap_Around(fYaw)))
---          		  * Math.Matrices.xCreate_Rotation_Around_Y_Axis(Math.Angles.TAngle(Wrap_Around(fPitch)))
---          		  * Math.Matrices.xCreate_Rotation_Around_Z_Axis(Math.Angles.TAngle(Wrap_Around(fRoll)));
---
---        xOrientationMatrixInverse := xOrientationMatrix.xGet_Inverse;
---
---        xRelativeAccelerationVector := math.Vectors.xCreate(fXAccelerationNew, fYAccelerationNew, fZAccelerationNew);
---
---        xFixedAccelerationVector := xOrientationMatrixInverse * xRelativeAccelerationVector;
---
---        xFixedVelocityVector := xFixedVelocityVector + (xFixedAccelerationVector * fDeltaTime);
---
---        xFixedPositionVector := xFixedPositionVector + (xFixedVelocityVector * fDeltaTime);
 
    end Imu_Interrupt;
 

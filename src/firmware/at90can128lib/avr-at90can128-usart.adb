@@ -202,11 +202,11 @@ package body AVR.AT90CAN128.USART is
       Asm ("Cli", Volatile => True);
       case Port is
          when USART0 =>
-            Uart0_In_R := 0;
-            Uart0_Out_R := 0;
+            Uart0_In_R := 1;
+            Uart0_Out_R := 1;
          when USART1 =>
-            Uart1_In_R := 0;
-            Uart1_Out_R := 0;
+            Uart1_In_R := 1;
+            Uart1_Out_R := 1;
       end case;
       Asm ("Sei", Volatile => True);
    end Flush_Receive_Buffer;
