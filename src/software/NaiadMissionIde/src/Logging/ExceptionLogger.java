@@ -17,8 +17,7 @@ public final class ExceptionLogger {
     {
         StringBuilder sb = new StringBuilder();
 
-        sb.append("Exception occured: ");
-        sb.append(e.getStackTrace());
+        sb.append("Exception occured");
         e.printStackTrace();
 
         //TODO add exception logging

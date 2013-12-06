@@ -1,15 +1,11 @@
 package LanguageHandlers;
 
-import Drawables.LanguageObjectDrawable;
 import Enums.ILanguageObjectType;
-import Enums.VariableMode;
-import Enums.VariableType;
 import Exceptions.NullReferenceException;
 import Interfaces.ILanguageObject;
+import Interfaces.ILanguageVariable;
 import Interfaces.IPrimitive;
-import Settings.CoreSettings.PenumbraCoreSettings;
 
-import java.awt.*;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -20,8 +16,8 @@ import java.util.List;
 public class Primitive implements IPrimitive, ILanguageObject{
 
     private String primitiveName;
-    private ArrayList<PrimitiveVariable> primitiveInputs;
-    private ArrayList<PrimitiveVariable> primitiveOutputs;
+    private ArrayList<ILanguageVariable> primitiveInputs;
+    private ArrayList<ILanguageVariable> primitiveOutputs;
 
     private final Path filePath;
 
@@ -30,8 +26,8 @@ public class Primitive implements IPrimitive, ILanguageObject{
         this.primitiveName = name;
         this.filePath = path;
 
-        this.primitiveInputs = new ArrayList<PrimitiveVariable>();
-        this.primitiveOutputs  = new ArrayList<PrimitiveVariable>();
+        this.primitiveInputs = new ArrayList<ILanguageVariable>();
+        this.primitiveOutputs  = new ArrayList<ILanguageVariable>();
 
         this.loadFile();
     }
@@ -60,12 +56,12 @@ public class Primitive implements IPrimitive, ILanguageObject{
     }
 
     @Override
-    public List<PrimitiveVariable> getInputVariables() {
+    public List<ILanguageVariable> getInputVariables() {
         return this.primitiveInputs;
     }
 
     @Override
-    public List<PrimitiveVariable> getOutputVariables() {
+    public List<ILanguageVariable> getOutputVariables() {
         return this.primitiveOutputs;
     }
 
@@ -101,14 +97,14 @@ public class Primitive implements IPrimitive, ILanguageObject{
             System.out.println("unable to read file contents of primitive, NullReferenceException: " + this.toString());
             e.printStackTrace();
 
+            br.close();
+        }
+        finally
+        {
             if(br != null)
             {
                 br.close();
             }
-        }
-        finally
-        {
-            br.close();
         }
         return "";
     }
@@ -121,17 +117,17 @@ public class Primitive implements IPrimitive, ILanguageObject{
     private void loadFile()
     {
         //TODO detta ska läsas från filen
-        this.primitiveInputs.add(new PrimitiveVariable(VariableMode.IN, VariableType.Integer, "unset"));
-        this.primitiveInputs.add(new PrimitiveVariable(VariableMode.IN, VariableType.Float, "unset"));
-        this.primitiveInputs.add(new PrimitiveVariable(VariableMode.IN, VariableType.Boolean, "unset"));
-        this.primitiveInputs.add(new PrimitiveVariable(VariableMode.IN, VariableType.Integer, "unset"));
+     /*   this.primitiveInputs.add(new PrimitiveVariable(VariableMode.IN));
+        this.primitiveInputs.add(new PrimitiveVariable(VariableMode.IN));
+        this.primitiveInputs.add(new PrimitiveVariable(VariableMode.IN));
+        this.primitiveInputs.add(new PrimitiveVariable(VariableMode.IN));
 
 
-        this.primitiveOutputs.add(new PrimitiveVariable(VariableMode.OUT, VariableType.Integer, "unset"));
-        this.primitiveOutputs.add(new PrimitiveVariable(VariableMode.OUT, VariableType.Float, "unset"));
-        this.primitiveOutputs.add(new PrimitiveVariable(VariableMode.OUT, VariableType.Integer, "unset"));
-        this.primitiveOutputs.add(new PrimitiveVariable(VariableMode.OUT, VariableType.Boolean, "unset"));
-
+        this.primitiveOutputs.add(new PrimitiveVariable(VariableMode.OUT));
+        this.primitiveOutputs.add(new PrimitiveVariable(VariableMode.OUT));
+        this.primitiveOutputs.add(new PrimitiveVariable(VariableMode.OUT));
+        this.primitiveOutputs.add(new PrimitiveVariable(VariableMode.OUT));
+       */
     }
 
     @Override

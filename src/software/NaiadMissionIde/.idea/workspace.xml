@@ -4,11 +4,11 @@
     <list default="true" id="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" name="Default" comment="" />
     <ignored path="NaiadMissionIde.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/fragment.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1386253906197" ignored="false" />
+    <file path="/fragment.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1386335607184" ignored="false" />
     <file path="/a.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1385458703411" ignored="false" />
-    <file path="/Primitive.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1386232540581" ignored="false" />
+    <file path="/Primitive.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1386254733435" ignored="false" />
     <file path="/VariableMode.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1385459228319" ignored="false" />
-    <file path="/PrimitiveVariable.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1386073082332" ignored="false" />
+    <file path="/PrimitiveVariable.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1386334651787" ignored="false" />
     <file path="/VariableType.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1385459708671" ignored="false" />
     <file path="/EJDrawingAreaTab.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1385460957722" ignored="false" />
     <file path="/MainWindow.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1386253212939" ignored="false" />
@@ -18,19 +18,19 @@
     <file path="/LanguageSeparators.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1385530910192" ignored="false" />
     <file path="/PrimitivesList.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1385543178677" ignored="false" />
     <file path="/LanguageObject.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1385534718247" ignored="false" />
-    <file path="/Objective.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1386232526563" ignored="false" />
+    <file path="/Objective.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1386254776987" ignored="false" />
     <file path="/LanguageObjectsListViewModel.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1385987808517" ignored="false" />
     <file path="/LanguageObjectsList.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1386065638363" ignored="false" />
     <file path="/HandlePrimitiveEditorCommand.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1385553522194" ignored="false" />
     <file path="/ICommand.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1385626064923" ignored="false" />
     <file path="/HandleWelcomeMenuCommand.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1385544057142" ignored="false" />
     <file path="/PrimitiveEditor.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1385630823345" ignored="false" />
-    <file path="/ILanguageObject.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1386232485940" ignored="false" />
+    <file path="/ILanguageObject.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1386334509528" ignored="false" />
     <file path="/PrimitiveEditorViewModel.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1385987765885" ignored="false" />
     <file path="/ExceptionLogger.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1385985808446" ignored="false" />
     <file path="/a.dummy" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1386232988051" ignored="false" />
     <file path="/MainWindowMenuViewModel.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1385552807476" ignored="false" />
-    <file path="/LanguageObjectsFileHandling.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1386064300196" ignored="false" />
+    <file path="/LanguageObjectsFileHandling.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1386334628705" ignored="false" />
     <file path="/EPrimitiveEditorMenuButton.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1385559209380" ignored="false" />
     <file path="/EPrimitiveEditorMenu.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1385560093807" ignored="false" />
     <file path="/DummyCommand.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1385641957457" ignored="false" />
@@ -39,21 +39,21 @@
     <file path="/HandleAboutMenuCommand.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1385626246484" ignored="false" />
     <file path="/HandleExitMenuCommand.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1385626268090" ignored="false" />
     <file path="/EPrimitiveEditorEditorArea.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1385633995916" ignored="false" />
-    <file path="/EJDrawingArea.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1386149620811" ignored="false" />
+    <file path="/EJDrawingArea.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1386337417496" ignored="false" />
     <file path="/DragMouseAdapter.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1385639056641" ignored="false" />
-    <file path="/TransferableLanguageObject.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1386233635727" ignored="false" />
-    <file path="/LanguageObjectDropTargetListener.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1386234584564" ignored="false" />
+    <file path="/TransferableLanguageObject.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1386337508660" ignored="false" />
+    <file path="/LanguageObjectDropTargetListener.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1386337341646" ignored="false" />
     <file path="/DrawingAreaTabHandler.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1385712268246" ignored="false" />
     <file path="/EJMenu.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1385713110331" ignored="false" />
-    <file path="/DrawingAreaViewModel.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1386233779369" ignored="false" />
-    <file path="/PresentationObjective.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1386233093482" ignored="false" />
+    <file path="/DrawingAreaViewModel.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1386335960951" ignored="false" />
+    <file path="/PresentationObjective.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1386339374723" ignored="false" />
     <file path="/PrimitivePresentationObject.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1385969630745" ignored="false" />
     <file path="/ILanguageObjectPresentationObject.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1386170279863" ignored="false" />
     <file path="/HandleObjectiveEditorCommand.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1385987939984" ignored="false" />
     <file path="/EJTabbedPane.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1385989509895" ignored="false" />
     <file path="/HandleAddDroppeILanguageObject.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1385991151036" ignored="false" />
-    <file path="/CoreSettings.xml" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1386064492622" ignored="false" />
-    <file path="/PenumbraCoreSettings.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1386063730672" ignored="false" />
+    <file path="/CoreSettings.xml" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1386321255067" ignored="false" />
+    <file path="/PenumbraCoreSettings.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1386321296427" ignored="false" />
     <file path="/Deserializer.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1386063966752" ignored="false" />
     <file path="/LanguageObjectsListPresenter.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1386253241366" ignored="false" />
     <file path="/ILanguageObjectTransition.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1386156069346" ignored="false" />
@@ -64,15 +64,26 @@
     <file path="/MarkerType.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1386230861562" ignored="false" />
     <file path="/EndMarker.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1386232378669" ignored="false" />
     <file path="/StartMarker.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1386232398106" ignored="false" />
-    <file path="/IDrawable.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1386233208435" ignored="false" />
+    <file path="/IDrawable.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1386314031439" ignored="false" />
     <file path="/LanguageObjectDrawable.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1386252938260" ignored="false" />
     <file path="/MarkerObjectDrawable.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1386252956348" ignored="false" />
     <file path="/TransactionObjectDrawable.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1386235343593" ignored="false" />
     <file path="/HandleAddDroppedILanguageObject.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1386234656949" ignored="false" />
     <file path="/StandardTypesListPresenter.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1386253950114" ignored="false" />
     <file path="/StandardTypesList.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1386254204672" ignored="false" />
-    <file path="/StandardTypesListViewModel.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1386254181941" ignored="false" />
-    <file path="/TransferableVariableTypeObject.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1386253908388" ignored="false" />
+    <file path="/StandardTypesListViewModel.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1386334977371" ignored="false" />
+    <file path="/TransferableVariableTypeObject.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1386339294350" ignored="false" />
+    <file path="/AboutDialog.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1386254578143" ignored="false" />
+    <file path="/ILanguageVariable.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1386335918277" ignored="false" />
+    <file path="/Integer.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1386315976775" ignored="false" />
+    <file path="/LanguageVariableDrawable.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1386339468940" ignored="false" />
+    <file path="/Boolean.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1386316026079" ignored="false" />
+    <file path="/Float.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1386316029588" ignored="false" />
+    <file path="/LanguageVariableObjectFactory.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1386323005915" ignored="false" />
+    <file path="/DrawableLanguageVariableObjectFactory.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1386339887841" ignored="false" />
+    <file path="/LanguageVariable.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1386335942061" ignored="false" />
+    <file path="/LanguageVariableDropTargetListener.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1386336599116" ignored="false" />
+    <file path="/HandleAddDroppedILanguageVariable.java" changelist="bd7941ff-a430-49fe-97a0-d1d4a6ba2157" time="1386336012686" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -87,6 +98,7 @@
     <disable_hints />
   </component>
   <component name="DebuggerManager">
+    <line_breakpoints default_suspend_policy="SuspendAll" default_condition_enabled="true" />
     <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
     <breakpoint_any default_suspend_policy="SuspendAll" default_condition_enabled="true">
       <breakpoint>
@@ -124,23 +136,6 @@
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
     </breakpoint_any>
-    <line_breakpoints default_suspend_policy="SuspendAll" default_condition_enabled="true">
-      <breakpoint url="file://$PROJECT_DIR$/src/ViewModels/StandardTypesListViewModel.java" line="96" class="ViewModels.StandardTypesListViewModel" package="ViewModels">
-        <option name="ENABLED" value="true" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="false" />
-        <option name="REMOVE_AFTER_HIT" value="false" />
-        <option name="SUSPEND_POLICY" value="SuspendAll" />
-        <option name="SUSPEND" value="true" />
-        <option name="COUNT_FILTER_ENABLED" value="false" />
-        <option name="COUNT_FILTER" value="0" />
-        <option name="CONDITION_ENABLED" value="true" />
-        <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="" />
-        <option name="LOG_MESSAGE" value="" />
-      </breakpoint>
-    </line_breakpoints>
     <breakpoint_rules />
     <ui_properties />
   </component>
@@ -154,91 +149,97 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="LanguageObjectsListPresenter.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/UserControls/LanguageObjectsListPresenter.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="31" column="54" selection-start="1017" selection-end="1017" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="LanguageObjectsList.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/UserControls/LanguageObjectsList.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="62" column="0" selection-start="1680" selection-end="1680" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="StandardTypesList.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/UserControls/StandardTypesList.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="43" column="36" selection-start="1210" selection-end="1210" vertical-scroll-proportion="0.3771331">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="TransferableVariableTypeObject.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/LanguageHandlers/TransferableVariableTypeObject.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="23" column="8" selection-start="603" selection-end="707" vertical-scroll-proportion="0.0">
+            <state line="25" column="59" selection-start="774" selection-end="791" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="StandardTypesListPresenter.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/UserControls/StandardTypesListPresenter.java">
+      <file leaf-file-name="DrawingAreaTabHandler.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/UserControls/DrawingAreaTabHandler.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="36" column="0" selection-start="1057" selection-end="1057" vertical-scroll-proportion="0.0">
+            <state line="11" column="13" selection-start="212" selection-end="212" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="StandardTypesListViewModel.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/ViewModels/StandardTypesListViewModel.java">
+      <file leaf-file-name="TransferableLanguageObject.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/LanguageHandlers/TransferableLanguageObject.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="48" column="44" selection-start="1429" selection-end="1429" vertical-scroll-proportion="0.0">
+            <state line="73" column="67" selection-start="2040" selection-end="2040" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PrimitiveEditorViewModel.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/ViewModels/PrimitiveEditorViewModel.java">
+      <file leaf-file-name="DrawingAreaDropTargetListener.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/ActionHandlers/DrawingAreaDropTargetListener.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="20" column="13" selection-start="455" selection-end="455" vertical-scroll-proportion="0.0">
+            <state line="32" column="27" selection-start="971" selection-end="971" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="VariableType.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Enums/VariableType.java">
+      <file leaf-file-name="DrawableLanguageVariableObjectFactory.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/Factories/DrawableLanguageVariableObjectFactory.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="2" column="12" selection-start="28" selection-end="28" vertical-scroll-proportion="0.0">
+            <state line="50" column="39" selection-start="1320" selection-end="1320" vertical-scroll-proportion="-0.5400372">
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#2730#2738#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="LanguageVariableDrawable.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Drawables/LanguageVariableDrawable.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="85" column="39" selection-start="2137" selection-end="2137" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MainWindow.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/views/MainWindow.java">
+      <file leaf-file-name="LanguageObjectsFileHandling.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/FileHandling/LanguageObjectsFileHandling.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="35" column="0" selection-start="862" selection-end="862" vertical-scroll-proportion="0.0">
+            <state line="22" column="13" selection-start="553" selection-end="553" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#1991#2010#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="HandleAddDroppedILanguageVariable.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Commands/HandleAddDroppedILanguageVariable.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="38" column="0" selection-start="1083" selection-end="1083" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="EJDrawingArea.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/UserControls/EJDrawingArea.java">
+      <file leaf-file-name="DrawingAreaViewModel.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/ViewModels/DrawingAreaViewModel.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="47" column="0" selection-start="1338" selection-end="1338" vertical-scroll-proportion="0.0">
+            <state line="26" column="23" selection-start="869" selection-end="869" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="PresentationObjective.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Presentation/PresentationObjective.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="100" column="23" selection-start="3336" selection-end="3347" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -254,22 +255,22 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/Commands/DrawingAreaEventHandlingCommands/DrawingAreaMousePressedCommand.java" />
-        <option value="$PROJECT_DIR$/src/LanguageHandlers/TransferableLanguageObject.java" />
-        <option value="$PROJECT_DIR$/src/ViewModels/DrawingAreaViewModel.java" />
-        <option value="$PROJECT_DIR$/src/Commands/DrawingAreaEventHandlingCommands/DrawingAreaMouseReleasedCommand.java" />
-        <option value="$PROJECT_DIR$/src/ActionHandlers/LanguageObjectDropTargetListener.java" />
-        <option value="$PROJECT_DIR$/src/Commands/HandleAddDroppedILanguageObject.java" />
-        <option value="$PROJECT_DIR$/src/Presentation/PresentationObjective.java" />
-        <option value="$PROJECT_DIR$/src/Drawables/TransactionObjectDrawable.java" />
-        <option value="$PROJECT_DIR$/src/Drawables/LanguageObjectDrawable.java" />
-        <option value="$PROJECT_DIR$/src/Drawables/MarkerObjectDrawable.java" />
-        <option value="$PROJECT_DIR$/src/views/MainWindow.java" />
-        <option value="$PROJECT_DIR$/src/UserControls/LanguageObjectsListPresenter.java" />
-        <option value="$PROJECT_DIR$/src/LanguageHandlers/TransferableVariableTypeObject.java" />
-        <option value="$PROJECT_DIR$/src/UserControls/StandardTypesListPresenter.java" />
-        <option value="$PROJECT_DIR$/src/ViewModels/StandardTypesListViewModel.java" />
         <option value="$PROJECT_DIR$/src/UserControls/StandardTypesList.java" />
+        <option value="$PROJECT_DIR$/src/FileHandling/LanguageObjectsFileHandling.java" />
+        <option value="$PROJECT_DIR$/src/ViewModels/StandardTypesListViewModel.java" />
+        <option value="$PROJECT_DIR$/src/Interfaces/ILanguageVariable.java" />
+        <option value="$PROJECT_DIR$/src/LanguageHandlers/LanguageVariable.java" />
+        <option value="$PROJECT_DIR$/src/ViewModels/DrawingAreaViewModel.java" />
+        <option value="$PROJECT_DIR$/src/Commands/HandleAddDroppedILanguageVariable.java" />
+        <option value="$PROJECT_DIR$/src/ActionHandlers/LanguageVariableDropTargetListener.java" />
+        <option value="$PROJECT_DIR$/src/UserControls/EJDrawingArea.java" />
+        <option value="$PROJECT_DIR$/src/ActionHandlers/LanguageObjectDropTargetListener.java" />
+        <option value="$PROJECT_DIR$/src/ActionHandlers/DrawingAreaDropTargetListener.java" />
+        <option value="$PROJECT_DIR$/src/LanguageHandlers/TransferableLanguageObject.java" />
+        <option value="$PROJECT_DIR$/src/LanguageHandlers/TransferableVariableTypeObject.java" />
+        <option value="$PROJECT_DIR$/src/Presentation/PresentationObjective.java" />
+        <option value="$PROJECT_DIR$/src/Drawables/LanguageVariableDrawable.java" />
+        <option value="$PROJECT_DIR$/src/Factories/DrawableLanguageVariableObjectFactory.java" />
       </list>
     </option>
   </component>
@@ -279,8 +280,8 @@
   <component name="ProjectFrameBounds">
     <option name="x" value="64" />
     <option name="y" value="-4" />
-    <option name="width" value="1857" />
-    <option name="height" value="959" />
+    <option name="width" value="1217" />
+    <option name="height" value="965" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -308,7 +309,7 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -579,6 +580,24 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="Factories" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="NaiadMissionIde" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="NaiadMissionIde" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="Exceptions" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -679,7 +698,7 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -694,17 +713,17 @@
     <property name="restartRequiresConfirmation" value="true" />
     <property name="MemberChooser.showClasses" value="true" />
     <property name="GoToClass.includeLibraries" value="false" />
-    <property name="options.splitter.details.proportions" value="0.2" />
-    <property name="options.searchVisible" value="true" />
     <property name="dynamic.classpath" value="false" />
+    <property name="options.searchVisible" value="true" />
+    <property name="options.splitter.details.proportions" value="0.2" />
   </component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="Commands" />
+      <recent name="ActionHandlers" />
+      <recent name="LanguageVariables" />
       <recent name="ViewModels" />
       <recent name="UserControls" />
-      <recent name="Commands.DrawingAreaEventHandlingCommands" />
-      <recent name="Commands" />
-      <recent name="Exceptions" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/UserControls" />
@@ -757,6 +776,19 @@
       <option name="PORT" value="5005" />
       <method />
     </configuration>
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <module name="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <method />
+    </configuration>
     <configuration default="true" type="TestNG" factoryName="TestNG">
       <module name="" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
@@ -782,19 +814,6 @@
       <envs />
       <properties />
       <listeners />
-      <method />
-    </configuration>
-    <configuration default="true" type="Applet" factoryName="Applet">
-      <module name="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="HTML_FILE_NAME" />
-      <option name="HTML_USED" value="false" />
-      <option name="WIDTH" value="400" />
-      <option name="HEIGHT" value="300" />
-      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <option name="VM_PARAMETERS" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
       <method />
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
@@ -896,30 +915,30 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="64" y="-4" width="1857" height="959" extended-state="6" />
+    <frame x="64" y="-4" width="1217" height="965" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32946378" sideWeight="0.7755857" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32990575" sideWeight="0.84564644" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3292232" sideWeight="0.4997236" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23304562" sideWeight="0.4997236" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21948212" sideWeight="0.5002764" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23255815" sideWeight="0.49957228" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21787025" sideWeight="0.5004277" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3292232" sideWeight="0.4997236" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32802936" sideWeight="0.49957228" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23057953" sideWeight="0.4997236" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24935733" sideWeight="0.6701847" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.34494194" sideWeight="0.7805179" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.16086236" sideWeight="0.7805179" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21948212" sideWeight="0.4997236" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20017108" sideWeight="0.78212976" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21787025" sideWeight="0.49957228" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.16023993" sideWeight="0.84564644" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3292232" sideWeight="0.4997236" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39950678" sideWeight="0.4997236" order="5" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="VcsContentAnnotationSettings">
@@ -987,45 +1006,77 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/Drawables/LanguageObjectDrawable.java">
+    <entry file="file://$PROJECT_DIR$/src/ViewModels/StandardTypesListViewModel.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="115" column="8" selection-start="3701" selection-end="3907" vertical-scroll-proportion="0.0">
+        <state line="67" column="33" selection-start="1948" selection-end="1948" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/LanguageHandlers/StartMarker.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="14" column="13" selection-start="282" selection-end="282" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Commands/HandleAddDroppedILanguageObject.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="21" column="13" selection-start="568" selection-end="568" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Interfaces/ILanguageVariable.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="40" column="30" selection-start="787" selection-end="787" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/LanguageHandlers/LanguageVariable.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="114" column="5" selection-start="2989" selection-end="2989" vertical-scroll-proportion="0.0">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Drawables/MarkerObjectDrawable.java">
+    <entry file="file://$PROJECT_DIR$/src/UserControls/EJDrawingArea.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="72" column="5" selection-start="1882" selection-end="1882" vertical-scroll-proportion="0.0">
+        <state line="29" column="147" selection-start="950" selection-end="950" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/LanguageHandlers/TransferableLanguageObject.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="73" column="67" selection-start="2040" selection-end="2040" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/FileHandling/LanguageObjectsFileHandling.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="22" column="13" selection-start="553" selection-end="553" vertical-scroll-proportion="0.0">
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#1991#2010#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Drawables/TransactionObjectDrawable.java">
+    <entry file="file://$PROJECT_DIR$/src/ActionHandlers/DrawingAreaDropTargetListener.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="48" column="24" selection-start="1462" selection-end="1462" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state line="32" column="27" selection-start="971" selection-end="971" vertical-scroll-proportion="0.0">
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Presentation/PresentationObjective.java">
+    <entry file="file://$PROJECT_DIR$/src/LanguageHandlers/TransferableVariableTypeObject.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="33" column="0" selection-start="873" selection-end="1062" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/ViewModels/DrawingAreaViewModel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="105" column="0" selection-start="3929" selection-end="3929" vertical-scroll-proportion="0.0">
+        <state line="25" column="59" selection-start="774" selection-end="791" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -1037,73 +1088,41 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/UserControls/EJDrawingArea.java">
+    <entry file="file://$PROJECT_DIR$/src/Presentation/PresentationObjective.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="47" column="0" selection-start="1338" selection-end="1338" vertical-scroll-proportion="0.0">
+        <state line="100" column="23" selection-start="3336" selection-end="3347" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/UserControls/LanguageObjectsListPresenter.java">
+    <entry file="file://$PROJECT_DIR$/src/Drawables/LanguageVariableDrawable.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="31" column="54" selection-start="1017" selection-end="1017" vertical-scroll-proportion="0.0">
+        <state line="85" column="39" selection-start="2137" selection-end="2137" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Enums/VariableType.java">
+    <entry file="file://$PROJECT_DIR$/src/ViewModels/DrawingAreaViewModel.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="12" selection-start="28" selection-end="28" vertical-scroll-proportion="0.0">
+        <state line="26" column="23" selection-start="869" selection-end="869" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/UserControls/LanguageObjectsList.java">
+    <entry file="file://$PROJECT_DIR$/src/Commands/HandleAddDroppedILanguageVariable.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="62" column="0" selection-start="1680" selection-end="1680" vertical-scroll-proportion="0.0">
+        <state line="38" column="0" selection-start="1083" selection-end="1083" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/LanguageHandlers/TransferableVariableTypeObject.java">
+    <entry file="file://$PROJECT_DIR$/src/Factories/DrawableLanguageVariableObjectFactory.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="8" selection-start="603" selection-end="707" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/ViewModels/PrimitiveEditorViewModel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="13" selection-start="455" selection-end="455" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/views/MainWindow.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="35" column="0" selection-start="862" selection-end="862" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/UserControls/StandardTypesListPresenter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="36" column="0" selection-start="1057" selection-end="1057" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/ViewModels/StandardTypesListViewModel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="48" column="44" selection-start="1429" selection-end="1429" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/UserControls/StandardTypesList.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="43" column="36" selection-start="1210" selection-end="1210" vertical-scroll-proportion="0.3771331">
-          <folding />
+        <state line="50" column="39" selection-start="1320" selection-end="1320" vertical-scroll-proportion="-0.5400372">
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#2730#2738#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

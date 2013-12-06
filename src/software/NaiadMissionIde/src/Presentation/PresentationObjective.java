@@ -1,16 +1,21 @@
 package Presentation;
 
 import Drawables.LanguageObjectDrawable;
+import Drawables.LanguageVariableDrawable;
 import Drawables.MarkerObjectDrawable;
 import Drawables.TransactionObjectDrawable;
 import Exceptions.UnableToPreformActionException;
+import Factories.DrawableLanguageVariableObjectFactory;
 import Interfaces.IDrawable;
 import Interfaces.ILanguageObject;
+import Interfaces.ILanguageVariable;
 import LanguageHandlers.EndMarker;
+import LanguageHandlers.LanguageVariable;
 import LanguageHandlers.StartMarker;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Observable;
 
@@ -28,6 +33,7 @@ public class PresentationObjective extends Observable
     private IDrawable endMarker;
     private List<IDrawable> ILanguageObjectPresentationObjects;
     private List<IDrawable> ILanguageObjectTransitions;
+    private List<IDrawable> ILanguageVariablePresentationObjects;
 
     public PresentationObjective()
     {
@@ -36,6 +42,7 @@ public class PresentationObjective extends Observable
 
         this.ILanguageObjectTransitions = new ArrayList<IDrawable>();
         this.ILanguageObjectPresentationObjects = new ArrayList<IDrawable>();
+        this.ILanguageVariablePresentationObjects = new ArrayList<IDrawable>();
     }
 
     public Graphics Draw(Graphics g)
@@ -51,6 +58,11 @@ public class PresentationObjective extends Observable
         for(int i = 0; i < ILanguageObjectTransitions.size(); i++)
         {
             this.ILanguageObjectTransitions.get(i).Draw(g);
+        }
+
+        for(int i = 0; i < ILanguageVariablePresentationObjects.size(); i++)
+        {
+            this.ILanguageVariablePresentationObjects.get(i).Draw(g);
         }
 
         return g;
@@ -79,6 +91,16 @@ public class PresentationObjective extends Observable
 
     public void removeTransition(IDrawable transitionToRemove) {
         this.ILanguageObjectTransitions.remove(transitionToRemove);
+        this.setChanged();
+        this.notifyObservers();
+    }
+
+    public void addVariable(ILanguageVariable object, Point position) {
+
+        LanguageVariableDrawable obj = DrawableLanguageVariableObjectFactory.getObject(object.getName());
+        obj.setPosition(position);
+
+        this.ILanguageVariablePresentationObjects.add(obj);
         this.setChanged();
         this.notifyObservers();
     }

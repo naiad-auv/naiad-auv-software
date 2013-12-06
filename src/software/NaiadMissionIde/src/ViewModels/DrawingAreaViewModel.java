@@ -5,10 +5,7 @@ import Commands.DrawingAreaEventHandlingCommands.DrawingAreaMousePressedCommand;
 import Commands.DrawingAreaEventHandlingCommands.DrawingAreaMouseReleasedCommand;
 import Exceptions.ScopeModificationNotSupported;
 import Exceptions.UnableToPreformActionException;
-import Interfaces.ICommand;
-import Interfaces.IDrawable;
-import Interfaces.ILanguageObject;
-import Interfaces.IViewModel;
+import Interfaces.*;
 import LanguageHandlers.Objective;
 import Presentation.PresentationObjective;
 import UserControls.EJDrawingArea;
@@ -126,5 +123,9 @@ public class DrawingAreaViewModel extends Observable implements IViewModel, Obse
 
     public Object getScope() {
         return this.presentationObjective.getScope();
+    }
+
+    public void addVariable(ILanguageVariable object, Point position) {
+        this.presentationObjective.addVariable(object, position);
     }
 }
