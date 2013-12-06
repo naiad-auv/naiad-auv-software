@@ -5,6 +5,7 @@ import Enums.VariableType;
 import FileHandling.LanguageObjectsFileHandling;
 import Interfaces.ICommand;
 import Interfaces.ILanguageObject;
+import Interfaces.ILanguageVariable;
 import Interfaces.IViewModel;
 import LanguageHandlers.Objective;
 import LanguageHandlers.Primitive;
@@ -30,8 +31,8 @@ import java.util.Observable;
  */
 public class StandardTypesListViewModel extends Observable implements IViewModel {
 
-    private List<VariableType> typeObjects;
-    private VariableType currentlySelectedObject;
+    private List<ILanguageVariable> typeObjects;
+    private ILanguageVariable currentlySelectedObject;
 
     public StandardTypesListViewModel()
     {
@@ -40,13 +41,7 @@ public class StandardTypesListViewModel extends Observable implements IViewModel
 
     public void Initialize()
     {
-        this.typeObjects = new ArrayList<VariableType>()
-        {{ add(VariableType.Boolean);
-                add(VariableType.Float);
-                add(VariableType.Integer);
-                add(VariableType.Matrix);
-                add(VariableType.PrimitivePoiner);
-                add(VariableType.Vector);}};
+        this.typeObjects = LanguageObjectsFileHandling.LoadTypes();
         this.setChanged();
         this.notifyObservers();
     }
@@ -70,7 +65,7 @@ public class StandardTypesListViewModel extends Observable implements IViewModel
             @Override
             public void valueChanged(ListSelectionEvent listSelectionEvent) {
 
-                LanguageObjectsList source = (LanguageObjectsList)listSelectionEvent.getSource();
+                StandardTypesList source = (StandardTypesList)listSelectionEvent.getSource();
                 if(source == null)
                 {
                     System.out.println("unable to change selected item");
@@ -93,11 +88,11 @@ public class StandardTypesListViewModel extends Observable implements IViewModel
         return this.typeObjects;
     }
 
-    public List<VariableType> getListItems() {
+    public List<ILanguageVariable> getListItems() {
         return this.typeObjects;
     }
 
-    public VariableType getSelectedItem() {
+    public ILanguageVariable getSelectedItem() {
         return this.currentlySelectedObject;
     }
 }

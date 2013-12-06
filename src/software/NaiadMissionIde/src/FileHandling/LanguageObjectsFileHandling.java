@@ -1,13 +1,14 @@
 package FileHandling;
 
+import Enums.VariableType;
 import Interfaces.ILanguageObject;
+import Interfaces.ILanguageVariable;
+import LanguageHandlers.LanguageVariable;
 import LanguageHandlers.Objective;
 import LanguageHandlers.Primitive;
 import Settings.CoreSettings.PenumbraCoreSettings;
 
 import java.io.File;
-import java.nio.file.FileSystems;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
@@ -65,4 +66,25 @@ public class LanguageObjectsFileHandling {
         return objectives;
     }
 
+    private static List<ILanguageVariable> loadVariableTypes()
+    {
+        List<ILanguageVariable> variableTypes = new ArrayList<ILanguageVariable>();
+
+        File folder = new File(PenumbraCoreSettings.getInstance().VariableTypesPath);
+        File[] listOfFiles = folder.listFiles();
+
+        for (int i = 0; i < listOfFiles.length; i++)
+        {
+            if (listOfFiles[i].isFile())
+            {
+                variableTypes.add(new LanguageVariable(listOfFiles[i].getName()));
+            }
+        }
+
+        return variableTypes;
+    }
+
+    public static List<ILanguageVariable> LoadTypes() {
+        return loadVariableTypes();
+    }
 }

@@ -74,5 +74,4 @@ public class MarkerObjectDrawable implements IDrawable {
         return (mousePosition.x > this.position.x && mousePosition.x < this.position.x + this.radius &&
                 mousePosition.y > this.position.y && mousePosition.y < this.position.y + this.radius);
     }
-
 }

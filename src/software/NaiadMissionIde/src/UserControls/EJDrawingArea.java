@@ -1,21 +1,16 @@
 package UserControls;
 
-import ActionHandlers.LanguageObjectDropTargetListener;
-import Commands.DummyCommand;
+import ActionHandlers.DrawingAreaDropTargetListener;
 import Commands.HandleAddDroppedILanguageObject;
-import Exceptions.ScopeModificationNotSupported;
-import Interfaces.ICommand;
+import Commands.HandleAddDroppedILanguageVariable;
 import Interfaces.ILanguageObject;
 import LanguageHandlers.Objective;
-import Logging.ExceptionLogger;
 import ViewModels.DrawingAreaViewModel;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.util.*;
-import java.util.List;
 
 public class EJDrawingArea extends JPanel implements Observer {
 
@@ -32,7 +27,7 @@ public class EJDrawingArea extends JPanel implements Observer {
 
         this.viewModel.WireEvents(this);
 
-        new LanguageObjectDropTargetListener(new HandleAddDroppedILanguageObject(this.viewModel), this);
+        new DrawingAreaDropTargetListener(new HandleAddDroppedILanguageObject(this.viewModel), new HandleAddDroppedILanguageVariable(this.viewModel), this);
     }
 
     public ILanguageObject getScope()

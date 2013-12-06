@@ -20,5 +20,7 @@ public interface IDrawable {
 
     public void setPosition(Point p);
 
-    boolean isPointInside(Point mousePosition);
+    public boolean isPointInside(Point p);
+
+
 }

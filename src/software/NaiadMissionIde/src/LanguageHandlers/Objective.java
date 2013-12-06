@@ -1,13 +1,11 @@
 package LanguageHandlers;
 
-import Drawables.LanguageObjectDrawable;
 import Enums.ILanguageObjectType;
 import Exceptions.NullReferenceException;
 import Exceptions.UnableToPreformActionException;
 import Interfaces.ILanguageObject;
-import Settings.CoreSettings.PenumbraCoreSettings;
+import Interfaces.ILanguageVariable;
 
-import java.awt.*;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,16 +23,16 @@ public class Objective implements ILanguageObject {
     private String objectiveName;
 
     private List<ILanguageObject> executionalSteps;
-    private List<PrimitiveVariable> inputVariables;
-    private List<PrimitiveVariable> outputVariables;
+    private List<ILanguageVariable> inputVariables;
+    private List<ILanguageVariable> outputVariables;
 
     public Objective(String name)
     {
         this.objectiveName = name;
 
         this.executionalSteps = new ArrayList<ILanguageObject>();
-        this.inputVariables = new ArrayList<PrimitiveVariable>();
-        this.outputVariables = new ArrayList<PrimitiveVariable>();
+        this.inputVariables = new ArrayList<ILanguageVariable>();
+        this.outputVariables = new ArrayList<ILanguageVariable>();
     }
 
     public List<ILanguageObject> getExecutionalSteps() throws NullReferenceException {
@@ -70,12 +68,12 @@ public class Objective implements ILanguageObject {
     }
 
     @Override
-    public List<PrimitiveVariable> getInputVariables() {
+    public List<ILanguageVariable> getInputVariables() {
         return this.inputVariables;
     }
 
     @Override
-    public List<PrimitiveVariable> getOutputVariables() {
+    public List<ILanguageVariable> getOutputVariables() {
         return this.outputVariables;
     }
 
@@ -93,9 +91,10 @@ public class Objective implements ILanguageObject {
         if(this.executionalSteps != ((Objective)other).executionalSteps)
             return false;
 
-        if(this.path != ((Objective)other).path)
+        if(this.getClass() != other.getClass())
             return false;
 
-        return true;
+
+        return this.path != ((Objective)other).path;
     }
 }

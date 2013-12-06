@@ -1,6 +1,6 @@
 package LanguageHandlers;
 
-import Enums.VariableType;
+import Interfaces.ILanguageVariable;
 
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
@@ -15,22 +15,34 @@ import java.io.IOException;
  * To change this template use File | Settings | File Templates.
  */
 public class TransferableVariableTypeObject implements Transferable {
-    public TransferableVariableTypeObject(VariableType objectToTransfer) {
 
+    private ILanguageVariable variableToTransfer;
+    public static DataFlavor languageVariableFlavour = new DataFlavor(ILanguageVariable.class, "ILanguageVariable object");
+
+    protected static DataFlavor[] supportedFlavors = {
+            languageVariableFlavour
+    };
+
+    public TransferableVariableTypeObject(ILanguageVariable variableToTransfer) {
+        this.variableToTransfer = variableToTransfer;
     }
 
     @Override
     public DataFlavor[] getTransferDataFlavors() {
-        return new DataFlavor[0];  //To change body of implemented methods use File | Settings | File Templates.
+        return TransferableVariableTypeObject.supportedFlavors;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
     public boolean isDataFlavorSupported(DataFlavor dataFlavor) {
-        return false;  //To change body of implemented methods use File | Settings | File Templates.
+        return dataFlavor.equals(languageVariableFlavour);
     }
 
     @Override
     public Object getTransferData(DataFlavor dataFlavor) throws UnsupportedFlavorException, IOException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        if(dataFlavor.equals(languageVariableFlavour))
+        {
+            return this.variableToTransfer;
+        }
+        throw new UnsupportedFlavorException(languageVariableFlavour);
     }
 }

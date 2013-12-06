@@ -3,6 +3,7 @@ package UserControls;
 import Enums.VariableType;
 import Interfaces.ICommand;
 import Interfaces.ILanguageObject;
+import Interfaces.ILanguageVariable;
 import LanguageHandlers.TransferableLanguageObject;
 import LanguageHandlers.TransferableVariableTypeObject;
 import ViewModels.LanguageObjectsListViewModel;
@@ -59,7 +60,7 @@ public class StandardTypesList extends JList implements Observer, DragGestureLis
 
         this.items = new AbstractListModel() {
 
-            List<VariableType> values = viewModel.getListItems();
+            List<ILanguageVariable> values = viewModel.getListItems();
 
             @Override
             public int getSize() {
@@ -78,7 +79,7 @@ public class StandardTypesList extends JList implements Observer, DragGestureLis
     public void dragGestureRecognized(DragGestureEvent event) {
         Cursor cursor = null;
 
-        VariableType objectToTransfer = this.viewModel.getSelectedItem();
+        ILanguageVariable objectToTransfer = this.viewModel.getSelectedItem();
 
         if (event.getDragAction() == DnDConstants.ACTION_COPY) {
             cursor = DragSource.DefaultCopyDrop;
