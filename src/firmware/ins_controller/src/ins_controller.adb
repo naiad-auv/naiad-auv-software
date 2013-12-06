@@ -9,14 +9,11 @@ with AVR.AT90CAN128.CAN;
 
 with Can_Float_Conversions;
 with Str2Float;
-with Digital_IO;
-
---  --  with Math.Angles;
---  with Math.Quaternions;
 
 with Ins_Controller_Utils;
 
 with AVR.AT90CAN128.CLOCK;
+with Digital_IO;
 
 package body Ins_Controller is
 
@@ -24,22 +21,23 @@ package body Ins_Controller is
 
 
    procedure Init(port : AVR.AT90CAN128.USART.USARTID; canBaud_Rate : Can_Defs.Baud_Rate; bUseExtendedID : Boolean) is
+--        procedure Init(port : AVR.AT90CAN128.USART.USARTID; bUseExtendedID : Boolean) is
 
    begin
       bExtendedIds := bUseExtendedID;
 
+      AVR.AT90CAN128.CLOCK.Delay_ms(1000);
+
       Ins_Controller_Utils.Init_Uart(port, AVR.AT90CAN128.USART.BAUD115200);
 
       Ins_Controller_Utils.Communication_Protocol_Control(usart_port);
-
-      Digital_IO.User_Led(true);
-
       Ins_Controller_Utils.Async_Data_Output_Type_Register_Off(usart_port);
       Ins_Controller_Utils.Async_Data_Output_Frequency_Register(usart_port);
       Ins_Controller_Utils.Synchronization_Control(usart_port);
       Ins_Controller_Utils.VPE_Basic_Control(usart_port);
       Ins_Controller_Utils.Async_Data_Output_Type_Register(usart_port);
 
+      --the default 115.2 kBaud is not enough for 200 Hz output rate:
       Ins_Controller_Utils.Serial_Baud_Rate_Register(usart_port);
 
       Ins_Controller_Utils.Init_Uart(port, AVR.AT90CAN128.USART.BAUD230400);
@@ -47,24 +45,18 @@ package body Ins_Controller is
       AVR.AT90CAN128.USART.Flush_Receive_Buffer(usart_port);
 
 
-      AVR.AT90CAN128.CAN.Can_Init(canBaud_Rate);
       AVR.AT90CAN128.CAN.Can_Set_MOB_ID_MASK(0,(CAN_Defs.MSG_SIMULATION_MODE_ID.Identifier, bUseExtendedID),
                                              (536870911, bUseExtendedID));
+      AVR.AT90CAN128.CAN.Can_Init(canBaud_Rate);
 
       Ins_Controller_Utils.Init_Interrupts;
 
-      AVR.AT90CAN128.CLOCK.Delay_ms(500);
-      Digital_IO.User_Led(false);
-      AVR.AT90CAN128.CLOCK.Delay_ms(500);
-      Digital_IO.User_Led(true);
-      AVR.AT90CAN128.CLOCK.Delay_ms(500);
-      Digital_IO.User_Led(false);
-
-      loop
-         null;
-      end loop;
-
-
+--        AVR.AT90CAN128.CLOCK.Delay_ms(500);
+--        Digital_IO.User_Led(false);
+--        AVR.AT90CAN128.CLOCK.Delay_ms(500);
+--        Digital_IO.User_Led(true);
+--        AVR.AT90CAN128.CLOCK.Delay_ms(500);
+--        Digital_IO.User_Led(false);
    end Init;
 
 
@@ -133,7 +125,7 @@ package body Ins_Controller is
 
    begin
 
---        Send_Command("$VNRRG,36"); --sends command for reading the cosine orientation matrix
+      Digital_IO.User_Led(true);
 
       Ins_Controller_Utils.Start_Message("VNYBA,", usart_port);
 
@@ -162,6 +154,7 @@ package body Ins_Controller is
          Can_Float_Conversions.Acceleration_To_Message(fXAccelerationNew, fYAccelerationNew, fZAccelerationNew, msg.Data);
          msg.Len := 8;
          AVR.AT90CAN128.CAN.Can_Send(msg);
+--           null;
       end if;
 
 

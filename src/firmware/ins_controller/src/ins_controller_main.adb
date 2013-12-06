@@ -13,12 +13,15 @@
 --------------------------------------------------------------------------
 
 
---  pragma Profile (Ravenscar);
+--pragma Profile (Ravenscar);
 
 with Interfaces;		use Interfaces;
 with AVR.AT90CAN128.USART;
 with AVR.AT90CAN128.CAN;	use AVR.AT90CAN128.CAN;
 with CAN_Defs;
+
+--  with AVR.AT90CAN128.CLOCK;
+--  with Digital_IO;
 
 with Ins_Controller;
 
@@ -32,8 +35,19 @@ procedure Ins_Controller_Main is
    use CAN_Defs;
 
 begin
+--     loop
+--        Digital_IO.User_Led(true);
+--        Avr.AT90CAN128.CLOCK.Delay_ms(1000);
+--        Digital_IO.User_Led(false);
+--        Avr.AT90CAN128.CLOCK.Delay_ms(1000);
+--     end loop;
 
    Ins_Controller.Init(AVR.AT90CAN128.USART.USART0, Can_Defs.K250, false); --this will initiate the can bus as well
+
+   --     Ins_Controller.Init(AVR.AT90CAN128.USART.USART0, false); --this will initiate the can bus as well
+
+--     Math.Matrices.xCreate
+
 
    loop
       AVR.AT90CAN128.CAN.Can_Get(msg, bMessageReceived, 0);

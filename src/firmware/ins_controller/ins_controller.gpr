@@ -1,3 +1,4 @@
+with "..\lib\math\matrices\matrices.gpr";
 with "..\can_float_conversions\can_float_conversions.gpr";
 with "../str2float/str2float.gpr";
 --with "../lib/math/vectors/vectors.gpr";
@@ -10,6 +11,7 @@ project Ins_Controller is
    for Source_Dirs use ("src", "..\at90can128lib", "..\lib");
    for Source_Files use ("avr-at90can128-usart.adb", "avr-at90can128-usart.ads", "digital_io.adb", "digital_io.ads", "ins_controller.adb", "ins_controller.ads", "ins_controller_main.adb", "ins_controller_utils.adb", 
       "ins_controller_utils.ads");
+	--     for Source_Files use ("digital_io.adb", "digital_io.ads", "ins_controller.adb", "ins_controller_main.adb");
    for Main use ("ins_controller_main.adb");
 
    package Ide is

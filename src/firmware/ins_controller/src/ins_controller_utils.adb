@@ -2,7 +2,7 @@
 -- This file contains functions for ins_controller in order to reduce its number of lines of code.
 
 --  Written by: Nils Brynedal Ignell for the Naiad AUV project
---  Last changed (yyyy-mm-dd): 2013-12-03
+--  Last changed (yyyy-mm-dd): 2013-12-06
 
 --  TODO: Hardware testing....
 
@@ -16,6 +16,10 @@ package body Ins_Controller_Utils is
    procedure Write(sData : String; iSize : Integer; port : AVR.AT90CAN128.USART.USARTID) is
       iTemp : Integer;
    begin
+      while AVR.AT90CAN128.USART.Space_Available(port) < iSize loop
+         null;
+      end loop;
+
       iTemp := AVR.AT90CAN128.USART.Write(Buffer => sData,Port => port, Size => iSize);
    end Write;
 
@@ -35,15 +39,16 @@ package body Ins_Controller_Utils is
 --     end sChecksum;
 
    procedure Send_Command(sCommand : String; port : AVR.AT90CAN128.USART.USARTID) is
-      sNewLine : String(1..1);
+      sNewLine : String(1..2);
    begin
-      sNewLine(1) := Character'Val(10);
+      sNewLine(1) := '*';
+      sNewLine(2) := Character'Val(10);
 
       Write("$", 1, port);
       Write(sCommand, sCommand'Length, port);
-      Write(sNewLine, 1, port);
+      Write(sNewLine, 2, port);
 
-      AVR.AT90CAN128.CLOCK.Delay_ms(40);
+      AVR.AT90CAN128.CLOCK.Delay_ms(100);
    end Send_Command;
 
    procedure Init_Uart(port : AVR.AT90CAN128.USART.USARTID; baud_rate :  AVR.AT90CAN128.USART.BAUDTYPE) is
@@ -64,11 +69,13 @@ package body Ins_Controller_Utils is
       AVR.AT90CAN128.EIFR := (others => False);
       AVR.AT90CAN128.EIMSK.Bit_2 := True;
       AVR.AT90CAN128.INTERRUPT.enableInterrupt;
-
    end Init_Interrupts;
 
    procedure Communication_Protocol_Control(port : AVR.AT90CAN128.USART.USARTID) is
+      sNewLine : String(1..1);
+      sCommand : String(1..26) := "$VNWRG,30,0,0,0,0,0,0,1*68";
    begin
+      sNewLine(1) := Character'Val(10);
       -- 7.31 Communication Protocol Control:
       -- SerialCount = off
       -- SerialStatus  = off
@@ -76,10 +83,9 @@ package body Ins_Controller_Utils is
       -- SerialChecksum = 0 (off)
       -- spi checksum = off
       --ErrorMode = off
-      --    Send_Command("VNWRG,30,0,0,0,0,0,0,1", port);
-      Write("$VNWRG,30,0,0,0,0,0,0,1*68" & Character'Val(10), 27, port);
-
-      AVR.AT90CAN128.CLOCK.Delay_ms(20);
+      Write(sCommand, 26, port);
+      Write(sNewLine, 1, port);
+      AVR.AT90CAN128.CLOCK.Delay_ms(100);
    end Communication_Protocol_Control;
 
    procedure Async_Data_Output_Type_Register_Off(port : AVR.AT90CAN128.USART.USARTID) is
@@ -92,7 +98,7 @@ package body Ins_Controller_Utils is
    procedure Async_Data_Output_Frequency_Register(port : AVR.AT90CAN128.USART.USARTID) is
    begin
       --Async Data Output Frequency Register
-      Send_Command("VNWRG,07,200", port);
+      Send_Command("VNWRG,07,1", port);
    end Async_Data_Output_Frequency_Register;
 
    procedure Synchronization_Control(port : AVR.AT90CAN128.USART.USARTID) is
@@ -112,8 +118,8 @@ package body Ins_Controller_Utils is
    begin
       -- set Baud rate:
       Send_Command("VNWRG,05,230400", port);
+     -- Send_Command("VNWRG,05,9600", port);
    end Serial_Baud_Rate_Register;
-
 
    procedure VPE_Basic_Control(port : AVR.AT90CAN128.USART.USARTID) is
    begin
@@ -127,12 +133,8 @@ package body Ins_Controller_Utils is
    procedure Async_Data_Output_Type_Register(port : AVR.AT90CAN128.USART.USARTID) is
    begin
       --Async Data Output Type Register
-
       --Asynchronous output: Yaw, Pitch, Roll, Body True Acceleration, and Angular Rates
       Send_Command("VNWRG,06,16", port);
-
-      -- Asynchronous output turned off
---        Send_Command("VNWRG,06,0", port);
    end Async_Data_Output_Type_Register;
 
    procedure Start_Message(sMsgStr : String; port : AVR.AT90CAN128.USART.USARTID) is
