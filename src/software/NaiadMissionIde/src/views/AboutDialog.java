@@ -22,7 +22,7 @@ public class AboutDialog extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
 	
-	private static String imagePath = "src/Artwork/eclipseCropped.jpg";
+	private final String imagePath = "src/Artwork/eclipseCropped.jpg";
 
 	private AboutDialog() {
 		this.configureDialog();

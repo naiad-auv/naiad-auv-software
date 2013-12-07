@@ -127,10 +127,12 @@ package body AVR.AT90CAN128.USART is
 
    procedure Usart1_RX is
       Pos : Integer;
+      cChar : Character;
    begin
+      cChar := Character'Val(UDR1);
       Pos := Uart1_In_R mod Uart_Buffer_Size + 1;
       if Pos /= Uart1_Out_R then
-         Uart1_Rbuffer(Uart1_In_R) := Character'Val (UDR1);
+         Uart1_Rbuffer(Uart1_In_R) := cChar;
          Uart1_In_R := Pos;
       end if;
    end Usart1_RX;
@@ -167,10 +169,12 @@ package body AVR.AT90CAN128.USART is
 
    procedure Usart0_RX is
       Pos  : Integer;
+      cChar : Character;
    begin
+      cChar := Character'Val(UDR0);
       Pos := (Uart0_In_R mod Uart_Buffer_Size) + 1;
       if Pos /= Uart0_Out_R then
-         Uart0_Rbuffer(Uart0_In_R) := Character'Val(UDR0);
+         Uart0_Rbuffer(Uart0_In_R) := cChar;
          Uart0_In_R := Pos;
       end if;
    end Usart0_RX;
@@ -198,11 +202,11 @@ package body AVR.AT90CAN128.USART is
       Asm ("Cli", Volatile => True);
       case Port is
          when USART0 =>
-            Uart0_In_R := 0;
-            Uart0_Out_R := 0;
+            Uart0_In_R := 1;
+            Uart0_Out_R := 1;
          when USART1 =>
-            Uart1_In_R := 0;
-            Uart1_Out_R := 0;
+            Uart1_In_R := 1;
+            Uart1_Out_R := 1;
       end case;
       Asm ("Sei", Volatile => True);
    end Flush_Receive_Buffer;
@@ -233,7 +237,18 @@ package body AVR.AT90CAN128.USART is
       end case;
    end Data_Available;
 
-
+   function Space_Available (Port : USARTID := Default_USART) return Integer is
+      iSpaceUsed : Integer;
+   begin
+      case Port is
+         when USART0 =>
+            iSpaceUsed := (Uart0_In_W - Uart0_Out_W) mod Uart_Buffer_Size;
+            return Uart_Buffer_Size - iSpaceUsed - 1;
+         when USART1 =>
+            iSpaceUsed := (Uart1_In_W - Uart1_Out_W) mod Uart_Buffer_Size;
+            return Uart_Buffer_Size - iSpaceUsed - 1;
+      end case;
+   end Space_Available;
 
    -- Get_Char: Read one byte from the USARTs
    -- Parameters:

@@ -3,15 +3,14 @@ package LanguageHandlers;
 import Enums.ILanguageObjectType;
 import Exceptions.NullReferenceException;
 import Interfaces.ILanguageObject;
+import Interfaces.ILanguageVariable;
 
-import java.awt.*;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
-import java.util.concurrent.TransferQueue;
 
 /**
  * Created with IntelliJ IDEA.
@@ -42,12 +41,12 @@ public class TransferableLanguageObject implements ILanguageObject, Transferable
     }
 
     @Override
-    public List<PrimitiveVariable> getInputVariables() {
+    public List<ILanguageVariable> getInputVariables() {
         return object.getInputVariables();
     }
 
     @Override
-    public List<PrimitiveVariable> getOutputVariables() {
+    public List<ILanguageVariable> getOutputVariables() {
         return object.getOutputVariables();
     }
 
@@ -63,9 +62,7 @@ public class TransferableLanguageObject implements ILanguageObject, Transferable
 
     @Override
     public boolean isDataFlavorSupported(DataFlavor dataFlavor) {
-        if(dataFlavor.equals(languageObjectFlavor))
-            return true;
-        return false;
+        return dataFlavor.equals(languageObjectFlavor);
     }
 
     @Override
@@ -74,7 +71,6 @@ public class TransferableLanguageObject implements ILanguageObject, Transferable
         {
             return this.object;
         }
-
-        throw new UnsupportedFlavorException(dataFlavor);
+        throw new UnsupportedFlavorException(languageObjectFlavor);
     }
 }

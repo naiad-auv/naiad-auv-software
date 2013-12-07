@@ -3,6 +3,7 @@ package LanguageHandlers;
 import Enums.ILanguageObjectType;
 import Exceptions.NullReferenceException;
 import Interfaces.ILanguageObject;
+import Interfaces.ILanguageVariable;
 
 import java.nio.file.Path;
 import java.util.List;
@@ -30,12 +31,12 @@ public class Marker implements ILanguageObject {
     }
 
     @Override
-    public List<PrimitiveVariable> getInputVariables() {
+    public List<ILanguageVariable> getInputVariables() {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
-    public List<PrimitiveVariable> getOutputVariables() {
+    public List<ILanguageVariable> getOutputVariables() {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 

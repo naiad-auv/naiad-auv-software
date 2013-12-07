@@ -1,0 +1,6 @@
+default:0
+prefix:i
+name:Integer
+color:255,0,0
+static:false
+pattern:\d+

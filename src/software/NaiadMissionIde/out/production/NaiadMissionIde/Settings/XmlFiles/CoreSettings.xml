@@ -3,4 +3,5 @@
     <fontsize>10</fontsize>
     <primitivespath>src/LanguageObjects/Primitives</primitivespath>
     <objectivespath>src/LanguageObjects/Objectives</objectivespath>
+    <variabletypespath>src/LanguageObjects/VariableTypes</variabletypespath>
 </PenumbraCoreSettings>

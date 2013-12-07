@@ -2,7 +2,6 @@ package Interfaces;
 
 import Enums.ILanguageObjectType;
 import Exceptions.NullReferenceException;
-import LanguageHandlers.PrimitiveVariable;
 
 import java.nio.file.Path;
 import java.util.List;
@@ -20,9 +19,9 @@ public interface ILanguageObject {
 
     public String toString();
 
-    public List<PrimitiveVariable> getInputVariables();
+    public List<ILanguageVariable> getInputVariables();
 
-    public List<PrimitiveVariable> getOutputVariables();
+    public List<ILanguageVariable> getOutputVariables();
 
     public ILanguageObjectType getType();
 }

@@ -46,7 +46,7 @@ public class LanguageObjectDrawable implements IDrawable {
         canvas.setFont(new Font(Font.SERIF, Font.BOLD, PenumbraCoreSettings.getInstance().FontSize));
         canvas.drawString(this.objectToDraw.toString(), 3, this.height / 2 + 3);
 
-        for(int i = 0; i < this.objectToDraw.getInputVariables().size(); i++)
+     /*   for(int i = 0; i < this.objectToDraw.getInputVariables().size(); i++)
         {
             canvas.drawLine((i + 1) * this.width/(this.objectToDraw.getInputVariables().size() + 1),0,(i + 1) * this.width/(this.objectToDraw.getInputVariables().size() + 1), 20);
             canvas.drawString(this.objectToDraw.getInputVariables().get(i).getVariablePrefix(),(i + 1) * this.width/(this.objectToDraw.getInputVariables().size() + 1) + 3, 23);
@@ -57,7 +57,7 @@ public class LanguageObjectDrawable implements IDrawable {
         {
             canvas.drawLine((i + 1) * this.width/(this.objectToDraw.getInputVariables().size() + 1),this.height - 20,(i + 1) * this.width/(this.objectToDraw.getInputVariables().size() + 1), this.height);
             canvas.drawString(this.objectToDraw.getInputVariables().get(i).getVariablePrefix(),(i + 1) * this.width/(this.objectToDraw.getInputVariables().size() + 1) + 3, this.height - 17);
-        }
+        }*/
     }
 
     public void calculateDrawingSize()
