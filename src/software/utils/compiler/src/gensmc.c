@@ -1,6 +1,7 @@
 #include "symtab.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 #include "ast.h"
 #include "gensmc.h"
 
@@ -60,6 +61,7 @@ void genSMC_BRA(int iAddress);
 
 void genSMC_BSR(); // (int iAddress); Comment: Now pops address from stack instead
 void genSMC_RTS();
+void genSMC_EOF();
 
 void genSMC_DECL();
 void genSMC_DECLINT();
@@ -68,8 +70,9 @@ void genSMC_DECLFLOAT();
 void genSMC_DECLMAT();
 void genSMC_DECLVEC();
 
-void genSMC_POP(int iAmount);
+void genSMC_POP(eType type);
 
+void genSMC_PUSHFP();
 void genSMC_PUSHINT(int iValue);
 void genSMC_PUSHBOOL(const char * pValue);
 void genSMC_PUSHFLOAT(float fValue);
@@ -144,6 +147,9 @@ void genSMC_ASM();
 
 void genSMC_FunctionBegin();
 void genSMC_FunctionEnd();
+
+void genSMCPopArgs(t_symtable * table_iter);
+void genSMCPopVars(t_symtable * table_iter);
 
 // AST functions
 void genSMCCallNodeFunction(t_tree node);
@@ -285,6 +291,12 @@ void genSMC_RTS()
 	genSMCNewLine();
 	fprintf(genSMCFilePtr, "RTS");
 }
+void genSMC_EOF()
+{
+	genSMCNewLine();
+	fprintf(genSMCFilePtr, "EOF");
+}
+
 
 void genSMC_DECLINT()
 {
@@ -316,13 +328,11 @@ void genSMC_DECL(eType type)
 	switch (type)
 	{
 	case INT:
-	case POINTER:
 	case BOOL_ADDR:
 	case INT_ADDR:
 	case FLOAT_ADDR:
 	case VECTOR_ADDR:
 	case MATRIX_ADDR:
-	case POINTER_ADDR:
 		genSMC_DECLINT();
 		break;
 	case BOOL:
@@ -347,13 +357,47 @@ void genSMC_DECL(eType type)
 }
 
 
-void genSMC_POP(int iAmount)
+void genSMC_POP(eType type)
 {
 	genSMCNewLine();
-	fprintf(genSMCFilePtr, "POP %d", iAmount);
+	switch (type)
+	{
+	case INT:
+	case BOOL_ADDR:
+	case INT_ADDR:
+	case FLOAT_ADDR:
+	case VECTOR_ADDR:
+	case MATRIX_ADDR:
+		fprintf(genSMCFilePtr, "POPINT");
+		break;
+
+	case BOOL:
+		fprintf(genSMCFilePtr, "POPBOOL");
+		break;
+
+	case FLOAT:
+		fprintf(genSMCFilePtr, "POPFLOAT");
+		break;
+
+	case VECTOR:
+		fprintf(genSMCFilePtr, "POPVEC");
+		break;
+
+	case MATRIX:
+		fprintf(genSMCFilePtr, "POPMAT");
+		break;
+
+	default:
+		printf("Error in SMC generation.");
+		break;
+	}
 }
 
-
+void genSMC_PUSHFP()
+{
+	genSMCNewLine();
+	fprintf(genSMCFilePtr, "PUSHFP");
+}
 void genSMC_PUSHINT(int iValue)
 {
 	genSMCNewLine();
@@ -658,7 +702,10 @@ void genSMC_FunctionBegin()
 void genSMC_FunctionEnd()
 {
 	genSMC_UNLINK();
-	genSMC_RTS();
+	if (strcmp(scope->id, "main") != 0)
+		genSMC_RTS();
+	else
+		genSMC_EOF();
 	genSMCRemoveTab();
 }
 
@@ -734,7 +781,7 @@ void genSMCCallNodeFunction(t_tree node)
 		genSMCRValue(node);
 		break;
 	default:
-		printf("What?\n");
+		printf("What? Type: %d\n", node->Kind);
 		break;
 	}
 }
@@ -743,6 +790,21 @@ void genSMCProgram(t_tree node)
 {
 	genSMCCallNodeFunction(node->Node.Program.Functions);
 }
+
+
+void genSMCPopVars(t_symtable * table_iter)
+{
+	if (table_iter != NULL)
+	{
+		if (table_iter->offset < 0) // means this is func local var
+		{
+			// the order DOES matter now
+			genSMC_POP(table_iter->type);
+		}		
+		genSMCPopVars(table_iter->next);
+	}
+}
+
 void genSMCFunction(t_tree node)
 {
 	t_tree var_iter;
@@ -771,6 +833,8 @@ void genSMCFunction(t_tree node)
 	// go through list of stmnts for this func
 	genSMCCallNodeFunction(node->Node.Function.Stmnts);
 
+	genSMCPopVars(scope->child);
+
 	genSMC_FunctionEnd();
 	scope = scope->parent;
 
@@ -784,13 +848,12 @@ void genSMCAssign(t_tree node)
 	t_symtable * var_table = FindId(node->Node.Assign.Id,scope);
 	eType type = var_table->type;
 
-	if (type > 6 && type < 13)
-	{
-		genSMC_PUSHINT(var_table->offset);
+	genSMC_PUSHINT(var_table->offset);
+	genSMC_PUSHFP();
+	genSMC_ADDINT();
+
+	if (type > MATRIX && type < ERROR_TYPE)
 		genSMC_RVALINT();
-	}
-	else
-		genSMC_LVAL(var_table->offset);
 
 	genSMCCallNodeFunction(node->Node.Assign.Expr);
 	
@@ -798,8 +861,6 @@ void genSMCAssign(t_tree node)
 	{
 	case INT:
 	case INT_ADDR:
-	case POINTER:
-	case POINTER_ADDR:
 		genSMC_ASSINT();
 		break;
 	case BOOL:
@@ -947,11 +1008,13 @@ void genSMCReturn(t_tree node)
 
 	if (scope->type != VOID)
 	{
-		genSMC_LVAL(retValOffset);
+		genSMC_PUSHINT(retValOffset);
+		genSMC_PUSHFP();
+		genSMC_ADDINT();
+
 		genSMCCallNodeFunction(node->Node.Return.Expr);
 		switch (scope->type)
 		{
-		case POINTER:
 		case INT:
 			genSMC_ASSINT();
 			break;
@@ -972,16 +1035,34 @@ void genSMCReturn(t_tree node)
 			break;
 		}
 	}
+
+
+	genSMCPopVars(scope->child);
+
 	genSMC_UNLINK();
 	genSMC_RTS();
 	genSMCCallNodeFunction(node->Node.Return.Next);
+}
+
+
+void genSMCPopArgs(t_symtable * table_iter)
+{
+	if (table_iter != NULL)
+	{
+		genSMCPopArgs(table_iter->next);
+		if (table_iter->offset > 0) // means this is func arg
+		{
+			// the order DOES matter now
+			genSMC_POP(table_iter->type);
+		}		
+	}
 }
 
 void genSMCFuncCallStmnt(t_tree node)
 {
 	t_symtable * func_table;
 	t_symtable * table_iter;
-	t_tree actual_iter;
+	//t_tree actual_iter;
 	
 	// get symtable for function
 	table_iter = scope;
@@ -994,17 +1075,24 @@ void genSMCFuncCallStmnt(t_tree node)
 	}
 
 	genSMC_DECL(func_table->type);
-	
+
+/*
 	actual_iter = node->Node.FuncCallStmnt.Actuals;
+
 	while (actual_iter != NULL)
 	{
-		genSMCActual(actual_iter->Node.Actual.Expr);
+		genSMCCallNodeFunction(actual_iter->Node.Actual.Expr);
 		actual_iter = actual_iter->Node.Actual.Next;
 	}
+*/
+	genSMCCallNodeFunction(node->Node.FuncCallStmnt.Actuals);
 
 	genSMC_PUSHINT(func_table->offset);
 	genSMC_BSR();
 
+	genSMCPopArgs(func_table->child);
+
+/*
 	table_iter = func_table->child;
 	while(table_iter != NULL)
 	{
@@ -1015,7 +1103,7 @@ void genSMCFuncCallStmnt(t_tree node)
 		}
 		table_iter = table_iter->next;
 	}
-
+*/
 	if (func_table->type != VOID)
 		genSMC_POP(func_table->type); // pop return value
 	genSMCCallNodeFunction(node->Node.FuncCallStmnt.Next);
@@ -1051,6 +1139,8 @@ void genSMCFuncCallExpr(t_tree node)
 	genSMC_PUSHINT(func_table->offset);
 	genSMC_BSR();
 
+	genSMCPopArgs(func_table->child);
+/*
 	table_iter = func_table->child;
 	while(table_iter != NULL)
 	{
@@ -1061,10 +1151,11 @@ void genSMCFuncCallExpr(t_tree node)
 		}
 		table_iter = table_iter->next;
 	}
+*/
 }
 void genSMCActual(t_tree node)
 {
-	// opposite order here to keep the offsets correct
+	// opposite order here to keep the offsets correct (but only for funccallexpr
 	genSMCCallNodeFunction(node->Node.Actual.Next);
 	genSMCCallNodeFunction(node->Node.Actual.Expr);
 }
@@ -1111,7 +1202,7 @@ void genSMCBinary(t_tree node)
 {
 	if (node->Node.Binary.Type == VECTOR)
 	{
-		if (node->Node.Binary.LeftType == MATRIX || node->Node.Binary.LeftType == FLOAT)
+		if (node->Node.Binary.RightType == MATRIX || node->Node.Binary.LeftType == FLOAT)
 		{
 			genSMCCallNodeFunction(node->Node.Binary.RightOperand);
 			genSMCCallNodeFunction(node->Node.Binary.LeftOperand);
@@ -1297,26 +1388,43 @@ void genSMCMatConst(t_tree node)
 
 void genSMCLValue(t_tree node)
 {
-	t_symtable * var_table = FindId(node->Node.RValue.Id,scope);
-	genSMC_PUSHINT(var_table->offset);
+	t_symtable * var_table = FindId(node->Node.LValue.Id,scope);
+	if (var_table->type >= BOOL_ADDR)
+	{
+		genSMC_PUSHINT(var_table->offset);
+		genSMC_PUSHFP();
+		genSMC_ADDINT();
+		genSMC_RVALINT();	
+	}
+	else
+	{
+		genSMC_PUSHINT(var_table->offset);
+		genSMC_PUSHFP();
+		genSMC_ADDINT();
+	}
 }
 
 void genSMCRValue(t_tree node)
 {
 	t_symtable * var_table = FindId(node->Node.RValue.Id,scope);
 	if (var_table->type < BOOL_ADDR)
+	{
 		genSMC_PUSHINT(var_table->offset);
+		genSMC_PUSHFP();
+		genSMC_ADDINT();
+	}
 	else
 	{
 		genSMC_PUSHINT(var_table->offset);
+		genSMC_PUSHFP();
+		genSMC_ADDINT();
 		genSMC_RVALINT();		
+
 	}
 	switch(var_table->type)
 	{
 	case INT:
 	case INT_ADDR:
-	case POINTER:
-	case POINTER_ADDR:
 		genSMC_RVALINT();
 		break;
 	case BOOL:

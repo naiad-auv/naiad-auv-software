@@ -11,10 +11,7 @@ package body VirtualMachine.InstructionFeeder is
 
       case xNewInstruction.eInstr is
 
-         when INSTR_BRF ! INSTR_BRA ! INSTR_BSR ! INSTR_POP !
-              INSTR_PUSHINT ! INSTR_RVALINT ! INSTR_RVALBOOL !
-                INSTR_RVALFLOAT ! INSTR_RVALMAT ! INSTR_RVALVEC !
-                  INSTR_LVAL ! INSTR_VECCOMP =>
+         when INSTR_BRF ! INSTR_BRA ! INSTR_PUSHINT ! INSTR_LVAL ! INSTR_VECCOMP =>
 
             pxNewInstruction := new CInstructionIntegerArgument;
             Integer'Read(xFileStream, CInstructionIntegerArgument(pxNewInstruction.all).iArgument);
@@ -65,6 +62,11 @@ package body VirtualMachine.InstructionFeeder is
 
    function Feed_Instruction (this : in CInstructionFeeder) return VirtualMachine.InstructionFeeder.EInstruction is
    begin
+      if this.pxInstructionList = null then
+         return VirtualMachine.InstructionFeeder.INSTR_EOF;
+      end if;
+
+      --Ada.Text_IO.Put_Line(this.pxInstructionList.pxInstruction.eInstr'Img);
       return this.pxInstructionList.pxInstruction.eInstr;
    end Feed_Instruction;
 

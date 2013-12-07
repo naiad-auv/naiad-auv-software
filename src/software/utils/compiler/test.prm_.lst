@@ -1,24 +1,62 @@
-     2  [hej]
+     2  [wow]
      3    LINK
-     4    LVAL 3
-     5    PUSHINT 2
-     6    PUSHINT 2
+     4    PUSHINT 2
+     5    PUSHFP
+     6    ADDINT
      7    RVALINT
-     8    MULINT
-     9    ASSINT
-    10    UNLINK
-    11    RTS
-    12    UNLINK
-    13    RTS
-    14  [main]
-    15    LINK
-    16    DECLINT
-    17    LVAL -1
-    18    DECLINT
-    19    PUSHINT 2
-    20    PUSHINT 2
-    21    BSR
-    22    POP 2
-    23    ASSINT
-    24    UNLINK
-    25    RTS
+     8    PUSHINT 2
+     9    PUSHFP
+    10    ADDINT
+    11    RVALINT
+    12    RVALINT
+    13    ITOF
+    14    PUSHINT 3
+    15    PUSHFP
+    16    ADDINT
+    17    RVALFLOAT
+    18    MULFLOAT
+    19    FTOI
+    20    ASSINT
+    21    UNLINK
+    22    RTS
+    23  [pow]
+    24    LINK
+    25    PUSHINT 3
+    26    PUSHFP
+    27    ADDINT
+    28    RVALFLOAT
+    29    PUSHINT 2
+    30    PUSHFP
+    31    ADDINT
+    32    RVALINT
+    33    PUSHINT 2
+    34    BSR
+    35    POPINT
+    36    POPFLOAT
+    37    UNLINK
+    38    RTS
+    39  [main]
+    40    LINK
+    41    DECLINT
+    42    PUSHINT -1
+    43    PUSHFP
+    44    ADDINT
+    45    PUSHINT 7
+    46    ASSINT
+    47    PUSHFLOAT 13.500000
+    48    PUSHINT -1
+    49    PUSHFP
+    50    ADDINT
+    51    PUSHINT 23
+    52    BSR
+    53    POPINT
+    54    POPFLOAT
+    55    PUSHINT -1
+    56    PUSHFP
+    57    ADDINT
+    58    RVALINT
+    59    PRINTINT
+    60    POPINT
+    61    POPINT
+    62    UNLINK
+    63    EOF

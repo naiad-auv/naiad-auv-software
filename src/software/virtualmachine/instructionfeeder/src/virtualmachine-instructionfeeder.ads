@@ -21,7 +21,7 @@ package VirtualMachine.InstructionFeeder is
       INSTR_BRA,	-- int
 
       -- Subroutines
-      INSTR_BSR,	-- int
+      INSTR_BSR,
       INSTR_RTS,
 
       -- Memory allocation
@@ -32,9 +32,14 @@ package VirtualMachine.InstructionFeeder is
       INSTR_DECLVEC,
 
       -- Memory deallocation
-      INSTR_POP,	-- int
+      INSTR_POPINT,
+      INSTR_POPBOOL,
+      INSTR_POPFLOAT,
+      INSTR_POPMAT,
+      INSTR_POPVEC,
 
       -- Constants
+      INSTR_PUSHFP,
       INSTR_PUSHINT,		-- PUSHINT 3
       INSTR_PUSHBOOL,		-- PUSHBOOL TRUE
       INSTR_PUSHFLOAT,		-- PUSHFLOAT 8.34
@@ -42,11 +47,11 @@ package VirtualMachine.InstructionFeeder is
       INSTR_PUSHVEC,		-- PUSHVECTOR [1.0,2.0,3.0]
 
       -- Right value (variable values)
-      INSTR_RVALINT,		-- int
-      INSTR_RVALBOOL,		-- int
-      INSTR_RVALFLOAT,		-- int
-      INSTR_RVALMAT,		-- int
-      INSTR_RVALVEC,		-- int
+      INSTR_RVALINT,
+      INSTR_RVALBOOL,
+      INSTR_RVALFLOAT,
+      INSTR_RVALMAT,
+      INSTR_RVALVEC,
 
       -- Left value (variable addresses)
       INSTR_LVAL,		-- int
@@ -87,29 +92,45 @@ package VirtualMachine.InstructionFeeder is
       -- Arithmetics for integers
       INSTR_NEGINT,
       INSTR_ADDINT,
+      INSTR_DIVINT,
       INSTR_MULINT,
 
       -- Arithmetics for floats
       INSTR_NEGFLOAT,
       INSTR_ADDFLOAT,
+      INSTR_DIVFLOAT,
       INSTR_MULFLOAT,
 
       -- Arithmetics for vectors
       INSTR_NEGVEC,
       INSTR_ADDVEC,
       INSTR_MULVEC,
+      INSTR_SCALEVEC,
 
       -- Getters for vectors
       INSTR_VECCOMP,		-- int
 
       -- Arithmetics for matrices
       INSTR_MULMAT,
+      INSTR_MULMATVEC,
 
       -- Trigonometry
       INSTR_SIN,
       INSTR_COS,
       INSTR_ARCSIN,
-      INSTR_ARCCOS
+      INSTR_ARCCOS,
+
+      INSTR_ITOF,
+      INSTR_FTOI,
+
+      INSTR_PRINTINT,
+      INSTR_PRINTBOOL,
+      INSTR_PRINTFLOAT,
+      INSTR_PRINTVEC,
+      INSTR_PRINTMAT,
+
+      INSTR_EOF
+
      );
 
 

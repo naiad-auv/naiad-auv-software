@@ -59,10 +59,7 @@ begin
 
 
          case eInstr is
-         when INSTR_BRF ! INSTR_BRA ! INSTR_BSR ! INSTR_POP !
-              INSTR_PUSHINT ! INSTR_RVALINT ! INSTR_RVALBOOL !
-                INSTR_RVALFLOAT ! INSTR_RVALMAT ! INSTR_RVALVEC !
-                  INSTR_LVAL ! INSTR_VECCOMP =>
+         when INSTR_BRF ! INSTR_BRA ! INSTR_PUSHINT ! INSTR_LVAL ! INSTR_VECCOMP =>
 
             Integer'Write(xBinaryOutStreamAccess, Integer'Value(Parser.sGet_Next_Word_From_File(xTextInFile)));
 

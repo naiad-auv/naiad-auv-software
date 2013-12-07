@@ -67,9 +67,6 @@ vector        {yylval.yyType.lineNr = yylineno;
 matrix        {yylval.yyType.lineNr = yylineno;
                yylval.yyType.type = MATRIX;
                return (BASIC_TYPE);}
-pointer       {yylval.yyType.lineNr = yylineno;
-               yylval.yyType.type = POINTER;
-               return (BASIC_TYPE);}
 
 
 

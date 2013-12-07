@@ -4,6 +4,6 @@
 #include "ast.h"
 
 
-extern void generateStackMachineCode(t_tree node, t_symtable * globalScope, const char * filepath);
+extern void generateSMC(t_tree node, t_symtable * globalScope, const char * filepath);
 
 #endif
