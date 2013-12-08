@@ -205,9 +205,6 @@ void genTrac42Function(t_tree node)
 		case MATRIX:
 			fprintf(genTrac42FilePtr, "return matrix ");
 			break;
-		case POINTER:
-			fprintf(genTrac42FilePtr, "return pointer ");
-			break;
 		default:
 			// error
 			fprintf(genTrac42FilePtr, "error ");
@@ -275,9 +272,6 @@ void genTrac42Formal(t_tree node, int first)
 	case MATRIX:
 		fprintf(genTrac42FilePtr, " : matrix");
 		break;
-	case POINTER:
-		fprintf(genTrac42FilePtr, " : pointer");
-		break;
 	case INT_ADDR:
 		fprintf(genTrac42FilePtr, " : access(integer)");
 		break;
@@ -292,9 +286,6 @@ void genTrac42Formal(t_tree node, int first)
 		break;
 	case MATRIX_ADDR:
 		fprintf(genTrac42FilePtr, " : access(matrix)");
-		break;
-	case POINTER_ADDR:
-		fprintf(genTrac42FilePtr, " : access(pointer)");
 		break;
 	default:
 		// error
@@ -332,9 +323,6 @@ void genTrac42Local(t_tree node)
 	case MATRIX:
 		fprintf(genTrac42FilePtr, " : matrix;");
 		break;
-	case POINTER:
-		fprintf(genTrac42FilePtr, " : pointer;");
-		break;
 	case INT_ADDR:
 		fprintf(genTrac42FilePtr, " : access(integer);");
 		break;
@@ -349,9 +337,6 @@ void genTrac42Local(t_tree node)
 		break;
 	case MATRIX_ADDR:
 		fprintf(genTrac42FilePtr, " : access(matrix);");
-		break;
-	case POINTER_ADDR:
-		fprintf(genTrac42FilePtr, " : access(pointer);");
 		break;
 	default:
 		// error

@@ -1,11 +1,23 @@
-function hej(i : integer)return integer  is 
+procedure wow(iPtr : access(integer); n : float) is 
 begin
-	return 2 * i;
-end hej;
+	iPtr := integer(float(iPtr) * n);
+end wow;
+
+procedure pow(iPtr : access(integer); n : float) is 
+begin
+	wow(access(iPtr), n);
+end pow;
 
 procedure main is 
-	i : integer;
+	myInt : integer;
 begin
-	i := hej(2);
+	myInt := 7;
+	pow(access(myInt), error );
+	asm(PUSHINT -1);
+	asm(PUSHFP);
+	asm(ADDINT);
+	asm(RVALINT);
+	asm(PRINTINT);
+	asm(POPINT);
 end main;
 

@@ -81,7 +81,7 @@
 #include "name.h"
 #include "types.h"
 #include "offset.h"
-//#include "gensmc.h"
+#include "gensmc.h"
 
 extern FILE *yyin;
 int yyerror(const char *s);
@@ -1603,28 +1603,28 @@ yyreduce:
 
 /* Line 1806 of yacc.c  */
 #line 83 "./src/trac42.y"
-    { (yyval.yyNode) = mFunction(connectVariables((yyvsp[(4) - (12)].yyNode), (yyvsp[(7) - (12)].yyNode)), (yyvsp[(9) - (12)].yyNode), (yyvsp[(2) - (12)].yyString).strVal, VOID, (yyvsp[(2) - (12)].yyString).lineNr); }
+    { if (strcmp((yyvsp[(2) - (12)].yyString).strVal, (yyvsp[(11) - (12)].yyString).strVal) != 0) { yyerror("syntax error"); YYERROR; } else (yyval.yyNode) = mFunction(connectVariables((yyvsp[(4) - (12)].yyNode), (yyvsp[(7) - (12)].yyNode)), (yyvsp[(9) - (12)].yyNode), (yyvsp[(2) - (12)].yyString).strVal, VOID, (yyvsp[(2) - (12)].yyString).lineNr); }
     break;
 
   case 6:
 
 /* Line 1806 of yacc.c  */
 #line 84 "./src/trac42.y"
-    { (yyval.yyNode) = mFunction((yyvsp[(4) - (9)].yyNode), (yyvsp[(6) - (9)].yyNode), (yyvsp[(2) - (9)].yyString).strVal, VOID, (yyvsp[(2) - (9)].yyString).lineNr); }
+    { if (strcmp((yyvsp[(2) - (9)].yyString).strVal, (yyvsp[(8) - (9)].yyString).strVal) != 0) { yyerror("syntax error"); YYERROR; } else (yyval.yyNode) = mFunction((yyvsp[(4) - (9)].yyNode), (yyvsp[(6) - (9)].yyNode), (yyvsp[(2) - (9)].yyString).strVal, VOID, (yyvsp[(2) - (9)].yyString).lineNr); }
     break;
 
   case 7:
 
 /* Line 1806 of yacc.c  */
 #line 85 "./src/trac42.y"
-    { (yyval.yyNode) = mFunction(connectVariables((yyvsp[(4) - (14)].yyNode), (yyvsp[(9) - (14)].yyNode)), (yyvsp[(11) - (14)].yyNode), (yyvsp[(2) - (14)].yyString).strVal, (yyvsp[(7) - (14)].yyType).type, (yyvsp[(2) - (14)].yyString).lineNr); }
+    { if (strcmp((yyvsp[(2) - (14)].yyString).strVal, (yyvsp[(13) - (14)].yyString).strVal) != 0) { yyerror("syntax error"); YYERROR; } else (yyval.yyNode) = mFunction(connectVariables((yyvsp[(4) - (14)].yyNode), (yyvsp[(9) - (14)].yyNode)), (yyvsp[(11) - (14)].yyNode), (yyvsp[(2) - (14)].yyString).strVal, (yyvsp[(7) - (14)].yyType).type, (yyvsp[(2) - (14)].yyString).lineNr); }
     break;
 
   case 8:
 
 /* Line 1806 of yacc.c  */
 #line 86 "./src/trac42.y"
-    { (yyval.yyNode) = mFunction((yyvsp[(6) - (11)].yyNode), (yyvsp[(8) - (11)].yyNode), (yyvsp[(2) - (11)].yyString).strVal, (yyvsp[(4) - (11)].yyType).type, (yyvsp[(2) - (11)].yyString).lineNr); }
+    { if (strcmp((yyvsp[(2) - (11)].yyString).strVal, (yyvsp[(10) - (11)].yyString).strVal) != 0) { yyerror("syntax error"); YYERROR; } else (yyval.yyNode) = mFunction((yyvsp[(6) - (11)].yyNode), (yyvsp[(8) - (11)].yyNode), (yyvsp[(2) - (11)].yyString).strVal, (yyvsp[(4) - (11)].yyType).type, (yyvsp[(2) - (11)].yyString).lineNr); }
     break;
 
   case 9:
@@ -1680,7 +1680,7 @@ yyreduce:
 
 /* Line 1806 of yacc.c  */
 #line 105 "./src/trac42.y"
-    { (yyval.yyType).lineNr = (yyvsp[(1) - (4)].yyLineNr); (yyval.yyType).type = (yyvsp[(3) - (4)].yyType).type + POINTER; }
+    { (yyval.yyType).lineNr = (yyvsp[(1) - (4)].yyLineNr); (yyval.yyType).type = (yyvsp[(3) - (4)].yyType).type + MATRIX; }
     break;
 
   case 17:
@@ -2211,6 +2211,8 @@ int main (int argc, char *argv[])
       if (yyin == NULL) {
          fprintf (stderr, "Could not open input file %s\n", argv[1]);
       } else {
+	 //printf("Building AST...");
+
          basename = malloc(strlen(argv[1]) + 5);
          strcpy(basename, argv[1]);
          p = strstr (basename, ".t42");
@@ -2223,11 +2225,10 @@ int main (int argc, char *argv[])
          strcpy(lstname, basename);
          strcat(objname, ".obj");
          strcat(lstname, "_.lst");
-		 printf("Building AST...");
          syntax_errors = yyparse();
          if (!syntax_errors) {
 			
-			printf("DONE.\n");			
+			//printf("DONE.\n");			
 
 			// pass 1 - generate trac42 code back from AST
 			printf("Generating trac42 code from AST to file \"generatedcode.t42\"... ");
@@ -2283,7 +2284,7 @@ int main (int argc, char *argv[])
 					printf(lstname);
 					printf("\"... ");
 					generateSMC(treeRoot, symbolTable, lstname);
-					printf("Done!\n");
+					printf("DONE.\n");
 					printf("Cleaning up and exiting...\n");
 					
 				}
@@ -2291,11 +2292,9 @@ int main (int argc, char *argv[])
 				
 			
             //fprintf (stderr, "The answer is 42\n");
-         } else {
-            fprintf (stderr, "There were syntax errors.\n");
          }
-		 destroyTables(symbolTable); 
-		 destroy_tree(treeRoot);
+	 destroyTables(symbolTable); 
+	 destroy_tree(treeRoot);
          free(basename);
          free(objname);
          free(lstname);

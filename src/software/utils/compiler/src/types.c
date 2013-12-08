@@ -141,6 +141,9 @@ eType typeAssign(t_tree node)
 	tmpTable = FindId(node->Node.Assign.Id, scope);
 	exprType = tmpTable->type;
 
+	if (exprType > MATRIX && exprType < ERROR_TYPE)
+		exprType -= MATRIX;
+
 	if (exprType == typeExpr(node->Node.Assign.Expr))
 		return typeStmnt(node->Node.Stmnt.Next);
 
@@ -362,7 +365,9 @@ eType typeBinary(t_tree node)
 			break;
 		case LT:
 		case LE:
-			if (leftType != VOID && leftType != BOOL)
+		case MT:
+		case ME:
+			if (leftType == INT || leftType == FLOAT)
 			{
 				node->Node.Binary.Type = leftType;
 				return BOOL;
@@ -434,14 +439,16 @@ eType typeRValue(t_tree node)
 	t_symtable * tmpTable = FindId(node->Node.RValue.Id, scope);
 	type = tmpTable->type;
 
-	if (type > POINTER && type != ERROR_TYPE)
-		type -= POINTER;
+	if (type > MATRIX && type != ERROR_TYPE)
+		type -= MATRIX;
 	return type;
 }
 eType typeLValue(t_tree node)
 {
 	t_symtable * tmpTable = FindId(node->Node.LValue.Id, scope);
-	return tmpTable->type + POINTER;
+	if (tmpTable->type > MATRIX)
+		return tmpTable->type;
+	return tmpTable->type + MATRIX;
 }
 
 eType typeControl(t_tree node, t_symtable * globalScope)

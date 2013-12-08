@@ -26,7 +26,7 @@
 #include "name.h"
 #include "types.h"
 #include "offset.h"
-//#include "gensmc.h"
+#include "gensmc.h"
 
 extern FILE *yyin;
 int yyerror(const char *s);
@@ -80,10 +80,10 @@ functions   : functions function								{ $$ = connectFunctions($1,$2); }
             | function										{ $$ = $1; }
             ;
 
-function    : PROCEDURE ID '(' formals ')' IS decls BGN stmnts END ID ';'			{ $$ = mFunction(connectVariables($4, $7), $9, $2.strVal, VOID, $2.lineNr); }
-            | PROCEDURE ID IS decls BGN stmnts END ID ';' 					{ $$ = mFunction($4, $6, $2.strVal, VOID, $2.lineNr); }
-            | FUNCTION ID '(' formals ')' RETURN BASIC_TYPE IS decls BGN stmnts END ID ';'	{ $$ = mFunction(connectVariables($4, $9), $11, $2.strVal, $7.type, $2.lineNr); }
-            | FUNCTION ID RETURN BASIC_TYPE IS decls BGN stmnts END ID ';' 			 { $$ = mFunction($6, $8, $2.strVal, $4.type, $2.lineNr); } 
+function    : PROCEDURE ID '(' formals ')' IS decls BGN stmnts END ID ';'			{ if (strcmp($2.strVal, $11.strVal) != 0) { yyerror("syntax error"); YYERROR; } else $$ = mFunction(connectVariables($4, $7), $9, $2.strVal, VOID, $2.lineNr); }
+            | PROCEDURE ID IS decls BGN stmnts END ID ';' 					{ if (strcmp($2.strVal, $8.strVal) != 0) { yyerror("syntax error"); YYERROR; } else $$ = mFunction($4, $6, $2.strVal, VOID, $2.lineNr); }
+            | FUNCTION ID '(' formals ')' RETURN BASIC_TYPE IS decls BGN stmnts END ID ';'	{ if (strcmp($2.strVal, $13.strVal) != 0) { yyerror("syntax error"); YYERROR; } else $$ = mFunction(connectVariables($4, $9), $11, $2.strVal, $7.type, $2.lineNr); }
+            | FUNCTION ID RETURN BASIC_TYPE IS decls BGN stmnts END ID ';' 			 { if (strcmp($2.strVal, $10.strVal) != 0) { yyerror("syntax error"); YYERROR; } else $$ = mFunction($6, $8, $2.strVal, $4.type, $2.lineNr); } 
             ;  
 
 
@@ -102,7 +102,7 @@ decl        : ID ':' type ';'   								{ $$ = mVariable(kLocal, $1.strVal, $3.t
             ;
 
 type	    : BASIC_TYPE									{ $$ = $1; }
-	    | ADDR_TYPE '(' BASIC_TYPE ')'							{ $$.lineNr = $1; $$.type = $3.type + POINTER; }
+	    | ADDR_TYPE '(' BASIC_TYPE ')'							{ $$.lineNr = $1; $$.type = $3.type + MATRIX; }
 	    ;
 
 stmnts      : stmnts stmnt									{ $$ = connectStmnts($1,$2); }
@@ -178,6 +178,8 @@ int main (int argc, char *argv[])
       if (yyin == NULL) {
          fprintf (stderr, "Could not open input file %s\n", argv[1]);
       } else {
+	 //printf("Building AST...");
+
          basename = malloc(strlen(argv[1]) + 5);
          strcpy(basename, argv[1]);
          p = strstr (basename, ".t42");
@@ -190,11 +192,10 @@ int main (int argc, char *argv[])
          strcpy(lstname, basename);
          strcat(objname, ".obj");
          strcat(lstname, "_.lst");
-		 printf("Building AST...");
          syntax_errors = yyparse();
          if (!syntax_errors) {
 			
-			printf("DONE.\n");			
+			//printf("DONE.\n");			
 
 			// pass 1 - generate trac42 code back from AST
 			printf("Generating trac42 code from AST to file \"generatedcode.t42\"... ");
@@ -250,7 +251,7 @@ int main (int argc, char *argv[])
 					printf(lstname);
 					printf("\"... ");
 					generateSMC(treeRoot, symbolTable, lstname);
-					printf("Done!\n");
+					printf("DONE.\n");
 					printf("Cleaning up and exiting...\n");
 					
 				}
@@ -258,11 +259,9 @@ int main (int argc, char *argv[])
 				
 			
             //fprintf (stderr, "The answer is 42\n");
-         } else {
-            fprintf (stderr, "There were syntax errors.\n");
          }
-		 destroyTables(symbolTable); 
-		 destroy_tree(treeRoot);
+	 destroyTables(symbolTable); 
+	 destroy_tree(treeRoot);
          free(basename);
          free(objname);
          free(lstname);

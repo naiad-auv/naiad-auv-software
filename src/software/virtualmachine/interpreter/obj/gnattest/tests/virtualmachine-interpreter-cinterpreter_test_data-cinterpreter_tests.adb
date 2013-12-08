@@ -25,46 +25,10 @@ package body VirtualMachine.Interpreter.CInterpreter_Test_Data.CInterpreter_Test
 
       pxInterpreter.pxInstructionFeeder.Go_To_Entry_Point(iInstructionAddress => pxInterpreter.iProgramCounter);
 
-      pxInterpreter.Step(fDeltaTime => 0.1);
-      pxInterpreter.Step(fDeltaTime => 0.1);
-      pxInterpreter.Step(fDeltaTime => 0.1);
+      while not pxInterpreter.bFinished loop
+         pxInterpreter.Step(fDeltaTime => 0.1);
+      end loop;
 
-      pxInterpreter.Step(fDeltaTime => 0.1);
-      pxInterpreter.Step(fDeltaTime => 0.1);
-      pxInterpreter.Step(fDeltaTime => 0.1);
-
-      pxInterpreter.Step(fDeltaTime => 0.1);
-      pxInterpreter.Step(fDeltaTime => 0.1);
-      pxInterpreter.Step(fDeltaTime => 0.1);
-
-      pxInterpreter.Step(fDeltaTime => 0.1);
-      pxInterpreter.Step(fDeltaTime => 0.1);
-        pxInterpreter.Step(fDeltaTime => 0.1);
-
-      pxInterpreter.Step(fDeltaTime => 0.1);
-      pxInterpreter.Step(fDeltaTime => 0.1);
-      pxInterpreter.Step(fDeltaTime => 0.1);
-
-      pxInterpreter.Step(fDeltaTime => 0.1);
-      pxInterpreter.Step(fDeltaTime => 0.1);
-      pxInterpreter.Step(fDeltaTime => 0.1);
-
-      pxInterpreter.Step(fDeltaTime => 0.1);
-      pxInterpreter.Step(fDeltaTime => 0.1);
-      pxInterpreter.Step(fDeltaTime => 0.1);
-
-      pxInterpreter.Step(fDeltaTime => 0.1);
-      pxInterpreter.Step(fDeltaTime => 0.1);
-      pxInterpreter.Step(fDeltaTime => 0.1);
-
-    pxInterpreter.Step(fDeltaTime => 0.1);
-      pxInterpreter.Step(fDeltaTime => 0.1);
-        pxInterpreter.Step(fDeltaTime => 0.1); -- ASSFLOAT
-          pxInterpreter.Step(fDeltaTime => 0.1); -- UNLINK
-        pxInterpreter.Step(fDeltaTime => 0.1); -- RTS
-        pxInterpreter.Step(fDeltaTime => 0.1); -- POP 2
-
-      pxInterpreter.Test_Print_Float;
       AUnit.Assertions.Assert
         (Gnattest_Generated.Default_Assert_Value,
          "Test not implemented.");

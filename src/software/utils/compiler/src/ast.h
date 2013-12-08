@@ -55,7 +55,7 @@ typedef enum { SUB=MINUS, PLUS, MULT, DIV, OR, AND, EQ, LT, LE, ME, MT, NE, DOT,
 typedef enum {kFormal, kLocal} vKind;
 
 /* To distinguish between the data types in the trac42 language. */
-typedef enum {VOID=0, BOOL, INT, FLOAT, VECTOR, MATRIX, POINTER, BOOL_ADDR, INT_ADDR, FLOAT_ADDR, VECTOR_ADDR, MATRIX_ADDR, POINTER_ADDR, ERROR_TYPE} eType;
+typedef enum {VOID=0, BOOL, INT, FLOAT, VECTOR, MATRIX, BOOL_ADDR, INT_ADDR, FLOAT_ADDR, VECTOR_ADDR, MATRIX_ADDR, ERROR_TYPE} eType;
 
 /* The program. */
 typedef struct {
