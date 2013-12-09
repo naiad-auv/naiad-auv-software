@@ -2,11 +2,13 @@ package LanguageHandlers;
 
 import Enums.ILanguageObjectType;
 import Exceptions.NullReferenceException;
+import Interfaces.IDrawable;
 import Interfaces.ILanguageObject;
 import Interfaces.ILanguageVariable;
 
 import java.nio.file.Path;
 import java.util.List;
+import java.util.Observable;
 
 /**
  * Created with IntelliJ IDEA.
@@ -15,7 +17,7 @@ import java.util.List;
  * Time: 2:05 PM
  * To change this template use File | Settings | File Templates.
  */
-public class Marker implements ILanguageObject {
+public class Marker extends Observable implements ILanguageObject {
 
     private ILanguageObjectType type;
 
@@ -31,17 +33,22 @@ public class Marker implements ILanguageObject {
     }
 
     @Override
-    public List<ILanguageVariable> getInputVariables() {
+    public List<IDrawable> getInputVariables() {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
-    public List<ILanguageVariable> getOutputVariables() {
+    public List<IDrawable> getOutputVariables() {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
     public ILanguageObjectType getType() {
         return this.type;
+    }
+
+    @Override
+    public void addVariableAssignment(IDrawable predecessor, int pos) {
+        //To change body of implemented methods use File | Settings | File Templates.
     }
 }

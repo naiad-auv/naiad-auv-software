@@ -1,10 +1,13 @@
 package Commands.DrawingAreaEventHandlingCommands;
 
+import Drawables.LanguageObjectDrawable;
+import Drawables.LanguageVariableDrawable;
 import Drawables.TransactionObjectDrawable;
 import Exceptions.NullReferenceException;
 import Exceptions.ScopeModificationNotSupported;
 import Interfaces.ICommand;
 import Interfaces.IDrawable;
+import Interfaces.ILanguageObject;
 import Presentation.PresentationObjective;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
@@ -28,20 +31,62 @@ public class DrawingAreaMouseReleasedCommand implements ICommand {
     @Override
     public Object execute() throws NotImplementedException
     {
-        IDrawable objectUnderCursor = this.findObjetUnderCursor();
-
-        if(objectUnderCursor == null || this.predecessor == null)
+        IDrawable objectUnderCursor = this.findObjectUnderCursor();
+        if(objectUnderCursor == null && this.predecessor == null)
             return null;
 
+        if(this.predecessor != null && objectUnderCursor == null)
+        {
+            this.predecessor.setPosition(this.eventArgs.getPoint());
+            this.prepareForNewEvent();
+            return true;
+        }
 
-        this.createTransition(this.predecessor, objectUnderCursor);
+        if(this.tryCreateVariableAssignment(this.predecessor, objectUnderCursor))
+        {
+            this.prepareForNewEvent();
+            return true;
+        }
+
+        if(this.tryCreateTransition(this.predecessor, objectUnderCursor))
+        {
+
+            this.prepareForNewEvent();
+            return true;
+        }
 
         this.prepareForNewEvent();
 
         return null;
     }
 
-    private void createTransition(IDrawable predecessor, IDrawable successor) {
+    private boolean tryCreateVariableAssignment(IDrawable predecessor, IDrawable successor) {
+        if(!(predecessor.getClass().equals(LanguageVariableDrawable.class) &&
+                successor.getClass().equals(LanguageObjectDrawable.class)))
+            return false;
+
+        int width = successor.getWidth();
+        int size = width / (((ILanguageObject) successor.getScope()).getInputVariables().size() + 1);
+
+        int pos = (this.eventArgs.getX() - successor.getPosition().x - size) / size;
+
+        IDrawable assignedTo = ((ILanguageObject) successor.getScope()).getInputVariables().get(pos);
+
+        Point assignmentPoint = new Point(successor.getPosition());
+        assignmentPoint.x += size * (pos + 1);
+
+        assignedTo.setPosition(assignmentPoint);
+
+        this.scope.addVariableAssignment(predecessor, assignedTo);
+
+        return true;
+    }
+
+    private boolean tryCreateTransition(IDrawable predecessor, IDrawable successor) {
+
+        if(!(predecessor.getClass().equals(LanguageObjectDrawable.class) &&
+                successor.getClass().equals(LanguageObjectDrawable.class)))
+            return false;
 
         List<IDrawable> currentTransitions = this.scope.getTransitions();
 
@@ -69,27 +114,19 @@ public class DrawingAreaMouseReleasedCommand implements ICommand {
             this.scope.removeTransition(transitionWithPredecessor);
 
         this.scope.addTransition(predecessor,successor);
+
+        return true;
     }
 
     private void prepareForNewEvent() {
         this.predecessor = null;
     }
 
-    private IDrawable findObjetUnderCursor()
+    private IDrawable findObjectUnderCursor()
     {
         Point mousePosition = this.eventArgs.getPoint();
 
-        for(int i = 0; i < ((List<IDrawable>)(this.scope.getScope())[0]).size(); i++)
-        {
-            IDrawable object = ((List<IDrawable>)(this.scope.getScope()[0])).get(i);
-
-            if(object.isPointInside(mousePosition))
-            {
-                return object;
-            }
-        }
-
-        return null;
+        return this.scope.getObjectUnderCursor(mousePosition);
     }
 
     @Override
@@ -109,6 +146,6 @@ public class DrawingAreaMouseReleasedCommand implements ICommand {
             return;
         }
 
-        throw new ScopeModificationNotSupported("Nr of arguments not aplicable");
+        throw new ScopeModificationNotSupported("Nr of arguments not applicable");
     }
 }

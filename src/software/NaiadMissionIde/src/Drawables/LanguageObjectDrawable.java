@@ -7,6 +7,8 @@ import Settings.CoreSettings.PenumbraCoreSettings;
 import java.awt.*;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
+import java.util.Observable;
+import java.util.Observer;
 
 /**
  * Created with IntelliJ IDEA.
@@ -15,7 +17,7 @@ import java.awt.geom.AffineTransform;
  * Time: 4:06 PM
  * To change this template use File | Settings | File Templates.
  */
-public class LanguageObjectDrawable implements IDrawable {
+public class LanguageObjectDrawable extends Observable implements IDrawable, Observer {
 
     private ILanguageObject objectToDraw;
 
@@ -28,6 +30,7 @@ public class LanguageObjectDrawable implements IDrawable {
         this.position = position;
         this.objectToDraw = objectToDraw;
 
+        this.objectToDraw.addObserver(this);
         this.calculateDrawingSize();
     }
 
@@ -46,18 +49,20 @@ public class LanguageObjectDrawable implements IDrawable {
         canvas.setFont(new Font(Font.SERIF, Font.BOLD, PenumbraCoreSettings.getInstance().FontSize));
         canvas.drawString(this.objectToDraw.toString(), 3, this.height / 2 + 3);
 
-     /*   for(int i = 0; i < this.objectToDraw.getInputVariables().size(); i++)
+        for(int i = 0; i < this.objectToDraw.getInputVariables().size(); i++)
         {
+            this.objectToDraw.getInputVariables().get(i).Draw(g);
             canvas.drawLine((i + 1) * this.width/(this.objectToDraw.getInputVariables().size() + 1),0,(i + 1) * this.width/(this.objectToDraw.getInputVariables().size() + 1), 20);
-            canvas.drawString(this.objectToDraw.getInputVariables().get(i).getVariablePrefix(),(i + 1) * this.width/(this.objectToDraw.getInputVariables().size() + 1) + 3, 23);
+            canvas.drawString(this.objectToDraw.getInputVariables().get(i).toString(),(i + 1) * this.width/(this.objectToDraw.getInputVariables().size() + 1) + 3, 23);
         }
 
 
         for(int i = 0; i < this.objectToDraw.getOutputVariables().size(); i++)
         {
+            this.objectToDraw.getOutputVariables().get(i).Draw(g);
             canvas.drawLine((i + 1) * this.width/(this.objectToDraw.getInputVariables().size() + 1),this.height - 20,(i + 1) * this.width/(this.objectToDraw.getInputVariables().size() + 1), this.height);
-            canvas.drawString(this.objectToDraw.getInputVariables().get(i).getVariablePrefix(),(i + 1) * this.width/(this.objectToDraw.getInputVariables().size() + 1) + 3, this.height - 17);
-        }*/
+            canvas.drawString(this.objectToDraw.getInputVariables().get(i).toString(),(i + 1) * this.width/(this.objectToDraw.getInputVariables().size() + 1) + 3, this.height - 17);
+        }
     }
 
     public void calculateDrawingSize()
@@ -77,8 +82,8 @@ public class LanguageObjectDrawable implements IDrawable {
         int width = 0;
 
         width = Math.max(width, this.calculateNameWidth() + 9);
-        width = Math.max(width, this.objectToDraw.getInputVariables().size() * 10 + 20);
-        width = Math.max(width, this.objectToDraw.getOutputVariables().size() * 10 + 20);
+        width = Math.max(width, this.objectToDraw.getInputVariables().size() * 30);
+        width = Math.max(width, this.objectToDraw.getOutputVariables().size() * 30);
 
         return width;
     }
@@ -108,7 +113,35 @@ public class LanguageObjectDrawable implements IDrawable {
 
     public void setPosition(Point newPosition)
     {
+        int widthDiff = this.position.x - newPosition.x;
+        int heightDiff = this.position.y - newPosition.y;
+
+        for(int i = 0; i < this.objectToDraw.getInputVariables().size(); i++)
+        {
+            Point p = this.objectToDraw.getInputVariables().get(i).getPosition();
+
+            if(p == null)
+                p = new Point(this.getPosition());
+
+            p.x += widthDiff;
+            p.y += heightDiff;
+        }
+
+        for(int i = 0; i < this.objectToDraw.getOutputVariables().size(); i++)
+        {
+            Point p = this.objectToDraw.getOutputVariables().get(i).getPosition();
+
+            if(p == null)
+                p = new Point(this.getPosition());
+
+            p.x += widthDiff;
+            p.y += heightDiff;
+        }
+
         this.position = newPosition;
+
+        this.setChanged();
+        this.notifyObservers();
     }
 
     @Override
@@ -116,5 +149,21 @@ public class LanguageObjectDrawable implements IDrawable {
     {
         return (mousePosition.x > this.position.x && mousePosition.x < this.position.x + this.width &&
                 mousePosition.y > this.position.y && mousePosition.y < this.position.y + this.height);
+    }
+
+    @Override
+    public Object getScope() {
+        return this.objectToDraw;
+    }
+
+    @Override
+    public void setScope(Object variable) {
+        this.objectToDraw = (ILanguageObject)variable;
+    }
+
+    @Override
+    public void update(Observable observable, Object o) {
+        this.setChanged();
+        this.notifyObservers();
     }
 }

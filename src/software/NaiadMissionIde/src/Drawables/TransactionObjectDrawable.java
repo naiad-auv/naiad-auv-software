@@ -78,11 +78,22 @@ public class TransactionObjectDrawable implements IDrawable {
         return false;
     }
 
+    @Override
+    public Object getScope() {
+        //TODO ska detta returnera scope eller inte
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public void setScope(Object variable) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
     public Point getPredecessorPosition() {
 
         Point predecessorPosition = (Point) this.predecessor.getPosition().clone();
 
-        predecessorPosition.x += this.predecessor.getWidth();
+        predecessorPosition.x += this.predecessor.getWidth() / 2;
         predecessorPosition.y += this.predecessor.getHeight() / 2;
 
         return predecessorPosition;
@@ -92,6 +103,7 @@ public class TransactionObjectDrawable implements IDrawable {
 
         Point successorPosition = (Point) this.successor.getPosition().clone();
 
+        successorPosition.x += this.successor.getWidth() / 2;
         successorPosition.y += this.successor.getHeight() / 2;
 
         return successorPosition;

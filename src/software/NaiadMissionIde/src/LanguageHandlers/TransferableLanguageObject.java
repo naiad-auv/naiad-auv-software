@@ -2,6 +2,7 @@ package LanguageHandlers;
 
 import Enums.ILanguageObjectType;
 import Exceptions.NullReferenceException;
+import Interfaces.IDrawable;
 import Interfaces.ILanguageObject;
 import Interfaces.ILanguageVariable;
 
@@ -11,6 +12,7 @@ import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.Observable;
 
 /**
  * Created with IntelliJ IDEA.
@@ -19,7 +21,7 @@ import java.util.List;
  * Time: 12:59 PM
  * To change this template use File | Settings | File Templates.
  */
-public class TransferableLanguageObject implements ILanguageObject, Transferable{
+public class TransferableLanguageObject extends Observable implements ILanguageObject, Transferable{
 
     private ILanguageObject object;
 
@@ -41,18 +43,23 @@ public class TransferableLanguageObject implements ILanguageObject, Transferable
     }
 
     @Override
-    public List<ILanguageVariable> getInputVariables() {
+    public List<IDrawable> getInputVariables() {
         return object.getInputVariables();
     }
 
     @Override
-    public List<ILanguageVariable> getOutputVariables() {
+    public List<IDrawable> getOutputVariables() {
         return object.getOutputVariables();
     }
 
     @Override
     public ILanguageObjectType getType() {
         return this.object.getType();
+    }
+
+    @Override
+    public void addVariableAssignment(IDrawable predecessor, int pos) {
+        this.object.addVariableAssignment(predecessor,pos);
     }
 
     @Override

@@ -3,12 +3,14 @@ package LanguageHandlers;
 import Enums.ILanguageObjectType;
 import Exceptions.NullReferenceException;
 import Exceptions.UnableToPreformActionException;
+import Interfaces.IDrawable;
 import Interfaces.ILanguageObject;
 import Interfaces.ILanguageVariable;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
 
 /**
  * Created with IntelliJ IDEA.
@@ -17,22 +19,22 @@ import java.util.List;
  * Time: 7:44 AM
  * To change this template use File | Settings | File Templates.
  */
-public class Objective implements ILanguageObject {
+public class Objective extends Observable implements ILanguageObject {
 
     private Path path;
     private String objectiveName;
 
     private List<ILanguageObject> executionalSteps;
-    private List<ILanguageVariable> inputVariables;
-    private List<ILanguageVariable> outputVariables;
+    private List<IDrawable> inputVariables;
+    private List<IDrawable> outputVariables;
 
     public Objective(String name)
     {
         this.objectiveName = name;
 
         this.executionalSteps = new ArrayList<ILanguageObject>();
-        this.inputVariables = new ArrayList<ILanguageVariable>();
-        this.outputVariables = new ArrayList<ILanguageVariable>();
+        this.inputVariables = new ArrayList<IDrawable>();
+        this.outputVariables = new ArrayList<IDrawable>();
     }
 
     public List<ILanguageObject> getExecutionalSteps() throws NullReferenceException {
@@ -68,18 +70,23 @@ public class Objective implements ILanguageObject {
     }
 
     @Override
-    public List<ILanguageVariable> getInputVariables() {
+    public List<IDrawable> getInputVariables() {
         return this.inputVariables;
     }
 
     @Override
-    public List<ILanguageVariable> getOutputVariables() {
+    public List<IDrawable> getOutputVariables() {
         return this.outputVariables;
     }
 
     @Override
     public ILanguageObjectType getType() {
         return ILanguageObjectType.Objective;
+    }
+
+    @Override
+    public void addVariableAssignment(IDrawable predecessor, int pos) {
+       // this.inputVariables.get(pos).set
     }
 
     @Override

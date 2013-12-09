@@ -4,3 +4,4 @@ name:Integer
 color:255,0,0
 static:false
 pattern:\d+
+type:Integer

@@ -3,6 +3,8 @@ package Interfaces;
 import Enums.VariableMode;
 import Enums.VariableType;
 
+import java.util.Observer;
+
 /**
  * Created with IntelliJ IDEA.
  * User: emil
@@ -16,7 +18,7 @@ public interface ILanguageVariable {
 
     public void setMode(VariableMode newMode);
 
-    public void setValue(Object value);
+    public void setValue(String value);
 
     public String toString();
 
@@ -39,4 +41,11 @@ public interface ILanguageVariable {
     public VariableMode getMode();
 
     public String getPrefix();
+
+    boolean checkMatch(String text);
+
+    void addObserver(Observer observer);
+
+    void setType(VariableType s);
+
 }

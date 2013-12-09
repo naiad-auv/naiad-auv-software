@@ -25,24 +25,14 @@ public class DrawingAreaMousePressedCommand implements ICommand {
     @Override
     public Object execute() throws NotImplementedException
     {
-        return this.findObjetUnderCursor();
+        return this.findObjectUnderCursor();
     }
 
-    private IDrawable findObjetUnderCursor()
+    private Object findObjectUnderCursor()
     {
         Point mousePosition = this.eventArgs.getPoint();
 
-        for(int i = 0; i < ((List<IDrawable>)(this.scope.getScope()[0])).size(); i++)
-        {
-            IDrawable object = ((List<IDrawable>)(this.scope.getScope()[0])).get(i);
-
-            if(object.isPointInside(mousePosition))
-            {
-                return object;
-            }
-        }
-
-        return null;
+        return this.scope.getObjectUnderCursor(mousePosition);
     }
 
     @Override
