@@ -34,8 +34,8 @@ typedef enum {
    kIntConst,
    kBoolConst,
    kFloatConst,
-   kVecValue,
-   kMatValue,
+   kVecConst,
+   kMatConst,
    kFuncCallExpr,
    kRValue,
    kLValue
@@ -49,7 +49,7 @@ typedef enum {
 typedef enum { NEG=MINUS, NOT, INTOP, FLOATOP, SIN, COS, ASIN, ACOS, ABS, SQRT, ERROP } UNOP_KIND;
 
 /* To distinguish between different kinds of binary expression nodes. */
-typedef enum { SUB=MINUS, PLUS, MULT, DIV, OR, AND, EQ, LT, LE, ME, MT, NE } BINOP_KIND;
+typedef enum { SUB=MINUS, PLUS, MULT, DIV, OR, AND, EQ, LT, LE, ME, MT, NE, DOT, CROSS } BINOP_KIND;
 
 /* To distinguish between formal parameters and local variables in variable nodes. */
 typedef enum {kFormal, kLocal} vKind;
@@ -177,13 +177,13 @@ typedef struct {
 
 /* The vector constant expression. */
 typedef struct {
-   t_tree Values[3];     /* The vector values of this constant. */
-} yVecValue;
+   float Values[3];     /* The vector values of this constant. */
+} yVecConst;
 
 /* The matrix constant expression. */
 typedef struct {
-   t_tree Values[9];     /* The matrix values of this constant. */
-} yMatValue;
+   float Values[9];     /* The matrix values of this constant. */
+} yMatConst;
 
 /* The function call expression. */
 typedef struct {
@@ -224,8 +224,8 @@ struct t_tree {
       yIntConst IntConst;
       yBoolConst BoolConst;
       yFloatConst FloatConst;
-      yVecValue VecValue;
-      yMatValue MatValue;
+      yVecConst VecConst;
+      yMatConst MatConst;
       yRValue RValue;
       yLValue LValue;
    } Node;
@@ -291,13 +291,14 @@ extern t_tree mBoolConst(const char *pValue, int pLineNr);
 extern t_tree mFloatConst(float fValue, int pLineNr);
 
 // mVecConst($2.floatVal, $4.floatVal, $6.floatVal, $2.lineNr)
-extern t_tree mVecValue(t_tree fXValue, t_tree fYValue, t_tree fZValue);
+extern t_tree mVecConst(float fXValue, float fYValue, float fZValue, int pLineNr);
 
 
 // mMatConst($3.floatVal, $5.floatVal, $7.floatVal, $11.floatVal, $13.floatVal, $15.floatVal, $19.floatVal, $21.floatVal, $23.floatVal, $3.lineNr)
-extern t_tree mMatValue(t_tree fAAValue, t_tree fABValue, t_tree fACValue, 
-			t_tree fBAValue, t_tree fBBValue, t_tree fBCValue, 
-			t_tree fCAValue, t_tree fCBValue, t_tree fCCValue);
+extern t_tree mMatConst(float fAAValue, float fABValue, float fACValue, 
+			float fBAValue, float fBBValue, float fBCValue, 
+			float fCAValue, float fCBValue, float fCCValue, 
+			int pLineNr);
 
 
 /* Returns a pointer to an rvalue(identifier) expression node. */

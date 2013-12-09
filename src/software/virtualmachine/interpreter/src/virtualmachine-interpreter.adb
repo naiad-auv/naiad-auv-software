@@ -1,4 +1,5 @@
 with Ada.Text_IO;
+
 package body VirtualMachine.Interpreter is
 
    procedure Free(pxInterpreterToDeallocate : in out pCInterpreter) is
@@ -31,10 +32,10 @@ package body VirtualMachine.Interpreter is
             this.Instr_Push_Float(fArgument => this.pxInstructionFeeder.Feed_Float_Argument);
 
          when INSTR_PUSHMAT =>
-            this.Instr_Push_Matrix(xArgument => this.pxInstructionFeeder.Feed_Matrix_Argument);
+            this.Instr_Push_Matrix;
 
          when INSTR_PUSHVEC =>
-            this.Instr_Push_Vector(xArgument => this.pxInstructionFeeder.Feed_Vector_Argument);
+            this.Instr_Push_Vector;
 
          when INSTR_PUSHFP =>
             this.Instr_Push_Frame_Pointer;
@@ -71,9 +72,6 @@ package body VirtualMachine.Interpreter is
 
          when INSTR_RVALVEC =>
             this.Instr_Right_Value_Vector;
-
-         when INSTR_VECCOMP =>
-            this.Instr_Vector_Component(iArgument => this.pxInstructionFeeder.Feed_Integer_Argument);
 
 
          when INSTR_LINK =>
@@ -237,6 +235,15 @@ package body VirtualMachine.Interpreter is
          when INSTR_ARCCOS =>
             this.Instr_ArcCos;
 
+         when INSTR_SQRT =>
+            this.Instr_Sqrt;
+
+         when INSTR_ABSINT =>
+            this.Instr_Abs_Integer;
+
+         when INSTR_ABSFLOAT =>
+            this.Instr_Abs_Float;
+
 
          when INSTR_ITOF =>
             this.Instr_Integer_To_Float;
@@ -319,15 +326,50 @@ package body VirtualMachine.Interpreter is
       this.iProgramCounter := this.iProgramCounter + 1;
       this.pxInstructionFeeder.Set_Program_Counter(iNewProgramCounterValue => this.iProgramCounter);
    end Instr_Push_Float;
-   procedure Instr_Push_Vector(this : in out CInterpreter; xArgument : in Math.Vectors.CVector) is
+   procedure Instr_Push_Vector(this : in out CInterpreter) is
+      fXValue : float;
+      fYValue : float;
+      fZValue : float;
+
    begin
-      this.pxMemoryManager.Push_Vector(xValue => xArgument);
+      this.pxMemoryManager.Pop_Float(fValue => fZValue);
+      this.pxMemoryManager.Pop_Float(fValue => fYValue);
+      this.pxMemoryManager.Pop_Float(fValue => fXValue);
+
+
+      this.pxMemoryManager.Push_Vector(xValue => Math.Vectors.xCreate(fX =>fXValue,
+                                                                      fY => fYValue,
+                                                                      fZ => fZValue));
       this.iProgramCounter := this.iProgramCounter + 1;
       this.pxInstructionFeeder.Set_Program_Counter(iNewProgramCounterValue => this.iProgramCounter);
    end Instr_Push_Vector;
-   procedure Instr_Push_Matrix(this : in out CInterpreter; xArgument : in Math.Matrices.CMatrix) is
+   procedure Instr_Push_Matrix(this : in out CInterpreter) is
+      fAAValue : float;
+      fABValue : float;
+      fACValue : float;
+      fBAValue : float;
+      fBBValue : float;
+      fBCValue : float;
+      fCAValue : float;
+      fCBValue : float;
+      fCCValue : float;
+
    begin
-      this.pxMemoryManager.Push_Matrix(xValue => xArgument);
+      this.pxMemoryManager.Pop_Float(fValue => fCCValue);
+      this.pxMemoryManager.Pop_Float(fValue => fCBValue);
+      this.pxMemoryManager.Pop_Float(fValue => fCAValue);
+
+      this.pxMemoryManager.Pop_Float(fValue => fBCValue);
+      this.pxMemoryManager.Pop_Float(fValue => fBBValue);
+      this.pxMemoryManager.Pop_Float(fValue => fBAValue);
+
+      this.pxMemoryManager.Pop_Float(fValue => fACValue);
+      this.pxMemoryManager.Pop_Float(fValue => fABValue);
+      this.pxMemoryManager.Pop_Float(fValue => fAAValue);
+
+      this.pxMemoryManager.Push_Matrix(xValue => Math.Matrices.xCreate(tfMatrix => ((fAAValue, fABValue, fACValue),
+                                                                                    (fBAValue, fBBValue, fBCValue),
+                                                                                    (fCAValue, fCBValue, fCCValue))));
       this.iProgramCounter := this.iProgramCounter + 1;
       this.pxInstructionFeeder.Set_Program_Counter(iNewProgramCounterValue => this.iProgramCounter);
    end Instr_Push_Matrix;
@@ -451,25 +493,6 @@ package body VirtualMachine.Interpreter is
       this.iProgramCounter := this.iProgramCounter + 1;
       this.pxInstructionFeeder.Set_Program_Counter(iNewProgramCounterValue => this.iProgramCounter);
    end Instr_Right_Value_Vector;
-
-   procedure Instr_Vector_Component (this : in out CInterpreter; iArgument : in integer) is
-      xVector : Math.Vectors.CVector;
-   begin
-      Ada.Text_IO.Put_Line("VECCOMP");
-      this.pxMemoryManager.Pop_Vector(xValue => xVector);
-      case iArgument is
-         when 1 =>
-            this.pxMemoryManager.Push_Float(fValue => xVector.fGet_X);
-         when 2 =>
-            this.pxMemoryManager.Push_Float(fValue => xVector.fGet_Y);
-         when 3 =>
-            this.pxMemoryManager.Push_Float(fValue => xVector.fGet_Z);
-         when others =>
-            raise Numeric_Error;
-      end case;
-      this.iProgramCounter := this.iProgramCounter + 1;
-      this.pxInstructionFeeder.Set_Program_Counter(iNewProgramCounterValue => this.iProgramCounter);
-   end Instr_Vector_Component;
 
    procedure Instr_Link (this : in out CInterpreter) is
    begin
@@ -939,6 +962,33 @@ package body VirtualMachine.Interpreter is
       this.iProgramCounter := this.iProgramCounter + 1;
       this.pxInstructionFeeder.Set_Program_Counter(iNewProgramCounterValue => this.iProgramCounter);
    end Instr_ArcCos;
+   procedure Instr_Sqrt (this : in out CInterpreter) is
+      fValue : float;
+   begin
+      this.pxMemoryManager.Pop_Float(fValue => fValue);
+      this.pxMemoryManager.Push_Float(fValue => Ada.Numerics.Elementary_Functions.Sqrt(fValue));
+
+      this.iProgramCounter := this.iProgramCounter + 1;
+      this.pxInstructionFeeder.Set_Program_Counter(iNewProgramCounterValue => this.iProgramCounter);
+   end Instr_Sqrt;
+   procedure Instr_Abs_Integer (this : in out CInterpreter) is
+      iValue : integer;
+   begin
+      this.pxMemoryManager.Pop_Int(iValue => iValue);
+      this.pxMemoryManager.Push_Int(iValue => abs(iValue));
+
+      this.iProgramCounter := this.iProgramCounter + 1;
+      this.pxInstructionFeeder.Set_Program_Counter(iNewProgramCounterValue => this.iProgramCounter);
+   end Instr_Abs_Integer;
+   procedure Instr_Abs_Float (this : in out CInterpreter) is
+      fValue : float;
+   begin
+      this.pxMemoryManager.Pop_Float(fValue => fValue);
+      this.pxMemoryManager.Push_Float(fValue => abs(fValue));
+
+      this.iProgramCounter := this.iProgramCounter + 1;
+      this.pxInstructionFeeder.Set_Program_Counter(iNewProgramCounterValue => this.iProgramCounter);
+   end Instr_Abs_Float;
 
    procedure Instr_Integer_To_Float (this : in out CInterpreter) is
       iValue : integer;

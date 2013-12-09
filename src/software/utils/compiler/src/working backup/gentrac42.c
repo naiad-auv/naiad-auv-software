@@ -31,8 +31,8 @@ void genTrac42Binary(t_tree node);
 void genTrac42IntConst(t_tree node);
 void genTrac42BoolConst(t_tree node);
 void genTrac42FloatConst(t_tree node);
-void genTrac42VecValue(t_tree node);
-void genTrac42MatValue(t_tree node);
+void genTrac42VecConst(t_tree node);
+void genTrac42MatConst(t_tree node);
 void genTrac42RValue(t_tree node);
 void genTrac42LValue(t_tree node);
 
@@ -116,11 +116,11 @@ void genTrac42Expr(t_tree node)
 	case kBoolConst:
 		genTrac42BoolConst(node);
 		break;
-	case kVecValue:
-		genTrac42VecValue(node);
+	case kVecConst:
+		genTrac42VecConst(node);
 		break;
-	case kMatValue:
-		genTrac42MatValue(node);
+	case kMatConst:
+		genTrac42MatConst(node);
 		break;
 	case kFuncCallExpr:
 		genTrac42FuncCallExpr(node);
@@ -543,6 +543,12 @@ void genTrac42Binary(t_tree node)
 
 	switch (node->Node.Binary.Operator)
 	{
+	case DOT:
+		fprintf(genTrac42FilePtr, " dot ");
+		break;
+	case CROSS:
+		fprintf(genTrac42FilePtr, " cross ");
+		break;
 	case SUB:
 		fprintf(genTrac42FilePtr, " - ");
 		break;
@@ -602,48 +608,18 @@ void genTrac42FloatConst(t_tree node)
 	fprintf(genTrac42FilePtr, "%f", node->Node.FloatConst.Value);
 }
 
-// handles vector values
-void genTrac42VecValue(t_tree node)
+// handles vector consts
+void genTrac42VecConst(t_tree node)
 {
-	fprintf(genTrac42FilePtr, "[");
-	genTrac42Expr(node->Node.VecValue.Values[0]);
-	fprintf(genTrac42FilePtr, ", ");
-	genTrac42Expr(node->Node.VecValue.Values[1]);
-	fprintf(genTrac42FilePtr, ", ");
-	genTrac42Expr(node->Node.VecValue.Values[2]);
-	fprintf(genTrac42FilePtr, "]");
+	fprintf(genTrac42FilePtr, "[%f, %f, %f]", node->Node.VecConst.Values[0], node->Node.VecConst.Values[1], node->Node.VecConst.Values[2]);
 }
 
-// handles vector values
-void genTrac42MatValue(t_tree node)
+// handles vector consts
+void genTrac42MatConst(t_tree node)
 {
-	fprintf(genTrac42FilePtr, "[");
-
-	fprintf(genTrac42FilePtr, "[");
-	genTrac42Expr(node->Node.VecValue.Values[0]);
-	fprintf(genTrac42FilePtr, ", ");
-	genTrac42Expr(node->Node.VecValue.Values[1]);
-	fprintf(genTrac42FilePtr, ", ");
-	genTrac42Expr(node->Node.VecValue.Values[2]);
-	fprintf(genTrac42FilePtr, "], ");
-
-	fprintf(genTrac42FilePtr, "[");
-	genTrac42Expr(node->Node.VecValue.Values[3]);
-	fprintf(genTrac42FilePtr, ", ");
-	genTrac42Expr(node->Node.VecValue.Values[4]);
-	fprintf(genTrac42FilePtr, ", ");
-	genTrac42Expr(node->Node.VecValue.Values[5]);
-	fprintf(genTrac42FilePtr, "], ");
-
-	fprintf(genTrac42FilePtr, "[");
-	genTrac42Expr(node->Node.VecValue.Values[6]);
-	fprintf(genTrac42FilePtr, ", ");
-	genTrac42Expr(node->Node.VecValue.Values[7]);
-	fprintf(genTrac42FilePtr, ", ");
-	genTrac42Expr(node->Node.VecValue.Values[8]);
-	fprintf(genTrac42FilePtr, "]");
-
-	fprintf(genTrac42FilePtr, "]");
+	fprintf(genTrac42FilePtr, "[[%f, %f, %f], [%f, %f, %f], [%f, %f, %f]]", node->Node.MatConst.Values[0], node->Node.MatConst.Values[1], node->Node.MatConst.Values[2],
+										 node->Node.MatConst.Values[3], node->Node.MatConst.Values[4], node->Node.MatConst.Values[5],
+										 node->Node.MatConst.Values[6], node->Node.MatConst.Values[7], node->Node.MatConst.Values[8]);
 }
 
 

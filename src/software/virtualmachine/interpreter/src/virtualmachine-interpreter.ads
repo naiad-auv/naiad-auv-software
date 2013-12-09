@@ -45,8 +45,8 @@ private
    procedure Instr_Push_Bool (this : in out CInterpreter; bArgument : in boolean);
    procedure Instr_Push_Int (this : in out CInterpreter; iArgument : in integer);
    procedure Instr_Push_Float (this : in out CInterpreter; fArgument : in float);
-   procedure Instr_Push_Vector (this : in out CInterpreter; xArgument : in Math.Vectors.CVector);
-   procedure Instr_Push_Matrix (this : in out CInterpreter; xArgument : in Math.Matrices.CMatrix);
+   procedure Instr_Push_Vector (this : in out CInterpreter);
+   procedure Instr_Push_Matrix (this : in out CInterpreter);
 
    procedure Instr_Branch_False (this : in out CInterpreter; iArgument : in integer);
    procedure Instr_Branch_Always (this : in out CInterpreter; iArgument : in integer);
@@ -63,8 +63,6 @@ private
    procedure Instr_Right_Value_Float (this : in out CInterpreter);
    procedure Instr_Right_Value_Matrix (this : in out CInterpreter);
    procedure Instr_Right_Value_Vector (this : in out CInterpreter);
-
-   procedure Instr_Vector_Component (this : in out CInterpreter; iArgument : in integer);
 
    procedure Instr_Link (this : in out CInterpreter);
    procedure Instr_Unlink (this : in out CInterpreter);
@@ -124,6 +122,9 @@ private
    procedure Instr_Cos (this : in out CInterpreter);
    procedure Instr_ArcSin (this : in out CInterpreter);
    procedure Instr_ArcCos (this : in out CInterpreter);
+   procedure Instr_Sqrt (this : in out CInterpreter);
+   procedure Instr_Abs_Integer (this : in out CInterpreter);
+   procedure Instr_Abs_Float (this : in out CInterpreter);
 
    procedure Instr_Integer_To_Float (this : in out CInterpreter);
    procedure Instr_Float_To_Integer (this : in out CInterpreter);

@@ -181,32 +181,33 @@ t_tree mFloatConst(float fValue, int pLineNr)
    return node;
 }
 
-t_tree mVecValue(t_tree XValue, t_tree YValue, t_tree ZValue)
+t_tree mVecConst(float fXValue, float fYValue, float fZValue, int pLineNr)
 {
-   t_tree node = allocateNode(kVecValue, XValue->LineNr);
-   node->Node.VecValue.Values[0] = XValue;
-   node->Node.VecValue.Values[1] = YValue;
-   node->Node.VecValue.Values[2] = ZValue;
+   t_tree node = allocateNode(kVecConst, pLineNr);
+   node->Node.VecConst.Values[0] = fXValue;
+   node->Node.VecConst.Values[1] = fYValue;
+   node->Node.VecConst.Values[2] = fZValue;
    return node;
 }
 
-t_tree mMatValue(t_tree AAValue, t_tree ABValue, t_tree ACValue, 
-			t_tree BAValue, t_tree BBValue, t_tree BCValue, 
-			t_tree CAValue, t_tree CBValue, t_tree CCValue)
+t_tree mMatConst(float fAAValue, float fABValue, float fACValue, 
+			float fBAValue, float fBBValue, float fBCValue, 
+			float fCAValue, float fCBValue, float fCCValue, 
+			int pLineNr)
 {
-   t_tree node = allocateNode(kMatValue, AAValue->LineNr);
+   t_tree node = allocateNode(kMatConst, pLineNr);
 
-   node->Node.MatValue.Values[0] = AAValue;
-   node->Node.MatValue.Values[1] = ABValue;
-   node->Node.MatValue.Values[2] = ACValue;
+   node->Node.VecConst.Values[0] = fAAValue;
+   node->Node.VecConst.Values[1] = fABValue;
+   node->Node.VecConst.Values[2] = fACValue;
 
-   node->Node.MatValue.Values[3] = BAValue;
-   node->Node.MatValue.Values[4] = BBValue;
-   node->Node.MatValue.Values[5] = BCValue;
+   node->Node.VecConst.Values[3] = fBAValue;
+   node->Node.VecConst.Values[4] = fBBValue;
+   node->Node.VecConst.Values[5] = fBCValue;
 
-   node->Node.MatValue.Values[6] = CAValue;
-   node->Node.MatValue.Values[7] = CBValue;
-   node->Node.MatValue.Values[8] = CCValue;
+   node->Node.VecConst.Values[6] = fCAValue;
+   node->Node.VecConst.Values[7] = fCBValue;
+   node->Node.VecConst.Values[8] = fCCValue;
 
    return node;
 }

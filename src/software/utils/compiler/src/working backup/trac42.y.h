@@ -45,30 +45,31 @@
      PLUSOP = 263,
      MINUSOP = 264,
      MULDIVOP = 265,
-     UNOP = 266,
-     NOTOP = 267,
-     BASIC_TYPE = 268,
-     ID = 269,
-     BOOL_CONST = 270,
-     STRING_CONST = 271,
-     INT_CONST = 272,
-     FLOAT_CONST = 273,
-     IF = 274,
-     THEN = 275,
-     ELSE = 276,
-     WHILE = 277,
-     RETURN = 278,
-     END = 279,
-     EXIT = 280,
-     LOOP = 281,
-     PROCEDURE = 282,
-     FUNCTION = 283,
-     IS = 284,
-     BGN = 285,
-     ASSIGN = 286,
-     ASM = 287,
-     ADDR_TYPE = 288,
-     MATH_TYPE = 289
+     VECOP = 266,
+     UNOP = 267,
+     NOTOP = 268,
+     BASIC_TYPE = 269,
+     ID = 270,
+     BOOL_CONST = 271,
+     STRING_CONST = 272,
+     INT_CONST = 273,
+     FLOAT_CONST = 274,
+     IF = 275,
+     THEN = 276,
+     ELSE = 277,
+     WHILE = 278,
+     RETURN = 279,
+     END = 280,
+     EXIT = 281,
+     LOOP = 282,
+     PROCEDURE = 283,
+     FUNCTION = 284,
+     IS = 285,
+     BGN = 286,
+     ASSIGN = 287,
+     ASM = 288,
+     ADDR_TYPE = 289,
+     MATH_TYPE = 290
    };
 #endif
 
@@ -93,7 +94,7 @@ typedef union YYSTYPE
 
 
 /* Line 2068 of yacc.c  */
-#line 97 "./src/trac42.y.h"
+#line 98 "./src/trac42.y.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */

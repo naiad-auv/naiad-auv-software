@@ -152,6 +152,12 @@ and           {yylval.yyOperator.lineNr = yylineno;
                yylval.yyOperator.opType = DIV;
                return (MULDIVOP);}
 
+cross         {yylval.yyOperator.lineNr = yylineno;
+               yylval.yyOperator.opType = CROSS;
+               return (VECOP);}
+dot           {yylval.yyOperator.lineNr = yylineno;
+               yylval.yyOperator.opType = DOT;
+               return (VECOP);}
 
 
 true          {yylval.yyString.strVal = dstrcpy(yytext); yylval.yyString.lineNr = yylineno;
