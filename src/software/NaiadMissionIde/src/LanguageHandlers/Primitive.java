@@ -1,23 +1,28 @@
 package LanguageHandlers;
 
+import Drawables.DrawableVariable;
 import Enums.ILanguageObjectType;
+import Enums.VariableType;
 import Exceptions.NullReferenceException;
+import Interfaces.IDrawable;
 import Interfaces.ILanguageObject;
 import Interfaces.ILanguageVariable;
 import Interfaces.IPrimitive;
 
+import java.awt.*;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
 
-public class Primitive implements IPrimitive, ILanguageObject{
+public class Primitive extends Observable implements IPrimitive, ILanguageObject{
 
     private String primitiveName;
-    private ArrayList<ILanguageVariable> primitiveInputs;
-    private ArrayList<ILanguageVariable> primitiveOutputs;
+    private ArrayList<IDrawable> primitiveInputs;
+    private ArrayList<IDrawable> primitiveOutputs;
 
     private final Path filePath;
 
@@ -26,8 +31,8 @@ public class Primitive implements IPrimitive, ILanguageObject{
         this.primitiveName = name;
         this.filePath = path;
 
-        this.primitiveInputs = new ArrayList<ILanguageVariable>();
-        this.primitiveOutputs  = new ArrayList<ILanguageVariable>();
+        this.primitiveInputs = new ArrayList<IDrawable>();
+        this.primitiveOutputs  = new ArrayList<IDrawable>();
 
         this.loadFile();
     }
@@ -56,12 +61,12 @@ public class Primitive implements IPrimitive, ILanguageObject{
     }
 
     @Override
-    public List<ILanguageVariable> getInputVariables() {
+    public List<IDrawable> getInputVariables() {
         return this.primitiveInputs;
     }
 
     @Override
-    public List<ILanguageVariable> getOutputVariables() {
+    public List<IDrawable> getOutputVariables() {
         return this.primitiveOutputs;
     }
 
@@ -117,21 +122,25 @@ public class Primitive implements IPrimitive, ILanguageObject{
     private void loadFile()
     {
         //TODO detta ska läsas från filen
-     /*   this.primitiveInputs.add(new PrimitiveVariable(VariableMode.IN));
-        this.primitiveInputs.add(new PrimitiveVariable(VariableMode.IN));
-        this.primitiveInputs.add(new PrimitiveVariable(VariableMode.IN));
-        this.primitiveInputs.add(new PrimitiveVariable(VariableMode.IN));
+        this.primitiveInputs.add(new DrawableVariable(VariableType.INTEGER, new Point(0,0)));
+        this.primitiveInputs.add(new DrawableVariable(VariableType.INTEGER, new Point(0,0)));
+        this.primitiveInputs.add(new DrawableVariable(VariableType.INTEGER, new Point(0,0)));
+        this.primitiveInputs.add(new DrawableVariable(VariableType.INTEGER, new Point(0,0)));
 
+        this.primitiveOutputs.add(new DrawableVariable(VariableType.INTEGER, new Point(0,0)));
+        this.primitiveOutputs.add(new DrawableVariable(VariableType.INTEGER, new Point(0,0)));
+        this.primitiveOutputs.add(new DrawableVariable(VariableType.INTEGER, new Point(0,0)));
+        this.primitiveOutputs.add(new DrawableVariable(VariableType.INTEGER, new Point(0,0)));
 
-        this.primitiveOutputs.add(new PrimitiveVariable(VariableMode.OUT));
-        this.primitiveOutputs.add(new PrimitiveVariable(VariableMode.OUT));
-        this.primitiveOutputs.add(new PrimitiveVariable(VariableMode.OUT));
-        this.primitiveOutputs.add(new PrimitiveVariable(VariableMode.OUT));
-       */
     }
 
     @Override
     public ILanguageObjectType getType() {
         return ILanguageObjectType.Primitive;
+    }
+
+    @Override
+    public void addVariableAssignment(IDrawable predecessor, int pos) {
+        this.primitiveInputs.get(pos).setScope(predecessor);
     }
 }

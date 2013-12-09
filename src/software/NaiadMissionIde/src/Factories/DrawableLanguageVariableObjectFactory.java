@@ -1,6 +1,7 @@
 package Factories;
 
 import Drawables.LanguageVariableDrawable;
+import Enums.VariableType;
 import Interfaces.ILanguageVariable;
 import LanguageHandlers.LanguageVariable;
 import Settings.CoreSettings.PenumbraCoreSettings;
@@ -26,7 +27,8 @@ public class DrawableLanguageVariableObjectFactory {
         NAME,
         COLOR,
         STATIC,
-        PATTERN
+        PATTERN,
+        TYPE
     }
 
 
@@ -70,10 +72,14 @@ public class DrawableLanguageVariableObjectFactory {
                 case PATTERN:
                     variable.setPattern(lineContents[1]);
                     break;
+                case TYPE:
+                    variable.setType(VariableType.valueOf(lineContents[1].toUpperCase()));
                 default:
                     System.out.println("Error in variable type on line number" + (i + 1));
             }
         }
+
+        output.Initialize();
 
         return output;
     }

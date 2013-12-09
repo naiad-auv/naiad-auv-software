@@ -23,4 +23,7 @@ public interface IDrawable {
     public boolean isPointInside(Point p);
 
 
+    Object getScope();
+
+    void setScope(Object variable);
 }

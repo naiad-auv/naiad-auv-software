@@ -5,6 +5,7 @@ import Exceptions.NullReferenceException;
 
 import java.nio.file.Path;
 import java.util.List;
+import java.util.Observer;
 
 /**
  * Created with IntelliJ IDEA.
@@ -19,9 +20,13 @@ public interface ILanguageObject {
 
     public String toString();
 
-    public List<ILanguageVariable> getInputVariables();
+    public List<IDrawable> getInputVariables();
 
-    public List<ILanguageVariable> getOutputVariables();
+    public List<IDrawable> getOutputVariables();
 
     public ILanguageObjectType getType();
+
+    public void addVariableAssignment(IDrawable predecessor, int pos);
+
+    public void addObserver(Observer observer);
 }

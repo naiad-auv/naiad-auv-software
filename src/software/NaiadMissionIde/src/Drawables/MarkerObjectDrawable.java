@@ -74,4 +74,14 @@ public class MarkerObjectDrawable implements IDrawable {
         return (mousePosition.x > this.position.x && mousePosition.x < this.position.x + this.radius &&
                 mousePosition.y > this.position.y && mousePosition.y < this.position.y + this.radius);
     }
+
+    @Override
+    public Object getScope() {
+        return markerToDraw;
+    }
+
+    @Override
+    public void setScope(Object variable) {
+        this.markerToDraw = (ILanguageObject)variable;
+    }
 }

@@ -5,13 +5,17 @@ import Enums.VariableType;
 import Interfaces.ILanguageObject;
 import Interfaces.ILanguageVariable;
 
-public class LanguageVariable implements ILanguageVariable {
+import java.util.Observable;
+
+public class LanguageVariable extends Observable implements ILanguageVariable {
 
     private VariableMode variableMode;
+    private VariableType type;
 
     private String variableValue;
     private String variablePrefix;
     private String variableName;
+
     private boolean isStatic;
     private String pattern;
 
@@ -44,22 +48,27 @@ public class LanguageVariable implements ILanguageVariable {
 
     @Override
     public VariableType getType() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return this.type;
     }
 
     @Override
     public void setMode(VariableMode newMode) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        this.variableMode = newMode;
     }
 
     @Override
-    public void setValue(Object value) {
-        //To change body of implemented methods use File | Settings | File Templates.
+    public void setValue(String value) {
+        if(this.checkMatch(value) && !this.isStatic())
+        {
+            this.variableValue = value;
+            this.setChanged();
+            this.notifyObservers();
+        }
     }
 
     @Override
     public String toString() {
-        if(this.variableValue != "" && this.variableValue != null)
+        if(this.variableValue != null && this.variableValue != "")
             return this.variableName + " : " + this.variableValue;
         return this.variableName;
     }
@@ -101,7 +110,7 @@ public class LanguageVariable implements ILanguageVariable {
 
     @Override
     public boolean isStatic() {
-        return false;  //To change body of implemented methods use File | Settings | File Templates.
+        return this.isStatic;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
@@ -113,5 +122,20 @@ public class LanguageVariable implements ILanguageVariable {
     public String getPrefix() {
         return this.variablePrefix;  //To change body of implemented methods use File | Settings | File Templates.
     }
+
+    @Override
+    public boolean checkMatch(String text) {
+        if(this.pattern != null)
+        {
+            return text.matches(this.pattern);
+        }
+        return false;
+    }
+
+    @Override
+    public void setType(VariableType type) {
+        this.type = type;
+    }
+
 }
 

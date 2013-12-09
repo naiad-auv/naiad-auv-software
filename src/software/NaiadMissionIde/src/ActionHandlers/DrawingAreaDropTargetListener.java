@@ -43,67 +43,37 @@ public class DrawingAreaDropTargetListener extends DropTargetAdapter {
 
             Transferable tr = event.getTransferable();
 
-            try
+            if (event.isDataFlavorSupported(TransferableLanguageObject.languageObjectFlavor))
             {
                 final ILanguageObject transferData = (ILanguageObject)tr.getTransferData(TransferableLanguageObject.languageObjectFlavor);
 
-                if(transferData != null && ILanguageObjectDropped(event, transferData))
-                {
-                    return;
-                }
-            }
-            catch(Exception e)
-            {
+                handleDroppedObject(event, this.transferObjectHandler, transferData);
+                return;
             }
 
-            try
+            if (event.isDataFlavorSupported(TransferableVariableTypeObject.languageVariableFlavour))
             {
                 final ILanguageVariable transferData = (ILanguageVariable)tr.getTransferData(TransferableVariableTypeObject.languageVariableFlavour);
 
-                if(transferData != null && ILanguageVariableDropped(event, transferData))
-                {
-                    return;
-                }
+                handleDroppedObject(event, this.transferVariableHandler, transferData);
+                return;
             }
-            catch(Exception e)
-            {
-            }
-
-
 
             event.rejectDrop();
+
         } catch (Exception e) {
             e.printStackTrace();
             event.rejectDrop();
         }
     }
 
-    private boolean ILanguageVariableDropped(final DropTargetDropEvent event,final ILanguageVariable transferData) throws ScopeModificationNotSupported
+    private void handleDroppedObject(final DropTargetDropEvent event,ICommand handler, final Object transferData) throws ScopeModificationNotSupported
     {
-        if (event.isDataFlavorSupported(TransferableVariableTypeObject.languageVariableFlavour)) {
+        event.acceptDrop(DnDConstants.ACTION_COPY);
 
-            event.acceptDrop(DnDConstants.ACTION_COPY);
+        handler.setScope(new ArrayList<Object>() {{ add(transferData); add(event); }});
+        handler.execute();
 
-            this.transferVariableHandler.setScope(new ArrayList<Object>() {{ add(transferData); add(event); }});
-            this.transferVariableHandler.execute();
-
-            event.dropComplete(true);
-            return true;
-        }
-        return false;
-    }
-
-    private boolean ILanguageObjectDropped(final DropTargetDropEvent event, final ILanguageObject transferData) throws ScopeModificationNotSupported {
-        if (event.isDataFlavorSupported(TransferableLanguageObject.languageObjectFlavor)) {
-
-            event.acceptDrop(DnDConstants.ACTION_COPY);
-
-            this.transferObjectHandler.setScope(new ArrayList<Object>() {{ add(transferData); add(event); }});
-            this.transferObjectHandler.execute();
-
-            event.dropComplete(true);
-            return true;
-        }
-        return false;
+        event.dropComplete(true);
     }
 }
