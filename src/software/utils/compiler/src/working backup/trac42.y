@@ -52,11 +52,13 @@ int yylex(void);
 %left  <yyOperator> LELTOP MEMTOP
 %left  <yyOperator> MINUSOP PLUSOP
 %left  <yyOperator> MULDIVOP
+%left  <yyOperator> VECOP
 %right <yyOperator> NOTOP UNOP
 
 /* Rule types on parse stack */
 %type  <yyNode>   program functions function formals formal
 %type  <yyNode>   decls decl stmnts stmnt expr actuals exprs
+%type  <yyFloat>  vec_comp
 %type  <yyType>   type
 %type  <yyOperator> unaryop
 
@@ -127,6 +129,7 @@ expr        : MINUSOP expr %prec UNOP								{ $$ = mUnary($1.opType, $2, $1.lin
             | expr PLUSOP expr									{ $$ = mBinary($1, $2.opType, $3, $2.lineNr); }
             | expr MINUSOP expr									{ $$ = mBinary($1, $2.opType, $3, $2.lineNr); }
             | expr MULDIVOP expr								{ $$ = mBinary($1, $2.opType, $3, $2.lineNr); }
+            | expr VECOP expr									{ $$ = mBinary($1, $2.opType, $3, $2.lineNr); }
             | expr ANDOP expr									{ $$ = mBinary($1, $2.opType, $3, $2.lineNr); }
             | expr OROP expr									{ $$ = mBinary($1, $2.opType, $3, $2.lineNr); }
             | expr EQOP expr									{ $$ = mBinary($1, $2.opType, $3, $2.lineNr); }
@@ -139,16 +142,21 @@ expr        : MINUSOP expr %prec UNOP								{ $$ = mUnary($1.opType, $2, $1.lin
             | INT_CONST										{ $$ = mIntConst($1.intVal, $1.lineNr); }
             | BOOL_CONST									{ $$ = mBoolConst($1.strVal, $1.lineNr); }
             | FLOAT_CONST									{ $$ = mFloatConst($1.floatVal, $1.lineNr); }
-            | '[' expr ',' expr ',' expr ']'							{ $$ = mVecValue($2, $4, $6); }
-            | '[' '[' expr ',' expr ',' expr ']' ',' 
-	          '[' expr ',' expr ',' expr ']' ',' 
-                  '[' expr ',' expr ',' expr ']' ']'						{ $$ = mMatValue($3, $5, $7, 
-													         $11, $13, $15, 
-														 $19, $21, $23); }
+            | '[' vec_comp ',' vec_comp ',' vec_comp ']'					{ $$ = mVecConst($2.floatVal, $4.floatVal, $6.floatVal, $2.lineNr); }
+            | '[' '[' vec_comp ',' vec_comp ',' vec_comp ']' ',' 
+	          '[' vec_comp ',' vec_comp ',' vec_comp ']' ',' 
+                  '[' vec_comp ',' vec_comp ',' vec_comp ']' ']'				{ $$ = mMatConst($3.floatVal, $5.floatVal, $7.floatVal, 
+													         $11.floatVal, $13.floatVal, $15.floatVal, 
+														 $19.floatVal, $21.floatVal, $23.floatVal, 
+														 $3.lineNr); }
             ;
 
 unaryop	    : BASIC_TYPE									{ $$.opType = ($1.type == INT ? INTOP : ($1.type == FLOAT ? FLOATOP : ERROP)); $$.lineNr = $1.lineNr; }
 	    | MATH_TYPE										{ $$ = $1; }
+	    ;
+
+vec_comp    : MINUSOP FLOAT_CONST								{ $$ = $2; $$.floatVal *= -1.0; }
+	    | FLOAT_CONST									{ $$ = $1; }
 	    ;
 
 actuals     : exprs										{ $$ = $1; }

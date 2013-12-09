@@ -33,8 +33,6 @@ void nameFuncCallExpr(t_tree node);
 void nameActual(t_tree node, int number);
 void nameUnary(t_tree node);
 void nameBinary(t_tree node);
-void nameVecValue(t_tree node);
-void nameMatValue(t_tree node);
 void nameRValue(t_tree node);
 void nameLValue(t_tree node);
 
@@ -51,13 +49,9 @@ void nameExpr(t_tree node)
 	case kIntConst:
 	case kBoolConst:
 	case kFloatConst:
+	case kVecConst:
+	case kMatConst:
 		return;
-	case kVecValue:
-		nameVecValue(node);
-		break;
-	case kMatValue:
-		nameMatValue(node);
-		break;
 	case kFuncCallExpr:
 		nameFuncCallExpr(node);
 		break;
@@ -289,19 +283,6 @@ void nameBinary(t_tree node)
 	nameExpr(node->Node.Binary.LeftOperand);
 	nameExpr(node->Node.Binary.RightOperand);
 }
-void nameVecValue(t_tree node)
-{
-	int i;
-	for (i = 0; i < 3; i++)
-		nameExpr(node->Node.VecValue.Values[i]);
-}
-void nameMatValue(t_tree node)
-{
-	int i;
-	for (i = 0; i < 9; i++)
-		nameExpr(node->Node.MatValue.Values[i]);
-}
-
 void nameRValue(t_tree node)
 {
 	checkIdUndefined(node->Node.RValue.Id, node->LineNr);

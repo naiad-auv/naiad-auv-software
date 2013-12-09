@@ -35,13 +35,6 @@ procedure Ins_Controller_Main is
 
    tempMSG : CAN_Defs.CAN_Message;
 begin
---     loop
---        Digital_IO.User_Led(true);
---        Avr.AT90CAN128.CLOCK.Delay_ms(1000);
---        Digital_IO.User_Led(false);
---        Avr.AT90CAN128.CLOCK.Delay_ms(1000);
---     end loop;
-
 
    Ins_Controller.Init(AVR.AT90CAN128.USART.USART0, Can_Defs.K250, false); --this will initiate the can bus as well
 
@@ -52,6 +45,9 @@ begin
 
 
    loop
+
+      Ins_Controller.Update;
+
       AVR.AT90CAN128.CAN.Can_Get(msg, bMessageReceived, 0);
 
       if bMessageReceived then

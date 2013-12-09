@@ -29,8 +29,8 @@ eType typeBinary(t_tree node);
 eType typeIntConst(t_tree node);
 eType typeBoolConst(t_tree node);
 eType typeFloatConst(t_tree node);
-eType typeVecValue(t_tree node);
-eType typeMatValue(t_tree node);
+eType typeVecConst(t_tree node);
+eType typeMatConst(t_tree node);
 eType typeRValue(t_tree node);
 eType typeLValue(t_tree node);
 
@@ -92,11 +92,11 @@ eType typeExpr(t_tree node)
 	case kFloatConst:
 		return typeFloatConst(node);
 		break;
-	case kVecValue:
-		return typeVecValue(node);
+	case kVecConst:
+		return typeVecConst(node);
 		break;
-	case kMatValue:
-		return typeMatValue(node);
+	case kMatConst:
+		return typeMatConst(node);
 		break;
 	case kFuncCallExpr:
 		return typeFuncCallExpr(node);
@@ -431,7 +431,20 @@ eType typeBinary(t_tree node)
 	}
 	else
 	{
-		if ((leftType == MATRIX && rightType == VECTOR) || (leftType == VECTOR && rightType == MATRIX))
+		if (leftType == VECTOR && leftType == rightType)
+		{
+			if (node->Node.Binary.Operator == CROSS)
+			{
+				node->Node.Binary.Type = VECTOR;
+				return VECTOR;
+			}
+			else if (node->Node.Binary.Operator == DOT)
+			{
+				node->Node.Binary.Type = FLOAT;
+				return FLOAT;
+			}
+		}
+		else if ((leftType == MATRIX && rightType == VECTOR) || (leftType == VECTOR && rightType == MATRIX))
 		{
 			node->Node.Binary.Type = VECTOR;
 			return VECTOR;
@@ -458,32 +471,12 @@ eType typeFloatConst(t_tree node)
 {
 	return FLOAT;
 }
-eType typeVecValue(t_tree node)
+eType typeVecConst(t_tree node)
 {
-	int i;
-	for (i = 0; i < 3; i++)
-	{
-		if (typeExpr(node->Node.VecValue.Values[i]) != FLOAT)
-		{
-			if (typeErrorLineNr < 0)
-				typeErrorLineNr = node->LineNr;
-			return ERROR_TYPE;
-		}
-	}
 	return VECTOR;
 }
-eType typeMatValue(t_tree node)
+eType typeMatConst(t_tree node)
 {
-	int i;
-	for (i = 0; i < 9; i++)
-	{
-		if (typeExpr(node->Node.MatValue.Values[i]) != FLOAT)
-		{
-			if (typeErrorLineNr < 0)
-				typeErrorLineNr = node->LineNr;
-			return ERROR_TYPE;
-		}
-	}
 	return MATRIX;
 }
 eType typeRValue(t_tree node)

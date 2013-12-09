@@ -76,8 +76,8 @@ void genSMC_PUSHFP();
 void genSMC_PUSHINT(int iValue);
 void genSMC_PUSHBOOL(const char * pValue);
 void genSMC_PUSHFLOAT(float fValue);
-void genSMC_PUSHMAT();
-void genSMC_PUSHVEC();
+void genSMC_PUSHMAT(float fMatrix[9]);
+void genSMC_PUSHVEC(float fVector[3]);
 
 
 // rval uses address from top of stack instead of argument
@@ -175,8 +175,8 @@ void genSMCUnary(t_tree node);
 void genSMCBinary(t_tree node);
 void genSMCIntConst(t_tree node);
 void genSMCFloatConst(t_tree node);
-void genSMCVecValue(t_tree node);
-void genSMCMatValue(t_tree node);
+void genSMCVecConst(t_tree node);
+void genSMCMatConst(t_tree node);
 void genSMCBoolConst(t_tree node);
 void genSMCRValue(t_tree node);
 void genSMCLValue(t_tree node);
@@ -417,15 +417,18 @@ void genSMC_PUSHFLOAT(float fValue)
 	genSMCNewLine();
 	fprintf(genSMCFilePtr, "PUSHFLOAT %f", fValue);
 }
-void genSMC_PUSHMAT()
+void genSMC_PUSHMAT(float fMatrix[9])
 {
 	genSMCNewLine();
-	fprintf(genSMCFilePtr, "PUSHMAT");
+	fprintf(genSMCFilePtr, "PUSHMAT [[%f,%f,%f], [%f,%f,%f], [%f,%f,%f]]", 
+				fMatrix[0], fMatrix[1], fMatrix[2],
+ 				fMatrix[3], fMatrix[4], fMatrix[5], 
+				fMatrix[6], fMatrix[7], fMatrix[8] );
 }
-void genSMC_PUSHVEC()
+void genSMC_PUSHVEC(float fVector[3])
 {
 	genSMCNewLine();
-	fprintf(genSMCFilePtr, "PUSHVEC");
+	fprintf(genSMCFilePtr, "PUSHVEC [%f,%f,%f]", fVector[0], fVector[1], fVector[2]);
 }
 
 
@@ -782,11 +785,11 @@ void genSMCCallNodeFunction(t_tree node)
 	case kFloatConst:
 		genSMCFloatConst(node);
 		break;
-	case kVecValue:
-		genSMCVecValue(node);
+	case kVecConst:
+		genSMCVecConst(node);
 		break;
-	case kMatValue:
-		genSMCMatValue(node);
+	case kMatConst:
+		genSMCMatConst(node);
 		break;
 	case kFuncCallExpr:
 		genSMCFuncCallExpr(node);
@@ -1419,19 +1422,13 @@ void genSMCFloatConst(t_tree node)
 {
 	genSMC_PUSHFLOAT(node->Node.FloatConst.Value);
 }
-void genSMCVecValue(t_tree node)
+void genSMCVecConst(t_tree node)
 {
-	int i;
-	for (i = 0; i < 3; i++)
-		genSMCCallNodeFunction(node->Node.VecValue.Values[i]);
-	genSMC_PUSHVEC();
+	genSMC_PUSHVEC(node->Node.VecConst.Values);
 }
-void genSMCMatValue(t_tree node)
+void genSMCMatConst(t_tree node)
 {
-	int i;
-	for (i = 0; i < 9; i++)
-		genSMCCallNodeFunction(node->Node.MatValue.Values[i]);
-	genSMC_PUSHMAT();
+	genSMC_PUSHMAT(node->Node.MatConst.Values);
 }
 
 void genSMCLValue(t_tree node)

@@ -5,12 +5,9 @@ project Imu_Testing is
 
    for Object_Dir use "build";
    for Exec_Dir use "target";
-   for Source_Dirs use ("src", "../at90can128lib_testing", "../lib");
+   for Source_Dirs use ("src");
    for Source_Files use ("imu_testing_main.adb", "ins_controller_utils.adb", "ins_controller_utils.ads");
    for Main use ("imu_testing_main.adb");
-
-   package Ide is
-   end Ide;
 
 end Imu_Testing;
 
