@@ -1,0 +1,14 @@
+with "../../firmware/UartWrapper/uartwrapper.gpr";
+with "../../lib/exception_handling/exception_handling.gpr";
+with "../../lib/queue/queue.gpr";
+with "../../lib/can_utils/can_utils.gpr";
+
+project BBB_CAN is
+
+   for Object_Dir use "build";
+   for Exec_Dir use "target";
+   for Source_Dirs use ("src");
+   for Main use ("bbb_can_main.adb");
+
+end BBB_CAN;
+
