@@ -1,8 +1,7 @@
-
 -- This file contains functions for ins_controller in order to reduce its number of lines of code.
 
 --  Written by: Nils Brynedal Ignell for the Naiad AUV project
---  Last changed (yyyy-mm-dd): 2013-12-06
+--  Last changed (yyyy-mm-dd): 2013-12-09
 
 --  TODO: Hardware testing....
 
@@ -13,7 +12,7 @@ with AVR.AT90CAN128.CAN;
 with CAN_Defs;
 with Interfaces;
 
-package body AT90CAN_Ins_Controller_Utils is
+package body Ins_Controller_Utils is
 
    pragma Suppress (All_Checks);
 
@@ -151,7 +150,7 @@ package body AT90CAN_Ins_Controller_Utils is
       tempMSG : CAN_Defs.CAN_Message;
 
    begin
-      sTemp(1) := ' ';
+
 
       tempMSG.ID := (40, false);
       tempMSG.Len := 6;
@@ -161,48 +160,63 @@ package body AT90CAN_Ins_Controller_Utils is
       loop
 
          --goes to the start of the message:
-         while sTemp(1) /= '$' loop
-            Read(sTemp, 1, iRet, port);
-         end loop;
-
-         tempMSG.ID := (411, false);
-         tempMSG.Len := 1;
-         tempMSG.Data(1) := 0;
-         AVR.AT90CAN128.CAN.Can_Send(tempMSG);
-
-         return;
-
-         --           tempMSG.ID := (411, false);
---           tempMSG.Len := 8;
---
---          for i in 1..8 loop
+--           while sTemp(1) /= '$' loop
 --              Read(sTemp, 1, iRet, port);
---              tempMSG.Data(CAN_Defs.DLC_Type(i)) := Interfaces.Unsigned_8(iRet);
---       --       tempMSG.Data(CAN_Defs.DLC_Type((2*i))) := Interfaces.Unsigned_8(Character'pos(sTemp(1)));
---
 --           end loop;
---
+
+--           tempMSG.ID := (411, false);
+--           tempMSG.Len := 1;
+--           tempMSG.Data(1) := 0;
 --           AVR.AT90CAN128.CAN.Can_Send(tempMSG);
 
+         tempMSG.ID := (411, false);
+         tempMSG.Len := 3;
+		 
+		 --ADD DELAY SOMEWHERE HERE TO SEE IF THE DELAY AFFECTS HOW FAR THE PROGRAM COMES BEFORE IT CRASHES
 
-         tempMSG.ID := (41, false);
+         sTemp(1) := ' ';
+         while sTemp(1) /= Character'Val(36) loop -- ascii 36 = dollarsign
+
+         --   tempMSG.Data(1) := Interfaces.Unsigned_8(AVR.AT90CAN128.USART.Data_Available(port));
+
+            Read(sTemp, 1, iRet, port);
+
+            tempMSG.Data(2) := Interfaces.Unsigned_8(iRet);
+            tempMSG.Data(3) := Interfaces.Unsigned_8(Character'pos(sTemp(1)));
+
+            AVR.AT90CAN128.CAN.Can_Send(tempMSG);
+
+            AVR.AT90CAN128.CLOCK.Delay_ms(100);
+         end loop;
+
+         tempMSG.ID := (42, false);
+         tempMSG.Len := 0;
          AVR.AT90CAN128.CAN.Can_Send(tempMSG);
 
+         tempMSG.ID := (421, false);
+         tempMSG.Len := 7;
 
          -- read the "VNYBA,":
          iCharsTotal := 0;
-
          while iCharsTotal < sMsgStr'Length loop
-            Read(sTemp, 6 - iCharsTotal, iRet, port);
+            Read(sTemp, sMsgStr'Length - iCharsTotal, iRet, port);
+
+            tempMSG.Data(1) := Interfaces.Unsigned_8(iRet);
+
+            tempMSG.Data(2) := Interfaces.Unsigned_8(sMsgStr'Length);
 
             for i in 1..iRet loop
                sRead(i + iCharsTotal) := sTemp(i);
+            --   tempMSG.Data(CAN_Defs.DLC_Type(i + iCharsTotal)) := Interfaces.Unsigned_8(Character'pos(sTemp(i)));
             end loop;
+
+            AVR.AT90CAN128.CAN.Can_Send(tempMSG);
 
             iCharsTotal := iCharsTotal + iRet;
          end loop;
 
-         tempMSG.ID := (42, false);
+         tempMSG.ID := (43, false);
+         tempMSG.Len := 0;
          AVR.AT90CAN128.CAN.Can_Send(tempMSG);
 
          --check sRead = sMsgStr:
@@ -215,12 +229,12 @@ package body AT90CAN_Ins_Controller_Utils is
          end loop;
          exit when bExit;
 
-         tempMSG.ID := (43, false);
+         tempMSG.ID := (44, false);
          AVR.AT90CAN128.CAN.Can_Send(tempMSG);
       end loop;
 
       tempMSG.ID := (44, false);
-   AVR.AT90CAN128.CAN.Can_Send(tempMSG);
+      AVR.AT90CAN128.CAN.Can_Send(tempMSG);
    end Start_Message;
 
-end AT90CAN_Ins_Controller_Utils;
+end Ins_Controller_Utils;
