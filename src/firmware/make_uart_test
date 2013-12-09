@@ -1,8 +1,0 @@
-all:	
-	gcc -c lib/UartWrapper/src/uartlib.c -o lib/UartWrapper/obj/uartlib.o
-	gnatmake -c -P  lib/UartWrapper/uartwrapper.gpr
-	gnatmake -c -P  uart_test/uart_test.gpr
-
-	gnatbind uart_test/build/uart_test_main.ali -Ilib/UartWrapper/obj/
-	gnatlink uart_test/build/uart_test_main.ali lib/UartWrapper/obj/uartlib.o -o uart_test/build/uart_test_main
-
