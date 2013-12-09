@@ -21,7 +21,7 @@
 %option never-interactive
 %option nounistd
 
-%x comment
+%x C_COMMENT
 %{
 #include <stdio.h>     /* Standard I/O                */
 #include <string.h>    /* Standard string-routines    */
@@ -39,15 +39,16 @@ STR     "\""([^\"])*"\""
 delim   [ \t]
 WS      {delim}+
 DIGIT   [0-9]
-LETTER  [A-Za-z]
+LETTER  [A-Za-z_]
+VECCOMP [X-Zx-z]
 ID      {LETTER}({LETTER}|{DIGIT})*
 %%
-"/*"         BEGIN(comment);
-<comment>[^*\n]*
-<comment>"*"+[^*/\n]*
-<comment>\n            { ++yylineno; }
-<comment>"*"+"/"       { BEGIN(INITIAL);}
+"/*"            	{ BEGIN(C_COMMENT); }
+<C_COMMENT>"*/" 	{ BEGIN(INITIAL); }
+<C_COMMENT>.    	{ }
+<C_COMMENT>\n		{ ++yylineno; }
 {WS}      ;
+"--".*"\n"		{ ++yylineno; }
 
 integer       {yylval.yyType.lineNr = yylineno;
                yylval.yyType.type = INT;
@@ -171,7 +172,7 @@ false         {yylval.yyString.strVal = dstrcpy(yytext); yylval.yyString.lineNr 
                yylval.yyInt.lineNr = yylineno;
                return (INT_CONST);}
 
-{DIGIT}+.{DIGIT}+     {yylval.yyFloat.floatVal = atof(yytext);
+{DIGIT}+\.{DIGIT}+     {yylval.yyFloat.floatVal = atof(yytext);
                	       yylval.yyFloat.lineNr = yylineno;
                        return (FLOAT_CONST);}
 
@@ -179,6 +180,18 @@ false         {yylval.yyString.strVal = dstrcpy(yytext); yylval.yyString.lineNr 
 {ID}          {yylval.yyString.strVal = dstrcpy(yytext);
                yylval.yyString.lineNr = yylineno;
                return (ID);}
+
+{ID}\.[XYZ]Vector	{yytext[yyleng-8] = 0;
+			 yylval.yyComp.strVal = dstrcpy(yytext);
+	         	 yylval.yyComp.lineNr = yylineno;
+			 yylval.yyComp.iComponent = (yytext[yyleng-7] == 'X' ? 1 : (yytext[yyleng-7] == 'Y' ? 2 : 3));
+	                 return (MAT_COMP);}
+
+{ID}\.[XYZ]		{yytext[yyleng-2] = 0;
+			 yylval.yyComp.strVal = dstrcpy(yytext);
+	         	 yylval.yyComp.lineNr = yylineno;
+			 yylval.yyComp.iComponent = (yytext[yyleng-1] == 'X' ? 1 : (yytext[yyleng-1] == 'Y' ? 2 : 3));
+	                 return (VEC_COMP);}
 
 .             {return (yytext[0]); }  /* . matches all other characters */
 

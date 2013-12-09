@@ -51,24 +51,26 @@
      ID = 269,
      BOOL_CONST = 270,
      STRING_CONST = 271,
-     INT_CONST = 272,
-     FLOAT_CONST = 273,
-     IF = 274,
-     THEN = 275,
-     ELSE = 276,
-     WHILE = 277,
-     RETURN = 278,
-     END = 279,
-     EXIT = 280,
-     LOOP = 281,
-     PROCEDURE = 282,
-     FUNCTION = 283,
-     IS = 284,
-     BGN = 285,
-     ASSIGN = 286,
-     ASM = 287,
-     ADDR_TYPE = 288,
-     MATH_TYPE = 289
+     VEC_COMP = 272,
+     MAT_COMP = 273,
+     INT_CONST = 274,
+     FLOAT_CONST = 275,
+     IF = 276,
+     THEN = 277,
+     ELSE = 278,
+     WHILE = 279,
+     RETURN = 280,
+     END = 281,
+     EXIT = 282,
+     LOOP = 283,
+     PROCEDURE = 284,
+     FUNCTION = 285,
+     IS = 286,
+     BGN = 287,
+     ASSIGN = 288,
+     ASM = 289,
+     ADDR_TYPE = 290,
+     MATH_TYPE = 291
    };
 #endif
 
@@ -84,7 +86,7 @@ typedef union YYSTYPE
    t_tree       yyNode;
    floatStruct  yyFloat;
    intStruct    yyInt;
-   
+   compStruct	yyComp;
    stringStruct yyString;
    typeStruct   yyType;
    opStruct     yyOperator;
@@ -93,7 +95,7 @@ typedef union YYSTYPE
 
 
 /* Line 2068 of yacc.c  */
-#line 97 "./src/trac42.y.h"
+#line 99 "./src/trac42.y.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */

@@ -114,6 +114,7 @@ private
    procedure Instr_Add_Vector (this : in out CInterpreter);
    procedure Instr_Multiply_Vector (this : in out CInterpreter);
    procedure Instr_Scale_Vector (this : in out CInterpreter);
+   procedure Instr_Vector_Component (this : in out CInterpreter; iArgument : in integer);
 
    procedure Instr_Multiply_Matrix (this : in out CInterpreter);
    procedure Instr_Multiply_Matrix_Vector (this : in out CInterpreter);

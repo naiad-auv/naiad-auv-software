@@ -38,7 +38,7 @@ int yylex(void);
    t_tree       yyNode;
    floatStruct  yyFloat;
    intStruct    yyInt;
-   
+   compStruct	yyComp;
    stringStruct yyString;
    typeStruct   yyType;
    opStruct     yyOperator;
@@ -63,6 +63,7 @@ int yylex(void);
 /* Specifies the types of other tokens than the operators, when on the parse stack */
 %token <yyType>   BASIC_TYPE
 %token <yyString> ID BOOL_CONST STRING_CONST
+%token <yyComp>	  VEC_COMP MAT_COMP
 %token <yyInt>    INT_CONST
 %token <yyFloat>  FLOAT_CONST
 %token <yyLineNr> IF THEN ELSE WHILE RETURN END EXIT LOOP PROCEDURE FUNCTION IS BGN ASSIGN ASM ADDR_TYPE
@@ -145,6 +146,8 @@ expr        : MINUSOP expr %prec UNOP								{ $$ = mUnary($1.opType, $2, $1.lin
                   '[' expr ',' expr ',' expr ']' ']'						{ $$ = mMatValue($3, $5, $7, 
 													         $11, $13, $15, 
 														 $19, $21, $23); }
+	    | VEC_COMP										{ $$ = mCompValue($1.strVal, $1.lineNr, $1.iComponent, VECTOR); }
+	    | MAT_COMP										{ $$ = mCompValue($1.strVal, $1.lineNr, $1.iComponent, MATRIX); }
             ;
 
 unaryop	    : BASIC_TYPE									{ $$.opType = ($1.type == INT ? INTOP : ($1.type == FLOAT ? FLOATOP : ERROP)); $$.lineNr = $1.lineNr; }

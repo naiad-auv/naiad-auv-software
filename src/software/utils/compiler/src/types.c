@@ -33,6 +33,7 @@ eType typeVecValue(t_tree node);
 eType typeMatValue(t_tree node);
 eType typeRValue(t_tree node);
 eType typeLValue(t_tree node);
+eType typeCompValue(t_tree node);
 
 
 eType typeStmnt(t_tree node)
@@ -106,6 +107,9 @@ eType typeExpr(t_tree node)
 		break;
 	case kRValue:
 		return typeRValue(node);
+		break;
+	case kCompValue:
+		return typeCompValue(node);
 		break;
 	default:
 		printf("Error in types.c!\n");
@@ -503,6 +507,22 @@ eType typeLValue(t_tree node)
 	if (tmpTable->type > MATRIX)
 		return tmpTable->type;
 	return tmpTable->type + MATRIX;
+}
+
+eType typeCompValue(t_tree node)
+{
+	t_symtable * tmpTable = FindId(node->Node.CompValue.Id, scope);
+	if (tmpTable->type == node->Node.CompValue.type || tmpTable->type - MATRIX == node->Node.CompValue.type)
+	{
+		if (tmpTable->type == VECTOR || tmpTable->type == VECTOR_ADDR)
+			return FLOAT;
+		if (tmpTable->type == MATRIX || tmpTable->type == MATRIX_ADDR)
+			return VECTOR;
+	}
+
+	if (typeErrorLineNr < 0)
+		typeErrorLineNr = node->LineNr;
+	return ERROR_TYPE;
 }
 
 eType typeControl(t_tree node, t_symtable * globalScope)

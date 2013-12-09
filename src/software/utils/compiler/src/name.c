@@ -37,6 +37,7 @@ void nameVecValue(t_tree node);
 void nameMatValue(t_tree node);
 void nameRValue(t_tree node);
 void nameLValue(t_tree node);
+void nameCompValue(t_tree node);
 
 void nameExpr(t_tree node)
 {
@@ -66,6 +67,9 @@ void nameExpr(t_tree node)
 		break;
 	case kLValue:
 		nameRValue(node);
+		break;
+	case kCompValue:
+		nameCompValue(node);
 		break;
 	default:
 		printf("Error in name.c!\n");
@@ -300,6 +304,11 @@ void nameMatValue(t_tree node)
 	int i;
 	for (i = 0; i < 9; i++)
 		nameExpr(node->Node.MatValue.Values[i]);
+}
+
+void nameCompValue(t_tree node)
+{
+	checkIdUndefined(node->Node.CompValue.Id, node->LineNr);
 }
 
 void nameRValue(t_tree node)

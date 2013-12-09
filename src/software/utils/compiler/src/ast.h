@@ -31,6 +31,7 @@ typedef enum {
    kActual,
    kUnary,
    kBinary,
+   kCompValue,
    kIntConst,
    kBoolConst,
    kFloatConst,
@@ -160,6 +161,15 @@ typedef struct {
    eType RightType;
 } yBinary;
 
+
+/* The component value expression (for vectors and matrices) */
+typedef struct {
+   char *Id;  
+   eType type;
+   int iComp;
+} yCompValue;
+
+
 /* The int constant expression. */
 typedef struct {
    int Value;        /* The integer value of the constant */
@@ -221,6 +231,7 @@ struct t_tree {
       yActual Actual;
       yUnary Unary;
       yBinary Binary;
+      yCompValue CompValue;
       yIntConst IntConst;
       yBoolConst BoolConst;
       yFloatConst FloatConst;
@@ -298,6 +309,8 @@ extern t_tree mVecValue(t_tree fXValue, t_tree fYValue, t_tree fZValue);
 extern t_tree mMatValue(t_tree fAAValue, t_tree fABValue, t_tree fACValue, 
 			t_tree fBAValue, t_tree fBBValue, t_tree fBCValue, 
 			t_tree fCAValue, t_tree fCBValue, t_tree fCCValue);
+
+extern t_tree mCompValue(const char *pValue, int pLineNr, int iComp, eType type);
 
 
 /* Returns a pointer to an rvalue(identifier) expression node. */
