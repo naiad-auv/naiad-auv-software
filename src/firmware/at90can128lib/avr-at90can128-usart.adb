@@ -3,6 +3,7 @@ with System;
 with System.Machine_Code;
 use System.Machine_Code;
 --with Interfaces; use Interfaces;
+--  with Digital_IO;
 
 package body AVR.AT90CAN128.USART is
    pragma Suppress (All_Checks);
@@ -174,6 +175,9 @@ package body AVR.AT90CAN128.USART is
       cChar := Character'Val(UDR0);
       Pos := (Uart0_In_R mod Uart_Buffer_Size) + 1;
       if Pos /= Uart0_Out_R then
+
+--           Digital_IO.User_Led(true);
+
          Uart0_Rbuffer(Uart0_In_R) := cChar;
          Uart0_In_R := Pos;
       end if;

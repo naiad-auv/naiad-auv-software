@@ -176,7 +176,7 @@ package body Ins_Controller_Utils is
          sTemp(1) := ' ';
          while sTemp(1) /= Character'Val(36) loop -- ascii 36 = dollarsign
 
-            tempMSG.Data(1) := Interfaces.Unsigned_8(AVR.AT90CAN128.USART.Data_Available(port));
+         --   tempMSG.Data(1) := Interfaces.Unsigned_8(AVR.AT90CAN128.USART.Data_Available(port));
 
             Read(sTemp, 1, iRet, port);
 
@@ -185,9 +185,11 @@ package body Ins_Controller_Utils is
 
             AVR.AT90CAN128.CAN.Can_Send(tempMSG);
 
+            AVR.AT90CAN128.CLOCK.Delay_ms(100);
          end loop;
 
          tempMSG.ID := (42, false);
+         tempMSG.Len := 0;
          AVR.AT90CAN128.CAN.Can_Send(tempMSG);
 
          tempMSG.ID := (421, false);
@@ -196,13 +198,15 @@ package body Ins_Controller_Utils is
          -- read the "VNYBA,":
          iCharsTotal := 0;
          while iCharsTotal < sMsgStr'Length loop
-            Read(sTemp, 6 - iCharsTotal, iRet, port);
+            Read(sTemp, sMsgStr'Length - iCharsTotal, iRet, port);
 
             tempMSG.Data(1) := Interfaces.Unsigned_8(iRet);
 
+            tempMSG.Data(2) := Interfaces.Unsigned_8(sMsgStr'Length);
+
             for i in 1..iRet loop
                sRead(i + iCharsTotal) := sTemp(i);
-               tempMSG.Data(CAN_Defs.DLC_Type(i + iCharsTotal)) := Interfaces.Unsigned_8(Character'pos(sTemp(i)));
+            --   tempMSG.Data(CAN_Defs.DLC_Type(i + iCharsTotal)) := Interfaces.Unsigned_8(Character'pos(sTemp(i)));
             end loop;
 
             AVR.AT90CAN128.CAN.Can_Send(tempMSG);
@@ -211,6 +215,7 @@ package body Ins_Controller_Utils is
          end loop;
 
          tempMSG.ID := (43, false);
+         tempMSG.Len := 0;
          AVR.AT90CAN128.CAN.Can_Send(tempMSG);
 
          --check sRead = sMsgStr:
