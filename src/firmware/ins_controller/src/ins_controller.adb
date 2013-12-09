@@ -13,11 +13,13 @@ with Str2Float;
 with Ins_Controller_Utils;
 
 with AVR.AT90CAN128.CLOCK;
-with Digital_IO;
+
 
 package body Ins_Controller is
 
    pragma Suppress (All_Checks);
+
+   bImuInterrupt : Boolean;
 
 
    procedure Init(port : AVR.AT90CAN128.USART.USARTID; canBaud_Rate : Can_Defs.Baud_Rate; bUseExtendedID : Boolean) is
@@ -72,8 +74,13 @@ package body Ins_Controller is
    end Init;
 
    procedure Imu_Interrupt is
+   begin
+      bImuInterrupt := true;
+   end Imu_Interrupt;
 
-      --this function assumes the format +1235.156
+
+   procedure Update is
+         --this function assumes the format +1235.156
       function Read_Next_Float return float is
          sTemp : String(1..1);
          iCharsRead : Integer;
@@ -114,64 +121,66 @@ package body Ins_Controller is
 
    begin
 
-      Digital_IO.User_Led(true);
-
-      msg.ID := (3, false);
-      msg.Len := 7;
-      msg.Data  := (0, 0, 0, 0, 0, 0, 0, 0);
-      AVR.AT90CAN128.CAN.Can_Send(msg);
+      if  bImuInterrupt then
+         bImuInterrupt := false;
 
 
-      Ins_Controller_Utils.Start_Message("VNYBA,", usart_port);
 
-      msg.ID := (4, false);
-      AVR.AT90CAN128.CAN.Can_Send(msg);
-
-      return;
-
-
-      fYaw 	:= Read_Next_Float;
-
-      msg.ID := (5, false);
-      AVR.AT90CAN128.CAN.Can_Send(msg);
-
-      fPitch 	:= Read_Next_Float;
-      fRoll 	:= Read_Next_Float;
-
-      fXAccelerationNew := Read_Next_Float;
-      fYAccelerationNew := Read_Next_Float;
-      fZAccelerationNew := Read_Next_Float;
-
-      msg.ID := (6, false);
-      AVR.AT90CAN128.CAN.Can_Send(msg);
-
-      AVR.AT90CAN128.USART.Flush_Receive_Buffer(usart_port);
-
-      msg.ID := (7, false);
-      AVR.AT90CAN128.CAN.Can_Send(msg);
-
-      if not bSimulationMode then
-
-         msg.ID := (8, false);
+         msg.ID := (3, false);
+         msg.Len := 7;
+         msg.Data  := (0, 0, 0, 0, 0, 0, 0, 0);
          AVR.AT90CAN128.CAN.Can_Send(msg);
 
-         msg.ID := (CAN_Defs.MSG_IMU_ORIENTATION_ID.Identifier, bExtendedIds);
-         Can_Float_Conversions.Orientation_To_Message(fYaw, fPitch, fRoll, msg.Data);
-         msg.Len := 8;
+
+         Ins_Controller_Utils.Start_Message("VNYBA,", usart_port);
+
+         msg.ID := (4, false);
          AVR.AT90CAN128.CAN.Can_Send(msg);
 
-         msg.ID := (CAN_Defs.MSG_GYRO_YAW_ID.Identifier, bExtendedIds);
-         Can_Float_Conversions.GyroReading_To_Message(fGyroYaw, msg.Data);
-         msg.Len := 3;
+
+         fYaw 	:= Read_Next_Float;
+
+         msg.ID := (5, false);
          AVR.AT90CAN128.CAN.Can_Send(msg);
 
-         msg.ID := (CAN_Defs.MSG_IMU_ORIENTATION_ID.Identifier, bExtendedIds);
-         Can_Float_Conversions.Acceleration_To_Message(fXAccelerationNew, fYAccelerationNew, fZAccelerationNew, msg.Data);
-         msg.Len := 8;
+         fPitch 	:= Read_Next_Float;
+         fRoll 	:= Read_Next_Float;
+
+         fXAccelerationNew := Read_Next_Float;
+         fYAccelerationNew := Read_Next_Float;
+         fZAccelerationNew := Read_Next_Float;
+
+         msg.ID := (6, false);
          AVR.AT90CAN128.CAN.Can_Send(msg);
+
+         AVR.AT90CAN128.USART.Flush_Receive_Buffer(usart_port);
+
+         msg.ID := (7, false);
+         AVR.AT90CAN128.CAN.Can_Send(msg);
+
+         if not bSimulationMode then
+
+            msg.ID := (8, false);
+            AVR.AT90CAN128.CAN.Can_Send(msg);
+
+            msg.ID := (CAN_Defs.MSG_IMU_ORIENTATION_ID.Identifier, bExtendedIds);
+            Can_Float_Conversions.Orientation_To_Message(fYaw, fPitch, fRoll, msg.Data);
+            msg.Len := 8;
+            AVR.AT90CAN128.CAN.Can_Send(msg);
+
+--              msg.ID := (CAN_Defs.MSG_GYRO_YAW_ID.Identifier, bExtendedIds);
+--              Can_Float_Conversions.GyroReading_To_Message(fGyroYaw, msg.Data);
+--              msg.Len := 3;
+--              AVR.AT90CAN128.CAN.Can_Send(msg);
+
+            msg.ID := (CAN_Defs.MSG_IMU_ACCELERATION_ID.Identifier, bExtendedIds);
+            Can_Float_Conversions.Acceleration_To_Message(fXAccelerationNew, fYAccelerationNew, fZAccelerationNew, msg.Data);
+            msg.Len := 8;
+            AVR.AT90CAN128.CAN.Can_Send(msg);
+         end if;
       end if;
+   end Update;
 
-   end Imu_Interrupt;
 
    procedure SimulationModeOn is
    begin
