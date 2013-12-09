@@ -11,7 +11,7 @@ package body VirtualMachine.InstructionFeeder is
 
       case xNewInstruction.eInstr is
 
-         when INSTR_BRF ! INSTR_BRA ! INSTR_PUSHINT ! INSTR_LVAL ! INSTR_VECCOMP =>
+         when INSTR_BRF ! INSTR_BRA ! INSTR_PUSHINT ! INSTR_VECCOMP =>
 
             pxNewInstruction := new CInstructionIntegerArgument;
             Integer'Read(xFileStream, CInstructionIntegerArgument(pxNewInstruction.all).iArgument);

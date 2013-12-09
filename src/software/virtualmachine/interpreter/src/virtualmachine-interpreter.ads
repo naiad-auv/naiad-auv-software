@@ -64,8 +64,6 @@ private
    procedure Instr_Right_Value_Matrix (this : in out CInterpreter);
    procedure Instr_Right_Value_Vector (this : in out CInterpreter);
 
-   procedure Instr_Left_Value (this : in out CInterpreter; iArgument : in integer);
-
    procedure Instr_Vector_Component (this : in out CInterpreter; iArgument : in integer);
 
    procedure Instr_Link (this : in out CInterpreter);

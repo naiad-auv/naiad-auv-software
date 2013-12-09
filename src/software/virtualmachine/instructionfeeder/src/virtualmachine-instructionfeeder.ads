@@ -53,9 +53,6 @@ package VirtualMachine.InstructionFeeder is
       INSTR_RVALMAT,
       INSTR_RVALVEC,
 
-      -- Left value (variable addresses)
-      INSTR_LVAL,		-- int
-
       -- Assignments
       INSTR_ASSINT,
       INSTR_ASSBOOL,

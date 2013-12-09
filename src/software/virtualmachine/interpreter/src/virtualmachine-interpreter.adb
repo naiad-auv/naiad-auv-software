@@ -72,9 +72,6 @@ package body VirtualMachine.Interpreter is
          when INSTR_RVALVEC =>
             this.Instr_Right_Value_Vector;
 
-         when INSTR_LVAL =>
-            this.Instr_Left_Value(iArgument => this.pxInstructionFeeder.Feed_Integer_Argument);
-
          when INSTR_VECCOMP =>
             this.Instr_Vector_Component(iArgument => this.pxInstructionFeeder.Feed_Integer_Argument);
 
@@ -454,13 +451,6 @@ package body VirtualMachine.Interpreter is
       this.iProgramCounter := this.iProgramCounter + 1;
       this.pxInstructionFeeder.Set_Program_Counter(iNewProgramCounterValue => this.iProgramCounter);
    end Instr_Right_Value_Vector;
-
-   procedure Instr_Left_Value (this : in out CInterpreter; iArgument : in integer) is
-   begin
-      this.pxMemoryManager.Push_Int(iValue => iArgument);
-      this.iProgramCounter := this.iProgramCounter + 1;
-      this.pxInstructionFeeder.Set_Program_Counter(iNewProgramCounterValue => this.iProgramCounter);
-   end Instr_Left_Value;
 
    procedure Instr_Vector_Component (this : in out CInterpreter; iArgument : in integer) is
       xVector : Math.Vectors.CVector;
