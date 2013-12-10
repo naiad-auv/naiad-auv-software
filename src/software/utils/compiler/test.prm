@@ -1,3 +1,55 @@
+procedure Print_Integer(x : integer) is
+begin
+	smc("PUSHINT 2");
+	smc("PUSHFP");
+	smc("ADDINT");
+	smc("RVALINT");
+	smc("PRINTINT");
+	smc("POPINT");
+end Print_Integer;
+
+procedure Print_Float(x : float) is
+begin
+	smc("PUSHINT 2");
+	smc("PUSHFP");
+	smc("ADDINT");
+	smc("RVALFLOAT");
+	smc("PRINTFLOAT");
+	smc("POPFLOAT");
+end Print_Float;
+
+procedure Print_Boolean(x : boolean) is
+begin
+	smc("PUSHINT 2");
+	smc("PUSHFP");
+	smc("ADDINT");
+	smc("RVALBOOL");
+	smc("PRINTBOOL");
+	smc("POPBOOL");
+end Print_Boolean;
+
+procedure Print_Matrix(x : matrix) is
+begin
+	smc("PUSHINT 2");
+	smc("PUSHFP");
+	smc("ADDINT");
+	smc("RVALMAT");
+	smc("PRINTMAT");
+	smc("POPMAT");
+end Print_Matrix;
+
+procedure Print_Vector(x : vector) is
+begin
+	smc("PUSHINT 2");
+	smc("PUSHFP");
+	smc("ADDINT");
+	smc("RVALVEC");
+	smc("PRINTVEC");
+	smc("POPVEC");
+end Print_Vector;
+
+
+
 function Dot_Product(LeftOperand : vector; RightOperand : vector) return float is
 begin
 	return (LeftOperand.X * RightOperand.X) + (LeftOperand.Y * RightOperand.Y) + (LeftOperand.Z * RightOperand.Z);
@@ -20,16 +72,45 @@ begin
 		(LeftOperand.X * RightOperand.Y) - (LeftOperand.Y * RightOperand.X)];
 end Cross_Product;
 
-procedure main is
-	fResult : float;
-begin
-	fResult := Length(Cross_Product([5.0, 0.0, 0.0],[0.0,2.0,0.0]));
 
+
+
+
+procedure Reset_Time is
+begin
+	smc("TIMERST");
+end Reset_Time;
+
+function Get_Time return float is
+	x : float;
+begin
 	smc("PUSHINT -1");
 	smc("PUSHFP");
 	smc("ADDINT");
-	smc("RVALFLOAT");
-	smc("FTOI");
-	smc("PRINTINT");
-	smc("POPINT");
+	smc("TIME");
+	smc("ASSFLOAT");
+	return x;
+end Get_Time;	
+
+
+procedure Delay(fTimeInSeconds : float) is
+begin
+	Reset_Time();
+	while fTimeInSeconds - Get_Time() > 0.0 loop
+		null;
+	end loop;
+end Delay;
+
+
+
+procedure main is
+	i : integer;
+begin
+	i := 0;
+	Print_Vector(Cross_Product([5.0, 0.0, 0.0],[0.0,2.0,0.0]));
+	while i < 5 loop		
+		Delay(1.0);
+		Print_Integer(i);
+		i := i + 1;
+	end loop;
 end main;

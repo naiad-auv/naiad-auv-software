@@ -1,19 +1,8 @@
-/* $Id: ast.h 110 2009-04-26 09:31:29Z csg $
-  FILE:        ast.h
-  CONTENTS:    ast.h   - This file contains the interface for the abstract syntax tree (AST).
-  REVISION:    1.0, 960917, Christer Eriksson & Jukka Mäki-Turja
-  DESCRIPTION: Exports the constructors for the various types. The definition of the data
-               type is present, but should be seen as private.
-*/
 #ifndef _AST_H_
 #define _AST_H_
 
 typedef struct t_tree *t_tree;
 
-/* Size of data types in trac42 */
-# define INT_SIZE      1
-# define BOOL_SIZE     1
-# define STRING_SIZE 100
 
 /* To distinguish between the node contents. */
 typedef enum {
@@ -55,7 +44,7 @@ typedef enum { SUB=MINUS, PLUS, MULT, DIV, OR, AND, EQ, LT, LE, ME, MT, NE } BIN
 /* To distinguish between formal parameters and local variables in variable nodes. */
 typedef enum {kFormal, kLocal} vKind;
 
-/* To distinguish between the data types in the trac42 language. */
+/* To distinguish between the data types. */
 typedef enum {VOID=0, BOOL, INT, FLOAT, VECTOR, MATRIX, BOOL_ADDR, INT_ADDR, FLOAT_ADDR, VECTOR_ADDR, MATRIX_ADDR, ERROR_TYPE } eType;
 
 /* The program. */

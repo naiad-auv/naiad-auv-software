@@ -1,0 +1,320 @@
+     2  [Print_Integer]
+     3    LINK
+     4    PUSHINT 2
+     5    PUSHFP
+     6    ADDINT
+     7    RVALINT
+     8    PRINTINT
+     9    POPINT
+    10    UNLINK
+    11    RTS
+    12  [Print_Float]
+    13    LINK
+    14    PUSHINT 2
+    15    PUSHFP
+    16    ADDINT
+    17    RVALFLOAT
+    18    PRINTFLOAT
+    19    POPFLOAT
+    20    UNLINK
+    21    RTS
+    22  [Print_Boolean]
+    23    LINK
+    24    PUSHINT 2
+    25    PUSHFP
+    26    ADDINT
+    27    RVALBOOL
+    28    PRINTBOOL
+    29    POPBOOL
+    30    UNLINK
+    31    RTS
+    32  [Print_Matrix]
+    33    LINK
+    34    PUSHINT 2
+    35    PUSHFP
+    36    ADDINT
+    37    RVALMAT
+    38    PRINTMAT
+    39    POPMAT
+    40    UNLINK
+    41    RTS
+    42  [Print_Vector]
+    43    LINK
+    44    PUSHINT 2
+    45    PUSHFP
+    46    ADDINT
+    47    RVALVEC
+    48    PRINTVEC
+    49    POPVEC
+    50    UNLINK
+    51    RTS
+    52  [Dot_Product]
+    53    LINK
+    54    PUSHINT 4
+    55    PUSHFP
+    56    ADDINT
+    57    PUSHINT 2
+    58    PUSHFP
+    59    ADDINT
+    60    RVALVEC
+    61    VECCOMP 1
+    62    PUSHINT 3
+    63    PUSHFP
+    64    ADDINT
+    65    RVALVEC
+    66    VECCOMP 1
+    67    MULFLOAT
+    68    PUSHINT 2
+    69    PUSHFP
+    70    ADDINT
+    71    RVALVEC
+    72    VECCOMP 2
+    73    PUSHINT 3
+    74    PUSHFP
+    75    ADDINT
+    76    RVALVEC
+    77    VECCOMP 2
+    78    MULFLOAT
+    79    ADDFLOAT
+    80    PUSHINT 2
+    81    PUSHFP
+    82    ADDINT
+    83    RVALVEC
+    84    VECCOMP 3
+    85    PUSHINT 3
+    86    PUSHFP
+    87    ADDINT
+    88    RVALVEC
+    89    VECCOMP 3
+    90    MULFLOAT
+    91    ADDFLOAT
+    92    ASSFLOAT
+    93    UNLINK
+    94    RTS
+    95    UNLINK
+    96    RTS
+    97  [Length_Squared]
+    98    LINK
+    99    PUSHINT 3
+   100    PUSHFP
+   101    ADDINT
+   102    DECLFLOAT
+   103    PUSHINT 2
+   104    PUSHFP
+   105    ADDINT
+   106    RVALVEC
+   107    PUSHINT 2
+   108    PUSHFP
+   109    ADDINT
+   110    RVALVEC
+   111    PUSHINT 52
+   112    BSR
+   113    POPVEC
+   114    POPVEC
+   115    ASSFLOAT
+   116    UNLINK
+   117    RTS
+   118    UNLINK
+   119    RTS
+   120  [Length]
+   121    LINK
+   122    PUSHINT 3
+   123    PUSHFP
+   124    ADDINT
+   125    DECLFLOAT
+   126    PUSHINT 2
+   127    PUSHFP
+   128    ADDINT
+   129    RVALVEC
+   130    PUSHINT 97
+   131    BSR
+   132    POPVEC
+   133    SQRT
+   134    ASSFLOAT
+   135    UNLINK
+   136    RTS
+   137    UNLINK
+   138    RTS
+   139  [Cross_Product]
+   140    LINK
+   141    PUSHINT 4
+   142    PUSHFP
+   143    ADDINT
+   144    PUSHINT 2
+   145    PUSHFP
+   146    ADDINT
+   147    RVALVEC
+   148    VECCOMP 2
+   149    PUSHINT 3
+   150    PUSHFP
+   151    ADDINT
+   152    RVALVEC
+   153    VECCOMP 3
+   154    MULFLOAT
+   155    PUSHINT 2
+   156    PUSHFP
+   157    ADDINT
+   158    RVALVEC
+   159    VECCOMP 3
+   160    PUSHINT 3
+   161    PUSHFP
+   162    ADDINT
+   163    RVALVEC
+   164    VECCOMP 2
+   165    MULFLOAT
+   166    NEGFLOAT
+   167    ADDFLOAT
+   168    PUSHINT 2
+   169    PUSHFP
+   170    ADDINT
+   171    RVALVEC
+   172    VECCOMP 3
+   173    PUSHINT 3
+   174    PUSHFP
+   175    ADDINT
+   176    RVALVEC
+   177    VECCOMP 1
+   178    MULFLOAT
+   179    PUSHINT 2
+   180    PUSHFP
+   181    ADDINT
+   182    RVALVEC
+   183    VECCOMP 1
+   184    PUSHINT 3
+   185    PUSHFP
+   186    ADDINT
+   187    RVALVEC
+   188    VECCOMP 3
+   189    MULFLOAT
+   190    NEGFLOAT
+   191    ADDFLOAT
+   192    PUSHINT 2
+   193    PUSHFP
+   194    ADDINT
+   195    RVALVEC
+   196    VECCOMP 1
+   197    PUSHINT 3
+   198    PUSHFP
+   199    ADDINT
+   200    RVALVEC
+   201    VECCOMP 2
+   202    MULFLOAT
+   203    PUSHINT 2
+   204    PUSHFP
+   205    ADDINT
+   206    RVALVEC
+   207    VECCOMP 2
+   208    PUSHINT 3
+   209    PUSHFP
+   210    ADDINT
+   211    RVALVEC
+   212    VECCOMP 1
+   213    MULFLOAT
+   214    NEGFLOAT
+   215    ADDFLOAT
+   216    PUSHVEC
+   217    ASSVEC
+   218    UNLINK
+   219    RTS
+   220    UNLINK
+   221    RTS
+   222  [Reset_Time]
+   223    LINK
+   224    TIMERST
+   225    UNLINK
+   226    RTS
+   227  [Get_Time]
+   228    LINK
+   229    DECLFLOAT
+   230    PUSHINT -1
+   231    PUSHFP
+   232    ADDINT
+   233    TIME
+   234    ASSFLOAT
+   235    PUSHINT 2
+   236    PUSHFP
+   237    ADDINT
+   238    PUSHINT -1
+   239    PUSHFP
+   240    ADDINT
+   241    RVALFLOAT
+   242    ASSFLOAT
+   243    POPFLOAT
+   244    UNLINK
+   245    RTS
+   246    POPFLOAT
+   247    UNLINK
+   248    RTS
+   249  [Delay]
+   250    LINK
+   251    PUSHINT 2
+   252    PUSHFP
+   253    ADDINT
+   254    RVALFLOAT
+   255    PUSHINT 12
+   256    BSR
+   257    POPFLOAT
+   258    PUSHINT 2
+   259    PUSHFP
+   260    ADDINT
+   261    RVALFLOAT
+   262    PUSHFLOAT 0.000000
+   263    LEFLOAT
+   264    NOT
+   265    BRF 280
+   266    PUSHINT 2
+   267    PUSHFP
+   268    ADDINT
+   269    PUSHINT 2
+   270    PUSHFP
+   271    ADDINT
+   272    RVALFLOAT
+   273    DECLFLOAT
+   274    PUSHINT 227
+   275    BSR
+   276    NEGFLOAT
+   277    ADDFLOAT
+   278    ASSFLOAT
+   279    BRA 258
+   280    UNLINK
+   281    RTS
+   282  [main]
+   283    LINK
+   284    DECLINT
+   285    PUSHINT -1
+   286    PUSHFP
+   287    ADDINT
+   288    PUSHINT 0
+   289    ASSINT
+   290    PUSHINT -1
+   291    PUSHFP
+   292    ADDINT
+   293    RVALINT
+   294    PUSHINT 5
+   295    LTINT
+   296    BRF 319
+   297    PUSHFLOAT 1000.000000
+   298    PUSHINT 249
+   299    BSR
+   300    POPFLOAT
+   301    PUSHINT -1
+   302    PUSHFP
+   303    ADDINT
+   304    RVALINT
+   305    PUSHINT 2
+   306    BSR
+   307    POPINT
+   308    PUSHINT -1
+   309    PUSHFP
+   310    ADDINT
+   311    PUSHINT -1
+   312    PUSHFP
+   313    ADDINT
+   314    RVALINT
+   315    PUSHINT 1
+   316    ADDINT
+   317    ASSINT
+   318    BRA 290
+   319    POPINT
+   320    UNLINK
+   321    EOF
