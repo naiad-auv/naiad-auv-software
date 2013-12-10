@@ -12,7 +12,7 @@ with AVR.AT90CAN128.CAN;
 with CAN_Defs;
 with Interfaces;
 
-package body Ins_Controller_Utils is
+package body AT90CAN_Ins_Controller_Utils is
 
    pragma Suppress (All_Checks);
 
@@ -171,7 +171,7 @@ package body Ins_Controller_Utils is
 
          tempMSG.ID := (411, false);
          tempMSG.Len := 3;
-		 
+
 		 --ADD DELAY SOMEWHERE HERE TO SEE IF THE DELAY AFFECTS HOW FAR THE PROGRAM COMES BEFORE IT CRASHES
 
          sTemp(1) := ' ';
@@ -237,4 +237,4 @@ package body Ins_Controller_Utils is
       AVR.AT90CAN128.CAN.Can_Send(tempMSG);
    end Start_Message;
 
-end Ins_Controller_Utils;
+end AT90CAN_Ins_Controller_Utils;

@@ -4,9 +4,9 @@ project AT90CAN_Usart_Test is
 
    for Object_Dir use "build";
    for Exec_Dir use "target";
-   for Source_Dirs use ("src", "..\at90can_lib");
    for Main use ("at90can_usart_test_main.adb");
-
+   
+   for Source_Dirs use ("src", "../../firmware/avr/lib");
    package Ide is
       for Gnat use "avr-gnat";
       for Gnatlist use "avr-gnatls";
@@ -14,7 +14,7 @@ project AT90CAN_Usart_Test is
    end Ide;
 
    package Linker is
-      for Default_Switches ("ada") use ("-nostdlib", "-Wl,-Tdata=0x800100", "-T../../at90can_lib/avr5.x", "../at90can_lib/crt1-at90can128.o.org", "-lgcc", "-mavr5");
+      for Default_Switches ("ada") use ("-nostdlib", "-Wl,-Tdata=0x800100", "-T../../../firmware/avr/lib/avr5.x", "../../firmware/avr/lib/crt1-at90can128.o.org", "-lgcc", "-mavr5");
    end Linker;
 
    package Compiler is
