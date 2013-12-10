@@ -1,9 +1,11 @@
 package LanguageHandlers;
 
 import Drawables.DrawableVariable;
+import Drawables.LanguageVariableDrawable;
 import Enums.ILanguageObjectType;
 import Enums.VariableType;
 import Exceptions.NullReferenceException;
+import Factories.IDrawableFactory;
 import Interfaces.IDrawable;
 import Interfaces.ILanguageObject;
 import Interfaces.ILanguageVariable;
@@ -17,8 +19,11 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
+import java.util.UUID;
 
 public class Primitive extends Observable implements IPrimitive, ILanguageObject{
+
+    private UUID uid;
 
     private String primitiveName;
     private ArrayList<IDrawable> primitiveInputs;
@@ -28,9 +33,9 @@ public class Primitive extends Observable implements IPrimitive, ILanguageObject
 
     public Primitive(String name, Path path)
     {
+        this.uid = java.util.UUID.randomUUID();
         this.primitiveName = name;
         this.filePath = path;
-
         this.primitiveInputs = new ArrayList<IDrawable>();
         this.primitiveOutputs  = new ArrayList<IDrawable>();
 
@@ -38,12 +43,23 @@ public class Primitive extends Observable implements IPrimitive, ILanguageObject
     }
 
     public Primitive(Primitive base) {
-        this.primitiveName = base.primitiveName;
-        this.primitiveInputs = base.primitiveInputs;
-        this.primitiveOutputs = base.primitiveOutputs;
-        this.filePath = base.filePath;
 
-        this.loadFile();
+        this.uid = java.util.UUID.randomUUID();
+        this.primitiveName = base.primitiveName;
+
+        this.primitiveInputs = new ArrayList<IDrawable>();
+        for(int i = 0; i < base.primitiveInputs.size(); i++)
+        {
+            this.primitiveInputs.add(IDrawableFactory.getCopy(base.primitiveInputs.get(i)));
+        }
+
+        this.primitiveOutputs = new ArrayList<IDrawable>();
+        for(int i = 0; i < base.primitiveInputs.size(); i++)
+        {
+            this.primitiveOutputs.add(IDrawableFactory.getCopy(base.primitiveOutputs.get(i)));
+        }
+
+        this.filePath = base.filePath;
     }
 
     @Override
@@ -142,5 +158,15 @@ public class Primitive extends Observable implements IPrimitive, ILanguageObject
     @Override
     public void addVariableAssignment(IDrawable predecessor, int pos) {
         this.primitiveInputs.get(pos).setScope(predecessor);
+    }
+
+    @Override
+    public UUID getUid() {
+        return this.uid;
+    }
+
+    @Override
+    public ILanguageObject getCopy() {
+        return new Primitive(this);
     }
 }

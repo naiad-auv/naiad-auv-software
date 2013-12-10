@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Observable;
+import java.util.UUID;
 
 /**
  * Created with IntelliJ IDEA.
@@ -23,11 +24,20 @@ import java.util.Observable;
  */
 public class TransferableLanguageObject extends Observable implements ILanguageObject, Transferable{
 
+    private UUID uid;
+
     private ILanguageObject object;
 
     public TransferableLanguageObject(ILanguageObject objectToTransfer)
     {
+        this.uid = java.util.UUID.randomUUID();
         this.object = objectToTransfer;
+    }
+
+    public TransferableLanguageObject(TransferableLanguageObject other)
+    {
+        this.uid = java.util.UUID.randomUUID();
+        this.object = other.object;
     }
 
     public static DataFlavor languageObjectFlavor  = new DataFlavor(ILanguageObject.class, "ILanguage object");
@@ -60,6 +70,16 @@ public class TransferableLanguageObject extends Observable implements ILanguageO
     @Override
     public void addVariableAssignment(IDrawable predecessor, int pos) {
         this.object.addVariableAssignment(predecessor,pos);
+    }
+
+    @Override
+    public UUID getUid() {
+        return this.uid;
+    }
+
+    @Override
+    public ILanguageObject getCopy() {
+        return new TransferableLanguageObject(this);
     }
 
     @Override

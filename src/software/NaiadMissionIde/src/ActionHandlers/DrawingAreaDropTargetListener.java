@@ -35,6 +35,7 @@ public class DrawingAreaDropTargetListener extends DropTargetAdapter {
         this.transferObjectHandler = transferObjectHandler;
         this.transferVariableHandler = transferVariableHandler;
         this.dropTarget = new DropTarget(target, DnDConstants.ACTION_COPY, this, true, null);
+
     }
 
 
@@ -47,7 +48,7 @@ public class DrawingAreaDropTargetListener extends DropTargetAdapter {
             {
                 final ILanguageObject transferData = (ILanguageObject)tr.getTransferData(TransferableLanguageObject.languageObjectFlavor);
 
-                handleDroppedObject(event, this.transferObjectHandler, transferData);
+                this.handleDroppedObject(event, this.transferObjectHandler, transferData);
                 return;
             }
 
@@ -55,7 +56,7 @@ public class DrawingAreaDropTargetListener extends DropTargetAdapter {
             {
                 final ILanguageVariable transferData = (ILanguageVariable)tr.getTransferData(TransferableVariableTypeObject.languageVariableFlavour);
 
-                handleDroppedObject(event, this.transferVariableHandler, transferData);
+                this.handleDroppedObject(event, this.transferVariableHandler, transferData);
                 return;
             }
 

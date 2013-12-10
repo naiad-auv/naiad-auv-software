@@ -6,6 +6,7 @@ import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.IOException;
+import java.util.UUID;
 
 /**
  * Created with IntelliJ IDEA.
@@ -16,6 +17,8 @@ import java.io.IOException;
  */
 public class TransferableVariableTypeObject implements Transferable {
 
+    private UUID uid;
+
     private ILanguageVariable variableToTransfer;
     public static DataFlavor languageVariableFlavour = new DataFlavor(ILanguageVariable.class, "ILanguageVariable object");
 
@@ -24,7 +27,14 @@ public class TransferableVariableTypeObject implements Transferable {
     };
 
     public TransferableVariableTypeObject(ILanguageVariable variableToTransfer) {
+        this.uid = java.util.UUID.randomUUID();
+
         this.variableToTransfer = variableToTransfer;
+    }
+
+    public TransferableVariableTypeObject(TransferableVariableTypeObject other) {
+        this.uid = java.util.UUID.randomUUID();
+        this.variableToTransfer = other.variableToTransfer;
     }
 
     @Override
@@ -44,5 +54,10 @@ public class TransferableVariableTypeObject implements Transferable {
             return this.variableToTransfer;
         }
         throw new UnsupportedFlavorException(languageVariableFlavour);
+    }
+
+    public UUID getUid()
+    {
+        return this.uid;
     }
 }

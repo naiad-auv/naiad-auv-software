@@ -1,5 +1,6 @@
 package Drawables;
 
+import Factories.ILanguageObjectFactory;
 import Interfaces.IDrawable;
 import Interfaces.ILanguageObject;
 import Settings.CoreSettings.PenumbraCoreSettings;
@@ -34,8 +35,19 @@ public class LanguageObjectDrawable extends Observable implements IDrawable, Obs
         this.calculateDrawingSize();
     }
 
+    public LanguageObjectDrawable(LanguageObjectDrawable other) {
+        this.position = new Point(other.getPosition());
+        this.objectToDraw = ILanguageObjectFactory.getCopy(other.objectToDraw);
+
+        this.objectToDraw.addObserver(this);
+        this.calculateDrawingSize();
+    }
+
     @Override
     public void Draw(Graphics g) {
+
+        Stroke baseStroke = ((Graphics2D)g).getStroke();
+
         Graphics canvas =  g.create(this.position.x, this.position.y, this.width, this.height);
 
         canvas.setColor(new Color(240,95,216));
@@ -49,26 +61,39 @@ public class LanguageObjectDrawable extends Observable implements IDrawable, Obs
         canvas.setFont(new Font(Font.SERIF, Font.BOLD, PenumbraCoreSettings.getInstance().FontSize));
         canvas.drawString(this.objectToDraw.toString(), 3, this.height / 2 + 3);
 
+
         for(int i = 0; i < this.objectToDraw.getInputVariables().size(); i++)
         {
             this.objectToDraw.getInputVariables().get(i).Draw(g);
-            canvas.drawLine((i + 1) * this.width/(this.objectToDraw.getInputVariables().size() + 1),0,(i + 1) * this.width/(this.objectToDraw.getInputVariables().size() + 1), 20);
-            canvas.drawString(this.objectToDraw.getInputVariables().get(i).toString(),(i + 1) * this.width/(this.objectToDraw.getInputVariables().size() + 1) + 3, 23);
+     //       canvas.drawLine((i + 1) * this.width/(this.objectToDraw.getInputVariables().size() + 1),0,(i + 1) * this.width/(this.objectToDraw.getInputVariables().size() + 1), 20);
+      //      canvas.drawString(this.objectToDraw.getInputVariables().get(i).toString(),(i + 1) * this.width/(this.objectToDraw.getInputVariables().size() + 1) + 3, 23);
         }
 
 
         for(int i = 0; i < this.objectToDraw.getOutputVariables().size(); i++)
         {
             this.objectToDraw.getOutputVariables().get(i).Draw(g);
-            canvas.drawLine((i + 1) * this.width/(this.objectToDraw.getInputVariables().size() + 1),this.height - 20,(i + 1) * this.width/(this.objectToDraw.getInputVariables().size() + 1), this.height);
-            canvas.drawString(this.objectToDraw.getInputVariables().get(i).toString(),(i + 1) * this.width/(this.objectToDraw.getInputVariables().size() + 1) + 3, this.height - 17);
+    //        canvas.drawLine((i + 1) * this.width/(this.objectToDraw.getInputVariables().size() + 1),this.height - 20,(i + 1) * this.width/(this.objectToDraw.getInputVariables().size() + 1), this.height);
+      //      canvas.drawString(this.objectToDraw.getInputVariables().get(i).toString(),(i + 1) * this.width/(this.objectToDraw.getInputVariables().size() + 1) + 3, this.height - 17);
         }
+
+        ((Graphics2D) g).setStroke(baseStroke);
     }
 
     public void calculateDrawingSize()
     {
         this.width = calculateDrawingWidth();
         this.height = calculateDrawingHeight();
+
+        for(int i = 0; i < this.objectToDraw.getInputVariables().size(); i++)
+        {
+            this.objectToDraw.getInputVariables().get(i).setPosition(new Point(this.position.x + (i + 1) * this.width/(this.objectToDraw.getInputVariables().size() + 1), this.position.y + 10));
+        }
+
+        for(int i = 0; i < this.objectToDraw.getOutputVariables().size(); i++)
+        {
+            this.objectToDraw.getOutputVariables().get(i).setPosition(new Point(this.position.x + (i + 1) * this.width/(this.objectToDraw.getInputVariables().size() + 1), this.position.y + this.height - 10));
+        }
     }
 
     private static int calculateDrawingHeight()
@@ -113,32 +138,8 @@ public class LanguageObjectDrawable extends Observable implements IDrawable, Obs
 
     public void setPosition(Point newPosition)
     {
-        int widthDiff = this.position.x - newPosition.x;
-        int heightDiff = this.position.y - newPosition.y;
-
-        for(int i = 0; i < this.objectToDraw.getInputVariables().size(); i++)
-        {
-            Point p = this.objectToDraw.getInputVariables().get(i).getPosition();
-
-            if(p == null)
-                p = new Point(this.getPosition());
-
-            p.x += widthDiff;
-            p.y += heightDiff;
-        }
-
-        for(int i = 0; i < this.objectToDraw.getOutputVariables().size(); i++)
-        {
-            Point p = this.objectToDraw.getOutputVariables().get(i).getPosition();
-
-            if(p == null)
-                p = new Point(this.getPosition());
-
-            p.x += widthDiff;
-            p.y += heightDiff;
-        }
-
         this.position = newPosition;
+        this.calculateDrawingSize();
 
         this.setChanged();
         this.notifyObservers();
