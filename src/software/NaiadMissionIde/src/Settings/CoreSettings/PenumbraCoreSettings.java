@@ -55,4 +55,7 @@ public class PenumbraCoreSettings
     @XmlElement(name = "objectivespath")
     public String ObjectivesPath;
 
+    @XmlElement(name = "variabletypespath")
+    public String VariableTypesPath;
+
 }

@@ -1,7 +1,10 @@
 package LanguageHandlers;
 
+import Enums.ILanguageObjectType;
 import Exceptions.NullReferenceException;
+import Interfaces.IDrawable;
 import Interfaces.ILanguageObject;
+import Interfaces.ILanguageVariable;
 
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
@@ -9,7 +12,7 @@ import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
-import java.util.concurrent.TransferQueue;
+import java.util.Observable;
 
 /**
  * Created with IntelliJ IDEA.
@@ -18,9 +21,9 @@ import java.util.concurrent.TransferQueue;
  * Time: 12:59 PM
  * To change this template use File | Settings | File Templates.
  */
-public class TransferableLanguageObject implements ILanguageObject, Transferable{
+public class TransferableLanguageObject extends Observable implements ILanguageObject, Transferable{
 
-    ILanguageObject object;
+    private ILanguageObject object;
 
     public TransferableLanguageObject(ILanguageObject objectToTransfer)
     {
@@ -40,13 +43,23 @@ public class TransferableLanguageObject implements ILanguageObject, Transferable
     }
 
     @Override
-    public List<PrimitiveVariable> getInputVariables() {
+    public List<IDrawable> getInputVariables() {
         return object.getInputVariables();
     }
 
     @Override
-    public List<PrimitiveVariable> getOutputVariables() {
+    public List<IDrawable> getOutputVariables() {
         return object.getOutputVariables();
+    }
+
+    @Override
+    public ILanguageObjectType getType() {
+        return this.object.getType();
+    }
+
+    @Override
+    public void addVariableAssignment(IDrawable predecessor, int pos) {
+        this.object.addVariableAssignment(predecessor,pos);
     }
 
     @Override
@@ -56,9 +69,7 @@ public class TransferableLanguageObject implements ILanguageObject, Transferable
 
     @Override
     public boolean isDataFlavorSupported(DataFlavor dataFlavor) {
-        if(dataFlavor.equals(languageObjectFlavor))
-            return true;
-        return false;
+        return dataFlavor.equals(languageObjectFlavor);
     }
 
     @Override
@@ -67,7 +78,6 @@ public class TransferableLanguageObject implements ILanguageObject, Transferable
         {
             return this.object;
         }
-
-        throw new UnsupportedFlavorException(dataFlavor);
+        throw new UnsupportedFlavorException(languageObjectFlavor);
     }
 }

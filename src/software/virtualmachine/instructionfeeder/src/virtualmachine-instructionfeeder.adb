@@ -11,10 +11,7 @@ package body VirtualMachine.InstructionFeeder is
 
       case xNewInstruction.eInstr is
 
-         when INSTR_BRF ! INSTR_BRA ! INSTR_BSR ! INSTR_POP !
-              INSTR_PUSHINT ! INSTR_RVALINT ! INSTR_RVALBOOL !
-                INSTR_RVALFLOAT ! INSTR_RVALMAT ! INSTR_RVALVEC !
-                  INSTR_LVAL ! INSTR_VECCOMP =>
+         when INSTR_BRF ! INSTR_BRA ! INSTR_PUSHINT ! INSTR_VECCOMP =>
 
             pxNewInstruction := new CInstructionIntegerArgument;
             Integer'Read(xFileStream, CInstructionIntegerArgument(pxNewInstruction.all).iArgument);
@@ -28,14 +25,6 @@ package body VirtualMachine.InstructionFeeder is
          when INSTR_PUSHFLOAT =>
             pxNewInstruction := new CInstructionFloatArgument;
             Float'Read(xFileStream, CInstructionFloatArgument(pxNewInstruction.all).fArgument);
-
-         when INSTR_PUSHMAT =>
-            pxNewInstruction := new CInstructionMatrixArgument;
-            Math.Matrices.CMatrix'Read(xFileStream, CInstructionMatrixArgument(pxNewInstruction.all).xArgument);
-
-         when INSTR_PUSHVEC =>
-            pxNewInstruction := new CInstructionVectorArgument;
-            Math.Vectors.CVector'Read(xFileStream, CInstructionVectorArgument(pxNewInstruction.all).xArgument);
 
          when others =>
             pxNewInstruction := new CInstruction;
@@ -65,6 +54,11 @@ package body VirtualMachine.InstructionFeeder is
 
    function Feed_Instruction (this : in CInstructionFeeder) return VirtualMachine.InstructionFeeder.EInstruction is
    begin
+      if this.pxInstructionList = null then
+         return VirtualMachine.InstructionFeeder.INSTR_EOF;
+      end if;
+
+      Ada.Text_IO.Put_Line(this.pxInstructionList.pxInstruction.eInstr'Img);
       return this.pxInstructionList.pxInstruction.eInstr;
    end Feed_Instruction;
 
@@ -179,8 +173,16 @@ package body VirtualMachine.InstructionFeeder is
    end Initialize;
 
    procedure Go_To_Entry_Point(this : in out CInstructionFeeder; iInstructionAddress : out integer) is
+      No_Entry_Point : exception;
+      iSearchUntil : integer := -1;
    begin
       while this.pxInstructionList.pxInstruction.eInstr /= INSTR_MAIN loop
+         if iSearchUntil < 0 then
+            iSearchUntil := this.pxInstructionList.pxInstruction.iLineNumber;
+         elsif iSearchUntil = this.pxInstructionList.pxInstruction.iLineNumber then
+            raise No_Entry_Point;
+         end if;
+
          this.Set_Program_Counter(iNewProgramCounterValue => this.pxInstructionList.pxNextInstruction.pxInstruction.iLineNumber);
       end loop;
       iInstructionAddress := this.iProgramCounter;

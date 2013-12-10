@@ -1,10 +1,12 @@
 package LanguageHandlers;
 
+import Enums.ILanguageObjectType;
 import Exceptions.NullReferenceException;
 import Exceptions.UnableToPreformActionException;
+import Interfaces.IDrawable;
 import Interfaces.ILanguageObject;
+import Interfaces.ILanguageVariable;
 
-import javax.security.auth.Subject;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,27 +19,22 @@ import java.util.Observable;
  * Time: 7:44 AM
  * To change this template use File | Settings | File Templates.
  */
-public class Objective implements ILanguageObject {
+public class Objective extends Observable implements ILanguageObject {
 
     private Path path;
     private String objectiveName;
+
     private List<ILanguageObject> executionalSteps;
-
-    private List<PrimitiveVariable> inputVariables;
-    private List<PrimitiveVariable> outputVariables;
-
-    public Objective()
-    {
-
-    }
+    private List<IDrawable> inputVariables;
+    private List<IDrawable> outputVariables;
 
     public Objective(String name)
     {
         this.objectiveName = name;
 
         this.executionalSteps = new ArrayList<ILanguageObject>();
-        this.inputVariables = new ArrayList<PrimitiveVariable>();
-        this.outputVariables = new ArrayList<PrimitiveVariable>();
+        this.inputVariables = new ArrayList<IDrawable>();
+        this.outputVariables = new ArrayList<IDrawable>();
     }
 
     public List<ILanguageObject> getExecutionalSteps() throws NullReferenceException {
@@ -73,13 +70,23 @@ public class Objective implements ILanguageObject {
     }
 
     @Override
-    public List<PrimitiveVariable> getInputVariables() {
+    public List<IDrawable> getInputVariables() {
         return this.inputVariables;
     }
 
     @Override
-    public List<PrimitiveVariable> getOutputVariables() {
+    public List<IDrawable> getOutputVariables() {
         return this.outputVariables;
+    }
+
+    @Override
+    public ILanguageObjectType getType() {
+        return ILanguageObjectType.Objective;
+    }
+
+    @Override
+    public void addVariableAssignment(IDrawable predecessor, int pos) {
+       // this.inputVariables.get(pos).set
     }
 
     @Override
@@ -91,9 +98,10 @@ public class Objective implements ILanguageObject {
         if(this.executionalSteps != ((Objective)other).executionalSteps)
             return false;
 
-        if(this.path != ((Objective)other).path)
+        if(this.getClass() != other.getClass())
             return false;
 
-        return true;
+
+        return this.path != ((Objective)other).path;
     }
 }

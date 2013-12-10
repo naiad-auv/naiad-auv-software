@@ -2,11 +2,14 @@ package Commands;
 
 import Exceptions.ScopeModificationNotSupported;
 import Interfaces.ICommand;
+import Interfaces.IDrawable;
 import Interfaces.ILanguageObject;
 import Logging.ExceptionLogger;
 import ViewModels.DrawingAreaViewModel;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
+import java.awt.dnd.DropTargetDropEvent;
+import java.awt.event.MouseEvent;
 import java.util.List;
 
 /**
@@ -18,10 +21,9 @@ import java.util.List;
  */
 public class HandleAddDroppedILanguageObject implements ICommand{
 
-    DrawingAreaViewModel scopeViewModel;
-    ILanguageObject scopeObject;
-    int x;
-    int y;
+    private DrawingAreaViewModel scopeViewModel;
+    private ILanguageObject scopeObject;
+    private DropTargetDropEvent eventArgs;
 
     public HandleAddDroppedILanguageObject(DrawingAreaViewModel scopeViewModel)
     {
@@ -31,7 +33,7 @@ public class HandleAddDroppedILanguageObject implements ICommand{
     public Object execute() throws NotImplementedException {
         try
         {
-            scopeViewModel.addItem(scopeObject, x, y);
+            scopeViewModel.addItem(scopeObject, eventArgs.getLocation());
         }
         catch(Exception e)
         {
@@ -42,12 +44,10 @@ public class HandleAddDroppedILanguageObject implements ICommand{
 
     @Override
     public void setScope(List<Object> scopeObjects) throws ScopeModificationNotSupported {
-        if(scopeObjects.size() < 3)
+        if(scopeObjects.size() != 2)
             throw new ScopeModificationNotSupported("not enough arguments to add presentation object");
         this.scopeObject = (ILanguageObject)scopeObjects.get(0);
-        this.x = (Integer)scopeObjects.get(1);
-        this.y = (Integer)scopeObjects.get(2);
-
+        this.eventArgs = (DropTargetDropEvent)scopeObjects.get(1);
     }
 }
 

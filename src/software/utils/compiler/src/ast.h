@@ -31,13 +31,15 @@ typedef enum {
    kActual,
    kUnary,
    kBinary,
+   kCompValue,
    kIntConst,
    kBoolConst,
    kFloatConst,
-   kVecConst,
-   kMatConst,
+   kVecValue,
+   kMatValue,
    kFuncCallExpr,
-   kRValue
+   kRValue,
+   kLValue
 } NODETYPE;
 
 /* The NEG/SUB originates in the scanner where we not yet know which one it is. This unifiles them
@@ -45,16 +47,16 @@ typedef enum {
 #define MINUS 0
 
 /* To distinguish between different kinds of unary expression nodes. */
-typedef enum { NEG=MINUS, NOT, INTOP, FLOATOP, ERROP } UNOP_KIND;
+typedef enum { NEG=MINUS, NOT, INTOP, FLOATOP, SIN, COS, ASIN, ACOS, ABS, SQRT, ERROP } UNOP_KIND;
 
 /* To distinguish between different kinds of binary expression nodes. */
-typedef enum { SUB=MINUS, PLUS, MULT, DIV, OR, AND, EQ, LT, LE, ME, MT, NE, DOT, CROSS } BINOP_KIND;
+typedef enum { SUB=MINUS, PLUS, MULT, DIV, OR, AND, EQ, LT, LE, ME, MT, NE } BINOP_KIND;
 
 /* To distinguish between formal parameters and local variables in variable nodes. */
 typedef enum {kFormal, kLocal} vKind;
 
 /* To distinguish between the data types in the trac42 language. */
-typedef enum {VOID, BOOL, INT, FLOAT, VECTOR, MATRIX, POINTER, ERROR_TYPE} eType;
+typedef enum {VOID=0, BOOL, INT, FLOAT, VECTOR, MATRIX, BOOL_ADDR, INT_ADDR, FLOAT_ADDR, VECTOR_ADDR, MATRIX_ADDR, ERROR_TYPE } eType;
 
 /* The program. */
 typedef struct {
@@ -155,7 +157,18 @@ typedef struct {
    BINOP_KIND Operator; /* The operator type */
    t_tree RightOperand;     /* The right hand side sub-expression to operate on. */
    eType Type; // added!
+   eType LeftType;
+   eType RightType;
 } yBinary;
+
+
+/* The component value expression (for vectors and matrices) */
+typedef struct {
+   char *Id;  
+   eType type;
+   int iComp;
+} yCompValue;
+
 
 /* The int constant expression. */
 typedef struct {
@@ -174,13 +187,13 @@ typedef struct {
 
 /* The vector constant expression. */
 typedef struct {
-   float Values[3];     /* The vector values of this constant. */
-} yVecConst;
+   t_tree Values[3];     /* The vector values of this constant. */
+} yVecValue;
 
 /* The matrix constant expression. */
 typedef struct {
-   float Values[9];     /* The matrix values of this constant. */
-} yMatConst;
+   t_tree Values[9];     /* The matrix values of this constant. */
+} yMatValue;
 
 /* The function call expression. */
 typedef struct {
@@ -192,6 +205,11 @@ typedef struct {
 typedef struct {
    char *Id;        /* The name of the variable. */
 } yRValue;
+
+/* The access variable expression. */
+typedef struct {
+   char *Id;        /* The name of the variable. */
+} yLValue;
 
 struct t_tree {
    NODETYPE Kind;         /* Key to know which component in the union to select. */
@@ -213,12 +231,14 @@ struct t_tree {
       yActual Actual;
       yUnary Unary;
       yBinary Binary;
+      yCompValue CompValue;
       yIntConst IntConst;
       yBoolConst BoolConst;
       yFloatConst FloatConst;
-      yVecConst VecConst;
-      yMatConst MatConst;
+      yVecValue VecValue;
+      yMatValue MatValue;
       yRValue RValue;
+      yLValue LValue;
    } Node;
 };
 
@@ -282,15 +302,19 @@ extern t_tree mBoolConst(const char *pValue, int pLineNr);
 extern t_tree mFloatConst(float fValue, int pLineNr);
 
 // mVecConst($2.floatVal, $4.floatVal, $6.floatVal, $2.lineNr)
-extern t_tree mVecConst(float fXValue, float fYValue, float fZValue, int pLineNr);
+extern t_tree mVecValue(t_tree fXValue, t_tree fYValue, t_tree fZValue);
 
 
 // mMatConst($3.floatVal, $5.floatVal, $7.floatVal, $11.floatVal, $13.floatVal, $15.floatVal, $19.floatVal, $21.floatVal, $23.floatVal, $3.lineNr)
-extern t_tree mMatConst(float fAAValue, float fABValue, float fACValue, 
-			float fBAValue, float fBBValue, float fBCValue, 
-			float fCAValue, float fCBValue, float fCCValue, 
-			int pLineNr);
+extern t_tree mMatValue(t_tree fAAValue, t_tree fABValue, t_tree fACValue, 
+			t_tree fBAValue, t_tree fBBValue, t_tree fBCValue, 
+			t_tree fCAValue, t_tree fCBValue, t_tree fCCValue);
 
+extern t_tree mCompValue(const char *pValue, int pLineNr, int iComp, eType type);
+
+
+/* Returns a pointer to an rvalue(identifier) expression node. */
+extern t_tree mLValue(const char *pId, int pLineNr);
 
 
 /* Returns a pointer to an rvalue(identifier) expression node. */

@@ -24,11 +24,19 @@ typedef struct {
   float floatVal;
 } floatStruct;
 
+
 /* The attribute of the string and id tokens. */
 typedef struct {
   int lineNr;
   char *strVal;
 } stringStruct;
+
+/* The attribute of the string and id tokens. */
+typedef struct {
+  int lineNr;
+  int iComponent;
+  char *strVal;
+} compStruct;
 
 /* The attribute of a type name token. */
 typedef struct {

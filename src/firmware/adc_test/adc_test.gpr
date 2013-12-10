@@ -4,7 +4,7 @@ project ADC_Test is
    for Exec_Dir use "target";
    for Source_Dirs use ("src", "..\at90can128lib", "..\lib");
    for Source_Files use ("adc_test.adb", "avr-at90can128-adc.adb", "avr-at90can128-adc.ads", "avr-at90can128-clock.adb", "avr-at90can128-clock.ads", "avr-at90can128-interrupt.adb", "avr-at90can128-interrupt.ads", 
-      "avr-at90can128-usart.adb", "avr-at90can128-usart.ads", "avr-at90can128.ads", "avr.ads");
+      "avr-at90can128-usart.adb", "avr-at90can128-usart.ads", "avr-at90can128.ads", "avr.ads", "can_defs.ads", "digital_io.adb", "digital_io.ads");
    for Main use ("adc_test.adb");
 
    package Ide is

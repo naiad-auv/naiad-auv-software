@@ -1,10 +1,11 @@
 package Interfaces;
 
+import Enums.ILanguageObjectType;
 import Exceptions.NullReferenceException;
-import LanguageHandlers.PrimitiveVariable;
 
 import java.nio.file.Path;
 import java.util.List;
+import java.util.Observer;
 
 /**
  * Created with IntelliJ IDEA.
@@ -19,7 +20,13 @@ public interface ILanguageObject {
 
     public String toString();
 
-    public List<PrimitiveVariable> getInputVariables();
+    public List<IDrawable> getInputVariables();
 
-    public List<PrimitiveVariable> getOutputVariables();
+    public List<IDrawable> getOutputVariables();
+
+    public ILanguageObjectType getType();
+
+    public void addVariableAssignment(IDrawable predecessor, int pos);
+
+    public void addObserver(Observer observer);
 }

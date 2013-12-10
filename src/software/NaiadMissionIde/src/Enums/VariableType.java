@@ -1,10 +1,10 @@
 package Enums;
 
 public enum VariableType {
-    Integer,
-    Boolean,
-    Float,
-    Vector,
-    Matrix,
-    PrimitivePoiner
+    INTEGER,
+    BOOLEAN,
+    FLOAT,
+    VECTOR,
+    MATRIX,
+    PRIMITIVEPOINTER
 }

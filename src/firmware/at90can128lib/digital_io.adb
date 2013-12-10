@@ -2,7 +2,7 @@
 pragma Style_Checks (Off);
 
 -- Written by: Nils Brynedal Ignell for the Naiad AUV project
--- Last changed (yyyy-mm-dd): 2013-10-02
+-- Last changed (yyyy-mm-dd): 2013-12-04
 
 with AVR.AT90CAN128;
 
@@ -130,5 +130,12 @@ package body Digital_IO is
       end case;
    end bRead_Pin;
 
+
+   procedure User_Led(bTurnOn : Boolean) is
+   begin
+      --makeoutput:
+       AVR.AT90CAN128.DDRE.Bit_4 := true;
+       AVR.AT90CAN128.PORTE.Bit_4 := bTurnOn;
+   end User_Led;
 
 end Digital_IO;

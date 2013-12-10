@@ -1,6 +1,7 @@
 package UserControls;
 
 import Commands.HandleObjectiveEditorCommand;
+import Interfaces.ICommand;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,7 +18,7 @@ public class LanguageObjectsListPresenter extends JComponent {
     private LanguageObjectsList objectsList;
     private JScrollPane scrollPane;
 
-    public LanguageObjectsListPresenter(HandleObjectiveEditorCommand handleObjectiveEditorCommand)
+    public LanguageObjectsListPresenter(ICommand handleObjectiveEditorCommand)
     {
         this.objectsList = new LanguageObjectsList(handleObjectiveEditorCommand);
 

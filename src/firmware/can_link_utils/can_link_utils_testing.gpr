@@ -2,8 +2,8 @@ project CAN_Link_Utils_Testing is
 
    for Object_Dir use "build";
    for Exec_Dir use "target";
-   for Source_Dirs use ("src", "../at90can128lib_testing", "../lib");
-   for Source_Files use ("avr-at90can128-can.adb", "avr-at90can128-can.ads", "avr-at90can128-clock.adb", "avr-at90can128-clock.ads", "avr-at90can128.ads", "avr.ads", "can_defs.ads", "can_link_utils.adb", "can_link_utils.ads");
+   for Source_Dirs use ("src", "../at90can128lib_testing");
+   for Source_Files use ("can_defs.ads", "can_link_utils.adb", "can_link_utils.ads");
    --for Main use ("can_link.adb");
 
    package Ide is

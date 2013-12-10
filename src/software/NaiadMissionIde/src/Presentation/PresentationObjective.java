@@ -1,16 +1,17 @@
 package Presentation;
 
-import Exceptions.NullReferenceException;
+import Drawables.*;
 import Exceptions.UnableToPreformActionException;
+import Factories.DrawableLanguageVariableObjectFactory;
+import Interfaces.IDrawable;
 import Interfaces.ILanguageObject;
+import Interfaces.ILanguageVariable;
 import LanguageHandlers.EndMarker;
-import LanguageHandlers.Objective;
 import LanguageHandlers.StartMarker;
 
 import java.awt.*;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
-import java.util.Observable;
 
 /**
  * Created with IntelliJ IDEA.
@@ -19,25 +20,39 @@ import java.util.Observable;
  * Time: 8:10 AM
  * To change this template use File | Settings | File Templates.
  */
-public class PresentationObjective extends Observable
+public class PresentationObjective extends Observable implements Observer
 {
 
-    private StartMarker startMarker;
-    private EndMarker endMarker;
-    private List<ILanguageObjectPresentationObject> ILanguageObjectPresentationObjects;
-    private List<ILanguageObjectTransitionPresentationObject> ILangueageObjectTransitions;
+    private IDrawable startMarker;
+    private IDrawable endMarker;
+    private List<IDrawable> ILanguageObjectPresentationObjects;
+    private List<IDrawable> ILanguageObjectTransitions;
+    private List<IDrawable> ILanguageVariablePresentationObjects;
+    private List<IDrawable> IVariableAssignmentsObjects;
 
     public PresentationObjective()
     {
-        this.startMarker = new StartMarker();
-        this.endMarker = new EndMarker();
+        this.startMarker = new MarkerObjectDrawable(new StartMarker(), new Point(100,100), 50);
+        this.endMarker =  new MarkerObjectDrawable(new EndMarker(), new Point(500,500), 50);
 
-        this.ILangueageObjectTransitions = new ArrayList<ILanguageObjectTransitionPresentationObject>();
-        this.ILanguageObjectPresentationObjects = new ArrayList<ILanguageObjectPresentationObject>();
+        this.ILanguageObjectTransitions = new ArrayList<IDrawable>();
+        this.ILanguageObjectPresentationObjects = new ArrayList<IDrawable>();
+        this.ILanguageVariablePresentationObjects = new ArrayList<IDrawable>();
+        this.IVariableAssignmentsObjects = new ArrayList<IDrawable>();
     }
 
     public Graphics Draw(Graphics g)
     {
+        for(int i = 0; i < ILanguageObjectTransitions.size(); i++)
+        {
+            this.ILanguageObjectTransitions.get(i).Draw(g);
+        }
+
+        for(int i = 0; i < IVariableAssignmentsObjects.size(); i++)
+        {
+            this.IVariableAssignmentsObjects.get(i).Draw(g);
+        }
+
         this.startMarker.Draw(g);
         this.endMarker.Draw(g);
 
@@ -46,37 +61,89 @@ public class PresentationObjective extends Observable
              this.ILanguageObjectPresentationObjects.get(i).Draw(g);
          }
 
-        for(int i = 0; i < ILangueageObjectTransitions.size(); i++)
+
+        for(int i = 0; i < ILanguageVariablePresentationObjects.size(); i++)
         {
-            this.ILangueageObjectTransitions.get(i).Draw((Graphics2D)g);
+            this.ILanguageVariablePresentationObjects.get(i).Draw(g);
         }
 
         return g;
     }
 
-    public void addItem(ILanguageObject object, int x, int y) throws UnableToPreformActionException {
-       this.ILanguageObjectPresentationObjects.add(new ILanguageObjectPresentationObject(object,x,y));
-        this.setChanged();
-        this.notifyObservers();
+    public void addItem(ILanguageObject object, Point position) throws UnableToPreformActionException {
+
+        LanguageObjectDrawable objectToDraw = new LanguageObjectDrawable(object, position);
+
+        objectToDraw.addObserver(this);
+
+       this.ILanguageObjectPresentationObjects.add(objectToDraw);
+       this.setChanged();
+       this.notifyObservers();
     }
 
-    public void addTransition(ILanguageObjectPresentationObject predecessor, ILanguageObjectPresentationObject successor)
+    public void addTransition(IDrawable predecessor, IDrawable successor)
     {
-        this.ILangueageObjectTransitions.add(new ILanguageObjectTransitionPresentationObject(predecessor,successor));
+        this.ILanguageObjectTransitions.add(new TransactionObjectDrawable(predecessor, successor));
         this.setChanged();
         this.notifyObservers();
     }
 
     public Object[] getScope() {
-        return new Object[]{ this.ILanguageObjectPresentationObjects, this.ILangueageObjectTransitions };
+        return new Object[]{ this.ILanguageObjectPresentationObjects, this.ILanguageObjectTransitions};
     }
 
-    public List<ILanguageObjectTransitionPresentationObject> getTransitions() {
-        return this.ILangueageObjectTransitions;
+    public List<IDrawable> getTransitions() {
+        return this.ILanguageObjectTransitions;
     }
 
-    public void removeTransition(ILanguageObjectTransitionPresentationObject transitionToRemove) {
-        this.ILangueageObjectTransitions.remove(transitionToRemove);
+    public void removeTransition(IDrawable transitionToRemove) {
+        this.ILanguageObjectTransitions.remove(transitionToRemove);
+        this.setChanged();
+        this.notifyObservers();
+    }
+
+    public void addVariable(ILanguageVariable object, Point position)
+    {
+        LanguageVariableDrawable obj = DrawableLanguageVariableObjectFactory.getObject(object.getName());
+        obj.setPosition(position);
+        obj.addObserver(this);
+
+        this.ILanguageVariablePresentationObjects.add(obj);
+        this.setChanged();
+        this.notifyObservers();
+    }
+
+    public void addVariableAssignment(IDrawable variable, IDrawable assignedTo)
+    {
+        assignedTo.setScope(variable);
+        this.setChanged();
+        this.notifyObservers();
+    }
+
+    public IDrawable getObjectUnderCursor(Point point) {
+        for(int i = 0; i < this.ILanguageVariablePresentationObjects.size(); i++)
+        {
+            if(this.ILanguageVariablePresentationObjects.get(i).isPointInside(point))
+                return this.ILanguageVariablePresentationObjects.get(i);
+        }
+
+        for(int i = 0; i < this.ILanguageObjectPresentationObjects.size(); i++)
+        {
+            if(this.ILanguageObjectPresentationObjects.get(i).isPointInside(point))
+                return this.ILanguageObjectPresentationObjects.get(i);
+        }
+
+        if(this.startMarker.isPointInside(point))
+            return this.startMarker;
+
+        if(this.endMarker.isPointInside(point))
+            return this.endMarker;
+
+        return null;
+    }
+
+    @Override
+    public void update(Observable observable, Object o) {
         this.setChanged();
         this.notifyObservers();
     }

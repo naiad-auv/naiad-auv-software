@@ -26,7 +26,7 @@
 #include "name.h"
 #include "types.h"
 #include "offset.h"
-//#include "gensmc.h"
+#include "gensmc.h"
 
 extern FILE *yyin;
 int yyerror(const char *s);
@@ -38,6 +38,7 @@ int yylex(void);
    t_tree       yyNode;
    floatStruct  yyFloat;
    intStruct    yyInt;
+   compStruct	yyComp;
    stringStruct yyString;
    typeStruct   yyType;
    opStruct     yyOperator;
@@ -51,20 +52,22 @@ int yylex(void);
 %left  <yyOperator> LELTOP MEMTOP
 %left  <yyOperator> MINUSOP PLUSOP
 %left  <yyOperator> MULDIVOP
-%left  <yyOperator> VECOP
 %right <yyOperator> NOTOP UNOP
 
 /* Rule types on parse stack */
 %type  <yyNode>   program functions function formals formal
 %type  <yyNode>   decls decl stmnts stmnt expr actuals exprs
-%type  <yyFloat>  vec_comp
+%type  <yyType>   type
+%type  <yyOperator> unaryop
 
 /* Specifies the types of other tokens than the operators, when on the parse stack */
 %token <yyType>   BASIC_TYPE
 %token <yyString> ID BOOL_CONST STRING_CONST
+%token <yyComp>	  VEC_COMP MAT_COMP
 %token <yyInt>    INT_CONST
 %token <yyFloat>  FLOAT_CONST
-%token <yyLineNr> IF THEN ELSE WHILE RETURN END EXIT LOOP PROCEDURE FUNCTION IS BGN ASSIGN ASM
+%token <yyLineNr> IF THEN ELSE WHILE RETURN END EXIT LOOP PROCEDURE FUNCTION IS BGN ASSIGN ASM ADDR_TYPE
+%token <yyOperator> MATH_TYPE
 
 
 %start program
@@ -78,10 +81,10 @@ functions   : functions function								{ $$ = connectFunctions($1,$2); }
             | function										{ $$ = $1; }
             ;
 
-function    : PROCEDURE ID '(' formals ')' IS decls BGN stmnts END ID ';'			{ $$ = mFunction(connectVariables($4, $7), $9, $2.strVal, VOID, $2.lineNr); }
-            | PROCEDURE ID IS decls BGN stmnts END ID ';' 					{ $$ = mFunction($4, $6, $2.strVal, VOID, $2.lineNr); }
-            | FUNCTION ID '(' formals ')' RETURN BASIC_TYPE IS decls BGN stmnts END ID ';'	{ $$ = mFunction(connectVariables($4, $9), $11, $2.strVal, $7.type, $2.lineNr); }
-            | FUNCTION ID RETURN BASIC_TYPE IS decls BGN stmnts END ID ';' 			 { $$ = mFunction($6, $8, $2.strVal, $4.type, $2.lineNr); } 
+function    : PROCEDURE ID '(' formals ')' IS decls BGN stmnts END ID ';'			{ if (strcmp($2.strVal, $11.strVal) != 0) { yyerror("syntax error"); YYERROR; } else $$ = mFunction(connectVariables($4, $7), $9, $2.strVal, VOID, $2.lineNr); }
+            | PROCEDURE ID IS decls BGN stmnts END ID ';' 					{ if (strcmp($2.strVal, $8.strVal) != 0) { yyerror("syntax error"); YYERROR; } else $$ = mFunction($4, $6, $2.strVal, VOID, $2.lineNr); }
+            | FUNCTION ID '(' formals ')' RETURN BASIC_TYPE IS decls BGN stmnts END ID ';'	{ if (strcmp($2.strVal, $13.strVal) != 0) { yyerror("syntax error"); YYERROR; } else $$ = mFunction(connectVariables($4, $9), $11, $2.strVal, $7.type, $2.lineNr); }
+            | FUNCTION ID RETURN BASIC_TYPE IS decls BGN stmnts END ID ';' 			 { if (strcmp($2.strVal, $10.strVal) != 0) { yyerror("syntax error"); YYERROR; } else $$ = mFunction($6, $8, $2.strVal, $4.type, $2.lineNr); } 
             ;  
 
 
@@ -89,16 +92,19 @@ formals     : formals ';' formal								{ $$ = connectVariables($1,$3); }
             | formal										{ $$ = $1; }
             ;
 
-formal      : ID ':' BASIC_TYPE 								{ $$ = mVariable(kFormal, $1.strVal, $3.type, $1.lineNr); }
+formal      : ID ':' type	 								{ $$ = mVariable(kFormal, $1.strVal, $3.type, $1.lineNr); }
             ;
 
 decls       : decls decl									{ if ($1 != NULL) { $$ = connectVariables($1, $2); } else { $$ = $2; } }
             |											{ $$ = NULL; }
             ;
 
-decl        : ID ':' BASIC_TYPE ';'   								{ $$ = mVariable(kLocal, $1.strVal, $3.type, $1.lineNr); }
+decl        : ID ':' type ';'   								{ $$ = mVariable(kLocal, $1.strVal, $3.type, $1.lineNr); }
             ;
 
+type	    : BASIC_TYPE									{ $$ = $1; }
+	    | ADDR_TYPE '(' BASIC_TYPE ')'							{ $$.lineNr = $1; $$.type = $3.type + MATRIX; }
+	    ;
 
 stmnts      : stmnts stmnt									{ $$ = connectStmnts($1,$2); }
             | stmnt										{ $$ = $1; }
@@ -118,11 +124,10 @@ stmnt       : ID ASSIGN expr ';'                       						{ $$ = mAssign($1.s
 
 expr        : MINUSOP expr %prec UNOP								{ $$ = mUnary($1.opType, $2, $1.lineNr); }
             | NOTOP expr									{ $$ = mUnary($1.opType, $2, $1.lineNr); }
-            | BASIC_TYPE '(' expr ')' %prec UNOP						{ $$ = mUnary(($1.type == INT ? INTOP : ($1.type == FLOAT ? FLOATOP : ERROP)), $3, $1.lineNr); }
+            | unaryop '(' expr ')' %prec UNOP							{ $$ = mUnary($1.opType, $3, $1.lineNr); }
             | expr PLUSOP expr									{ $$ = mBinary($1, $2.opType, $3, $2.lineNr); }
             | expr MINUSOP expr									{ $$ = mBinary($1, $2.opType, $3, $2.lineNr); }
             | expr MULDIVOP expr								{ $$ = mBinary($1, $2.opType, $3, $2.lineNr); }
-            | expr VECOP expr									{ $$ = mBinary($1, $2.opType, $3, $2.lineNr); }
             | expr ANDOP expr									{ $$ = mBinary($1, $2.opType, $3, $2.lineNr); }
             | expr OROP expr									{ $$ = mBinary($1, $2.opType, $3, $2.lineNr); }
             | expr EQOP expr									{ $$ = mBinary($1, $2.opType, $3, $2.lineNr); }
@@ -131,20 +136,22 @@ expr        : MINUSOP expr %prec UNOP								{ $$ = mUnary($1.opType, $2, $1.lin
             |'(' expr ')'									{ $$ = $2; }
             | ID '(' actuals ')'								{ $$ = mFuncCallExpr($3, $1.strVal, $1.lineNr); }
             | ID										{ $$ = mRValue($1.strVal, $1.lineNr); }
+	    | ADDR_TYPE '(' ID ')'								{ $$ = mLValue($3.strVal, $1); }
             | INT_CONST										{ $$ = mIntConst($1.intVal, $1.lineNr); }
             | BOOL_CONST									{ $$ = mBoolConst($1.strVal, $1.lineNr); }
             | FLOAT_CONST									{ $$ = mFloatConst($1.floatVal, $1.lineNr); }
-            | '[' vec_comp ',' vec_comp ',' vec_comp ']'					{ $$ = mVecConst($2.floatVal, $4.floatVal, $6.floatVal, $2.lineNr); }
-            | '[' '[' vec_comp ',' vec_comp ',' vec_comp ']' ',' 
-	          '[' vec_comp ',' vec_comp ',' vec_comp ']' ',' 
-                  '[' vec_comp ',' vec_comp ',' vec_comp ']' ']'				{ $$ = mMatConst($3.floatVal, $5.floatVal, $7.floatVal, 
-													         $11.floatVal, $13.floatVal, $15.floatVal, 
-														 $19.floatVal, $21.floatVal, $23.floatVal, 
-														 $3.lineNr); }
+            | '[' expr ',' expr ',' expr ']'							{ $$ = mVecValue($2, $4, $6); }
+            | '[' '[' expr ',' expr ',' expr ']' ',' 
+	          '[' expr ',' expr ',' expr ']' ',' 
+                  '[' expr ',' expr ',' expr ']' ']'						{ $$ = mMatValue($3, $5, $7, 
+													         $11, $13, $15, 
+														 $19, $21, $23); }
+	    | VEC_COMP										{ $$ = mCompValue($1.strVal, $1.lineNr, $1.iComponent, VECTOR); }
+	    | MAT_COMP										{ $$ = mCompValue($1.strVal, $1.lineNr, $1.iComponent, MATRIX); }
             ;
 
-vec_comp    : MINUSOP FLOAT_CONST								{ $$ = $2; $$.floatVal *= -1.0; }
-	    | FLOAT_CONST									{ $$ = $1; }
+unaryop	    : BASIC_TYPE									{ $$.opType = ($1.type == INT ? INTOP : ($1.type == FLOAT ? FLOATOP : ERROP)); $$.lineNr = $1.lineNr; }
+	    | MATH_TYPE										{ $$ = $1; }
 	    ;
 
 actuals     : exprs										{ $$ = $1; }
@@ -172,6 +179,8 @@ int main (int argc, char *argv[])
       if (yyin == NULL) {
          fprintf (stderr, "Could not open input file %s\n", argv[1]);
       } else {
+	 //printf("Building AST...");
+
          basename = malloc(strlen(argv[1]) + 5);
          strcpy(basename, argv[1]);
          p = strstr (basename, ".t42");
@@ -184,11 +193,10 @@ int main (int argc, char *argv[])
          strcpy(lstname, basename);
          strcat(objname, ".obj");
          strcat(lstname, "_.lst");
-		 printf("Building AST...");
          syntax_errors = yyparse();
          if (!syntax_errors) {
 			
-			printf("DONE.\n");			
+			//printf("DONE.\n");			
 
 			// pass 1 - generate trac42 code back from AST
 			printf("Generating trac42 code from AST to file \"generatedcode.t42\"... ");
@@ -238,25 +246,23 @@ int main (int argc, char *argv[])
 
 
 					printf("DONE.\n");
-/*
+
 					// pass 5 - generate list file
 					printf("Generating trac42 stack machine code to file \"");
 					printf(lstname);
 					printf("\"... ");
 					generateSMC(treeRoot, symbolTable, lstname);
-					printf("Done!\n");
+					printf("DONE.\n");
 					printf("Cleaning up and exiting...\n");
-					*/
+					
 				}
 			}
 				
 			
             //fprintf (stderr, "The answer is 42\n");
-         } else {
-            fprintf (stderr, "There were syntax errors.\n");
          }
-		 destroyTables(symbolTable); 
-		 destroy_tree(treeRoot);
+	 destroyTables(symbolTable); 
+	 destroy_tree(treeRoot);
          free(basename);
          free(objname);
          free(lstname);

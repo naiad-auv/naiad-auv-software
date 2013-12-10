@@ -1,8 +1,33 @@
-procedure main(i : integer; v : vector; m : matrix) is 
+function Dot_Product(LeftOperand : vector; RightOperand : vector)return float  is 
 begin
-	v := [32.500000, 63.200001, -123.400002];
-	m := [[43.200001, 63.200001, -123.400002], [32.500000, 63.200001, -123.400002], [32.500000, 63.200001, -123.400002]];
-	i := 3;
-	v := v * float(i);
+	return (((LeftOperand.X * RightOperand.X) + (LeftOperand.Y * RightOperand.Y)) + (LeftOperand.Z * RightOperand.Z));
+end Dot_Product;
+
+function Length_Squared(Operand : vector)return float  is 
+begin
+	return Dot_Product(Operand, Operand);
+end Length_Squared;
+
+function Length(Operand : vector)return float  is 
+begin
+	return sqrt(Length_Squared(Operand));
+end Length;
+
+function Cross_Product(LeftOperand : vector; RightOperand : vector)return vector  is 
+begin
+	return [((LeftOperand.Y * RightOperand.Z) - (LeftOperand.Z * RightOperand.Y)), ((LeftOperand.Z * RightOperand.X) - (LeftOperand.X * RightOperand.Z)), ((LeftOperand.X * RightOperand.Y) - (LeftOperand.Y * RightOperand.X))];
+end Cross_Product;
+
+procedure main is 
+	fResult : float;
+begin
+	fResult := Length(Cross_Product([5.000000, 0.000000, 0.000000], [0.000000, 2.000000, 0.000000]));
+	smc(PUSHINT -1);
+	smc(PUSHFP);
+	smc(ADDINT);
+	smc(RVALFLOAT);
+	smc(FTOI);
+	smc(PRINTINT);
+	smc(POPINT);
 end main;
 

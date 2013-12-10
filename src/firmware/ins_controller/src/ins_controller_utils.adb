@@ -2,12 +2,16 @@
 -- This file contains functions for ins_controller in order to reduce its number of lines of code.
 
 --  Written by: Nils Brynedal Ignell for the Naiad AUV project
---  Last changed (yyyy-mm-dd): 2013-12-03
+--  Last changed (yyyy-mm-dd): 2013-12-06
 
 --  TODO: Hardware testing....
 
 with AVR.AT90CAN128.INTERRUPT;
 with AVR.AT90CAN128.CLOCK;
+with AVR.AT90CAN128.CAN;
+
+with CAN_Defs;
+with Interfaces;
 
 package body Ins_Controller_Utils is
 
@@ -16,6 +20,10 @@ package body Ins_Controller_Utils is
    procedure Write(sData : String; iSize : Integer; port : AVR.AT90CAN128.USART.USARTID) is
       iTemp : Integer;
    begin
+      while AVR.AT90CAN128.USART.Space_Available(port) < iSize loop
+         null;
+      end loop;
+
       iTemp := AVR.AT90CAN128.USART.Write(Buffer => sData,Port => port, Size => iSize);
    end Write;
 
@@ -35,15 +43,16 @@ package body Ins_Controller_Utils is
 --     end sChecksum;
 
    procedure Send_Command(sCommand : String; port : AVR.AT90CAN128.USART.USARTID) is
-      sNewLine : String(1..1);
+      sNewLine : String(1..2);
    begin
-      sNewLine(1) := Character'Val(10);
+      sNewLine(1) := '*';
+      sNewLine(2) := Character'Val(10);
 
       Write("$", 1, port);
       Write(sCommand, sCommand'Length, port);
-      Write(sNewLine, 1, port);
+      Write(sNewLine, 2, port);
 
-      AVR.AT90CAN128.CLOCK.Delay_ms(40);
+      AVR.AT90CAN128.CLOCK.Delay_ms(100);
    end Send_Command;
 
    procedure Init_Uart(port : AVR.AT90CAN128.USART.USARTID; baud_rate :  AVR.AT90CAN128.USART.BAUDTYPE) is
@@ -64,11 +73,13 @@ package body Ins_Controller_Utils is
       AVR.AT90CAN128.EIFR := (others => False);
       AVR.AT90CAN128.EIMSK.Bit_2 := True;
       AVR.AT90CAN128.INTERRUPT.enableInterrupt;
-
    end Init_Interrupts;
 
    procedure Communication_Protocol_Control(port : AVR.AT90CAN128.USART.USARTID) is
+      sNewLine : String(1..1);
+      sCommand : String(1..26) := "$VNWRG,30,0,0,0,0,0,0,1*68";
    begin
+      sNewLine(1) := Character'Val(10);
       -- 7.31 Communication Protocol Control:
       -- SerialCount = off
       -- SerialStatus  = off
@@ -76,10 +87,9 @@ package body Ins_Controller_Utils is
       -- SerialChecksum = 0 (off)
       -- spi checksum = off
       --ErrorMode = off
-      --    Send_Command("VNWRG,30,0,0,0,0,0,0,1", port);
-      Write("$VNWRG,30,0,0,0,0,0,0,1*68" & Character'Val(10), 27, port);
-
-      AVR.AT90CAN128.CLOCK.Delay_ms(20);
+      Write(sCommand, 26, port);
+      Write(sNewLine, 1, port);
+      AVR.AT90CAN128.CLOCK.Delay_ms(100);
    end Communication_Protocol_Control;
 
    procedure Async_Data_Output_Type_Register_Off(port : AVR.AT90CAN128.USART.USARTID) is
@@ -92,7 +102,7 @@ package body Ins_Controller_Utils is
    procedure Async_Data_Output_Frequency_Register(port : AVR.AT90CAN128.USART.USARTID) is
    begin
       --Async Data Output Frequency Register
-      Send_Command("VNWRG,07,200", port);
+      Send_Command("VNWRG,07,1", port);
    end Async_Data_Output_Frequency_Register;
 
    procedure Synchronization_Control(port : AVR.AT90CAN128.USART.USARTID) is
@@ -112,8 +122,8 @@ package body Ins_Controller_Utils is
    begin
       -- set Baud rate:
       Send_Command("VNWRG,05,230400", port);
+     -- Send_Command("VNWRG,05,9600", port);
    end Serial_Baud_Rate_Register;
-
 
    procedure VPE_Basic_Control(port : AVR.AT90CAN128.USART.USARTID) is
    begin
@@ -127,12 +137,8 @@ package body Ins_Controller_Utils is
    procedure Async_Data_Output_Type_Register(port : AVR.AT90CAN128.USART.USARTID) is
    begin
       --Async Data Output Type Register
-
       --Asynchronous output: Yaw, Pitch, Roll, Body True Acceleration, and Angular Rates
       Send_Command("VNWRG,06,16", port);
-
-      -- Asynchronous output turned off
---        Send_Command("VNWRG,06,0", port);
    end Async_Data_Output_Type_Register;
 
    procedure Start_Message(sMsgStr : String; port : AVR.AT90CAN128.USART.USARTID) is
@@ -141,28 +147,76 @@ package body Ins_Controller_Utils is
       iRet : Integer;
       sRead : String(1..sMsgStr'Length);
       bExit : Boolean;
+
+      tempMSG : CAN_Defs.CAN_Message;
+
    begin
-      sTemp(1) := ' ';
+
+
+      tempMSG.ID := (40, false);
+      tempMSG.Len := 6;
+      tempMSG.Data := (1, 1, 1, 1, 1, 1, 1, 1);
+      AVR.AT90CAN128.CAN.Can_Send(tempMSG);
 
       loop
 
          --goes to the start of the message:
-         while sTemp(1) /= '$' loop
+--           while sTemp(1) /= '$' loop
+--              Read(sTemp, 1, iRet, port);
+--           end loop;
+
+--           tempMSG.ID := (411, false);
+--           tempMSG.Len := 1;
+--           tempMSG.Data(1) := 0;
+--           AVR.AT90CAN128.CAN.Can_Send(tempMSG);
+
+         tempMSG.ID := (411, false);
+         tempMSG.Len := 3;
+
+         sTemp(1) := ' ';
+         while sTemp(1) /= Character'Val(36) loop -- ascii 36 = dollarsign
+
+         --   tempMSG.Data(1) := Interfaces.Unsigned_8(AVR.AT90CAN128.USART.Data_Available(port));
+
             Read(sTemp, 1, iRet, port);
+
+            tempMSG.Data(2) := Interfaces.Unsigned_8(iRet);
+            tempMSG.Data(3) := Interfaces.Unsigned_8(Character'pos(sTemp(1)));
+
+            AVR.AT90CAN128.CAN.Can_Send(tempMSG);
+
+            AVR.AT90CAN128.CLOCK.Delay_ms(100);
          end loop;
+
+         tempMSG.ID := (42, false);
+         tempMSG.Len := 0;
+         AVR.AT90CAN128.CAN.Can_Send(tempMSG);
+
+         tempMSG.ID := (421, false);
+         tempMSG.Len := 7;
 
          -- read the "VNYBA,":
          iCharsTotal := 0;
-
          while iCharsTotal < sMsgStr'Length loop
-            Read(sTemp, 6 - iCharsTotal, iRet, port);
+            Read(sTemp, sMsgStr'Length - iCharsTotal, iRet, port);
+
+            tempMSG.Data(1) := Interfaces.Unsigned_8(iRet);
+
+            tempMSG.Data(2) := Interfaces.Unsigned_8(sMsgStr'Length);
 
             for i in 1..iRet loop
                sRead(i + iCharsTotal) := sTemp(i);
+            --   tempMSG.Data(CAN_Defs.DLC_Type(i + iCharsTotal)) := Interfaces.Unsigned_8(Character'pos(sTemp(i)));
             end loop;
+
+            AVR.AT90CAN128.CAN.Can_Send(tempMSG);
 
             iCharsTotal := iCharsTotal + iRet;
          end loop;
+
+         tempMSG.ID := (43, false);
+         tempMSG.Len := 0;
+         AVR.AT90CAN128.CAN.Can_Send(tempMSG);
 
          --check sRead = sMsgStr:
          bExit := true;
@@ -173,7 +227,13 @@ package body Ins_Controller_Utils is
             end if;
          end loop;
          exit when bExit;
+
+         tempMSG.ID := (44, false);
+         AVR.AT90CAN128.CAN.Can_Send(tempMSG);
       end loop;
+
+      tempMSG.ID := (44, false);
+      AVR.AT90CAN128.CAN.Can_Send(tempMSG);
    end Start_Message;
 
 end Ins_Controller_Utils;

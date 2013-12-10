@@ -16,7 +16,6 @@
 -- Written by Nils Brynedal Ignell for the Naiad AUV project
 -- Last changed (yyyy-mm-dd): 2013-11-28
 
--- To do: Hardware testing with the BBB.
 ---------------------------------------------------------------------------
 
 with Interfaces;

@@ -21,7 +21,7 @@
 %option never-interactive
 %option nounistd
 
-%x comment
+%x C_COMMENT
 %{
 #include <stdio.h>     /* Standard I/O                */
 #include <string.h>    /* Standard string-routines    */
@@ -39,15 +39,16 @@ STR     "\""([^\"])*"\""
 delim   [ \t]
 WS      {delim}+
 DIGIT   [0-9]
-LETTER  [A-Za-z]
+LETTER  [A-Za-z_]
+VECCOMP [X-Zx-z]
 ID      {LETTER}({LETTER}|{DIGIT})*
 %%
-"/*"         BEGIN(comment);
-<comment>[^*\n]*
-<comment>"*"+[^*/\n]*
-<comment>\n            { ++yylineno; }
-<comment>"*"+"/"       { BEGIN(INITIAL);}
+"/*"            	{ BEGIN(C_COMMENT); }
+<C_COMMENT>"*/" 	{ BEGIN(INITIAL); }
+<C_COMMENT>.    	{ }
+<C_COMMENT>\n		{ ++yylineno; }
 {WS}      ;
+"--".*"\n"		{ ++yylineno; }
 
 integer       {yylval.yyType.lineNr = yylineno;
                yylval.yyType.type = INT;
@@ -67,9 +68,26 @@ vector        {yylval.yyType.lineNr = yylineno;
 matrix        {yylval.yyType.lineNr = yylineno;
                yylval.yyType.type = MATRIX;
                return (BASIC_TYPE);}
-pointer       {yylval.yyType.lineNr = yylineno;
-               yylval.yyType.type = POINTER;
-               return (BASIC_TYPE);}
+
+sin           {yylval.yyOperator.lineNr = yylineno;
+               yylval.yyOperator.opType = SIN;
+               return (MATH_TYPE);}
+cos           {yylval.yyOperator.lineNr = yylineno;
+               yylval.yyOperator.opType = COS;
+               return (MATH_TYPE);}
+arcsin        {yylval.yyOperator.lineNr = yylineno;
+               yylval.yyOperator.opType = ASIN;
+               return (MATH_TYPE);}
+arccos        {yylval.yyOperator.lineNr = yylineno;
+               yylval.yyOperator.opType = ACOS;
+               return (MATH_TYPE);}
+abs           {yylval.yyOperator.lineNr = yylineno;
+               yylval.yyOperator.opType = ABS;
+               return (MATH_TYPE);}
+sqrt          {yylval.yyOperator.lineNr = yylineno;
+               yylval.yyOperator.opType = SQRT;
+               return (MATH_TYPE);}
+
 
 
 
@@ -85,7 +103,8 @@ procedure     {yylval.yyLineNr = yylineno; return (PROCEDURE);}
 function      {yylval.yyLineNr = yylineno; return (FUNCTION);}
 is            {yylval.yyLineNr = yylineno; return (IS);}
 begin         {yylval.yyLineNr = yylineno; return (BGN);}
-asm	      {yylval.yyLineNr = yylineno; return (ASM);}
+smc	      {yylval.yyLineNr = yylineno; return (ASM);}
+access	      {yylval.yyLineNr = yylineno; return (ADDR_TYPE);}
 ":="          {yylval.yyLineNr = yylineno; return (ASSIGN);}
 
 
@@ -134,12 +153,6 @@ and           {yylval.yyOperator.lineNr = yylineno;
                yylval.yyOperator.opType = DIV;
                return (MULDIVOP);}
 
-cross         {yylval.yyOperator.lineNr = yylineno;
-               yylval.yyOperator.opType = CROSS;
-               return (VECOP);}
-dot           {yylval.yyOperator.lineNr = yylineno;
-               yylval.yyOperator.opType = DOT;
-               return (VECOP);}
 
 
 true          {yylval.yyString.strVal = dstrcpy(yytext); yylval.yyString.lineNr = yylineno;
@@ -159,7 +172,7 @@ false         {yylval.yyString.strVal = dstrcpy(yytext); yylval.yyString.lineNr 
                yylval.yyInt.lineNr = yylineno;
                return (INT_CONST);}
 
-{DIGIT}+.{DIGIT}+     {yylval.yyFloat.floatVal = atof(yytext);
+{DIGIT}+\.{DIGIT}+     {yylval.yyFloat.floatVal = atof(yytext);
                	       yylval.yyFloat.lineNr = yylineno;
                        return (FLOAT_CONST);}
 
@@ -167,6 +180,18 @@ false         {yylval.yyString.strVal = dstrcpy(yytext); yylval.yyString.lineNr 
 {ID}          {yylval.yyString.strVal = dstrcpy(yytext);
                yylval.yyString.lineNr = yylineno;
                return (ID);}
+
+{ID}\.[XYZ]Vector	{yytext[yyleng-8] = 0;
+			 yylval.yyComp.strVal = dstrcpy(yytext);
+	         	 yylval.yyComp.lineNr = yylineno;
+			 yylval.yyComp.iComponent = (yytext[yyleng-7] == 'X' ? 1 : (yytext[yyleng-7] == 'Y' ? 2 : 3));
+	                 return (MAT_COMP);}
+
+{ID}\.[XYZ]		{yytext[yyleng-2] = 0;
+			 yylval.yyComp.strVal = dstrcpy(yytext);
+	         	 yylval.yyComp.lineNr = yylineno;
+			 yylval.yyComp.iComponent = (yytext[yyleng-1] == 'X' ? 1 : (yytext[yyleng-1] == 'Y' ? 2 : 3));
+	                 return (VEC_COMP);}
 
 .             {return (yytext[0]); }  /* . matches all other characters */
 

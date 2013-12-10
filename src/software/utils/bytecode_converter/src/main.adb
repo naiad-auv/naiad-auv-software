@@ -59,10 +59,7 @@ begin
 
 
          case eInstr is
-         when INSTR_BRF ! INSTR_BRA ! INSTR_BSR ! INSTR_POP !
-              INSTR_PUSHINT ! INSTR_RVALINT ! INSTR_RVALBOOL !
-                INSTR_RVALFLOAT ! INSTR_RVALMAT ! INSTR_RVALVEC !
-                  INSTR_LVAL ! INSTR_VECCOMP =>
+         when INSTR_BRF ! INSTR_BRA ! INSTR_PUSHINT ! INSTR_VECCOMP =>
 
             Integer'Write(xBinaryOutStreamAccess, Integer'Value(Parser.sGet_Next_Word_From_File(xTextInFile)));
 
@@ -76,13 +73,6 @@ begin
 
             Float'Write(xBinaryOutStreamAccess, Float'Value(Parser.sGet_Next_Word_From_File(xTextInFile)));
 
-
-         when INSTR_PUSHMAT =>
-            Math.Matrices.CMatrix'Write(xBinaryOutStreamAccess, Parser.xGet_Matrix_From_String(Parser.sGet_Matrix_From_File(xTextInFile)));
-
-         when INSTR_PUSHVEC =>
-
-            Math.Vectors.CVector'Write(xBinaryOutStreamAccess, Parser.xGet_Vector_From_String(Parser.sGet_Vector_From_File(xTextInFile)));
 
          when others =>
             null;

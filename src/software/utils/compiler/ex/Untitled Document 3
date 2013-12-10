@@ -1,0 +1,55 @@
+	procedure ZeroVector1 is
+	begin
+		ZeroVector1ReturnVector := [0.0, 0.0, 0.0];
+	end ZeroVector1;
+
+	procedure IdentityMatrix1 is
+	begin
+		IdentityMatrix1ReturnMatrix := [  [1.0, 0.0, 0.0],
+						  [0.0, 1.0, 0.0],
+						  [0.0, 0.0, 1.0]   ];
+	end IdentityMatrix1;
+
+
+	procedure IntLessThan1(IntLessThan1LeftOperand : integer; IntLessThan1RightOperand : integer; IntLessThan1Result : access(boolean))  is
+	begin
+		IntLessThan1Result := IntLessThan1LeftOperand < IntLessThan1RightOperand;
+	end IntLessThan1;
+
+	procedure Branch1 is
+	begin
+		if Branch1Condition then
+			Branch1Result := Branch1TrueBranch;
+		else
+			Branch1Result := Branch1FalseBranch;
+		end if;
+	end Branch1;
+
+
+procedure main is
+
+	ZeroVector1ReturnVector : vector;
+
+	IdentityMatrix1ReturnMatrix : matrix;
+
+	IntLessThan1LeftOperand : integer;
+	IntLessThan1RightOperand : integer;
+
+	IntLessThan1Result : boolean;
+
+	Branch1Condition : boolean;
+
+	Branch1FalseBranch : pointer;
+	Branch1TrueBranch : pointer;
+
+	Branch1Result : pointer;
+
+begin
+	IntLessThan1LeftOperand := 3;
+	IntLessThan1RightOperand := 5;
+
+	IntLessThan1(IntLessThan1LeftOperand, IntLessThan1RightOperand, 
+	
+	
+end main;
+

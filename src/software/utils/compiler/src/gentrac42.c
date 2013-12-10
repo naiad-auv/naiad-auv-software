@@ -31,9 +31,11 @@ void genTrac42Binary(t_tree node);
 void genTrac42IntConst(t_tree node);
 void genTrac42BoolConst(t_tree node);
 void genTrac42FloatConst(t_tree node);
-void genTrac42VecConst(t_tree node);
-void genTrac42MatConst(t_tree node);
+void genTrac42CompValue(t_tree node);
+void genTrac42VecValue(t_tree node);
+void genTrac42MatValue(t_tree node);
 void genTrac42RValue(t_tree node);
+void genTrac42LValue(t_tree node);
 
 // increases tabindex
 void genTrac42InsertTab()
@@ -115,17 +117,26 @@ void genTrac42Expr(t_tree node)
 	case kBoolConst:
 		genTrac42BoolConst(node);
 		break;
-	case kVecConst:
-		genTrac42VecConst(node);
+	case kFloatConst:
+		genTrac42FloatConst(node);
 		break;
-	case kMatConst:
-		genTrac42MatConst(node);
+	case kVecValue:
+		genTrac42VecValue(node);
+		break;
+	case kMatValue:
+		genTrac42MatValue(node);
 		break;
 	case kFuncCallExpr:
 		genTrac42FuncCallExpr(node);
 		break;
 	case kRValue:
 		genTrac42RValue(node);
+		break;
+	case kLValue:
+		genTrac42LValue(node);
+		break;
+	case kCompValue:
+		genTrac42CompValue(node);
 		break;
 	default:
 		// error
@@ -201,9 +212,6 @@ void genTrac42Function(t_tree node)
 		case MATRIX:
 			fprintf(genTrac42FilePtr, "return matrix ");
 			break;
-		case POINTER:
-			fprintf(genTrac42FilePtr, "return pointer ");
-			break;
 		default:
 			// error
 			fprintf(genTrac42FilePtr, "error ");
@@ -271,8 +279,20 @@ void genTrac42Formal(t_tree node, int first)
 	case MATRIX:
 		fprintf(genTrac42FilePtr, " : matrix");
 		break;
-	case POINTER:
-		fprintf(genTrac42FilePtr, " : pointer");
+	case INT_ADDR:
+		fprintf(genTrac42FilePtr, " : access(integer)");
+		break;
+	case FLOAT_ADDR:
+		fprintf(genTrac42FilePtr, " : access(float)");
+		break;
+	case BOOL_ADDR:
+		fprintf(genTrac42FilePtr, " : access(boolean)");
+		break;
+	case VECTOR_ADDR:
+		fprintf(genTrac42FilePtr, " : access(vector)");
+		break;
+	case MATRIX_ADDR:
+		fprintf(genTrac42FilePtr, " : access(matrix)");
 		break;
 	default:
 		// error
@@ -310,8 +330,20 @@ void genTrac42Local(t_tree node)
 	case MATRIX:
 		fprintf(genTrac42FilePtr, " : matrix;");
 		break;
-	case POINTER:
-		fprintf(genTrac42FilePtr, " : pointer;");
+	case INT_ADDR:
+		fprintf(genTrac42FilePtr, " : access(integer);");
+		break;
+	case FLOAT_ADDR:
+		fprintf(genTrac42FilePtr, " : access(float);");
+		break;
+	case BOOL_ADDR:
+		fprintf(genTrac42FilePtr, " : access(boolean);");
+		break;
+	case VECTOR_ADDR:
+		fprintf(genTrac42FilePtr, " : access(vector);");
+		break;
+	case MATRIX_ADDR:
+		fprintf(genTrac42FilePtr, " : access(matrix);");
 		break;
 	default:
 		// error
@@ -407,7 +439,7 @@ void genTrac42Exit(t_tree node)
 void genTrac42Asm(t_tree node)
 {
 	genTrac42NewLine();
-	fprintf(genTrac42FilePtr, "asm(");
+	fprintf(genTrac42FilePtr, "smc(");
 	fprintf(genTrac42FilePtr, node->Node.Asm.Arg);
 	fprintf(genTrac42FilePtr, ");");
 
@@ -485,6 +517,24 @@ void genTrac42Unary(t_tree node)
 	case INTOP:
 		fprintf(genTrac42FilePtr, "integer(");
 		break;		
+	case SIN:
+		fprintf(genTrac42FilePtr, "sin(");
+		break;
+	case ASIN:
+		fprintf(genTrac42FilePtr, "arcsin(");
+		break;
+	case COS:
+		fprintf(genTrac42FilePtr, "cos(");
+		break;
+	case ACOS:
+		fprintf(genTrac42FilePtr, "arccos(");
+		break;
+	case ABS:
+		fprintf(genTrac42FilePtr, "abs(");
+		break;
+	case SQRT:
+		fprintf(genTrac42FilePtr, "sqrt(");
+		break;
 	default:
 		fprintf(genTrac42FilePtr, "error");
 		break;
@@ -496,16 +546,11 @@ void genTrac42Unary(t_tree node)
 // handles binary expressions
 void genTrac42Binary(t_tree node)
 {
+	fprintf(genTrac42FilePtr, "(");
 	genTrac42Expr(node->Node.Binary.LeftOperand);
 
 	switch (node->Node.Binary.Operator)
 	{
-	case DOT:
-		fprintf(genTrac42FilePtr, " dot ");
-		break;
-	case CROSS:
-		fprintf(genTrac42FilePtr, " cross ");
-		break;
 	case SUB:
 		fprintf(genTrac42FilePtr, " - ");
 		break;
@@ -545,6 +590,7 @@ void genTrac42Binary(t_tree node)
 	}
 
 	genTrac42Expr(node->Node.Binary.RightOperand);
+	fprintf(genTrac42FilePtr, ")");
 }
 
 // handles int consts
@@ -565,20 +611,57 @@ void genTrac42FloatConst(t_tree node)
 	fprintf(genTrac42FilePtr, "%f", node->Node.FloatConst.Value);
 }
 
-// handles vector consts
-void genTrac42VecConst(t_tree node)
+// handles vector values
+void genTrac42VecValue(t_tree node)
 {
-	fprintf(genTrac42FilePtr, "[%f, %f, %f]", node->Node.VecConst.Values[0], node->Node.VecConst.Values[1], node->Node.VecConst.Values[2]);
+	fprintf(genTrac42FilePtr, "[");
+	genTrac42Expr(node->Node.VecValue.Values[0]);
+	fprintf(genTrac42FilePtr, ", ");
+	genTrac42Expr(node->Node.VecValue.Values[1]);
+	fprintf(genTrac42FilePtr, ", ");
+	genTrac42Expr(node->Node.VecValue.Values[2]);
+	fprintf(genTrac42FilePtr, "]");
 }
 
-// handles vector consts
-void genTrac42MatConst(t_tree node)
+// handles vector values
+void genTrac42MatValue(t_tree node)
 {
-	fprintf(genTrac42FilePtr, "[[%f, %f, %f], [%f, %f, %f], [%f, %f, %f]]", node->Node.MatConst.Values[0], node->Node.MatConst.Values[1], node->Node.MatConst.Values[2],
-										 node->Node.MatConst.Values[3], node->Node.MatConst.Values[4], node->Node.MatConst.Values[5],
-										 node->Node.MatConst.Values[6], node->Node.MatConst.Values[7], node->Node.MatConst.Values[8]);
+	fprintf(genTrac42FilePtr, "[");
+
+	fprintf(genTrac42FilePtr, "[");
+	genTrac42Expr(node->Node.MatValue.Values[0]);
+	fprintf(genTrac42FilePtr, ", ");
+	genTrac42Expr(node->Node.MatValue.Values[1]);
+	fprintf(genTrac42FilePtr, ", ");
+	genTrac42Expr(node->Node.MatValue.Values[2]);
+	fprintf(genTrac42FilePtr, "], ");
+
+	fprintf(genTrac42FilePtr, "[");
+	genTrac42Expr(node->Node.MatValue.Values[3]);
+	fprintf(genTrac42FilePtr, ", ");
+	genTrac42Expr(node->Node.MatValue.Values[4]);
+	fprintf(genTrac42FilePtr, ", ");
+	genTrac42Expr(node->Node.MatValue.Values[5]);
+	fprintf(genTrac42FilePtr, "], ");
+
+	fprintf(genTrac42FilePtr, "[");
+	genTrac42Expr(node->Node.MatValue.Values[6]);
+	fprintf(genTrac42FilePtr, ", ");
+	genTrac42Expr(node->Node.MatValue.Values[7]);
+	fprintf(genTrac42FilePtr, ", ");
+	genTrac42Expr(node->Node.MatValue.Values[8]);
+	fprintf(genTrac42FilePtr, "]");
+
+	fprintf(genTrac42FilePtr, "]");
 }
 
+
+void genTrac42LValue(t_tree node)
+{
+	fprintf(genTrac42FilePtr, "access(");
+	fprintf(genTrac42FilePtr, node->Node.LValue.Id);
+	fprintf(genTrac42FilePtr, ")");
+}
 
 
 void genTrac42RValue(t_tree node)
@@ -586,6 +669,19 @@ void genTrac42RValue(t_tree node)
 	fprintf(genTrac42FilePtr, node->Node.RValue.Id);
 }
 
+void genTrac42CompValue(t_tree node)
+{
+	if (node->Node.CompValue.type == VECTOR)
+	{
+		fprintf(genTrac42FilePtr, "%s.%s", node->Node.CompValue.Id, (node->Node.CompValue.iComp == 1 ? "X" : (node->Node.CompValue.iComp == 2 ? "Y" : "Z")));		
+	}
+	else if (node->Node.CompValue.type == MATRIX)
+	{
+		fprintf(genTrac42FilePtr, "%s.%sVector", node->Node.CompValue.Id, (node->Node.CompValue.iComp == 1 ? "X" : (node->Node.CompValue.iComp == 2 ? "Y" : "Z")));		
+	}
+	else
+		fprintf(genTrac42FilePtr, "error");
+}
 
 // global function for traversing the AST and generating code
 void genTrac42Traverse(t_tree node)

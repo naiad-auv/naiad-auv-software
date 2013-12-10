@@ -19,6 +19,7 @@ eType typeIf(t_tree node);
 eType typeWhile(t_tree node);
 eType typeLoop(t_tree node);
 eType typeExit(t_tree node);
+eType typeAsm(t_tree node);
 eType typeReturn(t_tree node);
 eType typeFuncCallStmnt(t_tree node);
 eType typeFuncCallExpr(t_tree node);
@@ -28,9 +29,11 @@ eType typeBinary(t_tree node);
 eType typeIntConst(t_tree node);
 eType typeBoolConst(t_tree node);
 eType typeFloatConst(t_tree node);
-eType typeVecConst(t_tree node);
-eType typeMatConst(t_tree node);
+eType typeVecValue(t_tree node);
+eType typeMatValue(t_tree node);
 eType typeRValue(t_tree node);
+eType typeLValue(t_tree node);
+eType typeCompValue(t_tree node);
 
 
 eType typeStmnt(t_tree node)
@@ -90,17 +93,23 @@ eType typeExpr(t_tree node)
 	case kFloatConst:
 		return typeFloatConst(node);
 		break;
-	case kVecConst:
-		return typeVecConst(node);
+	case kVecValue:
+		return typeVecValue(node);
 		break;
-	case kMatConst:
-		return typeMatConst(node);
+	case kMatValue:
+		return typeMatValue(node);
 		break;
 	case kFuncCallExpr:
 		return typeFuncCallExpr(node);
 		break;
+	case kLValue:
+		return typeLValue(node);
+		break;
 	case kRValue:
 		return typeRValue(node);
+		break;
+	case kCompValue:
+		return typeCompValue(node);
 		break;
 	default:
 		printf("Error in types.c!\n");
@@ -135,6 +144,9 @@ eType typeAssign(t_tree node)
 
 	tmpTable = FindId(node->Node.Assign.Id, scope);
 	exprType = tmpTable->type;
+
+	if (exprType > MATRIX && exprType < ERROR_TYPE)
+		exprType -= MATRIX;
 
 	if (exprType == typeExpr(node->Node.Assign.Expr))
 		return typeStmnt(node->Node.Stmnt.Next);
@@ -283,8 +295,10 @@ eType typeActual(t_tree node, t_symtable * func_table)
 eType typeUnary(t_tree node)
 {
 	eType exprType = typeExpr(node->Node.Unary.Expr);
-	if (node->Node.Unary.Operator == NEG)
+
+	switch (node->Node.Unary.Operator)
 	{
+	case NEG:
 		if (exprType == INT)
 		{
 			node->Node.Unary.Type = exprType;
@@ -300,28 +314,73 @@ eType typeUnary(t_tree node)
 			node->Node.Unary.Type = exprType;
 			return exprType;
 		}
-	}
-	else if (node->Node.Unary.Operator == INTOP)
-	{
+		break;
+
+	case INTOP:
 		if (exprType == FLOAT)
 		{
 			node->Node.Unary.Type = INT;
 			return INT;
 		}
-	}
-	else if (node->Node.Unary.Operator == FLOATOP)
-	{
+		break;
+	case FLOATOP:
 		if (exprType == INT)
 		{
 			node->Node.Unary.Type = FLOAT;
 			return FLOAT;
 		}
+		break;
+	case SIN:
+		if (exprType == FLOAT)
+		{
+			node->Node.Unary.Type = FLOAT;
+			return FLOAT;
+		}
+		break;
+	case COS:
+		if (exprType == FLOAT)
+		{
+			node->Node.Unary.Type = FLOAT;
+			return FLOAT;
+		}
+		break;
+	case ASIN:
+		if (exprType == FLOAT)
+		{
+			node->Node.Unary.Type = FLOAT;
+			return FLOAT;
+		}
+		break;
+	case ACOS:
+		if (exprType == FLOAT)
+		{
+			node->Node.Unary.Type = FLOAT;
+			return FLOAT;
+		}
+		break;
+	case ABS:
+		if (exprType == FLOAT || exprType == INT)
+		{
+			node->Node.Unary.Type = exprType;
+			return exprType;
+		}
+		break;
+	case SQRT:
+		if (exprType == FLOAT)
+		{
+			node->Node.Unary.Type = FLOAT;
+			return FLOAT;
+		}
+		break;
+	default:
+		if (exprType == BOOL)
+		{
+			node->Node.Unary.Type = exprType;
+			return exprType;
+		}
+		break;
 	}
-	else if (exprType == BOOL)
-	{
-		node->Node.Unary.Type = exprType;
-		return exprType;
-	}
+
 
 	if (typeErrorLineNr < 0)
 		typeErrorLineNr = node->LineNr;
@@ -332,6 +391,9 @@ eType typeBinary(t_tree node)
 {
 	eType leftType = typeExpr(node->Node.Binary.LeftOperand);
 	eType rightType = typeExpr(node->Node.Binary.RightOperand);
+
+	node->Node.Binary.LeftType = leftType;
+	node->Node.Binary.RightType = rightType;
 	
 	if (leftType == rightType)
 	{
@@ -354,7 +416,9 @@ eType typeBinary(t_tree node)
 			break;
 		case LT:
 		case LE:
-			if (leftType != VOID && leftType != BOOL)
+		case MT:
+		case ME:
+			if (leftType == INT || leftType == FLOAT)
 			{
 				node->Node.Binary.Type = leftType;
 				return BOOL;
@@ -371,20 +435,7 @@ eType typeBinary(t_tree node)
 	}
 	else
 	{
-		if (leftType == VECTOR && leftType == rightType)
-		{
-			if (node->Node.Binary.Operator == CROSS)
-			{
-				node->Node.Binary.Type = VECTOR;
-				return VECTOR;
-			}
-			else if (node->Node.Binary.Operator == DOT)
-			{
-				node->Node.Binary.Type = FLOAT;
-				return FLOAT;
-			}
-		}
-		else if ((leftType == MATRIX && rightType == VECTOR) || (leftType == VECTOR && rightType == MATRIX))
+		if ((leftType == MATRIX && rightType == VECTOR) || (leftType == VECTOR && rightType == MATRIX))
 		{
 			node->Node.Binary.Type = VECTOR;
 			return VECTOR;
@@ -411,18 +462,67 @@ eType typeFloatConst(t_tree node)
 {
 	return FLOAT;
 }
-eType typeVecConst(t_tree node)
+eType typeVecValue(t_tree node)
 {
+	int i;
+	for (i = 0; i < 3; i++)
+	{
+		if (typeExpr(node->Node.VecValue.Values[i]) != FLOAT)
+		{
+			if (typeErrorLineNr < 0)
+				typeErrorLineNr = node->LineNr;
+			return ERROR_TYPE;
+		}
+	}
 	return VECTOR;
 }
-eType typeMatConst(t_tree node)
+eType typeMatValue(t_tree node)
 {
+	int i;
+	for (i = 0; i < 9; i++)
+	{
+		if (typeExpr(node->Node.MatValue.Values[i]) != FLOAT)
+		{
+			if (typeErrorLineNr < 0)
+				typeErrorLineNr = node->LineNr;
+			return ERROR_TYPE;
+		}
+	}
 	return MATRIX;
 }
 eType typeRValue(t_tree node)
 {
+	eType type;
+
 	t_symtable * tmpTable = FindId(node->Node.RValue.Id, scope);
-	return tmpTable->type;
+	type = tmpTable->type;
+
+	if (type > MATRIX && type != ERROR_TYPE)
+		type -= MATRIX;
+	return type;
+}
+eType typeLValue(t_tree node)
+{
+	t_symtable * tmpTable = FindId(node->Node.LValue.Id, scope);
+	if (tmpTable->type > MATRIX)
+		return tmpTable->type;
+	return tmpTable->type + MATRIX;
+}
+
+eType typeCompValue(t_tree node)
+{
+	t_symtable * tmpTable = FindId(node->Node.CompValue.Id, scope);
+	if (tmpTable->type == node->Node.CompValue.type || tmpTable->type - MATRIX == node->Node.CompValue.type)
+	{
+		if (tmpTable->type == VECTOR || tmpTable->type == VECTOR_ADDR)
+			return FLOAT;
+		if (tmpTable->type == MATRIX || tmpTable->type == MATRIX_ADDR)
+			return VECTOR;
+	}
+
+	if (typeErrorLineNr < 0)
+		typeErrorLineNr = node->LineNr;
+	return ERROR_TYPE;
 }
 
 eType typeControl(t_tree node, t_symtable * globalScope)

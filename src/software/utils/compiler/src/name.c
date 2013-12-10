@@ -26,13 +26,18 @@ void nameIf(t_tree node);
 void nameWhile(t_tree node);
 void nameLoop(t_tree node);
 void nameExit(t_tree node);
+void nameAsm(t_tree node);
 void nameReturn(t_tree node);
 void nameFuncCallStmnt(t_tree node);
 void nameFuncCallExpr(t_tree node);
 void nameActual(t_tree node, int number);
 void nameUnary(t_tree node);
 void nameBinary(t_tree node);
+void nameVecValue(t_tree node);
+void nameMatValue(t_tree node);
 void nameRValue(t_tree node);
+void nameLValue(t_tree node);
+void nameCompValue(t_tree node);
 
 void nameExpr(t_tree node)
 {
@@ -47,14 +52,24 @@ void nameExpr(t_tree node)
 	case kIntConst:
 	case kBoolConst:
 	case kFloatConst:
-	case kVecConst:
-	case kMatConst:
 		return;
+	case kVecValue:
+		nameVecValue(node);
+		break;
+	case kMatValue:
+		nameMatValue(node);
+		break;
 	case kFuncCallExpr:
 		nameFuncCallExpr(node);
 		break;
 	case kRValue:
 		nameRValue(node);
+		break;
+	case kLValue:
+		nameRValue(node);
+		break;
+	case kCompValue:
+		nameCompValue(node);
 		break;
 	default:
 		printf("Error in name.c!\n");
@@ -278,11 +293,32 @@ void nameBinary(t_tree node)
 	nameExpr(node->Node.Binary.LeftOperand);
 	nameExpr(node->Node.Binary.RightOperand);
 }
+void nameVecValue(t_tree node)
+{
+	int i;
+	for (i = 0; i < 3; i++)
+		nameExpr(node->Node.VecValue.Values[i]);
+}
+void nameMatValue(t_tree node)
+{
+	int i;
+	for (i = 0; i < 9; i++)
+		nameExpr(node->Node.MatValue.Values[i]);
+}
+
+void nameCompValue(t_tree node)
+{
+	checkIdUndefined(node->Node.CompValue.Id, node->LineNr);
+}
+
 void nameRValue(t_tree node)
 {
 	checkIdUndefined(node->Node.RValue.Id, node->LineNr);
 }
-
+void nameLValue(t_tree node)
+{
+	checkIdUndefined(node->Node.LValue.Id, node->LineNr);
+}
 
 t_symtable *nameAnalysis(t_tree node)
 {

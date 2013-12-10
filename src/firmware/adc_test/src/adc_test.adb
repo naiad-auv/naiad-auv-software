@@ -5,6 +5,7 @@
 
 ---------------------------------------------------------------------------
 
+with Digital_IO;
 with AVR.AT90CAN128.USART;
 with AVR.AT90CAN128.CLOCK;
 with AVR.AT90CAN128.ADC;
@@ -13,7 +14,7 @@ with Interfaces;
 procedure ADC_test is
    pragma Suppress (All_Checks);
 
-   PORT : Constant AVR.AT90CAN128.USART.USARTID := AVR.AT90CAN128.USART.USART1;
+   PORT : Constant AVR.AT90CAN128.USART.USARTID := AVR.AT90CAN128.USART.USART0;
    bTemp : Boolean;
    u16Value : Interfaces.Unsigned_16;
 
@@ -43,7 +44,18 @@ procedure ADC_test is
 --     end u16ToStr;
 
 begin
-   AVR.AT90CAN128.USART.Init(PORT, AVR.AT90CAN128.USART.BAUD38400);
+
+ --  Digital_IO.User_Led(true);
+
+   loop
+      Digital_IO.User_Led(true);
+      Avr.AT90CAN128.CLOCK.Delay_ms(1000);
+      Digital_IO.User_Led(false);
+      Avr.AT90CAN128.CLOCK.Delay_ms(1000);
+   end loop;
+
+
+   AVR.AT90CAN128.USART.Init(PORT, AVR.AT90CAN128.USART.BAUD115200);
 
    for i in 0..7 loop
       AVR.AT90CAN128.ADC.ADC_Init(Interfaces.Unsigned_8(i));
