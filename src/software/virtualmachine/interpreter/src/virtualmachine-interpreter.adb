@@ -215,6 +215,9 @@ package body VirtualMachine.Interpreter is
          when INSTR_SCALEVEC =>
             this.Instr_Scale_Vector;
 
+         when INSTR_VECCOMP =>
+            this.Instr_Vector_Component(iArgument => this.pxInstructionFeeder.Feed_Integer_Argument);
+
 
          when INSTR_MULMAT =>
             this.Instr_Multiply_Matrix;
@@ -884,6 +887,25 @@ package body VirtualMachine.Interpreter is
       this.iProgramCounter := this.iProgramCounter + 1;
       this.pxInstructionFeeder.Set_Program_Counter(iNewProgramCounterValue => this.iProgramCounter);
    end Instr_Scale_Vector;
+   procedure Instr_Vector_Component (this : in out CInterpreter; iArgument : in integer) is
+      xVector : Math.Vectors.CVector;
+   begin
+      this.pxMemoryManager.Pop_Vector(xValue => xVector);
+      case iArgument is
+         when 1 =>
+            this.pxMemoryManager.Push_Float(fValue => xVector.fGet_X);
+         when 2 =>
+            this.pxMemoryManager.Push_Float(fValue => xVector.fGet_Y);
+         when 3 =>
+            this.pxMemoryManager.Push_Float(fValue => xVector.fGet_Z);
+         when others =>
+            null;
+      end case;
+
+      this.iProgramCounter := this.iProgramCounter + 1;
+      this.pxInstructionFeeder.Set_Program_Counter(iNewProgramCounterValue => this.iProgramCounter);
+   end Instr_Vector_Component;
+
 
    procedure Instr_Multiply_Matrix (this : in out CInterpreter) is
       use Math.Matrices;

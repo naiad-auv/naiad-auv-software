@@ -181,6 +181,15 @@ t_tree mFloatConst(float fValue, int pLineNr)
    return node;
 }
 
+t_tree mCompValue(const char *pValue, int pLineNr, int iComp, eType type)
+{
+   t_tree node = allocateNode(kCompValue, pLineNr);
+   node->Node.CompValue.Id = dstrcpy(pValue);
+   node->Node.CompValue.iComp = iComp;
+   node->Node.CompValue.type = type;
+   return node;
+}
+
 t_tree mVecValue(t_tree XValue, t_tree YValue, t_tree ZValue)
 {
    t_tree node = allocateNode(kVecValue, XValue->LineNr);

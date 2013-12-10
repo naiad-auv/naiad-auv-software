@@ -103,6 +103,7 @@ package VirtualMachine.InstructionFeeder is
       INSTR_ADDVEC,
       INSTR_MULVEC,
       INSTR_SCALEVEC,
+      INSTR_VECCOMP,
 
       -- Arithmetics for matrices
       INSTR_MULMAT,

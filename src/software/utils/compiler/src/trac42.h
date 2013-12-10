@@ -31,6 +31,13 @@ typedef struct {
   char *strVal;
 } stringStruct;
 
+/* The attribute of the string and id tokens. */
+typedef struct {
+  int lineNr;
+  int iComponent;
+  char *strVal;
+} compStruct;
+
 /* The attribute of a type name token. */
 typedef struct {
   int lineNr;

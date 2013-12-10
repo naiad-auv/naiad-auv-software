@@ -1,3 +1,4 @@
+with simulator.Comunication;
 package body Simulator.Model is
 
    --------------
@@ -31,9 +32,6 @@ package body Simulator.Model is
          when ObserveMode =>
             Update_Observe_Mode(this,fDeltaTime);
       end case;
-
-
-
    end Update_Model;
 
    -------------------------------------------
@@ -99,9 +97,16 @@ package body Simulator.Model is
    procedure Set_Pid_Scaling(this : CModel ; xComponentScaling:TPIDComponentScalings;eComponentToScale : EMotionComponent) is
 
    begin
-      this.pxMotionControlWrapper.Update_Pid_Scaling(xComponentScaling => simulator.Motion_Control_Wrapper.TPIDComponentScalings(xComponentScaling),
-                                                     eComponentToScale => simulator.Motion_Control_Wrapper.EMotionComponent(eComponentToScale));
+      case this.eOperationMode is
+         when OfflineMode =>
+            this.pxMotionControlWrapper.Update_Pid_Scaling(xComponentScaling => simulator.Motion_Control_Wrapper.TPIDComponentScalings(xComponentScaling),
+                                                           eComponentToScale => simulator.Motion_Control_Wrapper.EMotionComponent(eComponentToScale));
+         when others =>
+            simulator.Comunication.Set_Pid_Scaling(eComponent => simulator.Comunication.EMotionComponent(eComponentToScale),
+                                                   PidScaling => simulator.Comunication.TPIDComponentScalings(xComponentScaling));
+      end case;
    end Set_Pid_Scaling;
+
 
    -------------
    -- Restart --
@@ -124,8 +129,16 @@ package body Simulator.Model is
    begin
       this.pxSubmarine.Set_Wanted_Position(xWantedPosition => xWantedPosition);
       this.pxSubmarine.Set_Wanted_Orientation(xWantedOrientation => xWantedOrientation);
-      this.pxMotionControlWrapper.Update_Wanted_Position(xWantedPosition    => xWantedPosition,
-                                                         xWantedOrientation => xWantedOrientation);
+      case this.eOperationMode is
+         when OfflineMode =>
+            this.pxMotionControlWrapper.Update_Wanted_Position(xWantedPosition    => xWantedPosition,
+                                                               xWantedOrientation => xWantedOrientation);
+         when others =>
+            simulator.Comunication.Set_Wanted_Position(xWanted_Position => xWantedPosition);
+            simulator.Comunication.Set_Wanted_Orientation(xWanted_Orientation => xWantedOrientation);
+      end case;
+
+
    end Set_Wanted_Position_And_Orientation;
 
    -------------------------
@@ -144,6 +157,7 @@ package body Simulator.Model is
 
    procedure Set_Operation_Mode(this : in out CModel; eOperationMode : EOperatingMode) is
    begin
+      simulator.Comunication.Set_Operating_Mode(simulator.Comunication.EOperatingMode(eOperationMode));
       this.eOperationMode := eOperationMode;
    end Set_Operation_Mode;
 
@@ -158,8 +172,8 @@ package body Simulator.Model is
       tfChangeInMotorValues : simulator.Model.TMotorForce;
    begin
       if this.fTimeSinceLastMotorUpdate>this.fTimeBetweenMotorUpdates then
-         this.pxSubmarine.set_Wanted_Position(this.pxSubmarine.xGet_Wanted_Position);
-         this.pxSubmarine.set_Wanted_Orientation(this.pxSubmarine.xGet_Wanted_Orientation);
+         this.pxMotionControlWrapper.Update_Wanted_Position(xWantedPosition    => this.pxSubmarine.xGet_Wanted_Position,
+                                                            xWantedOrientation => this.pxSubmarine.xGet_Wanted_Orientation);
          this.fTimeSinceLastMotorUpdate := this.fTimeSinceLastMotorUpdate - this.fTimeBetweenMotorUpdates;
          this.pxMotionControlWrapper.Update_Values(xNewCurrentAbsolutePosition => this.pxSubmarine.xGet_Position_Vector,
                                                    xNewCurrentOrientation      => this.pxSubmarine.xGet_Orientation_Matrix,
@@ -181,26 +195,53 @@ package body Simulator.Model is
          tfMotorValuesSubmarine(iMotorIndex) := tfMotorValuesSubmarine(iMotorIndex) + tfChangeInMotorValues(iMotorIndex);
       end loop;
 
-      --tfMotorValuesSubmarine := (-3.0,0.0,3.0,0.0,0.0,0.0);
-      --tfMotorValuesSubmarine := (0.0,-3.0,3.0,0.0,0.0,0.0);
-
       this.pxSubmarine.Time_Step_Motor_Force_To_Integrate(txMotorForce => Simulator.submarine.TMotorForce(tfMotorValuesSubmarine),
                                                           fDeltaTime   => fDeltaTime);
    end Update_Offline_Mode;
 
+   -------------------------------------
+   -- Update_Ethernet_Simulation_Mode --
+   -------------------------------------
 
    procedure Update_Ethernet_Simulation_Mode(this : in out CModel; fDeltaTime : float) is
-
    begin
+      this.pxSubmarine.Set_Motor_Force(simulator.Comunication.xGet_Motor_Power);
+      this.pxSubmarine.Integrate_Submarine_Variables(fDeltaTime);
+      simulator.Comunication.Set_Current_Position(xCurrent_Position => this.pxSubmarine.xGet_Position_Vector);
+      simulator.Comunication.Set_Current_Orientation(xCurrent_Orientation => this.pxSubmarine.xGet_Orientation_Matrix);
 
-      null;
+      Transfer_Sensor_Data_To_Submarine(this);
    end Update_Ethernet_Simulation_Mode;
 
+   -------------------------
+   -- Update_Observe_Mode --
+   -------------------------
+
    procedure Update_Observe_Mode(this : in out CModel; fDeltaTime : float) is
-
    begin
+      this.pxSubmarine.Set_Position_Vector(simulator.Comunication.xGet_Current_Position);
+      this.pxSubmarine.Set_Orientation_Matrix(simulator.Comunication.xGet_Current_Orientation);
+      Transfer_Sensor_Data_To_Submarine(this);
 
-      null;
+
    end Update_Observe_Mode;
+
+   ---------------------------------------
+   -- Transfer_Sensor_Data_To_Submarine --
+   ---------------------------------------
+
+   procedure Transfer_Sensor_Data_To_Submarine(this : in out CModel) is
+   begin
+      this.pxSubmarine.Set_Gripper_Left_Status(bGripperLeft => simulator.Comunication.bGet_Gripper_Left);
+      this.pxSubmarine.Set_Gripper_Right_Status(bGripperRight => simulator.Comunication.bGet_Gripper_Right);
+      this.pxSubmarine.Set_Torpedo_Left_Status(bTorpedoLeft => simulator.Comunication.bGet_Torpedo_Left);
+      this.pxSubmarine.Set_Torpedo_Right_Status(bTorpedoRight => simulator.Comunication.bGet_Torpedo_Right);
+      this.pxSubmarine.Set_Dropper_Left_Status(bDropperLeft => simulator.Comunication.bGet_Dropper_Left);
+      this.pxSubmarine.Set_Dropper_Right_Status(bDropperRight => simulator.Comunication.bGet_Dropper_Right);
+
+      this.pxSubmarine.Set_Pressure(fPressure => simulator.Comunication.fGet_Pressure);
+      this.pxSubmarine.Set_Temperature(fTemperature => simulator.Comunication.fGet_Temperature);
+   end Transfer_Sensor_Data_To_Submarine;
+
 
 end Simulator.Model;

@@ -180,6 +180,7 @@ void genSMCMatValue(t_tree node);
 void genSMCBoolConst(t_tree node);
 void genSMCRValue(t_tree node);
 void genSMCLValue(t_tree node);
+void genSMCCompValue(t_tree node);
 
 
 //----------------------------------------------------------------------------------------------------------
@@ -796,6 +797,9 @@ void genSMCCallNodeFunction(t_tree node)
 		break;
 	case kRValue:
 		genSMCRValue(node);
+		break;
+	case kCompValue:
+		genSMCCompValue(node);
 		break;
 	default:
 		printf("What? Type: %d\n", node->Kind);
@@ -1494,6 +1498,46 @@ void genSMCRValue(t_tree node)
 	default:
 		printf("Error building smc file.");
 		break;		
+	}
+}
+
+void genSMCCompValue(t_tree node)
+{
+	t_symtable * var_table = FindId(node->Node.CompValue.Id,scope);
+
+	if (var_table->type < BOOL_ADDR)
+	{
+		genSMC_PUSHINT(var_table->offset);
+		genSMC_PUSHFP();
+		genSMC_ADDINT();	
+	}
+	else
+	{
+		genSMC_PUSHINT(var_table->offset);
+		genSMC_PUSHFP();
+		genSMC_ADDINT();	
+		genSMC_RVALINT();		
+	}	
+
+	switch (var_table->type)
+	{
+	case VECTOR:
+	case VECTOR_ADDR:
+		genSMC_RVALVEC();
+		genSMC_VECCOMP(node->Node.CompValue.iComp);
+		break;
+	case MATRIX:
+	case MATRIX_ADDR:
+		genSMC_RVALMAT();
+		genSMC_PUSHFLOAT(node->Node.CompValue.iComp == 1 ? 1.0 : 0.0);
+		genSMC_PUSHFLOAT(node->Node.CompValue.iComp == 2 ? 1.0 : 0.0);
+		genSMC_PUSHFLOAT(node->Node.CompValue.iComp == 3 ? 1.0 : 0.0);
+		genSMC_PUSHVEC();
+		genSMC_MULMATVEC();
+		break;
+	default:
+		printf("Error building smc.");
+		break; 
 	}
 }
 

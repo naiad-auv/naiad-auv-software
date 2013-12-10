@@ -1,23 +1,33 @@
-procedure wow(iPtr : access(integer); n : float) is 
+function Dot_Product(LeftOperand : vector; RightOperand : vector)return float  is 
 begin
-	iPtr := integer(float(iPtr) * n);
-end wow;
+	return (((LeftOperand.X * RightOperand.X) + (LeftOperand.Y * RightOperand.Y)) + (LeftOperand.Z * RightOperand.Z));
+end Dot_Product;
 
-procedure pow(iPtr : access(integer); n : float) is 
+function Length_Squared(Operand : vector)return float  is 
 begin
-	wow(access(iPtr), n);
-end pow;
+	return Dot_Product(Operand, Operand);
+end Length_Squared;
+
+function Length(Operand : vector)return float  is 
+begin
+	return sqrt(Length_Squared(Operand));
+end Length;
+
+function Cross_Product(LeftOperand : vector; RightOperand : vector)return vector  is 
+begin
+	return [((LeftOperand.Y * RightOperand.Z) - (LeftOperand.Z * RightOperand.Y)), ((LeftOperand.Z * RightOperand.X) - (LeftOperand.X * RightOperand.Z)), ((LeftOperand.X * RightOperand.Y) - (LeftOperand.Y * RightOperand.X))];
+end Cross_Product;
 
 procedure main is 
-	myInt : integer;
+	fResult : float;
 begin
-	myInt := 7;
-	pow(access(myInt), error );
-	asm(PUSHINT -1);
-	asm(PUSHFP);
-	asm(ADDINT);
-	asm(RVALINT);
-	asm(PRINTINT);
-	asm(POPINT);
+	fResult := Length(Cross_Product([5.000000, 0.000000, 0.000000], [0.000000, 2.000000, 0.000000]));
+	smc(PUSHINT -1);
+	smc(PUSHFP);
+	smc(ADDINT);
+	smc(RVALFLOAT);
+	smc(FTOI);
+	smc(PRINTINT);
+	smc(POPINT);
 end main;
 

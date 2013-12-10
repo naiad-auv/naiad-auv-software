@@ -4,7 +4,7 @@ with Math.Vectors;
 with math.Matrices;
 with math.Planes;
 with Navigation.Dispatcher;
---with Simulator.Update_Interface;
+with simulator.Comunication;
 
 package Simulator.Model is
 
@@ -12,7 +12,7 @@ package Simulator.Model is
 
    type CModel is tagged private; --new Simulator.Update_Interface.CWithUpdate with private;
    type pCModel is access CModel;
-   type EOperatingMode is (OfflineMode, EthernetSimulationMode, ObserveMode);
+   type EOperatingMode is new simulator.Comunication.EOperatingMode;
    type TMotorForce is new simulator.submarine.TMotorForce;
    subtype iMotorIndex is Integer range 1..6;
    type TPIDComponentScalings is new simulator.Motion_Control_Wrapper.TPIDComponentScalings;
@@ -44,7 +44,7 @@ private
    procedure Update_Offline_Mode(this : in out CModel; fDeltaTime : float);
    procedure Update_Ethernet_Simulation_Mode(this : in out CModel; fDeltaTime : float);
    procedure Update_Observe_Mode(this : in out CModel; fDeltaTime : float);
-
+   procedure Transfer_Sensor_Data_To_Submarine(this : in out CModel);
    --procedure On_Update;
    type CModel is tagged --new Simulator.Update_Interface.CWithUpdate with
       record

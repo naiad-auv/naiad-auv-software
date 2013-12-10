@@ -445,6 +445,10 @@ package body simulator.submarine is
                                               Message => "Simulator.submarine.Integrate_Submarine_Variables (this : in out CSubmarine; fTimeDuration : in float)");
    end Integrate_Submarine_Variables;
 
+   ----------------------------------------
+   -- Time_Step_Motor_Force_To_Integrate --
+   ----------------------------------------
+
    procedure Time_Step_Motor_Force_To_Integrate(this : in out CSubmarine ; txMotorForce : in TmotorForce; fDeltaTime : in float) is
 
    begin
@@ -454,37 +458,91 @@ package body simulator.submarine is
       this.Integrate_Submarine_Variables(fTimeDuration => fDeltaTime);
    end Time_Step_Motor_Force_To_Integrate;
 
+   -----------------------------
+   -- Set_Gripper_Left_Status --
+   -----------------------------
+
    procedure Set_Gripper_Left_Status(this : in out CSubmarine ; bGripperLeft : boolean) is
 
    begin
       this.bGripperLeft := bGripperLeft;
    end Set_Gripper_Left_Status;
 
-   procedure Set_Gripper_Right_Status(this : in out CSubmarine ; bGripperRight : boolean) is
+   ------------------------------
+   -- Set_Gripper_Right_Status --
+   ------------------------------
 
+   procedure Set_Gripper_Right_Status(this : in out CSubmarine ; bGripperRight : boolean) is
    begin
       this.bGripperRight := bGripperRight;
    end Set_Gripper_Right_Status;
 
-   procedure Set_Dropper_Left_Status(this : in out CSubmarine ; bDropperLeft : boolean) is
+   -----------------------------
+   -- Set_Dropper_Left_Status --
+   -----------------------------
 
+   procedure Set_Dropper_Left_Status(this : in out CSubmarine ; bDropperLeft : boolean) is
    begin
       this.bDropperLeft := bDropperLeft;
    end Set_Dropper_Left_Status;
 
-   procedure Set_Dropper_Right_Status(this : in out CSubmarine ; bDropperRight : boolean) is
+   ------------------------------
+   -- Set_Dropper_Right_Status --
+   ------------------------------
 
+   procedure Set_Dropper_Right_Status(this : in out CSubmarine ; bDropperRight : boolean) is
    begin
       this.bDropperRight := bDropperRight;
    end Set_Dropper_Right_Status;
 
+   -----------------------------
+   -- Set_Torpedo_Left_Status --
+   -----------------------------
 
+   procedure Set_Torpedo_Left_Status(this : in out CSubmarine ; bTorpedoLeft : boolean) is
+   begin
+      this.bTorpedo_Left := bTorpedoLeft;
+   end Set_Torpedo_Left_Status;
+
+   ------------------------------
+   -- Set_Torpedo_Right_Status --
+   ------------------------------
+
+   procedure Set_Torpedo_Right_Status(this : in out CSubmarine ; bTorpedoRight : boolean) is
+   begin
+      this.bTorpedo_Right := bTorpedoRight;
+   end Set_Torpedo_Right_Status;
+
+   ---------------
+   -- Set_Depth --
+   ---------------
    procedure Set_Depth(this : in out CSubmarine; fDepth : float) is
 
    begin
       this.fDepth := fDepth;
    end Set_Depth;
 
+   ------------------
+   -- Set_Pressure --
+   ------------------
+
+   procedure Set_Pressure(this : in out CSubmarine; fPressure : float) is
+   begin
+      this.fPressure := fPressure;
+   end;
+
+   ---------------------
+   -- Set_Temperature --
+   ---------------------
+
+   procedure Set_Temperature(this : in out CSubmarine; fTemperature : float) is
+   begin
+      this.fTemperature := fTemperature;
+   end;
+
+   ------------------------------
+   -- bGet_Gripper_Left_Status --
+   ------------------------------
 
    function bGet_Gripper_Left_Status(this : in CSubmarine) return boolean is
 
@@ -492,39 +550,82 @@ package body simulator.submarine is
       return this.bGripperLeft;
    end bGet_Gripper_Left_Status;
 
+   -------------------------------
+   -- bGet_Gripper_Right_Status --
+   -------------------------------
+
    function bGet_Gripper_Right_Status(this : in CSubmarine) return boolean is
 
    begin
       return this.bGripperRight;
    end bGet_Gripper_Right_Status;
 
-   function bGet_Dropper_Left_Status(this : in CSubmarine) return boolean is
+   ------------------------------
+   -- bGet_Dropper_Left_Status --
+   ------------------------------
 
+   function bGet_Dropper_Left_Status(this : in CSubmarine) return boolean is
    begin
       return this.bDropperLeft;
    end bGet_Dropper_Left_Status;
 
-   function bGet_Dropper_Right_Status(this : in CSubmarine) return boolean is
+   -------------------------------
+   -- bGet_Dropper_Right_Status --
+   -------------------------------
 
+   function bGet_Dropper_Right_Status(this : in CSubmarine) return boolean is
    begin
       return this.bDropperRight;
    end bGet_Dropper_Right_Status;
 
+   ------------------------------
+   -- bGet_Torpedo_Left_Status --
+   ------------------------------
+
+   function bGet_Torpedo_Left_Status(this : in CSubmarine) return boolean is
+   begin
+      return this.bTorpedo_Left;
+   end bGet_Torpedo_Left_Status;
+
+   -------------------------------
+   -- bGet_Torpedo_Right_Status --
+   -------------------------------
+
+   function bGet_Torpedo_Right_Status(this : in CSubmarine) return boolean is
+   begin
+      return this.bTorpedo_Right;
+   end bGet_Torpedo_Right_Status;
+
+   ----------------
+   -- fGet_Depth --
+   ----------------
    function fGet_Depth(this : in Csubmarine) return float is
 
    begin
       return this.fDepth;
    end fGet_Depth;
 
+   --------------------------
+   -- xGet_Wanted_Position --
+   --------------------------
+
    function xGet_Wanted_Position(this : in CSubmarine) return math.Vectors.CVector is
    begin
       return this.pxWantedPositionVector.all;
    end xGet_Wanted_Position;
 
+   -----------------------------
+   -- xGet_Wanted_Orientation --
+   -----------------------------
+
    function xGet_Wanted_Orientation(this : in CSubmarine) return math.Matrices.CMatrix is
    begin
       return this.pxWantedOrientationMatrix.all;
    end xGet_Wanted_Orientation;
+
+   -------------------------
+   -- Set_Wanted_Position --
+   -------------------------
 
    procedure Set_Wanted_Position(this : in out CSubmarine; xWantedPosition : in math.Vectors.CVector) is
    begin
@@ -535,6 +636,10 @@ package body simulator.submarine is
       end if;
    end Set_Wanted_Position;
 
+   ----------------------------
+   -- Set_Wanted_Orientation --
+   ----------------------------
+
    procedure Set_Wanted_Orientation(this : in out CSubmarine; xWantedOrientation : in math.Matrices.CMatrix) is
    begin
       if(this.pxWantedOrientationMatrix=null) then
@@ -544,6 +649,23 @@ package body simulator.submarine is
       end if;
    end Set_Wanted_Orientation;
 
+   -------------------
+   -- fGet_Pressure --
+   -------------------
+
+   function fGet_Pressure(this : in CSubmarine) return float is
+   begin
+      return this.fPressure;
+   end;
+
+   -----------------------
+   -- fGet_Temeperature --
+   -----------------------
+
+   function fGet_Temeperature(this : in CSubmarine) return float is
+   begin
+      return this.fTemperature;
+   end;
 
 
 end simulator.submarine;
