@@ -14,7 +14,6 @@ import java.awt.geom.Line2D;
  */
 public class TransactionObjectDrawable implements IDrawable {
 
-
     private IDrawable predecessor;
     private IDrawable successor;
 
@@ -22,6 +21,11 @@ public class TransactionObjectDrawable implements IDrawable {
     {
         this.predecessor = predecessor;
         this.successor = successor;
+    }
+
+    public TransactionObjectDrawable(TransactionObjectDrawable other) {
+        this.predecessor = other.predecessor;
+        this.successor = other.successor;
     }
 
     public IDrawable getSuccessor() throws NullReferenceException
@@ -41,11 +45,21 @@ public class TransactionObjectDrawable implements IDrawable {
     @Override
     public void Draw(Graphics g) {
 
+        Stroke baseStroke = ((Graphics2D)g).getStroke();
+
         Point startPoint = this.getPredecessorPosition();
         Point endPoint = this.getSuccessorPosition();
 
+        Point center = new Point((startPoint.x + endPoint.x) / 2, (startPoint.y + endPoint.y) / 2);
+
         ((Graphics2D)g).setStroke(new BasicStroke(2.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL)); // g2 is an instance of Graphics2D
         ((Graphics2D)g).draw(new Line2D.Double(startPoint.x, startPoint.y, endPoint.x, endPoint.y));
+
+
+        ((Graphics2D)g).setStroke(new BasicStroke(2.0f, BasicStroke.JOIN_MITER, BasicStroke.JOIN_BEVEL)); // g2 is an instance of Graphics2D
+        ((Graphics2D)g).draw(new Line2D.Double(center.x, center.y, (center.x * 0.9), (center.y * 0.9)));
+
+        ((Graphics2D) g).setStroke(baseStroke);
     }
 
     @Override

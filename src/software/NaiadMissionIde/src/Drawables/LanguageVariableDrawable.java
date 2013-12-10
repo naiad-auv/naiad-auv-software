@@ -1,5 +1,7 @@
 package Drawables;
 
+import Factories.IDrawableFactory;
+import Factories.ILanguageVariableFactory;
 import Interfaces.IDrawable;
 import Interfaces.ILanguageVariable;
 import Settings.CoreSettings.PenumbraCoreSettings;
@@ -31,6 +33,14 @@ public class LanguageVariableDrawable extends Observable implements IDrawable, O
         this.variableToDraw.addObserver(this);
     }
 
+    public LanguageVariableDrawable(LanguageVariableDrawable other) {
+
+        this.variableToDraw = ILanguageVariableFactory.getCopy(other.variableToDraw);
+        this.drawingColor = other.drawingColor;
+        this.position = new Point(other.position);
+        this.radius = other.radius;
+    }
+
     public void Initialize()
     {
         this.position = new Point(0,0);
@@ -38,7 +48,10 @@ public class LanguageVariableDrawable extends Observable implements IDrawable, O
     }
 
     @Override
-    public void Draw(Graphics g) {
+    public void Draw(Graphics g)
+    {
+        Stroke baseStroke = ((Graphics2D)g).getStroke();
+
 
         g.setColor(this.drawingColor);
         g.fillOval(this.position.x, this.position.y, this.getWidth(), this.getHeight());
@@ -47,6 +60,7 @@ public class LanguageVariableDrawable extends Observable implements IDrawable, O
         g.setFont(new Font(Font.SERIF, Font.PLAIN, PenumbraCoreSettings.getInstance().FontSize));
         g.drawString(variableToDraw.toString(),this.position.x  + 10, this.position.y + this.getHeight() / 2 + 6);
 
+        ((Graphics2D) g).setStroke(baseStroke);
     }
 
     private int calculateNameWidth()

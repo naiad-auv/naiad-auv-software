@@ -1,6 +1,7 @@
 package Commands;
 
 import Exceptions.ScopeModificationNotSupported;
+import Factories.ILanguageObjectFactory;
 import Interfaces.ICommand;
 import Interfaces.IDrawable;
 import Interfaces.ILanguageObject;
@@ -33,7 +34,7 @@ public class HandleAddDroppedILanguageObject implements ICommand{
     public Object execute() throws NotImplementedException {
         try
         {
-            scopeViewModel.addItem(scopeObject, eventArgs.getLocation());
+            scopeViewModel.addItem(ILanguageObjectFactory.getCopy(scopeObject), eventArgs.getLocation());
         }
         catch(Exception e)
         {

@@ -16,4 +16,8 @@ public class StartMarker extends Marker implements ILanguageObject {
     public StartMarker() {
         super(ILanguageObjectType.Startmarker);
     }
+
+    public StartMarker(StartMarker other) {
+        super(other);    //To change body of overridden methods use File | Settings | File Templates.
+    }
 }
