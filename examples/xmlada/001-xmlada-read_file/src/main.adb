@@ -1,6 +1,27 @@
-procedure main is
+with Input_Sources.File;
+use Input_Sources.File;
+with Sax.Readers;
+use Sax.Readers;
+with DOM.Readers;
+use DOM.Readers;
+with DOM.Core;
+use DOM.Core;
 
+procedure main is
+    Input   : File_Input;
+    Reader  : Tree_Reader;
+    Doc     : Document;
 begin
-    -- Insert code here.
-    null;
+    Set_Public_Id (Input, "Preferences file");
+    Open ("xml/pref.xml", Input);
+
+    Set_Feature (Reader, Validation_Feature, False);
+    Set_Feature (Reader, Namespace_Feature, False);
+
+    Parse (Reader, Input);
+    Close (Input);
+
+    Doc := Get_Tree (Reader);
+
+    Free (Reader);
 end main;
