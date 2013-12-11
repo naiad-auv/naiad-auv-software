@@ -17,29 +17,52 @@ end IdentityMatrix;
 
 
 
+
 procedure main is
-	IntLessThan_iLeft_1 : integer;
-	IntLessThan_iRight_1 : integer;
-	IntLessThan_bResult_1 : boolean;
+	IntLessThan_1_iLeft : integer;
+	IntLessThan_1_iRight : integer;
+	IntLessThan_1_bResult : boolean;
 
 	ZeroVector_vOutput_1 : vector;
+	ZeroVector_vOutput_2 : vector;
+	ZeroVector_vOutput_3 : vector;
+
 	IdentityMatrix_mOutput_1 : matrix;
+	IdentityMatrix_mOutput_2 : matrix;
+	IdentityMatrix_mOutput_3 : matrix;
+	IdentityMatrix_mOutput_4 : matrix;
 begin
+
 	IntLessThan_iLeft_1 := 3;
 	IntLessThan_iRight_1 := 5;
 
 << Start >>
-	IntLessThan(IntLessThan_iLeft_1, IntLessThan_iRight_1, access(IntLessThan_bResult_1));
-
+	IntLessThan(IntLessThan_1_iLeft, IntLessThan_1_iRight, access(IntLessThan_1_bResult));
 << Branch1 >>
 	if IntLessThan_bResult_1 then
 << ZeroVector1 >>
 		ZeroVector(access(ZeroVector_vOutput_1));
-		goto Start;
-	else
 << IdentityMatrix1 >>
-		IdentityMatrix(access(IdentityMatrix_mOutput_1));
+		IdentityMatrix(access(IdentityMatrix_mOutput_1));		
+<< Branch2 >>
+		if IntLessThan_bResult_1 then
+<< ZeroVector2 >>
+			ZeroVector(access(ZeroVector_vOutput_2));
+<< IdentityMatrix2 >>
+			IdentityMatrix(access(IdentityMatrix_mOutput_2));		
+			goto Start;
+		else
+<< IdentityMatrix3 >>
+			IdentityMatrix(access(IdentityMatrix_mOutput_3));								
+			goto Start;
+		end if;
+	else
+<< IdentityMatrix4 >>
+		IdentityMatrix(access(IdentityMatrix_mOutput_4));
 		goto Start;
 	end if;
 	
 end main;
+
+
+
