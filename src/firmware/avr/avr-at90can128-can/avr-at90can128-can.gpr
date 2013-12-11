@@ -1,4 +1,4 @@
-with "..\avr-at90can128\avr-at90can128.gpr";
+with "../avr-at90can128/avr-at90can128.gpr";
 with "../avr-at90can128-clock/avr-at90can128-clock.gpr";
 with "../../lib/can_defs/can_defs.gpr";
 

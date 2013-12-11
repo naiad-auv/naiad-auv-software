@@ -1,4 +1,4 @@
-with "../../lib/can_defs/can_defs.gpr";
+with "../../../lib/can_defs/can_defs.gpr";
 with "../avr.gpr";
 
 project AVR.AT90CAN128 is
