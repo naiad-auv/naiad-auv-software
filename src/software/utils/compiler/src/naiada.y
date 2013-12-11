@@ -196,6 +196,10 @@ int main (int argc, char *argv[])
 			printf("\n");
 			return 1;
 		}
+		basename = malloc(strlen(argv[1]) + 1);
+		strcpy(basename, argv[1]);
+		basename[strlen(basename)] = 0;
+
 		break;
 	case 3:
 		yyin = fopen (argv[2], "r+");
@@ -206,6 +210,10 @@ int main (int argc, char *argv[])
 			printf("\n");
 			return 1;
 		}
+		basename = malloc(strlen(argv[2]) + 1);
+		strcpy(basename, argv[2]);
+		basename[strlen(basename)] = 0;
+
 		if (argv[1][0] == '-')
 		{
 			argv[1]++;
@@ -235,10 +243,6 @@ int main (int argc, char *argv[])
 		}
 	}
 
-
-	basename = malloc(strlen(argv[1]) + 1);
-	strcpy(basename, argv[1]);
-	basename[strlen(basename)] = 0;
 
 	smcname = malloc(strlen(basename) + 5);
 	strcpy(smcname, basename);
