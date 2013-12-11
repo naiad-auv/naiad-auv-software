@@ -22,6 +22,11 @@ procedure Main is
    fDeltaTime : float := 0.0;
    xTimeStart : Ada.Real_Time.Time := Ada.Real_Time.Clock;
    xTimeStop : Ada.Real_Time.Time;
+   xTimeSpan : Ada.Real_Time.Time_Span := Ada.Real_Time.Time_Span_Zero;
+   iSeconds : integer;
+   iMilliSeconds : integer;
+   iMicroSeconds : integer;
+   iNanoSeconds : integer;
 
    pxVMInterpreter : VirtualMachine.Interpreter.pCInterpreter;
 
@@ -48,7 +53,23 @@ begin
 ---------Virtual Machine starts here---------------------------------------------------------------------------------------
 
       xTimeStop := Ada.Real_Time.Clock;
-      pxVMInterpreter.Step(fDeltaTime => float(Ada.Real_Time.To_Duration(xTimeStop - xTimeStart)));
+      xTimeSpan := xTimeSpan + (xTimeStop - xTimeStart);
+
+      iSeconds := xTimeSpan / Ada.Real_Time.Seconds(1);
+      xTimeSpan := xTimeSpan - (Ada.Real_Time.Seconds(1) * iSeconds);
+
+      iMilliSeconds := xTimeSpan / Ada.Real_Time.Milliseconds(1);
+      xTimeSpan := xTimeSpan - (Ada.Real_Time.Milliseconds(1) * iMilliSeconds);
+
+      iMicroSeconds := xTimeSpan / Ada.Real_Time.Microseconds(1);
+      xTimeSpan := xTimeSpan - (Ada.Real_Time.Microseconds(1) * iMicroSeconds);
+
+      iNanoSeconds := xTimeSpan / Ada.Real_Time.Nanoseconds(1);
+      xTimeSpan := xTimeSpan - (Ada.Real_Time.Nanoseconds(1) * iNanoSeconds);
+
+      fDeltaTime := fDeltaTime + float(iSeconds) + (float(iMilliSeconds) * 0.001) + (float(iMicroSeconds) * 0.000001) +
+        (float(iNanoSeconds) * 0.000000001);
+      pxVMInterpreter.Step(fDeltaTime => fDeltaTime);
       xTimeStart := xTimeStop;
 
 ---------Virtual Machine ends here-----------------------------------------------------------------------------------------
