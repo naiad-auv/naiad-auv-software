@@ -100,6 +100,13 @@ package body Simulator.ViewModel_Representation is
          return xCurrentWantedMatrix;
    end xGet_Submarine_Wanted_Orientation;
 
+   function eGet_Operation_Mode(this : in CViewModel_Representation) return EOperatingMode is
+   begin
+      return EOperatingMode(this.pxModel.eGet_Operation_Mode);
+   end eGet_Operation_Mode;
+
+
+
    -------------
    -- Restart --
    -------------
@@ -137,5 +144,15 @@ package body Simulator.ViewModel_Representation is
          Exception_Handling.Unhandled_Exception(E);
          return 0.0;
    end fGet_Pid_Errors;
+
+   ------------------------
+   -- Set_Operation_Mode --
+   ------------------------
+
+   procedure Set_Operation_Mode(this : in CViewModel_Representation; EOperationMode : EOperatingMode) is
+   begin
+      this.pxModel.Set_Operation_Mode(eOperationMode => simulator.Model.EOperatingMode(EOperationMode));
+   end Set_Operation_Mode;
+
 
 end Simulator.ViewModel_Representation;

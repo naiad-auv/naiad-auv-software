@@ -11,6 +11,7 @@ with Exception_Handling;
 package Simulator.ViewModel_Representation is
 
    type iMotorIndex is new simulator.Model.iMotorIndex;
+   type EOperatingMode is new simulator.Model.EOperatingMode;
 
    type CViewModel_Representation is tagged private;
    type pCViewModel_Representation is access CViewModel_Representation;
@@ -29,9 +30,11 @@ package Simulator.ViewModel_Representation is
    function xGet_Submarine_Wanted_Orientation(this : in CViewModel_Representation) return math.Matrices.CMatrix;
 
    function fGet_Pid_Errors(this : in CViewModel_Representation ; eErrorComponent : in Simulator.Model.EMotionComponent) return float;
+   function eGet_Operation_Mode(this : in CViewModel_Representation) return EOperatingMode;
 
    procedure Restart(this : in CViewModel_Representation);
    procedure Update(this : in CViewModel_Representation; fDeltaTime : in float);
+   procedure Set_Operation_Mode(this : in CViewModel_Representation; EOperationMode : EOperatingMode);
 
 
 private

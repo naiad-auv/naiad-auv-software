@@ -34,4 +34,11 @@ We are still trying to figure out if that functionality is expected to work
 ### BeagleBone Black serial communication (UART/USART)
 The adaincludes for gnat-4.6 concerning serieal communication throws unimplemented
 exception. It seems like serial implementation was done for gnat-4.7 though
-not confirmed.
+not confirmed. During the Naiad project C drivers were used for UART.
+
+Required packages on the BeagleBone Black:
+
+    git
+    vim
+    gnat-4.6
+    build-essential
