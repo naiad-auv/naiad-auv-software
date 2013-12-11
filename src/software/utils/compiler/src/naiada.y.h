@@ -71,7 +71,10 @@
      ASM = 289,
      ADDR_TYPE = 290,
      NULL_STMNT = 291,
-     MATH_TYPE = 292
+     LBL_LEFT = 292,
+     LBL_RIGHT = 293,
+     GOTO = 294,
+     MATH_TYPE = 295
    };
 #endif
 
@@ -96,7 +99,7 @@ typedef union YYSTYPE
 
 
 /* Line 2068 of yacc.c  */
-#line 100 "./src/naiada.y.h"
+#line 103 "./src/naiada.y.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */

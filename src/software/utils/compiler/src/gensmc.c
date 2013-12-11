@@ -142,6 +142,7 @@ void genSMCReturn(t_tree node);
 void genSMCLoop(t_tree node);
 void genSMCExit(t_tree node);
 void genSMCAsm(t_tree node);
+void genSMCLabel(t_tree node);
 void genSMCFuncCallStmnt(t_tree node);
 void genSMCFuncCallExpr(t_tree node);
 void genSMCActual(t_tree node);
@@ -155,6 +156,7 @@ void genSMCBoolConst(t_tree node);
 void genSMCRValue(t_tree node);
 void genSMCLValue(t_tree node);
 void genSMCCompValue(t_tree node);
+void genSMCGoto(t_tree node);
 
 
 //----------------------------------------------------------------------------------------------------------
@@ -738,6 +740,12 @@ void genSMCCallNodeFunction(t_tree node)
 	case kCompValue:
 		genSMCCompValue(node);
 		break;
+	case kLabel:
+		genSMCLabel(node);
+		break;
+	case kGoto:
+		genSMCGoto(node);
+		break;
 	default:
 		printf("What? Type: %d\n", node->Kind);
 		break;
@@ -761,6 +769,37 @@ void genSMCPopVars(t_symtable * table_iter)
 		}		
 		genSMCPopVars(table_iter->next);
 	}
+}
+
+void genSMCLabel(t_tree node)
+{
+	t_symtable * lbl_table;
+	lbl_table = FindId(node->Node.Label.Id, scope);
+
+	if (lbl_table != NULL)
+	{		
+		genSMCNewLine();
+
+		lbl_table->offset = genSMCLineNr;
+		fprintf(genSMCFilePtr,"["); fprintf(genSMCFilePtr, lbl_table->id); fprintf(genSMCFilePtr, "]");
+	}
+	else
+		printf("Error writing smc\n");
+
+	genSMCCallNodeFunction(node->Node.Label.Next);	
+}
+
+void genSMCGoto(t_tree node)
+{
+	t_symtable * lbl_table;
+	lbl_table = FindId(node->Node.Goto.Id, scope);
+
+	if (lbl_table != NULL)
+		genSMC_BRA(lbl_table->offset);
+	else
+		printf("Error writing smc\n");
+
+	genSMCCallNodeFunction(node->Node.Goto.Next);	
 }
 
 void genSMCFunction(t_tree node)

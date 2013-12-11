@@ -99,7 +99,10 @@ begin         {yylval.yyLineNr = yylineno; return (BGN);}
 smc	      {yylval.yyLineNr = yylineno; return (ASM);}
 access	      {yylval.yyLineNr = yylineno; return (ADDR_TYPE);}
 null	      {yylval.yyLineNr = yylineno; return (NULL_STMNT);}
+goto	      {yylval.yyLineNr = yylineno; return (GOTO);}
 ":="          {yylval.yyLineNr = yylineno; return (ASSIGN);}
+"<<"	      {yylval.yyLineNr = yylineno; return (LBL_LEFT);}
+">>"	      {yylval.yyLineNr = yylineno; return (LBL_RIGHT);}
 
 
 "\n"          {yylineno++;}

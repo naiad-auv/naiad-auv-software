@@ -107,6 +107,7 @@ procedure main is
 	i : integer;
 begin
 	i := 0;
+
 	Print_Vector(Cross_Product([5.0, 0.0, 0.0],[0.0,2.0,0.0]));
 	while i < 5 loop		
 		Delay(1.0);

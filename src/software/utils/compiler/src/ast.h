@@ -15,6 +15,8 @@ typedef enum {
    kLoop,
    kExit,
    kAsm,
+   kLabel,
+   kGoto,
    kFuncCallStmnt,
    kReturn,
    kActual,
@@ -45,7 +47,7 @@ typedef enum { SUB=MINUS, PLUS, MULT, DIV, OR, AND, EQ, LT, LE, ME, MT, NE } BIN
 typedef enum {kFormal, kLocal} vKind;
 
 /* To distinguish between the data types. */
-typedef enum {VOID=0, BOOL, INT, FLOAT, VECTOR, MATRIX, BOOL_ADDR, INT_ADDR, FLOAT_ADDR, VECTOR_ADDR, MATRIX_ADDR, ERROR_TYPE } eType;
+typedef enum {VOID=0, BOOL, INT, FLOAT, VECTOR, MATRIX, BOOL_ADDR, INT_ADDR, FLOAT_ADDR, VECTOR_ADDR, MATRIX_ADDR, LABEL, ERROR_TYPE } eType;
 
 /* The program. */
 typedef struct {
@@ -80,6 +82,19 @@ typedef struct {
    char *Id;         /* The name of the variable on the left hand side of the assignment. */
    t_tree Expr;       /* The expression on the right hand side. */
 } yAssign;
+
+/* The Label statement. */
+typedef struct {
+   t_tree Next;
+   char *Id;         /* The name of label. */
+} yLabel;
+
+
+/* The Goto statement. */
+typedef struct {
+   t_tree Next;
+   char *Id;         /* The name of label to go to. */
+} yGoto;
 
 /* The if statement. */
 typedef struct {
@@ -211,6 +226,8 @@ struct t_tree {
       yLoop Loop;
       yExit Exit;
       yAsm Asm;
+      yLabel Label;
+      yGoto Goto;
       yAssign Assign;
       yIf If;
       yWhile While;
@@ -260,6 +277,10 @@ extern t_tree mLoop(t_tree pStmnts, int pLineNr);
 extern t_tree mExit(int pLineNr);
 
 extern t_tree mAsm(const char * pArgument, int pLineNr);
+
+extern t_tree mLabel(const char * pLabelName, int pLineNr);
+
+extern t_tree mGoto(const char * pLabelName, int pLineNr);
 
 
 /* Returns a pointer to a return statement node. */

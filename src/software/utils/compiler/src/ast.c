@@ -131,6 +131,22 @@ t_tree mFuncCallStmnt(t_tree pActuals, const char *pFuncName, int pLineNr)
    return node;
 }
 
+t_tree mLabel(const char * pLabelName, int pLineNr)
+{
+   t_tree node = allocateNode(kLabel, pLineNr);
+   node->Node.Label.Next = NULL;
+   node->Node.Label.Id = dstrcpy(pLabelName);
+   return node;
+}
+
+t_tree mGoto(const char * pLabelName, int pLineNr)
+{
+   t_tree node = allocateNode(kGoto, pLineNr);
+   node->Node.Goto.Next = NULL;
+   node->Node.Goto.Id = dstrcpy(pLabelName);
+   return node;
+}
+
 t_tree mActual(t_tree pExpr)
 {
    t_tree node = allocateNode(kActual, -1);

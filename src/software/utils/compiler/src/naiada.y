@@ -70,7 +70,7 @@ int yylex(void);
 %token <yyComp>	  VEC_COMP MAT_COMP
 %token <yyInt>    INT_CONST
 %token <yyFloat>  FLOAT_CONST
-%token <yyLineNr> IF THEN ELSE WHILE RETURN END EXIT LOOP PROCEDURE FUNCTION IS BGN ASSIGN ASM ADDR_TYPE NULL_STMNT
+%token <yyLineNr> IF THEN ELSE WHILE RETURN END EXIT LOOP PROCEDURE FUNCTION IS BGN ASSIGN ASM ADDR_TYPE NULL_STMNT LBL_LEFT LBL_RIGHT GOTO
 %token <yyOperator> MATH_TYPE
 
 %start program
@@ -124,6 +124,8 @@ stmnt       : ID ASSIGN expr ';'                       						{ $$ = mAssign($1.s
             | LOOP stmnts END LOOP ';'                						{ $$ = mLoop($2, $1); }
             | EXIT ';'    		            						{ $$ = mExit($1); }
 	    | NULL_STMNT ';'									{ $$ = mAsm("NULL", $1); }
+	    | LBL_LEFT ID LBL_RIGHT								{ $$ = mLabel($2.strVal, $1); }
+	    | GOTO ID ';'									{ $$ = mGoto($2.strVal, $1); }
             ;
 
 expr        : MINUSOP expr %prec UNOP								{ $$ = mUnary($1.opType, $2, $1.lineNr); }

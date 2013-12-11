@@ -25,6 +25,7 @@ eType typeWhile(t_tree node);
 eType typeLoop(t_tree node);
 eType typeExit(t_tree node);
 eType typeAsm(t_tree node);
+eType typeLabel(t_tree node);
 eType typeReturn(t_tree node);
 eType typeFuncCallStmnt(t_tree node);
 eType typeFuncCallExpr(t_tree node);
@@ -39,6 +40,7 @@ eType typeMatValue(t_tree node);
 eType typeRValue(t_tree node);
 eType typeLValue(t_tree node);
 eType typeCompValue(t_tree node);
+eType typeGoto(t_tree node);
 
 
 eType typeStmnt(t_tree node)
@@ -66,11 +68,17 @@ eType typeStmnt(t_tree node)
 	case kAsm:
 		return typeAsm(node);
 		break;
+	case kLabel:
+		return typeLabel(node);
+		break;
 	case kFuncCallStmnt:
 		return typeFuncCallStmnt(node);
 		break;
 	case kReturn:
 		return typeReturn(node);
+		break;
+	case kGoto:
+		return typeGoto(node);
 		break;
 	default:
 		printf("Error in types.c\n");
@@ -198,6 +206,11 @@ eType typeAsm(t_tree node)
 {
 	return typeStmnt(node->Node.Stmnt.Next);
 }
+eType typeLabel(t_tree node)
+{
+	return typeStmnt(node->Node.Stmnt.Next);
+}
+
 eType typeExit(t_tree node)
 {
 	return typeStmnt(node->Node.Stmnt.Next);
@@ -214,6 +227,19 @@ eType typeReturn(t_tree node)
 	if (exprType == scope->type)
 		return VOID;
 
+	if (typeErrorLineNr < 0)
+		typeErrorLineNr = node->LineNr;	
+	return ERROR_TYPE;	
+}
+
+eType typeGoto(t_tree node)
+{
+	t_symtable * lbl_table;	
+	lbl_table = FindId(node->Node.Goto.Id, scope);
+
+	if (lbl_table != NULL && lbl_table->type == LABEL)
+		return typeStmnt(node->Node.Stmnt.Next);
+	
 	if (typeErrorLineNr < 0)
 		typeErrorLineNr = node->LineNr;	
 	return ERROR_TYPE;	

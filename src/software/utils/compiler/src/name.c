@@ -32,6 +32,7 @@ void nameWhile(t_tree node);
 void nameLoop(t_tree node);
 void nameExit(t_tree node);
 void nameAsm(t_tree node);
+void nameLabel(t_tree node);
 void nameReturn(t_tree node);
 void nameFuncCallStmnt(t_tree node);
 void nameFuncCallExpr(t_tree node);
@@ -43,6 +44,7 @@ void nameMatValue(t_tree node);
 void nameRValue(t_tree node);
 void nameLValue(t_tree node);
 void nameCompValue(t_tree node);
+void nameGoto(t_tree node);
 
 void nameExpr(t_tree node)
 {
@@ -112,6 +114,12 @@ void nameStmnt(t_tree node)
 		break;
 	case kAsm:
 		nameAsm(node);
+		break;
+	case kLabel:
+		nameLabel(node);
+		break;
+	case kGoto:
+		nameGoto(node);
 		break;
 	default:
 		printf("Error in name.c!\n");
@@ -316,6 +324,12 @@ void nameCompValue(t_tree node)
 	checkIdUndefined(node->Node.CompValue.Id, node->LineNr);
 }
 
+void nameGoto(t_tree node)
+{
+	checkIdUndefined(node->Node.Goto.Id, node->LineNr);
+	nameStmnt(node->Node.Stmnt.Next);
+}
+
 void nameRValue(t_tree node)
 {
 	checkIdUndefined(node->Node.RValue.Id, node->LineNr);
@@ -323,6 +337,12 @@ void nameRValue(t_tree node)
 void nameLValue(t_tree node)
 {
 	checkIdUndefined(node->Node.LValue.Id, node->LineNr);
+}
+
+void nameLabel(t_tree node)
+{
+	checkIdExists(node->Node.Label.Id, node->LineNr, LABEL, NAME_TABLE_VARIABLE);
+	nameStmnt(node->Node.Stmnt.Next);
 }
 
 t_symtable *nameAnalysis(t_tree node)
