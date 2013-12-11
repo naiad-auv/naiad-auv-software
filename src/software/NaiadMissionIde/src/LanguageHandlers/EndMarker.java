@@ -3,6 +3,8 @@ package LanguageHandlers;
 import Enums.ILanguageObjectType;
 import Interfaces.ILanguageObject;
 
+import java.util.UUID;
+
 
 /**
  * Created with IntelliJ IDEA.
@@ -13,7 +15,18 @@ import Interfaces.ILanguageObject;
  */
 public class EndMarker extends Marker implements ILanguageObject {
 
+
     public EndMarker() {
         super(ILanguageObjectType.Endmarker);
+    }
+
+    public EndMarker(EndMarker other)
+    {
+        super(other);
+    }
+
+    @Override
+    public ILanguageObject getCopy() {
+        return new EndMarker(this);
     }
 }

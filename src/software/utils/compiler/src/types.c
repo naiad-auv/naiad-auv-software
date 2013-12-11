@@ -1,3 +1,8 @@
+/* FILE:       types.c
+   CONTENTS:   types.c - This is the type analysis of NaiAda compiler
+   AUTHOR:     Per-Erik Måhl
+*/
+
 #include "symtab.h"
 #include <stdlib.h>
 #include <stdio.h>

@@ -1,6 +1,7 @@
 package Drawables;
 
 import Enums.VariableType;
+import Factories.IDrawableFactory;
 import Interfaces.IDrawable;
 
 import java.awt.*;
@@ -26,17 +27,35 @@ public class DrawableVariable implements IDrawable {
         this.position = position;
     }
 
+    public DrawableVariable(DrawableVariable other)
+    {
+        this.typeNeeded = other.typeNeeded;
+        this.position = new Point(other.position);
+
+        this.variableAssigned = IDrawableFactory.getCopy(other.variableAssigned);
+    }
+
     @Override
     public void Draw(Graphics g)
     {
+        Stroke baseStroke = ((Graphics2D)g).getStroke();
+
+        ((Graphics2D)g).setStroke(new BasicStroke(2.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL));
+        ((Graphics2D)g).draw(new Line2D.Double(this.position.x, this.position.y - 10, this.position.x, this.position.y + 10));
+        g.drawString(this.typeNeeded.toString().substring(0, 1), this.position.x + 5, this.position.y);
+
         if(variableAssigned == null)
+        {
+            ((Graphics2D) g).setStroke(baseStroke);
             return;
+        }
 
         Point startPoint = this.position;
         Point endPoint = this.getVariableCenter();
 
-        ((Graphics2D)g).setStroke(new BasicStroke(2.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL)); // g2 is an instance of Graphics2D
         ((Graphics2D)g).draw(new Line2D.Double(startPoint.x, startPoint.y, endPoint.x, endPoint.y));
+
+        ((Graphics2D) g).setStroke(baseStroke);
     }
 
     private Point getVariableCenter() {
@@ -61,7 +80,7 @@ public class DrawableVariable implements IDrawable {
 
     @Override
     public Point getPosition() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return this.position;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override

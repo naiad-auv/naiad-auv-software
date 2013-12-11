@@ -1,0 +1,45 @@
+procedure IntLessThan(iLeft : integer; iRight : integer; bResult : access(boolean)) is
+begin
+	bResult := iLeft < iRight;
+end IntLessThan;
+
+procedure ZeroVector(vOutput : access(vector)) is
+begin
+	vOutput := [0.0, 0.0, 0.0];
+end ZeroVector;
+
+procedure IdentityMatrix(mOutput : access(matrix)) is
+begin
+	mOutput := [	[1.0, 0.0, 0.0],
+			[0.0, 1.0, 0.0],
+			[0.0, 0.0, 1.0]		];
+end IdentityMatrix;
+
+
+
+procedure main is
+	IntLessThan_iLeft_1 : integer;
+	IntLessThan_iRight_1 : integer;
+	IntLessThan_bResult_1 : boolean;
+
+	ZeroVector_vOutput_1 : vector;
+	IdentityMatrix_mOutput_1 : matrix;
+begin
+	IntLessThan_iLeft_1 := 3;
+	IntLessThan_iRight_1 := 5;
+
+<< Start >>
+	IntLessThan(IntLessThan_iLeft_1, IntLessThan_iRight_1, access(IntLessThan_bResult_1));
+
+<< Branch1 >>
+	if IntLessThan_bResult_1 then
+<< ZeroVector1 >>
+		ZeroVector(access(ZeroVector_vOutput_1));
+		goto Start;
+	else
+<< IdentityMatrix1 >>
+		IdentityMatrix(access(IdentityMatrix_mOutput_1));
+		goto Start;
+	end if;
+	
+end main;

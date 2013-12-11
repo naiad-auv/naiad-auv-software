@@ -13,25 +13,56 @@ package body VirtualMachine.Interpreter.CInterpreter_Test_Data.CInterpreter_Test
 --  begin read only
    procedure Test_Step (Gnattest_T : in out Test_CInterpreter);
    procedure Test_Step_0b2bca (Gnattest_T : in out Test_CInterpreter) renames Test_Step;
---  id:2.1/0b2bca8d7399a192/Step/1/0/
+   --  id:2.1/0b2bca8d7399a192/Step/1/0/
    procedure Test_Step (Gnattest_T : in out Test_CInterpreter) is
-   --  virtualmachine-interpreter.ads:20:4:Step
---  end read only
+      --  virtualmachine-interpreter.ads:20:4:Step
+      --  end read only
 
       pragma Unreferenced (Gnattest_T);
+      use Ada.Real_Time;
+
+      fDeltaTime : float := 0.0;
+      xTimeStart : Ada.Real_Time.Time := Ada.Real_Time.Clock;
+      xTimeStop : Ada.Real_Time.Time;
+      xTimeSpan : Ada.Real_Time.Time_Span := Ada.Real_Time.Time_Span_Zero;
+      iSeconds : integer;
+      iMilliSeconds : integer;
+      iMicroSeconds : integer;
+      iNanoSeconds : integer;
 
       pxInterpreter : pCInterpreter := new CInterpreter;
    begin
 
       pxInterpreter.pxInstructionFeeder.Go_To_Entry_Point(iInstructionAddress => pxInterpreter.iProgramCounter);
 
+      xTimeStart := Ada.Real_Time.Clock;
       while not pxInterpreter.bFinished loop
-         pxInterpreter.Step(fDeltaTime => 0.1);
+         xTimeStop := Ada.Real_Time.Clock;
+         xTimeSpan := xTimeSpan + (xTimeStop - xTimeStart);
+
+         iSeconds := xTimeSpan / Ada.Real_Time.Seconds(1);
+         xTimeSpan := xTimeSpan - (Ada.Real_Time.Seconds(1) * iSeconds);
+
+         iMilliSeconds := xTimeSpan / Ada.Real_Time.Milliseconds(1);
+         xTimeSpan := xTimeSpan - (Ada.Real_Time.Milliseconds(1) * iMilliSeconds);
+
+         iMicroSeconds := xTimeSpan / Ada.Real_Time.Microseconds(1);
+         xTimeSpan := xTimeSpan - (Ada.Real_Time.Microseconds(1) * iMicroSeconds);
+
+         iNanoSeconds := xTimeSpan / Ada.Real_Time.Nanoseconds(1);
+         xTimeSpan := xTimeSpan - (Ada.Real_Time.Nanoseconds(1) * iNanoSeconds);
+
+         fDeltaTime := float(iSeconds) +
+           (float(iMilliSeconds) * 0.001) +
+           (float(iMicroSeconds) * 0.000001) +
+           (float(iNanoSeconds) * 0.000000001);
+
+         Delay(0.001);
+
+         pxInterpreter.Step(fDeltaTime => fDeltaTime);
+         xTimeStart := xTimeStop;
       end loop;
 
-      AUnit.Assertions.Assert
-        (Gnattest_Generated.Default_Assert_Value,
-         "Test not implemented.");
 
 --  begin read only
    end Test_Step;

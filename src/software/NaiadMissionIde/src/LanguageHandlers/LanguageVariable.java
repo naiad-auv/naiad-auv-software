@@ -6,8 +6,11 @@ import Interfaces.ILanguageObject;
 import Interfaces.ILanguageVariable;
 
 import java.util.Observable;
+import java.util.UUID;
 
 public class LanguageVariable extends Observable implements ILanguageVariable {
+
+    private UUID uid;
 
     private VariableMode variableMode;
     private VariableType type;
@@ -19,31 +22,35 @@ public class LanguageVariable extends Observable implements ILanguageVariable {
     private boolean isStatic;
     private String pattern;
 
-    private ILanguageObject connectedTo;
-    private int position;
-
     public LanguageVariable()
     {
+        this.uid = java.util.UUID.randomUUID();
     }
 
     public LanguageVariable(String name)
     {
+        this();
         this.variableName = name;
     }
 
     public LanguageVariable(VariableMode mode, String value)
     {
+        this();
         this.variableMode = mode;
         this.variableValue = value;
     }
 
-    public LanguageVariable(ILanguageVariable object) {
+    public LanguageVariable(LanguageVariable object) {
+
+        this.uid = java.util.UUID.randomUUID();
+
         this.variableName = object.getName();
         this.variableValue = object.getValue();
         this.variablePrefix = object.getPrefix();
         this.variableMode = object.getMode();
         this.isStatic = object.isStatic();
         this.pattern = object.getPattern();
+        this.type = object.getType();
     }
 
     @Override
@@ -135,6 +142,16 @@ public class LanguageVariable extends Observable implements ILanguageVariable {
     @Override
     public void setType(VariableType type) {
         this.type = type;
+    }
+
+    @Override
+    public UUID getUid() {
+        return this.uid;
+    }
+
+    @Override
+    public ILanguageVariable getCopy() {
+        return new LanguageVariable(this);
     }
 
 }

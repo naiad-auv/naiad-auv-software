@@ -42,6 +42,11 @@ public class DrawingAreaMouseReleasedCommand implements ICommand {
             return true;
         }
 
+        if(this.predecessor == null && objectUnderCursor != null)
+        {
+            return true;
+        }
+
         if(this.tryCreateVariableAssignment(this.predecessor, objectUnderCursor))
         {
             this.prepareForNewEvent();
@@ -71,11 +76,6 @@ public class DrawingAreaMouseReleasedCommand implements ICommand {
         int pos = (this.eventArgs.getX() - successor.getPosition().x - size) / size;
 
         IDrawable assignedTo = ((ILanguageObject) successor.getScope()).getInputVariables().get(pos);
-
-        Point assignmentPoint = new Point(successor.getPosition());
-        assignmentPoint.x += size * (pos + 1);
-
-        assignedTo.setPosition(assignmentPoint);
 
         this.scope.addVariableAssignment(predecessor, assignedTo);
 

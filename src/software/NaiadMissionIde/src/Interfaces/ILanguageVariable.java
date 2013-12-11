@@ -4,6 +4,7 @@ import Enums.VariableMode;
 import Enums.VariableType;
 
 import java.util.Observer;
+import java.util.UUID;
 
 /**
  * Created with IntelliJ IDEA.
@@ -47,5 +48,9 @@ public interface ILanguageVariable {
     void addObserver(Observer observer);
 
     void setType(VariableType s);
+
+    public UUID getUid();
+
+    public ILanguageVariable getCopy();
 
 }

@@ -616,6 +616,7 @@ package body VirtualMachine.Interpreter is
    end Instr_Timer_Reset;
    procedure Instr_Timer (this : in out CInterpreter) is
    begin
+      --Ada.Text_IO.Put_Line("Pushing time: " & this.fTimer'Img);
       this.pxMemoryManager.Push_Float(fValue => this.fTimer);
       this.iProgramCounter := this.iProgramCounter + 1;
       this.pxInstructionFeeder.Set_Program_Counter(iNewProgramCounterValue => this.iProgramCounter);
