@@ -4,7 +4,7 @@ This example reads a XML file to a DOM tree (in memory) and outputs the
 content to STDOUT.
 
 This examples is from the "libxmlada-doc" package available in the Ubuntu
-repository. The documentation is orginally from
+repository. The example and documentation is orginally from
 
 ```
 Copyright c 2000-2002, Emmanuel Briot
