@@ -1,4 +1,4 @@
-with "../../firmware/UartWrapper/uartwrapper.gpr";
+with "../UartWrapper/uartwrapper.gpr";
 with "../../lib/exception_handling/exception_handling.gpr";
 with "../../lib/queue/queue.gpr";
 with "../../lib/can_utils/can_utils.gpr";

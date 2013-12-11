@@ -3,6 +3,8 @@ with Ada.Text_IO;
 with GNAT.Serial_Communications;
 with Ada.Directories; use Ada.Directories;
 
+with Interfaces.C;
+
 procedure Main is
 
    pxUart : UartWrapper.pCUartHandler;
@@ -12,8 +14,7 @@ procedure Main is
 begin
 
 
-   pxUart := UartWrapper.pxCreate("/dev/ttyACM1", UartWrapper.B115200, 1.0, 100, 0);
-
+   pxUart := UartWrapper.pxCreate("/dev/ttyACM1", UartWrapper.B115200, Interfaces.C.int(0), 200, Interfaces.C.int(0));
    while true loop
       pxUart.UartRead(sStringRead   => readString,
                       iNumBytesRead => iNumBytesRead);

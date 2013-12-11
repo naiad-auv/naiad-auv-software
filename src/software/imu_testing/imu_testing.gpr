@@ -1,5 +1,5 @@
-with "../../firmwareUartWrapper/uartwrapper.gpr";
-with "../lib/str2float/str2float.gpr";
+with "../../firmware/UartWrapper/uartwrapper.gpr";
+with "../../lib/str2float/str2float.gpr";
 
 project Imu_Testing is
 

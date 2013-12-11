@@ -17,6 +17,7 @@ with CAN_Utils;
 with Exception_Handling;
 
 with Queue;
+with Interfaces.C;
 
 package body BBB_CAN is
    pragma Suppress (All_Checks);
@@ -28,7 +29,7 @@ package body BBB_CAN is
       --initiates UART commiunication:
     --  Ada.Text_IO.Put_Line("Opening " & "/dev/" & sPort & ", baudrate: " & baud'Img);
     --  pxUart := UartWrapper.pxCreate(GNAT.Serial_Communications.Port_Name("/dev/" & sPort), baud, 0.2, 100);
-      pxUart := UartWrapper.pxCreate("/dev/" & sPort, baud, 0.2, 200, 1);
+      pxUart := UartWrapper.pxCreate("/dev/" & sPort, baud, Interfaces.C.int(0), 200, Interfaces.C.int(0));
    end Init;
 
 --     function Handshake return Boolean is
