@@ -311,7 +311,8 @@ package body Simulator.Comunication is
       Ethernet_Socket.Establish_Connection(sHost_Name => "196.176.0.2",
                                            Port       => 5555);
       loop
-         iStatus := Ethernet_Socket.Receive_CAN(msg => xMessage);
+         Ethernet_Socket.Receive_CAN(msg => xMessage,
+                                     iStatus => iStatus);
          if iStatus = 0 then
             iMessageLength := integer(xMessage.Len)+CAN_Link_Utils.HEADLEN;
             Get_Data_From_Message(xMessage       => xMessage,

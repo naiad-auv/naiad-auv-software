@@ -32,7 +32,7 @@ package Ethernet_Socket is
    --function Send_CAN2 (msg : String) return Integer;
 
 
-   function Receive_CAN(msg : out CAN_Defs.CAN_Message) return Integer;
+   procedure Receive_CAN (msg : out CAN_Defs.CAN_Message; iStatus : out Integer);
 
 
 end Ethernet_Socket;

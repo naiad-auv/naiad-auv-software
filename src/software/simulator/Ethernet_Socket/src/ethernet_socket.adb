@@ -286,7 +286,7 @@ package body Ethernet_Socket is
 
    end Send_CAN;
 
-   function Receive_CAN(msg : out CAN_Defs.CAN_Message) return Integer is
+   procedure Receive_CAN(msg : out CAN_Defs.CAN_Message; iStatus : out Integer) is
 
       sBuffer : String ( 1..13 ) ;
       sBufferHead : String ( 1..5 ) ;
@@ -336,22 +336,26 @@ package body Ethernet_Socket is
 --              Ada.Text_IO.Put_line (Interfaces.Unsigned_8'Image(msg.Data(8)) ) ;
          end if;
          GNAT.Sockets.Close_Selector(Selector);
-         return 0;
+         iStatus := 0;
+         return;
       WHEN GNAT.Sockets.Expired =>
          Ada.Text_Io.Put_Line("SelectorStatus: " & GNAT.Sockets.Selector_Status'Image(Status));
          GNAT.Sockets.Close_Selector(Selector);
-         return -2;
+         iStatus := -2;
+	 return;
       WHEN GNAT.Sockets.Aborted =>
          Ada.Text_Io.Put_Line("SelectorStatus: " & GNAT.Sockets.Selector_Status'Image(Status));
          GNAT.Sockets.Close_Selector(Selector);
-         return -1;
+         iStatus := -1;
+         return;
       END CASE;
 
    exception
       when E : others =>
          Ada.Text_IO.Put_Line(Ada.Exceptions.Exception_Name (E) & ": " & Ada.Exceptions.Exception_Message (E));
          GNAT.Sockets.Close_Selector(Selector);
-         return -2;
+         iStatus := -2;
+         return;
 
    end Receive_CAN;
 
