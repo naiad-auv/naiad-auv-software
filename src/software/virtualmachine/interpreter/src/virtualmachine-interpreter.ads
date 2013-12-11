@@ -10,6 +10,8 @@ with Text_Handling;
 with Ada.Finalization;
 with Ada.Unchecked_Deallocation;
 with Ada.Numerics.Elementary_Functions;
+with Ada.Real_Time;
+with Ada.Text_IO;
 
 package VirtualMachine.Interpreter is
 

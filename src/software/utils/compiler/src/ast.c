@@ -1,15 +1,11 @@
-/* $Id: ast.c 110 2009-04-26 09:31:29Z csg $
-   FILE:       ast.c
-   CONTENTS:   ast.c - This file contains AST node constructor functions and some
-                        additional functions needed for constructing the syntax tree.
-   REVISION:   1.0, 960917, Christer Eriksson & Jukka Mäki-Turja
-               1.1, 000822, Christer Sandberg Reason: Changed error-handling in connectXxx
-                            functions to allow empty lists.
-   DESCRIPTION: Node constructor functions for the AST
+/* FILE:       ast.c
+   CONTENTS:   ast.c - This manages the abstract syntax tree for NaiAda compiler. (based on skeleton from lab 3 in a compiler theory course at Mälardalen University)
+   AUTHOR:     Per-Erik Måhl
 */
+
 # include "ast.h"
 # include "utils.h"
-# include "trac42.h"
+# include "naiada.h"
 # include <stdio.h>
 # include <assert.h>
 # include <string.h>

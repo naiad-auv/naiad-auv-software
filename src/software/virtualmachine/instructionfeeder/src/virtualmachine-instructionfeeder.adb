@@ -58,7 +58,7 @@ package body VirtualMachine.InstructionFeeder is
          return VirtualMachine.InstructionFeeder.INSTR_EOF;
       end if;
 
-      Ada.Text_IO.Put_Line(this.pxInstructionList.pxInstruction.eInstr'Img);
+      --Ada.Text_IO.Put_Line(this.pxInstructionList.pxInstruction.eInstr'Img);
       return this.pxInstructionList.pxInstruction.eInstr;
    end Feed_Instruction;
 

@@ -11,6 +11,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
+import java.util.UUID;
 
 /**
  * Created with IntelliJ IDEA.
@@ -21,6 +22,8 @@ import java.util.Observable;
  */
 public class Objective extends Observable implements ILanguageObject {
 
+    private UUID uid;
+
     private Path path;
     private String objectiveName;
 
@@ -30,11 +33,24 @@ public class Objective extends Observable implements ILanguageObject {
 
     public Objective(String name)
     {
+        this.uid = java.util.UUID.randomUUID();
+
         this.objectiveName = name;
 
         this.executionalSteps = new ArrayList<ILanguageObject>();
         this.inputVariables = new ArrayList<IDrawable>();
         this.outputVariables = new ArrayList<IDrawable>();
+    }
+
+    public Objective(Objective other) {
+
+        this.uid = java.util.UUID.randomUUID();
+
+        this.path = other.path;
+        this.objectiveName = other.objectiveName;
+        this.executionalSteps = new ArrayList<ILanguageObject>(other.executionalSteps);
+        this.inputVariables = new ArrayList<IDrawable>(other.inputVariables);
+        this.outputVariables = new ArrayList<IDrawable>(other.outputVariables);
     }
 
     public List<ILanguageObject> getExecutionalSteps() throws NullReferenceException {
@@ -101,7 +117,18 @@ public class Objective extends Observable implements ILanguageObject {
         if(this.getClass() != other.getClass())
             return false;
 
+        if(this.getUid() != ((ILanguageObject)other).getUid())
+            return false;
 
         return this.path != ((Objective)other).path;
+    }
+
+    public UUID getUid() {
+        return this.uid;
+    }
+
+    @Override
+    public ILanguageObject getCopy() {
+        return new Objective(this);
     }
 }

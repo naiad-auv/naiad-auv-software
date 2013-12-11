@@ -140,12 +140,12 @@ public class DrawingAreaViewModel extends Observable implements IViewModel, Obse
         this.notifyObservers();
     }
 
-    public void addItem(ILanguageObject object, Point position) throws UnableToPreformActionException {
-        this.presentationObjective.addItem(object, position);
-    }
-
     public Object getScope() {
         return this.presentationObjective.getScope();
+    }
+
+    public void addItem(ILanguageObject object, Point position) throws UnableToPreformActionException {
+        this.presentationObjective.addItem(object, position);
     }
 
     public void addVariable(ILanguageVariable object, Point position) {

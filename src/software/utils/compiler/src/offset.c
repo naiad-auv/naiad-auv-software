@@ -1,3 +1,8 @@
+/* FILE:       offset.c
+   CONTENTS:   offset.c - This performs offset calculations on the variables for NaiAda compiler
+   AUTHOR:     Per-Erik Måhl
+*/
+
 #include "offset.h"
 #include "ast.h"
 #include <stdio.h>

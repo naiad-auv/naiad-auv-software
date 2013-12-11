@@ -1,3 +1,8 @@
+/* FILE:       name.c
+   CONTENTS:   name.c - This performs name analysis for NaiAda compiler
+   AUTHOR:     Per-Erik Måhl
+*/
+
 #include "name.h"
 #include "symtab.h"
 #include <stdlib.h>

@@ -1,6 +1,7 @@
 package Drawables;
 
 import Enums.ILanguageObjectType;
+import Factories.ILanguageObjectFactory;
 import Interfaces.IDrawable;
 import Interfaces.ILanguageObject;
 
@@ -24,15 +25,24 @@ public class MarkerObjectDrawable implements IDrawable {
 
     public MarkerObjectDrawable(ILanguageObject markerToDraw, Point position, int radius)
     {
-        this.markerToDraw = markerToDraw;
+        this.markerToDraw = ILanguageObjectFactory.getCopy(markerToDraw);
         this.radius = radius;
         this.position = position;
 
         this.markerColor = markerToDraw.getType() == ILanguageObjectType.Startmarker ? new Color(123,123,123) : markerToDraw.getType() == ILanguageObjectType.Endmarker ? new Color(123,123,123) : new Color(255,255,255);
     }
 
+    public MarkerObjectDrawable(MarkerObjectDrawable other) {
+        this.markerToDraw = ILanguageObjectFactory.getCopy(other.markerToDraw);
+        this.position = new Point(other.getPosition());
+        this.radius = other.radius;
+        this.markerColor = other.markerColor;
+    }
+
     public void Draw(Graphics g)
     {
+        Stroke baseStroke = ((Graphics2D)g).getStroke();
+
         Ellipse2D.Double circle = new Ellipse2D.Double(this.position.x, this.position.y, 50,50);
 
         g.setColor(this.markerColor);
@@ -41,6 +51,8 @@ public class MarkerObjectDrawable implements IDrawable {
         ((Graphics2D)g).draw(circle);
 
         g.drawString(this.markerToDraw.getType().toString(), this.position.x + 10, this.position.y + 31);
+
+        ((Graphics2D) g).setStroke(baseStroke);
     }
 
     @Override

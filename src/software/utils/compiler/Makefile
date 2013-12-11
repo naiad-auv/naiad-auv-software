@@ -1,9 +1,5 @@
+# Makefile for NaiAda
 #
-# $Id: Makefile 15 2007-10-25 18:41:37Z csg $
-#
-# Makefile for trac42
-#
-# Modify the paths to fit your needs
 #
 
 OBJDIR = ./obj/
@@ -11,11 +7,11 @@ SRCDIR = ./src/
 INCDIR = ./src/
 BINDIR = ./
 
-TARGET = $(BINDIR)trac42
-PARSER_SPEC = $(SRCDIR)trac42.y
+TARGET = $(BINDIR)naiada
+PARSER_SPEC = $(SRCDIR)naiada.y
 PARSER_SRC = $(PARSER_SPEC).c
 PARSER_H = $(PARSER_SPEC).h
-SCANNER_SPEC = $(SRCDIR)trac42.l
+SCANNER_SPEC = $(SRCDIR)naiada.l
 SCANNER_SRC = $(SCANNER_SPEC).c
 
 C_SOURCES  = $(wildcard $(SRCDIR)*.c)

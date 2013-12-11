@@ -54,13 +54,25 @@ package simulator.submarine is
    procedure Set_Gripper_Right_Status(this : in out CSubmarine ; bGripperRight : boolean);
    procedure Set_Dropper_Left_Status(this : in out CSubmarine ; bDropperLeft : boolean);
    procedure Set_Dropper_Right_Status(this : in out CSubmarine ; bDropperRight : boolean);
+   procedure Set_Torpedo_Left_Status(this : in out CSubmarine ; bTorpedoLeft : boolean);
+   procedure Set_Torpedo_Right_Status(this : in out CSubmarine ; bTorpedoRight : boolean);
+
+
    procedure Set_Depth(this : in out CSubmarine; fDepth : float);
+   procedure Set_Pressure(this : in out CSubmarine; fPressure : float);
+   procedure Set_Temperature(this : in out CSubmarine; fTemperature : float);
 
    function bGet_Gripper_Left_Status(this : in CSubmarine) return boolean;
    function bGet_Gripper_Right_Status(this : in CSubmarine) return boolean;
    function bGet_Dropper_Left_Status(this : in CSubmarine) return boolean;
    function bGet_Dropper_Right_Status(this : in CSubmarine) return boolean;
+   function bGet_Torpedo_Left_Status(this : in CSubmarine) return boolean;
+   function bGet_Torpedo_Right_Status(this : in CSubmarine) return boolean;
+
+
    function fGet_Depth(this : in Csubmarine) return float;
+   function fGet_Pressure(this : in CSubmarine) return float;
+   function fGet_Temeperature(this : in CSubmarine) return float;
 
 private
       type CSubmarine is tagged
@@ -87,8 +99,14 @@ private
 
          bGripperLeft : Boolean;
          bGripperRight : Boolean;
+         bTorpedo_Left : boolean;
+         bTorpedo_Right : boolean;
          bDropperLeft : Boolean;
          bDropperRight : Boolean;
+
+         fPressure : float;
+         fTemperature : float;
+
          fDepth : Float;
       end record;
 end simulator.submarine;

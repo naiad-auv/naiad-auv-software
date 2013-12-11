@@ -72,11 +72,12 @@ public class PresentationObjective extends Observable implements Observer
 
     public void addItem(ILanguageObject object, Point position) throws UnableToPreformActionException {
 
-        LanguageObjectDrawable objectToDraw = new LanguageObjectDrawable(object, position);
+       LanguageObjectDrawable objectToDraw = new LanguageObjectDrawable(object, position);
 
-        objectToDraw.addObserver(this);
+       objectToDraw.addObserver(this);
 
        this.ILanguageObjectPresentationObjects.add(objectToDraw);
+
        this.setChanged();
        this.notifyObservers();
     }

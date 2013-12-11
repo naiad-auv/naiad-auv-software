@@ -6,6 +6,7 @@ import Exceptions.NullReferenceException;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Observer;
+import java.util.UUID;
 
 /**
  * Created with IntelliJ IDEA.
@@ -29,4 +30,8 @@ public interface ILanguageObject {
     public void addVariableAssignment(IDrawable predecessor, int pos);
 
     public void addObserver(Observer observer);
+
+    public UUID getUid();
+
+    public ILanguageObject getCopy();
 }

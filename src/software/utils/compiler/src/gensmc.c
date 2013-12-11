@@ -1,3 +1,8 @@
+/* FILE:       gensmc.c
+   CONTENTS:   gensmc.c - This generates stack machine code for NaiAda compiler
+   AUTHOR:     Per-Erik Måhl
+*/
+
 #include "symtab.h"
 #include <stdlib.h>
 #include <stdio.h>
@@ -17,37 +22,6 @@ void genSMCInsertTab();
 void genSMCRemoveTab();
 void genSMCNewLine();
 
-/*
-      -- Jumps
-      INSTR_BRF,	-- int
-      INSTR_BRA,	-- int
-
-      -- Subroutines
-      INSTR_BSR,	-- int
-
-      -- Memory deallocation
-      INSTR_POP,	-- int
-
-      -- Constants
-      INSTR_PUSHINT,		-- PUSHINT 3
-      INSTR_PUSHBOOL,		-- PUSHBOOL TRUE
-      INSTR_PUSHFLOAT,		-- PUSHFLOAT 8.34
-      INSTR_PUSHMAT,		-- PUSHMATRIX [[11.0,12.0,13.0],[21.0,22.0,23.0],[31.0,32.0,33.0]]
-      INSTR_PUSHVEC,		-- PUSHVECTOR [1.0,2.0,3.0]
-
-      -- Right value (variable values)
-      INSTR_RVALINT,		-- int
-      INSTR_RVALBOOL,		-- int
-      INSTR_RVALFLOAT,		-- int
-      INSTR_RVALMAT,		-- int
-      INSTR_RVALVEC,		-- int
-
-      -- Left value (variable addresses)
-      INSTR_LVAL,		-- int
-
-      -- Getters for vectors
-      INSTR_VECCOMP,		-- int
-*/
 
 
 void genSMC_NULL();
@@ -154,7 +128,7 @@ void genSMC_FunctionEnd();
 void genSMCPopArgs(t_symtable * table_iter);
 void genSMCPopVars(t_symtable * table_iter);
 
-// AST functions
+// AST traversion functions
 void genSMCCallNodeFunction(t_tree node);
 void genSMCVariable(t_tree node);
 void genSMCProgram(t_tree node);
@@ -223,17 +197,6 @@ void genSMCNewLine()
 		i--;
 	}
 }
-/*
-void genSMC_LINK()
-{
-	genSMCNewLine();
-	fprintf(genSMCFilePtr, "LINK");
-}
-void genSMC_UNLINK()
-{
-	genSMCNewLine();
-	fprintf(genSMCFilePtr, "UNLINK");
-}*/
 
 void genSMC_LINK()
 {
@@ -246,18 +209,6 @@ void genSMC_UNLINK()
 	fprintf(genSMCFilePtr, "UNLINK");
 }
 
-/*
-void genSMC_BRF(int address)
-{
-	genSMCNewLine();
-	fprintf(genSMCFilePtr, "BRF %d", address);
-}
-void genSMC_BRA(int address)
-{
-	genSMCNewLine();
-	fprintf(genSMCFilePtr, "BRA %d", address);
-}
-*/
 void genSMC_BRF(int iAddress)
 {
 	genSMCNewLine();
@@ -269,13 +220,6 @@ void genSMC_BRA(int iAddress)
 	fprintf(genSMCFilePtr, "BRA %d", iAddress);
 }
 
-/*
-void genSMC_BSR(int address)
-{
-	genSMCNewLine();
-	fprintf(genSMCFilePtr, "BSR %d", address);
-}
-*/
 
 void genSMC_BSR() // (int iAddress); Comment: Now pops address from stack instead
 {
@@ -283,13 +227,6 @@ void genSMC_BSR() // (int iAddress); Comment: Now pops address from stack instea
 	fprintf(genSMCFilePtr, "BSR");	
 }
 
-/*
-void genSMC_RTS()
-{
-	genSMCNewLine();
-	fprintf(genSMCFilePtr, "RTS");
-}
-*/
 void genSMC_RTS()
 {
 	genSMCNewLine();

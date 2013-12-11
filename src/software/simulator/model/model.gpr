@@ -1,3 +1,4 @@
+with "../Comunication/comunication.gpr";
 with "../motion_control_wrapper/motion_control_wrapper.gpr";
 with "../submarine/submarine.gpr";
 
