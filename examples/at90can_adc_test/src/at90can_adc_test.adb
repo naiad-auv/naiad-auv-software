@@ -47,12 +47,10 @@ begin
 
  --  Digital_IO.User_Led(true);
 
-   loop
-      AVR.AT90CAN128.Digital_IO.User_Led(true);
-      Avr.AT90CAN128.CLOCK.Delay_ms(1000);
-      AVR.AT90CAN128.Digital_IO.User_Led(false);
-      Avr.AT90CAN128.CLOCK.Delay_ms(1000);
-   end loop;
+   AVR.AT90CAN128.Digital_IO.User_Led(true);
+   Avr.AT90CAN128.CLOCK.Delay_ms(1000);
+   AVR.AT90CAN128.Digital_IO.User_Led(false);
+   Avr.AT90CAN128.CLOCK.Delay_ms(1000);
 
 
    AVR.AT90CAN128.USART.Init(PORT, AVR.AT90CAN128.USART.BAUD115200);
