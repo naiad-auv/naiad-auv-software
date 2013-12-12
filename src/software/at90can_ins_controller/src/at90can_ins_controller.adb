@@ -27,9 +27,11 @@ package body AT90CAN_Ins_Controller is
 
       usart_port := port;
 
+      AVR.AT90CAN128.CAN.Can_Init(canBaud_Rate);
+
       AVR.AT90CAN128.CAN.Can_Set_MOB_ID_MASK(0,(CAN_Defs.MSG_SIMULATION_MODE_ID.Identifier, bUseExtendedID),
                                              (536870911, bUseExtendedID));
-      AVR.AT90CAN128.CAN.Can_Init(canBaud_Rate);
+
 
       tempMSG.ID := (1, false);
       tempMSG.Len := 8;

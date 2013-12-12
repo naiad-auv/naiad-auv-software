@@ -19,6 +19,8 @@ with Interfaces;		use Interfaces;
 with AVR.AT90CAN128.USART;
 with AVR.AT90CAN128.CAN;	use AVR.AT90CAN128.CAN;
 with CAN_Defs;
+--  with AVR.AT90CAN128.CLOCK;
+--  with AVR.AT90CAN128.Digital_IO;
 
 
 with AT90CAN_Ins_Controller;
@@ -35,11 +37,13 @@ procedure AT90CAN_Ins_Controller_Main is
    tempMSG : CAN_Defs.CAN_Message;
 begin
 --     loop
---        Digital_IO.User_Led(true);
+--        AVR.AT90CAN128.Digital_IO.User_Led(true);
 --        Avr.AT90CAN128.CLOCK.Delay_ms(1000);
---        Digital_IO.User_Led(false);
+--        AVR.AT90CAN128.Digital_IO.User_Led(false);
 --        Avr.AT90CAN128.CLOCK.Delay_ms(1000);
 --     end loop;
+
+   AVR.AT90CAN128.USART
 
 
    AT90CAN_Ins_Controller.Init(AVR.AT90CAN128.USART.USART0, Can_Defs.K250, false); --this will initiate the can bus as well

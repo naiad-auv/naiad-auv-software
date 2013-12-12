@@ -172,7 +172,9 @@ package body AT90CAN_Ins_Controller_Utils is
          tempMSG.ID := (411, false);
          tempMSG.Len := 3;
 
-		 --ADD DELAY SOMEWHERE HERE TO SEE IF THE DELAY AFFECTS HOW FAR THE PROGRAM COMES BEFORE IT CRASHES
+         --ADD DELAY SOMEWHERE HERE TO SEE IF THE DELAY AFFECTS HOW FAR THE PROGRAM COMES BEFORE IT CRASHES
+--           AVR.AT90CAN128.CLOCK.Delay_ms(200);
+
 
          sTemp(1) := ' ';
          while sTemp(1) /= Character'Val(36) loop -- ascii 36 = dollarsign
