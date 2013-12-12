@@ -1,4 +1,4 @@
-with "../../../firmware/can_link_utils/can_link_utils_testing.gpr";
+with "../../../lib/can_utils/can_utils.gpr";
 
 project Ethernet_Socket is
 

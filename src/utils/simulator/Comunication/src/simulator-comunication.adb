@@ -314,7 +314,7 @@ package body Simulator.Comunication is
          Ethernet_Socket.Receive_CAN(msg => xMessage,
                                      iStatus => iStatus);
          if iStatus = 0 then
-            iMessageLength := integer(xMessage.Len)+CAN_Link_Utils.HEADLEN;
+            iMessageLength := integer(xMessage.Len)+CAN_Utils.HEADLEN;
             Get_Data_From_Message(xMessage       => xMessage,
                                   iMessageLength => iMessageLength);
          end if;
@@ -346,7 +346,7 @@ package body Simulator.Comunication is
       end case;
 
 
-      CAN_Link_Utils.Message_To_Bytes(sBuffer => sBuffer,
+      CAN_Utils.Message_To_Bytes(sBuffer => sBuffer,
                                       msg     => xMessage);
 
    end Get_Data_From_Message;
