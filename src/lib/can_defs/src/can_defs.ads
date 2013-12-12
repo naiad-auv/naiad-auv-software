@@ -1,5 +1,5 @@
 -- Written by: Konstantinos Konstantopoulos for the Naiad AUV project
--- Last changed (yyyy-mm-dd): 2013-11-26 by Nils Brynedal Ignell
+-- Last changed (yyyy-mm-dd): 2013-12-12 by Nils Brynedal Ignell
 
 with Interfaces;
 
@@ -87,14 +87,12 @@ package CAN_Defs is
    MSG_KILL_SWITCH_NOT_ACTIVE 		: constant CAN_Message := (ID => MSG_KILL_SWITCH_ID, Len => 1, Data => (255, others => 0) );
   -- MSG_KILL_SWITCH_NOT_ACTIVE_CONFIRM	: constant CAN_Message := (ID => MSG_KILL_SWITCH_CONFIRM_ID, Len => 1, Data => (255, others => 0) );
 
-
    SIMULATION_MODE_ACTIVE			: constant Interfaces.Unsigned_8 := 0;
    SIMULATION_MODE_NOT_ACTIVE			: constant Interfaces.Unsigned_8 := 255;
    MSG_SIMULATION_MODE_ACTIVE			: constant CAN_Message := 	(ID => MSG_SIMULATION_MODE_ID, 		Len => 1, Data => (SIMULATION_MODE_ACTIVE, others => 0) );
 --     MSG_SIMULATION_MODE_ACTIVE_CONFIRM		: constant CAN_Message := 	(ID => MSG_SIMULATION_MODE_CONFIRM_ID, 	Len => 1, Data => (SIMULATION_MODE_ACTIVE, others => 0) );
    MSG_SIMULATION_MODE_NOT_ACTIVE		: constant CAN_Message := 	(ID => MSG_SIMULATION_MODE_ID, 		Len => 1, Data => (SIMULATION_MODE_NOT_ACTIVE, others => 0) );
 --     MSG_SIMULATION_MODE_NOT_ACTIVE_CONFIRM 	: constant CAN_Message := 	(ID => MSG_SIMULATION_MODE_CONFIRM_ID, 	Len => 1, Data => (SIMULATION_MODE_NOT_ACTIVE, others => 0) );
-
 
    MSG_TORPEDO_LEFT			: constant CAN_Message := (ID => MSG_PNEUMATICS_ID, 		Len => 1, Data => (1, others => 0) );
    MSG_TORPEDO_LEFT_CONFIRM 		: constant CAN_Message := (ID => MSG_PNEUMATICS_CONFIRM_ID, 	Len => 1, Data => (1, others => 0) );
@@ -114,7 +112,6 @@ package CAN_Defs is
    MSG_GRIPPER_ROTATE_ACW_CONFIRM	: constant CAN_Message := (ID => MSG_PNEUMATICS_CONFIRM_ID, 	Len => 1, Data => (8, others => 0) );
 
   MSG_MISSION_STATUS_SIMULATION 	: constant CAN_Message := (ID => MSG_PNEUMATICS_CONFIRM_ID, 	Len => 1, Data => (8, others => 0) );
-
 
 end CAN_Defs;
 
