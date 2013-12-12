@@ -2,7 +2,7 @@ with MissionControl;
 --with AVR.AT90CAN128.CAN;
 with Ada.Unchecked_Deallocation;
 with Ada.Tags;
---with Ada.Text_IO; -- for testing
+with Ada.Text_IO; -- for testing
 
 package MissionControl.SharedTypes is
 

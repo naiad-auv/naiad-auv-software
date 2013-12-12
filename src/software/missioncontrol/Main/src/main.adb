@@ -8,7 +8,7 @@ with VirtualMachine.Interpreter;
 
 with Ada.Real_Time; -- measure time
 
---with Ada.Text_IO; -- for testing
+with Ada.Text_IO; -- for testing
 
 -- TODO List:
 
@@ -34,8 +34,8 @@ procedure Main is
 begin
 
    -- BOOT UP STUFF HERE
-   --Ada.Text_IO.New_Line; Ada.Text_IO.New_Line; Ada.Text_IO.New_Line; Ada.Text_IO.New_Line; -- for testing
-   --Ada.Text_IO.Put_Line("Booting up main frame."); -- for testing
+   Ada.Text_IO.New_Line; Ada.Text_IO.New_Line; Ada.Text_IO.New_Line; Ada.Text_IO.New_Line; -- for testing
+   Ada.Text_IO.Put_Line("Booting up main frame."); -- for testing
    pxVMInterpreter := new VirtualMachine.Interpreter.CInterpreter;
 
 
@@ -75,7 +75,7 @@ begin
 ---------Virtual Machine ends here-----------------------------------------------------------------------------------------
 
 
-      --delay 0.5; -- for testing
+      delay 0.5; -- for testing
    end loop;
 
 end Main;
