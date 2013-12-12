@@ -26,14 +26,6 @@ package body VirtualMachine.InstructionFeeder is
             pxNewInstruction := new CInstructionFloatArgument;
             Float'Read(xFileStream, CInstructionFloatArgument(pxNewInstruction.all).fArgument);
 
-         when INSTR_PUSHMAT =>
-            pxNewInstruction := new CInstructionMatrixArgument;
-            Math.Matrices.CMatrix'Read(xFileStream, CInstructionMatrixArgument(pxNewInstruction.all).xArgument);
-
-         when INSTR_PUSHVEC =>
-            pxNewInstruction := new CInstructionVectorArgument;
-            Math.Vectors.CVector'Read(xFileStream, CInstructionVectorArgument(pxNewInstruction.all).xArgument);
-
          when others =>
             pxNewInstruction := new CInstruction;
 
@@ -181,8 +173,16 @@ package body VirtualMachine.InstructionFeeder is
    end Initialize;
 
    procedure Go_To_Entry_Point(this : in out CInstructionFeeder; iInstructionAddress : out integer) is
+      No_Entry_Point : exception;
+      iSearchUntil : integer := -1;
    begin
       while this.pxInstructionList.pxInstruction.eInstr /= INSTR_MAIN loop
+         if iSearchUntil < 0 then
+            iSearchUntil := this.pxInstructionList.pxInstruction.iLineNumber;
+         elsif iSearchUntil = this.pxInstructionList.pxInstruction.iLineNumber then
+            raise No_Entry_Point;
+         end if;
+
          this.Set_Program_Counter(iNewProgramCounterValue => this.pxInstructionList.pxNextInstruction.pxInstruction.iLineNumber);
       end loop;
       iInstructionAddress := this.iProgramCounter;

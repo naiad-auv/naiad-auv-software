@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<primitive src="intlessthan.pri" name="IntLessThan"/>
+<primitive src="zerovector.pri" name="ZeroVector"/>
+<primitive src="identitymatrix.pri" name="IdentityMatrix"/>
+
+<constant name="intconst1" value="3"/>
+<constant name="intconst2" value="5"/>
+
+<sequence>
+	<label name="Start"/>
+	<run primitive="IntLessThan" name="IntLessThan_1">
+		<input name="iLeft" type="integer" value="intconst1"/>
+		<input name="iRight" type="integer" value="intconst2"/>
+		<output name="bResult" type="boolean" value="IntLessThan_1_bResult"/>
+	</run>
+	<label name="Branch1"/>
+	<branch input="IntLessThan_1_bResult">
+		<true>
+			<label name="ZeroVector1"/>
+			<run primitive="ZeroVector" name="ZeroVector_1">
+				<output name="vOutput" type="vector" value=""/>
+			</run>
+			<label name="IdentityMatrix1"/>
+			<run primitive="IdentityMatrix" name="IdentityMatrix_1">
+				<output name="mOutput" type="matrix" value=""/>
+			</run>
+			<label name="Branch2"/>
+			<branch input="IntLessThan_1_bResult">
+				<true>
+					<label name="ZeroVector2"/>
+					<run primitive="ZeroVector" name="ZeroVector_2">
+						<output name="vOutput" type="vector" value=""/>
+					</run>
+					<label name="IdentityMatrix2"/>
+					<run primitive="IdentityMatrix" name="IdentityMatrix_2">
+						<output name="mOutput" type="matrix" value=""/>
+					</run>
+					<goto label="Start"/>
+				</true>
+				<false>
+					<label name="IdentityMatrix3"/>
+					<run primitive="IdentityMatrix" name="IdentityMatrix_3">
+						<output name="mOutput" type="matrix" value=""/>
+					</run>
+					<goto label="Start"/>
+				</false>
+			</branch>
+			<goto label="Start"/>
+		</true>
+		<false>
+			<label name="IdentityMatrix4"/>
+			<run primitive="IdentityMatrix" name="IdentityMatrix_4">
+						<output name="mOutput" type="matrix" value=""/>
+			</run>
+			<goto label="Start"/>
+		</false>
+	</branch>
+</sequence>
+
+
+
+
+
+procedure main is
+	IntLessThan_1_iLeft : integer;
+	IntLessThan_1_iRight : integer;
+	IntLessThan_1_bResult : boolean;
+
+	ZeroVector_vOutput_1 : vector;
+	ZeroVector_vOutput_2 : vector;
+	ZeroVector_vOutput_3 : vector;
+
+	IdentityMatrix_mOutput_1 : matrix;
+	IdentityMatrix_mOutput_2 : matrix;
+	IdentityMatrix_mOutput_3 : matrix;
+	IdentityMatrix_mOutput_4 : matrix;
+begin
+
+	IntLessThan_iLeft_1 := 3;
+	IntLessThan_iRight_1 := 5;
+
+<< Start >>
+	IntLessThan(IntLessThan_1_iLeft, IntLessThan_1_iRight, access(IntLessThan_1_bResult));
+<< Branch1 >>
+	if IntLessThan_bResult_1 then
+<< ZeroVector1 >>
+		ZeroVector(access(ZeroVector_vOutput_1));
+<< IdentityMatrix1 >>
+		IdentityMatrix(access(IdentityMatrix_mOutput_1));		
+<< Branch2 >>
+		if IntLessThan_bResult_1 then
+<< ZeroVector2 >>
+			ZeroVector(access(ZeroVector_vOutput_2));
+<< IdentityMatrix2 >>
+			IdentityMatrix(access(IdentityMatrix_mOutput_2));		
+			goto Start;
+		else
+<< IdentityMatrix3 >>
+			IdentityMatrix(access(IdentityMatrix_mOutput_3));								
+			goto Start;
+		end if;
+	else
+<< IdentityMatrix4 >>
+		IdentityMatrix(access(IdentityMatrix_mOutput_4));
+		goto Start;
+	end if;
+	
+end main;
+
+
+
+

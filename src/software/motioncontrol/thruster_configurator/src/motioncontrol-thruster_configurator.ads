@@ -1,0 +1,52 @@
+with MotionControl;
+with MotionControl.Motion_Component;
+with Math.Matrices;
+with Math.Vectors;
+with MotionControl.Thrusters;
+with Ada.Finalization;
+with Ada.Unchecked_Deallocation;
+
+package MotionControl.Thruster_Configurator is
+
+   type CThrusterConfigurator is new Ada.Finalization.Controlled with private;
+   type pCThrusterConfigurator is access CThrusterConfigurator;
+
+   procedure Free(pxThrusterConfiguratorToDeallocate : in out pCThrusterConfigurator);
+
+
+   type TExtendedMatrix is array(1 .. 6, 1 .. 12) of float;
+   type TMatrix is array(1 .. 6, 1 .. 6) of float;
+
+
+   function pxCreate return pCThrusterConfigurator;
+
+   function iGet_Number_Of_Thrusters (this : in CThrusterConfigurator) return integer;
+   function tfGet_Thruster_Effects_Matrix (this : in CThrusterConfigurator) return MotionControl.Thrusters.TThrusterEffectsMatrix;
+
+   function tfGet_Thruster_Values(this : in CThrusterConfigurator; tfComponentValues : in MotionControl.Thrusters.TThrusterEffects) return MotionControl.Thrusters.TThrusterValuesArray;
+
+private
+
+   procedure Remove_Component_In_Leading_Rows(tfExtendedMatrix : in out TExtendedMatrix; iRow : in integer);
+   procedure Remove_Component_In_Following_Rows(tfExtendedMatrix : in out TExtendedMatrix; iRow : in integer);
+   procedure Scale_Row_In_Extended_Matrix(tfExtendedMatrix : in out TExtendedMatrix; iStartingColumn : in integer);
+   procedure Swap_Values_In_Extended_Matrix(fValue1 : in out float; fValue2 : in out float);
+   procedure Swap_Rows_In_Extended_Matrix(tfExtendedMatrix : in out TExtendedMatrix; iRow1 : in integer; iRow2 : in integer);
+   function bMatrix_Has_No_Inverse(fValue : in float) return boolean;
+   function Find_Row_With_Highest_Component(tfExtendedMatrix : in TExtendedMatrix; iColumn : in integer) return integer;
+   function tfCreate_Extended_Matrix(this : in CThrusterConfigurator) return TExtendedMatrix;
+   procedure Insert_Component_Values_In_Extended_Matrix(tfExtendedMatrix : in out TExtendedMatrix; tfComponentValues : in MotionControl.Thrusters.TThrusterEffects);
+   procedure Perform_Gauss_Jordan_Elimination_On(tfExtendedMatrix : in out TExtendedMatrix);
+   procedure Set_Inverse(this : in out CThrusterConfigurator);
+   function tfGet_Inverse_Part_Of(tfExtendedMatrix : in TExtendedMatrix) return TMatrix;
+   function tfMultiply_Values_With_Matrix(this : in CThrusterConfigurator; tfComponentValues : in MotionControl.Thrusters.TThrusterEffects) return MotionControl.Thrusters.TThrusterValuesArray;
+
+   type CThrusterConfigurator is new Ada.Finalization.Controlled with
+      record
+         pxThrusterList : MotionControl.Thrusters.pCThruster;
+         tfInverseMatrixForThrusterConfiguration : TMatrix;
+      end record;
+
+   procedure Finalize(this : in out CThrusterConfigurator);
+
+end MotionControl.Thruster_Configurator;

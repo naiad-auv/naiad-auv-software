@@ -43,8 +43,8 @@ package VirtualMachine.InstructionFeeder is
       INSTR_PUSHINT,		-- PUSHINT 3
       INSTR_PUSHBOOL,		-- PUSHBOOL TRUE
       INSTR_PUSHFLOAT,		-- PUSHFLOAT 8.34
-      INSTR_PUSHMAT,		-- PUSHMATRIX [[11.0,12.0,13.0],[21.0,22.0,23.0],[31.0,32.0,33.0]]
-      INSTR_PUSHVEC,		-- PUSHVECTOR [1.0,2.0,3.0]
+      INSTR_PUSHMAT,		-- PUSHMATRIX
+      INSTR_PUSHVEC,		-- PUSHVECTOR
 
       -- Right value (variable values)
       INSTR_RVALINT,
@@ -103,19 +103,20 @@ package VirtualMachine.InstructionFeeder is
       INSTR_ADDVEC,
       INSTR_MULVEC,
       INSTR_SCALEVEC,
-
-      -- Getters for vectors
-      INSTR_VECCOMP,		-- int
+      INSTR_VECCOMP,
 
       -- Arithmetics for matrices
       INSTR_MULMAT,
       INSTR_MULMATVEC,
 
-      -- Trigonometry
+      -- Trigonometry/numerics
       INSTR_SIN,
       INSTR_COS,
       INSTR_ARCSIN,
       INSTR_ARCCOS,
+      INSTR_SQRT,
+      INSTR_ABSINT,
+      INSTR_ABSFLOAT,
 
       INSTR_ITOF,
       INSTR_FTOI,

@@ -1,7 +1,0 @@
-default:[[0.0, 0.0, 0.0],[0.0, 0.0, 0.0],[0.0, 0.0, 0.0]]
-prefix:m
-name:Matrix
-color:0,255,0
-static:false
-pattern:[[\d,\d,\d],[\d,\d,\d],[\d,\d,\d]]
-
