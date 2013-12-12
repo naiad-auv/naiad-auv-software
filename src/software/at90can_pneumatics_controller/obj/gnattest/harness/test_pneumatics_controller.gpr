@@ -1,0 +1,14 @@
+with "aunit";
+with "..\..\..\pneumatics_controller.gpr";
+project test_pneumatics_controller is
+
+   for Source_Dirs use
+     ("..\tests",
+      "common");
+
+   package Compiler is
+      for Default_Switches ("ada") use
+        ("-g", "-O1", "-gnatyM0", "-gnata");
+   end Compiler;
+
+end test_pneumatics_controller;

@@ -1,0 +1,94 @@
+<tests_mapping mode="monolith">
+   <unit source_file="avr-at90can128-calendar.ads">
+      <test_unit target_file="avr-at90can128-calendar-test_data-tests.ads">
+         <setup file="avr-at90can128-calendar-test_data.adb" line="3"  column="4"/>
+         <teardown file="avr-at90can128-calendar-test_data.adb" line="9"  column="4"/>
+         <tested name="Clock" line="8" column="4">
+            <test file="avr-at90can128-calendar-test_data-tests.adb" line="13" column="1" timestamp="2013-10-11 09:52:32"/>
+         </tested>
+         <tested name="Plus" line="10" column="4">
+            <test file="avr-at90can128-calendar-test_data-tests.adb" line="34" column="1" timestamp="2013-10-11 09:52:32"/>
+         </tested>
+         <tested name="Plus" line="15" column="4">
+            <test file="avr-at90can128-calendar-test_data-tests.adb" line="55" column="1" timestamp="2013-10-11 09:52:32"/>
+         </tested>
+         <tested name="Minus" line="20" column="4">
+            <test file="avr-at90can128-calendar-test_data-tests.adb" line="76" column="1" timestamp="2013-10-11 09:52:32"/>
+         </tested>
+         <tested name="Minus" line="25" column="4">
+            <test file="avr-at90can128-calendar-test_data-tests.adb" line="97" column="1" timestamp="2013-10-11 09:52:32"/>
+         </tested>
+         <tested name="Less_Than" line="30" column="4">
+            <test file="avr-at90can128-calendar-test_data-tests.adb" line="118" column="1" timestamp="2013-10-11 09:52:32"/>
+         </tested>
+         <tested name="Less_Than_Or_Equal" line="34" column="4">
+            <test file="avr-at90can128-calendar-test_data-tests.adb" line="139" column="1" timestamp="2013-10-11 09:52:32"/>
+         </tested>
+         <tested name="Greater_Than" line="38" column="4">
+            <test file="avr-at90can128-calendar-test_data-tests.adb" line="160" column="1" timestamp="2013-10-11 09:52:32"/>
+         </tested>
+         <tested name="Greater_Than_Or_Equal" line="42" column="4">
+            <test file="avr-at90can128-calendar-test_data-tests.adb" line="181" column="1" timestamp="2013-10-11 09:52:32"/>
+         </tested>
+         <tested name="Delay_ms" line="46" column="4">
+            <test file="avr-at90can128-calendar-test_data-tests.adb" line="202" column="1" timestamp="2013-10-11 09:52:32"/>
+         </tested>
+         <tested name="Delay_Until" line="49" column="4">
+            <test file="avr-at90can128-calendar-test_data-tests.adb" line="223" column="1" timestamp="2013-10-11 09:52:32"/>
+         </tested>
+         <tested name="Init" line="52" column="4">
+            <test file="avr-at90can128-calendar-test_data-tests.adb" line="244" column="1" timestamp="2013-10-11 09:52:32"/>
+         </tested>
+         <dangling>
+         </dangling>
+      </test_unit>
+   </unit>
+   <unit source_file="digital_io.ads">
+      <test_unit target_file="digital_io-test_data-tests.ads">
+         <setup file="digital_io-test_data.adb" line="3"  column="4"/>
+         <teardown file="digital_io-test_data.adb" line="9"  column="4"/>
+         <tested name="Make_Output_Pin" line="12" column="4">
+            <test file="digital_io-test_data-tests.adb" line="13" column="1" timestamp="2013-10-11 09:52:32"/>
+         </tested>
+         <tested name="Make_Input_Pin" line="13" column="4">
+            <test file="digital_io-test_data-tests.adb" line="34" column="1" timestamp="2013-10-11 09:52:32"/>
+         </tested>
+         <tested name="Clear_Pin" line="14" column="4">
+            <test file="digital_io-test_data-tests.adb" line="55" column="1" timestamp="2013-10-11 09:52:32"/>
+         </tested>
+         <tested name="Set_Pin" line="15" column="4">
+            <test file="digital_io-test_data-tests.adb" line="76" column="1" timestamp="2013-10-11 09:52:32"/>
+         </tested>
+         <tested name="bRead_Pin" line="16" column="4">
+            <test file="digital_io-test_data-tests.adb" line="97" column="1" timestamp="2013-10-11 09:52:32"/>
+         </tested>
+         <dangling>
+         </dangling>
+      </test_unit>
+   </unit>
+   <unit source_file="pneumatics.ads">
+      <test_unit target_file="pneumatics-test_data-tests.ads">
+         <setup file="pneumatics-test_data.adb" line="3"  column="4"/>
+         <teardown file="pneumatics-test_data.adb" line="9"  column="4"/>
+         <tested name="Controller" line="14" column="4">
+            <test file="pneumatics-test_data-tests.adb" line="13" column="1" timestamp="2013-10-11 09:52:32"/>
+         </tested>
+         <dangling>
+         </dangling>
+      </test_unit>
+   </unit>
+   <unit source_file="valve_generic.ads">
+      <test_unit target_file="valve_generic-test_data-tests.ads">
+         <setup file="valve_generic-test_data.adb" line="3"  column="4"/>
+         <teardown file="valve_generic-test_data.adb" line="9"  column="4"/>
+         <tested name="Actuate_For_Duration" line="9" column="4">
+            <test file="valve_generic-test_data-tests.adb" line="13" column="1" timestamp="2013-10-11 09:52:32"/>
+         </tested>
+         <tested name="Actuate" line="10" column="4">
+            <test file="valve_generic-test_data-tests.adb" line="34" column="1" timestamp="2013-10-11 09:52:32"/>
+         </tested>
+         <dangling>
+         </dangling>
+      </test_unit>
+   </unit>
+</tests_mapping>

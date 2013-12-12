@@ -37,12 +37,10 @@ package CAN_Defs is
 
    MSG_SIMULATION_MODE_ID		: constant CAN_ID := (11, False);
    MSG_SIMULATION_MODE_CONFIRM_ID	: constant CAN_ID := (89, False);
-   SIMULATION_MODE_ACTIVE		: constant Interfaces.Unsigned_8 := 0;
-   SIMULATION_MODE_NOT_ACTIVE		: constant Interfaces.Unsigned_8 := 255;
-   MSG_SIMULATION_MODE_ACTIVE		: constant CAN_Message := (ID => MSG_SIMULATION_MODE_ID, Len => 1, Data => (SIMULATION_MODE_ACTIVE, others => 0) );
-   MSG_SIMULATION_MODE_ACTIVE_CONFIRM	: constant CAN_Message := (ID => MSG_SIMULATION_MODE_CONFIRM_ID, Len => 1, Data => (SIMULATION_MODE_ACTIVE, others => 0) );
-   MSG_SIMULATION_MODE_NOT_ACTIVE	: constant CAN_Message := (ID => MSG_SIMULATION_MODE_ID, Len => 1, Data => (SIMULATION_MODE_NOT_ACTIVE, others => 0) );
-   MSG_SIMULATION_MODE_NOT_ACTIVE_CONFIRM : constant CAN_Message := (ID => MSG_SIMULATION_MODE_CONFIRM_ID, Len => 1, Data => (SIMULATION_MODE_NOT_ACTIVE, others => 0) );
+   MSG_SIMULATION_MODE_ACTIVE		: constant CAN_Message := (ID => MSG_SIMULATION_MODE_ID, Len => 1, Data => (0, others => 0) );
+   MSG_SIMULATION_MODE_ACTIVE_CONFIRM	: constant CAN_Message := (ID => MSG_SIMULATION_MODE_CONFIRM_ID, Len => 1, Data => (0, others => 0) );
+   MSG_SIMULATION_MODE_NOT_ACTIVE	: constant CAN_Message := (ID => MSG_SIMULATION_MODE_ID, Len => 1, Data => (255, others => 0) );
+   MSG_SIMULATION_MODE_NOT_ACTIVE_CONFIRM : constant CAN_Message := (ID => MSG_SIMULATION_MODE_CONFIRM_ID, Len => 1, Data => (255, others => 0) );
 
    MSG_SENSOR_ID			: constant CAN_ID := (18, False);
 
@@ -68,6 +66,5 @@ package CAN_Defs is
    MSG_IMU_ORIENTATION_ID		: constant CAN_ID := (12, False);
    MSG_IMU_ACCELERATION_ID		: constant CAN_ID := (13, False);
    MSG_GYRO_YAW_ID			: constant CAN_ID := (14, False);
-
 
 end CAN_Defs;
