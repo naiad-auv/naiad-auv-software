@@ -1,0 +1,45 @@
+with "../ViewModel_Wanted_Pos/viewmodel_wanted_pos.gpr";
+with "../drawing/drawing.gpr";
+with "../../../lib/text_Handling/text_handling.gpr";
+with "../ViewModel_Actuators/viewmodel_actuators.gpr";
+with "../ViewModel_Sensors/viewmodel_sensors.gpr";
+with "../ViewModel_Representation/viewmodel_representation.gpr";
+with "../ViewModel_Pid_Errors/viewmodel_pid_errors.gpr";
+with "../ViewModel_Pid_Constants/viewmodel_pid_constants.gpr";
+with "../../../lib/projections/projections.gpr";
+with "../../../lib/exception_handling/exception_handling.gpr";
+with "gtkada";
+
+project GUI is
+
+   type Gtkada_Kind_Type is
+      ("static", "relocatable");
+   Library_Type : Gtkada_Kind_Type := external ("LIBRARY_TYPE", "static");
+   for Object_Dir use "obj";
+   for Exec_Dir use ".";
+
+   case Library_Type is
+
+      when "static" =>
+         for Source_Dirs use ("src/**");
+         for Main use ("main.adb");
+
+      when "relocatable" =>
+         for Source_Dirs use ("src");
+   end case;
+
+   package Builder is
+      for Default_Switches ("ada") use ("-s");
+   end Builder;
+
+   package Compiler is
+      for Default_Switches ("ada") use ("-O2", "-gnat05");
+   end Compiler;
+
+   package Linker is
+      -- for Windows production only ;; remove for Linux / Mac / Win debug
+      for Default_Switches ("ada") use ("-mwindows");
+   end Linker;
+
+end GUI;
+

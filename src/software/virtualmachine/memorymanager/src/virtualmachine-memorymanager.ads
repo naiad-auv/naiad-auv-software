@@ -9,7 +9,6 @@ with VirtualMachine.IntegerStack;
 with VirtualMachine.FloatStack;
 with VirtualMachine.VectorStack;
 with VirtualMachine.MatrixStack;
-with VirtualMachine.AddressStack;
 
 with Math.Vectors;
 with Math.Matrices;
@@ -26,15 +25,13 @@ package VirtualMachine.MemoryManager is
    procedure Push_Float(this : in out CMemoryManager; fValue : in float);
    procedure Push_Vector(this : in out CMemoryManager; xValue : in Math.Vectors.CVector);
    procedure Push_Matrix(this : in out CMemoryManager; xValue : in Math.Matrices.CMatrix);
-   procedure Push_Address(this : in out CMemoryManager; iAddress : in integer);
 
    procedure Pop_Bool(this : in out CMemoryManager; bValue : out boolean);
    procedure Pop_Int(this : in out CMemoryManager; iValue : out integer);
    procedure Pop_Float(this : in out CMemoryManager; fValue : out float);
    procedure Pop_Vector(this : in out CMemoryManager; xValue : out Math.Vectors.CVector);
    procedure Pop_Matrix(this : in out CMemoryManager; xValue : out Math.Matrices.CMatrix);
-   procedure Pop_Address(this : in out CMemoryManager; iAddress : out integer);
-   procedure Pop(this : in out CMemoryManager);
+--   procedure Pop(this : in out CMemoryManager);
 
    procedure Peek_Bool(this : in out CMemoryManager; bValue : out boolean; iOffset : in integer);
    procedure Peek_Int(this : in out CMemoryManager; iValue : out integer; iOffset : in integer);
@@ -48,8 +45,12 @@ package VirtualMachine.MemoryManager is
    procedure Change_Vector(this : in out CMemoryManager; xValue : in Math.Vectors.CVector; iOffset : in integer);
    procedure Change_Matrix(this : in out CMemoryManager; xValue : in Math.Matrices.CMatrix; iOffset : in integer);
 
+
+
+   procedure Print_Info(this : in CMemoryManager);
    procedure Update_Frame_Pointer(this : in out CMemoryManager);
    procedure Push_Frame_Pointer(this : in out CMemoryManager);
+   procedure Push_Stack_Pointer(this : in out CMemoryManager);
    procedure Reset_Previous_Frame_Pointer(this : in out CMemoryManager);
 private
 

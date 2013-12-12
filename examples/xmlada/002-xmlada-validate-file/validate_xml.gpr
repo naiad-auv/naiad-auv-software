@@ -1,0 +1,12 @@
+with "xmlada";
+
+project validate_xml is
+    for Source_Dirs use ("src");
+    for Object_Dir use "obj";
+    for Main use ("main.adb");
+
+    package Compiler is
+       for Local_Configuration_Pragmas use "project_pragmas";
+    end Compiler;
+
+end validate_xml;

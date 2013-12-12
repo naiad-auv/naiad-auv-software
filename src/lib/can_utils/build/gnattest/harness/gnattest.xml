@@ -1,0 +1,22 @@
+<tests_mapping mode="monolith">
+   <unit source_file="can_utils.ads">
+      <test_unit target_file="can_utils-test_data-tests.ads">
+         <setup file="can_utils-test_data.adb" line="3"  column="4"/>
+         <teardown file="can_utils-test_data.adb" line="9"  column="4"/>
+         <tested name="Bytes_To_Message_Header" line="29" column="4">
+            <test file="can_utils-test_data-tests.adb" line="13" column="1" timestamp="2013-12-10 07:40:02"/>
+         </tested>
+         <tested name="Bytes_To_Message_Data" line="31" column="4">
+            <test file="can_utils-test_data-tests.adb" line="34" column="1" timestamp="2013-12-10 07:40:02"/>
+         </tested>
+         <tested name="Message_To_Bytes" line="33" column="4">
+            <test file="can_utils-test_data-tests.adb" line="55" column="1" timestamp="2013-12-10 07:40:02"/>
+         </tested>
+         <tested name="Calculate_Checksum" line="46" column="4">
+            <test file="can_utils-test_data-tests.adb" line="76" column="1" timestamp="2013-12-10 07:40:02"/>
+         </tested>
+         <dangling>
+         </dangling>
+      </test_unit>
+   </unit>
+</tests_mapping>

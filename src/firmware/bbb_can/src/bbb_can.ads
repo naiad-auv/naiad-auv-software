@@ -11,8 +11,8 @@
 ---------------------------------------------------------------------------
 
 with CAN_Defs;
-with AVR.AT90CAN128;
-with AVR.AT90CAN128.CAN;
+--  with AVR.AT90CAN128;
+--  with AVR.AT90CAN128.CAN;
 with UartWrapper;
 with GNAT.Serial_Communications;
 

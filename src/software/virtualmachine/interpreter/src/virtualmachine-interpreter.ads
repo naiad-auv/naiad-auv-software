@@ -10,6 +10,8 @@ with Text_Handling;
 with Ada.Finalization;
 with Ada.Unchecked_Deallocation;
 with Ada.Numerics.Elementary_Functions;
+with Ada.Real_Time;
+with Ada.Text_IO;
 
 package VirtualMachine.Interpreter is
 
@@ -31,6 +33,8 @@ private
          iProgramCounter : integer;
          fTimer : float;
 
+         bFinished : boolean := false;
+
          fFloatPrecision : float := 0.0;
          fVectorPrecision : float := Math.Vectors.fVECTOR_PRECISION;
          fMatrixPrecision : float := Math.Matrices.fMATRIX_PRECISION;
@@ -39,27 +43,28 @@ private
    procedure Finalize(this : in out CInterpreter);
    procedure Initialize(this : in out CInterpreter);
 
+   procedure Instr_Push_Frame_Pointer (this : in out CInterpreter);
    procedure Instr_Push_Bool (this : in out CInterpreter; bArgument : in boolean);
    procedure Instr_Push_Int (this : in out CInterpreter; iArgument : in integer);
    procedure Instr_Push_Float (this : in out CInterpreter; fArgument : in float);
-   procedure Instr_Push_Vector (this : in out CInterpreter; xArgument : in Math.Vectors.CVector);
-   procedure Instr_Push_Matrix (this : in out CInterpreter; xArgument : in Math.Matrices.CMatrix);
+   procedure Instr_Push_Vector (this : in out CInterpreter);
+   procedure Instr_Push_Matrix (this : in out CInterpreter);
 
    procedure Instr_Branch_False (this : in out CInterpreter; iArgument : in integer);
    procedure Instr_Branch_Always (this : in out CInterpreter; iArgument : in integer);
-   procedure Instr_Branch_Subroutine (this : in out CInterpreter; iArgument : in integer);
+   procedure Instr_Branch_Subroutine (this : in out CInterpreter);
 
-   procedure Instr_Pop (this : in out CInterpreter; iArgument : in integer);
+   procedure Instr_Pop_Integer (this : in out CInterpreter);
+   procedure Instr_Pop_Boolean (this : in out CInterpreter);
+   procedure Instr_Pop_Float (this : in out CInterpreter);
+   procedure Instr_Pop_Vector (this : in out CInterpreter);
+   procedure Instr_Pop_Matrix (this : in out CInterpreter);
 
-   procedure Instr_Right_Value_Integer (this : in out CInterpreter; iArgument : in integer);
-   procedure Instr_Right_Value_Boolean (this : in out CInterpreter; iArgument : in integer);
-   procedure Instr_Right_Value_Float (this : in out CInterpreter; iArgument : in integer);
-   procedure Instr_Right_Value_Matrix (this : in out CInterpreter; iArgument : in integer);
-   procedure Instr_Right_Value_Vector (this : in out CInterpreter; iArgument : in integer);
-
-   procedure Instr_Left_Value (this : in out CInterpreter; iArgument : in integer);
-
-   procedure Instr_Vector_Component (this : in out CInterpreter; iArgument : in integer);
+   procedure Instr_Right_Value_Integer (this : in out CInterpreter);
+   procedure Instr_Right_Value_Boolean (this : in out CInterpreter);
+   procedure Instr_Right_Value_Float (this : in out CInterpreter);
+   procedure Instr_Right_Value_Matrix (this : in out CInterpreter);
+   procedure Instr_Right_Value_Vector (this : in out CInterpreter);
 
    procedure Instr_Link (this : in out CInterpreter);
    procedure Instr_Unlink (this : in out CInterpreter);
@@ -100,21 +105,39 @@ private
    procedure Instr_Negate_Integer (this : in out CInterpreter);
    procedure Instr_Add_Integer (this : in out CInterpreter);
    procedure Instr_Multiply_Integer (this : in out CInterpreter);
+   procedure Instr_Divide_Integer (this : in out CInterpreter);
 
    procedure Instr_Negate_Float (this : in out CInterpreter);
    procedure Instr_Add_Float (this : in out CInterpreter);
    procedure Instr_Multiply_Float (this : in out CInterpreter);
+   procedure Instr_Divide_Float (this : in out CInterpreter);
 
    procedure Instr_Negate_Vector (this : in out CInterpreter);
    procedure Instr_Add_Vector (this : in out CInterpreter);
    procedure Instr_Multiply_Vector (this : in out CInterpreter);
+   procedure Instr_Scale_Vector (this : in out CInterpreter);
+   procedure Instr_Vector_Component (this : in out CInterpreter; iArgument : in integer);
 
    procedure Instr_Multiply_Matrix (this : in out CInterpreter);
+   procedure Instr_Multiply_Matrix_Vector (this : in out CInterpreter);
 
    procedure Instr_Sin (this : in out CInterpreter);
    procedure Instr_Cos (this : in out CInterpreter);
    procedure Instr_ArcSin (this : in out CInterpreter);
    procedure Instr_ArcCos (this : in out CInterpreter);
+   procedure Instr_Sqrt (this : in out CInterpreter);
+   procedure Instr_Abs_Integer (this : in out CInterpreter);
+   procedure Instr_Abs_Float (this : in out CInterpreter);
+
+   procedure Instr_Integer_To_Float (this : in out CInterpreter);
+   procedure Instr_Float_To_Integer (this : in out CInterpreter);
+
+   procedure Instr_Print_Integer (this : in out CInterpreter);
+   procedure Instr_Print_Boolean (this : in out CInterpreter);
+   procedure Instr_Print_Float (this : in out CInterpreter);
+   procedure Instr_Print_Vector (this : in out CInterpreter);
+   procedure Instr_Print_Matrix (this : in out CInterpreter);
+
 
    procedure Instr_Null (this : in out CInterpreter);
 

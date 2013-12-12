@@ -21,7 +21,7 @@ package VirtualMachine.InstructionFeeder is
       INSTR_BRA,	-- int
 
       -- Subroutines
-      INSTR_BSR,	-- int
+      INSTR_BSR,
       INSTR_RTS,
 
       -- Memory allocation
@@ -32,24 +32,26 @@ package VirtualMachine.InstructionFeeder is
       INSTR_DECLVEC,
 
       -- Memory deallocation
-      INSTR_POP,	-- int
+      INSTR_POPINT,
+      INSTR_POPBOOL,
+      INSTR_POPFLOAT,
+      INSTR_POPMAT,
+      INSTR_POPVEC,
 
       -- Constants
+      INSTR_PUSHFP,
       INSTR_PUSHINT,		-- PUSHINT 3
       INSTR_PUSHBOOL,		-- PUSHBOOL TRUE
       INSTR_PUSHFLOAT,		-- PUSHFLOAT 8.34
-      INSTR_PUSHMAT,		-- PUSHMATRIX [[11.0,12.0,13.0],[21.0,22.0,23.0],[31.0,32.0,33.0]]
-      INSTR_PUSHVEC,		-- PUSHVECTOR [1.0,2.0,3.0]
+      INSTR_PUSHMAT,		-- PUSHMATRIX
+      INSTR_PUSHVEC,		-- PUSHVECTOR
 
       -- Right value (variable values)
-      INSTR_RVALINT,		-- int
-      INSTR_RVALBOOL,		-- int
-      INSTR_RVALFLOAT,		-- int
-      INSTR_RVALMAT,		-- int
-      INSTR_RVALVEC,		-- int
-
-      -- Left value (variable addresses)
-      INSTR_LVAL,		-- int
+      INSTR_RVALINT,
+      INSTR_RVALBOOL,
+      INSTR_RVALFLOAT,
+      INSTR_RVALMAT,
+      INSTR_RVALVEC,
 
       -- Assignments
       INSTR_ASSINT,
@@ -87,29 +89,46 @@ package VirtualMachine.InstructionFeeder is
       -- Arithmetics for integers
       INSTR_NEGINT,
       INSTR_ADDINT,
+      INSTR_DIVINT,
       INSTR_MULINT,
 
       -- Arithmetics for floats
       INSTR_NEGFLOAT,
       INSTR_ADDFLOAT,
+      INSTR_DIVFLOAT,
       INSTR_MULFLOAT,
 
       -- Arithmetics for vectors
       INSTR_NEGVEC,
       INSTR_ADDVEC,
       INSTR_MULVEC,
-
-      -- Getters for vectors
-      INSTR_VECCOMP,		-- int
+      INSTR_SCALEVEC,
+      INSTR_VECCOMP,
 
       -- Arithmetics for matrices
       INSTR_MULMAT,
+      INSTR_MULMATVEC,
 
-      -- Trigonometry
+      -- Trigonometry/numerics
       INSTR_SIN,
       INSTR_COS,
       INSTR_ARCSIN,
-      INSTR_ARCCOS
+      INSTR_ARCCOS,
+      INSTR_SQRT,
+      INSTR_ABSINT,
+      INSTR_ABSFLOAT,
+
+      INSTR_ITOF,
+      INSTR_FTOI,
+
+      INSTR_PRINTINT,
+      INSTR_PRINTBOOL,
+      INSTR_PRINTFLOAT,
+      INSTR_PRINTVEC,
+      INSTR_PRINTMAT,
+
+      INSTR_EOF
+
      );
 
 

@@ -1,0 +1,35 @@
+primitive Compare_Integers is
+	iLeftOperand : in integer;
+	iRightOperand : in integer;
+
+	bLessThan : out boolean;
+	bLessThanOrEqual : out boolean;
+	bEqual : out boolean
+	bMoreThanOrEqual : out boolean;
+	bMoreThan : out boolean;
+
+	procedure main is
+	begin
+		bLessThan := iLeftOperand < iRightOperand;
+		bLessThanOrEqual := iLeftOperand <= iRightOperand;
+		bEqual := iLeftOperand = iRightOperand;
+		bMoreThanOrEqual := iLeftOperand >= iRightOperand;
+		bMoreThan := iLeftOperand > iRightOperand;
+	end main;
+end Compare_Integers;
+
+
+Sequence is
+	Compare_Integers_iLeftOperand_1 : integer;
+	Compare_Integers_iRightOperand_1 : integer;
+
+	Compare_Integers_bLessThan_1 : boolean;
+	Compare_Integers_bLessThanOrEqual_1 : boolean;
+	Compare_Integers_bEqual_1 : boolean
+	Compare_Integers_bMoreThanOrEqual_1 : boolean;
+	Compare_Integers_bMoreThan_1 : boolean;
+begin
+
+	Compare_Integers
+
+end Sequence;
