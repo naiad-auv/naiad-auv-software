@@ -10,9 +10,9 @@ project Main is
    for Object_Dir use "obj";
    for Main use ("main.adb");
 
---     package Builder is
---        for Global_Configuration_Pragmas use "../../../config/ravenscar.adc";
---     end Builder;
+   package Builder is
+      for Global_Configuration_Pragmas use "../../../config/ravenscar.adc";
+   end Builder;
 
 end Main;
 

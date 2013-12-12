@@ -4,7 +4,7 @@ package body MissionControl.SharedTypes is
       procedure Add(xCANMessage : in CAN_Message) is
          pxNewCANMessageListItem : pCCANMessageListItem;
       begin
-         Ada.Text_IO.Put_Line("TCANMessageList: Add called."); -- for testing
+         --Ada.Text_IO.Put_Line("TCANMessageList: Add called."); -- for testing
          pxNewCANMessageListItem := new CCANMessageListItem;
          pxNewCANMessageListItem.xMessage := xCANMessage;
          pxNewCANMessageListItem.pxNextMessage := pxCANMessageList;
@@ -15,7 +15,7 @@ package body MissionControl.SharedTypes is
          pxListItem : pCCANMessageListItem;
          pxTrailingListItem : pCCANMessageListItem;
       begin
-         Ada.Text_IO.Put_Line("TCANMessageList: Remove called."); -- for testing
+         --Ada.Text_IO.Put_Line("TCANMessageList: Remove called."); -- for testing
          if pxCANMessageList /= null then
             if pxCANMessageList.pxNextMessage = null then
                xCANMessage := pxCANMessageList.xMessage;
@@ -58,7 +58,7 @@ package body MissionControl.SharedTypes is
       procedure Add(xNewObject : in TListObject'Class) is
          pxNewObject : pTListObject;
       begin
-         Ada.Text_IO.Put_Line("TObjectList: Add called."); -- for testing
+         --Ada.Text_IO.Put_Line("TObjectList: Add called."); -- for testing
          pxNewObject := new TListObject'class'(xNewObject);
          pxNewObject.pxNextObject := pxObjectList;
          pxObjectList := pxNewObject;
@@ -68,7 +68,7 @@ package body MissionControl.SharedTypes is
          pxObject : pTListObject;
          pxTrailingObject : pTListObject;
       begin
-         Ada.Text_IO.Put_Line("TObjectList: Remove called."); -- for testing
+         --Ada.Text_IO.Put_Line("TObjectList: Remove called."); -- for testing
          if pxObjectList /= null then
             if pxObjectList.pxNextObject = null then
                pxObjectRemoved := new TListObject'class'(pxObjectList.all);
@@ -88,9 +88,8 @@ package body MissionControl.SharedTypes is
 
 
    function bIs_Same_Type_As (this : in TListObject'Class; xCompareWith : in TListObject'Class) return boolean is
-      use Ada.Tags;
    begin
-      return this'Tag = xCompareWith'Tag;
+      return this in xCompareWith;
    end bIs_Same_Type_As;
 
    function iCount(this : in TListObject'Class) return integer is

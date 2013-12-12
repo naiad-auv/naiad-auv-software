@@ -1,7 +1,7 @@
 with MissionControl;
 with MissionControl.SharedTypes;
 
-with Ada.Text_IO; -- for testing
+--with Ada.Text_IO; -- for testing
 
 package MissionControl.TCP is
 

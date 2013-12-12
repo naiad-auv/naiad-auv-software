@@ -3,14 +3,14 @@ package body MissionControl.CAN is
    protected body CAN_Resource is
       procedure Send(xCANMessage : in MissionControl.SharedTypes.CAN_Message) is
       begin
-         Ada.Text_IO.Put_Line("CAN_Resource: Send called."); -- for testing
+         --Ada.Text_IO.Put_Line("CAN_Resource: Send called."); -- for testing
          null;
       end Send;
 
       procedure Receive(xCANMessage : out MissionControl.SharedTypes.CAN_Message; bMessageReceived : out boolean) is
          xNewCANMessage : MissionControl.SharedTypes.CAN_Message;
       begin
-         Ada.Text_IO.Put_Line("CAN_Resource: Receive called."); -- for testing
+         --Ada.Text_IO.Put_Line("CAN_Resource: Receive called."); -- for testing
          xCANMessage := xNewCANMessage;
          bMessageReceived := true;
       end Receive;
@@ -35,7 +35,7 @@ package body MissionControl.CAN is
             CAN_Resource.Send(xCANMessage => xNewCANMessage);
          end if;
 
-         delay 0.5;  -- for testing
+         --delay 0.5;  -- for testing
       end loop;
    end TASK_CAN_IN;
 
@@ -55,7 +55,7 @@ package body MissionControl.CAN is
 
          end if;
 
-         delay 0.5;  -- for testing
+         --delay 0.5;  -- for testing
       end loop;
    end TASK_CAN_OUT;
 
