@@ -2,8 +2,8 @@ with Ada.Real_Time;
 with Ada.Text_IO;
 with Ada.Float_Text_IO;
 
-with Navigation.Dispatcher;
-with Navigation.Thrusters;
+with MotionControl.Dispatcher;
+with MotionControl.Thrusters;
 
 with Math.Matrices;
 with Math.Vectors;
@@ -23,8 +23,8 @@ procedure Main is
    iMicroSeconds : integer;
    iNanoSeconds : integer;
 
-   tfThrusterValues : Navigation.Thrusters.TThrusterValuesArray;
-   pxDispatcher : Navigation.Dispatcher.pCDispatcher;
+   tfThrusterValues : MotionControl.Thrusters.TThrusterValuesArray;
+   pxDispatcher : MotionControl.Dispatcher.pCDispatcher;
 
    xPosition : Math.Vectors.CVector;
    xWantedPosition : Math.Vectors.CVector;
@@ -47,7 +47,7 @@ begin
    xOrientation := Math.Matrices.xCreate_Rotation_Around_X_Axis(tfAngleInDegrees => Math.Angles.TAngle(45.0));
    xWantedOrientation := Math.Matrices.xCreate_Rotation_Around_X_Axis(tfAngleInDegrees => Math.Angles.TAngle(50.0));
    xMatrixMultiplier := Math.Matrices.xCreate_Rotation_Around_Y_Axis(tfAngleInDegrees => Math.Angles.TAngle(5.0));
-   pxDispatcher := Navigation.Dispatcher.pxCreate;
+   pxDispatcher := MotionControl.Dispatcher.pxCreate;
 
       pxDispatcher.Update_Current_Absolute_Position(xNewCurrentAbsolutePosition => xPosition);
       pxDispatcher.Update_Wanted_Absolute_Position(xNewWantedAbsolutePosition => xWantedPosition);
