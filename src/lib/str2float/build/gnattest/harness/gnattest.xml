@@ -1,0 +1,16 @@
+<tests_mapping mode="monolith">
+   <unit source_file="str2float.ads">
+      <test_unit target_file="str2float-test_data-tests.ads">
+         <setup file="str2float-test_data.adb" line="3"  column="4"/>
+         <teardown file="str2float-test_data.adb" line="9"  column="4"/>
+         <tested name="fStr2Float" line="13" column="4">
+            <test file="str2float-test_data-tests.adb" line="13" column="1" timestamp="2013-12-10 07:59:21"/>
+         </tested>
+         <tested name="fChar2Float" line="16" column="4">
+            <test file="str2float-test_data-tests.adb" line="34" column="1" timestamp="2013-12-10 07:59:21"/>
+         </tested>
+         <dangling>
+         </dangling>
+      </test_unit>
+   </unit>
+</tests_mapping>

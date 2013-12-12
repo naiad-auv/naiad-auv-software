@@ -1,0 +1,11 @@
+with "../can_defs/can_defs.gpr";
+
+project Can_Float_Conversions is
+
+   for Object_Dir use "build";
+   for Exec_Dir use "target";
+   for Source_Dirs use ("src");
+   for Main use ("can_float_conversions_main.adb");
+
+end Can_Float_Conversions;
+

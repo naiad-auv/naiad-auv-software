@@ -1,0 +1,14 @@
+with "aunit";
+with "../../../can_utils.gpr";
+project test_can_utils is
+
+   for Source_Dirs use
+     ("../tests",
+      "common");
+
+   package Compiler is
+      for Default_Switches ("ada") use
+        ("-g", "-O1", "-gnatyM0", "-gnata");
+   end Compiler;
+
+end test_can_utils;
