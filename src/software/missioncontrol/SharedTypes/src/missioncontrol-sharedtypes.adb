@@ -88,8 +88,9 @@ package body MissionControl.SharedTypes is
 
 
    function bIs_Same_Type_As (this : in TListObject'Class; xCompareWith : in TListObject'Class) return boolean is
+      use Ada.Tags;
    begin
-      return this in xCompareWith;
+      return this'Tag = xCompareWith'Tag;
    end bIs_Same_Type_As;
 
    function iCount(this : in TListObject'Class) return integer is
