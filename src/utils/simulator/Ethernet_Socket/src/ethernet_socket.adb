@@ -8,7 +8,7 @@
 with Ada.Text_IO;
 with GNAT.Sockets;
 with Interfaces;
-with CAN_Link_Utils;
+with CAN_Utils;
 with Ada.Exceptions;
 with Interfaces.C;
 
@@ -247,7 +247,7 @@ package body Ethernet_Socket is
       WHEN GNAT.Sockets.Completed =>
          if GNAT.Sockets.Is_Set(Wset, Socket) then
             Ada.Text_Io.Put_Line("SelectorStatus: " & GNAT.Sockets.Selector_Status'Image(Status));
-            CAN_Link_Utils.Message_To_Bytes(sBuffer, msg);
+            CAN_Utils.Message_To_Bytes(sBuffer, msg);
 
 --              Ada.Text_IO.Put_line (CAN_Link_Utils.CAN_Identifier'Image(msg.ID.Identifier) ) ;
 --              Ada.Text_IO.Put_line (Boolean'Image(msg.ID.isExtended) ) ;
@@ -320,8 +320,8 @@ package body Ethernet_Socket is
 --              CAN_Link_Utils.Bytes_To_Message_Header(sBuffer(1 .. 8), msg, u8Check);
 --              CAN_Link_Utils.Bytes_To_Message_Data(sBuffer(9 .. 16), msg, u8Check);
 
-            CAN_Link_Utils.Bytes_To_Message_Header(sBufferHead, msg, u8Check);
-            CAN_Link_Utils.Bytes_To_Message_Data(sBufferData, msg, u8Check);
+            CAN_Utils.Bytes_To_Message_Header(sBufferHead, msg, u8Check);
+            CAN_Utils.Bytes_To_Message_Data(sBufferData, msg, u8Check);
             Ada.Text_IO.Put_line ( "Message received... " ) ;
 --              Ada.Text_IO.Put_line (CAN_Link_Utils.CAN_Identifier'Image(msg.ID.Identifier) ) ;
 --              Ada.Text_IO.Put_line (Boolean'Image(msg.ID.isExtended) ) ;

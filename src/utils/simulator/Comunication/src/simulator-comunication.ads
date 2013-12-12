@@ -2,7 +2,7 @@ with simulator.Comunication_Prot_Obj;
 with simulator.submarine;
 with math.Vectors;
 with math.Matrices;
-with CAN_Link_Utils;
+with CAN_Utils;
 with CAN_Defs;
 with Ethernet_Socket;
 with simulator.Motion_Control_Wrapper;
