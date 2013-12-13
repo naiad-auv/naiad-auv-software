@@ -4,7 +4,7 @@
 -- returns a message with ID one higher than the message it recieved.
 
 -- Written by Nils Brynedal Ignell for the Naiad AUV project
--- Last changed (yyyy-mm-dd): 2013-12-12
+-- Last changed (yyyy-mm-dd): 2013-12-13
 
 ---------------------------------------------------------------------------
 
@@ -17,6 +17,7 @@ procedure AT90CAN_CAN_Test is
    msg :  CAN_Defs.CAN_Message;
    bReceived : Boolean;
 
+   use CAN_Defs;
 begin
 
    AVR.AT90CAN128.CAN.Can_Set_All_MOB_ID_MASK((0, false), (0, false));
@@ -34,6 +35,7 @@ begin
       AVR.AT90CAN128.CAN.Can_Get(msg, bReceived, 0);
 
       if bReceived then
+         msg.ID.Identifier := msg.ID.Identifier + 1;
          AVR.AT90CAN128.CAN.Can_Send(msg);
       end if;
    end loop;
