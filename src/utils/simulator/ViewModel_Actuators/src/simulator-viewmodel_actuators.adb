@@ -39,4 +39,59 @@ package body Simulator.ViewModel_Actuators is
       return this.pxModel.fGet_Motor_Force(simulator.Model.iMotorIndex(iIndexMotor));
    end fGet_Motor_Force;
 
+   ------------------------------
+   -- bGet_Left_Gripper_Status --
+   ------------------------------
+
+   function bGet_Left_Gripper_Status(this : in CViewModel_Actuators; iIndexMotor : iMotorIndex) return boolean is
+   begin
+      return this.pxModel.bGet_Left_Gripper_Status;
+   end bGet_Left_Gripper_Status;
+
+   -------------------------------
+   -- bGet_Right_Gripper_Status --
+   -------------------------------
+
+   function bGet_Right_Gripper_Status(this : in CViewModel_Actuators; iIndexMotor : iMotorIndex) return boolean is
+   begin
+      return this.pxModel.bGet_Right_Gripper_Status;
+   end bGet_Right_Gripper_Status;
+
+   -----------------------------
+   -- bGet_Left_Torpedo_Satus --
+   -----------------------------
+
+   function bGet_Left_Torpedo_Satus(this : in CViewModel_Actuators; iIndexMotor : iMotorIndex) return boolean is
+   begin
+      return this.pxModel.bGet_Left_Torpedo_Satus;
+   end bGet_Left_Torpedo_Satus;
+
+   -------------------------------
+   -- bGet_Right_Torpedo_Status --
+   -------------------------------
+
+   function bGet_Right_Torpedo_Status(this : in CViewModel_Actuators; iIndexMotor : iMotorIndex) return boolean is
+   begin
+      return this.pxModel.bGet_Right_Torpedo_Status;
+   end bGet_Right_Torpedo_Status;
+
+   -----------------------------
+   -- bGet_Left_Dropper_Satus --
+   -----------------------------
+
+   function bGet_Left_Dropper_Satus(this : in CViewModel_Actuators; iIndexMotor : iMotorIndex) return boolean is
+   begin
+      return this.pxModel.bGet_Left_Dropper_Satus;
+   end bGet_Left_Dropper_Satus;
+
+   -------------------------------
+   -- bGet_Right_Dropper_Status --
+   -------------------------------
+
+   function bGet_Right_Dropper_Status(this : in CViewModel_Actuators; iIndexMotor : iMotorIndex) return boolean is
+   begin
+      return this.pxModel.bGet_Right_Dropper_Status;
+   end bGet_Right_Dropper_Status;
+
+
 end Simulator.ViewModel_Actuators;
