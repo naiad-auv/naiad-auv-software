@@ -89,11 +89,8 @@ package body TCPWrapper is
 
    function eGet_Next_Packet_Type (this : in CTCPConnection) return EPacketType is
       bNextByte : Ada.Streams.Stream_Element_Array(1 .. 1);
-      --for bNextByte'Size use 8;
-
       eType : EPacketType;
       for eType'Address use bNextByte'Address;
-
       xOffset : Ada.Streams.Stream_Element_Offset := bNextByte'Last;
    begin
       if this.iBytes_Available_For_Reading > 0 then
@@ -114,7 +111,6 @@ package body TCPWrapper is
    begin
       if this.tiSocket = GNAT.Sockets.No_Socket then
          raise Socket_Is_Not_Initialized;
---         return 0;
       end if;
 
       GNAT.Sockets.Control_Socket(Socket  => this.tiSocket,
