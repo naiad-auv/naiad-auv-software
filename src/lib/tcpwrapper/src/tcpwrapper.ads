@@ -1,36 +1,40 @@
+with Ada.Streams.Stream_IO;
 with GNAT.Sockets;
 
 package TCPWrapper is
    type CTCPPacket is tagged private;
    type CTCPConnection is tagged private;
 
-   procedure iBytes_Available_For_Reading(this : in out CTCPConnection; iBytesAvail : out integer);
-   function xConnect_To(sAddress : in string; iPort : in integer; dTimeout : in Duration := GNAT.Sockets.Forever) return CTCPConnection;
+   type EPacketType is (PACKET_NULL,
+                        PACKET_CAN,
+                        PACKET_FILE_TRANSFER_START);
+   for EPacketType'Size use 8;
 
-   -- leave sAddress empty to allow any IP to connect, leave iPort to 0 to allow any port
-   function xStart_Listening(sAddress : in string := ""; iPort : in integer := 0) return CTCPConnection;
+   function xConnect_To(sAddress : in string; iPort : in integer; dTimeout : in Duration := GNAT.Sockets.Forever) return CTCPConnection;
+   function xStart_Listening(sAddress : in string := ""; iPort : in integer) return CTCPConnection; -- leave sAddress empty to allow any IP to connect
+
+   function iBytes_Available_For_Reading (this : in CTCPConnection) return integer;
    procedure bIs_Connected(this : in out CTCPConnection; bResult : out boolean);
-   procedure xReceive_Packet(this : in out CTCPConnection; xPacket : in out CTCPPacket'class);
+
+   function eGet_Next_Packet_Type (this : in CTCPConnection) return EPacketType;
+   procedure Receive_Packet(this : in out CTCPConnection; xPacket : in out CTCPPacket'class; bSuccess : out boolean);
    procedure Send_Packet(this : in out CTCPConnection; xPacket : in CTCPPacket'class);
 
    procedure Close_Connection(this : in out CTCPConnection);
 
    procedure xRead_Custom_Packet(this : in out CTCPPacket; pStream : GNAT.Sockets.Stream_Access) is null;
    procedure xWrite_Custom_Packet(this : in CTCPPacket; pStream : GNAT.Sockets.Stream_Access) is null;
-   procedure Set_Size(this : in out CTCPPacket'class ; iSize : in Positive);
-   procedure Set_Type(this : in out CTCPPacket'class ; iType : in Integer);
+   function iGet_Size_In_Bytes(this : in CTCPPacket) return integer;
 
-   function bGet_Status_Changed(this : in CTCPPacket'Class) return boolean;
-   procedure Reset_Status(this : in out CTCPPacket'Class);
+   procedure Set_Type(this : in out CTCPPacket; eType : in EPacketType);
+
 
 
 private
 
    type CTCPPacket is tagged
       record
-         bChanged : Boolean := false;
-         iSize : Positive;
-         iType : integer;
+         eType : EPacketType;
       end record;
 
 
