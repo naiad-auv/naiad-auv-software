@@ -308,12 +308,17 @@ package body Simulator.Comunication is
    task body TCommunicationTask is
       xTCPConnection : TCPWrapper.CTCPConnection;
       xPacket : TCPCANWrapper.CTCPCANPacket;
-      bIsConnected : boolean;
+      bIsConnected : boolean := false;
+      iBytesAvail : integer;
    begin
       xpacket.Set_Type(TCPWrapper.PACKET_CAN);
-      xTCPConnection := TCPWrapper.xConnect_To(sAddress => "127.0.0.1",
-                                               iPort    => 5555);
-      xTCPConnection.bIs_Connected(bResult => bIsConnected);
+      while not bIsConnected loop
+         xTCPConnection := TCPWrapper.xConnect_To(sAddress => "127.0.0.1",
+                                                  iPort    => 5555);
+         xTCPConnection.bIs_Connected(bResult => bIsConnected);
+      end loop;
+      xTCPConnection.iBytes_Available_For_Reading
+
    end TCommunicationTask;
 
    ---------------------------

@@ -1,0 +1,10 @@
+with "../../src/lib/tcpCANwrapper/tcpcanwrapper.gpr";
+
+project Recieve_Can_Over_Tcp is
+
+   for Source_Dirs use ("src");
+   for Object_Dir use "obj";
+   for Main use ("main.adb");
+
+end Recieve_Can_Over_Tcp;
+

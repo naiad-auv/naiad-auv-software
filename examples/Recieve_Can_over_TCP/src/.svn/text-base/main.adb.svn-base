@@ -1,0 +1,30 @@
+with TCPCANWrapper;
+with TCPWrapper;
+with Ada;
+with ada.Text_IO;
+procedure Main is
+   xConnection : TCPWrapper.CTCPConnection;
+   xPacket : TCPCANWrapper.CTCPCANPacket;
+   bConnected : boolean := false;
+   iBytes : integer;
+begin
+   xPacket.Set_Size(xPacket.iGet_Size);
+   xPacket.Set_Type(1);
+   while bConnected = false loop
+      xConnection := TCPWrapper.xConnect_To(sAddress => "127.0.0.1",
+                                            iPort    => 5553,
+                                            dTimeout => 0.0);
+      xConnection.bIs_Connected(bResult => bConnected);
+      delay(0.1);
+   end loop;
+   loop
+      delay(0.1);
+      xConnection.iBytes_Available_For_Reading(iBytesAvail => iBytes);
+      if iBytes > 4 then
+         xConnection.xReceive_Packet(xPacket => xPacket);
+         ada.Text_IO.Put_Line(xPacket.sGet_String);
+      end if;
+
+   end loop;
+
+end Main;

@@ -1,3 +1,5 @@
+with "../../../lib/tcpwrapper/tcpwrapper.gpr";
+with "../../../lib/tcpCANwrapper/tcpcanwrapper.gpr";
 with "../Ethernet_Socket/ethernet_socket.gpr";
 with "../Comunication_prot_obj/comunication_prot_obj.gpr";
 
