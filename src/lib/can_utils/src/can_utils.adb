@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------
 -- Written by Nils Brynedal Ignell for the Naiad AUV project
--- Last changed (yyyy-mm-dd): 2013-11-28
+-- Last changed (yyyy-mm-dd): 2013-12-13
 ---------------------------------------------------------------------------
 
 
@@ -27,8 +27,8 @@ package body CAN_Utils is
       msg.ID.Identifier :=
         CAN_Defs.CAN_Identifier(
                                 Standard.Long_Integer(Character'Pos(sBuffer(sBuffer'First + IDHIGH_POS - 1))     * Standard.Long_Integer(16777216)) +
-                                Standard.Long_Integer(Character'Pos(sBuffer(sBuffer'First + IDHIGH_POS)) * Standard.Long_Integer(65536)) +
-                                Standard.Long_Integer(Character'Pos(sBuffer(sBuffer'First + IDHIGH_POS + 1)) * Standard.Long_Integer(256)) +
+                                Standard.Long_Integer(Character'Pos(sBuffer(sBuffer'First + IDHIGH_POS)) 	 * Standard.Long_Integer(65536)) +
+                                Standard.Long_Integer(Character'Pos(sBuffer(sBuffer'First + IDHIGH_POS + 1)) 	 * Standard.Long_Integer(256)) +
                                 Standard.Long_Integer(Character'Pos(sBuffer(sBuffer'First + IDHIGH_POS + 2))));
 
       msg.Len := CAN_Defs.DLC_Type(
@@ -59,10 +59,11 @@ package body CAN_Utils is
          sBuffer(HEADER_INFO_POS) := Character'Val(Integer(msg.Len));
       end if;
 
-      sBuffer(sBuffer'First + IDHIGH_POS - 1)     := Character'Val(Standard.Long_Integer(Msg.ID.Identifier) / Standard.Long_Integer(16777216));
-      sBuffer(sBuffer'First + IDHIGH_POS) := Character'Val(Standard.Long_Integer(Msg.ID.Identifier) / Standard.Long_Integer(65536));
-      sBuffer(sBuffer'First + IDHIGH_POS + 1) := Character'Val(Standard.Long_Integer(Msg.ID.Identifier) / Standard.Long_Integer(256));
-      sBuffer(sBuffer'First + IDHIGH_POS + 2) := Character'Val(Standard.Long_Integer(Msg.ID.Identifier) Mod Standard.Long_Integer(256));
+
+      sBuffer(sBuffer'First + IDHIGH_POS - 1)   := Character'Val(Standard.Long_Integer(Msg.ID.Identifier) / Standard.Long_Integer(16777216));
+      sBuffer(sBuffer'First + IDHIGH_POS) 	:= Character'Val(Standard.Long_Integer(Msg.ID.Identifier) / Standard.Long_Integer(65536));
+      sBuffer(sBuffer'First + IDHIGH_POS + 1) 	:= Character'Val(Standard.Long_Integer(Msg.ID.Identifier) / Standard.Long_Integer(256));
+      sBuffer(sBuffer'First + IDHIGH_POS + 2) 	:= Character'Val(Standard.Long_Integer(Msg.ID.Identifier) Mod Standard.Long_Integer(256));
 
       if Integer(msg.Len) > 0 then
          for I in 1..Integer(msg.Len) loop

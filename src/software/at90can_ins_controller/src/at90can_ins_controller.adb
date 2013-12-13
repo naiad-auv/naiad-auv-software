@@ -13,7 +13,7 @@ with Str2Float;
 with AT90CAN_Ins_Controller_Utils;
 
 with AVR.AT90CAN128.CLOCK;
---  with AVR.AT90CAN128.Digital_IO;
+with AVR.AT90CAN128.Digital_IO;
 
 package body AT90CAN_Ins_Controller is
 

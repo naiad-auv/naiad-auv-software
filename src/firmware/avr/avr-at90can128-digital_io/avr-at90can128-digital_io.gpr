@@ -11,5 +11,13 @@ project AVR.AT90CAN128.DIGITAL_IO is
       for Debugger_Command use "avr-gdb";
    end Ide;
 
+   package Linker is
+      for Default_Switches ("ada") use ("-nostdlib", "-Wl,-Tdata=0x800100", "-T../../lib/avr5.x", "../lib/crt1-at90can128.o.org", "-lgcc", "-mavr5");
+   end Linker;
+
+   package Compiler is
+      for Default_Switches ("ada") use ("-O3", "-gnatwa", "-mmcu=avr5", "-gnat05");
+   end Compiler;
+
 end AVR.AT90CAN128.DIGITAL_IO;
 
