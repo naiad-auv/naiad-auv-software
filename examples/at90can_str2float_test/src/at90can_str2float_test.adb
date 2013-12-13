@@ -1,5 +1,6 @@
 ---------------------------------------------------------------------------
--- This code tests the Str2Float.
+-- This code shows how to use the Str2Float.
+-- Note that there are aunit tests that test this more thoroughly
 -- Written by Nils Brynedal Ignell for the Naiad AUV project
 -- Last changed (yyyy-mm-dd): 2013-12-13
 
