@@ -1,3 +1,5 @@
+with Ada.Text_IO;
+
 package body TCPWrapper is
 
    function xConnect_To(sAddress : in string; iPort : in integer; dTimeout : in Duration := GNAT.Sockets.Forever) return CTCPConnection is
@@ -32,23 +34,21 @@ package body TCPWrapper is
       if this.bConnected then
          GNAT.Sockets.Close_Socket(this.tiSocket);
          this.tiSocket := GNAT.Sockets.No_Socket;
+         this.bConnected := false;
       end if;
    end Close_Connection;
 
 
 
-   function xStart_Listening(sAddress : in string := ""; iPort : in integer := 0) return CTCPConnection is
+   function xStart_Listening(sAddress : in string := ""; iPort : in integer) return CTCPConnection is
       xNewTCPConnection : CTCPConnection;
       Remote_Address  : GNAT.Sockets.Sock_Addr_Type := (Family => GNAT.Sockets.Family_Inet,
                                                         Addr => GNAT.Sockets.Any_Inet_Addr,
-                                                        Port => GNAT.Sockets.Any_Port);
+                                                        Port => GNAT.Sockets.Port_Type(iPort));
       Listener_Socket : GNAT.Sockets.Socket_Type;
    begin
       if sAddress'Length > 0 then
          Remote_Address.Addr := GNAT.Sockets.Inet_Addr(sAddress);
-      end if;
-      if iPort > 0 then
-         Remote_Address.Port := GNAT.Sockets.Port_Type(iPort);
       end if;
 
       GNAT.Sockets.Create_Socket(Listener_Socket);
@@ -87,73 +87,77 @@ package body TCPWrapper is
    end bIs_Connected;
 
 
-   procedure iBytes_Available_For_Reading(this : in out CTCPConnection; iBytesAvail : out integer) is
+   function eGet_Next_Packet_Type (this : in CTCPConnection) return EPacketType is
+      bNextByte : Ada.Streams.Stream_Element_Array(1 .. 1);
+      --for bNextByte'Size use 8;
+
+      eType : EPacketType;
+      for eType'Address use bNextByte'Address;
+
+      xOffset : Ada.Streams.Stream_Element_Offset := bNextByte'Last;
+   begin
+      if this.iBytes_Available_For_Reading > 0 then
+         GNAT.Sockets.Receive_Socket(Socket => this.tiSocket,
+                                     Item   => bNextByte,
+                                     Last   => xOffset,
+                                     Flags  => GNAT.Sockets.Peek_At_Incoming_Data);
+         return eType;
+      end if;
+      return PACKET_NULL;
+   end eGet_Next_Packet_Type;
+
+
+   function iBytes_Available_For_Reading(this : in CTCPConnection) return integer is
       use GNAT.Sockets;
       Socket_Is_Not_Initialized : exception;
       Request_Bytes_To_Read : GNAT.Sockets.Request_Type := (GNAT.Sockets.N_Bytes_To_Read, 0);
    begin
       if this.tiSocket = GNAT.Sockets.No_Socket then
          raise Socket_Is_Not_Initialized;
+--         return 0;
       end if;
 
       GNAT.Sockets.Control_Socket(Socket  => this.tiSocket,
                                   Request => Request_Bytes_To_Read);
-      iBytesAvail := Request_Bytes_To_Read.Size;
+      return Request_Bytes_To_Read.Size;
+   exception
+      when Socket_Is_Not_Initialized =>
+         Ada.Text_IO.Put_Line("Error: Socket not initialized.");
+         return 0;
    end iBytes_Available_For_Reading;
+
+
+   function iGet_Size_In_Bytes(this : in CTCPPacket) return integer is
+   begin
+      return 1;
+   end;
 
 
    procedure Send_Packet(this : in out CTCPConnection; xPacket : in CTCPPacket'class) is
    begin
-      Integer'Write(this.pIO_Stream, xPacket.iSize);
-      Integer'Write(this.pIO_Stream, xPacket.iType);
+      EPacketType'Write(this.pIO_Stream, xPacket.eType);
       xPacket.xWrite_Custom_Packet(pStream => this.pIO_Stream);
    end Send_Packet;
 
 
 
-   procedure xReceive_Packet(this : in out CTCPConnection; xPacket : in out CTCPPacket'class) is
-      iBytes : integer;
-      iType : integer;
+   procedure Receive_Packet(this : in out CTCPConnection; xPacket : in out CTCPPacket'class; bSuccess : out boolean) is
    begin
-      this.iBytes_Available_For_Reading(iBytesAvail => iBytes);
-      if iBytes >= xPacket.iSize then
-         Integer'Read(this.pIO_Stream, iBytes);
-         if iBytes = xPacket.iSize then
-            Integer'Read(this.pIO_Stream, iType);
-            if iType = xPacket.iType then
-               xPacket.xRead_Custom_Packet(this.pIO_Stream);
-               xPacket.bChanged := true;
-            else
-               -- Didn't recognize the packet, empty the buffer
-               declare
-                  sThrowAwayPacket : string(1 .. iBytes);
-               begin
-                  String'Read(this.pIO_Stream, sThrowAwayPacket);
-               end;
-            end if;
-         end if;
+      if this.eGet_Next_Packet_Type = xPacket.eType and then this.iBytes_Available_For_Reading >= xPacket.iGet_Size_In_Bytes then
+         EPacketType'Read(this.pIO_Stream, xPacket.eType);
+         xPacket.xRead_Custom_Packet(pStream => this.pIO_Stream);
+         bSuccess := true;
+      else
+         bSuccess := false;
       end if;
-   end xReceive_Packet;
+   end Receive_Packet;
 
-   procedure Set_Size(this : in out CTCPPacket'class ; iSize : in Positive) is
-   begin
-      this.iSize := iSize;
-   end Set_Size;
 
-   procedure Set_Type(this : in out CTCPPacket'class ; iType : in Integer) is
+   procedure Set_Type(this : in out CTCPPacket; eType : in EPacketType) is
    begin
-      this.iType := iType;
+      this.eType := eType;
    end Set_Type;
 
-   function bGet_Status_Changed(this : in CTCPPacket'Class) return boolean is
-   begin
-      return this.bChanged;
-   end bGet_Status_Changed;
-
-   procedure Reset_Status(this : in out CTCPPacket'Class) is
-   begin
-      this.bChanged := false;
-   end Reset_Status;
 
 
 

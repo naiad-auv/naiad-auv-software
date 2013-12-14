@@ -1,6 +1,6 @@
-with "..\tcpwrapper\tcpwrapper.gpr";
-with "..\can_utils\can_utils.gpr";
-with "..\can_defs\can_defs.gpr";
+with "../tcpwrapper/tcpwrapper.gpr";
+with "../can_utils/can_utils.gpr";
+with "../can_defs/can_defs.gpr";
 
 project Tcpcanwrapper is
 

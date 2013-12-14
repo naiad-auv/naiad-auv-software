@@ -1,3 +1,6 @@
+with Ada.Text_IO;
+with Ada.Streams;
+
 package body TCPCANWrapper is
 
    -------------------------
@@ -16,13 +19,15 @@ package body TCPCANWrapper is
    overriding procedure xWrite_Custom_Packet (this : in CTCPCANPacket; pStream : GNAT.Sockets.Stream_Access) is
    begin
       CAN_Defs.CAN_Message'Write(pStream, this.xCANMessage);
+
+      --CTCPCANPacket'Write(pStream, this);
    end xWrite_Custom_Packet;
 
 
-   function iGet_Size(this : in CTCPCANPacket) return positive is
+   function iGet_Size_In_Bytes(this : in CTCPCANPacket) return integer is
    begin
-      return (this.xCANMessage'Size + integer'Size +integer'size)/8;
-   end iGet_Size;
+      return  iGet_Size_In_Bytes(TCPWrapper.CTCPPacket(this)) + 14;
+   end iGet_Size_In_Bytes;
 
    function sGet_String(this : in CTCPCANPacket) return String is
    begin
@@ -33,6 +38,12 @@ package body TCPCANWrapper is
    begin
       this.xCANMessage := xMessage;
    end set_Message_to_Send;
+
+   procedure Set(this : in out CTCPCANPacket) is
+   begin
+      this.xCANMessage := CAN_Defs.MSG_TORPEDO_RIGHT;
+      this.Set_Type(TCPWrapper.PACKET_CAN);
+   end Set;
 
 
 

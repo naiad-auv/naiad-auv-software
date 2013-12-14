@@ -59,6 +59,7 @@ package body CAN_Utils is
          sBuffer(HEADER_INFO_POS) := Character'Val(Integer(msg.Len));
       end if;
 
+
       sBuffer(sBuffer'First + IDHIGH_POS - 1)   := Character'Val(Standard.Long_Integer(Msg.ID.Identifier) / Standard.Long_Integer(16777216));
       sBuffer(sBuffer'First + IDHIGH_POS) 	:= Character'Val(Standard.Long_Integer(Msg.ID.Identifier) / Standard.Long_Integer(65536));
       sBuffer(sBuffer'First + IDHIGH_POS + 1) 	:= Character'Val(Standard.Long_Integer(Msg.ID.Identifier) / Standard.Long_Integer(256));

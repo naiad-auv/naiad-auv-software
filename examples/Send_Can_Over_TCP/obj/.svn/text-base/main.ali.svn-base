@@ -1,0 +1,75 @@
+V "GNAT Lib v2012"
+M P W=b
+A -gnatA
+P SS ZX
+R nnnnnnnnnvnnnnnnnnnnnnnvnnnnnnnnnnnnnnnvnvnnvnnnnnnnnnnnnnvnnnnvnnnnnnvnnnnnnnnnnnnnn
+
+U main%b		main.adb		3de4e4d9 NE OO SU
+W ada.calendar.delays%s	a-caldel.adb		a-caldel.ali
+W ada.tags%s		a-tags.adb		a-tags.ali
+W can_defs%s		can_defs.ads		can_defs.ali
+W system.secondary_stack%s  s-secsta.adb	s-secsta.ali
+W tcpcanwrapper%s	tcpcanwrapper.adb	tcpcanwrapper.ali
+W tcpwrapper%s		tcpwrapper.adb		tcpwrapper.ali
+
+D ada.ads		20120510125802 3ffc8e18
+D a-calend.ads		20120510125748 d86d6c8c
+D a-caldel.ads		20120510125748 9f20b83d
+D a-except.ads		20120510125752 ec1b44c1
+D a-finali.ads		20120510125752 52ecdc1b
+D a-stream.ads		20120510125756 2ca4ee37
+D a-tags.ads		20120510125758 6c0509d0
+D a-unccon.ads		20120510125800 f9eb8f06
+D a-uncdea.ads		20120510125800 f15a5ed1
+D can_defs.ads		20131212125202 feac69fd
+D can_utils.ads		20131212102824 96e3c5f3
+D gnat.ads		20120510125812 fd2ad2f1
+D g-socket.ads		20120510125810 0c5639de
+D interfac.ads		20120510125814 129923ea
+D i-c.ads		20120510125814 5421119b
+D main.adb		20131213084220 ea8cbaae
+D system.ads		20120510125846 6daf90c4
+D s-exctab.ads		20120510125824 66e51330
+D s-finmas.ads		20120510125824 b95bb341
+D s-finroo.ads		20120510125824 4ff27390
+D s-oscons.ads		20120511092646 6ac5d75b
+D s-parame.ads		20120510125832 b6e20cc0
+D s-pooglo.ads		20120510125832 542f33d0
+D s-secsta.ads		20120510125832 eea35a36
+D s-soflin.ads		20120510125832 24c8153c
+D s-stache.ads		20120510125834 596fc1b4
+D s-stalib.ads		20120510125834 f78bcf95
+D s-stoele.ads		20120510125834 facd7d98
+D s-stoele.adb		20120510125834 afc5dc80
+D s-stopoo.ads		20120510125834 7b8fbeee
+D s-stratt.ads		20120510125834 aedef97e
+D s-traent.ads		20120510125838 5221ee41
+D s-unstyp.ads		20120510125838 6ae15c76
+D tcpcanwrapper.ads	20131212185326 e58312a3
+D tcpwrapper.ads	20131212165410 cc472529
+X 10 can_defs.ads
+7K9*CAN_Defs 70e13 16|3w6 11r44
+40r4*MSG_SIMULATION_MODE_ACTIVE{24R9} 16|11r53
+X 16 main.adb
+4U11*Main 4b11 26l5 26t9
+5r4 xConnection{35|5R9} 12m4 15m7 15r7 19m4 19r4 20m6 20r6 24m4 24r4
+6r4 xPacket{34|8R9} 9m4 9r4 9r21 10m4 10r4 11m4 11r4 19r28 20r30
+7b4 bConnected{boolean} 14r14 15m33 15r33
+X 34 tcpcanwrapper.ads
+6K9*TCPCANWrapper 16|1w6 6r14 34|26e18
+8R9*CTCPCANPacket<35|4R9> 16|6r28 34|24e17
+10V13*iGet_Size{positive} 16|9s29
+12U14*set_Message_to_Send 16|11s12
+12r63 xMessage{10|24R9} 16|11r32
+X 35 tcpwrapper.ads
+3K9*TCPWrapper 16|2w6 5r18 12r19 35|45e15
+5R9*CTCPConnection 16|5r29 35|43e17
+11V13*xStart_Listening{5R9} 16|12s30
+11s30 sAddress{string} 16|12r47
+11i58 iPort{integer} 16|13r47
+12U14*bIs_Connected 16|15s19
+14U14*Send_Packet 16|19s16 20s18
+16U14*Close_Connection 16|24s16
+20U14*Set_Size 16|9s12
+21U14*Set_Type 16|10s12
+

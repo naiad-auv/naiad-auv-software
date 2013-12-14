@@ -81,6 +81,62 @@ package body Simulator.Model is
       return this.pxSubmarine.xGet_Velocity_Vector;
    end xGet_Current_Submarine_Velocity_Vector;
 
+   ------------------------------
+   -- bGet_Left_Gripper_Status --
+   ------------------------------
+
+   function bGet_Left_Gripper_Status(this : in CModel) return boolean is
+   begin
+      return this.pxSubmarine.bGet_Gripper_Left_Status;
+   end bGet_Left_Gripper_Status;
+
+   -------------------------------
+   -- bGet_Right_Gripper_Status --
+   -------------------------------
+
+   function bGet_Right_Gripper_Status(this : in CModel) return boolean is
+   begin
+      return this.pxSubmarine.bGet_Gripper_Right_Status;
+   end bGet_Right_Gripper_Status;
+
+   -----------------------------
+   -- bGet_Left_Torpedo_Satus --
+   -----------------------------
+
+   function bGet_Left_Torpedo_Satus(this : in CModel) return boolean is
+   begin
+      return this.pxSubmarine.bGet_Torpedo_Left_Status;
+   end bGet_Left_Torpedo_Satus;
+
+   -------------------------------
+   -- bGet_Right_Torpedo_Status --
+   -------------------------------
+
+   function bGet_Right_Torpedo_Status(this : in CModel) return boolean is
+   begin
+      return this.pxSubmarine.bGet_Torpedo_Right_Status;
+   end bGet_Right_Torpedo_Status;
+
+   -----------------------------
+   -- bGet_Left_Dropper_Satus --
+   -----------------------------
+
+   function bGet_Left_Dropper_Satus(this : in CModel) return boolean is
+   begin
+      return this.pxSubmarine.bGet_Dropper_Left_Status;
+   end bGet_Left_Dropper_Satus;
+
+   -------------------------------
+   -- bGet_Right_Dropper_Status --
+   -------------------------------
+
+   function bGet_Right_Dropper_Status(this : in CModel) return boolean is
+   begin
+      return this.pxSubmarine.bGet_Dropper_Right_Status;
+   end bGet_Right_Dropper_Status;
+
+
+
    ----------------------
    -- fGet_Motor_Force --
    ----------------------
