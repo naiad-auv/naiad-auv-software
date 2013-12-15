@@ -374,10 +374,17 @@ package body AVR.AT90CAN128.USART is
    function  Write (Buffer : String; Port : USARTID := Default_USART; Size : Positive) return Integer is
       Result : Boolean;
       Count : Integer;
+      Last : Integer;
    begin
+      if Buffer'First + Size - 1 <= Buffer'Last then
+         Last :=  Buffer'First + Size - 1;
+      else
+         Last :=  Buffer'Last;
+      end if;
+
       Count := 0;
-      --for I in Buffer'range loop
-      for I in 1..Size loop
+      for I in Buffer'First..Last loop
+         --        for I in 1..Size loop
          Result := Put(Buffer(I),Port);
          if Result then
             Count := Count + 1;
