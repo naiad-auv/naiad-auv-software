@@ -23,12 +23,15 @@ package Can_Float_Conversions is
    procedure Message_To_Orientation(fYaw : out float; fPitch : out float; fRoll : out float; b8Message : Can_Defs.Byte8);
 
    --all 8 bytes of b8Message need to be sent
-   procedure Acceleration_To_Message(fAccX : float; fAccY : float; fAccZ : float;
+   procedure Vector_To_Message(fX : float; fY : float; fZ : float;
                                      b8Message : out Can_Defs.Byte8;
-                                     fAccelerationMax : float := fACCELERATION_MAX);
-   procedure Message_To_Acceleration(fAccX : out float; fAccY : out float; fAccZ : out float;
+                                     fMax : float);
+   procedure Message_To_Vector(fX : out float; fY : out float; fZ : out float;
                                      b8Message : Can_Defs.Byte8;
-                                     fAccelerationMax : float := fACCELERATION_MAX);
+                                     fMax : float);
+
+   --Vector_To_Message was once called Acceleration_To_Message
+   --Message_To_Vector was once called Message_To_Acceleration
 
    --only the 3 first bytes of b8Message need to be sent
    procedure GyroReading_To_Message(fGyroReading : float; b8Message : out Can_Defs.Byte8);

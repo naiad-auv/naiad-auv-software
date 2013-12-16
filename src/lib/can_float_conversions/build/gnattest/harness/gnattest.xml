@@ -4,37 +4,37 @@
          <setup file="can_float_conversions-test_data.adb" line="3"  column="4"/>
          <teardown file="can_float_conversions-test_data.adb" line="9"  column="4"/>
          <tested name="Orientation_To_Message" line="22" column="4">
-            <test file="can_float_conversions-test_data-tests.adb" line="13" column="1" timestamp="modified"/>
+            <test file="can_float_conversions-test_data-tests.adb" line="13" column="1" timestamp="2013-12-16 12:45:39"/>
          </tested>
          <tested name="Message_To_Orientation" line="23" column="4">
-            <test file="can_float_conversions-test_data-tests.adb" line="79" column="1" timestamp="modified"/>
+            <test file="can_float_conversions-test_data-tests.adb" line="34" column="1" timestamp="2013-12-16 12:45:39"/>
          </tested>
-         <tested name="Acceleration_To_Message" line="26" column="4">
-            <test file="can_float_conversions-test_data-tests.adb" line="147" column="1" timestamp="modified"/>
+         <tested name="Vector_To_Message" line="26" column="4">
+            <test file="can_float_conversions-test_data-tests.adb" line="55" column="1" timestamp="2013-12-16 12:45:39"/>
          </tested>
-         <tested name="Message_To_Acceleration" line="29" column="4">
-            <test file="can_float_conversions-test_data-tests.adb" line="213" column="1" timestamp="modified"/>
+         <tested name="Message_To_Vector" line="29" column="4">
+            <test file="can_float_conversions-test_data-tests.adb" line="76" column="1" timestamp="2013-12-16 12:45:39"/>
          </tested>
-         <tested name="GyroReading_To_Message" line="34" column="4">
-            <test file="can_float_conversions-test_data-tests.adb" line="279" column="1" timestamp="modified"/>
+         <tested name="GyroReading_To_Message" line="37" column="4">
+            <test file="can_float_conversions-test_data-tests.adb" line="97" column="1" timestamp="2013-12-16 12:45:39"/>
          </tested>
-         <tested name="Message_To_GyroReading" line="35" column="4">
-            <test file="can_float_conversions-test_data-tests.adb" line="340" column="1" timestamp="modified"/>
+         <tested name="Message_To_GyroReading" line="38" column="4">
+            <test file="can_float_conversions-test_data-tests.adb" line="118" column="1" timestamp="2013-12-16 12:45:39"/>
          </tested>
-         <tested name="PID_Scalings_To_Message" line="39" column="4">
-            <test file="can_float_conversions-test_data-tests.adb" line="401" column="1" timestamp="modified"/>
+         <tested name="PID_Scalings_To_Message" line="42" column="4">
+            <test file="can_float_conversions-test_data-tests.adb" line="139" column="1" timestamp="2013-12-16 12:45:39"/>
          </tested>
-         <tested name="Message_To_PID_Scalings" line="43" column="4">
-            <test file="can_float_conversions-test_data-tests.adb" line="474" column="1" timestamp="modified"/>
+         <tested name="Message_To_PID_Scalings" line="46" column="4">
+            <test file="can_float_conversions-test_data-tests.adb" line="160" column="1" timestamp="2013-12-16 12:45:39"/>
          </tested>
-         <tested name="i21_Get_Integer" line="116" column="4">
-            <test file="can_float_conversions-test_data-tests.adb" line="546" column="1" timestamp="2013-12-16 11:49:46"/>
+         <tested name="i21_Get_Integer" line="119" column="4">
+            <test file="can_float_conversions-test_data-tests.adb" line="181" column="1" timestamp="2013-12-16 12:45:39"/>
          </tested>
-         <tested name="i16_Get_Integer" line="117" column="4">
-            <test file="can_float_conversions-test_data-tests.adb" line="570" column="1" timestamp="2013-12-16 11:49:46"/>
+         <tested name="i16_Get_Integer" line="120" column="4">
+            <test file="can_float_conversions-test_data-tests.adb" line="202" column="1" timestamp="2013-12-16 12:45:39"/>
          </tested>
-         <tested name="fMod" line="118" column="4">
-            <test file="can_float_conversions-test_data-tests.adb" line="591" column="1" timestamp="modified"/>
+         <tested name="fMod" line="121" column="4">
+            <test file="can_float_conversions-test_data-tests.adb" line="223" column="1" timestamp="2013-12-16 12:45:39"/>
          </tested>
          <dangling>
          </dangling>

@@ -37,38 +37,38 @@ package body Can_Float_Conversions is
 
    -----------------------------------------------------------------------------------------------------------------------------------------------------------
 
-   procedure Acceleration_To_Message(fAccX : float; fAccY : float; fAccZ : float;
+   procedure Vector_To_Message(fX : float; fY : float; fZ : float;
                                      b8Message : out Can_Defs.Byte8;
-                                     fAccelerationMax : float := fACCELERATION_MAX) is
+                                     fMax : float) is
 
-      fAccelerationResolution : float := 2.0 * fAccelerationMax / Float(2 ** 21);
+      fAccelerationResolution : float := 2.0 * fMax / Float(2 ** 21);
       Data : TThree_i21s;
    begin
       -- We are using the same conversion technique as for orientation simply
       -- because there is no need to do differently...
-      Data.i21One   := i21_Get_Integer(fAccX, fAccelerationResolution);
-      Data.i21Two   := i21_Get_Integer(fAccY, fAccelerationResolution);
-      Data.i21Three := i21_Get_Integer(fAccZ, fAccelerationResolution);
+      Data.i21One   := i21_Get_Integer(fX, fAccelerationResolution);
+      Data.i21Two   := i21_Get_Integer(fY, fAccelerationResolution);
+      Data.i21Three := i21_Get_Integer(fZ, fAccelerationResolution);
 
       b8Message :=  b8Orientation_To_Message(Data);
-   end Acceleration_To_Message;
+   end Vector_To_Message;
 
 
 
-   procedure Message_To_Acceleration(fAccX : out float; fAccY : out float; fAccZ : out float;
+   procedure Message_To_Vector(fX : out float; fY : out float; fZ : out float;
                                      b8Message : Can_Defs.Byte8;
-                                     fAccelerationMax : float := fACCELERATION_MAX) is
+                                     fMax : float) is
 
-      fAccelerationResolution : float := 2.0 * fAccelerationMax / Float(2 ** 21);
+      fAccelerationResolution : float := 2.0 * fMax / Float(2 ** 21);
       Data : TThree_i21s;
    begin
       -- We are using the same conversion technique as for orientation simply
       -- because there is no need to do differently...
       Data  := TMessage_To_Orientation(b8Message);
-      fAccX := Float(Data.i21One)   * fAccelerationResolution;
-      fAccY := Float(Data.i21Two)   * fAccelerationResolution;
-      fAccZ := Float(Data.i21Three) * fAccelerationResolution;
-   end Message_To_Acceleration;
+      fX := Float(Data.i21One)   * fAccelerationResolution;
+      fY := Float(Data.i21Two)   * fAccelerationResolution;
+      fZ := Float(Data.i21Three) * fAccelerationResolution;
+   end Message_To_Vector;
 
    -----------------------------------------------------------------------------------------------------------------------------------------------------------
 
