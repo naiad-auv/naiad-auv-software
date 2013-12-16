@@ -2,7 +2,7 @@
 ---------------------------------------------------------------------------
 -- This code implements functions to put INS-data (float values) into can messages.
 -- Written by Nils Brynedal Ignell for the Naiad AUV project
--- Last changed (yyyy-mm-dd): 2013-11-28
+-- Last changed (yyyy-mm-dd): 2013-12-16
 
 ---------------------------------------------------------------------------
 
@@ -14,61 +14,61 @@ package body Can_Float_Conversions is
 
 
    procedure Orientation_To_Message(fYaw : float; fPitch : float; fRoll : float; b8Message : out Can_Defs.Byte8) is
-      Data : TOrientation;
+      Data : TThree_i21s;
    begin
       -- We are using the same conversion technique as for orientation simply
       -- because there is no need to do differently...
-      Data.i21Yaw   := i21_Get_Integer(fMod(fYaw, fYAW_MAX),   fYAW_RESOLUTION);
-      Data.i21Pitch := i21_Get_Integer(fPitch, fPITCH_RESOLUTION);
-      Data.i21Roll  := i21_Get_Integer(fMod(fRoll, fROLL_MAX),  fROLL_RESOLUTION);
+      Data.i21One   := i21_Get_Integer(fMod(fYaw, fYAW_MAX),   fYAW_RESOLUTION);
+      Data.i21Two   := i21_Get_Integer(fPitch, fPITCH_RESOLUTION);
+      Data.i21Three := i21_Get_Integer(fMod(fRoll, fROLL_MAX),  fROLL_RESOLUTION);
 
       b8Message :=  b8Orientation_To_Message(Data);
    end Orientation_To_Message;
 
    procedure Message_To_Orientation(fYaw : out float; fPitch : out float; fRoll : out float; b8Message : Can_Defs.Byte8) is
-      Data : TOrientation;
+      Data : TThree_i21s;
    begin
       Data :=  TMessage_To_Orientation(b8Message);
-      fYaw   := Float(Data.i21Yaw)   * fYAW_RESOLUTION;
-      fPitch := Float(Data.i21Pitch) * fPITCH_RESOLUTION;
-      fRoll  := Float(Data.i21Roll)  * fROLL_RESOLUTION;
+      fYaw   := Float(Data.i21One)   * fYAW_RESOLUTION;
+      fPitch := Float(Data.i21Two)   * fPITCH_RESOLUTION;
+      fRoll  := Float(Data.i21Three) * fROLL_RESOLUTION;
    end Message_To_Orientation;
 
 
    -----------------------------------------------------------------------------------------------------------------------------------------------------------
 
-   procedure Acceleration_To_Message(fAccX : float; fAccY : float; fAccZ : float;
+   procedure Vector_To_Message(fX : float; fY : float; fZ : float;
                                      b8Message : out Can_Defs.Byte8;
-                                     fAccelerationMax : float := fACCELERATION_MAX) is
+                                     fMax : float) is
 
-      fAccelerationResolution : float := 2.0 * fAccelerationMax / Float(2 ** 21);
-      Data : TOrientation;
+      fAccelerationResolution : float := 2.0 * fMax / Float(2 ** 21);
+      Data : TThree_i21s;
    begin
       -- We are using the same conversion technique as for orientation simply
       -- because there is no need to do differently...
-      Data.i21Yaw   := i21_Get_Integer(fAccX, fAccelerationResolution);
-      Data.i21Pitch := i21_Get_Integer(fAccY, fAccelerationResolution);
-      Data.i21Roll  := i21_Get_Integer(fAccZ, fAccelerationResolution);
+      Data.i21One   := i21_Get_Integer(fX, fAccelerationResolution);
+      Data.i21Two   := i21_Get_Integer(fY, fAccelerationResolution);
+      Data.i21Three := i21_Get_Integer(fZ, fAccelerationResolution);
 
       b8Message :=  b8Orientation_To_Message(Data);
-   end Acceleration_To_Message;
+   end Vector_To_Message;
 
 
 
-   procedure Message_To_Acceleration(fAccX : out float; fAccY : out float; fAccZ : out float;
+   procedure Message_To_Vector(fX : out float; fY : out float; fZ : out float;
                                      b8Message : Can_Defs.Byte8;
-                                     fAccelerationMax : float := fACCELERATION_MAX) is
+                                     fMax : float) is
 
-      fAccelerationResolution : float := 2.0 * fAccelerationMax / Float(2 ** 21);
-      Data : TOrientation;
+      fAccelerationResolution : float := 2.0 * fMax / Float(2 ** 21);
+      Data : TThree_i21s;
    begin
       -- We are using the same conversion technique as for orientation simply
       -- because there is no need to do differently...
       Data  := TMessage_To_Orientation(b8Message);
-      fAccX := Float(Data.i21Yaw)   * fAccelerationResolution;
-      fAccY := Float(Data.i21Pitch) * fAccelerationResolution;
-      fAccZ := Float(Data.i21Roll)  * fAccelerationResolution;
-   end Message_To_Acceleration;
+      fX := Float(Data.i21One)   * fAccelerationResolution;
+      fY := Float(Data.i21Two)   * fAccelerationResolution;
+      fZ := Float(Data.i21Three) * fAccelerationResolution;
+   end Message_To_Vector;
 
    -----------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -87,7 +87,7 @@ package body Can_Float_Conversions is
    begin
 
       i24Reading   := i24Get_Integer(fGyroReading, fGYRO_RESOLUTION);
-      ReadingArr := i24To_Gyro_Reading(i24Reading);
+      ReadingArr   := i24To_Gyro_Reading(i24Reading);
 
       b8Message(1) := ReadingArr(1);
       b8Message(2) := ReadingArr(2);
@@ -108,6 +108,51 @@ package body Can_Float_Conversions is
       fGyroReading := Float(i24Reading) * fGYRO_RESOLUTION;
    end Message_To_GyroReading;
 
+
+   procedure PID_Scalings_To_Message(u8ID : Interfaces.Unsigned_8; fProportional : float;
+                                       fIntegral : float;     fDerivative : float;
+                                       fScaleRange : float;   b8Message   : out Can_Defs.Byte8) is
+
+      fScaleResolution : float := 2.0 * fScaleRange / Float(2 ** 16);
+
+      xScalings : TPID_Scalings;
+      xScalingsArr : TPID_ScalingsArray;
+   begin
+
+      xScalings.u8ID := u8ID;
+      xScalings.i16P := i16_Get_Integer(fProportional, fScaleResolution);
+      xScalings.i16I := i16_Get_Integer(fIntegral, fScaleResolution);
+      xScalings.i16D := i16_Get_Integer(fDerivative, fScaleResolution);
+
+      xScalingsArr := PID_Scalings_To_Array(xScalings);
+
+      for i in 1..7 loop
+         b8Message(CAN_Defs.DLC_Type(i)) := xScalingsArr(i);
+      end loop;
+   end PID_Scalings_To_Message;
+
+
+   procedure Message_To_PID_Scalings(u8ID : out Interfaces.Unsigned_8; fProportional : out float;
+                                     fIntegral : out float; fDerivative : out float;
+                                     fScaleRange : float;   b8Message   :   Can_Defs.Byte8) is
+
+      fScaleResolution : float := 2.0 * fScaleRange / Float(2 ** 16);
+      xScalings : TPID_Scalings;
+      xScalingsArr : TPID_ScalingsArray;
+   begin
+      for i in 1..7 loop
+         xScalingsArr(i) := b8Message(CAN_Defs.DLC_Type(i));
+      end loop;
+
+      xScalings := Array_To_PID_Scalings(xScalingsArr);
+
+      u8ID := xScalings.u8ID;
+      fProportional 	:= Float(xScalings.i16P) * fScaleResolution;
+      fIntegral 	:= Float(xScalings.i16I) * fScaleResolution;
+      fDerivative 	:= Float(xScalings.i16D) * fScaleResolution;
+   end Message_To_PID_Scalings;
+
+
    function i21_Get_Integer(fValue : float; fResolution : float) return Integer_21 is
       fInternal : float;
    begin
@@ -122,6 +167,22 @@ package body Can_Float_Conversions is
       end if;
    end i21_Get_Integer;
 
+   function i16_Get_Integer(fValue : float; fResolution : float) return Interfaces.Integer_16 is
+      fInternal : float;
+   begin
+      fInternal := fValue / fResolution;
+
+      if fInternal >= Float(Interfaces.Integer_16'Last) then
+         return Interfaces.Integer_16'Last;
+      elsif fInternal <= Float(Interfaces.Integer_16'First) then
+         return Interfaces.Integer_16'First;
+      else
+         return Interfaces.Integer_16(fInternal);
+      end if;
+   end i16_Get_Integer;
+
+
+
    function fMod(fValue : float; fRange : float) return float is
    begin
       if fValue >= fRange then
@@ -131,6 +192,5 @@ package body Can_Float_Conversions is
       end if;
       return  fValue;
    end fMod;
-
 end Can_Float_Conversions;
 
