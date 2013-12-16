@@ -166,7 +166,20 @@ package body TCPWrapper is
       this.eType := eType;
    end Set_Type;
 
+   procedure Initialize(this : in out CTCPPacket) is
+   begin
+      this.eType := PACKET_NULL;
+   end Initialize;
 
+   procedure Finalize(this : in out CTCPPacket) is
+   begin
+      null;
+   end Finalize;
+
+   procedure Adjust(this : in out CTCPPacket) is
+   begin
+      null;
+   end Adjust;
 
 
 end TCPWrapper;

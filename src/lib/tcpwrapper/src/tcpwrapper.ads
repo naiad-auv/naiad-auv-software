@@ -1,13 +1,14 @@
+with Ada.Finalization;
 with Ada.Streams.Stream_IO;
 with GNAT.Sockets;
 
 package TCPWrapper is
-   type CTCPPacket is abstract tagged private;
+   type CTCPPacket is abstract new Ada.Finalization.Controlled with private;
    type CTCPConnection is tagged private;
 
    type EPacketType is (PACKET_NULL,
                         PACKET_CAN,
-                        PACKET_FILE_TRANSFER_START);
+                        PACKET_FILE_TRANSFER);
    for EPacketType'Size use 8;
 
    function xConnect_To(sAddress : in string; iPort : in integer; dTimeout : in Duration := GNAT.Sockets.Forever) return CTCPConnection;
@@ -36,7 +37,7 @@ package TCPWrapper is
 
 private
 
-   type CTCPPacket is abstract tagged
+   type CTCPPacket is abstract new Ada.Finalization.Controlled with
       record
          eType : EPacketType;
       end record;
@@ -49,5 +50,12 @@ private
          tRemote_Address : GNAT.Sockets.Sock_Addr_Type;
          pIO_Stream : GNAT.Sockets.Stream_Access;
       end record;
+
+   overriding
+   procedure Initialize(this : in out CTCPPacket);
+   overriding
+   procedure Finalize(this : in out CTCPPacket);
+   overriding
+   procedure Adjust(this : in out CTCPPacket);
 
 end TCPWrapper;
