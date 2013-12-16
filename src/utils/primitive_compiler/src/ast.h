@@ -7,7 +7,6 @@ typedef struct t_tree *t_tree;
 /* To distinguish between the node contents. */
 typedef enum {
    kProgram,
-   kPrimitive,
    kFunction,
    kVariable,
    kAssign,
@@ -64,14 +63,6 @@ typedef struct {
    eType Type;       /* The return type. */
 } yFunction;
 
-/* The function. */
-typedef struct {
-   t_tree Next;
-   t_tree Variables;  
-   t_tree Functions;     
-   char *Name;       /* The primitve name. */
-} yPrimitive;
-
 /* The variable (local variable or formal parameter). */
 typedef struct {
    t_tree Next;
@@ -84,12 +75,6 @@ typedef struct {
 typedef struct {
    t_tree Next;
 } yStmnt;
-
-
-/* A virtual Node to access the Next in every stmnt */
-typedef struct {
-   t_tree Next;
-} yCompUnit;
 
 /* The Assignment statement. */
 typedef struct {
@@ -235,17 +220,15 @@ struct t_tree {
    int LineNr;
    union {
       yProgram Program;
-      yCompUnit CompUnit;
-      yPrimitive Primitive;
       yFunction Function;
       yVariable Variable;
       yStmnt Stmnt;
-      yAssign Assign;
       yLoop Loop;
       yExit Exit;
       yAsm Asm;
       yLabel Label;
       yGoto Goto;
+      yAssign Assign;
       yIf If;
       yWhile While;
       yReturn Return;
@@ -272,10 +255,6 @@ extern t_tree mProgram(t_tree pFunctions);
 
 /* Returns a pointer to a function node. */
 extern t_tree mFunction(t_tree pVariables, t_tree pStmnts, const char *pName, eType pType, int pLineNr);
-
-
-extern t_tree mPrimitive(t_tree pVariables, t_tree pFunctions, const char *pName, int pLineNr);
-
 
 /* Returns a pointer to a variable definition node. */
 extern t_tree mVariable(vKind pVarKind, const char *pName, eType pType, int pLineNr);
@@ -354,21 +333,12 @@ extern t_tree mRValue(const char *pId, int pLineNr);
 /* Returns a pointer to a list of functions where pFunction has been concatenated at the end of pFunctions. */
 extern t_tree connectFunctions(t_tree pFunctions, t_tree pFunction);
 
-extern t_tree connectFunctions(t_tree pPrimitives, t_tree pPrimitive);
-
-
-
 /* Returns a pointer to a list of variable nodes where second is a list of variables that has been concatenated at
    the end of the variable list first. The lists may be of any length. */
 extern t_tree connectVariables(t_tree pVariables, t_tree pVariable);
 
 /* Returns a pointer to a list of statements where pStmnt has been concatenated at the end of pStmnts. */
 extern t_tree connectStmnts(t_tree pStmnts, t_tree pStmnt);
-
-extern t_tree connectPrimitives(t_tree pPrimitives, t_tree pPrimitive);
-
-
-extern t_tree connectCompUnits(t_tree pCompUnits, t_tree pCompUnit);
 
 /* Returns a pointer to a list of actual arguments where pActual has been concatenated at the end of pActuals. */
 extern t_tree connectActuals(t_tree pActuals, t_tree pActual);

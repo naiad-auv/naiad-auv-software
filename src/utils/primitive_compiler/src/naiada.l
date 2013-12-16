@@ -100,9 +100,6 @@ smc	      {yylval.yyLineNr = yylineno; return (ASM);}
 access	      {yylval.yyLineNr = yylineno; return (ADDR_TYPE);}
 null	      {yylval.yyLineNr = yylineno; return (NULL_STMNT);}
 goto	      {yylval.yyLineNr = yylineno; return (GOTO);}
-in	      {yylval.yyLineNr = yylineno; return (IN);}
-out	      {yylval.yyLineNr = yylineno; return (OUT);}
-primitive     {yylval.yyLineNr = yylineno; return (PRIMITIVE);}
 ":="          {yylval.yyLineNr = yylineno; return (ASSIGN);}
 "<<"	      {yylval.yyLineNr = yylineno; return (LBL_LEFT);}
 ">>"	      {yylval.yyLineNr = yylineno; return (LBL_RIGHT);}
