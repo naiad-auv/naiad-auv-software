@@ -17,10 +17,10 @@
 
 with Interfaces;		use Interfaces;
 with AVR.AT90CAN128.USART;
-with AVR.AT90CAN128.CAN;	use AVR.AT90CAN128.CAN;
-with CAN_Defs;
-with AVR.AT90CAN128.CLOCK;
-with AVR.AT90CAN128.Digital_IO;
+--  with AVR.AT90CAN128.CAN;	use AVR.AT90CAN128.CAN;
+--  with CAN_Defs;
+--  with AVR.AT90CAN128.CLOCK;
+--  with AVR.AT90CAN128.Digital_IO;
 
 
 with AT90CAN_Ins_Controller;
@@ -29,12 +29,12 @@ procedure AT90CAN_Ins_Controller_Main is
 
    pragma Suppress (All_Checks);
 
-   msg : Can_Defs.CAN_Message;
+--     msg : Can_Defs.CAN_Message;
    bMessageReceived : Boolean := false;
 
-   use CAN_Defs;
+--     use CAN_Defs;
 
-   tempMSG : CAN_Defs.CAN_Message;
+--     tempMSG : CAN_Defs.CAN_Message;
 
    iTemp : Integer;
 begin

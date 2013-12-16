@@ -1,9 +1,10 @@
 with "..\..\firmware\avr\avr-at90can128-clock\avr-at90can128-clock.gpr";
 with "..\..\lib\can_float_conversions\can_float_conversions.gpr";
 with "..\..\lib\str2float\str2float.gpr";
-with "..\..\firmware\avr\avr-at90can128-usart\avr-at90can128-usart.gpr";
 with "..\..\firmware\avr\avr-at90can128-digital_io\avr-at90can128-digital_io.gpr";
 with "..\..\firmware\avr\avr-at90can128-can\avr-at90can128-can.gpr";
+
+with "..\..\firmware\avr\avr-at90can128-usart\avr-at90can128-usart.gpr";
 
 project AT90CAN_Ins_Controller is
 

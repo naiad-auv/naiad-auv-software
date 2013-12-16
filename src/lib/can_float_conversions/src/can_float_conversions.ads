@@ -12,7 +12,7 @@ with Can_Defs;
 
 package Can_Float_Conversions is
 
-   pragma Suppress(All_Checks);
+--     pragma Suppress(All_Checks);
 
    fACCELERATION_MAX 		: float := 20.0; --acceleration in m/s^2
 
@@ -38,7 +38,8 @@ private
    fPITCH_MAX   : constant float := 90.0;
    fROLL_MAX 	: constant float := 180.0;
 
-   fYAW_RESOLUTION   : constant float  := 2.0 * fYAW_MAX   / Float(2 ** 21);  --angles in degrees
+
+   fYAW_RESOLUTION   : constant float  := 2.0 * fYAW_MAX   / Float(2 ** 21);
    fPITCH_RESOLUTION : constant float  := 2.0 * fPITCH_MAX / Float(2 ** 21);
    fROLL_RESOLUTION  : constant float  := 2.0 * fROLL_MAX   / Float(2 ** 21);
 
@@ -83,3 +84,4 @@ private
 
 
 end Can_Float_Conversions;
+
