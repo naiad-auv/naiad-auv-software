@@ -13,6 +13,7 @@ package TCPWrapper is
    function xConnect_To(sAddress : in string; iPort : in integer; dTimeout : in Duration := GNAT.Sockets.Forever) return CTCPConnection;
    function xStart_Listening(sAddress : in string := ""; iPort : in integer) return CTCPConnection; -- leave sAddress empty to allow any IP to connect
    procedure Close_Connection(this : in out CTCPConnection);
+   function pGet_Stream(this : in CTCPConnection) return GNAT.Sockets.Stream_Access;
 
    function iBytes_Available_For_Reading (this : in CTCPConnection) return integer;
    procedure bIs_Connected(this : in out CTCPConnection; bResult : out boolean);
@@ -30,6 +31,7 @@ package TCPWrapper is
 
    procedure Set_Type(this : in out CTCPPacket; eType : in EPacketType);
 
+   function pGet_Socket(this : in CTCPConnection) return GNAT.Sockets.Socket_Type;
 
 
 private

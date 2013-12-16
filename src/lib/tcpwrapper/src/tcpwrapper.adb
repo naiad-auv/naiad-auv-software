@@ -38,6 +38,11 @@ package body TCPWrapper is
       end if;
    end Close_Connection;
 
+   function pGet_Stream(this : in CTCPConnection) return GNAT.Sockets.Stream_Access is
+   begin
+      return this.pIO_Stream;
+   end pGet_Stream;
+
 
 
    function xStart_Listening(sAddress : in string := ""; iPort : in integer) return CTCPConnection is
@@ -128,6 +133,11 @@ package body TCPWrapper is
       return 1;
    end;
 
+   function pGet_Socket(this : in CTCPConnection) return GNAT.Sockets.Socket_Type is
+   begin
+      return this.tiSocket;
+   end pGet_Socket;
+
 
    procedure Send_Packet(this : in out CTCPConnection; xPacket : in CTCPPacket'class) is
    begin
@@ -139,6 +149,8 @@ package body TCPWrapper is
 
    procedure Receive_Packet(this : in out CTCPConnection; xPacket : in out CTCPPacket'class; bSuccess : out boolean) is
    begin
+      Ada.Text_IO.Put_Line("Type: " & this.eGet_Next_Packet_Type'Img);
+      Ada.Text_IO.Put_Line("Wanted type: " & xPacket.eType'Img);
       if this.eGet_Next_Packet_Type = xPacket.eType and then this.iBytes_Available_For_Reading >= xPacket.iGet_Size_In_Bytes then
          EPacketType'Read(this.pIO_Stream, xPacket.eType);
          xPacket.xRead_Custom_Packet(pStream => this.pIO_Stream);
