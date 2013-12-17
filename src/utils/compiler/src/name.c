@@ -186,7 +186,11 @@ void checkIdExists(const char * name, int lineNr, int type, int funcorvar)
 	if (funcorvar == 0)
 		createFunctionTable(name,type);
 	else
+	{
+		if (type == LABEL)
+			printf("\nLabel defined: %s\n", node->Node.Label.Id);
 		createVariableTable(name,type);
+	}
 }
 
 void checkIdUndefinedInPrimitive(char ** name, int lineNr)
@@ -460,6 +464,7 @@ void nameCompValue(t_tree node)
 void nameGoto(t_tree node)
 {
 	nameStmnt(node->Node.Stmnt.Next);
+	printf("\nGoto with label: %s\n", node->Node.Goto.Id);
 	checkIdUndefined(node->Node.Goto.Id, node->LineNr);
 	nameStmnt(node->Node.Stmnt.Next);
 }
