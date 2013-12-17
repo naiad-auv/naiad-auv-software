@@ -160,7 +160,7 @@ package body VirtualMachine.InstructionFeeder is
    begin
       Ada.Streams.Stream_IO.Open(File => xFile,
                                  Mode => Ada.Streams.Stream_IO.In_File,
-                                 Name => "/home/evr/git/naiad-auv-software/src/software/utils/bytecode_converter/obj/test.byte");
+                                 Name => "/home/evr/git/naiad-auv-software/src/utils/debug/obj/Test.pri.nmc.byte");
       xStreamAccess := Ada.Streams.Stream_IO.Stream(xFile);
 
       while not Ada.Streams.Stream_IO.End_Of_File(xFile) loop
