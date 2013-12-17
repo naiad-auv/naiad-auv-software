@@ -102,6 +102,20 @@ begin
 end Delay;
 
 
+primitive Lol is
+	input1 : in integer;
+	output1 : out boolean;
+
+	function lell(i : integer) return float is
+	begin
+		return float(i);
+	end lell;
+
+	procedure main is
+	begin
+		null;
+	end main;
+end Lol;
 
 procedure main is
 	i : integer;

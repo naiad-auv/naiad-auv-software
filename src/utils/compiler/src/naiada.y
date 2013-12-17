@@ -61,7 +61,7 @@ int yylex(void);
 /* Rule types on parse stack */
 %type  <yyNode>   program functions function formals formal
 %type  <yyNode>   decls decl stmnts stmnt expr actuals exprs
-%type  <yyNode>   comp_units comp_unit primitives primitive prim_decls prim_decl
+%type  <yyNode>   comp_units primitive prim_decls prim_decl
 %type  <yyType>   type
 %type  <yyOperator> unaryop
 
@@ -81,21 +81,16 @@ int yylex(void);
 program     : comp_units 									{ treeRoot = mProgram($1); }
             ;
 
-comp_units  : comp_units comp_unit								{ $$ = connectCompUnits($1, $2); }
-	    | comp_unit										{ $$ = $1; }
+comp_units  : comp_units function								{ $$ = connectCompUnits($1, $2); }
+	    | comp_units primitive								{ $$ = connectCompUnits($1, $2); }
+	    | function										{ $$ = $1; }
+	    | primitive										{ $$ = $1; }
 	    ;
 
-comp_unit   : functions										{ $$ = $1; }
-	    | primitives									{ $$ = $1; }
+
+functions   : functions function								{ $$ = connectFunctions($1, $2); }
+	    | function										{ $$ = $1; }
 	    ;
-
-primitives  : primitives primitive								{ $$ = connectPrimitives($1, $2); }
- 	    | primitive										{ $$ = $1; }
-	    ; 
-
-functions   : functions function								{ $$ = connectFunctions($1,$2); }
-            | function										{ $$ = $1; }
-            ;
 
 
 primitive   : PRIMITIVE ID IS prim_decls functions END ID ';'					{ if (strcmp($2.strVal, $7.strVal) != 0) { yyerror("syntax error"); YYERROR; } else $$ = mPrimitive($4, $5, $2.strVal, $2.lineNr); }

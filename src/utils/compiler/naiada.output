@@ -1,0 +1,2915 @@
+Grammar
+
+    0 $accept: program $end
+
+    1 program: comp_units
+
+    2 comp_units: comp_units function
+    3           | comp_units primitive
+    4           | function
+    5           | primitive
+
+    6 functions: functions function
+    7          | function
+
+    8 primitive: PRIMITIVE ID IS prim_decls functions END ID ';'
+
+    9 function: PROCEDURE ID '(' formals ')' IS decls BGN stmnts END ID ';'
+   10         | PROCEDURE ID IS decls BGN stmnts END ID ';'
+   11         | FUNCTION ID '(' formals ')' RETURN BASIC_TYPE IS decls BGN stmnts END ID ';'
+   12         | FUNCTION ID RETURN BASIC_TYPE IS decls BGN stmnts END ID ';'
+
+   13 prim_decls: prim_decls prim_decl
+   14           | prim_decl
+
+   15 prim_decl: ID ':' IN BASIC_TYPE ';'
+   16          | ID ':' OUT BASIC_TYPE ';'
+
+   17 formals: formals ';' formal
+   18        | formal
+
+   19 formal: ID ':' type
+
+   20 decls: decls decl
+   21      | /* empty */
+
+   22 decl: ID ':' type ';'
+
+   23 type: BASIC_TYPE
+   24     | ADDR_TYPE '(' BASIC_TYPE ')'
+
+   25 stmnts: stmnts stmnt
+   26       | stmnt
+
+   27 stmnt: ID ASSIGN expr ';'
+   28      | ASM '(' STRING_CONST ')' ';'
+   29      | IF expr THEN stmnts END IF ';'
+   30      | IF expr THEN stmnts ELSE stmnts END IF ';'
+   31      | WHILE expr LOOP stmnts END LOOP ';'
+   32      | RETURN expr ';'
+   33      | RETURN ';'
+   34      | ID '(' actuals ')' ';'
+   35      | LOOP stmnts END LOOP ';'
+   36      | EXIT ';'
+   37      | NULL_STMNT ';'
+   38      | LBL_LEFT ID LBL_RIGHT
+   39      | GOTO ID ';'
+
+   40 expr: MINUSOP expr
+   41     | NOTOP expr
+   42     | unaryop '(' expr ')'
+   43     | expr PLUSOP expr
+   44     | expr MINUSOP expr
+   45     | expr MULDIVOP expr
+   46     | expr ANDOP expr
+   47     | expr OROP expr
+   48     | expr EQOP expr
+   49     | expr LELTOP expr
+   50     | expr MEMTOP expr
+   51     | '(' expr ')'
+   52     | ID '(' actuals ')'
+   53     | ID
+   54     | ADDR_TYPE '(' ID ')'
+   55     | INT_CONST
+   56     | BOOL_CONST
+   57     | FLOAT_CONST
+   58     | '[' expr ',' expr ',' expr ']'
+   59     | '[' '[' expr ',' expr ',' expr ']' ',' '[' expr ',' expr ',' expr ']' ',' '[' expr ',' expr ',' expr ']' ']'
+   60     | VEC_COMP
+   61     | MAT_COMP
+
+   62 unaryop: BASIC_TYPE
+   63        | MATH_TYPE
+
+   64 actuals: exprs
+   65        | /* empty */
+
+   66 exprs: exprs ',' expr
+   67      | expr
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+'(' (40) 9 11 24 28 34 42 51 52 54
+')' (41) 9 11 24 28 34 42 51 52 54
+',' (44) 58 59 66
+':' (58) 15 16 19 22
+';' (59) 8 9 10 11 12 15 16 17 22 27 28 29 30 31 32 33 34 35 36 37
+    39
+'[' (91) 58 59
+']' (93) 58 59
+error (256)
+OROP (258) 47
+ANDOP (259) 46
+EQOP (260) 48
+MEMTOP (261) 50
+LELTOP (262) 49
+PLUSOP (263) 43
+MINUSOP (264) 40 44
+MULDIVOP (265) 45
+UNOP (266)
+NOTOP (267) 41
+BASIC_TYPE (268) 11 12 15 16 23 24 62
+ID (269) 8 9 10 11 12 15 16 19 22 27 34 38 39 52 53 54
+BOOL_CONST (270) 56
+STRING_CONST (271) 28
+VEC_COMP (272) 60
+MAT_COMP (273) 61
+INT_CONST (274) 55
+FLOAT_CONST (275) 57
+IF (276) 29 30
+THEN (277) 29 30
+ELSE (278) 30
+WHILE (279) 31
+RETURN (280) 11 12 32 33
+END (281) 8 9 10 11 12 29 30 31 35
+EXIT (282) 36
+LOOP (283) 31 35
+PROCEDURE (284) 9 10
+FUNCTION (285) 11 12
+IS (286) 8 9 10 11 12
+BGN (287) 9 10 11 12
+ASSIGN (288) 27
+ASM (289) 28
+ADDR_TYPE (290) 24 54
+NULL_STMNT (291) 37
+LBL_LEFT (292) 38
+LBL_RIGHT (293) 38
+GOTO (294) 39
+PRIMITIVE (295) 8
+IN (296) 15
+OUT (297) 16
+MATH_TYPE (298) 63
+
+
+Nonterminals, with rules where they appear
+
+$accept (51)
+    on left: 0
+program (52)
+    on left: 1, on right: 0
+comp_units (53)
+    on left: 2 3 4 5, on right: 1 2 3
+functions (54)
+    on left: 6 7, on right: 6 8
+primitive (55)
+    on left: 8, on right: 3 5
+function (56)
+    on left: 9 10 11 12, on right: 2 4 6 7
+prim_decls (57)
+    on left: 13 14, on right: 8 13
+prim_decl (58)
+    on left: 15 16, on right: 13 14
+formals (59)
+    on left: 17 18, on right: 9 11 17
+formal (60)
+    on left: 19, on right: 17 18
+decls (61)
+    on left: 20 21, on right: 9 10 11 12 20
+decl (62)
+    on left: 22, on right: 20
+type (63)
+    on left: 23 24, on right: 19 22
+stmnts (64)
+    on left: 25 26, on right: 9 10 11 12 25 29 30 31 35
+stmnt (65)
+    on left: 27 28 29 30 31 32 33 34 35 36 37 38 39, on right: 25 26
+expr (66)
+    on left: 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57
+    58 59 60 61, on right: 27 29 30 31 32 40 41 42 43 44 45 46 47 48
+    49 50 51 58 59 66 67
+unaryop (67)
+    on left: 62 63, on right: 42
+actuals (68)
+    on left: 64 65, on right: 34 52
+exprs (69)
+    on left: 66 67, on right: 64 66
+
+
+state 0
+
+    0 $accept: . program $end
+
+    PROCEDURE  shift, and go to state 1
+    FUNCTION   shift, and go to state 2
+    PRIMITIVE  shift, and go to state 3
+
+    program     go to state 4
+    comp_units  go to state 5
+    primitive   go to state 6
+    function    go to state 7
+
+
+state 1
+
+    9 function: PROCEDURE . ID '(' formals ')' IS decls BGN stmnts END ID ';'
+   10         | PROCEDURE . ID IS decls BGN stmnts END ID ';'
+
+    ID  shift, and go to state 8
+
+
+state 2
+
+   11 function: FUNCTION . ID '(' formals ')' RETURN BASIC_TYPE IS decls BGN stmnts END ID ';'
+   12         | FUNCTION . ID RETURN BASIC_TYPE IS decls BGN stmnts END ID ';'
+
+    ID  shift, and go to state 9
+
+
+state 3
+
+    8 primitive: PRIMITIVE . ID IS prim_decls functions END ID ';'
+
+    ID  shift, and go to state 10
+
+
+state 4
+
+    0 $accept: program . $end
+
+    $end  shift, and go to state 11
+
+
+state 5
+
+    1 program: comp_units .
+    2 comp_units: comp_units . function
+    3           | comp_units . primitive
+
+    PROCEDURE  shift, and go to state 1
+    FUNCTION   shift, and go to state 2
+    PRIMITIVE  shift, and go to state 3
+
+    $default  reduce using rule 1 (program)
+
+    primitive  go to state 12
+    function   go to state 13
+
+
+state 6
+
+    5 comp_units: primitive .
+
+    $default  reduce using rule 5 (comp_units)
+
+
+state 7
+
+    4 comp_units: function .
+
+    $default  reduce using rule 4 (comp_units)
+
+
+state 8
+
+    9 function: PROCEDURE ID . '(' formals ')' IS decls BGN stmnts END ID ';'
+   10         | PROCEDURE ID . IS decls BGN stmnts END ID ';'
+
+    IS   shift, and go to state 14
+    '('  shift, and go to state 15
+
+
+state 9
+
+   11 function: FUNCTION ID . '(' formals ')' RETURN BASIC_TYPE IS decls BGN stmnts END ID ';'
+   12         | FUNCTION ID . RETURN BASIC_TYPE IS decls BGN stmnts END ID ';'
+
+    RETURN  shift, and go to state 16
+    '('     shift, and go to state 17
+
+
+state 10
+
+    8 primitive: PRIMITIVE ID . IS prim_decls functions END ID ';'
+
+    IS  shift, and go to state 18
+
+
+state 11
+
+    0 $accept: program $end .
+
+    $default  accept
+
+
+state 12
+
+    3 comp_units: comp_units primitive .
+
+    $default  reduce using rule 3 (comp_units)
+
+
+state 13
+
+    2 comp_units: comp_units function .
+
+    $default  reduce using rule 2 (comp_units)
+
+
+state 14
+
+   10 function: PROCEDURE ID IS . decls BGN stmnts END ID ';'
+
+    $default  reduce using rule 21 (decls)
+
+    decls  go to state 19
+
+
+state 15
+
+    9 function: PROCEDURE ID '(' . formals ')' IS decls BGN stmnts END ID ';'
+
+    ID  shift, and go to state 20
+
+    formals  go to state 21
+    formal   go to state 22
+
+
+state 16
+
+   12 function: FUNCTION ID RETURN . BASIC_TYPE IS decls BGN stmnts END ID ';'
+
+    BASIC_TYPE  shift, and go to state 23
+
+
+state 17
+
+   11 function: FUNCTION ID '(' . formals ')' RETURN BASIC_TYPE IS decls BGN stmnts END ID ';'
+
+    ID  shift, and go to state 20
+
+    formals  go to state 24
+    formal   go to state 22
+
+
+state 18
+
+    8 primitive: PRIMITIVE ID IS . prim_decls functions END ID ';'
+
+    ID  shift, and go to state 25
+
+    prim_decls  go to state 26
+    prim_decl   go to state 27
+
+
+state 19
+
+   10 function: PROCEDURE ID IS decls . BGN stmnts END ID ';'
+   20 decls: decls . decl
+
+    ID   shift, and go to state 28
+    BGN  shift, and go to state 29
+
+    decl  go to state 30
+
+
+state 20
+
+   19 formal: ID . ':' type
+
+    ':'  shift, and go to state 31
+
+
+state 21
+
+    9 function: PROCEDURE ID '(' formals . ')' IS decls BGN stmnts END ID ';'
+   17 formals: formals . ';' formal
+
+    ';'  shift, and go to state 32
+    ')'  shift, and go to state 33
+
+
+state 22
+
+   18 formals: formal .
+
+    $default  reduce using rule 18 (formals)
+
+
+state 23
+
+   12 function: FUNCTION ID RETURN BASIC_TYPE . IS decls BGN stmnts END ID ';'
+
+    IS  shift, and go to state 34
+
+
+state 24
+
+   11 function: FUNCTION ID '(' formals . ')' RETURN BASIC_TYPE IS decls BGN stmnts END ID ';'
+   17 formals: formals . ';' formal
+
+    ';'  shift, and go to state 32
+    ')'  shift, and go to state 35
+
+
+state 25
+
+   15 prim_decl: ID . ':' IN BASIC_TYPE ';'
+   16          | ID . ':' OUT BASIC_TYPE ';'
+
+    ':'  shift, and go to state 36
+
+
+state 26
+
+    8 primitive: PRIMITIVE ID IS prim_decls . functions END ID ';'
+   13 prim_decls: prim_decls . prim_decl
+
+    ID         shift, and go to state 25
+    PROCEDURE  shift, and go to state 1
+    FUNCTION   shift, and go to state 2
+
+    functions  go to state 37
+    function   go to state 38
+    prim_decl  go to state 39
+
+
+state 27
+
+   14 prim_decls: prim_decl .
+
+    $default  reduce using rule 14 (prim_decls)
+
+
+state 28
+
+   22 decl: ID . ':' type ';'
+
+    ':'  shift, and go to state 40
+
+
+state 29
+
+   10 function: PROCEDURE ID IS decls BGN . stmnts END ID ';'
+
+    ID          shift, and go to state 41
+    IF          shift, and go to state 42
+    WHILE       shift, and go to state 43
+    RETURN      shift, and go to state 44
+    EXIT        shift, and go to state 45
+    LOOP        shift, and go to state 46
+    ASM         shift, and go to state 47
+    NULL_STMNT  shift, and go to state 48
+    LBL_LEFT    shift, and go to state 49
+    GOTO        shift, and go to state 50
+
+    stmnts  go to state 51
+    stmnt   go to state 52
+
+
+state 30
+
+   20 decls: decls decl .
+
+    $default  reduce using rule 20 (decls)
+
+
+state 31
+
+   19 formal: ID ':' . type
+
+    BASIC_TYPE  shift, and go to state 53
+    ADDR_TYPE   shift, and go to state 54
+
+    type  go to state 55
+
+
+state 32
+
+   17 formals: formals ';' . formal
+
+    ID  shift, and go to state 20
+
+    formal  go to state 56
+
+
+state 33
+
+    9 function: PROCEDURE ID '(' formals ')' . IS decls BGN stmnts END ID ';'
+
+    IS  shift, and go to state 57
+
+
+state 34
+
+   12 function: FUNCTION ID RETURN BASIC_TYPE IS . decls BGN stmnts END ID ';'
+
+    $default  reduce using rule 21 (decls)
+
+    decls  go to state 58
+
+
+state 35
+
+   11 function: FUNCTION ID '(' formals ')' . RETURN BASIC_TYPE IS decls BGN stmnts END ID ';'
+
+    RETURN  shift, and go to state 59
+
+
+state 36
+
+   15 prim_decl: ID ':' . IN BASIC_TYPE ';'
+   16          | ID ':' . OUT BASIC_TYPE ';'
+
+    IN   shift, and go to state 60
+    OUT  shift, and go to state 61
+
+
+state 37
+
+    6 functions: functions . function
+    8 primitive: PRIMITIVE ID IS prim_decls functions . END ID ';'
+
+    END        shift, and go to state 62
+    PROCEDURE  shift, and go to state 1
+    FUNCTION   shift, and go to state 2
+
+    function  go to state 63
+
+
+state 38
+
+    7 functions: function .
+
+    $default  reduce using rule 7 (functions)
+
+
+state 39
+
+   13 prim_decls: prim_decls prim_decl .
+
+    $default  reduce using rule 13 (prim_decls)
+
+
+state 40
+
+   22 decl: ID ':' . type ';'
+
+    BASIC_TYPE  shift, and go to state 53
+    ADDR_TYPE   shift, and go to state 54
+
+    type  go to state 64
+
+
+state 41
+
+   27 stmnt: ID . ASSIGN expr ';'
+   34      | ID . '(' actuals ')' ';'
+
+    ASSIGN  shift, and go to state 65
+    '('     shift, and go to state 66
+
+
+state 42
+
+   29 stmnt: IF . expr THEN stmnts END IF ';'
+   30      | IF . expr THEN stmnts ELSE stmnts END IF ';'
+
+    MINUSOP      shift, and go to state 67
+    NOTOP        shift, and go to state 68
+    '['          shift, and go to state 69
+    BASIC_TYPE   shift, and go to state 70
+    ID           shift, and go to state 71
+    BOOL_CONST   shift, and go to state 72
+    VEC_COMP     shift, and go to state 73
+    MAT_COMP     shift, and go to state 74
+    INT_CONST    shift, and go to state 75
+    FLOAT_CONST  shift, and go to state 76
+    ADDR_TYPE    shift, and go to state 77
+    MATH_TYPE    shift, and go to state 78
+    '('          shift, and go to state 79
+
+    expr     go to state 80
+    unaryop  go to state 81
+
+
+state 43
+
+   31 stmnt: WHILE . expr LOOP stmnts END LOOP ';'
+
+    MINUSOP      shift, and go to state 67
+    NOTOP        shift, and go to state 68
+    '['          shift, and go to state 69
+    BASIC_TYPE   shift, and go to state 70
+    ID           shift, and go to state 71
+    BOOL_CONST   shift, and go to state 72
+    VEC_COMP     shift, and go to state 73
+    MAT_COMP     shift, and go to state 74
+    INT_CONST    shift, and go to state 75
+    FLOAT_CONST  shift, and go to state 76
+    ADDR_TYPE    shift, and go to state 77
+    MATH_TYPE    shift, and go to state 78
+    '('          shift, and go to state 79
+
+    expr     go to state 82
+    unaryop  go to state 81
+
+
+state 44
+
+   32 stmnt: RETURN . expr ';'
+   33      | RETURN . ';'
+
+    MINUSOP      shift, and go to state 67
+    NOTOP        shift, and go to state 68
+    '['          shift, and go to state 69
+    BASIC_TYPE   shift, and go to state 70
+    ID           shift, and go to state 71
+    BOOL_CONST   shift, and go to state 72
+    VEC_COMP     shift, and go to state 73
+    MAT_COMP     shift, and go to state 74
+    INT_CONST    shift, and go to state 75
+    FLOAT_CONST  shift, and go to state 76
+    ADDR_TYPE    shift, and go to state 77
+    MATH_TYPE    shift, and go to state 78
+    ';'          shift, and go to state 83
+    '('          shift, and go to state 79
+
+    expr     go to state 84
+    unaryop  go to state 81
+
+
+state 45
+
+   36 stmnt: EXIT . ';'
+
+    ';'  shift, and go to state 85
+
+
+state 46
+
+   35 stmnt: LOOP . stmnts END LOOP ';'
+
+    ID          shift, and go to state 41
+    IF          shift, and go to state 42
+    WHILE       shift, and go to state 43
+    RETURN      shift, and go to state 44
+    EXIT        shift, and go to state 45
+    LOOP        shift, and go to state 46
+    ASM         shift, and go to state 47
+    NULL_STMNT  shift, and go to state 48
+    LBL_LEFT    shift, and go to state 49
+    GOTO        shift, and go to state 50
+
+    stmnts  go to state 86
+    stmnt   go to state 52
+
+
+state 47
+
+   28 stmnt: ASM . '(' STRING_CONST ')' ';'
+
+    '('  shift, and go to state 87
+
+
+state 48
+
+   37 stmnt: NULL_STMNT . ';'
+
+    ';'  shift, and go to state 88
+
+
+state 49
+
+   38 stmnt: LBL_LEFT . ID LBL_RIGHT
+
+    ID  shift, and go to state 89
+
+
+state 50
+
+   39 stmnt: GOTO . ID ';'
+
+    ID  shift, and go to state 90
+
+
+state 51
+
+   10 function: PROCEDURE ID IS decls BGN stmnts . END ID ';'
+   25 stmnts: stmnts . stmnt
+
+    ID          shift, and go to state 41
+    IF          shift, and go to state 42
+    WHILE       shift, and go to state 43
+    RETURN      shift, and go to state 44
+    END         shift, and go to state 91
+    EXIT        shift, and go to state 45
+    LOOP        shift, and go to state 46
+    ASM         shift, and go to state 47
+    NULL_STMNT  shift, and go to state 48
+    LBL_LEFT    shift, and go to state 49
+    GOTO        shift, and go to state 50
+
+    stmnt  go to state 92
+
+
+state 52
+
+   26 stmnts: stmnt .
+
+    $default  reduce using rule 26 (stmnts)
+
+
+state 53
+
+   23 type: BASIC_TYPE .
+
+    $default  reduce using rule 23 (type)
+
+
+state 54
+
+   24 type: ADDR_TYPE . '(' BASIC_TYPE ')'
+
+    '('  shift, and go to state 93
+
+
+state 55
+
+   19 formal: ID ':' type .
+
+    $default  reduce using rule 19 (formal)
+
+
+state 56
+
+   17 formals: formals ';' formal .
+
+    $default  reduce using rule 17 (formals)
+
+
+state 57
+
+    9 function: PROCEDURE ID '(' formals ')' IS . decls BGN stmnts END ID ';'
+
+    $default  reduce using rule 21 (decls)
+
+    decls  go to state 94
+
+
+state 58
+
+   12 function: FUNCTION ID RETURN BASIC_TYPE IS decls . BGN stmnts END ID ';'
+   20 decls: decls . decl
+
+    ID   shift, and go to state 28
+    BGN  shift, and go to state 95
+
+    decl  go to state 30
+
+
+state 59
+
+   11 function: FUNCTION ID '(' formals ')' RETURN . BASIC_TYPE IS decls BGN stmnts END ID ';'
+
+    BASIC_TYPE  shift, and go to state 96
+
+
+state 60
+
+   15 prim_decl: ID ':' IN . BASIC_TYPE ';'
+
+    BASIC_TYPE  shift, and go to state 97
+
+
+state 61
+
+   16 prim_decl: ID ':' OUT . BASIC_TYPE ';'
+
+    BASIC_TYPE  shift, and go to state 98
+
+
+state 62
+
+    8 primitive: PRIMITIVE ID IS prim_decls functions END . ID ';'
+
+    ID  shift, and go to state 99
+
+
+state 63
+
+    6 functions: functions function .
+
+    $default  reduce using rule 6 (functions)
+
+
+state 64
+
+   22 decl: ID ':' type . ';'
+
+    ';'  shift, and go to state 100
+
+
+state 65
+
+   27 stmnt: ID ASSIGN . expr ';'
+
+    MINUSOP      shift, and go to state 67
+    NOTOP        shift, and go to state 68
+    '['          shift, and go to state 69
+    BASIC_TYPE   shift, and go to state 70
+    ID           shift, and go to state 71
+    BOOL_CONST   shift, and go to state 72
+    VEC_COMP     shift, and go to state 73
+    MAT_COMP     shift, and go to state 74
+    INT_CONST    shift, and go to state 75
+    FLOAT_CONST  shift, and go to state 76
+    ADDR_TYPE    shift, and go to state 77
+    MATH_TYPE    shift, and go to state 78
+    '('          shift, and go to state 79
+
+    expr     go to state 101
+    unaryop  go to state 81
+
+
+state 66
+
+   34 stmnt: ID '(' . actuals ')' ';'
+
+    MINUSOP      shift, and go to state 67
+    NOTOP        shift, and go to state 68
+    '['          shift, and go to state 69
+    BASIC_TYPE   shift, and go to state 70
+    ID           shift, and go to state 71
+    BOOL_CONST   shift, and go to state 72
+    VEC_COMP     shift, and go to state 73
+    MAT_COMP     shift, and go to state 74
+    INT_CONST    shift, and go to state 75
+    FLOAT_CONST  shift, and go to state 76
+    ADDR_TYPE    shift, and go to state 77
+    MATH_TYPE    shift, and go to state 78
+    '('          shift, and go to state 79
+
+    $default  reduce using rule 65 (actuals)
+
+    expr     go to state 102
+    unaryop  go to state 81
+    actuals  go to state 103
+    exprs    go to state 104
+
+
+state 67
+
+   40 expr: MINUSOP . expr
+
+    MINUSOP      shift, and go to state 67
+    NOTOP        shift, and go to state 68
+    '['          shift, and go to state 69
+    BASIC_TYPE   shift, and go to state 70
+    ID           shift, and go to state 71
+    BOOL_CONST   shift, and go to state 72
+    VEC_COMP     shift, and go to state 73
+    MAT_COMP     shift, and go to state 74
+    INT_CONST    shift, and go to state 75
+    FLOAT_CONST  shift, and go to state 76
+    ADDR_TYPE    shift, and go to state 77
+    MATH_TYPE    shift, and go to state 78
+    '('          shift, and go to state 79
+
+    expr     go to state 105
+    unaryop  go to state 81
+
+
+state 68
+
+   41 expr: NOTOP . expr
+
+    MINUSOP      shift, and go to state 67
+    NOTOP        shift, and go to state 68
+    '['          shift, and go to state 69
+    BASIC_TYPE   shift, and go to state 70
+    ID           shift, and go to state 71
+    BOOL_CONST   shift, and go to state 72
+    VEC_COMP     shift, and go to state 73
+    MAT_COMP     shift, and go to state 74
+    INT_CONST    shift, and go to state 75
+    FLOAT_CONST  shift, and go to state 76
+    ADDR_TYPE    shift, and go to state 77
+    MATH_TYPE    shift, and go to state 78
+    '('          shift, and go to state 79
+
+    expr     go to state 106
+    unaryop  go to state 81
+
+
+state 69
+
+   58 expr: '[' . expr ',' expr ',' expr ']'
+   59     | '[' . '[' expr ',' expr ',' expr ']' ',' '[' expr ',' expr ',' expr ']' ',' '[' expr ',' expr ',' expr ']' ']'
+
+    MINUSOP      shift, and go to state 67
+    NOTOP        shift, and go to state 68
+    '['          shift, and go to state 107
+    BASIC_TYPE   shift, and go to state 70
+    ID           shift, and go to state 71
+    BOOL_CONST   shift, and go to state 72
+    VEC_COMP     shift, and go to state 73
+    MAT_COMP     shift, and go to state 74
+    INT_CONST    shift, and go to state 75
+    FLOAT_CONST  shift, and go to state 76
+    ADDR_TYPE    shift, and go to state 77
+    MATH_TYPE    shift, and go to state 78
+    '('          shift, and go to state 79
+
+    expr     go to state 108
+    unaryop  go to state 81
+
+
+state 70
+
+   62 unaryop: BASIC_TYPE .
+
+    $default  reduce using rule 62 (unaryop)
+
+
+state 71
+
+   52 expr: ID . '(' actuals ')'
+   53     | ID .
+
+    '('  shift, and go to state 109
+
+    $default  reduce using rule 53 (expr)
+
+
+state 72
+
+   56 expr: BOOL_CONST .
+
+    $default  reduce using rule 56 (expr)
+
+
+state 73
+
+   60 expr: VEC_COMP .
+
+    $default  reduce using rule 60 (expr)
+
+
+state 74
+
+   61 expr: MAT_COMP .
+
+    $default  reduce using rule 61 (expr)
+
+
+state 75
+
+   55 expr: INT_CONST .
+
+    $default  reduce using rule 55 (expr)
+
+
+state 76
+
+   57 expr: FLOAT_CONST .
+
+    $default  reduce using rule 57 (expr)
+
+
+state 77
+
+   54 expr: ADDR_TYPE . '(' ID ')'
+
+    '('  shift, and go to state 110
+
+
+state 78
+
+   63 unaryop: MATH_TYPE .
+
+    $default  reduce using rule 63 (unaryop)
+
+
+state 79
+
+   51 expr: '(' . expr ')'
+
+    MINUSOP      shift, and go to state 67
+    NOTOP        shift, and go to state 68
+    '['          shift, and go to state 69
+    BASIC_TYPE   shift, and go to state 70
+    ID           shift, and go to state 71
+    BOOL_CONST   shift, and go to state 72
+    VEC_COMP     shift, and go to state 73
+    MAT_COMP     shift, and go to state 74
+    INT_CONST    shift, and go to state 75
+    FLOAT_CONST  shift, and go to state 76
+    ADDR_TYPE    shift, and go to state 77
+    MATH_TYPE    shift, and go to state 78
+    '('          shift, and go to state 79
+
+    expr     go to state 111
+    unaryop  go to state 81
+
+
+state 80
+
+   29 stmnt: IF expr . THEN stmnts END IF ';'
+   30      | IF expr . THEN stmnts ELSE stmnts END IF ';'
+   43 expr: expr . PLUSOP expr
+   44     | expr . MINUSOP expr
+   45     | expr . MULDIVOP expr
+   46     | expr . ANDOP expr
+   47     | expr . OROP expr
+   48     | expr . EQOP expr
+   49     | expr . LELTOP expr
+   50     | expr . MEMTOP expr
+
+    OROP      shift, and go to state 112
+    ANDOP     shift, and go to state 113
+    EQOP      shift, and go to state 114
+    MEMTOP    shift, and go to state 115
+    LELTOP    shift, and go to state 116
+    PLUSOP    shift, and go to state 117
+    MINUSOP   shift, and go to state 118
+    MULDIVOP  shift, and go to state 119
+    THEN      shift, and go to state 120
+
+
+state 81
+
+   42 expr: unaryop . '(' expr ')'
+
+    '('  shift, and go to state 121
+
+
+state 82
+
+   31 stmnt: WHILE expr . LOOP stmnts END LOOP ';'
+   43 expr: expr . PLUSOP expr
+   44     | expr . MINUSOP expr
+   45     | expr . MULDIVOP expr
+   46     | expr . ANDOP expr
+   47     | expr . OROP expr
+   48     | expr . EQOP expr
+   49     | expr . LELTOP expr
+   50     | expr . MEMTOP expr
+
+    OROP      shift, and go to state 112
+    ANDOP     shift, and go to state 113
+    EQOP      shift, and go to state 114
+    MEMTOP    shift, and go to state 115
+    LELTOP    shift, and go to state 116
+    PLUSOP    shift, and go to state 117
+    MINUSOP   shift, and go to state 118
+    MULDIVOP  shift, and go to state 119
+    LOOP      shift, and go to state 122
+
+
+state 83
+
+   33 stmnt: RETURN ';' .
+
+    $default  reduce using rule 33 (stmnt)
+
+
+state 84
+
+   32 stmnt: RETURN expr . ';'
+   43 expr: expr . PLUSOP expr
+   44     | expr . MINUSOP expr
+   45     | expr . MULDIVOP expr
+   46     | expr . ANDOP expr
+   47     | expr . OROP expr
+   48     | expr . EQOP expr
+   49     | expr . LELTOP expr
+   50     | expr . MEMTOP expr
+
+    OROP      shift, and go to state 112
+    ANDOP     shift, and go to state 113
+    EQOP      shift, and go to state 114
+    MEMTOP    shift, and go to state 115
+    LELTOP    shift, and go to state 116
+    PLUSOP    shift, and go to state 117
+    MINUSOP   shift, and go to state 118
+    MULDIVOP  shift, and go to state 119
+    ';'       shift, and go to state 123
+
+
+state 85
+
+   36 stmnt: EXIT ';' .
+
+    $default  reduce using rule 36 (stmnt)
+
+
+state 86
+
+   25 stmnts: stmnts . stmnt
+   35 stmnt: LOOP stmnts . END LOOP ';'
+
+    ID          shift, and go to state 41
+    IF          shift, and go to state 42
+    WHILE       shift, and go to state 43
+    RETURN      shift, and go to state 44
+    END         shift, and go to state 124
+    EXIT        shift, and go to state 45
+    LOOP        shift, and go to state 46
+    ASM         shift, and go to state 47
+    NULL_STMNT  shift, and go to state 48
+    LBL_LEFT    shift, and go to state 49
+    GOTO        shift, and go to state 50
+
+    stmnt  go to state 92
+
+
+state 87
+
+   28 stmnt: ASM '(' . STRING_CONST ')' ';'
+
+    STRING_CONST  shift, and go to state 125
+
+
+state 88
+
+   37 stmnt: NULL_STMNT ';' .
+
+    $default  reduce using rule 37 (stmnt)
+
+
+state 89
+
+   38 stmnt: LBL_LEFT ID . LBL_RIGHT
+
+    LBL_RIGHT  shift, and go to state 126
+
+
+state 90
+
+   39 stmnt: GOTO ID . ';'
+
+    ';'  shift, and go to state 127
+
+
+state 91
+
+   10 function: PROCEDURE ID IS decls BGN stmnts END . ID ';'
+
+    ID  shift, and go to state 128
+
+
+state 92
+
+   25 stmnts: stmnts stmnt .
+
+    $default  reduce using rule 25 (stmnts)
+
+
+state 93
+
+   24 type: ADDR_TYPE '(' . BASIC_TYPE ')'
+
+    BASIC_TYPE  shift, and go to state 129
+
+
+state 94
+
+    9 function: PROCEDURE ID '(' formals ')' IS decls . BGN stmnts END ID ';'
+   20 decls: decls . decl
+
+    ID   shift, and go to state 28
+    BGN  shift, and go to state 130
+
+    decl  go to state 30
+
+
+state 95
+
+   12 function: FUNCTION ID RETURN BASIC_TYPE IS decls BGN . stmnts END ID ';'
+
+    ID          shift, and go to state 41
+    IF          shift, and go to state 42
+    WHILE       shift, and go to state 43
+    RETURN      shift, and go to state 44
+    EXIT        shift, and go to state 45
+    LOOP        shift, and go to state 46
+    ASM         shift, and go to state 47
+    NULL_STMNT  shift, and go to state 48
+    LBL_LEFT    shift, and go to state 49
+    GOTO        shift, and go to state 50
+
+    stmnts  go to state 131
+    stmnt   go to state 52
+
+
+state 96
+
+   11 function: FUNCTION ID '(' formals ')' RETURN BASIC_TYPE . IS decls BGN stmnts END ID ';'
+
+    IS  shift, and go to state 132
+
+
+state 97
+
+   15 prim_decl: ID ':' IN BASIC_TYPE . ';'
+
+    ';'  shift, and go to state 133
+
+
+state 98
+
+   16 prim_decl: ID ':' OUT BASIC_TYPE . ';'
+
+    ';'  shift, and go to state 134
+
+
+state 99
+
+    8 primitive: PRIMITIVE ID IS prim_decls functions END ID . ';'
+
+    ';'  shift, and go to state 135
+
+
+state 100
+
+   22 decl: ID ':' type ';' .
+
+    $default  reduce using rule 22 (decl)
+
+
+state 101
+
+   27 stmnt: ID ASSIGN expr . ';'
+   43 expr: expr . PLUSOP expr
+   44     | expr . MINUSOP expr
+   45     | expr . MULDIVOP expr
+   46     | expr . ANDOP expr
+   47     | expr . OROP expr
+   48     | expr . EQOP expr
+   49     | expr . LELTOP expr
+   50     | expr . MEMTOP expr
+
+    OROP      shift, and go to state 112
+    ANDOP     shift, and go to state 113
+    EQOP      shift, and go to state 114
+    MEMTOP    shift, and go to state 115
+    LELTOP    shift, and go to state 116
+    PLUSOP    shift, and go to state 117
+    MINUSOP   shift, and go to state 118
+    MULDIVOP  shift, and go to state 119
+    ';'       shift, and go to state 136
+
+
+state 102
+
+   43 expr: expr . PLUSOP expr
+   44     | expr . MINUSOP expr
+   45     | expr . MULDIVOP expr
+   46     | expr . ANDOP expr
+   47     | expr . OROP expr
+   48     | expr . EQOP expr
+   49     | expr . LELTOP expr
+   50     | expr . MEMTOP expr
+   67 exprs: expr .
+
+    OROP      shift, and go to state 112
+    ANDOP     shift, and go to state 113
+    EQOP      shift, and go to state 114
+    MEMTOP    shift, and go to state 115
+    LELTOP    shift, and go to state 116
+    PLUSOP    shift, and go to state 117
+    MINUSOP   shift, and go to state 118
+    MULDIVOP  shift, and go to state 119
+
+    $default  reduce using rule 67 (exprs)
+
+
+state 103
+
+   34 stmnt: ID '(' actuals . ')' ';'
+
+    ')'  shift, and go to state 137
+
+
+state 104
+
+   64 actuals: exprs .
+   66 exprs: exprs . ',' expr
+
+    ','  shift, and go to state 138
+
+    $default  reduce using rule 64 (actuals)
+
+
+state 105
+
+   40 expr: MINUSOP expr .
+   43     | expr . PLUSOP expr
+   44     | expr . MINUSOP expr
+   45     | expr . MULDIVOP expr
+   46     | expr . ANDOP expr
+   47     | expr . OROP expr
+   48     | expr . EQOP expr
+   49     | expr . LELTOP expr
+   50     | expr . MEMTOP expr
+
+    $default  reduce using rule 40 (expr)
+
+
+state 106
+
+   41 expr: NOTOP expr .
+   43     | expr . PLUSOP expr
+   44     | expr . MINUSOP expr
+   45     | expr . MULDIVOP expr
+   46     | expr . ANDOP expr
+   47     | expr . OROP expr
+   48     | expr . EQOP expr
+   49     | expr . LELTOP expr
+   50     | expr . MEMTOP expr
+
+    $default  reduce using rule 41 (expr)
+
+
+state 107
+
+   58 expr: '[' . expr ',' expr ',' expr ']'
+   59     | '[' . '[' expr ',' expr ',' expr ']' ',' '[' expr ',' expr ',' expr ']' ',' '[' expr ',' expr ',' expr ']' ']'
+   59     | '[' '[' . expr ',' expr ',' expr ']' ',' '[' expr ',' expr ',' expr ']' ',' '[' expr ',' expr ',' expr ']' ']'
+
+    MINUSOP      shift, and go to state 67
+    NOTOP        shift, and go to state 68
+    '['          shift, and go to state 107
+    BASIC_TYPE   shift, and go to state 70
+    ID           shift, and go to state 71
+    BOOL_CONST   shift, and go to state 72
+    VEC_COMP     shift, and go to state 73
+    MAT_COMP     shift, and go to state 74
+    INT_CONST    shift, and go to state 75
+    FLOAT_CONST  shift, and go to state 76
+    ADDR_TYPE    shift, and go to state 77
+    MATH_TYPE    shift, and go to state 78
+    '('          shift, and go to state 79
+
+    expr     go to state 139
+    unaryop  go to state 81
+
+
+state 108
+
+   43 expr: expr . PLUSOP expr
+   44     | expr . MINUSOP expr
+   45     | expr . MULDIVOP expr
+   46     | expr . ANDOP expr
+   47     | expr . OROP expr
+   48     | expr . EQOP expr
+   49     | expr . LELTOP expr
+   50     | expr . MEMTOP expr
+   58     | '[' expr . ',' expr ',' expr ']'
+
+    OROP      shift, and go to state 112
+    ANDOP     shift, and go to state 113
+    EQOP      shift, and go to state 114
+    MEMTOP    shift, and go to state 115
+    LELTOP    shift, and go to state 116
+    PLUSOP    shift, and go to state 117
+    MINUSOP   shift, and go to state 118
+    MULDIVOP  shift, and go to state 119
+    ','       shift, and go to state 140
+
+
+state 109
+
+   52 expr: ID '(' . actuals ')'
+
+    MINUSOP      shift, and go to state 67
+    NOTOP        shift, and go to state 68
+    '['          shift, and go to state 69
+    BASIC_TYPE   shift, and go to state 70
+    ID           shift, and go to state 71
+    BOOL_CONST   shift, and go to state 72
+    VEC_COMP     shift, and go to state 73
+    MAT_COMP     shift, and go to state 74
+    INT_CONST    shift, and go to state 75
+    FLOAT_CONST  shift, and go to state 76
+    ADDR_TYPE    shift, and go to state 77
+    MATH_TYPE    shift, and go to state 78
+    '('          shift, and go to state 79
+
+    $default  reduce using rule 65 (actuals)
+
+    expr     go to state 102
+    unaryop  go to state 81
+    actuals  go to state 141
+    exprs    go to state 104
+
+
+state 110
+
+   54 expr: ADDR_TYPE '(' . ID ')'
+
+    ID  shift, and go to state 142
+
+
+state 111
+
+   43 expr: expr . PLUSOP expr
+   44     | expr . MINUSOP expr
+   45     | expr . MULDIVOP expr
+   46     | expr . ANDOP expr
+   47     | expr . OROP expr
+   48     | expr . EQOP expr
+   49     | expr . LELTOP expr
+   50     | expr . MEMTOP expr
+   51     | '(' expr . ')'
+
+    OROP      shift, and go to state 112
+    ANDOP     shift, and go to state 113
+    EQOP      shift, and go to state 114
+    MEMTOP    shift, and go to state 115
+    LELTOP    shift, and go to state 116
+    PLUSOP    shift, and go to state 117
+    MINUSOP   shift, and go to state 118
+    MULDIVOP  shift, and go to state 119
+    ')'       shift, and go to state 143
+
+
+state 112
+
+   47 expr: expr OROP . expr
+
+    MINUSOP      shift, and go to state 67
+    NOTOP        shift, and go to state 68
+    '['          shift, and go to state 69
+    BASIC_TYPE   shift, and go to state 70
+    ID           shift, and go to state 71
+    BOOL_CONST   shift, and go to state 72
+    VEC_COMP     shift, and go to state 73
+    MAT_COMP     shift, and go to state 74
+    INT_CONST    shift, and go to state 75
+    FLOAT_CONST  shift, and go to state 76
+    ADDR_TYPE    shift, and go to state 77
+    MATH_TYPE    shift, and go to state 78
+    '('          shift, and go to state 79
+
+    expr     go to state 144
+    unaryop  go to state 81
+
+
+state 113
+
+   46 expr: expr ANDOP . expr
+
+    MINUSOP      shift, and go to state 67
+    NOTOP        shift, and go to state 68
+    '['          shift, and go to state 69
+    BASIC_TYPE   shift, and go to state 70
+    ID           shift, and go to state 71
+    BOOL_CONST   shift, and go to state 72
+    VEC_COMP     shift, and go to state 73
+    MAT_COMP     shift, and go to state 74
+    INT_CONST    shift, and go to state 75
+    FLOAT_CONST  shift, and go to state 76
+    ADDR_TYPE    shift, and go to state 77
+    MATH_TYPE    shift, and go to state 78
+    '('          shift, and go to state 79
+
+    expr     go to state 145
+    unaryop  go to state 81
+
+
+state 114
+
+   48 expr: expr EQOP . expr
+
+    MINUSOP      shift, and go to state 67
+    NOTOP        shift, and go to state 68
+    '['          shift, and go to state 69
+    BASIC_TYPE   shift, and go to state 70
+    ID           shift, and go to state 71
+    BOOL_CONST   shift, and go to state 72
+    VEC_COMP     shift, and go to state 73
+    MAT_COMP     shift, and go to state 74
+    INT_CONST    shift, and go to state 75
+    FLOAT_CONST  shift, and go to state 76
+    ADDR_TYPE    shift, and go to state 77
+    MATH_TYPE    shift, and go to state 78
+    '('          shift, and go to state 79
+
+    expr     go to state 146
+    unaryop  go to state 81
+
+
+state 115
+
+   50 expr: expr MEMTOP . expr
+
+    MINUSOP      shift, and go to state 67
+    NOTOP        shift, and go to state 68
+    '['          shift, and go to state 69
+    BASIC_TYPE   shift, and go to state 70
+    ID           shift, and go to state 71
+    BOOL_CONST   shift, and go to state 72
+    VEC_COMP     shift, and go to state 73
+    MAT_COMP     shift, and go to state 74
+    INT_CONST    shift, and go to state 75
+    FLOAT_CONST  shift, and go to state 76
+    ADDR_TYPE    shift, and go to state 77
+    MATH_TYPE    shift, and go to state 78
+    '('          shift, and go to state 79
+
+    expr     go to state 147
+    unaryop  go to state 81
+
+
+state 116
+
+   49 expr: expr LELTOP . expr
+
+    MINUSOP      shift, and go to state 67
+    NOTOP        shift, and go to state 68
+    '['          shift, and go to state 69
+    BASIC_TYPE   shift, and go to state 70
+    ID           shift, and go to state 71
+    BOOL_CONST   shift, and go to state 72
+    VEC_COMP     shift, and go to state 73
+    MAT_COMP     shift, and go to state 74
+    INT_CONST    shift, and go to state 75
+    FLOAT_CONST  shift, and go to state 76
+    ADDR_TYPE    shift, and go to state 77
+    MATH_TYPE    shift, and go to state 78
+    '('          shift, and go to state 79
+
+    expr     go to state 148
+    unaryop  go to state 81
+
+
+state 117
+
+   43 expr: expr PLUSOP . expr
+
+    MINUSOP      shift, and go to state 67
+    NOTOP        shift, and go to state 68
+    '['          shift, and go to state 69
+    BASIC_TYPE   shift, and go to state 70
+    ID           shift, and go to state 71
+    BOOL_CONST   shift, and go to state 72
+    VEC_COMP     shift, and go to state 73
+    MAT_COMP     shift, and go to state 74
+    INT_CONST    shift, and go to state 75
+    FLOAT_CONST  shift, and go to state 76
+    ADDR_TYPE    shift, and go to state 77
+    MATH_TYPE    shift, and go to state 78
+    '('          shift, and go to state 79
+
+    expr     go to state 149
+    unaryop  go to state 81
+
+
+state 118
+
+   44 expr: expr MINUSOP . expr
+
+    MINUSOP      shift, and go to state 67
+    NOTOP        shift, and go to state 68
+    '['          shift, and go to state 69
+    BASIC_TYPE   shift, and go to state 70
+    ID           shift, and go to state 71
+    BOOL_CONST   shift, and go to state 72
+    VEC_COMP     shift, and go to state 73
+    MAT_COMP     shift, and go to state 74
+    INT_CONST    shift, and go to state 75
+    FLOAT_CONST  shift, and go to state 76
+    ADDR_TYPE    shift, and go to state 77
+    MATH_TYPE    shift, and go to state 78
+    '('          shift, and go to state 79
+
+    expr     go to state 150
+    unaryop  go to state 81
+
+
+state 119
+
+   45 expr: expr MULDIVOP . expr
+
+    MINUSOP      shift, and go to state 67
+    NOTOP        shift, and go to state 68
+    '['          shift, and go to state 69
+    BASIC_TYPE   shift, and go to state 70
+    ID           shift, and go to state 71
+    BOOL_CONST   shift, and go to state 72
+    VEC_COMP     shift, and go to state 73
+    MAT_COMP     shift, and go to state 74
+    INT_CONST    shift, and go to state 75
+    FLOAT_CONST  shift, and go to state 76
+    ADDR_TYPE    shift, and go to state 77
+    MATH_TYPE    shift, and go to state 78
+    '('          shift, and go to state 79
+
+    expr     go to state 151
+    unaryop  go to state 81
+
+
+state 120
+
+   29 stmnt: IF expr THEN . stmnts END IF ';'
+   30      | IF expr THEN . stmnts ELSE stmnts END IF ';'
+
+    ID          shift, and go to state 41
+    IF          shift, and go to state 42
+    WHILE       shift, and go to state 43
+    RETURN      shift, and go to state 44
+    EXIT        shift, and go to state 45
+    LOOP        shift, and go to state 46
+    ASM         shift, and go to state 47
+    NULL_STMNT  shift, and go to state 48
+    LBL_LEFT    shift, and go to state 49
+    GOTO        shift, and go to state 50
+
+    stmnts  go to state 152
+    stmnt   go to state 52
+
+
+state 121
+
+   42 expr: unaryop '(' . expr ')'
+
+    MINUSOP      shift, and go to state 67
+    NOTOP        shift, and go to state 68
+    '['          shift, and go to state 69
+    BASIC_TYPE   shift, and go to state 70
+    ID           shift, and go to state 71
+    BOOL_CONST   shift, and go to state 72
+    VEC_COMP     shift, and go to state 73
+    MAT_COMP     shift, and go to state 74
+    INT_CONST    shift, and go to state 75
+    FLOAT_CONST  shift, and go to state 76
+    ADDR_TYPE    shift, and go to state 77
+    MATH_TYPE    shift, and go to state 78
+    '('          shift, and go to state 79
+
+    expr     go to state 153
+    unaryop  go to state 81
+
+
+state 122
+
+   31 stmnt: WHILE expr LOOP . stmnts END LOOP ';'
+
+    ID          shift, and go to state 41
+    IF          shift, and go to state 42
+    WHILE       shift, and go to state 43
+    RETURN      shift, and go to state 44
+    EXIT        shift, and go to state 45
+    LOOP        shift, and go to state 46
+    ASM         shift, and go to state 47
+    NULL_STMNT  shift, and go to state 48
+    LBL_LEFT    shift, and go to state 49
+    GOTO        shift, and go to state 50
+
+    stmnts  go to state 154
+    stmnt   go to state 52
+
+
+state 123
+
+   32 stmnt: RETURN expr ';' .
+
+    $default  reduce using rule 32 (stmnt)
+
+
+state 124
+
+   35 stmnt: LOOP stmnts END . LOOP ';'
+
+    LOOP  shift, and go to state 155
+
+
+state 125
+
+   28 stmnt: ASM '(' STRING_CONST . ')' ';'
+
+    ')'  shift, and go to state 156
+
+
+state 126
+
+   38 stmnt: LBL_LEFT ID LBL_RIGHT .
+
+    $default  reduce using rule 38 (stmnt)
+
+
+state 127
+
+   39 stmnt: GOTO ID ';' .
+
+    $default  reduce using rule 39 (stmnt)
+
+
+state 128
+
+   10 function: PROCEDURE ID IS decls BGN stmnts END ID . ';'
+
+    ';'  shift, and go to state 157
+
+
+state 129
+
+   24 type: ADDR_TYPE '(' BASIC_TYPE . ')'
+
+    ')'  shift, and go to state 158
+
+
+state 130
+
+    9 function: PROCEDURE ID '(' formals ')' IS decls BGN . stmnts END ID ';'
+
+    ID          shift, and go to state 41
+    IF          shift, and go to state 42
+    WHILE       shift, and go to state 43
+    RETURN      shift, and go to state 44
+    EXIT        shift, and go to state 45
+    LOOP        shift, and go to state 46
+    ASM         shift, and go to state 47
+    NULL_STMNT  shift, and go to state 48
+    LBL_LEFT    shift, and go to state 49
+    GOTO        shift, and go to state 50
+
+    stmnts  go to state 159
+    stmnt   go to state 52
+
+
+state 131
+
+   12 function: FUNCTION ID RETURN BASIC_TYPE IS decls BGN stmnts . END ID ';'
+   25 stmnts: stmnts . stmnt
+
+    ID          shift, and go to state 41
+    IF          shift, and go to state 42
+    WHILE       shift, and go to state 43
+    RETURN      shift, and go to state 44
+    END         shift, and go to state 160
+    EXIT        shift, and go to state 45
+    LOOP        shift, and go to state 46
+    ASM         shift, and go to state 47
+    NULL_STMNT  shift, and go to state 48
+    LBL_LEFT    shift, and go to state 49
+    GOTO        shift, and go to state 50
+
+    stmnt  go to state 92
+
+
+state 132
+
+   11 function: FUNCTION ID '(' formals ')' RETURN BASIC_TYPE IS . decls BGN stmnts END ID ';'
+
+    $default  reduce using rule 21 (decls)
+
+    decls  go to state 161
+
+
+state 133
+
+   15 prim_decl: ID ':' IN BASIC_TYPE ';' .
+
+    $default  reduce using rule 15 (prim_decl)
+
+
+state 134
+
+   16 prim_decl: ID ':' OUT BASIC_TYPE ';' .
+
+    $default  reduce using rule 16 (prim_decl)
+
+
+state 135
+
+    8 primitive: PRIMITIVE ID IS prim_decls functions END ID ';' .
+
+    $default  reduce using rule 8 (primitive)
+
+
+state 136
+
+   27 stmnt: ID ASSIGN expr ';' .
+
+    $default  reduce using rule 27 (stmnt)
+
+
+state 137
+
+   34 stmnt: ID '(' actuals ')' . ';'
+
+    ';'  shift, and go to state 162
+
+
+state 138
+
+   66 exprs: exprs ',' . expr
+
+    MINUSOP      shift, and go to state 67
+    NOTOP        shift, and go to state 68
+    '['          shift, and go to state 69
+    BASIC_TYPE   shift, and go to state 70
+    ID           shift, and go to state 71
+    BOOL_CONST   shift, and go to state 72
+    VEC_COMP     shift, and go to state 73
+    MAT_COMP     shift, and go to state 74
+    INT_CONST    shift, and go to state 75
+    FLOAT_CONST  shift, and go to state 76
+    ADDR_TYPE    shift, and go to state 77
+    MATH_TYPE    shift, and go to state 78
+    '('          shift, and go to state 79
+
+    expr     go to state 163
+    unaryop  go to state 81
+
+
+state 139
+
+   43 expr: expr . PLUSOP expr
+   44     | expr . MINUSOP expr
+   45     | expr . MULDIVOP expr
+   46     | expr . ANDOP expr
+   47     | expr . OROP expr
+   48     | expr . EQOP expr
+   49     | expr . LELTOP expr
+   50     | expr . MEMTOP expr
+   58     | '[' expr . ',' expr ',' expr ']'
+   59     | '[' '[' expr . ',' expr ',' expr ']' ',' '[' expr ',' expr ',' expr ']' ',' '[' expr ',' expr ',' expr ']' ']'
+
+    OROP      shift, and go to state 112
+    ANDOP     shift, and go to state 113
+    EQOP      shift, and go to state 114
+    MEMTOP    shift, and go to state 115
+    LELTOP    shift, and go to state 116
+    PLUSOP    shift, and go to state 117
+    MINUSOP   shift, and go to state 118
+    MULDIVOP  shift, and go to state 119
+    ','       shift, and go to state 164
+
+
+state 140
+
+   58 expr: '[' expr ',' . expr ',' expr ']'
+
+    MINUSOP      shift, and go to state 67
+    NOTOP        shift, and go to state 68
+    '['          shift, and go to state 69
+    BASIC_TYPE   shift, and go to state 70
+    ID           shift, and go to state 71
+    BOOL_CONST   shift, and go to state 72
+    VEC_COMP     shift, and go to state 73
+    MAT_COMP     shift, and go to state 74
+    INT_CONST    shift, and go to state 75
+    FLOAT_CONST  shift, and go to state 76
+    ADDR_TYPE    shift, and go to state 77
+    MATH_TYPE    shift, and go to state 78
+    '('          shift, and go to state 79
+
+    expr     go to state 165
+    unaryop  go to state 81
+
+
+state 141
+
+   52 expr: ID '(' actuals . ')'
+
+    ')'  shift, and go to state 166
+
+
+state 142
+
+   54 expr: ADDR_TYPE '(' ID . ')'
+
+    ')'  shift, and go to state 167
+
+
+state 143
+
+   51 expr: '(' expr ')' .
+
+    $default  reduce using rule 51 (expr)
+
+
+state 144
+
+   43 expr: expr . PLUSOP expr
+   44     | expr . MINUSOP expr
+   45     | expr . MULDIVOP expr
+   46     | expr . ANDOP expr
+   47     | expr . OROP expr
+   47     | expr OROP expr .
+   48     | expr . EQOP expr
+   49     | expr . LELTOP expr
+   50     | expr . MEMTOP expr
+
+    ANDOP     shift, and go to state 113
+    EQOP      shift, and go to state 114
+    MEMTOP    shift, and go to state 115
+    LELTOP    shift, and go to state 116
+    PLUSOP    shift, and go to state 117
+    MINUSOP   shift, and go to state 118
+    MULDIVOP  shift, and go to state 119
+
+    $default  reduce using rule 47 (expr)
+
+
+state 145
+
+   43 expr: expr . PLUSOP expr
+   44     | expr . MINUSOP expr
+   45     | expr . MULDIVOP expr
+   46     | expr . ANDOP expr
+   46     | expr ANDOP expr .
+   47     | expr . OROP expr
+   48     | expr . EQOP expr
+   49     | expr . LELTOP expr
+   50     | expr . MEMTOP expr
+
+    EQOP      shift, and go to state 114
+    MEMTOP    shift, and go to state 115
+    LELTOP    shift, and go to state 116
+    PLUSOP    shift, and go to state 117
+    MINUSOP   shift, and go to state 118
+    MULDIVOP  shift, and go to state 119
+
+    $default  reduce using rule 46 (expr)
+
+
+state 146
+
+   43 expr: expr . PLUSOP expr
+   44     | expr . MINUSOP expr
+   45     | expr . MULDIVOP expr
+   46     | expr . ANDOP expr
+   47     | expr . OROP expr
+   48     | expr . EQOP expr
+   48     | expr EQOP expr .
+   49     | expr . LELTOP expr
+   50     | expr . MEMTOP expr
+
+    MEMTOP    shift, and go to state 115
+    LELTOP    shift, and go to state 116
+    PLUSOP    shift, and go to state 117
+    MINUSOP   shift, and go to state 118
+    MULDIVOP  shift, and go to state 119
+
+    $default  reduce using rule 48 (expr)
+
+
+state 147
+
+   43 expr: expr . PLUSOP expr
+   44     | expr . MINUSOP expr
+   45     | expr . MULDIVOP expr
+   46     | expr . ANDOP expr
+   47     | expr . OROP expr
+   48     | expr . EQOP expr
+   49     | expr . LELTOP expr
+   50     | expr . MEMTOP expr
+   50     | expr MEMTOP expr .
+
+    PLUSOP    shift, and go to state 117
+    MINUSOP   shift, and go to state 118
+    MULDIVOP  shift, and go to state 119
+
+    $default  reduce using rule 50 (expr)
+
+
+state 148
+
+   43 expr: expr . PLUSOP expr
+   44     | expr . MINUSOP expr
+   45     | expr . MULDIVOP expr
+   46     | expr . ANDOP expr
+   47     | expr . OROP expr
+   48     | expr . EQOP expr
+   49     | expr . LELTOP expr
+   49     | expr LELTOP expr .
+   50     | expr . MEMTOP expr
+
+    PLUSOP    shift, and go to state 117
+    MINUSOP   shift, and go to state 118
+    MULDIVOP  shift, and go to state 119
+
+    $default  reduce using rule 49 (expr)
+
+
+state 149
+
+   43 expr: expr . PLUSOP expr
+   43     | expr PLUSOP expr .
+   44     | expr . MINUSOP expr
+   45     | expr . MULDIVOP expr
+   46     | expr . ANDOP expr
+   47     | expr . OROP expr
+   48     | expr . EQOP expr
+   49     | expr . LELTOP expr
+   50     | expr . MEMTOP expr
+
+    MULDIVOP  shift, and go to state 119
+
+    $default  reduce using rule 43 (expr)
+
+
+state 150
+
+   43 expr: expr . PLUSOP expr
+   44     | expr . MINUSOP expr
+   44     | expr MINUSOP expr .
+   45     | expr . MULDIVOP expr
+   46     | expr . ANDOP expr
+   47     | expr . OROP expr
+   48     | expr . EQOP expr
+   49     | expr . LELTOP expr
+   50     | expr . MEMTOP expr
+
+    MULDIVOP  shift, and go to state 119
+
+    $default  reduce using rule 44 (expr)
+
+
+state 151
+
+   43 expr: expr . PLUSOP expr
+   44     | expr . MINUSOP expr
+   45     | expr . MULDIVOP expr
+   45     | expr MULDIVOP expr .
+   46     | expr . ANDOP expr
+   47     | expr . OROP expr
+   48     | expr . EQOP expr
+   49     | expr . LELTOP expr
+   50     | expr . MEMTOP expr
+
+    $default  reduce using rule 45 (expr)
+
+
+state 152
+
+   25 stmnts: stmnts . stmnt
+   29 stmnt: IF expr THEN stmnts . END IF ';'
+   30      | IF expr THEN stmnts . ELSE stmnts END IF ';'
+
+    ID          shift, and go to state 41
+    IF          shift, and go to state 42
+    ELSE        shift, and go to state 168
+    WHILE       shift, and go to state 43
+    RETURN      shift, and go to state 44
+    END         shift, and go to state 169
+    EXIT        shift, and go to state 45
+    LOOP        shift, and go to state 46
+    ASM         shift, and go to state 47
+    NULL_STMNT  shift, and go to state 48
+    LBL_LEFT    shift, and go to state 49
+    GOTO        shift, and go to state 50
+
+    stmnt  go to state 92
+
+
+state 153
+
+   42 expr: unaryop '(' expr . ')'
+   43     | expr . PLUSOP expr
+   44     | expr . MINUSOP expr
+   45     | expr . MULDIVOP expr
+   46     | expr . ANDOP expr
+   47     | expr . OROP expr
+   48     | expr . EQOP expr
+   49     | expr . LELTOP expr
+   50     | expr . MEMTOP expr
+
+    OROP      shift, and go to state 112
+    ANDOP     shift, and go to state 113
+    EQOP      shift, and go to state 114
+    MEMTOP    shift, and go to state 115
+    LELTOP    shift, and go to state 116
+    PLUSOP    shift, and go to state 117
+    MINUSOP   shift, and go to state 118
+    MULDIVOP  shift, and go to state 119
+    ')'       shift, and go to state 170
+
+
+state 154
+
+   25 stmnts: stmnts . stmnt
+   31 stmnt: WHILE expr LOOP stmnts . END LOOP ';'
+
+    ID          shift, and go to state 41
+    IF          shift, and go to state 42
+    WHILE       shift, and go to state 43
+    RETURN      shift, and go to state 44
+    END         shift, and go to state 171
+    EXIT        shift, and go to state 45
+    LOOP        shift, and go to state 46
+    ASM         shift, and go to state 47
+    NULL_STMNT  shift, and go to state 48
+    LBL_LEFT    shift, and go to state 49
+    GOTO        shift, and go to state 50
+
+    stmnt  go to state 92
+
+
+state 155
+
+   35 stmnt: LOOP stmnts END LOOP . ';'
+
+    ';'  shift, and go to state 172
+
+
+state 156
+
+   28 stmnt: ASM '(' STRING_CONST ')' . ';'
+
+    ';'  shift, and go to state 173
+
+
+state 157
+
+   10 function: PROCEDURE ID IS decls BGN stmnts END ID ';' .
+
+    $default  reduce using rule 10 (function)
+
+
+state 158
+
+   24 type: ADDR_TYPE '(' BASIC_TYPE ')' .
+
+    $default  reduce using rule 24 (type)
+
+
+state 159
+
+    9 function: PROCEDURE ID '(' formals ')' IS decls BGN stmnts . END ID ';'
+   25 stmnts: stmnts . stmnt
+
+    ID          shift, and go to state 41
+    IF          shift, and go to state 42
+    WHILE       shift, and go to state 43
+    RETURN      shift, and go to state 44
+    END         shift, and go to state 174
+    EXIT        shift, and go to state 45
+    LOOP        shift, and go to state 46
+    ASM         shift, and go to state 47
+    NULL_STMNT  shift, and go to state 48
+    LBL_LEFT    shift, and go to state 49
+    GOTO        shift, and go to state 50
+
+    stmnt  go to state 92
+
+
+state 160
+
+   12 function: FUNCTION ID RETURN BASIC_TYPE IS decls BGN stmnts END . ID ';'
+
+    ID  shift, and go to state 175
+
+
+state 161
+
+   11 function: FUNCTION ID '(' formals ')' RETURN BASIC_TYPE IS decls . BGN stmnts END ID ';'
+   20 decls: decls . decl
+
+    ID   shift, and go to state 28
+    BGN  shift, and go to state 176
+
+    decl  go to state 30
+
+
+state 162
+
+   34 stmnt: ID '(' actuals ')' ';' .
+
+    $default  reduce using rule 34 (stmnt)
+
+
+state 163
+
+   43 expr: expr . PLUSOP expr
+   44     | expr . MINUSOP expr
+   45     | expr . MULDIVOP expr
+   46     | expr . ANDOP expr
+   47     | expr . OROP expr
+   48     | expr . EQOP expr
+   49     | expr . LELTOP expr
+   50     | expr . MEMTOP expr
+   66 exprs: exprs ',' expr .
+
+    OROP      shift, and go to state 112
+    ANDOP     shift, and go to state 113
+    EQOP      shift, and go to state 114
+    MEMTOP    shift, and go to state 115
+    LELTOP    shift, and go to state 116
+    PLUSOP    shift, and go to state 117
+    MINUSOP   shift, and go to state 118
+    MULDIVOP  shift, and go to state 119
+
+    $default  reduce using rule 66 (exprs)
+
+
+state 164
+
+   58 expr: '[' expr ',' . expr ',' expr ']'
+   59     | '[' '[' expr ',' . expr ',' expr ']' ',' '[' expr ',' expr ',' expr ']' ',' '[' expr ',' expr ',' expr ']' ']'
+
+    MINUSOP      shift, and go to state 67
+    NOTOP        shift, and go to state 68
+    '['          shift, and go to state 69
+    BASIC_TYPE   shift, and go to state 70
+    ID           shift, and go to state 71
+    BOOL_CONST   shift, and go to state 72
+    VEC_COMP     shift, and go to state 73
+    MAT_COMP     shift, and go to state 74
+    INT_CONST    shift, and go to state 75
+    FLOAT_CONST  shift, and go to state 76
+    ADDR_TYPE    shift, and go to state 77
+    MATH_TYPE    shift, and go to state 78
+    '('          shift, and go to state 79
+
+    expr     go to state 177
+    unaryop  go to state 81
+
+
+state 165
+
+   43 expr: expr . PLUSOP expr
+   44     | expr . MINUSOP expr
+   45     | expr . MULDIVOP expr
+   46     | expr . ANDOP expr
+   47     | expr . OROP expr
+   48     | expr . EQOP expr
+   49     | expr . LELTOP expr
+   50     | expr . MEMTOP expr
+   58     | '[' expr ',' expr . ',' expr ']'
+
+    OROP      shift, and go to state 112
+    ANDOP     shift, and go to state 113
+    EQOP      shift, and go to state 114
+    MEMTOP    shift, and go to state 115
+    LELTOP    shift, and go to state 116
+    PLUSOP    shift, and go to state 117
+    MINUSOP   shift, and go to state 118
+    MULDIVOP  shift, and go to state 119
+    ','       shift, and go to state 178
+
+
+state 166
+
+   52 expr: ID '(' actuals ')' .
+
+    $default  reduce using rule 52 (expr)
+
+
+state 167
+
+   54 expr: ADDR_TYPE '(' ID ')' .
+
+    $default  reduce using rule 54 (expr)
+
+
+state 168
+
+   30 stmnt: IF expr THEN stmnts ELSE . stmnts END IF ';'
+
+    ID          shift, and go to state 41
+    IF          shift, and go to state 42
+    WHILE       shift, and go to state 43
+    RETURN      shift, and go to state 44
+    EXIT        shift, and go to state 45
+    LOOP        shift, and go to state 46
+    ASM         shift, and go to state 47
+    NULL_STMNT  shift, and go to state 48
+    LBL_LEFT    shift, and go to state 49
+    GOTO        shift, and go to state 50
+
+    stmnts  go to state 179
+    stmnt   go to state 52
+
+
+state 169
+
+   29 stmnt: IF expr THEN stmnts END . IF ';'
+
+    IF  shift, and go to state 180
+
+
+state 170
+
+   42 expr: unaryop '(' expr ')' .
+
+    $default  reduce using rule 42 (expr)
+
+
+state 171
+
+   31 stmnt: WHILE expr LOOP stmnts END . LOOP ';'
+
+    LOOP  shift, and go to state 181
+
+
+state 172
+
+   35 stmnt: LOOP stmnts END LOOP ';' .
+
+    $default  reduce using rule 35 (stmnt)
+
+
+state 173
+
+   28 stmnt: ASM '(' STRING_CONST ')' ';' .
+
+    $default  reduce using rule 28 (stmnt)
+
+
+state 174
+
+    9 function: PROCEDURE ID '(' formals ')' IS decls BGN stmnts END . ID ';'
+
+    ID  shift, and go to state 182
+
+
+state 175
+
+   12 function: FUNCTION ID RETURN BASIC_TYPE IS decls BGN stmnts END ID . ';'
+
+    ';'  shift, and go to state 183
+
+
+state 176
+
+   11 function: FUNCTION ID '(' formals ')' RETURN BASIC_TYPE IS decls BGN . stmnts END ID ';'
+
+    ID          shift, and go to state 41
+    IF          shift, and go to state 42
+    WHILE       shift, and go to state 43
+    RETURN      shift, and go to state 44
+    EXIT        shift, and go to state 45
+    LOOP        shift, and go to state 46
+    ASM         shift, and go to state 47
+    NULL_STMNT  shift, and go to state 48
+    LBL_LEFT    shift, and go to state 49
+    GOTO        shift, and go to state 50
+
+    stmnts  go to state 184
+    stmnt   go to state 52
+
+
+state 177
+
+   43 expr: expr . PLUSOP expr
+   44     | expr . MINUSOP expr
+   45     | expr . MULDIVOP expr
+   46     | expr . ANDOP expr
+   47     | expr . OROP expr
+   48     | expr . EQOP expr
+   49     | expr . LELTOP expr
+   50     | expr . MEMTOP expr
+   58     | '[' expr ',' expr . ',' expr ']'
+   59     | '[' '[' expr ',' expr . ',' expr ']' ',' '[' expr ',' expr ',' expr ']' ',' '[' expr ',' expr ',' expr ']' ']'
+
+    OROP      shift, and go to state 112
+    ANDOP     shift, and go to state 113
+    EQOP      shift, and go to state 114
+    MEMTOP    shift, and go to state 115
+    LELTOP    shift, and go to state 116
+    PLUSOP    shift, and go to state 117
+    MINUSOP   shift, and go to state 118
+    MULDIVOP  shift, and go to state 119
+    ','       shift, and go to state 185
+
+
+state 178
+
+   58 expr: '[' expr ',' expr ',' . expr ']'
+
+    MINUSOP      shift, and go to state 67
+    NOTOP        shift, and go to state 68
+    '['          shift, and go to state 69
+    BASIC_TYPE   shift, and go to state 70
+    ID           shift, and go to state 71
+    BOOL_CONST   shift, and go to state 72
+    VEC_COMP     shift, and go to state 73
+    MAT_COMP     shift, and go to state 74
+    INT_CONST    shift, and go to state 75
+    FLOAT_CONST  shift, and go to state 76
+    ADDR_TYPE    shift, and go to state 77
+    MATH_TYPE    shift, and go to state 78
+    '('          shift, and go to state 79
+
+    expr     go to state 186
+    unaryop  go to state 81
+
+
+state 179
+
+   25 stmnts: stmnts . stmnt
+   30 stmnt: IF expr THEN stmnts ELSE stmnts . END IF ';'
+
+    ID          shift, and go to state 41
+    IF          shift, and go to state 42
+    WHILE       shift, and go to state 43
+    RETURN      shift, and go to state 44
+    END         shift, and go to state 187
+    EXIT        shift, and go to state 45
+    LOOP        shift, and go to state 46
+    ASM         shift, and go to state 47
+    NULL_STMNT  shift, and go to state 48
+    LBL_LEFT    shift, and go to state 49
+    GOTO        shift, and go to state 50
+
+    stmnt  go to state 92
+
+
+state 180
+
+   29 stmnt: IF expr THEN stmnts END IF . ';'
+
+    ';'  shift, and go to state 188
+
+
+state 181
+
+   31 stmnt: WHILE expr LOOP stmnts END LOOP . ';'
+
+    ';'  shift, and go to state 189
+
+
+state 182
+
+    9 function: PROCEDURE ID '(' formals ')' IS decls BGN stmnts END ID . ';'
+
+    ';'  shift, and go to state 190
+
+
+state 183
+
+   12 function: FUNCTION ID RETURN BASIC_TYPE IS decls BGN stmnts END ID ';' .
+
+    $default  reduce using rule 12 (function)
+
+
+state 184
+
+   11 function: FUNCTION ID '(' formals ')' RETURN BASIC_TYPE IS decls BGN stmnts . END ID ';'
+   25 stmnts: stmnts . stmnt
+
+    ID          shift, and go to state 41
+    IF          shift, and go to state 42
+    WHILE       shift, and go to state 43
+    RETURN      shift, and go to state 44
+    END         shift, and go to state 191
+    EXIT        shift, and go to state 45
+    LOOP        shift, and go to state 46
+    ASM         shift, and go to state 47
+    NULL_STMNT  shift, and go to state 48
+    LBL_LEFT    shift, and go to state 49
+    GOTO        shift, and go to state 50
+
+    stmnt  go to state 92
+
+
+state 185
+
+   58 expr: '[' expr ',' expr ',' . expr ']'
+   59     | '[' '[' expr ',' expr ',' . expr ']' ',' '[' expr ',' expr ',' expr ']' ',' '[' expr ',' expr ',' expr ']' ']'
+
+    MINUSOP      shift, and go to state 67
+    NOTOP        shift, and go to state 68
+    '['          shift, and go to state 69
+    BASIC_TYPE   shift, and go to state 70
+    ID           shift, and go to state 71
+    BOOL_CONST   shift, and go to state 72
+    VEC_COMP     shift, and go to state 73
+    MAT_COMP     shift, and go to state 74
+    INT_CONST    shift, and go to state 75
+    FLOAT_CONST  shift, and go to state 76
+    ADDR_TYPE    shift, and go to state 77
+    MATH_TYPE    shift, and go to state 78
+    '('          shift, and go to state 79
+
+    expr     go to state 192
+    unaryop  go to state 81
+
+
+state 186
+
+   43 expr: expr . PLUSOP expr
+   44     | expr . MINUSOP expr
+   45     | expr . MULDIVOP expr
+   46     | expr . ANDOP expr
+   47     | expr . OROP expr
+   48     | expr . EQOP expr
+   49     | expr . LELTOP expr
+   50     | expr . MEMTOP expr
+   58     | '[' expr ',' expr ',' expr . ']'
+
+    OROP      shift, and go to state 112
+    ANDOP     shift, and go to state 113
+    EQOP      shift, and go to state 114
+    MEMTOP    shift, and go to state 115
+    LELTOP    shift, and go to state 116
+    PLUSOP    shift, and go to state 117
+    MINUSOP   shift, and go to state 118
+    MULDIVOP  shift, and go to state 119
+    ']'       shift, and go to state 193
+
+
+state 187
+
+   30 stmnt: IF expr THEN stmnts ELSE stmnts END . IF ';'
+
+    IF  shift, and go to state 194
+
+
+state 188
+
+   29 stmnt: IF expr THEN stmnts END IF ';' .
+
+    $default  reduce using rule 29 (stmnt)
+
+
+state 189
+
+   31 stmnt: WHILE expr LOOP stmnts END LOOP ';' .
+
+    $default  reduce using rule 31 (stmnt)
+
+
+state 190
+
+    9 function: PROCEDURE ID '(' formals ')' IS decls BGN stmnts END ID ';' .
+
+    $default  reduce using rule 9 (function)
+
+
+state 191
+
+   11 function: FUNCTION ID '(' formals ')' RETURN BASIC_TYPE IS decls BGN stmnts END . ID ';'
+
+    ID  shift, and go to state 195
+
+
+state 192
+
+   43 expr: expr . PLUSOP expr
+   44     | expr . MINUSOP expr
+   45     | expr . MULDIVOP expr
+   46     | expr . ANDOP expr
+   47     | expr . OROP expr
+   48     | expr . EQOP expr
+   49     | expr . LELTOP expr
+   50     | expr . MEMTOP expr
+   58     | '[' expr ',' expr ',' expr . ']'
+   59     | '[' '[' expr ',' expr ',' expr . ']' ',' '[' expr ',' expr ',' expr ']' ',' '[' expr ',' expr ',' expr ']' ']'
+
+    OROP      shift, and go to state 112
+    ANDOP     shift, and go to state 113
+    EQOP      shift, and go to state 114
+    MEMTOP    shift, and go to state 115
+    LELTOP    shift, and go to state 116
+    PLUSOP    shift, and go to state 117
+    MINUSOP   shift, and go to state 118
+    MULDIVOP  shift, and go to state 119
+    ']'       shift, and go to state 196
+
+
+state 193
+
+   58 expr: '[' expr ',' expr ',' expr ']' .
+
+    $default  reduce using rule 58 (expr)
+
+
+state 194
+
+   30 stmnt: IF expr THEN stmnts ELSE stmnts END IF . ';'
+
+    ';'  shift, and go to state 197
+
+
+state 195
+
+   11 function: FUNCTION ID '(' formals ')' RETURN BASIC_TYPE IS decls BGN stmnts END ID . ';'
+
+    ';'  shift, and go to state 198
+
+
+state 196
+
+   58 expr: '[' expr ',' expr ',' expr ']' .
+   59     | '[' '[' expr ',' expr ',' expr ']' . ',' '[' expr ',' expr ',' expr ']' ',' '[' expr ',' expr ',' expr ']' ']'
+
+    ','  shift, and go to state 199
+
+    $default  reduce using rule 58 (expr)
+
+
+state 197
+
+   30 stmnt: IF expr THEN stmnts ELSE stmnts END IF ';' .
+
+    $default  reduce using rule 30 (stmnt)
+
+
+state 198
+
+   11 function: FUNCTION ID '(' formals ')' RETURN BASIC_TYPE IS decls BGN stmnts END ID ';' .
+
+    $default  reduce using rule 11 (function)
+
+
+state 199
+
+   59 expr: '[' '[' expr ',' expr ',' expr ']' ',' . '[' expr ',' expr ',' expr ']' ',' '[' expr ',' expr ',' expr ']' ']'
+
+    '['  shift, and go to state 200
+
+
+state 200
+
+   59 expr: '[' '[' expr ',' expr ',' expr ']' ',' '[' . expr ',' expr ',' expr ']' ',' '[' expr ',' expr ',' expr ']' ']'
+
+    MINUSOP      shift, and go to state 67
+    NOTOP        shift, and go to state 68
+    '['          shift, and go to state 69
+    BASIC_TYPE   shift, and go to state 70
+    ID           shift, and go to state 71
+    BOOL_CONST   shift, and go to state 72
+    VEC_COMP     shift, and go to state 73
+    MAT_COMP     shift, and go to state 74
+    INT_CONST    shift, and go to state 75
+    FLOAT_CONST  shift, and go to state 76
+    ADDR_TYPE    shift, and go to state 77
+    MATH_TYPE    shift, and go to state 78
+    '('          shift, and go to state 79
+
+    expr     go to state 201
+    unaryop  go to state 81
+
+
+state 201
+
+   43 expr: expr . PLUSOP expr
+   44     | expr . MINUSOP expr
+   45     | expr . MULDIVOP expr
+   46     | expr . ANDOP expr
+   47     | expr . OROP expr
+   48     | expr . EQOP expr
+   49     | expr . LELTOP expr
+   50     | expr . MEMTOP expr
+   59     | '[' '[' expr ',' expr ',' expr ']' ',' '[' expr . ',' expr ',' expr ']' ',' '[' expr ',' expr ',' expr ']' ']'
+
+    OROP      shift, and go to state 112
+    ANDOP     shift, and go to state 113
+    EQOP      shift, and go to state 114
+    MEMTOP    shift, and go to state 115
+    LELTOP    shift, and go to state 116
+    PLUSOP    shift, and go to state 117
+    MINUSOP   shift, and go to state 118
+    MULDIVOP  shift, and go to state 119
+    ','       shift, and go to state 202
+
+
+state 202
+
+   59 expr: '[' '[' expr ',' expr ',' expr ']' ',' '[' expr ',' . expr ',' expr ']' ',' '[' expr ',' expr ',' expr ']' ']'
+
+    MINUSOP      shift, and go to state 67
+    NOTOP        shift, and go to state 68
+    '['          shift, and go to state 69
+    BASIC_TYPE   shift, and go to state 70
+    ID           shift, and go to state 71
+    BOOL_CONST   shift, and go to state 72
+    VEC_COMP     shift, and go to state 73
+    MAT_COMP     shift, and go to state 74
+    INT_CONST    shift, and go to state 75
+    FLOAT_CONST  shift, and go to state 76
+    ADDR_TYPE    shift, and go to state 77
+    MATH_TYPE    shift, and go to state 78
+    '('          shift, and go to state 79
+
+    expr     go to state 203
+    unaryop  go to state 81
+
+
+state 203
+
+   43 expr: expr . PLUSOP expr
+   44     | expr . MINUSOP expr
+   45     | expr . MULDIVOP expr
+   46     | expr . ANDOP expr
+   47     | expr . OROP expr
+   48     | expr . EQOP expr
+   49     | expr . LELTOP expr
+   50     | expr . MEMTOP expr
+   59     | '[' '[' expr ',' expr ',' expr ']' ',' '[' expr ',' expr . ',' expr ']' ',' '[' expr ',' expr ',' expr ']' ']'
+
+    OROP      shift, and go to state 112
+    ANDOP     shift, and go to state 113
+    EQOP      shift, and go to state 114
+    MEMTOP    shift, and go to state 115
+    LELTOP    shift, and go to state 116
+    PLUSOP    shift, and go to state 117
+    MINUSOP   shift, and go to state 118
+    MULDIVOP  shift, and go to state 119
+    ','       shift, and go to state 204
+
+
+state 204
+
+   59 expr: '[' '[' expr ',' expr ',' expr ']' ',' '[' expr ',' expr ',' . expr ']' ',' '[' expr ',' expr ',' expr ']' ']'
+
+    MINUSOP      shift, and go to state 67
+    NOTOP        shift, and go to state 68
+    '['          shift, and go to state 69
+    BASIC_TYPE   shift, and go to state 70
+    ID           shift, and go to state 71
+    BOOL_CONST   shift, and go to state 72
+    VEC_COMP     shift, and go to state 73
+    MAT_COMP     shift, and go to state 74
+    INT_CONST    shift, and go to state 75
+    FLOAT_CONST  shift, and go to state 76
+    ADDR_TYPE    shift, and go to state 77
+    MATH_TYPE    shift, and go to state 78
+    '('          shift, and go to state 79
+
+    expr     go to state 205
+    unaryop  go to state 81
+
+
+state 205
+
+   43 expr: expr . PLUSOP expr
+   44     | expr . MINUSOP expr
+   45     | expr . MULDIVOP expr
+   46     | expr . ANDOP expr
+   47     | expr . OROP expr
+   48     | expr . EQOP expr
+   49     | expr . LELTOP expr
+   50     | expr . MEMTOP expr
+   59     | '[' '[' expr ',' expr ',' expr ']' ',' '[' expr ',' expr ',' expr . ']' ',' '[' expr ',' expr ',' expr ']' ']'
+
+    OROP      shift, and go to state 112
+    ANDOP     shift, and go to state 113
+    EQOP      shift, and go to state 114
+    MEMTOP    shift, and go to state 115
+    LELTOP    shift, and go to state 116
+    PLUSOP    shift, and go to state 117
+    MINUSOP   shift, and go to state 118
+    MULDIVOP  shift, and go to state 119
+    ']'       shift, and go to state 206
+
+
+state 206
+
+   59 expr: '[' '[' expr ',' expr ',' expr ']' ',' '[' expr ',' expr ',' expr ']' . ',' '[' expr ',' expr ',' expr ']' ']'
+
+    ','  shift, and go to state 207
+
+
+state 207
+
+   59 expr: '[' '[' expr ',' expr ',' expr ']' ',' '[' expr ',' expr ',' expr ']' ',' . '[' expr ',' expr ',' expr ']' ']'
+
+    '['  shift, and go to state 208
+
+
+state 208
+
+   59 expr: '[' '[' expr ',' expr ',' expr ']' ',' '[' expr ',' expr ',' expr ']' ',' '[' . expr ',' expr ',' expr ']' ']'
+
+    MINUSOP      shift, and go to state 67
+    NOTOP        shift, and go to state 68
+    '['          shift, and go to state 69
+    BASIC_TYPE   shift, and go to state 70
+    ID           shift, and go to state 71
+    BOOL_CONST   shift, and go to state 72
+    VEC_COMP     shift, and go to state 73
+    MAT_COMP     shift, and go to state 74
+    INT_CONST    shift, and go to state 75
+    FLOAT_CONST  shift, and go to state 76
+    ADDR_TYPE    shift, and go to state 77
+    MATH_TYPE    shift, and go to state 78
+    '('          shift, and go to state 79
+
+    expr     go to state 209
+    unaryop  go to state 81
+
+
+state 209
+
+   43 expr: expr . PLUSOP expr
+   44     | expr . MINUSOP expr
+   45     | expr . MULDIVOP expr
+   46     | expr . ANDOP expr
+   47     | expr . OROP expr
+   48     | expr . EQOP expr
+   49     | expr . LELTOP expr
+   50     | expr . MEMTOP expr
+   59     | '[' '[' expr ',' expr ',' expr ']' ',' '[' expr ',' expr ',' expr ']' ',' '[' expr . ',' expr ',' expr ']' ']'
+
+    OROP      shift, and go to state 112
+    ANDOP     shift, and go to state 113
+    EQOP      shift, and go to state 114
+    MEMTOP    shift, and go to state 115
+    LELTOP    shift, and go to state 116
+    PLUSOP    shift, and go to state 117
+    MINUSOP   shift, and go to state 118
+    MULDIVOP  shift, and go to state 119
+    ','       shift, and go to state 210
+
+
+state 210
+
+   59 expr: '[' '[' expr ',' expr ',' expr ']' ',' '[' expr ',' expr ',' expr ']' ',' '[' expr ',' . expr ',' expr ']' ']'
+
+    MINUSOP      shift, and go to state 67
+    NOTOP        shift, and go to state 68
+    '['          shift, and go to state 69
+    BASIC_TYPE   shift, and go to state 70
+    ID           shift, and go to state 71
+    BOOL_CONST   shift, and go to state 72
+    VEC_COMP     shift, and go to state 73
+    MAT_COMP     shift, and go to state 74
+    INT_CONST    shift, and go to state 75
+    FLOAT_CONST  shift, and go to state 76
+    ADDR_TYPE    shift, and go to state 77
+    MATH_TYPE    shift, and go to state 78
+    '('          shift, and go to state 79
+
+    expr     go to state 211
+    unaryop  go to state 81
+
+
+state 211
+
+   43 expr: expr . PLUSOP expr
+   44     | expr . MINUSOP expr
+   45     | expr . MULDIVOP expr
+   46     | expr . ANDOP expr
+   47     | expr . OROP expr
+   48     | expr . EQOP expr
+   49     | expr . LELTOP expr
+   50     | expr . MEMTOP expr
+   59     | '[' '[' expr ',' expr ',' expr ']' ',' '[' expr ',' expr ',' expr ']' ',' '[' expr ',' expr . ',' expr ']' ']'
+
+    OROP      shift, and go to state 112
+    ANDOP     shift, and go to state 113
+    EQOP      shift, and go to state 114
+    MEMTOP    shift, and go to state 115
+    LELTOP    shift, and go to state 116
+    PLUSOP    shift, and go to state 117
+    MINUSOP   shift, and go to state 118
+    MULDIVOP  shift, and go to state 119
+    ','       shift, and go to state 212
+
+
+state 212
+
+   59 expr: '[' '[' expr ',' expr ',' expr ']' ',' '[' expr ',' expr ',' expr ']' ',' '[' expr ',' expr ',' . expr ']' ']'
+
+    MINUSOP      shift, and go to state 67
+    NOTOP        shift, and go to state 68
+    '['          shift, and go to state 69
+    BASIC_TYPE   shift, and go to state 70
+    ID           shift, and go to state 71
+    BOOL_CONST   shift, and go to state 72
+    VEC_COMP     shift, and go to state 73
+    MAT_COMP     shift, and go to state 74
+    INT_CONST    shift, and go to state 75
+    FLOAT_CONST  shift, and go to state 76
+    ADDR_TYPE    shift, and go to state 77
+    MATH_TYPE    shift, and go to state 78
+    '('          shift, and go to state 79
+
+    expr     go to state 213
+    unaryop  go to state 81
+
+
+state 213
+
+   43 expr: expr . PLUSOP expr
+   44     | expr . MINUSOP expr
+   45     | expr . MULDIVOP expr
+   46     | expr . ANDOP expr
+   47     | expr . OROP expr
+   48     | expr . EQOP expr
+   49     | expr . LELTOP expr
+   50     | expr . MEMTOP expr
+   59     | '[' '[' expr ',' expr ',' expr ']' ',' '[' expr ',' expr ',' expr ']' ',' '[' expr ',' expr ',' expr . ']' ']'
+
+    OROP      shift, and go to state 112
+    ANDOP     shift, and go to state 113
+    EQOP      shift, and go to state 114
+    MEMTOP    shift, and go to state 115
+    LELTOP    shift, and go to state 116
+    PLUSOP    shift, and go to state 117
+    MINUSOP   shift, and go to state 118
+    MULDIVOP  shift, and go to state 119
+    ']'       shift, and go to state 214
+
+
+state 214
+
+   59 expr: '[' '[' expr ',' expr ',' expr ']' ',' '[' expr ',' expr ',' expr ']' ',' '[' expr ',' expr ',' expr ']' . ']'
+
+    ']'  shift, and go to state 215
+
+
+state 215
+
+   59 expr: '[' '[' expr ',' expr ',' expr ']' ',' '[' expr ',' expr ',' expr ']' ',' '[' expr ',' expr ',' expr ']' ']' .
+
+    $default  reduce using rule 59 (expr)

@@ -132,6 +132,7 @@ void genSMCPopVars(t_symtable * table_iter);
 void genSMCCallNodeFunction(t_tree node);
 void genSMCVariable(t_tree node);
 void genSMCProgram(t_tree node);
+void genSMCPrimitive(t_tree node);
 void genSMCFunction(t_tree node);
 void genSMCFormal(t_tree node);
 void genSMCLocal(t_tree node);
@@ -677,6 +678,9 @@ void genSMCCallNodeFunction(t_tree node)
 	case kProgram:
 		genSMCProgram(node);
 		break;
+	case kPrimitive:
+		genSMCPrimitive(node);
+		break;
 	case kFunction:
 		genSMCFunction(node);
 		break;
@@ -754,7 +758,16 @@ void genSMCCallNodeFunction(t_tree node)
 
 void genSMCProgram(t_tree node)
 {
-	genSMCCallNodeFunction(node->Node.Program.Functions);
+	genSMCCallNodeFunction(node->Node.Program.CompUnits);
+}
+
+void genSMCPrimitive(t_tree node)
+{
+	if (node == NULL)
+		return;
+
+	genSMCCallNodeFunction(node->Node.Primitive.Functions);
+	genSMCCallNodeFunction(node->Node.Primitive.Next);
 }
 
 

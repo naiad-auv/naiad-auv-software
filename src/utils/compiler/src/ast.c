@@ -34,10 +34,10 @@ static t_tree allocateNode(NODETYPE pKind, int pLineNr)
    return node;
 }
 
-t_tree mProgram(t_tree pFunctions)
+t_tree mProgram(t_tree pCompUnits)
 {
    t_tree node = allocateNode(kProgram, -1);
-   node->Node.Program.Functions = pFunctions;
+   node->Node.Program.CompUnits = pCompUnits;
    return node;
 }
 
