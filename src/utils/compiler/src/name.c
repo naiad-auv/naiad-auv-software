@@ -7,19 +7,25 @@
 #include "symtab.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 
 
 
 int nameErrorType;
 int nameErrorLineNr;
 const char * nameErrorId;
+t_tree nameCurrentPrimitive;
 
 // helper functions
+void replaceString(char ** replace, const char * with);
+void joinStrings(char ** target, const char * first, const char * second);
 void checkIdExists(const char * name, int lineNr, int type, int funcorvar);
 void checkIdUndefined(const char * name, int lineNr);
+void checkIdUndefinedInPrimitive(char ** name, int lineNr);
 
 // AST functions
 t_symtable *nameProgram(t_tree node);
+void namePrimitive(t_tree node);
 void nameExpr(t_tree node);
 void nameStmnt(t_tree node);
 void nameVariable(t_tree node);
@@ -127,6 +133,39 @@ void nameStmnt(t_tree node)
 	}
 }
 
+void replaceString(char ** replace, const char * with)
+{
+	char * with_cpy = (char *)malloc(sizeof(char) * (strlen(with) + 1));
+	strcpy(with_cpy, with);
+	with_cpy[strlen(with)] = 0;
+
+	free(*replace);
+	*replace = (char *)malloc(sizeof(char) * (strlen(with_cpy) + 1));
+	strcpy(*replace, with_cpy);
+	(*replace)[strlen(with_cpy)] = 0;
+	
+	free(with_cpy);
+}
+
+void joinStrings(char ** target, const char * first, const char * second)
+{
+	char * first_cpy = (char *)malloc(sizeof(char) * (strlen(first) + 1));
+	char * second_cpy = (char *)malloc(sizeof(char) * (strlen(first) + 1));
+	strcpy(first_cpy, first);
+	strcpy(second_cpy, second);
+	first_cpy[strlen(first)] = 0;
+	second_cpy[strlen(second)] = 0;
+
+	free(*target);
+	*target = (char *)malloc(sizeof(char) * (strlen(first_cpy) + strlen(second_cpy) + 1));
+	strcpy(*target, first_cpy);
+	strcat(*target, second_cpy);
+	(*target)[strlen(first_cpy) + strlen(second_cpy)] = 0;	
+
+	free(first_cpy);
+	free(second_cpy);
+}
+
 void checkIdExists(const char * name, int lineNr, int type, int funcorvar)
 {
 	t_symtable * table_iter = scope;
@@ -150,12 +189,54 @@ void checkIdExists(const char * name, int lineNr, int type, int funcorvar)
 		createVariableTable(name,type);
 }
 
+void checkIdUndefinedInPrimitive(char ** name, int lineNr)
+{
+	t_symtable * table_iter = scope;
+	t_symtable * tableFound = NULL;
+	char * new_name;
+
+	if (nameErrorType > 0)
+		return;
+
+	while (table_iter != NULL)
+	{
+		tableFound = FindId(*name, table_iter);
+		if (tableFound != NULL)
+			return;
+		table_iter = table_iter->parent;
+	}
+
+	new_name = (char *)malloc(sizeof(char) * (strlen(*name) + strlen(nameCurrentPrimitive->Node.Primitive.Name) + 1));
+	strcpy(new_name, nameCurrentPrimitive->Node.Primitive.Name);
+	strcat(new_name, *name);
+	new_name[strlen(*name) + strlen(nameCurrentPrimitive->Node.Primitive.Name)] = 0;
+	
+	table_iter = scope;
+	while (table_iter != NULL)
+	{
+		tableFound = FindId(new_name, table_iter);
+		if (tableFound != NULL)
+		{
+			free(*name);
+			(*name) = new_name;
+			return;
+		}
+		table_iter = table_iter->parent;
+	}
+	free(new_name);
+	nameErrorType = NAME_ERROR_TYPE_NOT_DEFINED;
+	nameErrorLineNr = lineNr;
+	nameErrorId = *name;		
+}
+
 void checkIdUndefined(const char * name, int lineNr)
 {
 	t_symtable * table_iter = scope;
 	t_symtable * tableFound = NULL;
+
 	if (nameErrorType > 0)
 		return;
+
 	while (table_iter != NULL)
 	{
 		tableFound = FindId(name, table_iter);
@@ -166,18 +247,60 @@ void checkIdUndefined(const char * name, int lineNr)
 	nameErrorType = NAME_ERROR_TYPE_NOT_DEFINED;
 	nameErrorLineNr = lineNr;
 	nameErrorId = name;
+
 }
 
 t_symtable *nameProgram(t_tree node)
 {
 	scope = createFunctionTable(NULL, 0); // create "empty" function symbol table to use as global scope
-	nameFunction(node->Node.Program.Functions);
+	namePrimitive(node->Node.Program.CompUnits);
 	return scope; // return the global scope
 }
+
+void namePrimitive(t_tree node)
+{
+	if (node == NULL)
+		return;
+
+	if (node->Kind == kFunction)
+		nameFunction(node);
+	else
+	{
+		nameCurrentPrimitive = node;
+		nameFunction(node->Node.Primitive.Functions);
+
+		nameCurrentPrimitive = NULL;
+		namePrimitive(node->Node.Primitive.Next);
+	}
+}
+
+void namePrimitiveVariables(t_tree node)
+{
+	if (node == NULL)
+		return;
+	
+	if (node->Node.Variable.VarKind == kFormal && node->Node.Variable.Type < BOOL_ADDR)
+		node->Node.Variable.Type += MATRIX;
+	node->Node.Variable.VarKind = kFormal;
+}
+
 void nameFunction(t_tree node)
 {
 	if (node == NULL)
 		return;
+
+	if (nameCurrentPrimitive != NULL)
+	{
+		if (strcmp(node->Node.Function.Name, "main") == 0)
+		{
+			replaceString(&node->Node.Function.Name, nameCurrentPrimitive->Node.Primitive.Name);
+			node->Node.Function.Variables = nameCurrentPrimitive->Node.Primitive.Variables;
+			nameCurrentPrimitive->Node.Primitive.Variables = NULL;
+			namePrimitiveVariables(node->Node.Function.Variables);
+		}
+		else
+			joinStrings(&node->Node.Function.Name, nameCurrentPrimitive->Node.Primitive.Name, node->Node.Function.Name);			
+	}
 	
 	checkIdExists(node->Node.Function.Name, node->LineNr, node->Node.Function.Type, NAME_TABLE_FUNCTION);
 	scope = FindId(node->Node.Function.Name, scope);
@@ -187,7 +310,7 @@ void nameFunction(t_tree node)
 	nameStmnt(node->Node.Function.Stmnts);
 
 	scope = scope->parent;
-	nameFunction(node->Node.Function.Next);
+	namePrimitive(node->Node.Function.Next);
 }
 
 void nameVariable(t_tree node)
@@ -275,14 +398,22 @@ void nameReturn(t_tree node)
 }
 void nameFuncCallStmnt(t_tree node)
 {
-	checkIdUndefined(node->Node.FuncCallStmnt.FuncName, node->LineNr);
+	if (nameCurrentPrimitive == NULL)
+		checkIdUndefined(node->Node.FuncCallStmnt.FuncName, node->LineNr);
+	else
+		checkIdUndefinedInPrimitive(&node->Node.FuncCallStmnt.FuncName, node->LineNr);
+
 	nameActual(node->Node.FuncCallStmnt.Actuals, 1);
 	
 	nameStmnt(node->Node.Stmnt.Next);
 }
 void nameFuncCallExpr(t_tree node)
 {
-	checkIdUndefined(node->Node.FuncCallExpr.FuncName, node->LineNr);
+	if (nameCurrentPrimitive == NULL)
+		checkIdUndefined(node->Node.FuncCallExpr.FuncName, node->LineNr);
+	else
+		checkIdUndefinedInPrimitive(&node->Node.FuncCallExpr.FuncName, node->LineNr);
+
 	nameActual(node->Node.FuncCallExpr.Actuals, 1);
 }
 void nameActual(t_tree node, int number)
@@ -348,6 +479,7 @@ void nameLabel(t_tree node)
 t_symtable *nameAnalysis(t_tree node)
 {
 	scope = NULL;
+	nameCurrentPrimitive = NULL;
 	nameErrorType = 0;
 	return nameProgram(node);
 }

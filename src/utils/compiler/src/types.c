@@ -16,6 +16,7 @@ int typeErrorLineNr; // global to say what line number type error was found on
 eType typeStmnt(t_tree node);
 eType typeExpr(t_tree node);
 eType typeProgram(t_tree node);
+eType typePrimitive(t_tree node);
 eType typeFunction(t_tree node);
 eType typeFormal(t_tree node);
 eType typeLocal(t_tree node);
@@ -131,9 +132,29 @@ eType typeExpr(t_tree node)
 	return ERROR_TYPE;
 }
 
+
+
 eType typeProgram(t_tree node)
 {
-	return typeFunction(node->Node.Program.Functions);
+	return typePrimitive(node->Node.Program.CompUnits);
+}
+
+
+
+eType typePrimitive(t_tree node)
+{
+	if (node == NULL)
+		return VOID;
+
+	if (node->Kind == kFunction)
+		return typeFunction(node);
+
+	if (typeFunction(node->Node.Primitive.Functions) == VOID)
+		return typePrimitive(node->Node.Primitive.Next);
+
+	if (typeErrorLineNr < 0)
+		typeErrorLineNr = node->LineNr;
+	return ERROR_TYPE;
 }
 
 eType typeFunction(t_tree node)
@@ -147,7 +168,7 @@ eType typeFunction(t_tree node)
 		return ERROR_TYPE;
 
 	scope = scope->parent;
-	return typeFunction(node->Node.Function.Next);
+	return typePrimitive(node->Node.Function.Next);
 }
 
 eType typeAssign(t_tree node)

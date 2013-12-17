@@ -52,7 +52,7 @@ typedef enum {VOID=0, BOOL, INT, FLOAT, VECTOR, MATRIX, BOOL_ADDR, INT_ADDR, FLO
 
 /* The program. */
 typedef struct {
-   t_tree Functions;  /* A list of functions in the program. */
+   t_tree CompUnits;  /* A list of functions in the program. */
 } yProgram;
 
 /* The function. */
