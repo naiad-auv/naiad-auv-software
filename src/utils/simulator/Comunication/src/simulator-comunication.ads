@@ -14,7 +14,7 @@ package Simulator.Comunication is
    type txPIDComponentScalingArray is array (EMotionComponent(PositionX)..EmotionComponent(AllPosition)) of TPIDComponentScalings;
    type EOperatingMode is new simulator.Comunication_Prot_Obj.EOperatingMode;
 
-   procedure Intialize_And_Reset;
+   procedure Intialize_And_Reset(sIPAdress : String;iPort : integer);
 
    procedure Set_Current_Position(xCurrent_Position : math.Vectors.CVector);
    procedure Set_Current_Orientation(xCurrent_Orientation : math.Matrices.CMatrix);
@@ -50,12 +50,16 @@ package Simulator.Comunication is
 
 private
    procedure Get_Data_From_Message(xMessage : CAN_Defs.CAN_Message);
-   task type TCommunicationTask;
+   task type TCommunicationTask is
+      entry Init;
+   end TCommunicationTask;
+
 
    ComunicationTask : TCommunicationTask;
    xProtected_Info : simulator.Comunication_Prot_Obj.tCom_Prot_Obj;
 
    xConnection : TCPWrapper.CTCPConnection;
    xNonCompleteOrientationMatrix : math.Matrices.TMatrix;
+   bConnected : boolean := false;
 
 end Simulator.Comunication;
