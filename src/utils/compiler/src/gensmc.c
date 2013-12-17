@@ -764,7 +764,7 @@ void genSMCProgram(t_tree node)
 	
 	genSMCCallNodeFunction(node->Node.Program.CompUnits);
 
-	fseek(genSMCFilePtr, braFileOffset, SEEK_SET);	
+	fseek(genSMCFilePtr, brfFileOffset, SEEK_SET);	
 	genSMCTabIndex = 0;
 	genSMCLineNr = 1;
 
