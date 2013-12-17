@@ -145,6 +145,8 @@ end IdentityMatrix;
 
 procedure main is
 
+   testVar : integer;
+   testVar2 : integer;
    IntLessThan_1_iLeft : integer;
    IntLessThan_1_iRight : integer;
    IntLessThan_1_bResult : boolean;
@@ -157,9 +159,12 @@ procedure main is
 begin
    IntLessThan_1_iLeft := 3;
    IntLessThan_1_iRight := 5;
+   testVar := 6;
+   testVar2 := 3;
 
    << Start >>
    IntLessThan( IntLessThan_1_iLeft, IntLessThan_1_iRight, access(IntLessThan_1_bResult));
+   testVar := testVar2;
 
    << Branch1 >>
    if IntLessThan_1_bResult then

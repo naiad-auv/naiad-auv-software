@@ -320,108 +320,130 @@
    321    LINK
    322    DECLINT
    323    DECLINT
-   324    DECLBOOL
-   325    DECLVEC
-   326    DECLMAT
+   324    DECLINT
+   325    DECLINT
+   326    DECLBOOL
    327    DECLVEC
    328    DECLMAT
-   329    DECLMAT
+   329    DECLVEC
    330    DECLMAT
-   331    PUSHINT -1
-   332    PUSHFP
-   333    ADDINT
-   334    PUSHINT 3
-   335    ASSINT
-   336    PUSHINT -2
-   337    PUSHFP
-   338    ADDINT
-   339    PUSHINT 5
-   340    ASSINT
-   341    [Start]
-   342    PUSHINT -3
-   343    PUSHFP
-   344    ADDINT
-   345    PUSHINT -2
-   346    PUSHFP
-   347    ADDINT
-   348    RVALINT
-   349    PUSHINT -1
-   350    PUSHFP
-   351    ADDINT
-   352    RVALINT
-   353    PUSHINT 270
-   354    BSR
-   355    POPINT
-   356    POPINT
-   357    POPINT
-   358    [Branch1]
-   359    PUSHINT -3
-   360    PUSHFP
-   361    ADDINT
-   362    RVALBOOL
-   363    BRF 410
-   364    [ZeroVector1]
-   365    PUSHINT -4
-   366    PUSHFP
-   367    ADDINT
-   368    PUSHINT 288
-   369    BSR
-   370    POPINT
-   371    [IdentityMatrix1]
-   372    PUSHINT -5
-   373    PUSHFP
-   374    ADDINT
-   375    PUSHINT 301
-   376    BSR
-   377    POPINT
-   378    [Branch2]
-   379    PUSHINT -3
+   331    DECLMAT
+   332    DECLMAT
+   333    PUSHINT -3
+   334    PUSHFP
+   335    ADDINT
+   336    PUSHINT 3
+   337    ASSINT
+   338    PUSHINT -4
+   339    PUSHFP
+   340    ADDINT
+   341    PUSHINT 5
+   342    ASSINT
+   343    PUSHINT -1
+   344    PUSHFP
+   345    ADDINT
+   346    PUSHINT 6
+   347    ASSINT
+   348    PUSHINT -2
+   349    PUSHFP
+   350    ADDINT
+   351    PUSHINT 3
+   352    ASSINT
+   353    [Start]
+   354    PUSHINT -5
+   355    PUSHFP
+   356    ADDINT
+   357    PUSHINT -4
+   358    PUSHFP
+   359    ADDINT
+   360    RVALINT
+   361    PUSHINT -3
+   362    PUSHFP
+   363    ADDINT
+   364    RVALINT
+   365    PUSHINT 270
+   366    BSR
+   367    POPINT
+   368    POPINT
+   369    POPINT
+   370    PUSHINT -1
+   371    PUSHFP
+   372    ADDINT
+   373    PUSHINT -2
+   374    PUSHFP
+   375    ADDINT
+   376    RVALINT
+   377    ASSINT
+   378    [Branch1]
+   379    PUSHINT -5
    380    PUSHFP
    381    ADDINT
    382    RVALBOOL
-   383    BRF 400
-   384    [ZeroVector2]
+   383    BRF 430
+   384    [ZeroVector1]
    385    PUSHINT -6
    386    PUSHFP
    387    ADDINT
    388    PUSHINT 288
    389    BSR
    390    POPINT
-   391    [IdentityMatrix2]
+   391    [IdentityMatrix1]
    392    PUSHINT -7
    393    PUSHFP
    394    ADDINT
    395    PUSHINT 301
    396    BSR
    397    POPINT
-   398    BRA 341
-   399    BRA 408
-   400    [IdentityMatrix3]
-   401    PUSHINT -8
-   402    PUSHFP
-   403    ADDINT
-   404    PUSHINT 301
-   405    BSR
-   406    POPINT
-   407    BRA 341
-   408    BRA 341
-   409    BRA 418
-   410    [IdentityMatrix4]
-   411    PUSHINT -9
-   412    PUSHFP
-   413    ADDINT
-   414    PUSHINT 301
-   415    BSR
-   416    POPINT
-   417    BRA 341
-   418    POPMAT
-   419    POPMAT
-   420    POPMAT
-   421    POPVEC
-   422    POPMAT
-   423    POPVEC
-   424    POPBOOL
-   425    POPINT
+   398    [Branch2]
+   399    PUSHINT -5
+   400    PUSHFP
+   401    ADDINT
+   402    RVALBOOL
+   403    BRF 420
+   404    [ZeroVector2]
+   405    PUSHINT -8
+   406    PUSHFP
+   407    ADDINT
+   408    PUSHINT 288
+   409    BSR
+   410    POPINT
+   411    [IdentityMatrix2]
+   412    PUSHINT -9
+   413    PUSHFP
+   414    ADDINT
+   415    PUSHINT 301
+   416    BSR
+   417    POPINT
+   418    BRA 353
+   419    BRA 428
+   420    [IdentityMatrix3]
+   421    PUSHINT -10
+   422    PUSHFP
+   423    ADDINT
+   424    PUSHINT 301
+   425    BSR
    426    POPINT
-   427    UNLINK
-   428    EOF
+   427    BRA 353
+   428    BRA 353
+   429    BRA 438
+   430    [IdentityMatrix4]
+   431    PUSHINT -11
+   432    PUSHFP
+   433    ADDINT
+   434    PUSHINT 301
+   435    BSR
+   436    POPINT
+   437    BRA 353
+   438    POPMAT
+   439    POPMAT
+   440    POPMAT
+   441    POPVEC
+   442    POPMAT
+   443    POPVEC
+   444    POPBOOL
+   445    POPINT
+   446    POPINT
+   447    POPINT
+   448    POPINT
+   449    UNLINK
+   450    EOF
