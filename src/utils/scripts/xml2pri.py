@@ -33,12 +33,20 @@ def body(parent):
             body(x)
             f.write(');\n')
         elif x.tag == 'input':
-            f.write(' ' + prev + '_' + x.get('name'))
+            if x.get('value') in variables:
+                f.write(' ' + x.get('value'))
+            elif x.get('value') in constants:
+                f.write(' ' + constants[x.get('value')])
+            else:
+                f.write(' ' + prev + '_' + x.get('name'))
             
             if not len(parent.getchildren()) == i + 1:
                 f.write(',')
         elif x.tag == 'output':
-            f.write(' access(' + prev + '_' + x.get('name') + ')')
+            if x.get('value') in variables:
+                f.write(' access(' + x.get('value') + ')')
+            else:
+                f.write(' access(' + prev + '_' + x.get('name') + ')')
             
             if not len(parent.getchildren()) == i + 1:
                 f.write(',')
@@ -155,7 +163,8 @@ def declaration(parent):
             f.write('')
         elif x.tag == 'input' or x.tag == 'output':
             if (prev + '_' + x.get('name')) not in declared:
-                f.write(tab + prev + '_' + x.get('name') + ' : ' + x.get('type') + ';\n')
+                if x.tag == 'output':
+                    f.write(tab + prev + '_' + x.get('name') + ' : ' + x.get('type') + ';\n')
                 declared[prev + '_' + x.get('name')] = x.get('type')            
         elif x.tag == 'true':
             declaration(x)
@@ -175,13 +184,13 @@ def initialize(parent):
             prev = x.get('name')
             initialize(x)
             f.write('')
-        elif x.tag == 'input':
-            if len(x.get('value')) > 0:
-                if x.get('value') in constants:
-                    f.write(tab + prev + '_' + x.get('name') + ' := ' + constants[x.get('value')] + ';\n')
-                else:
-                    f.write(tab + prev + '_' + x.get('name') + ' := ' + x.get('value') + ';\n')
-                    
+        #elif x.tag == 'input':
+        #    if len(x.get('value')) > 0:
+        #        if x.get('value') in constants:
+        #            f.write(tab + prev + '_' + x.get('name') + ' := ' + constants[x.get('value')] + ';\n')
+        #        else:
+        #            f.write(tab + prev + '_' + x.get('name') + ' := ' + x.get('value') + ';\n')
+        #            
         elif x.tag == 'true':
             initialize(x)
         elif x.tag == 'false':

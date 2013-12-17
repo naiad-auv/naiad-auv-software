@@ -104,98 +104,109 @@ end Delay;
 
 primitive IntLessThan is
 
-        iLeft : in integer;
-        iRight : in integer;
+	iLeftOperand : in integer;
+	iRightOperand : in integer;
 
-        bResult : out boolean;
+	bResult : out boolean;
 
-        procedure main is
-        begin
-                bResult := iLeft < iRight;
-        end main;
+	procedure main is
+	begin
+		bResult := iLeftOperand < iRightOperand;
+	end main;
 
 end IntLessThan;
 
 
-primitive ZeroVector is
+primitive DoubleInt is
 
-        vOutput : out vector;
+	iOperand : in integer;
+	
+	iResult : out integer;
 
-        procedure main is
-        begin
-                vOutput := [0.0, 0.0, 0.0];
-        end main;
+	procedure main is
+	begin
+		iResult := iOperand;
+	end main;
 
-end ZeroVector;
+end DoubleInt;
 
 
-primitive IdentityMatrix is
+primitive RemoveTenPercentInt is
 
-        mOutput : out matrix;
+	iOperand : in integer;
 
-        procedure main is
-        begin
-                mOutput := [        [1.0, 0.0, 0.0],
-                                [0.0, 1.0, 0.0],
-                                [0.0, 0.0, 1.0]                ];
-        end main;
-        
-end IdentityMatrix;
+	iResult : out integer;
+
+	procedure main is
+	begin
+		iResult := iResult - (iResult / 10);
+	end main;
+
+end RemoveTenPercentInt;
+
+
+primitive WaitFor is
+
+	iSeconds : in integer;
+
+	procedure main is
+	begin
+		Delay(float(iSeconds);
+	end main;
+
+end WaitFor;
+
+
+
+primitive PrintInt is
+
+	iValue : in integer;
+
+	procedure main is
+	begin
+		Print_Integer(iValue);
+	end main;
+
+end PrintInt;
 
 
 procedure main is
 
-   testVar : integer;
-   testVar2 : integer;
-   IntLessThan_1_iLeft : integer;
-   IntLessThan_1_iRight : integer;
+   iOutInt : integer;
+   DoubleInt_1_iResult : integer;
    IntLessThan_1_bResult : boolean;
-   ZeroVector_1_vOutput : vector;
-   IdentityMatrix_1_mOutput : matrix;
-   ZeroVector_2_vOutput : vector;
-   IdentityMatrix_2_mOutput : matrix;
-   IdentityMatrix_3_mOutput : matrix;
-   IdentityMatrix_4_mOutput : matrix;
+   RemoveTenPercentInt_1_iResult : integer;
 begin
-   IntLessThan_1_iLeft := 3;
-   IntLessThan_1_iRight := 5;
-   testVar := 6;
-   testVar2 := 3;
 
    << Start >>
-   IntLessThan( IntLessThan_1_iLeft, IntLessThan_1_iRight, access(IntLessThan_1_bResult));
-   testVar := testVar2;
+
+   << Set1 >>
+   iOutInt := 2;
+
+   << DoubleInt1 >>
+   DoubleInt( iOutInt, access(iOutInt));
+
+   << PrintInt1 >>
+   PrintInt( iOutInt);
+
+   << IntLessThan1 >>
+   IntLessThan( iOutInt, 1000, access(IntLessThan_1_bResult));
 
    << Branch1 >>
    if IntLessThan_1_bResult then
 
-         << ZeroVector1 >>
-         ZeroVector( access(ZeroVector_1_vOutput));
-
-         << IdentityMatrix1 >>
-         IdentityMatrix( access(IdentityMatrix_1_mOutput));
-
-         << Branch2 >>
-         if IntLessThan_1_bResult then
-
-               << ZeroVector2 >>
-               ZeroVector( access(ZeroVector_2_vOutput));
-
-               << IdentityMatrix2 >>
-               IdentityMatrix( access(IdentityMatrix_2_mOutput));
-               goto Start;
-         else
-
-               << IdentityMatrix3 >>
-               IdentityMatrix( access(IdentityMatrix_3_mOutput));
-               goto Start;
-         end if;
-         goto Start;
+         << WaitFor1 >>
+         WaitFor( 1);
+         goto DoubleInt1;
    else
 
-         << IdentityMatrix4 >>
-         IdentityMatrix( access(IdentityMatrix_4_mOutput));
-         goto Start;
+         << WaitFor2 >>
+         WaitFor( 3);
+         goto RemoveTenPercentInt1;
    end if;
+
+   << RemoveTenPercentInt1 >>
+   RemoveTenPercentInt( iOutInt, access(iOutInt));
+   goto PrintInt1;
 
 end main;

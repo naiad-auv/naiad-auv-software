@@ -7,10 +7,12 @@
 <primitive src="doubleint.pri" name="DoubleInt"/>
 <primitive src="removetenpercentint.pri" name="RemoveTenPercentInt"/>
 <primitive src="waitfor.pri" name="WaitFor"/>
+<primitive src="printint.pri" name="PrintInt"/>
 
 <constant name="intconst1" value="2"/>
 <constant name="intconst2" value="1"/>
 <constant name="intconst3" value="3"/>
+<constant name="intconst4" value="1000"/>
 <variable name="iOutInt" type="integer"/>
 
 <sequence>
@@ -29,7 +31,7 @@
 	<label name="IntLessThan1"/>
 	<run primitive="IntLessThan" name="IntLessThan_1">
 		<input name="iLeftOperand" type="integer" value="iOutInt"/>
-		<input name="iRightOperand" type="integer" value="intconst1"/>
+		<input name="iRightOperand" type="integer" value="intconst4"/>
 		<output name="bResult" type="boolean" value="IntLessThan_1_bResult"/>
 	</run>
 	<label name="Branch1"/>
@@ -40,12 +42,14 @@
 				<input name="iSeconds" type="integer" value="intconst2"/>
 			</run>
 			<goto label="DoubleInt1"/>
+		</true>
 		<false>
 			<label name="WaitFor2"/>
 			<run primitive="WaitFor" name="WaitFor_2">
 				<input name="iSeconds" type="integer" value="intconst3"/>
 			</run>
 			<goto label="RemoveTenPercentInt1"/>
+		</false>
 	</branch>
 	<label name="RemoveTenPercentInt1"/>
 	<run primitive="RemoveTenPercentInt" name="RemoveTenPercentInt_1">
