@@ -805,6 +805,18 @@ void genSMCLabel(t_tree node)
 void genSMCGoto(t_tree node)
 {
 	t_symtable * lbl_table;
+	long int braFileOffset;
+	int brfLineNr = genSMCLineNr;
+	
+	braFileOffset = ftell(genSMCFilePtr);
+
+	genSMC_BRA(0);
+	genSMCCallNodeFunction(node->Node.Goto.Next);	
+
+	fseek(genSMCFilePtr, braFileOffset, SEEK_SET);
+	genSMCLineNr = brfLineNr;
+
+
 	lbl_table = FindId(node->Node.Goto.Id, scope);
 
 	if (lbl_table != NULL)
