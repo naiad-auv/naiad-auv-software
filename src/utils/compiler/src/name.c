@@ -188,7 +188,7 @@ void checkIdExists(const char * name, int lineNr, int type, int funcorvar)
 	else
 	{
 		if (type == LABEL)
-			printf("\nLabel defined: %s\n", node->Node.Label.Id);
+			printf("\nLabel defined: %s\n", name);
 		createVariableTable(name,type);
 	}
 }
