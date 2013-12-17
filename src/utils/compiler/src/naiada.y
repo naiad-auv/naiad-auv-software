@@ -61,6 +61,7 @@ int yylex(void);
 /* Rule types on parse stack */
 %type  <yyNode>   program functions function formals formal
 %type  <yyNode>   decls decl stmnts stmnt expr actuals exprs
+%type  <yyNode>   comp_units comp_unit primitives primitive prim_decls prim_decl
 %type  <yyType>   type
 %type  <yyOperator> unaryop
 
@@ -70,19 +71,35 @@ int yylex(void);
 %token <yyComp>	  VEC_COMP MAT_COMP
 %token <yyInt>    INT_CONST
 %token <yyFloat>  FLOAT_CONST
-%token <yyLineNr> IF THEN ELSE WHILE RETURN END EXIT LOOP PROCEDURE FUNCTION IS BGN ASSIGN ASM ADDR_TYPE NULL_STMNT LBL_LEFT LBL_RIGHT GOTO
+%token <yyLineNr> IF THEN ELSE WHILE RETURN END EXIT LOOP PROCEDURE FUNCTION IS BGN ASSIGN ASM ADDR_TYPE NULL_STMNT LBL_LEFT LBL_RIGHT GOTO PRIMITIVE IN OUT
 %token <yyOperator> MATH_TYPE
 
 %start program
 
 %%
 
-program     : functions 									{ treeRoot = mProgram($1); }
+program     : comp_units 									{ treeRoot = mProgram($1); }
             ;
+
+comp_units  : comp_units comp_unit								{ $$ = connectCompUnits($1, $2); }
+	    | comp_unit										{ $$ = $1; }
+	    ;
+
+comp_unit   : functions										{ $$ = $1; }
+	    | primitives									{ $$ = $1; }
+	    ;
+
+primitives  : primitives primitive								{ $$ = connectPrimitives($1, $2); }
+ 	    | primitive										{ $$ = $1; }
+	    ; 
 
 functions   : functions function								{ $$ = connectFunctions($1,$2); }
             | function										{ $$ = $1; }
             ;
+
+
+primitive   : PRIMITIVE ID IS prim_decls functions END ID ';'					{ if (strcmp($2.strVal, $7.strVal) != 0) { yyerror("syntax error"); YYERROR; } else $$ = mPrimitive($4, $5, $2.strVal, $2.lineNr); }
+	    ;
 
 function    : PROCEDURE ID '(' formals ')' IS decls BGN stmnts END ID ';'			{ if (strcmp($2.strVal, $11.strVal) != 0) { yyerror("syntax error"); YYERROR; } else $$ = mFunction(connectVariables($4, $7), $9, $2.strVal, VOID, $2.lineNr); }
             | PROCEDURE ID IS decls BGN stmnts END ID ';' 					{ if (strcmp($2.strVal, $8.strVal) != 0) { yyerror("syntax error"); YYERROR; } else $$ = mFunction($4, $6, $2.strVal, VOID, $2.lineNr); }
@@ -90,6 +107,14 @@ function    : PROCEDURE ID '(' formals ')' IS decls BGN stmnts END ID ';'			{ if
             | FUNCTION ID RETURN BASIC_TYPE IS decls BGN stmnts END ID ';' 			 { if (strcmp($2.strVal, $10.strVal) != 0) { yyerror("syntax error"); YYERROR; } else $$ = mFunction($6, $8, $2.strVal, $4.type, $2.lineNr); } 
             ;  
 
+
+prim_decls  : prim_decls prim_decl								{ $$ = connectVariables($1, $2); }
+	    | prim_decl										{ $$ = $1; }
+	    ;
+
+prim_decl   : ID ':' IN BASIC_TYPE ';'								{ $$ = mVariable(kLocal, $1.strVal, $4.type, $1.lineNr); }
+	    | ID ':' OUT BASIC_TYPE ';'								{ $$ = mVariable(kFormal, $1.strVal, $4.type, $1.lineNr); }
+	    ;
 
 formals     : formals ';' formal								{ $$ = connectVariables($1,$3); }
             | formal										{ $$ = $1; }
