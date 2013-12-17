@@ -90,7 +90,7 @@ int yylex(void);
 
 
 /* Line 268 of yacc.c  */
-#line 94 "./src/naiada.y.c"
+#line 94 "naiada.tab.c"
 
 /* Enabling traces.  */
 #ifndef YYDEBUG
@@ -182,7 +182,7 @@ typedef union YYSTYPE
 
 
 /* Line 293 of yacc.c  */
-#line 186 "./src/naiada.y.c"
+#line 186 "naiada.tab.c"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
@@ -194,7 +194,7 @@ typedef union YYSTYPE
 
 
 /* Line 343 of yacc.c  */
-#line 198 "./src/naiada.y.c"
+#line 198 "naiada.tab.c"
 
 #ifdef short
 # undef short
@@ -2119,7 +2119,7 @@ yyreduce:
 
 
 /* Line 1806 of yacc.c  */
-#line 2123 "./src/naiada.y.c"
+#line 2123 "naiada.tab.c"
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires

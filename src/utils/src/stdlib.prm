@@ -100,34 +100,3 @@ begin
 		null;
 	end loop;
 end Delay;
-
-
-primitive Lol is
-	input1 : in integer;
-	output1 : out boolean;
-
-	function lell(i : integer) return float is
-	begin
-		return float(i);
-	end lell;
-
-	procedure main is
-	begin
-		null;
-	end main;
-end Lol;
-
-procedure main is
-	i : integer;
-begin
-	i := 0;
-
-	Print_Vector(Cross_Product([5.0, 0.0, 0.0],[0.0,2.0,0.0]));
-<< MyLabel >>
-	Delay(1.0);
-	Print_Integer(i);
-	i := i + 1;
-	if i < 5 then
-		goto MyLabel;
-	end if;
-end main;

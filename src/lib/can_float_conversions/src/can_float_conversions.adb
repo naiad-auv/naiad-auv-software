@@ -3,7 +3,7 @@
 ---------------------------------------------------------------------------
 -- This code implements functions to put INS-data (float values) into can messages.
 -- Written by Nils Brynedal Ignell for the Naiad AUV project
--- Last changed (yyyy-mm-dd): 2013-12-16
+-- Last changed (yyyy-mm-dd): 2013-12-17
 
 ---------------------------------------------------------------------------
 
@@ -39,8 +39,8 @@ package body Can_Float_Conversions is
    -----------------------------------------------------------------------------------------------------------------------------------------------------------
 
    procedure Vector_To_Message(fX : float; fY : float; fZ : float;
-                                     b8Message : out Can_Defs.Byte8;
-                                     fMax : float) is
+                               b8Message : out Can_Defs.Byte8;
+                               fMax : float) is
 
       fResolution : float := 2.0 * fMax / Float(2 ** 21);
       Data : TThree_i21s;
@@ -57,8 +57,8 @@ package body Can_Float_Conversions is
 
 
    procedure Message_To_Vector(fX : out float; fY : out float; fZ : out float;
-                                     b8Message : Can_Defs.Byte8;
-                                     fMax : float) is
+                               b8Message : Can_Defs.Byte8;
+                               fMax : float) is
 
       fResolution : float := 2.0 * fMax / Float(2 ** 21);
       Data : TThree_i21s;
@@ -111,8 +111,8 @@ package body Can_Float_Conversions is
 
 
    procedure PID_Scalings_To_Message(u8ID : Interfaces.Unsigned_8; fProportional : float;
-                                       fIntegral : float;     fDerivative : float;
-                                       fScaleRange : float;   b8Message   : out Can_Defs.Byte8) is
+                                     fIntegral : float;     fDerivative : float;
+                                     fScaleRange : float;   b8Message   : out Can_Defs.Byte8) is
 
       fScaleResolution : float := 2.0 * fScaleRange / Float(2 ** 16);
 
@@ -154,6 +154,40 @@ package body Can_Float_Conversions is
    end Message_To_PID_Scalings;
 
 
+   procedure OrientationMatrix_To_Message(fFloats : TOrientation_Matrix_Float_Array;
+                                          b8Message : out Can_Defs.Byte8) is
+
+      fScaleResolution : float := 2.0 * 1.0 / Float(2 ** 10);
+      data : TOrientation_Matrix_Record;
+   begin
+      data.i10Value1 := i10_Get_Integer(fFloats(1), fScaleResolution);
+      data.i10Value2 := i10_Get_Integer(fFloats(2), fScaleResolution);
+      data.i10Value3 := i10_Get_Integer(fFloats(3), fScaleResolution);
+      data.i10Value4 := i10_Get_Integer(fFloats(4), fScaleResolution);
+      data.i10Value5 := i10_Get_Integer(fFloats(5), fScaleResolution);
+      data.i10Value6 := i10_Get_Integer(fFloats(6), fScaleResolution);
+
+      b8Message := b8OTOrientation_Matrix_Record_To_Message(data);
+   end OrientationMatrix_To_Message;
+
+   procedure Message_To_OrientationMatrix(fFloats : out TOrientation_Matrix_Float_Array;
+                                          b8Message : Can_Defs.Byte8) is
+
+      fScaleResolution : float := 2.0 * 1.0 / Float(2 ** 10);
+      data : TOrientation_Matrix_Record;
+   begin
+
+      data := TMessage_To_TOrientation_Matrix_Record(b8Message);
+
+      fFloats(1) := float(data.i10Value1) * fScaleResolution;
+      fFloats(2) := float(data.i10Value2) * fScaleResolution;
+      fFloats(3) := float(data.i10Value3) * fScaleResolution;
+      fFloats(4) := float(data.i10Value4) * fScaleResolution;
+      fFloats(5) := float(data.i10Value5) * fScaleResolution;
+      fFloats(6) := float(data.i10Value6) * fScaleResolution;
+   end Message_To_OrientationMatrix;
+
+
    function i21_Get_Integer(fValue : float; fResolution : float) return Integer_21 is
       fInternal : float;
    begin
@@ -181,6 +215,20 @@ package body Can_Float_Conversions is
          return Interfaces.Integer_16(fInternal);
       end if;
    end i16_Get_Integer;
+
+   function i10_Get_Integer(fValue : float; fResolution : float) return Integer_10 is
+      fInternal : float;
+   begin
+      fInternal := fValue / fResolution;
+
+      if fInternal >= Float(Integer_10'Last) then
+         return Integer_10'Last;
+      elsif fInternal <= Float(Integer_10'First) then
+         return Integer_10'First;
+      else
+         return Integer_10(fInternal);
+      end if;
+   end i10_Get_Integer;
 
 
 
