@@ -38,6 +38,11 @@ package body TCPWrapper is
       end if;
    end Close_Connection;
 
+   function pGet_Stream(this : in CTCPConnection) return GNAT.Sockets.Stream_Access is
+   begin
+      return this.pIO_Stream;
+   end pGet_Stream;
+
 
 
    function xStart_Listening(sAddress : in string := ""; iPort : in integer) return CTCPConnection is
@@ -89,11 +94,8 @@ package body TCPWrapper is
 
    function eGet_Next_Packet_Type (this : in CTCPConnection) return EPacketType is
       bNextByte : Ada.Streams.Stream_Element_Array(1 .. 1);
-      --for bNextByte'Size use 8;
-
       eType : EPacketType;
       for eType'Address use bNextByte'Address;
-
       xOffset : Ada.Streams.Stream_Element_Offset := bNextByte'Last;
    begin
       if this.iBytes_Available_For_Reading > 0 then
@@ -114,7 +116,6 @@ package body TCPWrapper is
    begin
       if this.tiSocket = GNAT.Sockets.No_Socket then
          raise Socket_Is_Not_Initialized;
---         return 0;
       end if;
 
       GNAT.Sockets.Control_Socket(Socket  => this.tiSocket,
@@ -132,6 +133,11 @@ package body TCPWrapper is
       return 1;
    end;
 
+   function pGet_Socket(this : in CTCPConnection) return GNAT.Sockets.Socket_Type is
+   begin
+      return this.tiSocket;
+   end pGet_Socket;
+
 
    procedure Send_Packet(this : in out CTCPConnection; xPacket : in CTCPPacket'class) is
    begin
@@ -143,6 +149,8 @@ package body TCPWrapper is
 
    procedure Receive_Packet(this : in out CTCPConnection; xPacket : in out CTCPPacket'class; bSuccess : out boolean) is
    begin
+      Ada.Text_IO.Put_Line("Type: " & this.eGet_Next_Packet_Type'Img);
+      Ada.Text_IO.Put_Line("Wanted type: " & xPacket.eType'Img);
       if this.eGet_Next_Packet_Type = xPacket.eType and then this.iBytes_Available_For_Reading >= xPacket.iGet_Size_In_Bytes then
          EPacketType'Read(this.pIO_Stream, xPacket.eType);
          xPacket.xRead_Custom_Packet(pStream => this.pIO_Stream);
@@ -158,7 +166,20 @@ package body TCPWrapper is
       this.eType := eType;
    end Set_Type;
 
+   procedure Initialize(this : in out CTCPPacket) is
+   begin
+      this.eType := PACKET_NULL;
+   end Initialize;
 
+   procedure Finalize(this : in out CTCPPacket) is
+   begin
+      null;
+   end Finalize;
+
+   procedure Adjust(this : in out CTCPPacket) is
+   begin
+      null;
+   end Adjust;
 
 
 end TCPWrapper;

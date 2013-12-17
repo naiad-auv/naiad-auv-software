@@ -188,13 +188,13 @@ package AVR.AT90CAN128 is
    for TCCRB'Size use 8;
 
    --Timer 1
-   TCCR1A : General_Register;
+   TCCR1A : Unsigned_8;
    for TCCR1A'Address use System'To_Address (16#80#);
 
-   TCCR1B : General_Register;
+   TCCR1B : Unsigned_8;
    for TCCR1B'Address use System'To_Address (16#81#);
 
-   TCCR1C : General_Register;
+   TCCR1C : Unsigned_8;
    for TCCR1C'Address use System'To_Address (16#82#);
 
    TCNT1 : Unsigned_16;

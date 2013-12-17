@@ -20,13 +20,44 @@ package body Math.Matrices.CMatrix_Test_Data.CMatrix_Tests is
 
       pragma Unreferenced (Gnattest_T);
 
+      use Math.Angles;
+      use Math.Vectors;
+      xMat : CMatrix := Math.Matrices.xCreate_Rotation_Around_Z_Axis(45.0) *
+        Math.Matrices.xCreate_Rotation_Around_Y_Axis(45.0) *
+        Math.Matrices.xCreate_Rotation_Around_X_Axis(45.0);
+      xComp : CMatrix := Math.Matrices.xCreate_Rotation_Around_Z_Axis(-45.0) *
+        Math.Matrices.xCreate_Rotation_Around_Y_Axis(45.0) *
+        Math.Matrices.xCreate_Rotation_Around_X_Axis(45.0);
+      
+      xVec : Math.Vectors.CVector := Math.Vectors.xCreate(fX => 0.0,
+                                                          fY => 0.0,
+                                                          fZ => 32.0);
+      
    begin
 
-      AUnit.Assertions.Assert
-        (Gnattest_Generated.Default_Assert_Value,
-         "Test not implemented.");
+      for i in 1 .. 3 loop
+         for j in 1 .. 3 loop
+            Ada.Text_IO.Put(xMat.tfGet_Raw_Matrix(i,j)'Img & " ");
+         end loop;
+         Ada.Text_IO.New_Line;
+      end loop;
+         Ada.Text_IO.New_Line;
 
---  begin read only
+      for i in 1 .. 3 loop
+         for j in 1 .. 3 loop
+            Ada.Text_IO.Put(xComp.tfGet_Raw_Matrix(i,j)'Img & " ");
+         end loop;
+         Ada.Text_IO.New_Line;
+      end loop;
+      
+      xMat := xMat * Math.Matrices.xCreate_Rotation_Around_Z_Axis(90.0);
+      
+      AUnit.Assertions.Assert(Condition => xMat * xVec = xComp * xVec,
+                              Message => "LOL.");
+      AUnit.Assertions.Assert(Condition => xMat = xComp,
+                              Message => "FAN.");
+
+      --  begin read only
    end Test_1_xCreate_From_Quaternion;
 --  end read only
 

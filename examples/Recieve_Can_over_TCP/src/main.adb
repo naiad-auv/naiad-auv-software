@@ -13,13 +13,13 @@ begin
    ada.Text_IO.Put_Line("Test1");
    while bConnected = false loop
       ada.Text_IO.Put_Line("Test1.5");
-      xConnection := TCPWrapper.xConnect_To(sAddress => "127.0.0.140",
+      xConnection := TCPWrapper.xConnect_To(sAddress => "127.0.0.1",
                                             iPort    => 1337);
       ada.Text_IO.Put_Line("Test2");
       xConnection.bIs_Connected(bResult => bConnected);
       delay(0.1);
    end loop;
-      ada.Text_IO.Put_Line("Test3");
+     ada.Text_IO.Put_Line("Test3");
    loop
       delay(0.1);
       iBytes := xConnection.iBytes_Available_For_Reading;
