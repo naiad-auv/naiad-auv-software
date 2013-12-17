@@ -758,6 +758,16 @@ void genSMCCallNodeFunction(t_tree node)
 
 void genSMCProgram(t_tree node)
 {
+	long int brfFileOffset;
+
+	brfFileOffset = ftell(genSMCFilePtr); // get current position in output file
+	
+	genSMCCallNodeFunction(node->Node.Program.CompUnits);
+
+	fseek(genSMCFilePtr, braFileOffset, SEEK_SET);	
+	genSMCTabIndex = 0;
+	genSMCLineNr = 1;
+
 	genSMCCallNodeFunction(node->Node.Program.CompUnits);
 }
 
@@ -792,8 +802,8 @@ void genSMCLabel(t_tree node)
 	if (lbl_table != NULL)
 	{		
 		genSMCNewLine();
-
-		lbl_table->offset = genSMCLineNr;
+		if (lbl_table->offset == 0)
+			lbl_table->offset = genSMCLineNr;
 		fprintf(genSMCFilePtr,"["); fprintf(genSMCFilePtr, lbl_table->id); fprintf(genSMCFilePtr, "]");
 	}
 	else
