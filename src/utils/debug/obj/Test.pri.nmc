@@ -408,7 +408,7 @@
    409    PUSHINT 324
    410    BSR
    411    POPINT
-   412    BRA 0
+   412    BRA 413
    413    [RemoveTenPercentInt1]
    414    PUSHINT -1
    415    PUSHFP
