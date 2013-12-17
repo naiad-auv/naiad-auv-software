@@ -13,6 +13,7 @@
 
 int nameErrorType;
 int nameErrorLineNr;
+int nameIgnoreGotos;
 const char * nameErrorId;
 t_tree nameCurrentPrimitive;
 
@@ -463,9 +464,10 @@ void nameCompValue(t_tree node)
 
 void nameGoto(t_tree node)
 {
-	nameStmnt(node->Node.Stmnt.Next);
+
 	printf("\nGoto with label: %s\n", node->Node.Goto.Id);
-	checkIdUndefined(node->Node.Goto.Id, node->LineNr);
+	if (nameIgnoreGotos == 0)
+		checkIdUndefined(node->Node.Goto.Id, node->LineNr);
 	nameStmnt(node->Node.Stmnt.Next);
 }
 
@@ -486,8 +488,13 @@ void nameLabel(t_tree node)
 
 t_symtable *nameAnalysis(t_tree node)
 {
+	t_symtable *ptr_table;
 	scope = NULL;
 	nameCurrentPrimitive = NULL;
+	nameIgnoreGotos = 1;
 	nameErrorType = 0;
-	return nameProgram(node);
+	ptr_table = nameProgram(node);
+	nameIgnoreGotos = 0;
+	namePrimitive(node->Node.Program.CompUnits);
+	return ptr_table;
 }
