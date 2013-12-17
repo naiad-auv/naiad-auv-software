@@ -1,6 +1,7 @@
 with ada.Text_IO;
 with TCPCANWrapper;
 with TCPWrapper;
+with Can_Float_Conversions;
 package body Simulator.Comunication is
 
    -------------------------
@@ -306,37 +307,168 @@ package body Simulator.Comunication is
    ------------------------
 
    task body TCommunicationTask is
-      xTCPConnection : TCPWrapper.CTCPConnection;
       xPacket : TCPCANWrapper.CTCPCANPacket;
-      bIsConnected : boolean;
+      bSuccess : boolean := false;
+      iBytes : integer;
+      bConnected : boolean := false;
    begin
-      xpacket.Set_Type(TCPWrapper.PACKET_CAN);
-      xTCPConnection := TCPWrapper.xConnect_To(sAddress => "127.0.0.1",
-                                               iPort    => 5555);
-      xTCPConnection.bIs_Connected(bResult => bIsConnected);
+      xPacket.Set_Type(TCPWrapper.PACKET_CAN);
+      ada.Text_IO.Put_Line("Test1");
+      while bConnected = false loop
+         ada.Text_IO.Put_Line("Test1.5");
+         xConnection := TCPWrapper.xConnect_To(sAddress => "127.0.0.1",
+                                               iPort    => 1337);
+         ada.Text_IO.Put_Line("Test2");
+         xConnection.bIs_Connected(bResult => bConnected);
+         delay(0.1);
+      end loop;
+      ada.Text_IO.Put_Line("Test3");
+      loop
+         delay(0.1);
+         iBytes := xConnection.iBytes_Available_For_Reading;
+         if iBytes >= xPacket.iGet_Size_In_Bytes then
+            ada.Text_IO.Put_Line("Antal bytes: " &iBytes'img);
+            xConnection.Receive_Packet(xPacket  => xPacket,
+                                       bSuccess => bSuccess);
+            Get_Data_From_Message(xPacket.xReturn_Message);
+         end if;
+      end loop;
+
    end TCommunicationTask;
 
    ---------------------------
    -- Get_Data_From_Message --
    ---------------------------
 
-   procedure Get_Data_From_Message(xMessage : CAN_Defs.CAN_Message; iMessageLength : integer) is
-      sBuffer : String (1 .. iMessageLength);
+   procedure Get_Data_From_Message(xMessage : CAN_Defs.CAN_Message) is
+
+      use CAN_Defs;
 
    begin
-      --Can_Defs.MSG_KILL_SWITCH_ID.Identifier := 3561;
-      case xMessage.ID.Identifier is
 
-         when MSG_Kill_Switch =>
-            null;
+      -- MSG_STATUS_REQUEST_RESPONSE_ID --
+      if xMessage.ID = MSG_STATUS_REQUEST_RESPONSE_ID then
+         null;
+      end if;
 
-         when others =>
-            null;
-      end case;
+      -- MSG_KILL_SWITCH_ID --
+      if xMessage.ID = MSG_KILL_SWITCH_ID then
+         null;
+      end if;
 
+      -- MSG_SIMULATION_MODE_ID --
+      if xMessage.ID = MSG_SIMULATION_MODE_ID then
+         null;
+      end if;
 
-      CAN_Utils.Message_To_Bytes(sBuffer => sBuffer,
-                                      msg     => xMessage);
+      -- MSG_VISUALLY_DETECTED_OBSTACLE_ID --
+      if xMessage.ID = MSG_VISUALLY_DETECTED_OBSTACLE_ID then
+         null;
+      end if;
+
+      -- MSG_SENSOR_FUSION_ORIENTATION_ID --
+      if xMessage.ID = MSG_SENSOR_FUSION_ORIENTATION_ID then
+         null;
+      end if;
+
+      -- MSG_SENSOR_FUSION_POSITION_ID --
+      if xMessage.ID = MSG_SENSOR_FUSION_POSITION_ID then
+         declare
+            fX,fY,fZ : float;
+         begin
+         Can_Float_Conversions.Message_To_Acceleration(fAccX            => fX,
+                                                       fAccY            => fY,
+                                                       fAccZ            => fZ,
+                                                       b8Message        => xMessage.Data,
+                                                       fAccelerationMax => 500.0);
+            xProtected_Info.Set_Current_Position(math.Vectors.xCreate(fX,fY,fZ));
+         end;
+      end if;
+
+      -- MSG_IMU_ORIENTATION_ID --
+      if xMessage.ID = MSG_IMU_ORIENTATION_ID then
+         null;
+      end if;
+
+      -- MSG_IMU_ACCELERATION_ID --
+      if xMessage.ID = MSG_IMU_ACCELERATION_ID then
+         null;
+      end if;
+
+      -- MSG_GYRO_YAW_ID --
+      if xMessage.ID = MSG_GYRO_YAW_ID then
+         null;
+      end if;
+
+      -- MSG_MISSION_SWITCH_ID --
+      if xMessage.ID = MSG_MISSION_SWITCH_ID then
+         null;
+      end if;
+
+      -- MSG_THRUSTER_ID --
+      if xMessage.ID = MSG_THRUSTER_ID then
+         null;
+      end if;
+
+      -- MSG_PNEUMATICS_ID --
+      if xMessage.ID = MSG_PNEUMATICS_ID then
+         null;
+      end if;
+
+      -- MSG_PNEUMATICS_CONFIRM_ID --
+      if xMessage.ID = MSG_PNEUMATICS_CONFIRM_ID then
+         null;
+      end if;
+
+      -- MSG_BATTERY_STATUS_ID --
+      if xMessage.ID = MSG_BATTERY_STATUS_ID then
+         null;
+      end if;
+
+      -- MSG_VISION_REQUEST_FORWARD_ID --
+      if xMessage.ID = MSG_VISION_REQUEST_FORWARD_ID then
+         null;
+      end if;
+
+      -- MSG_VISION_REQUEST_DOWN_ID --
+      if xMessage.ID = MSG_VISION_REQUEST_DOWN_ID then
+         null;
+      end if;
+
+      -- MSG_VISION_ANSWER_FORWARD_ID --
+      if xMessage.ID = MSG_VISION_ANSWER_FORWARD_ID then
+         null;
+      end if;
+
+      -- MSG_VISION_ANSWER_DOWN_ID --
+      if xMessage.ID = MSG_VISION_ANSWER_DOWN_ID then
+         null;
+      end if;
+
+      -- MSG_MISSION_STATUS_ID --
+      if xMessage.ID = MSG_MISSION_STATUS_ID then
+         null;
+      end if;
+
+      -- MSG_PID_SCALING_ID --
+      if xMessage.ID = MSG_PID_SCALING_ID then
+         null;
+      end if;
+
+      -- MSG_STATUS_REQUEST_ID --
+      if xMessage.ID = MSG_STATUS_REQUEST_ID then
+         null;
+      end if;
+
+      -- MSG_REQUEST_KILL_SWITCH_ID --
+      if xMessage.ID = MSG_REQUEST_KILL_SWITCH_ID then
+         null;
+      end if;
+
+      -- MSG_SENSOR_ID --
+      if xMessage.ID = MSG_SENSOR_ID then
+         null;
+      end if;
 
    end Get_Data_From_Message;
 
