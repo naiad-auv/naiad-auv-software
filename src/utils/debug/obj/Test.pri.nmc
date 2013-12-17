@@ -294,137 +294,139 @@
    295    PUSHFP
    296    ADDINT
    297    RVALINT
-   298    ASSINT
-   299    UNLINK
-   300    RTS
-   301  [RemoveTenPercentInt]
-   302    LINK
-   303    PUSHINT 3
-   304    PUSHFP
-   305    ADDINT
-   306    RVALINT
-   307    PUSHINT 3
-   308    PUSHFP
-   309    ADDINT
-   310    RVALINT
-   311    RVALINT
-   312    PUSHINT 3
-   313    PUSHFP
-   314    ADDINT
-   315    RVALINT
-   316    RVALINT
-   317    PUSHINT 10
-   318    DIVINT
-   319    NEGINT
-   320    ADDINT
-   321    ASSINT
-   322    UNLINK
-   323    RTS
-   324  [WaitFor]
-   325    LINK
-   326    PUSHINT 2
-   327    PUSHFP
-   328    ADDINT
-   329    RVALINT
-   330    ITOF
-   331    PUSHINT 249
-   332    BSR
-   333    POPFLOAT
-   334    UNLINK
-   335    RTS
-   336  [PrintInt]
-   337    LINK
-   338    PUSHINT 2
-   339    PUSHFP
-   340    ADDINT
-   341    RVALINT
-   342    PUSHINT 2
-   343    BSR
-   344    POPINT
-   345    UNLINK
-   346    RTS
-   347  [main]
-   348    LINK
-   349    DECLINT
-   350    DECLINT
-   351    DECLBOOL
+   298    PUSHINT 2
+   299    MULINT
+   300    ASSINT
+   301    UNLINK
+   302    RTS
+   303  [RemoveTenPercentInt]
+   304    LINK
+   305    PUSHINT 3
+   306    PUSHFP
+   307    ADDINT
+   308    RVALINT
+   309    PUSHINT 3
+   310    PUSHFP
+   311    ADDINT
+   312    RVALINT
+   313    RVALINT
+   314    PUSHINT 3
+   315    PUSHFP
+   316    ADDINT
+   317    RVALINT
+   318    RVALINT
+   319    PUSHINT 10
+   320    DIVINT
+   321    NEGINT
+   322    ADDINT
+   323    ASSINT
+   324    UNLINK
+   325    RTS
+   326  [WaitFor]
+   327    LINK
+   328    PUSHINT 2
+   329    PUSHFP
+   330    ADDINT
+   331    RVALINT
+   332    ITOF
+   333    PUSHINT 249
+   334    BSR
+   335    POPFLOAT
+   336    UNLINK
+   337    RTS
+   338  [PrintInt]
+   339    LINK
+   340    PUSHINT 2
+   341    PUSHFP
+   342    ADDINT
+   343    RVALINT
+   344    PUSHINT 2
+   345    BSR
+   346    POPINT
+   347    UNLINK
+   348    RTS
+   349  [main]
+   350    LINK
+   351    DECLINT
    352    DECLINT
-   353    [Start]
-   354    [Set1]
-   355    PUSHINT -1
-   356    PUSHFP
-   357    ADDINT
-   358    PUSHINT 2
-   359    ASSINT
-   360    [DoubleInt1]
-   361    PUSHINT -1
-   362    PUSHFP
-   363    ADDINT
-   364    PUSHINT -1
-   365    PUSHFP
-   366    ADDINT
-   367    RVALINT
-   368    PUSHINT 288
-   369    BSR
-   370    POPINT
-   371    POPINT
-   372    [PrintInt1]
-   373    PUSHINT -1
-   374    PUSHFP
-   375    ADDINT
-   376    RVALINT
-   377    PUSHINT 336
-   378    BSR
-   379    POPINT
-   380    [IntLessThan1]
-   381    PUSHINT -3
-   382    PUSHFP
-   383    ADDINT
-   384    PUSHINT 1000
-   385    PUSHINT -1
-   386    PUSHFP
-   387    ADDINT
-   388    RVALINT
-   389    PUSHINT 270
-   390    BSR
-   391    POPINT
-   392    POPINT
+   353    DECLBOOL
+   354    DECLINT
+   355    [Start]
+   356    [Set1]
+   357    PUSHINT -1
+   358    PUSHFP
+   359    ADDINT
+   360    PUSHINT 2
+   361    ASSINT
+   362    [DoubleInt1]
+   363    PUSHINT -1
+   364    PUSHFP
+   365    ADDINT
+   366    PUSHINT -1
+   367    PUSHFP
+   368    ADDINT
+   369    RVALINT
+   370    PUSHINT 288
+   371    BSR
+   372    POPINT
+   373    POPINT
+   374    [PrintInt1]
+   375    PUSHINT -1
+   376    PUSHFP
+   377    ADDINT
+   378    RVALINT
+   379    PUSHINT 338
+   380    BSR
+   381    POPINT
+   382    [IntLessThan1]
+   383    PUSHINT -3
+   384    PUSHFP
+   385    ADDINT
+   386    PUSHINT 1000
+   387    PUSHINT -1
+   388    PUSHFP
+   389    ADDINT
+   390    RVALINT
+   391    PUSHINT 270
+   392    BSR
    393    POPINT
-   394    [Branch1]
-   395    PUSHINT -3
-   396    PUSHFP
-   397    ADDINT
-   398    RVALBOOL
-   399    BRF 407
-   400    [WaitFor1]
-   401    PUSHINT 1
-   402    PUSHINT 324
-   403    BSR
-   404    POPINT
-   405    BRA 360
-   406    BRA 413
-   407    [WaitFor2]
-   408    PUSHINT 3
-   409    PUSHINT 324
-   410    BSR
-   411    POPINT
-   412    BRA 0
-   413    [RemoveTenPercentInt1]
-   414    PUSHINT -1
-   415    PUSHFP
-   416    ADDINT
-   417    PUSHINT -1
-   418    PUSHFP
-   419    ADDINT
-   420    RVALINT
-   421    PUSHINT 301
-   422    BSR
-   423    POPINT
-   424    POPINT
-   425    BRA 372
+   394    POPINT
+   395    POPINT
+   396    [Branch1]
+   397    PUSHINT -3
+   398    PUSHFP
+   399    ADDINT
+   400    RVALBOOL
+   401    BRF 409
+   402    [WaitFor1]
+   403    PUSHINT 1
+   404    PUSHINT 326
+   405    BSR
+   406    POPINT
+   407    BRA 362
+   408    BRA 415
+   409    [WaitFor2]
+   410    PUSHINT 3
+   411    PUSHINT 326
+   412    BSR
+   413    POPINT
+   414    BRA 0
+   415    [RemoveTenPercentInt1]
+   416    PUSHINT -1
+   417    PUSHFP
+   418    ADDINT
+   419    PUSHINT -1
+   420    PUSHFP
+   421    ADDINT
+   422    RVALINT
+   423    PUSHINT 303
+   424    BSR
+   425    POPINT
    426    POPINT
-   427    POPBOOL
+   427    BRA 374
    428    POPINT
-   429    POPINT
-   430    UNLINK
-   431    EOF
+   429    POPBOOL
+   430    POPINT
+   431    POPINT
+   432    UNLINK
+   433    EOF
