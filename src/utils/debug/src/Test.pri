@@ -125,7 +125,7 @@ primitive DoubleInt is
 
 	procedure main is
 	begin
-		iResult := iOperand;
+		iResult := iOperand * 2;
 	end main;
 
 end DoubleInt;
