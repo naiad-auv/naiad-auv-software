@@ -282,6 +282,8 @@ void namePrimitiveVariables(t_tree node)
 	if (node->Node.Variable.VarKind == kFormal && node->Node.Variable.Type < BOOL_ADDR)
 		node->Node.Variable.Type += MATRIX;
 	node->Node.Variable.VarKind = kFormal;
+	
+	namePrimitiveVariables(node->Node.Variable.Next);
 }
 
 void nameFunction(t_tree node)
