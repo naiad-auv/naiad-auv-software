@@ -491,6 +491,7 @@ void regenNaiAdaIf(t_tree node)
 	regenNaiAdaNewLine();
 	fprintf(regenNaiAdaFilePtr, "if ");
 	regenNaiAdaExpr(node->Node.If.Expr);
+	fprintf(regenNaiAdaFilePtr, " then");	
 
 	regenNaiAdaInsertTab();
 	regenNaiAdaStmnt(node->Node.If.Then);
