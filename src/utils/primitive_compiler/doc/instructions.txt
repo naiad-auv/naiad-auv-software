@@ -1,0 +1,324 @@
+NaiAda VM Language description
+---------------------------------------
+
+Legend:
+
+SP: Stack pointer
+Description: Index of the current position of the stack. The index is decreasing as the stack grows.
+
+FP: Frame pointer
+Description: Stores the value of the stack pointer since the last jump.
+
+PC: Program counter
+Description: Stores the address of the next instruction to be run.
+
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Category: Jumps, timers and misc
+
+Name: Null
+Instruction: NULL
+Description: Does nothing. This instruction is used when there is a subprogram label or the statement "null;".
+
+Name: Main
+Instruction: MAIN
+Description: Does nothing. This instruction is used to determine the entry point of the program.
+
+Name: Link
+Instruction: LINK,
+Description: Pushes the FP onto the stack and updates the FP to the current SP value.
+
+Name: Unlink
+Instruction: UNLINK
+Description: Resets the FP to previous value by popping an integer value from the stack.
+
+Name: Branch if false
+Instruction: BRF address
+Description: Pops a boolean off the stack. If the value popped is true then continue next instruction, if not then jump to address.
+
+Name: Branch always
+Instruction: BRA address
+Description: Jumps to address.
+
+Name: Branch to sub-routine
+Instruction: BSR
+Description: Pops the address to go to and pushes the address to return to, then jumps to the address popped.
+
+Name: Return to sub-routine
+Instruction: RTS
+Description: Pops the address to return to and jumps there.
+
+Name: Get time
+Instruction: TIME
+Description: Pushes the current delta time since last reset.
+
+Name: Time reset
+Instruction: TIMERST
+Description: Sets delta time since last reset to zero.
+
+Name: Push FP
+Instruction: PUSHFP
+Description: Pushes the current value of the FP onto the stack.
+
+Name: End of file
+Instruction: EOF
+Description: Signifies the end of the program.
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Category: Memory
+
+Name: Declare integer
+Instruction: DECLINT
+Description: Pushes an unset integer onto the stack.
+
+Name: Declare boolean
+Instruction: DECLBOOL
+Description: Pushes an unset boolean onto the stack.
+
+Name: Declare float
+Instruction: DECLFLOAT
+Description: Pushes an unset float onto the stack.
+
+Name: Declare matrix
+Instruction: DECLMAT
+Description: Pushes an unset matrix onto the stack.
+
+Name: Declare vector
+Instruction: DECLVEC
+Description: Pushes an unset vector onto the stack.
+
+Name: Pop integer
+Instruction: POPINT
+Description: Pops an integer off the stack.
+
+Name: Pop boolean
+Instruction: POPBOOL
+Description: Pops a boolean off the stack.
+
+Name: Pop float
+Instruction: POPFLOAT
+Description: Pops a float off the stack.
+
+Name: Pop matrix
+Instruction: POPMAT
+Description: Pops a matrix off the stack.
+
+Name: Pop vector
+Instruction: POPVEC
+Description: Pops a vector off the stack.
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Category: Constants
+
+Name: Push integer
+Instruction: PUSHINT integer
+Description: Pushes a specific integer onto the stack.
+
+Name: Push boolean
+Instruction: PUSHBOOL boolean
+Description: Pushes a specific boolean onto the stack.
+
+Name: Push float
+Instruction: PUSHFLOAT float
+Description: Pushes a specific float onto the stack.
+
+Name: Push matrix
+Instruction: PUSHMAT matrix
+Description: Pushes a specific matrix onto the stack.
+
+Name: Push vector
+Instruction: PUSHVEC vector
+Description: Pushes a specific vector onto the stack.
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Category: Variables
+
+Name: Right value integer
+Instruction: RVALINT
+Description: Pops an address off the stack and pushes the integer value at that address onto the stack.
+
+Name: Right value boolean
+Instruction: RVALBOOL
+Description: Pops an address off the stack and pushes the boolean value at that address onto the stack.
+
+Name: Right value float
+Instruction: RVALFLOAT
+Description: Pops an address off the stack and pushes the float value at that address onto the stack.
+
+Name: Right value matrix
+Instruction: RVALMAT
+Description: Pops an address off the stack and pushes the matrix value at that address onto the stack.
+
+Name: Right value vector
+Instruction: RVALVEC
+Description: Pops an address off the stack and pushes the vector value at that address onto the stack.
+
+Name: Assign integer
+Instruction: ASSINT
+Description: Pops an integer off the stack, then pops an address off the stack. Finally, the integer is assigned as the value at the address.
+
+Name: Assign boolean
+Instruction: ASSBOOL
+Description: Pops an boolean off the stack, then pops an address off the stack. Finally, the boolean is assigned as the value at the address.
+
+Name: Assign float
+Instruction: ASSFLOAT
+Description: Pops an float off the stack, then pops an address off the stack. Finally, the float is assigned as the value at the address.
+
+Name: Assign matrix
+Instruction: ASSMAT
+Description: Pops an matrix off the stack, then pops an address off the stack. Finally, the matrix is assigned as the value at the address.
+
+Name: Assign vector
+Instruction: ASSVEC
+Description: Pops an vector off the stack, then pops an address off the stack. Finally, the vector is assigned as the value at the address.
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Category: Conditions
+
+Name: Equal for integers
+Instruction: EQINT
+Description: Pops an integer as right operand, then pops an integer as left operand. Pushes a boolean onto the stack saying if the operands are equal.
+
+Name: Less than for integers
+Instruction: LTINT
+Description: Pops an integer as right operand, then pops an integer as left operand. Pushes a boolean onto the stack saying if the left operand is less than the right operand.
+
+Name: Less than or equal for integers
+Instruction: LEINT
+Description: Pops an integer as right operand, then pops an integer as left operand. Pushes a boolean onto the stack saying if the left operand is less than or equal to the right operand.
+
+Name: Equal for floats
+Instruction: EQFLOAT
+Description: Pops a float as right operand, then pops a float as left operand. Pushes a boolean onto the stack saying if the operands are equal.
+
+Name: Less than for floats
+Instruction: LTFLOAT
+Description: Pops a float as right operand, then pops a float as left operand. Pushes a boolean onto the stack saying if the left operand is less than the right operand.
+
+Name: Less than or equal for floats
+Instruction: LEFLOAT
+Description: Pops a float as right operand, then pops a float as left operand. Pushes a boolean onto the stack saying if the left operand is less than or equal to the right operand.
+
+Name: Equal for booleans
+Instruction: EQBOOL
+Description: Pops a boolean as right operand, then pops a boolean as left operand. Pushes a boolean onto the stack saying if the left operand is equal to the right operand.
+
+Name: Logical not
+Instruction: NOT
+Description: Pops a boolean and pushes the opposite value of it.
+
+Name: Logical or
+Instruction: OR
+Description: Pops two booleans and pushes TRUE if either one of them is TRUE, otherwise pushes FALSE.
+
+Name: Logical and
+Instruction: AND
+Description: Pops two booleans and pushes TRUE if both of them are TRUE, otherwise pushes FALSE.
+
+Name: Equal for matrices
+Instruction: EQMAT
+Description: Pops a matrix as right operand, then pops a matrix as left operand. Pushes a boolean onto the stack saying if the left operand is equal to the right operand.
+
+Name: Equal for vectors
+Instruction: EQMAT
+Description: Pops a vector as right operand, then pops a vector as left operand. Pushes a boolean onto the stack saying if the left operand is equal to the right operand.
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Category: Arithmetics
+
+Name: Negation for integers
+Instruction: NEGINT
+Description: Pops an integer and pushes the negated value of it.
+
+Name: Addition for integers
+Instruction: ADDINT
+Description: Pops two integers and pushes the sum of them.
+
+Name: Division for integers
+Instruction: DIVINT
+Description: Pops an integer as the denominator, then pops an integer as the nominator. Finally, pushes the quotent of them.
+
+Name: Multiplication for integers
+Instruction: MULINT
+Description: Pops two integers and pushes the product of them.
+
+Name: Negation for floats
+Instruction: NEGFLOAT
+Description: Pops a float and pushes the negated value of it.
+
+Name: Addition for floats
+Instruction: ADDFLOAT
+Description: Pops two floats and pushes the sum of them.
+
+Name: Division for floats
+Instruction: DIVFLOAT
+Description: Pops a float as the denominator, then pops a float as the nominator. Finally, pushes the quotent of them.
+
+Name: Multiplication for floats
+Instruction: MULFLOAT
+Description: Pops two floats and pushes the product of them.
+
+Name: Negation for vectors
+Instruction: NEGVEC
+Description: Pops a vector and pushes the negated value of it.
+
+Name: Addition for vectors
+Instruction: ADDVEC
+Description: Pops two vectors and pushes the vector sum of them.
+
+Name: Multiplication for vectors
+Instruction: MULVEC
+Description: Pops two vectors and pushes the product vector onto the stack.
+
+Name: Scaling for vectors
+Instruction: SCALEVEC
+Description: Pops a float as the scalar, then pops a vector. Finally, pushes the vector scaled by the scalar.
+
+Name: Multiplication for matrices
+Instruction: MULMAT
+Description: Pops a matrix to use as right operand, then pops a matrix to use as left operand. Finally, pushes the resulting matrix of the two matrices multiplied together. 
+
+Name: Multiplication for matrices with vectors
+Instruction: MULMATVEC
+Description: Pops a vector to use as right operand, then pops a matrix to use as left operand. Finally, pushes the resulting vector of the matrix multiplied with the vector. 
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Category: Trigonometry, numerics and type conversion
+
+Name: Sine
+Instruction: SIN
+Description: Pops a float and pushes the sine value.
+
+Name: Cosine
+Instruction: SIN
+Description: Pops a float and pushes the cosine value.
+
+Name: ArcSine
+Instruction: ARCSIN
+Description: Pops a float and pushes the arcsine value.
+
+Name: ArcCosine
+Instruction: ARCCOS
+Description: Pops a float and pushes the arccosine value.
+
+Name: Integer to float conversion
+Instruction: ITOF
+Description: Pops an integer, converts it to a float, and pushes the new float value.
+
+Name: Float to integer conversion
+Instruction: FTOI
+Description: Pops a float, converts it to an integer, and pushes the new integer value.
+

@@ -424,7 +424,7 @@ package body simulator.submarine is
          if xDeltaRotationMovement.fLength_Squared /= 0.0 then
 
             xRotationQuaternion := math.Quaternions.xCreate(xAxisVector    => xDeltaRotationMovement,
-                                                              fAngleInDegrees => math.Angles.fRadians_To_Degrees(fAngle => xDeltaRotationMovement.fLength));
+                                                            fAngleInDegrees => math.Angles.fRadians_To_Degrees(fAngle => xDeltaRotationMovement.fLength));
             this.pxOrientationMatrix.Copy_From(math.Matrices.xCreate_From_Quaternion(xFromQuaternion => xRotationQuaternion) * this.pxOrientationMatrix);
 
          end if;

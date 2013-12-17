@@ -10,6 +10,7 @@ package TCPCANWrapper is
    overriding
    function iGet_Size_In_Bytes(this : in CTCPCANPacket) return integer;
    function sGet_String(this : in CTCPCANPacket) return String;
+   function xReturn_Message(this : in CTCPCANPacket) return CAN_Defs.CAN_Message;
    procedure set_Message_to_Send(this : in out CTCPCANPacket; xMessage : CAN_Defs.CAN_Message);
    procedure Set(this : in out CTCPCANPacket);
 
