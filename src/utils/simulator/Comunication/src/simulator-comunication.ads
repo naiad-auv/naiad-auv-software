@@ -56,6 +56,6 @@ private
    xProtected_Info : simulator.Comunication_Prot_Obj.tCom_Prot_Obj;
 
    xConnection : TCPWrapper.CTCPConnection;
-
+   xNonCompleteOrientationMatrix : math.Matrices.TMatrix;
 
 end Simulator.Comunication;
