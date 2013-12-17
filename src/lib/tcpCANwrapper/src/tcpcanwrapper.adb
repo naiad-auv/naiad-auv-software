@@ -45,6 +45,10 @@ package body TCPCANWrapper is
       this.Set_Type(TCPWrapper.PACKET_CAN);
    end Set;
 
+   function xReturn_Message(this : in CTCPCANPacket) return CAN_Defs.CAN_Message is
+   begin
+      return this.xCANMessage;
+   end xReturn_Message;
 
 
 end TCPCANWrapper;

@@ -24,12 +24,11 @@ begin
       delay(0.1);
       iBytes := xConnection.iBytes_Available_For_Reading;
       ada.Text_IO.Put_Line("Antal bytes: " &iBytes'img);
-      if iBytes > 30 then
+      if iBytes >= xPacket.iGet_Size_In_Bytes then
          xConnection.Receive_Packet(xPacket  => xPacket,
                                     bSuccess => bSuccess);
-         ada.Text_IO.Put_Line(xPacket.sGet_String);
+         ada.Text_IO.Put_Line("Packet info is: " & xPacket.sGet_String);
       end if;
-
    end loop;
 
 end Main;
