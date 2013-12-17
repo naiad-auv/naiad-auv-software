@@ -4,7 +4,7 @@ primitive WaitFor is
 
 	procedure main is
 	begin
-		Delay(float(iSeconds);
+		Delay(float(iSeconds));
 	end main;
 
 end WaitFor;
