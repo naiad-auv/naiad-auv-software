@@ -3,7 +3,7 @@
 ---------------------------------------------------------------------------
 -- This code implements functions to put INS-data (float values) into can messages.
 -- Written by Nils Brynedal Ignell for the Naiad AUV project
--- Last changed (yyyy-mm-dd): 2013-12-16
+-- Last changed (yyyy-mm-dd): 2013-12-17
 
 -- All angles are expressed in degrees.
 --------------------------------------------------------------------------
@@ -47,6 +47,13 @@ package Can_Float_Conversions is
    procedure Message_To_PID_Scalings(u8ID : out Interfaces.Unsigned_8; fProportional : out float;
                                      fIntegral : out float; fDerivative : out float;
                                      fScaleRange : float; b8Message :     Can_Defs.Byte8);
+
+
+   -- All 8 bytes of b8Message needs to be sent.
+   -- All values will be truncated to range -1.0 .. +1.0
+   type TOrientation_Matrix_Float_Array is array(1..6) of float;
+   procedure OrientationMatrix_To_Message(fFloats : TOrientation_Matrix_Float_Array;     b8Message : out Can_Defs.Byte8);
+   procedure Message_To_OrientationMatrix(fFloats : out TOrientation_Matrix_Float_Array; b8Message : Can_Defs.Byte8);
 
 private
 
@@ -113,12 +120,49 @@ private
    type TGyroReadingArray is array(1..3) of Interfaces.Unsigned_8;
    for TGyroReadingArray'Size use  24;
 
-
    function i24To_Gyro_Reading  is new Ada.Unchecked_Conversion(Integer_24, TGyroReadingArray);
    function Gyro_Reading_To_i24 is new Ada.Unchecked_Conversion(TGyroReadingArray, Integer_24);
 
+
+   type Integer_10 is range -2 ** 9 .. 2 ** 9 - 1;
+   for Integer_10'Size use 10;
+
+   type TOrientation_Matrix_Record is
+      record
+         i10Value1  : Integer_10;
+	 i10Value2  : Integer_10;
+	 i10Value3  : Integer_10;
+	 i10Value4  : Integer_10;
+	 i10Value5  : Integer_10;
+	 i10Value6  : Integer_10;
+
+         Padding0 : Boolean;
+         Padding1 : Boolean;
+         Padding2 : Boolean;
+         Padding3 : Boolean;
+      end record;
+
+   for TOrientation_Matrix_Record use record
+      i10Value1	at 0 range 0  .. 9;
+      i10Value2	at 0 range 10 .. 19;
+      i10Value3	at 0 range 20 .. 29;
+      i10Value4	at 0 range 30 .. 39;
+      i10Value5	at 0 range 40 .. 49;
+      i10Value6	at 0 range 50 .. 59;
+
+      Padding0 	at 0 range 60 .. 60;
+      Padding1 	at 0 range 61 .. 61;
+      Padding2 	at 0 range 62 .. 62;
+      Padding3 	at 0 range 63 .. 63;
+   end record;
+   for TOrientation_Matrix_Record'Size use 64;
+
+   function b8OTOrientation_Matrix_Record_To_Message is new Ada.Unchecked_Conversion(TOrientation_Matrix_Record, Can_Defs.Byte8);
+   function TMessage_To_TOrientation_Matrix_Record   is new Ada.Unchecked_Conversion(Can_Defs.Byte8, TOrientation_Matrix_Record);
+
    function i21_Get_Integer(fValue : float; fResolution : float) return Integer_21;
    function i16_Get_Integer(fValue : float; fResolution : float) return Interfaces.Integer_16;
+   function i10_Get_Integer(fValue : float; fResolution : float) return Integer_10;
    function fMod(fValue : float; fRange : float) return float;
 
 
