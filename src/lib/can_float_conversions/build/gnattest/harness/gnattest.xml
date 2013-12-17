@@ -1,2 +1,52 @@
 <tests_mapping mode="monolith">
+   <unit source_file="can_float_conversions.ads">
+      <test_unit target_file="can_float_conversions-test_data-tests.ads">
+         <setup file="can_float_conversions-test_data.adb" line="3"  column="4"/>
+         <teardown file="can_float_conversions-test_data.adb" line="9"  column="4"/>
+         <tested name="Orientation_To_Message" line="23" column="4">
+            <test file="can_float_conversions-test_data-tests.adb" line="13" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="Message_To_Orientation" line="24" column="4">
+            <test file="can_float_conversions-test_data-tests.adb" line="79" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="Vector_To_Message" line="27" column="4">
+            <test file="can_float_conversions-test_data-tests.adb" line="145" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="Message_To_Vector" line="30" column="4">
+            <test file="can_float_conversions-test_data-tests.adb" line="210" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="GyroReading_To_Message" line="38" column="4">
+            <test file="can_float_conversions-test_data-tests.adb" line="275" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="Message_To_GyroReading" line="39" column="4">
+            <test file="can_float_conversions-test_data-tests.adb" line="335" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="PID_Scalings_To_Message" line="43" column="4">
+            <test file="can_float_conversions-test_data-tests.adb" line="397" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="Message_To_PID_Scalings" line="47" column="4">
+            <test file="can_float_conversions-test_data-tests.adb" line="468" column="1" timestamp="modified"/>
+         </tested>
+         <tested name="OrientationMatrix_To_Message" line="55" column="4">
+            <test file="can_float_conversions-test_data-tests.adb" line="539" column="1" timestamp="2013-12-17 14:48:17"/>
+         </tested>
+         <tested name="Message_To_OrientationMatrix" line="56" column="4">
+            <test file="can_float_conversions-test_data-tests.adb" line="560" column="1" timestamp="2013-12-17 14:48:17"/>
+         </tested>
+         <tested name="i21_Get_Integer" line="163" column="4">
+            <test file="can_float_conversions-test_data-tests.adb" line="581" column="1" timestamp="2013-12-17 14:48:17"/>
+         </tested>
+         <tested name="i16_Get_Integer" line="164" column="4">
+            <test file="can_float_conversions-test_data-tests.adb" line="603" column="1" timestamp="2013-12-17 14:48:17"/>
+         </tested>
+         <tested name="i10_Get_Integer" line="165" column="4">
+            <test file="can_float_conversions-test_data-tests.adb" line="625" column="1" timestamp="2013-12-17 14:48:17"/>
+         </tested>
+         <tested name="fMod" line="166" column="4">
+            <test file="can_float_conversions-test_data-tests.adb" line="646" column="1" timestamp="modified"/>
+         </tested>
+         <dangling>
+         </dangling>
+      </test_unit>
+   </unit>
 </tests_mapping>

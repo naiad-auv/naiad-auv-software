@@ -157,14 +157,15 @@ package body Can_Float_Conversions is
    procedure OrientationMatrix_To_Message(fFloats : TOrientation_Matrix_Float_Array;
                                           b8Message : out Can_Defs.Byte8) is
 
+      fScaleResolution : float := 2.0 * 1.0 / Float(2 ** 10);
       data : TOrientation_Matrix_Record;
    begin
-      data.i10Value1 := i10_Get_Integer(fFloats(1), 1.0);
-      data.i10Value2 := i10_Get_Integer(fFloats(2), 1.0);
-      data.i10Value3 := i10_Get_Integer(fFloats(3), 1.0);
-      data.i10Value4 := i10_Get_Integer(fFloats(4), 1.0);
-      data.i10Value5 := i10_Get_Integer(fFloats(5), 1.0);
-      data.i10Value6 := i10_Get_Integer(fFloats(6), 1.0);
+      data.i10Value1 := i10_Get_Integer(fFloats(1), fScaleResolution);
+      data.i10Value2 := i10_Get_Integer(fFloats(2), fScaleResolution);
+      data.i10Value3 := i10_Get_Integer(fFloats(3), fScaleResolution);
+      data.i10Value4 := i10_Get_Integer(fFloats(4), fScaleResolution);
+      data.i10Value5 := i10_Get_Integer(fFloats(5), fScaleResolution);
+      data.i10Value6 := i10_Get_Integer(fFloats(6), fScaleResolution);
 
       b8Message := b8OTOrientation_Matrix_Record_To_Message(data);
    end OrientationMatrix_To_Message;

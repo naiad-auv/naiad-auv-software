@@ -10,13 +10,13 @@ with AUnit.Assertions; use AUnit.Assertions;
 package body Can_Float_Conversions.Test_Data.Tests is
 
 
-   --  begin read only
+--  begin read only
    procedure Test_Orientation_To_Message (Gnattest_T : in out Test);
    procedure Test_Orientation_To_Message_f946a5 (Gnattest_T : in out Test) renames Test_Orientation_To_Message;
-   --  id:2.1/f946a5f7629f3e51/Orientation_To_Message/1/0/
+--  id:2.1/f946a5f7629f3e51/Orientation_To_Message/1/0/
    procedure Test_Orientation_To_Message (Gnattest_T : in out Test) is
-      --  can_float_conversions.ads:22:4:Orientation_To_Message
-      --  end read only
+   --  can_float_conversions.ads:23:4:Orientation_To_Message
+--  end read only
 
       pragma Unreferenced (Gnattest_T);
       fYaw   : float := 45.0;
@@ -71,18 +71,18 @@ package body Can_Float_Conversions.Test_Data.Tests is
                               abs(fRollOut - (-170.0)) <= 0.001,
                               "Orientation_To_Message conversion incorrect, test 6 fRoll=" &
                                 fRoll'Img & " fRollOut= " & fRollout'Img);
-      --  begin read only
+--  begin read only
    end Test_Orientation_To_Message;
-   --  end read only
+--  end read only
 
 
-   --  begin read only
+--  begin read only
    procedure Test_Message_To_Orientation (Gnattest_T : in out Test);
    procedure Test_Message_To_Orientation_ed8395 (Gnattest_T : in out Test) renames Test_Message_To_Orientation;
-   --  id:2.1/ed8395d00ddacf8a/Message_To_Orientation/1/0/
+--  id:2.1/ed8395d00ddacf8a/Message_To_Orientation/1/0/
    procedure Test_Message_To_Orientation (Gnattest_T : in out Test) is
-      --  can_float_conversions.ads:23:4:Message_To_Orientation
-      --  end read only
+   --  can_float_conversions.ads:24:4:Message_To_Orientation
+--  end read only
 
       pragma Unreferenced (Gnattest_T);
       fYaw   : float := 45.0;
@@ -137,18 +137,18 @@ package body Can_Float_Conversions.Test_Data.Tests is
                               abs(fRollOut - (-180.0 + 50.0)) <= 0.001,
                               "Orientation_To_Message conversion incorrect, test 6 fRoll=" &
                                 fRoll'Img & " fRollOut= " & fRollout'Img);
-      --  begin read only
+--  begin read only
    end Test_Message_To_Orientation;
-   --  end read only
+--  end read only
 
 
-   --  begin read only
+--  begin read only
    procedure Test_Vector_To_Message (Gnattest_T : in out Test);
    procedure Test_Vector_To_Message_7572aa (Gnattest_T : in out Test) renames Test_Vector_To_Message;
-   --  id:2.1/7572aac6fa27de43/Vector_To_Message/1/0/
+--  id:2.1/7572aac6fa27de43/Vector_To_Message/1/0/
    procedure Test_Vector_To_Message (Gnattest_T : in out Test) is
-      --  can_float_conversions.ads:26:4:Vector_To_Message
-      --  end read only
+   --  can_float_conversions.ads:27:4:Vector_To_Message
+--  end read only
 
       pragma Unreferenced (Gnattest_T);
       fX   : float := 2.0;
@@ -202,18 +202,18 @@ package body Can_Float_Conversions.Test_Data.Tests is
                               abs(fZOut - fACCELERATION_MAX) <= 0.0001,
                               "Vector_To_Message conversion incorrect, test 6 fZOut=" &
                                 fZOut'Img & " fZ= " & fZ'Img);
-      --  begin read only
+--  begin read only
    end Test_Vector_To_Message;
-   --  end read only
+--  end read only
 
 
-   --  begin read only
+--  begin read only
    procedure Test_Message_To_Vector (Gnattest_T : in out Test);
    procedure Test_Message_To_Vector_d1620e (Gnattest_T : in out Test) renames Test_Message_To_Vector;
-   --  id:2.1/d1620e40d7d2596e/Message_To_Vector/1/0/
+--  id:2.1/d1620e40d7d2596e/Message_To_Vector/1/0/
    procedure Test_Message_To_Vector (Gnattest_T : in out Test) is
-      --  can_float_conversions.ads:29:4:Message_To_Vector
-      --  end read only
+   --  can_float_conversions.ads:30:4:Message_To_Vector
+--  end read only
 
       pragma Unreferenced (Gnattest_T);
       fX   : float := 2.0;
@@ -267,18 +267,18 @@ package body Can_Float_Conversions.Test_Data.Tests is
                               abs(fZOut - fACCELERATION_MAX) <= 0.0001,
                               "Vector_To_Message conversion incorrect, test 6 fZOut=" &
                                 fZOut'Img & " fZ= " & fZ'Img);
-      --  begin read only
+--  begin read only
    end Test_Message_To_Vector;
-   --  end read only
+--  end read only
 
 
-   --  begin read only
+--  begin read only
    procedure Test_GyroReading_To_Message (Gnattest_T : in out Test);
    procedure Test_GyroReading_To_Message_a54dc5 (Gnattest_T : in out Test) renames Test_GyroReading_To_Message;
-   --  id:2.1/a54dc5119646430b/GyroReading_To_Message/1/0/
+--  id:2.1/a54dc5119646430b/GyroReading_To_Message/1/0/
    procedure Test_GyroReading_To_Message (Gnattest_T : in out Test) is
-      --  can_float_conversions.ads:37:4:GyroReading_To_Message
-      --  end read only
+   --  can_float_conversions.ads:38:4:GyroReading_To_Message
+--  end read only
 
       pragma Unreferenced (Gnattest_T);
       fIn  : float := -5.0;
@@ -327,18 +327,18 @@ package body Can_Float_Conversions.Test_Data.Tests is
       AUnit.Assertions.Assert(abs(fOut - 160.0) <= 0.0001,
                               "GyroReading_To_Message conversion incorrect, test 1 fIn=" &
                                 fIn'Img & " fOut= " & fOut'Img);
-      --  begin read only
+--  begin read only
    end Test_GyroReading_To_Message;
-   --  end read only
+--  end read only
 
 
-   --  begin read only
+--  begin read only
    procedure Test_Message_To_GyroReading (Gnattest_T : in out Test);
    procedure Test_Message_To_GyroReading_9c2114 (Gnattest_T : in out Test) renames Test_Message_To_GyroReading;
-   --  id:2.1/9c21149cf2a6d2e7/Message_To_GyroReading/1/0/
+--  id:2.1/9c21149cf2a6d2e7/Message_To_GyroReading/1/0/
    procedure Test_Message_To_GyroReading (Gnattest_T : in out Test) is
-      --  can_float_conversions.ads:38:4:Message_To_GyroReading
-      --  end read only
+   --  can_float_conversions.ads:39:4:Message_To_GyroReading
+--  end read only
 
       pragma Unreferenced (Gnattest_T);
       fIn  : float := -25.0;
@@ -389,18 +389,18 @@ package body Can_Float_Conversions.Test_Data.Tests is
                                 fIn'Img & " fOut= " & fOut'Img);
 
 
-      --  begin read only
+--  begin read only
    end Test_Message_To_GyroReading;
-   --  end read only
+--  end read only
 
 
-   --  begin read only
+--  begin read only
    procedure Test_PID_Scalings_To_Message (Gnattest_T : in out Test);
    procedure Test_PID_Scalings_To_Message_99b448 (Gnattest_T : in out Test) renames Test_PID_Scalings_To_Message;
-   --  id:2.1/99b448c2b2fd3410/PID_Scalings_To_Message/1/0/
+--  id:2.1/99b448c2b2fd3410/PID_Scalings_To_Message/1/0/
    procedure Test_PID_Scalings_To_Message (Gnattest_T : in out Test) is
-      --  can_float_conversions.ads:42:4:PID_Scalings_To_Message
-      --  end read only
+   --  can_float_conversions.ads:43:4:PID_Scalings_To_Message
+--  end read only
 
       pragma Unreferenced (Gnattest_T);
       use Interfaces;
@@ -460,18 +460,18 @@ package body Can_Float_Conversions.Test_Data.Tests is
       AUnit.Assertions.Assert
         (abs(fDout - (7.0)) < 0.01,
          "fDout incorrect = " & fDout'Img);
-      --  begin read only
+--  begin read only
    end Test_PID_Scalings_To_Message;
-   --  end read only
+--  end read only
 
 
-   --  begin read only
+--  begin read only
    procedure Test_Message_To_PID_Scalings (Gnattest_T : in out Test);
    procedure Test_Message_To_PID_Scalings_839a1d (Gnattest_T : in out Test) renames Test_Message_To_PID_Scalings;
-   --  id:2.1/839a1db7175b045c/Message_To_PID_Scalings/1/0/
+--  id:2.1/839a1db7175b045c/Message_To_PID_Scalings/1/0/
    procedure Test_Message_To_PID_Scalings (Gnattest_T : in out Test) is
-      --  can_float_conversions.ads:46:4:Message_To_PID_Scalings
-      --  end read only
+   --  can_float_conversions.ads:47:4:Message_To_PID_Scalings
+--  end read only
 
       pragma Unreferenced (Gnattest_T);
       use Interfaces;
@@ -531,18 +531,126 @@ package body Can_Float_Conversions.Test_Data.Tests is
         (abs(fDout - (7.0)) < 0.01,
          "fDout incorrect = " & fDout'Img);
 
-      --  begin read only
+--  begin read only
    end Test_Message_To_PID_Scalings;
-   --  end read only
+--  end read only
 
 
-   --  begin read only
+--  begin read only
+   procedure Test_OrientationMatrix_To_Message (Gnattest_T : in out Test);
+   procedure Test_OrientationMatrix_To_Message_974485 (Gnattest_T : in out Test) renames Test_OrientationMatrix_To_Message;
+--  id:2.1/9744854faa920df2/OrientationMatrix_To_Message/1/0/
+   procedure Test_OrientationMatrix_To_Message (Gnattest_T : in out Test) is
+   --  can_float_conversions.ads:55:4:OrientationMatrix_To_Message
+--  end read only
+
+      pragma Unreferenced (Gnattest_T);
+
+      InData, OutData : Can_Float_Conversions.TOrientation_Matrix_Float_Array;
+      b8Message : CAN_Defs.Byte8;
+   begin
+
+      InData(1) := 2.0;
+      InData(2) := 1.0;
+      InData(3) := 0.5;
+      InData(4) := -0.3;
+      InData(5) := -1.0;
+      InData(6) := -1.6;
+
+      Can_Float_Conversions.OrientationMatrix_To_Message(InData,  b8Message);
+
+      Can_Float_Conversions.Message_To_OrientationMatrix(OutData, b8Message);
+
+      AUnit.Assertions.Assert
+        (abs(OutData(1) - (1.0)) < 0.01,
+         "Test OutData incorrect. OutData(1)= " & OutData(1)'img);
+
+      AUnit.Assertions.Assert
+        (abs(OutData(2) - (1.0)) < 0.01,
+         "Test OutData incorrect. OutData(2)= " & OutData(2)'img);
+
+      AUnit.Assertions.Assert
+        (abs(OutData(3) - (0.5)) < 0.01,
+         "Test OutData incorrect. OutData(3)= " & OutData(3)'img);
+
+      AUnit.Assertions.Assert
+        (abs(OutData(4) - (-0.3)) < 0.01,
+         "Test OutData incorrect. OutData(4)= " & OutData(4)'img);
+
+      AUnit.Assertions.Assert
+        (abs(OutData(5) - (-1.0)) < 0.01,
+         "Test OutData incorrect. OutData(5)= " & OutData(5)'img);
+
+      AUnit.Assertions.Assert
+        (abs(OutData(6) - (-1.0)) < 0.01,
+         "Test OutData incorrect. OutData(6)= " & OutData(6)'img);
+
+--  begin read only
+   end Test_OrientationMatrix_To_Message;
+--  end read only
+
+
+--  begin read only
+   procedure Test_Message_To_OrientationMatrix (Gnattest_T : in out Test);
+   procedure Test_Message_To_OrientationMatrix_8960e9 (Gnattest_T : in out Test) renames Test_Message_To_OrientationMatrix;
+--  id:2.1/8960e973892256d3/Message_To_OrientationMatrix/1/0/
+   procedure Test_Message_To_OrientationMatrix (Gnattest_T : in out Test) is
+   --  can_float_conversions.ads:56:4:Message_To_OrientationMatrix
+--  end read only
+
+      pragma Unreferenced (Gnattest_T);
+
+      InData, OutData : Can_Float_Conversions.TOrientation_Matrix_Float_Array;
+      b8Message : CAN_Defs.Byte8;
+   begin
+
+      InData(1) := 2.0;
+      InData(2) := 1.0;
+      InData(3) := 0.5;
+      InData(4) := -0.3;
+      InData(5) := -1.0;
+      InData(6) := -1.6;
+
+      Can_Float_Conversions.OrientationMatrix_To_Message(InData, b8Message);
+
+      Can_Float_Conversions.Message_To_OrientationMatrix(OutData, b8Message);
+
+      AUnit.Assertions.Assert
+        (abs(OutData(1) - (1.0)) < 0.01,
+         "Test OutData incorrect.");
+
+      AUnit.Assertions.Assert
+        (abs(OutData(2) - (1.0)) < 0.01,
+         "Test OutData incorrect.");
+
+      AUnit.Assertions.Assert
+        (abs(OutData(3) - (0.5)) < 0.01,
+         "Test OutData incorrect.");
+
+      AUnit.Assertions.Assert
+        (abs(OutData(4) - (-0.3)) < 0.01,
+         "Test OutData incorrect.");
+
+      AUnit.Assertions.Assert
+        (abs(OutData(5) - (-1.0)) < 0.01,
+         "Test OutData incorrect.");
+
+      AUnit.Assertions.Assert
+        (abs(OutData(6) - (-1.0)) < 0.01,
+         "Test OutData incorrect.");
+
+--  begin read only
+   end Test_Message_To_OrientationMatrix;
+--  end read only
+
+
+--  begin read only
    procedure Test_i21_Get_Integer (Gnattest_T : in out Test);
    procedure Test_i21_Get_Integer_2ffcf0 (Gnattest_T : in out Test) renames Test_i21_Get_Integer;
-   --  id:2.1/2ffcf0cc58bc5289/i21_Get_Integer/1/0/
+--  id:2.1/2ffcf0cc58bc5289/i21_Get_Integer/1/0/
    procedure Test_i21_Get_Integer (Gnattest_T : in out Test) is
-      --  can_float_conversions.ads:119:4:i21_Get_Integer
-      --  end read only
+   --  can_float_conversions.ads:163:4:i21_Get_Integer
+--  end read only
 
       pragma Unreferenced (Gnattest_T);
 
@@ -553,18 +661,18 @@ package body Can_Float_Conversions.Test_Data.Tests is
       AUnit.Assertions.Assert
         (True,
          "Test not implemented.");
-      --  begin read only
+--  begin read only
    end Test_i21_Get_Integer;
-   --  end read only
+--  end read only
 
 
-   --  begin read only
+--  begin read only
    procedure Test_i16_Get_Integer (Gnattest_T : in out Test);
    procedure Test_i16_Get_Integer_3215f1 (Gnattest_T : in out Test) renames Test_i16_Get_Integer;
-   --  id:2.1/3215f1efe2f43887/i16_Get_Integer/1/0/
+--  id:2.1/3215f1efe2f43887/i16_Get_Integer/1/0/
    procedure Test_i16_Get_Integer (Gnattest_T : in out Test) is
-      --  can_float_conversions.ads:120:4:i16_Get_Integer
-      --  end read only
+   --  can_float_conversions.ads:164:4:i16_Get_Integer
+--  end read only
 
       pragma Unreferenced (Gnattest_T);
 
@@ -575,18 +683,42 @@ package body Can_Float_Conversions.Test_Data.Tests is
       AUnit.Assertions.Assert
         (True,
          "Test not implemented.");
-      --  begin read only
+--  begin read only
    end Test_i16_Get_Integer;
-   --  end read only
+--  end read only
 
 
-   --  begin read only
+--  begin read only
+   procedure Test_i10_Get_Integer (Gnattest_T : in out Test);
+   procedure Test_i10_Get_Integer_2bbcea (Gnattest_T : in out Test) renames Test_i10_Get_Integer;
+--  id:2.1/2bbceafc0fd70ef3/i10_Get_Integer/1/0/
+   procedure Test_i10_Get_Integer (Gnattest_T : in out Test) is
+   --  can_float_conversions.ads:165:4:i10_Get_Integer
+--  end read only
+
+      pragma Unreferenced (Gnattest_T);
+
+   begin
+
+      --there is no need to test this since if this function fails
+      -- then other tests will still detect this since those tests
+      --indirectly call this function
+      AUnit.Assertions.Assert
+        (true,
+         "Test not implemented.");
+
+--  begin read only
+   end Test_i10_Get_Integer;
+--  end read only
+
+
+--  begin read only
    procedure Test_fMod (Gnattest_T : in out Test);
    procedure Test_fMod_e22caf (Gnattest_T : in out Test) renames Test_fMod;
-   --  id:2.1/e22caf44918f4c8f/fMod/1/0/
+--  id:2.1/e22caf44918f4c8f/fMod/1/0/
    procedure Test_fMod (Gnattest_T : in out Test) is
-      --  can_float_conversions.ads:121:4:fMod
-      --  end read only
+   --  can_float_conversions.ads:166:4:fMod
+--  end read only
 
       pragma Unreferenced (Gnattest_T);
       f : float;
@@ -606,8 +738,8 @@ package body Can_Float_Conversions.Test_Data.Tests is
       AUnit.Assertions.Assert
         (abs(f - 150.0) < 0.001,
          "fMod incorrect, result= " & f'Img);
-      --  begin read only
+--  begin read only
    end Test_fMod;
-   --  end read only
+--  end read only
 
 end Can_Float_Conversions.Test_Data.Tests;
