@@ -1,4 +1,5 @@
 
+
 ---------------------------------------------------------------------------
 -- This code implements functions to put INS-data (float values) into can messages.
 -- Written by Nils Brynedal Ignell for the Naiad AUV project
@@ -122,4 +123,3 @@ private
 
 
 end Can_Float_Conversions;
-
