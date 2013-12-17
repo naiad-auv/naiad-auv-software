@@ -12,6 +12,7 @@ prev = ""
 primitives = {}
 constants = {}
 declared = {}
+variables = {}
 
 def body(parent):
     global tab, f, prev
@@ -32,12 +33,20 @@ def body(parent):
             body(x)
             f.write(');\n')
         elif x.tag == 'input':
-            f.write(' ' + prev + '_' + x.get('name'))
+            if x.get('value') in variables:
+                f.write(' ' + x.get('value'))
+            elif x.get('value') in constants:
+                f.write(' ' + constants[x.get('value')])
+            else:
+                f.write(' ' + prev + '_' + x.get('name'))
             
             if not len(parent.getchildren()) == i + 1:
                 f.write(',')
         elif x.tag == 'output':
-            f.write(' access(' + prev + '_' + x.get('name') + ')')
+            if x.get('value') in variables:
+                f.write(' access(' + x.get('value') + ')')
+            else:
+                f.write(' access(' + prev + '_' + x.get('name') + ')')
             
             if not len(parent.getchildren()) == i + 1:
                 f.write(',')
@@ -48,6 +57,15 @@ def body(parent):
             body(x)
         elif x.tag =='goto':
             f.write(tab + 'goto ' + x.get('label') + ';\n')
+        elif x.tag =='set':
+            if x.get('variable') in variables:
+                f.write('   ' + x.get('variable') + ' := ')
+                if x.get('value') in constants:
+                    f.write(constants[x.get('value')] + ';\n')
+                else:
+                    f.write(x.get('value') + ';\n')
+            else:
+                sys.stderr.write("ERROR: Variable" + x.get('variable') + "does not exist!")
 
         tab = tab[:-3]
 
@@ -122,11 +140,13 @@ def getPrimitives(parent):
             infile.close()
 
 def getConstants(parent):
-    global constants
+    global constants, variables
     
     for x in parent.getchildren():
         if x.tag == 'constant':
             constants[x.get('name')] = x.get('value')
+        elif x.tag == 'variable':
+            variables[x.get('name')] = x.get('type')
 
 def declaration(parent):
     global tab, f, prev, declared
@@ -143,9 +163,9 @@ def declaration(parent):
             f.write('')
         elif x.tag == 'input' or x.tag == 'output':
             if (prev + '_' + x.get('name')) not in declared:
-                f.write(tab + prev + '_' + x.get('name') + ' : ' + x.get('type') + ';\n')
-                declared[prev + '_' + x.get('name')] = x.get('type')
-            
+                if x.tag == 'output':
+                    f.write(tab + prev + '_' + x.get('name') + ' : ' + x.get('type') + ';\n')
+                declared[prev + '_' + x.get('name')] = x.get('type')            
         elif x.tag == 'true':
             declaration(x)
         elif x.tag == 'false':
@@ -164,13 +184,13 @@ def initialize(parent):
             prev = x.get('name')
             initialize(x)
             f.write('')
-        elif x.tag == 'input':
-            if len(x.get('value')) > 0:
-                if x.get('value') in constants:
-                    f.write(tab + prev + '_' + x.get('name') + ' := ' + constants[x.get('value')] + ';\n')
-                else:
-                    f.write(tab + prev + '_' + x.get('name') + ' := ' + x.get('value') + ';\n')
-                    
+        #elif x.tag == 'input':
+        #    if len(x.get('value')) > 0:
+        #        if x.get('value') in constants:
+        #            f.write(tab + prev + '_' + x.get('name') + ' := ' + constants[x.get('value')] + ';\n')
+        #        else:
+        #            f.write(tab + prev + '_' + x.get('name') + ' := ' + x.get('value') + ';\n')
+        #            
         elif x.tag == 'true':
             initialize(x)
         elif x.tag == 'false':
@@ -179,7 +199,7 @@ def initialize(parent):
         tab = ""        
 
 def main():
-    global f
+    global f, variables
 
     # Check if file exists and cmd in right format
     if len(sys.argv) == 2:
@@ -196,7 +216,7 @@ def main():
     seq = root.find('sequence')
 
     if 'name' in root.find('program').attrib:
-        f = open('../src/' + root.find('program').get('name'), 'w+')
+        f = open('../debug/src/' + root.find('program').get('name'), 'w+')
     else:
         sys.stderr.write("ERROR: XML lacks program name!")
         sys.exit()
@@ -210,6 +230,8 @@ def main():
     f.write('procedure main is\n\n')
 
     # Declaration part
+    for name, type in variables.iteritems():
+        f.write('   ' + name + ' : ' + type + ';\n')
     declaration(seq)
 
     f.write('begin\n')
