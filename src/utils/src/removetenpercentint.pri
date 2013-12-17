@@ -6,7 +6,7 @@ primitive RemoveTenPercentInt is
 
 	procedure main is
 	begin
-		iResult := iResult - (iResult / 10);
+		iResult := iOperand - (iOperand / 10);
 	end main;
 
 end RemoveTenPercentInt;
