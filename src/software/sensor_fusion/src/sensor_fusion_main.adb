@@ -44,7 +44,7 @@ begin
    Ada.Text_IO.Put_Line("Hello welcome to sensor fusion!");
 
    if Ada.Command_line.Argument_Count /= 2 then
-      Ada.Text_IO.Put_Line("Please provide two arbuments, the name of the serial port (excluding '/dev/') and the baudrate (9600, 38400, 57600 or 115200)");
+      Ada.Text_IO.Put_Line("Please provide two arbuments, the name of the serial port (excluding '/dev/') and the baudrate (9600 or 115200)");
       return;
    else
       declare
@@ -103,7 +103,7 @@ begin
 
             Position := Math.Vectors."+"(Position, (Math.Vectors."*"(Velocity, fTIME_STEP)));
 
-            msg.ID := CAN_Defs.MSG_SENSOR_FUSION_ORIENTATION_ID
+          --  msg.ID := CAN_Defs.MSG_SENSOR_FUSION_ORIENTATION_ID
 
             delay(Standard.Duration(fTIME_STEP * 0.8));
 

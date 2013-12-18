@@ -459,7 +459,7 @@ void nameCompValue(t_tree node)
 
 void nameGoto(t_tree node)
 {
-	checkIdUndefined(node->Node.Goto.Id, node->LineNr);
+//	checkIdUndefined(node->Node.Goto.Id, node->LineNr);
 	nameStmnt(node->Node.Stmnt.Next);
 }
 

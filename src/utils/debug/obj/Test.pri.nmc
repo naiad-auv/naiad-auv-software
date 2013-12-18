@@ -284,144 +284,147 @@
    285    ASSBOOL
    286    UNLINK
    287    RTS
-   288  [ZeroVector]
+   288  [DoubleInt]
    289    LINK
-   290    PUSHINT 2
+   290    PUSHINT 3
    291    PUSHFP
    292    ADDINT
    293    RVALINT
-   294    PUSHFLOAT 0.000000
-   295    PUSHFLOAT 0.000000
-   296    PUSHFLOAT 0.000000
-   297    PUSHVEC
-   298    ASSVEC
-   299    UNLINK
-   300    RTS
-   301  [IdentityMatrix]
-   302    LINK
-   303    PUSHINT 2
-   304    PUSHFP
-   305    ADDINT
-   306    RVALINT
-   307    PUSHFLOAT 1.000000
-   308    PUSHFLOAT 0.000000
-   309    PUSHFLOAT 0.000000
-   310    PUSHFLOAT 0.000000
-   311    PUSHFLOAT 1.000000
-   312    PUSHFLOAT 0.000000
-   313    PUSHFLOAT 0.000000
-   314    PUSHFLOAT 0.000000
-   315    PUSHFLOAT 1.000000
-   316    PUSHMAT
-   317    ASSMAT
-   318    UNLINK
-   319    RTS
-   320  [main]
-   321    LINK
-   322    DECLINT
-   323    DECLINT
-   324    DECLBOOL
-   325    DECLVEC
-   326    DECLMAT
-   327    DECLVEC
-   328    DECLMAT
-   329    DECLMAT
-   330    DECLMAT
-   331    PUSHINT -1
-   332    PUSHFP
-   333    ADDINT
-   334    PUSHINT 3
-   335    ASSINT
-   336    PUSHINT -2
-   337    PUSHFP
-   338    ADDINT
-   339    PUSHINT 5
-   340    ASSINT
-   341    [Start]
-   342    PUSHINT -3
-   343    PUSHFP
-   344    ADDINT
-   345    PUSHINT -2
-   346    PUSHFP
-   347    ADDINT
-   348    RVALINT
-   349    PUSHINT -1
-   350    PUSHFP
-   351    ADDINT
-   352    RVALINT
-   353    PUSHINT 270
-   354    BSR
-   355    POPINT
-   356    POPINT
-   357    POPINT
-   358    [Branch1]
-   359    PUSHINT -3
-   360    PUSHFP
-   361    ADDINT
-   362    RVALBOOL
-   363    BRF 410
-   364    [ZeroVector1]
-   365    PUSHINT -4
-   366    PUSHFP
-   367    ADDINT
+   294    PUSHINT 2
+   295    PUSHFP
+   296    ADDINT
+   297    RVALINT
+   298    PUSHINT 2
+   299    MULINT
+   300    ASSINT
+   301    UNLINK
+   302    RTS
+   303  [RemoveTenPercentInt]
+   304    LINK
+   305    PUSHINT 3
+   306    PUSHFP
+   307    ADDINT
+   308    RVALINT
+   309    PUSHINT 2
+   310    PUSHFP
+   311    ADDINT
+   312    RVALINT
+   313    PUSHINT 2
+   314    PUSHFP
+   315    ADDINT
+   316    RVALINT
+   317    PUSHINT 10
+   318    DIVINT
+   319    NEGINT
+   320    ADDINT
+   321    ASSINT
+   322    UNLINK
+   323    RTS
+   324  [WaitFor]
+   325    LINK
+   326    PUSHINT 2
+   327    PUSHFP
+   328    ADDINT
+   329    RVALINT
+   330    ITOF
+   331    PUSHINT 249
+   332    BSR
+   333    POPFLOAT
+   334    UNLINK
+   335    RTS
+   336  [PrintInt]
+   337    LINK
+   338    PUSHINT 2
+   339    PUSHFP
+   340    ADDINT
+   341    RVALINT
+   342    PUSHINT 2
+   343    BSR
+   344    POPINT
+   345    UNLINK
+   346    RTS
+   347  [main]
+   348    LINK
+   349    DECLINT
+   350    DECLINT
+   351    DECLBOOL
+   352    DECLINT
+   353    [Start]
+   354    [Set1]
+   355    PUSHINT -1
+   356    PUSHFP
+   357    ADDINT
+   358    PUSHINT 2
+   359    ASSINT
+   360    [DoubleInt1]
+   361    PUSHINT -1
+   362    PUSHFP
+   363    ADDINT
+   364    PUSHINT -1
+   365    PUSHFP
+   366    ADDINT
+   367    RVALINT
    368    PUSHINT 288
    369    BSR
    370    POPINT
-   371    [IdentityMatrix1]
-   372    PUSHINT -5
-   373    PUSHFP
-   374    ADDINT
-   375    PUSHINT 301
-   376    BSR
-   377    POPINT
-   378    [Branch2]
-   379    PUSHINT -3
-   380    PUSHFP
-   381    ADDINT
-   382    RVALBOOL
-   383    BRF 400
-   384    [ZeroVector2]
-   385    PUSHINT -6
+   371    POPINT
+   372    [PrintInt1]
+   373    PUSHINT -1
+   374    PUSHFP
+   375    ADDINT
+   376    RVALINT
+   377    PUSHINT 336
+   378    BSR
+   379    POPINT
+   380    [IntLessThan1]
+   381    PUSHINT -3
+   382    PUSHFP
+   383    ADDINT
+   384    PUSHINT 1000
+   385    PUSHINT -1
    386    PUSHFP
    387    ADDINT
-   388    PUSHINT 288
-   389    BSR
-   390    POPINT
-   391    [IdentityMatrix2]
-   392    PUSHINT -7
-   393    PUSHFP
-   394    ADDINT
-   395    PUSHINT 301
-   396    BSR
-   397    POPINT
-   398    BRA 341
-   399    BRA 408
-   400    [IdentityMatrix3]
-   401    PUSHINT -8
-   402    PUSHFP
-   403    ADDINT
-   404    PUSHINT 301
-   405    BSR
-   406    POPINT
-   407    BRA 341
-   408    BRA 341
-   409    BRA 418
-   410    [IdentityMatrix4]
-   411    PUSHINT -9
-   412    PUSHFP
-   413    ADDINT
-   414    PUSHINT 301
-   415    BSR
-   416    POPINT
-   417    BRA 341
-   418    POPMAT
-   419    POPMAT
-   420    POPMAT
-   421    POPVEC
-   422    POPMAT
-   423    POPVEC
-   424    POPBOOL
-   425    POPINT
+   388    RVALINT
+   389    PUSHINT 270
+   390    BSR
+   391    POPINT
+   392    POPINT
+   393    POPINT
+   394    [Branch1]
+   395    PUSHINT -3
+   396    PUSHFP
+   397    ADDINT
+   398    RVALBOOL
+   399    BRF 407
+   400    [WaitFor1]
+   401    PUSHINT 1
+   402    PUSHINT 324
+   403    BSR
+   404    POPINT
+   405    BRA 360
+   406    BRA 413
+   407    [WaitFor2]
+   408    PUSHINT 3
+   409    PUSHINT 324
+   410    BSR
+   411    POPINT
+   412    BRA 413
+   413    [RemoveTenPercentInt1]
+   414    PUSHINT -1
+   415    PUSHFP
+   416    ADDINT
+   417    PUSHINT -1
+   418    PUSHFP
+   419    ADDINT
+   420    RVALINT
+   421    PUSHINT 303
+   422    BSR
+   423    POPINT
+   424    POPINT
+   425    BRA 372
    426    POPINT
-   427    UNLINK
-   428    EOF
+   427    POPBOOL
+   428    POPINT
+   429    POPINT
+   430    UNLINK
+   431    EOF

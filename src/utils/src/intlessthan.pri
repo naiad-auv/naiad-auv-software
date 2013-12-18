@@ -1,13 +1,13 @@
 primitive IntLessThan is
 
-        iLeft : in integer;
-        iRight : in integer;
+	iLeftOperand : in integer;
+	iRightOperand : in integer;
 
-        bResult : out boolean;
+	bResult : out boolean;
 
-        procedure main is
-        begin
-                bResult := iLeft < iRight;
-        end main;
+	procedure main is
+	begin
+		bResult := iLeftOperand < iRightOperand;
+	end main;
 
 end IntLessThan;

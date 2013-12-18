@@ -303,6 +303,7 @@ int main (int argc, char *argv[])
 			default:
 				break;
 			}
+			return 1;
 		}
 		else
 		{
@@ -316,6 +317,7 @@ int main (int argc, char *argv[])
 			if (typeRet != VOID)
 			{
 				fprintf (stderr, "Type mismatch on line %d.\n", typeErrorLineNr);
+				return 1;
 			}
 			else
 			{
@@ -362,7 +364,7 @@ int yyerror(const char *s)
 {
    extern int yylineno;
    fprintf (stderr, "A %s at line %d\n",s, yylineno);
-   return 0;
+   return 1;
 }
 
 void showManual()
