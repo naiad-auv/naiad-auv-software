@@ -7,6 +7,7 @@ with CAN_Defs;
 with Ethernet_Socket;
 with simulator.Motion_Control_Wrapper;
 with TCPWrapper;
+with CAN_Convertions_Matrix;
 
 package Simulator.Comunication is
    type EMotionComponent is new simulator.Motion_Control_Wrapper.EMotionComponent;
