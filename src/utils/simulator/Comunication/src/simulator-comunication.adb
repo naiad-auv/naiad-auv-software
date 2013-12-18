@@ -8,9 +8,17 @@ package body Simulator.Comunication is
    -- Intialize_And_Reset --
    -------------------------
 
-   procedure Intialize_And_Reset is
+   procedure Intialize_And_Reset(sIPAdress : String;iPort : integer) is
       tMotorForce : simulator.submarine.TMotorForce := (others => 0.0);
    begin
+      while bConnected = false loop
+         ada.Text_IO.Put_Line("Test1.5");
+         xConnection := TCPWrapper.xConnect_To(sAddress => sIPAdress,
+                                               iPort    => iPort);
+         ada.Text_IO.Put_Line("Test2");
+         xConnection.bIs_Connected(bResult => bConnected);
+         delay(0.1);
+      end loop;
       xProtected_Info.Set_Current_Position(math.Vectors.xCreate(0.0,0.0,0.0));
       xProtected_Info.Set_Current_Orientation(math.Matrices.xCreate_Identity);
       xProtected_Info.Set_Wanted_Position(math.Vectors.xCreate(0.0,0.0,0.0));
@@ -24,6 +32,7 @@ package body Simulator.Comunication is
       xProtected_Info.Set_Dropper_Right(false);
       xProtected_Info.Set_Pressure(0.0);
       xProtected_Info.Set_Temperature(0.0);
+      ComunicationTask.Init;
    end Intialize_And_Reset;
 
    --------------------------
@@ -312,17 +321,11 @@ package body Simulator.Comunication is
       iBytes : integer;
       bConnected : boolean := false;
    begin
+      accept Init  do
+         null;
+      end Init;
       xPacket.Set_Type(TCPWrapper.PACKET_CAN);
-      ada.Text_IO.Put_Line("Test1");
-      while bConnected = false loop
-         ada.Text_IO.Put_Line("Test1.5");
-         xConnection := TCPWrapper.xConnect_To(sAddress => "127.0.0.1",
-                                               iPort    => 1337);
-         ada.Text_IO.Put_Line("Test2");
-         xConnection.bIs_Connected(bResult => bConnected);
-         delay(0.1);
-      end loop;
-      ada.Text_IO.Put_Line("Test3");
+
       loop
          delay(0.1);
          iBytes := xConnection.iBytes_Available_For_Reading;
@@ -368,7 +371,7 @@ package body Simulator.Comunication is
 
       -- MSG_SENSOR_FUSION_ORIENTATION_ID --
       if xMessage.ID = MSG_SENSOR_FUSION_ORIENTATION_ID then
-         null;
+            xProtected_Info.Set_Current_Orientation(CAN_Convertions_Matrix.Create_Matrix_From_CAN_Message(xData => xMessage.Data));
       end if;
 
       -- MSG_SENSOR_FUSION_POSITION_ID --
@@ -383,34 +386,6 @@ package body Simulator.Comunication is
                                                     fMax => 500.0);
             xProtected_Info.Set_Current_Position(math.Vectors.xCreate(fX,fY,fZ));
          end;
-      end if;
-
-      -- MSG_Sim_Orientation_X_Vector_ID --
-      if xMessage.ID = MSG_Sim_Orientation_X_Vector_ID then
-         Can_Float_Conversions.Message_To_Vector(fX        => xNonCompleteOrientationMatrix(1,1),
-                                                 fY        => xNonCompleteOrientationMatrix(2,1),
-                                                 fZ        => xNonCompleteOrientationMatrix(3,1),
-                                                 b8Message => xMessage.Data,
-                                                 fMax      => 1.0);
-      end if;
-
-      -- MSG_Sim_Orientation_Y_Vector_ID --
-      if xMessage.ID = MSG_Sim_Orientation_Y_Vector_ID then
-         Can_Float_Conversions.Message_To_Vector(fX        => xNonCompleteOrientationMatrix(1,2),
-                                                 fY        => xNonCompleteOrientationMatrix(2,2),
-                                                 fZ        => xNonCompleteOrientationMatrix(3,2),
-                                                 b8Message => xMessage.Data,
-                                                 fMax      => 1.0);
-      end if;
-
-      -- MSG_Sim_Orientation_Z_Vector_ID --
-      if xMessage.ID = MSG_Sim_Orientation_Z_Vector_ID then
-         Can_Float_Conversions.Message_To_Vector(fX        => xNonCompleteOrientationMatrix(1,3),
-                                                 fY        => xNonCompleteOrientationMatrix(2,3),
-                                                 fZ        => xNonCompleteOrientationMatrix(3,3),
-                                                 b8Message => xMessage.Data,
-                                                 fMax      => 1.0);
-         xProtected_Info.Set_Current_Orientation(xCurrent_Orientation => math.Matrices.xCreate(xNonCompleteOrientationMatrix));
       end if;
 
       -- MSG_IMU_ORIENTATION_ID --

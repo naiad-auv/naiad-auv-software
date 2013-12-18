@@ -79,9 +79,6 @@ package CAN_Defs is
 
    MSG_SENSOR_ID			: constant CAN_ID := (980, False);
 
-   MSG_Sim_Orientation_X_Vector_ID	: constant CAN_ID := (450, False); -- Can_Float_Conversions.Message_To_Vector fMAX = 1
-   MSG_Sim_Orientation_Y_Vector_ID	: constant CAN_ID := (451, False); -- Can_Float_Conversions.Message_To_Vector fMAX = 1
-   MSG_Sim_Orientation_Z_Vector_ID	: constant CAN_ID := (452, False); -- Can_Float_Conversions.Message_To_Vector fMAX = 1
 
 
    ---------- Definitions of standard messages and other constants --------------------------

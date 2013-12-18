@@ -1,3 +1,4 @@
+with "../../src/lib/can_convertions_matrix/can_convertions_matrix.gpr";
 with "../../src/lib/math/matrices/matrices.gpr";
 with "../../src/lib/can_float_conversions/can_float_conversions.gpr";
 with "../../src/lib/tcpwrapper/tcpwrapper.gpr";
