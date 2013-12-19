@@ -1,4 +1,5 @@
 with AVR.AT90CAN128;
+with AVR.AT90CAN128.BOOTLOADER;
 
 with CAN_Defs;
 
@@ -11,6 +12,10 @@ package body AVR.AT90CAN128.CAN is
 
    ID_Tag_array : array (READ_MOB_ID) of CAN_Defs.CAN_ID;
    ID_Mask_array : array (READ_MOB_ID) of CAN_Defs.CAN_ID;
+
+   BOOTLOADER_ID_TAG : constant CAN_Defs.CAN_ID := CAN_Defs.MSG_BOOTLOADER_START_ID;
+   BOOTLOADER_ID_MASK : constant CAN_Defs.CAN_ID := (16#3FF#,False);
+   BOOTLOADER_MOD_ID : constant MOB_ID := 11;
 
    pRXWrite     : Buffer_pointer := 0;
    pRXRead	: Buffer_pointer := 0;
@@ -43,16 +48,18 @@ package body AVR.AT90CAN128.CAN is
          return;
       end if;
       Msg := TX_buffer(pTXRead mod Buffer_Size);
-      CANPAGE := (TX_MOB_ID, False, 0);
-      for I in 1..Msg.Len loop
-         CANMSG := Msg.Data (I);
-      end loop;
-      if Msg.ID.isExtended then
-         CANIDT := Shift_Left(Unsigned_32(Msg.ID.Identifier),3);
-      else
-         CANIDT := Shift_Left(Unsigned_32(Msg.ID.Identifier),21);
+      if Board_And_Mode_Defs.board_mode_definitions(board)(mode).Send then
+         CANPAGE := (TX_MOB_ID, False, 0);
+         for I in 1..Msg.Len loop
+            CANMSG := Msg.Data (I);
+         end loop;
+         if Msg.ID.isExtended then
+            CANIDT := Shift_Left(Unsigned_32(Msg.ID.Identifier),3);
+         else
+            CANIDT := Shift_Left(Unsigned_32(Msg.ID.Identifier),21);
+         end if;
+         CANCDMOB := (Enable_Transmission, False, Msg.ID.isExtended , Msg.Len);
       end if;
-      CANCDMOB := (Enable_Transmission, False, Msg.ID.isExtended , Msg.Len);
    end CanWriteTXMOB;
 
    -- Can_Enable: Enable the CAN bus
@@ -77,15 +84,17 @@ package body AVR.AT90CAN128.CAN is
    procedure Can_Send (Msg : CAN_Defs.CAN_Message) is
       tmp : Buffer_pointer;
    begin
-      if iGetBufferSize(pTXWrite,pTXRead) = Buffer_Size then
-      	return;
-      end if;
-      TX_buffer(pTXWrite mod Buffer_Size) := Msg;
-      tmp := pTXWrite;
-      tmp := tmp + 1;
-      pTXWrite := tmp;
-      if iGetBufferSize(pTXWrite,pTXRead) = 1 then
-        CanWriteTXMOB;
+      if Board_And_Mode_Defs.board_mode_definitions(board)(mode).Send then
+         if iGetBufferSize(pTXWrite,pTXRead) = Buffer_Size then
+            return;
+         end if;
+         TX_buffer(pTXWrite mod Buffer_Size) := Msg;
+         tmp := pTXWrite;
+         tmp := tmp + 1;
+         pTXWrite := tmp;
+         if iGetBufferSize(pTXWrite,pTXRead) = 1 then
+            CanWriteTXMOB;
+         end if;
       end if;
    end Can_Send;
 
@@ -103,6 +112,8 @@ package body AVR.AT90CAN128.CAN is
       Page_Saved : constant CAN_Page_Type := CANPAGE;
       TEMP : CANSTMOBREG;
       Pos  : Buffer_pointer;
+      use CAN_Defs;
+      use Board_and_Mode_Defs;
    begin
       while CANHPMOB.MOB /= 15 loop
          CANPAGE := CANHPMOB;
@@ -121,7 +132,16 @@ package body AVR.AT90CAN128.CAN is
                for I in 1..Msg.Len loop
                   Msg.Data (I) := CANMSG;
                end loop;
-               if iGetBufferSize(pRXWrite,pRXRead) < Buffer_Size then
+               if msg.ID = CAN_Defs.MSG_SIMULATION_MODE_ID then
+                  mode := Board_And_Mode_Defs.Mode_Map(Msg.Data(1));
+               end if;
+               if mode = Board_And_Mode_Defs.BOOTLOADER_MODE and Msg.ID = CAN_Defs.MSG_BOOTLOADER_START_ID then
+                  if Board_and_Mode_Defs.Board_Map(Msg.Data(1)) = board then
+                     AVR.AT90CAN128.BOOTLOADER.switch_to_bootloader;
+                  end if;
+               end if;
+
+               if mode = Board_And_Mode_Defs.NORMAL and iGetBufferSize(pRXWrite,pRXRead) < Buffer_Size then
                   Pos := pRXWrite;
                   RX_buffer(Pos mod Buffer_Size) := Msg;
                   Pos := Pos + 1;
@@ -265,8 +285,9 @@ package body AVR.AT90CAN128.CAN is
    -- Can_Init : Initialize the CAN controller.
    -- Parameter:
    --           Rate : baud rate.
-   procedure Can_Init(Rate : CAN_Defs.Baud_Rate) is
+   procedure Can_Init(Rate : CAN_Defs.Baud_Rate ; brd : Board_And_Mode_Defs.Boards) is
    begin
+      board := brd;
       Can_SetBaudRate(Rate);
       -- can_clear_all_mob
       for P in MOB_ID loop
@@ -285,6 +306,9 @@ package body AVR.AT90CAN128.CAN is
       CANIE := (others => True);
       -- Interrupt Enable
       Can_Enable;
+      Can_Set_Mob_ID_MASK(MOB  => BOOTLOADER_MOD_ID,
+                          ID   => BOOTLOADER_ID_TAG,
+                          Mask => BOOTLOADER_ID_MASK);
    end Can_Init;
 
    procedure Can_Set_Mob_ID_MASK (MOB : READ_MOB_ID;  ID, Mask : CAN_Defs.CAN_ID) is
