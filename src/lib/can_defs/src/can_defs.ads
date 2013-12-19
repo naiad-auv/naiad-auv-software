@@ -50,8 +50,12 @@ package CAN_Defs is
 
    MSG_VISUALLY_DETECTED_OBSTACLE_ID	: constant CAN_ID := (410, False);
 
+   MSG_MOTION_CONTROL_MOTOR_FORCE       : constant CAN_ID := (430, False);
    MSG_SENSOR_FUSION_ORIENTATION_ID	: constant CAN_ID := (440, False);
    MSG_SENSOR_FUSION_POSITION_ID	: constant CAN_ID := (470, False);
+
+   MSG_MISSION_CONTROL_WANTED_ORIENTATION_ID   : constant CAN_ID := (480, False);
+   MSG_MISSION_CONTROL_WANTED_POSITION_ID      : constant CAN_ID := (490, False);
 
    MSG_IMU_ORIENTATION_ID		: constant CAN_ID := (500, False);
    MSG_IMU_ACCELERATION_ID		: constant CAN_ID := (530, False);

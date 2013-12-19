@@ -1,3 +1,5 @@
+with ada.Unchecked_Conversion;
+with Interfaces;
 package body CAN_Convertions_Math is
 
    ------------------------------------
@@ -76,6 +78,35 @@ package body CAN_Convertions_Math is
                                               fMax          => fMaxValue);
       return math.Vectors.xCreate(fX,fY,fZ);
    end Create_Vector_From_CAN_Message;
+
+   function Create_Can_Message_From_Motor_Value(tMotors : TMotorValues) return CAN_Defs.Byte8 is
+      xData : CAN_Defs.Byte8;
+      iSignedInt8 : interfaces.Integer_8;
+
+      function i8Tou8 is new Ada.Unchecked_Conversion(Source => Interfaces.Integer_8, Target => Interfaces.Unsigned_8);
+
+   begin
+      for i in 1..6 loop
+            iSignedInt8 := Interfaces.Integer_8(tMotors(i));
+            xData(CAN_Defs.DLC_Type(i)) := i8Tou8(iSignedInt8);
+      end loop;
+      return xData;
+   end Create_Can_Message_From_Motor_Value;
+
+   function Create_Motor_Value_From_Can_Message(xData : CAN_Defs.Byte8) return TMotorValues is
+      iSignedInt8 : interfaces.Integer_8;
+      tMotors : TMotorValues;
+
+      function u8Toi8 is new Ada.Unchecked_Conversion(Source => Interfaces.Unsigned_8,Target => Interfaces.Integer_8);
+   begin
+      for i in 1..6 loop
+         iSignedInt8 := u8Toi8(xData(CAN_Defs.DLC_Type(i)));
+         tMotors(i) := float(iSignedInt8);
+      end loop;
+      return tMotors;
+   end Create_Motor_Value_From_Can_Message;
+
+
 
 
 end CAN_Convertions_Math;
