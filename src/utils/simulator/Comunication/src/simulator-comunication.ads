@@ -6,13 +6,16 @@ with CAN_Utils;
 with CAN_Defs;
 with Ethernet_Socket;
 with simulator.Motion_Control_Wrapper;
+with TCPWrapper;
+with CAN_Convertions_Math;
 
 package Simulator.Comunication is
    type EMotionComponent is new simulator.Motion_Control_Wrapper.EMotionComponent;
    type TPIDComponentScalings is new simulator.Motion_Control_Wrapper.TPIDComponentScalings;
    type txPIDComponentScalingArray is array (EMotionComponent(PositionX)..EmotionComponent(AllPosition)) of TPIDComponentScalings;
    type EOperatingMode is new simulator.Comunication_Prot_Obj.EOperatingMode;
-   procedure Intialize_And_Reset;
+
+   procedure Intialize_And_Reset(sIPAdress : String;iPort : integer);
 
    procedure Set_Current_Position(xCurrent_Position : math.Vectors.CVector);
    procedure Set_Current_Orientation(xCurrent_Orientation : math.Matrices.CMatrix);
@@ -47,13 +50,21 @@ package Simulator.Comunication is
    function eGet_Operating_Mode return EOperatingMode;
 
 private
-   procedure Get_Data_From_Message(xMessage : CAN_Defs.CAN_Message; iMessageLength : integer);
-   task type TCommunicationTask;
+   procedure Get_Data_From_Message(xMessage : CAN_Defs.CAN_Message);
+   task type TCommunicationTask is
+      entry Init;
+   end TCommunicationTask;
+
+   task type TCommunicationSenderTask is
+      entry Init;
+   end TCommunicationSenderTask;
 
    ComunicationTask : TCommunicationTask;
+   CommunicationSenderTask : TCommunicationSenderTask;
    xProtected_Info : simulator.Comunication_Prot_Obj.tCom_Prot_Obj;
 
-   MSG_Kill_Switch : constant Can_Defs.CAN_Identifier := 5;
-
+   xConnection : TCPWrapper.CTCPConnection;
+   xNonCompleteOrientationMatrix : math.Matrices.TMatrix;
+   bConnected : boolean := false;
 
 end Simulator.Comunication;

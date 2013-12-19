@@ -82,6 +82,7 @@ package CAN_Defs is
    MSG_BOOTLOADER_START_ID		: constant CAN_ID := (12, False);
 
 
+
    ---------- Definitions of standard messages and other constants --------------------------
 
    MSG_KILL_SWITCH_ACTIVE		: constant CAN_Message := (ID => MSG_KILL_SWITCH_ID, Len => 1, Data => (0, others => 0) );

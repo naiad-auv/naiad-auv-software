@@ -8,6 +8,7 @@
 
 int regenNaiAdaTabIndex; // keeps track of current tab index
 FILE * regenNaiAdaFilePtr; // pointer to file object for output
+t_tree current_primitive; // pointer to current primitive
 
 // helper functions
 void regenNaiAdaInsertTab();
@@ -17,15 +18,19 @@ void regenNaiAdaNewLine();
 
 // functions to iterate through AST
 void regenNaiAdaProgram(t_tree node);
+void regenNaiAdaPrimitive(t_tree node);
 void regenNaiAdaFunction(t_tree node);
 void regenNaiAdaFormal(t_tree node, int first);
 void regenNaiAdaLocal(t_tree node);
+void regenNaiAdaPrimVariable(t_tree node);
 void regenNaiAdaVariable(t_tree node, int first, vKind varkind);
 void regenNaiAdaAssign(t_tree node);
 void regenNaiAdaIf(t_tree node);
 void regenNaiAdaWhile(t_tree node);
 void regenNaiAdaLoop(t_tree node);
 void regenNaiAdaExit(t_tree node);
+void regenNaiAdaLabel(t_tree node);
+void regenNaiAdaGoto(t_tree node);
 void regenNaiAdaAsm(t_tree node);
 void regenNaiAdaReturn(t_tree node);
 void regenNaiAdaFuncCallStmnt(t_tree node);
@@ -98,6 +103,12 @@ void regenNaiAdaStmnt(t_tree node)
 	case kAsm:
 		regenNaiAdaAsm(node);
 		break;
+	case kLabel:
+		regenNaiAdaLabel(node);
+		break;
+	case kGoto:
+		regenNaiAdaGoto(node);
+		break;
 	default:
 		// error
 		fprintf(regenNaiAdaFilePtr, "error ");
@@ -153,7 +164,8 @@ void regenNaiAdaExpr(t_tree node)
 // handes the root of the AST
 void regenNaiAdaProgram(t_tree node)
 {
-	regenNaiAdaFunction(node->Node.Program.Functions);
+	// call smt for primitive or function
+	regenNaiAdaPrimitive(node->Node.Program.CompUnits);
 }
 
 // handles variables of both kinds
@@ -182,6 +194,108 @@ void regenNaiAdaVariable(t_tree node, int first, vKind varkind)
 	}
 }
 
+void regenNaiAdaPrimitiveVariables(t_tree node)
+{
+	if (node == NULL)
+		return;
+	
+	
+	regenNaiAdaNewLine();
+	fprintf(regenNaiAdaFilePtr, node->Node.Variable.Name);
+	
+	switch (node->Node.Variable.VarKind)
+	{
+	case kLocal:
+		fprintf(regenNaiAdaFilePtr, " : in ");
+		switch (node->Node.Variable.Type)
+		{	
+		case BOOL:	
+			fprintf(regenNaiAdaFilePtr, "boolean;");
+			break;
+		case FLOAT:
+			fprintf(regenNaiAdaFilePtr, "float;");
+			break;
+		case INT:
+			fprintf(regenNaiAdaFilePtr, "integer;");
+			break;
+		case VECTOR:
+			fprintf(regenNaiAdaFilePtr, "vector;");
+			break;
+		case MATRIX:
+			fprintf(regenNaiAdaFilePtr, "matrix;");
+			break;
+		default:
+			// error
+			fprintf(regenNaiAdaFilePtr, "error ");
+			break;
+		}
+		break;
+	case kFormal:
+		fprintf(regenNaiAdaFilePtr, " : out ");
+		switch (node->Node.Variable.Type)
+		{	
+		case BOOL:	
+			fprintf(regenNaiAdaFilePtr, "boolean;");
+			break;
+		case FLOAT:
+			fprintf(regenNaiAdaFilePtr, "float;");
+			break;
+		case INT:
+			fprintf(regenNaiAdaFilePtr, "integer;");
+			break;
+		case VECTOR:
+			fprintf(regenNaiAdaFilePtr, "vector;");
+			break;
+		case MATRIX:
+			fprintf(regenNaiAdaFilePtr, "matrix;");
+			break;
+		default:
+			// error
+			fprintf(regenNaiAdaFilePtr, "error ");
+			break;
+		}
+		break;
+	}
+	regenNaiAdaPrimitiveVariables(node->Node.Variable.Next);
+}
+
+
+void regenNaiAdaPrimitive(t_tree node)
+{
+	if (node == NULL)
+		return;
+
+	if (node->Kind == kFunction)
+		regenNaiAdaFunction(node);
+	else
+	{
+		fprintf(regenNaiAdaFilePtr, "primitive ");
+		fprintf(regenNaiAdaFilePtr, node->Node.Primitive.Name);
+		fprintf(regenNaiAdaFilePtr, " is");
+		regenNaiAdaInsertTab();
+		regenNaiAdaNewLine();
+		current_primitive = node;
+		
+		regenNaiAdaPrimitiveVariables(node->Node.Primitive.Variables);
+		regenNaiAdaNewLine();		
+		regenNaiAdaNewLine();		
+
+		regenNaiAdaFunction(node->Node.Primitive.Functions);
+
+		regenNaiAdaRemoveTab();
+		regenNaiAdaNewLine();		
+		fprintf(regenNaiAdaFilePtr, "end ");
+		fprintf(regenNaiAdaFilePtr, node->Node.Primitive.Name);
+		fprintf(regenNaiAdaFilePtr, ";");
+		regenNaiAdaNewLine();
+		regenNaiAdaNewLine();
+		current_primitive = NULL;
+		regenNaiAdaPrimitive(node->Node.Primitive.Next);
+	}
+}
+
+
+
 // handles function bodies and calls the next function in the next-chain
 void regenNaiAdaFunction(t_tree node)
 {
@@ -203,23 +317,23 @@ void regenNaiAdaFunction(t_tree node)
 		switch (node->Node.Function.Type)
 		{	
 		case BOOL:	
-			fprintf(regenNaiAdaFilePtr, "return boolean ");
+			fprintf(regenNaiAdaFilePtr, " return boolean");
 			break;
 		case FLOAT:
-			fprintf(regenNaiAdaFilePtr, "return float ");
+			fprintf(regenNaiAdaFilePtr, " return float");
 			break;
 		case INT:
-			fprintf(regenNaiAdaFilePtr, "return integer ");
+			fprintf(regenNaiAdaFilePtr, " return integer");
 			break;
 		case VECTOR:
-			fprintf(regenNaiAdaFilePtr, "return vector ");
+			fprintf(regenNaiAdaFilePtr, " return vector");
 			break;
 		case MATRIX:
-			fprintf(regenNaiAdaFilePtr, "return matrix ");
+			fprintf(regenNaiAdaFilePtr, " return matrix");
 			break;
 		default:
 			// error
-			fprintf(regenNaiAdaFilePtr, "error ");
+			fprintf(regenNaiAdaFilePtr, " error");
 			break;
 		}
 	}
@@ -249,9 +363,10 @@ void regenNaiAdaFunction(t_tree node)
 	fprintf(regenNaiAdaFilePtr, ";");
 
 	regenNaiAdaNewLine();
-	regenNaiAdaNewLine();
+	if (node->Node.Function.Next != NULL)
+		regenNaiAdaNewLine();
 
-	regenNaiAdaFunction(node->Node.Function.Next);
+	regenNaiAdaPrimitive(node->Node.Function.Next);
 }
 
 // handles formal variables, 'first' is used to keep track of the first formal to get the commas right
@@ -376,6 +491,7 @@ void regenNaiAdaIf(t_tree node)
 	regenNaiAdaNewLine();
 	fprintf(regenNaiAdaFilePtr, "if ");
 	regenNaiAdaExpr(node->Node.If.Expr);
+	fprintf(regenNaiAdaFilePtr, " then");	
 
 	regenNaiAdaInsertTab();
 	regenNaiAdaStmnt(node->Node.If.Then);
@@ -444,9 +560,9 @@ void regenNaiAdaExit(t_tree node)
 void regenNaiAdaAsm(t_tree node)
 {
 	regenNaiAdaNewLine();
-	fprintf(regenNaiAdaFilePtr, "smc(");
+	fprintf(regenNaiAdaFilePtr, "smc(\"");
 	fprintf(regenNaiAdaFilePtr, node->Node.Asm.Arg);
-	fprintf(regenNaiAdaFilePtr, ");");
+	fprintf(regenNaiAdaFilePtr, "\");");
 
 	regenNaiAdaStmnt(node->Node.Stmnt.Next);
 }
@@ -688,6 +804,24 @@ void regenNaiAdaCompValue(t_tree node)
 		fprintf(regenNaiAdaFilePtr, "error");
 }
 
+void regenNaiAdaLabel(t_tree node)
+{
+	regenNaiAdaNewLine();
+	fprintf(regenNaiAdaFilePtr, "<< ");
+	fprintf(regenNaiAdaFilePtr, node->Node.Label.Id);
+	fprintf(regenNaiAdaFilePtr, " >>");
+	regenNaiAdaStmnt(node->Node.Stmnt.Next);
+}
+void regenNaiAdaGoto(t_tree node)
+{
+	regenNaiAdaNewLine();
+	fprintf(regenNaiAdaFilePtr, "goto ");
+	fprintf(regenNaiAdaFilePtr, node->Node.Goto.Id);
+	fprintf(regenNaiAdaFilePtr, ";");
+	regenNaiAdaStmnt(node->Node.Stmnt.Next);
+}
+
+
 // global function for traversing the AST and generating code
 void regenNaiAda(t_tree node)
 {
@@ -696,6 +830,7 @@ void regenNaiAda(t_tree node)
 	regenNaiAdaFilePtr = fopen("regenerated_code.nai","w");
 	if (regenNaiAdaFilePtr != NULL)
 	{
+		current_primitive = NULL;
 		regenNaiAdaProgram(node);
 		fclose(regenNaiAdaFilePtr);
 	}
