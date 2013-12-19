@@ -7,7 +7,7 @@ with CAN_Defs;
 with Ethernet_Socket;
 with simulator.Motion_Control_Wrapper;
 with TCPWrapper;
-with CAN_Convertions_Matrix;
+with CAN_Convertions_Math;
 
 package Simulator.Comunication is
    type EMotionComponent is new simulator.Motion_Control_Wrapper.EMotionComponent;
@@ -55,8 +55,12 @@ private
       entry Init;
    end TCommunicationTask;
 
+   task type TCommunicationSenderTask is
+      entry Init;
+   end TCommunicationSenderTask;
 
    ComunicationTask : TCommunicationTask;
+   CommunicationSenderTask : TCommunicationSenderTask;
    xProtected_Info : simulator.Comunication_Prot_Obj.tCom_Prot_Obj;
 
    xConnection : TCPWrapper.CTCPConnection;

@@ -310,6 +310,19 @@ package body Simulator.Comunication is
       return EOperatingMode(xProtected_Info.eGet_OperatingMode);
    end eGet_Operating_Mode;
 
+   task body TCommunicationSenderTask is
+      xMessage : CAN_Defs.CAN_Message;
+   begin
+      accept Init  do
+         null;
+      end Init;
+      loop
+         delay(0.25);
+         xMessage.Len := 1;
+         xMessage.ID := CAN_Defs.MSG_SENSOR_FUSION_POSITION_ID;
+         xMessage.data := CAN_Convertions_Math.Create_Can_Message_From_Vector(xProtected_Info.xGet_Current_Position,500.0);
+      end loop;
+   end TCommunicationSenderTask;
 
    ------------------------
    -- TCommunicationTask --
@@ -327,7 +340,7 @@ package body Simulator.Comunication is
       xPacket.Set_Type(TCPWrapper.PACKET_CAN);
 
       loop
-         delay(0.1);
+         delay(0.01);
          iBytes := xConnection.iBytes_Available_For_Reading;
          if iBytes >= xPacket.iGet_Size_In_Bytes then
             ada.Text_IO.Put_Line("Antal bytes: " &iBytes'img);
@@ -371,21 +384,13 @@ package body Simulator.Comunication is
 
       -- MSG_SENSOR_FUSION_ORIENTATION_ID --
       if xMessage.ID = MSG_SENSOR_FUSION_ORIENTATION_ID then
-            xProtected_Info.Set_Current_Orientation(CAN_Convertions_Matrix.Create_Matrix_From_CAN_Message(xData => xMessage.Data));
+            xProtected_Info.Set_Current_Orientation(CAN_Convertions_Math.Create_Matrix_From_CAN_Message(xData => xMessage.Data));
       end if;
 
       -- MSG_SENSOR_FUSION_POSITION_ID --
       if xMessage.ID = MSG_SENSOR_FUSION_POSITION_ID then
-         declare
-            fX,fY,fZ : float;
-         begin
-            Can_Float_Conversions.Message_To_Vector(fX            => fX,
-                                                    fY            => fY,
-                                                    fZ            => fZ,
-                                                    b8Message        => xMessage.Data,
-                                                    fMax => 500.0);
-            xProtected_Info.Set_Current_Position(math.Vectors.xCreate(fX,fY,fZ));
-         end;
+         xProtected_Info.Set_Current_Position(CAN_Convertions_Math.Create_Vector_From_CAN_Message(xData     => xMessage.Data,
+                                                                                                  fMaxValue => 500.0));
       end if;
 
       -- MSG_IMU_ORIENTATION_ID --
