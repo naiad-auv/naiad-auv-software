@@ -30,14 +30,14 @@ package Board_and_Mode_Defs is
                                           66 => BBB_CONTROLLER_3,
                                           others => UNDEFINED);
 
-   type Modes is (NORMAL,BOOTLOADER_MODE,SIMULATION_MODE,UNDEFINED);
+   type Modes is (NORMAL,BOOTLOADER_MODE,SIMULATION_MODE);
 
    type mode_map_type is array (Interfaces.Unsigned_8) of Modes;
 
-   Mode_Map : constant mode_map_type :=(0 => NORMAL,
-                                        1 => BOOTLOADER_MODE,
-                                        2 => SIMULATION_MODE,
-                                        others => UNDEFINED);
+   Mode_Map : constant mode_map_type :=(1 => NORMAL,
+                                        2 => BOOTLOADER_MODE,
+                                        3 => SIMULATION_MODE,
+                                       	others => NORMAL);
 
    type State_type is record
       Send : Boolean;
@@ -93,6 +93,9 @@ package Board_and_Mode_Defs is
                                                                             BOOTLOADER_MODE => RECEIVE_ONLY,
                                                                             SIMULATION_MODE => RECEIVE_ONLY),
                                                         BBB_CONTROLLER_3=> (NORMAL => SEND_AND_RECEIVE,
+                                                                            BOOTLOADER_MODE => RECEIVE_ONLY,
+                                                                            SIMULATION_MODE => RECEIVE_ONLY),
+                                                        UNDEFINED	=> (NORMAL => SEND_AND_RECEIVE,
                                                                             BOOTLOADER_MODE => RECEIVE_ONLY,
                                                                             SIMULATION_MODE => RECEIVE_ONLY)
                                                        );
