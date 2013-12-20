@@ -45,7 +45,8 @@ package CAN_Defs is
    MSG_KILL_SWITCH_ID			: constant CAN_ID := (351, False);
 --   MSG_KILL_SWITCH_CONFIRM_ID		: constant CAN_ID := (351, False);
 
-   MSG_SIMULATION_MODE_ID		: constant CAN_ID := (380, False);
+   MSG_MODE_ID				: constant CAN_ID := (380, False);
+   MSG_REBOOT_ID			: constant CAN_ID := (381, False);
 --     MSG_SIMULATION_MODE_CONFIRM_ID	: constant CAN_ID := (89, False);
 
    MSG_VISUALLY_DETECTED_OBSTACLE_ID	: constant CAN_ID := (410, False);
@@ -90,12 +91,18 @@ package CAN_Defs is
    MSG_KILL_SWITCH_NOT_ACTIVE 		: constant CAN_Message := (ID => MSG_KILL_SWITCH_ID, Len => 1, Data => (255, others => 0) );
   -- MSG_KILL_SWITCH_NOT_ACTIVE_CONFIRM	: constant CAN_Message := (ID => MSG_KILL_SWITCH_CONFIRM_ID, Len => 1, Data => (255, others => 0) );
 
-   SIMULATION_MODE_ACTIVE			: constant Interfaces.Unsigned_8 := 0;
-   SIMULATION_MODE_NOT_ACTIVE			: constant Interfaces.Unsigned_8 := 255;
-   MSG_SIMULATION_MODE_ACTIVE			: constant CAN_Message := 	(ID => MSG_SIMULATION_MODE_ID, 		Len => 1, Data => (SIMULATION_MODE_ACTIVE, others => 0) );
+--     SIMULATION_MODE_ACTIVE			: constant Interfaces.Unsigned_8 := 0;
+--     SIMULATION_MODE_NOT_ACTIVE			: constant Interfaces.Unsigned_8 := 255;
+
+   NORMAL_MODE : constant Interfaces.Unsigned_8 := 1;
+   BOOTLOADER_MODE : constant Interfaces.Unsigned_8 := 2;
+   SIMULATION_MODE : constant Interfaces.Unsigned_8 := 3;
+
+   MSG_SIMULATION_MODE_ACTIVE			: constant CAN_Message := 	(ID => MSG_MODE_ID, 		Len => 1, Data => (SIMULATION_MODE, others => 0) );
 --     MSG_SIMULATION_MODE_ACTIVE_CONFIRM		: constant CAN_Message := 	(ID => MSG_SIMULATION_MODE_CONFIRM_ID, 	Len => 1, Data => (SIMULATION_MODE_ACTIVE, others => 0) );
-   MSG_SIMULATION_MODE_NOT_ACTIVE		: constant CAN_Message := 	(ID => MSG_SIMULATION_MODE_ID, 		Len => 1, Data => (SIMULATION_MODE_NOT_ACTIVE, others => 0) );
+   MSG_NORMAL_MODE_ACTIVE		: constant CAN_Message := 	(ID => MSG_MODE_ID, 		Len => 1, Data => (NORMAL_MODE, others => 0) );
 --     MSG_SIMULATION_MODE_NOT_ACTIVE_CONFIRM 	: constant CAN_Message := 	(ID => MSG_SIMULATION_MODE_CONFIRM_ID, 	Len => 1, Data => (SIMULATION_MODE_NOT_ACTIVE, others => 0) );
+   MSG_BOOTLOADER_MODE_ACTIVE		: constant CAN_Message := 	(ID => MSG_MODE_ID, 		Len => 1, Data => (BOOTLOADER_MODE, others => 0) );
 
    MSG_TORPEDO_LEFT			: constant CAN_Message := (ID => MSG_PNEUMATICS_ID, 		Len => 1, Data => (1, others => 0) );
    MSG_TORPEDO_LEFT_CONFIRM 		: constant CAN_Message := (ID => MSG_PNEUMATICS_CONFIRM_ID, 	Len => 1, Data => (1, others => 0) );
