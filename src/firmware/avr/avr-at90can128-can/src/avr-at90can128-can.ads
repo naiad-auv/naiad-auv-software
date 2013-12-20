@@ -1,4 +1,5 @@
 with AVR.AT90CAN128.CLOCK;
+with Board_and_Mode_Defs;
 
 package AVR.AT90CAN128.CAN is
 
@@ -6,7 +7,7 @@ package AVR.AT90CAN128.CAN is
 
  --  Default_Speed : constant Baud_Rate := K100;
  
-   procedure Can_Init (Rate : CAN_Defs.Baud_Rate);
+   procedure Can_Init (Rate : CAN_Defs.Baud_Rate; brd : Board_and_Mode_Defs.Boards);
    procedure Can_SetBaudRate(Rate : CAN_Defs.Baud_Rate);
    procedure Can_Enable;
    procedure Can_Disable;
@@ -18,4 +19,9 @@ package AVR.AT90CAN128.CAN is
    procedure Can_Get (Msg : out CAN_Defs.CAN_Message; Ret : out Boolean; Wait : in AVR.AT90CAN128.CLOCK.Time_Duration);
    function Can_Valid_Message  return Boolean;
 
+private
+--     type mode_states_array is array (Mode_Defs.Modes) of Boolean;
+--     mode_states : mode_states_array := (others => False);
+   board : Board_and_Mode_Defs.Boards;
+   mode : Board_and_Mode_Defs.Modes := Board_and_Mode_Defs.NORMAL;
 end AVR.AT90CAN128.CAN;

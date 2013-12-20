@@ -1,3 +1,4 @@
+with "../../../lib/can_convertions_math/can_convertions_math.gpr";
 with "../../../lib/can_float_conversions/can_float_conversions.gpr";
 with "../../../lib/tcpwrapper/tcpwrapper.gpr";
 with "../../../lib/tcpCANwrapper/tcpcanwrapper.gpr";

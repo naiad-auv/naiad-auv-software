@@ -7,7 +7,7 @@ package Simulator.Comunication_Prot_Obj is
    type EMotionComponent is new simulator.Motion_Control_Wrapper.EMotionComponent;
    type TPIDComponentScalings is new simulator.Motion_Control_Wrapper.TPIDComponentScalings;
    type txPIDComponentScalingArray is array (EMotionComponent(PositionX)..EmotionComponent(AllPosition)) of TPIDComponentScalings;
-   type EOperatingMode is (OfflineMode, EthernetSimulationMode, ObserveMode);
+   type EOperatingMode is (OfflineMode, MotionControlTestMode, ObserveMode);
    protected type tCom_Prot_Obj is
 
       procedure Set_Current_Position(xCurrent_Position : math.Vectors.CVector);
