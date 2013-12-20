@@ -51,7 +51,7 @@ package Simulator.Model is
 private
 
    procedure Update_Offline_Mode(this : in out CModel; fDeltaTime : float);
-   procedure Update_Ethernet_Simulation_Mode(this : in out CModel; fDeltaTime : float);
+   procedure Update_Motion_Control_Simulation_Mode(this : in out CModel; fDeltaTime : float);
    procedure Update_Observe_Mode(this : in out CModel; fDeltaTime : float);
    procedure Transfer_Sensor_Data_To_Submarine(this : in out CModel);
    --procedure On_Update;
