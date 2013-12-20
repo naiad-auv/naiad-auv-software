@@ -1,6 +1,7 @@
 with "../../lib/can_defs/can_defs.gpr";
 with "../../firmware/avr/avr-at90can128-can/avr-at90can128-can.gpr";
 with "../../firmware/avr/avr-at90can128-digital_io/avr-at90can128-digital_io.gpr";
+with "../../lib/board_and_mode_defs/board_and_mode_defs.gpr";
 
 project at90can_pneumatics_controller is
 

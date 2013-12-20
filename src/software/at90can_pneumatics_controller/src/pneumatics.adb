@@ -1,9 +1,8 @@
 -- Written by: Konstantinos Konstantopoulos for the Naiad AUV project
--- Last changed (yyyy-mm-dd): 2013-12-12 by Konstantinos Konstantopoulos
+-- Last changed (yyyy-mm-dd): 2013-12-20 by Konstantinos Konstantopoulos
 
 with Valve_Generic;
 with AVR.AT90CAN128.Digital_IO;
---with CAN_Defs;
 
 package body Pneumatics is
 
@@ -17,41 +16,21 @@ package body Pneumatics is
       AVR.AT90CAN128.Digital_IO.Make_Output_Pin(PIN_GRIPPER_ROTATE);
    end Init_Pins;
 
-   procedure Dispatch_Kill_Msg(canMsgIn : IN CAN_Defs.CAN_Message; response : OUT Controller_Response) is
+   procedure Dispatch_Kill_Msg(canMsgIn : IN CAN_Defs.CAN_Message) is
    begin
-      if Interfaces."="(canMsgIn.Data(1), 0) then
+      if Interfaces."="(canMsgIn.Data(1), CAN_Defs.MSG_KILL_SWITCH_ACTIVE.Data(1)) then
          bKillSwitchFlag := True;
-         response.success := True;
-         response.canMsgOut := CAN_Defs.MSG_KILL_SWITCH_ACTIVE_CONFIRM;
-      elsif Interfaces."="(canMsgIn.Data(1), 255) then
-         bKillSwitchFlag := False;
-         response.success := True;
-         response.canMsgOut := CAN_Defs.MSG_KILL_SWITCH_NOT_ACTIVE_CONFIRM;
       else
-         response.success := False;
-
-         --Debug
-         --response.success := True;
-         --response.canMsgOut := (ID =>(Identifier => 255, isExtended => False), Len => 1, Data => (131, others => 0) );
+         bKillSwitchFlag := False;
       end if;
    end Dispatch_Kill_Msg;
 
-   procedure Dispatch_Sim_Msg(canMsgIn : IN CAN_Defs.CAN_Message; response : OUT Controller_Response) is
+   procedure Dispatch_Sim_Msg(canMsgIn : IN CAN_Defs.CAN_Message) is
    begin
-      if Interfaces."="(canMsgIn.Data(1), 0) then
+      if Interfaces."="(canMsgIn.Data(1), CAN_Defs.SIMULATION_MODE) then
          bSimModeFlag := True;
-         response.success := True;
-         response.canMsgOut := CAN_Defs.MSG_SIMULATION_MODE_ACTIVE_CONFIRM;
-      elsif Interfaces."="(canMsgIn.Data(1), 255) then
-         bSimModeFlag := False;
-         response.success := True;
-         response.canMsgOut := CAN_Defs.MSG_SIMULATION_MODE_NOT_ACTIVE_CONFIRM;
       else
-         response.success := False;
-
-         --Debug
-         --response.success := True;
-         --response.canMsgOut := (ID =>(Identifier => 255, isExtended => False), Len => 1, Data => (141, others => 0) );
+         bSimModeFlag := False;
       end if;
    end Dispatch_Sim_Msg;
 
@@ -93,10 +72,6 @@ package body Pneumatics is
          response.canMsgOut := CAN_Defs.MSG_GRIPPER_ROTATE_ACW_CONFIRM;
       else
          response.success := False;
-
-         --Debug
-         --response.success := True;
-         --response.canMsgOut := (ID =>(Identifier => 255, isExtended => False), Len => 1, Data => (151, others => 0) );
       end if;
    end Dispatch_Actuation_Msg;
 
