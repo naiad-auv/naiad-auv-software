@@ -7,12 +7,13 @@ package AVR.AT90CAN128.CAN is
 
  --  Default_Speed : constant Baud_Rate := K100;
  
+   type BUFFER_ID is new Full_MOB_ID range 0..9;
    procedure Can_Init (Rate : CAN_Defs.Baud_Rate; brd : Board_and_Mode_Defs.Boards);
    procedure Can_SetBaudRate(Rate : CAN_Defs.Baud_Rate);
    procedure Can_Enable;
    procedure Can_Disable;
 
-   procedure Can_Set_MOB_ID_MASK (mob : READ_MOB_ID;  ID, Mask : CAN_Defs.CAN_ID);
+   procedure Can_Set_MOB_ID_MASK (mob : BUFFER_ID;  ID, Mask : CAN_Defs.CAN_ID);
    procedure Can_Set_All_MOB_ID_MASK (ID, Mask : CAN_Defs.CAN_ID);
 
    procedure Can_Send (Msg : CAN_Defs.CAN_Message);
@@ -24,4 +25,5 @@ private
 --     mode_states : mode_states_array := (others => False);
    board : Board_and_Mode_Defs.Boards;
    mode : Board_and_Mode_Defs.Modes := Board_and_Mode_Defs.NORMAL;
+   procedure Can_Set_Mob_ID_MASK_Internal (MOB : READ_MOB_ID;  ID, Mask : CAN_Defs.CAN_ID);
 end AVR.AT90CAN128.CAN;
