@@ -119,9 +119,6 @@ procedure Main is
 
 
 begin
-   xPacket.Set_Type(TCPWrapper.PACKET_CAN);
-
-   xMessage.Data := CAN_Convertions_Math.Create_Can_Message_From_Matrix(xMatrix => xRotationMatrix);
    xConnection := TCPWrapper.xStart_Listening(iPort    => 1337);
    while not bConnected loop
       xConnection.bIs_Connected(bConnected);

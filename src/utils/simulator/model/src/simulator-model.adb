@@ -10,11 +10,11 @@ package body Simulator.Model is
 
    begin
       pxModel := new Simulator.Model.CModel;
-      pxModel.eOperationMode := OfflineMode;
+      pxModel.eOperationMode := MotionControlTestMode;
       pxModel.fTimeBetweenMotorUpdates:=1.0/float(iMotorUpdateFrequency);
       pxModel.pxSubmarine := Simulator.submarine.pxCreate_Naiad;
       pxModel.pxMotionControlWrapper := Simulator.Motion_Control_Wrapper.pxCreate_Wrap_Dispatcher;
-      Simulator.Comunication.Intialize_And_Reset(sIPAdress => 127.0.0.1,
+      Simulator.Comunication.Intialize_And_Reset(sIPAdress => "127.0.0.1",
                                                  iPort     => 1337);
 
       return pxModel;
@@ -266,8 +266,6 @@ package body Simulator.Model is
       Get_Motor_Values(this                   => this,
                        fDeltaTime             => fDeltaTime,
                        tfMotorValuesSubmarine => tfMotorValuesSubmarine);
-      tfMotorValuesSubmarine := TMotorForce(this.pxSubmarine.xGet_Motor_Values);
-
 
       this.pxSubmarine.Time_Step_Motor_Force_To_Integrate(txMotorForce => Simulator.submarine.TMotorForce(tfMotorValuesSubmarine),
                                                           fDeltaTime   => fDeltaTime);
@@ -304,7 +302,11 @@ package body Simulator.Model is
    -------------------------
 
    procedure Update_Observe_Mode(this : in out CModel; fDeltaTime : float) is
+      xVelocityVector : math.Vectors.CVector;
    begin
+      xVelocityVector := math.Vectors."-"(simulator.Comunication.xGet_Current_Position,this.pxSubmarine.xGet_Position_Vector);
+
+      this.pxSubmarine.Set_Velocity_Vector(xVelocityVector => xVelocityVector);
       this.pxSubmarine.Set_Position_Vector(simulator.Comunication.xGet_Current_Position);
       this.pxSubmarine.Set_Orientation_Matrix(simulator.Comunication.xGet_Current_Orientation);
 
