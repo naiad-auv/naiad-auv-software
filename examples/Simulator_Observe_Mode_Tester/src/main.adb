@@ -65,7 +65,7 @@ procedure Main is
       Get(fY);
       ada.Text_IO.Put_Line("Rotation Z position: ");
       Get(fZ);
-      xMessage.ID := CAN_Defs.MSG_SENSOR_FUSION_ORIENTATION_ID;
+      xMessage.ID := CAN_Defs.MSG_MISSION_CONTROL_WANTED_ORIENTATION_ID;
       xMessage.Len := 1;
       xRotationMatrix := math.Matrices.xCreate_Rotation_Around_X_Axis(math.Angles.TAngle(fX))*math.Matrices.xCreate_Rotation_Around_Y_Axis(math.Angles.TAngle(fY))*math.Matrices.xCreate_Rotation_Around_Z_Axis(math.Angles.TAngle(fZ));
       xMessage.Data := CAN_Convertions_Math.Create_Can_Message_From_Matrix(xMatrix => xRotationMatrix);
