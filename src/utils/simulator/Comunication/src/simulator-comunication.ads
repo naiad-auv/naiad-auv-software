@@ -51,17 +51,18 @@ package Simulator.Comunication is
 
 private
    procedure Get_Data_From_Message(xMessage : CAN_Defs.CAN_Message);
-   task type TCommunicationTask is
+   task type TCommunicationReadTask is
       entry Init;
-   end TCommunicationTask;
+   end TCommunicationReadTask;
 
-   task type TCommunicationSenderTask is
+   task type TCommunicationSendTask is
       entry Init;
-   end TCommunicationSenderTask;
+   end TCommunicationSendTask;
 
-   ComunicationTask : TCommunicationTask;
-   CommunicationSenderTask : TCommunicationSenderTask;
-   xProtected_Info : simulator.Comunication_Prot_Obj.tCom_Prot_Obj;
+   ComunicationReadTask : TCommunicationReadTask;
+   CommunicationSendTask : TCommunicationSendTask;
+   xProtected_Send_Info : simulator.Comunication_Prot_Obj.tCom_Prot_Obj;
+   xProtected_Read_Info : simulator.Comunication_Prot_Obj.tCom_Prot_Obj;
 
    xConnection : TCPWrapper.CTCPConnection;
    xNonCompleteOrientationMatrix : math.Matrices.TMatrix;

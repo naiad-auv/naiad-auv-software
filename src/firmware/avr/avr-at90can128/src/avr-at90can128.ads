@@ -516,7 +516,7 @@ package AVR.AT90CAN128 is
    for Full_MOB_ID'size use 4;
 
    subtype MOB_ID is Full_MOB_ID range 0..14;
-   subtype READ_MOB_ID is Full_MOB_ID range 0..10;
+   subtype READ_MOB_ID is Full_MOB_ID range 0..9;
 
    type MOB_Array is array (MOB_ID) of Boolean;
    pragma Pack (MOB_Array);

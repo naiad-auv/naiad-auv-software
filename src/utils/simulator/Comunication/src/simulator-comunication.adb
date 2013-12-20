@@ -2,6 +2,8 @@ with ada.Text_IO;
 with TCPCANWrapper;
 with TCPWrapper;
 with Can_Float_Conversions;
+with simulator.Comunication_Prot_Obj;
+use Simulator.Comunication_Prot_Obj;
 package body Simulator.Comunication is
 
    -------------------------
@@ -19,20 +21,35 @@ package body Simulator.Comunication is
          xConnection.bIs_Connected(bResult => bConnected);
          delay(0.1);
       end loop;
-      xProtected_Info.Set_Current_Position(math.Vectors.xCreate(0.0,0.0,0.0));
-      xProtected_Info.Set_Current_Orientation(math.Matrices.xCreate_Identity);
-      xProtected_Info.Set_Wanted_Position(math.Vectors.xCreate(0.0,0.0,0.0));
-      xProtected_Info.Set_Wanted_Orientation(math.Matrices.xCreate_Identity);
-      xProtected_Info.Set_Motor_Power(tMotorForce);
-      xProtected_Info.Set_Gripper_Left(false);
-      xProtected_Info.Set_Gripper_Right(false);
-      xProtected_Info.Set_Torpedo_Left(false);
-      xProtected_Info.Set_Torpedo_Right(false);
-      xProtected_Info.Set_Dropper_Left(false);
-      xProtected_Info.Set_Dropper_Right(false);
-      xProtected_Info.Set_Pressure(0.0);
-      xProtected_Info.Set_Temperature(0.0);
-      ComunicationTask.Init;
+      xProtected_Read_Info.Set_Current_Position(math.Vectors.xCreate(0.0,0.0,0.0));
+      xProtected_Read_Info.Set_Current_Orientation(math.Matrices.xCreate_Identity);
+      xProtected_Read_Info.Set_Wanted_Position(math.Vectors.xCreate(0.0,0.0,0.0));
+      xProtected_Read_Info.Set_Wanted_Orientation(math.Matrices.xCreate_Identity);
+      xProtected_Read_Info.Set_Motor_Power(tMotorForce);
+      xProtected_Read_Info.Set_Gripper_Left(false);
+      xProtected_Read_Info.Set_Gripper_Right(false);
+      xProtected_Read_Info.Set_Torpedo_Left(false);
+      xProtected_Read_Info.Set_Torpedo_Right(false);
+      xProtected_Read_Info.Set_Dropper_Left(false);
+      xProtected_Read_Info.Set_Dropper_Right(false);
+      xProtected_Read_Info.Set_Pressure(0.0);
+      xProtected_Read_Info.Set_Temperature(0.0);
+      ComunicationReadTask.Init;
+
+      xProtected_Send_Info.Set_Current_Position(math.Vectors.xCreate(0.0,0.0,0.0));
+      xProtected_Send_Info.Set_Current_Orientation(math.Matrices.xCreate_Identity);
+      xProtected_Send_Info.Set_Wanted_Position(math.Vectors.xCreate(0.0,0.0,0.0));
+      xProtected_Send_Info.Set_Wanted_Orientation(math.Matrices.xCreate_Identity);
+      xProtected_Send_Info.Set_Motor_Power(tMotorForce);
+      xProtected_Send_Info.Set_Gripper_Left(false);
+      xProtected_Send_Info.Set_Gripper_Right(false);
+      xProtected_Send_Info.Set_Torpedo_Left(false);
+      xProtected_Send_Info.Set_Torpedo_Right(false);
+      xProtected_Send_Info.Set_Dropper_Left(false);
+      xProtected_Send_Info.Set_Dropper_Right(false);
+      xProtected_Send_Info.Set_Pressure(0.0);
+      xProtected_Send_Info.Set_Temperature(0.0);
+      CommunicationSendTask.Init;
    end Intialize_And_Reset;
 
    --------------------------
@@ -42,7 +59,7 @@ package body Simulator.Comunication is
    procedure Set_Current_Position (xCurrent_Position : math.Vectors.CVector)
    is
    begin
-      xProtected_Info.Set_Current_Position(xCurrent_Position);
+      xProtected_Send_Info.Set_Current_Position(xCurrent_Position);
 
    end Set_Current_Position;
 
@@ -54,7 +71,7 @@ package body Simulator.Comunication is
      (xCurrent_Orientation : math.Matrices.CMatrix)
    is
    begin
-      xProtected_Info.Set_Current_Orientation(xCurrent_Orientation);
+      xProtected_Send_Info.Set_Current_Orientation(xCurrent_Orientation);
    end Set_Current_Orientation;
 
    -------------------------
@@ -63,7 +80,7 @@ package body Simulator.Comunication is
 
    procedure Set_Wanted_Position (xWanted_Position : math.Vectors.CVector) is
    begin
-      xProtected_Info.Set_Wanted_Position(xWanted_Position);
+      xProtected_Send_Info.Set_Wanted_Position(xWanted_Position);
    end Set_Wanted_Position;
 
    ----------------------------
@@ -74,7 +91,7 @@ package body Simulator.Comunication is
      (xWanted_Orientation : math.Matrices.CMatrix)
    is
    begin
-      xProtected_Info.Set_Wanted_Orientation(xWanted_Orientation);
+      xProtected_Send_Info.Set_Wanted_Orientation(xWanted_Orientation);
    end Set_Wanted_Orientation;
 
    ----------------------
@@ -85,7 +102,7 @@ package body Simulator.Comunication is
      (xMotor_Power : simulator.submarine.TMotorForce)
    is
    begin
-      xProtected_Info.Set_Motor_Power(xMotor_Power);
+      xProtected_Send_Info.Set_Motor_Power(xMotor_Power);
    end Set_Motor_Power;
 
    ----------------------
@@ -94,7 +111,7 @@ package body Simulator.Comunication is
 
    procedure Set_Gripper_Left (bGripper_Left : boolean) is
    begin
-      xProtected_Info.Set_Gripper_Left(bGripper_Left);
+      xProtected_Send_Info.Set_Gripper_Left(bGripper_Left);
    end Set_Gripper_Left;
 
    -----------------------
@@ -103,7 +120,7 @@ package body Simulator.Comunication is
 
    procedure Set_Gripper_Right (bGripper_Right : boolean) is
    begin
-      xProtected_Info.Set_Gripper_Right(bGripper_Right);
+      xProtected_Send_Info.Set_Gripper_Right(bGripper_Right);
    end Set_Gripper_Right;
 
    ----------------------
@@ -112,7 +129,7 @@ package body Simulator.Comunication is
 
    procedure Set_Torpedo_Left (bTorpedo_Left : boolean) is
    begin
-      xProtected_Info.Set_Torpedo_Left(bTorpedo_Left);
+      xProtected_Send_Info.Set_Torpedo_Left(bTorpedo_Left);
    end Set_Torpedo_Left;
 
    -----------------------
@@ -121,7 +138,7 @@ package body Simulator.Comunication is
 
    procedure Set_Torpedo_Right (bTorpedo_Right : boolean) is
    begin
-      xProtected_Info.Set_Torpedo_Right(bTorpedo_Right);
+      xProtected_Send_Info.Set_Torpedo_Right(bTorpedo_Right);
    end Set_Torpedo_Right;
 
    ----------------------
@@ -130,7 +147,7 @@ package body Simulator.Comunication is
 
    procedure Set_Dropper_Left (bDropper_Left : boolean) is
    begin
-      xProtected_Info.Set_Dropper_Left(bDropper_Left);
+      xProtected_Send_Info.Set_Dropper_Left(bDropper_Left);
    end Set_Dropper_Left;
 
    -----------------------
@@ -139,7 +156,7 @@ package body Simulator.Comunication is
 
    procedure Set_Dropper_Right (bDropper_Right : boolean) is
    begin
-      xProtected_Info.Set_Dropper_Right(bDropper_Right);
+      xProtected_Send_Info.Set_Dropper_Right(bDropper_Right);
    end Set_Dropper_Right;
 
    ------------------
@@ -148,7 +165,7 @@ package body Simulator.Comunication is
 
    procedure Set_Pressure (fPressure : float) is
    begin
-      xProtected_Info.Set_Pressure(fPressure);
+      xProtected_Send_Info.Set_Pressure(fPressure);
    end Set_Pressure;
 
    ---------------------
@@ -157,7 +174,7 @@ package body Simulator.Comunication is
 
    procedure Set_Temperature (fTemperature : float) is
    begin
-      xProtected_Info.Set_Temperature(fTemperature);
+      xProtected_Send_Info.Set_Temperature(fTemperature);
    end Set_Temperature;
 
    ---------------------
@@ -166,7 +183,7 @@ package body Simulator.Comunication is
 
    procedure Set_Pid_Scaling(eComponent : EMotionComponent; PidScaling : TPIDComponentScalings) is
    begin
-      xProtected_Info.Set_Pid_Scaling(simulator.Comunication_Prot_Obj.EMotionComponent(eComponent),simulator.Comunication_Prot_Obj.TPIDComponentScalings(PidScaling));
+      xProtected_Send_Info.Set_Pid_Scaling(simulator.Comunication_Prot_Obj.EMotionComponent(eComponent),simulator.Comunication_Prot_Obj.TPIDComponentScalings(PidScaling));
    end Set_Pid_Scaling;
 
    ------------------------
@@ -175,7 +192,7 @@ package body Simulator.Comunication is
 
    procedure Set_Operating_Mode(eOperationMode : EoperatingMode) is
    begin
-      xProtected_Info.Set_OperatingMode(simulator.Comunication_Prot_Obj.EOperatingMode(eOperationMode));
+      xProtected_Send_Info.Set_OperatingMode(simulator.Comunication_Prot_Obj.EOperatingMode(eOperationMode));
    end Set_Operating_Mode;
 
    ---------------------------
@@ -184,7 +201,7 @@ package body Simulator.Comunication is
 
    function xGet_Current_Position return math.Vectors.CVector is
    begin
-      return xProtected_Info.xGet_Current_Position;
+      return xProtected_Read_Info.xGet_Current_Position;
 
    end xGet_Current_Position;
 
@@ -194,7 +211,7 @@ package body Simulator.Comunication is
 
    function xGet_Current_Orientation return math.Matrices.CMatrix is
    begin
-      return xProtected_Info.xGet_Current_Orientation;
+      return xProtected_Read_Info.xGet_Current_Orientation;
    end xGet_Current_Orientation;
 
    --------------------------
@@ -203,7 +220,7 @@ package body Simulator.Comunication is
 
    function xGet_Wanted_Position return math.Vectors.CVector is
    begin
-      return xProtected_Info.xGet_Wanted_Position;
+      return xProtected_Read_Info.xGet_Wanted_Position;
    end xGet_Wanted_Position;
 
    -----------------------------
@@ -212,7 +229,7 @@ package body Simulator.Comunication is
 
    function xGet_Wanted_Orientation return math.Matrices.CMatrix is
    begin
-      return xProtected_Info.xGet_Wanted_Orientation;
+      return xProtected_Read_Info.xGet_Wanted_Orientation;
    end xGet_Wanted_Orientation;
 
    -----------------------
@@ -221,7 +238,7 @@ package body Simulator.Comunication is
 
    function xGet_Motor_Power return simulator.submarine.TMotorForce is
    begin
-      return xProtected_Info.xGet_Motor_Power;
+      return xProtected_Read_Info.xGet_Motor_Power;
    end xGet_Motor_Power;
 
    -----------------------
@@ -230,7 +247,7 @@ package body Simulator.Comunication is
 
    function bGet_Gripper_Left return boolean is
    begin
-      return xProtected_Info.bGet_Gripper_Left;
+      return xProtected_Read_Info.bGet_Gripper_Left;
    end bGet_Gripper_Left;
 
    ------------------------
@@ -239,7 +256,7 @@ package body Simulator.Comunication is
 
    function bGet_Gripper_Right return boolean is
    begin
-      return xProtected_Info.bGet_Gripper_Right;
+      return xProtected_Read_Info.bGet_Gripper_Right;
    end bGet_Gripper_Right;
 
    -----------------------
@@ -248,7 +265,7 @@ package body Simulator.Comunication is
 
    function bGet_Torpedo_Left return boolean is
    begin
-      return xProtected_Info.bGet_Torpedo_Left;
+      return xProtected_Read_Info.bGet_Torpedo_Left;
    end bGet_Torpedo_Left;
 
    ------------------------
@@ -257,7 +274,7 @@ package body Simulator.Comunication is
 
    function bGet_Torpedo_Right return boolean is
    begin
-      return xProtected_Info.bGet_Torpedo_Right;
+      return xProtected_Read_Info.bGet_Torpedo_Right;
    end bGet_Torpedo_Right;
 
    -----------------------
@@ -266,7 +283,7 @@ package body Simulator.Comunication is
 
    function bGet_Dropper_Left return boolean is
    begin
-      return xProtected_Info.bGet_Dropper_Left;
+      return xProtected_Read_Info.bGet_Dropper_Left;
    end bGet_Dropper_Left;
 
    ------------------------
@@ -275,7 +292,7 @@ package body Simulator.Comunication is
 
    function bGet_Dropper_Right return boolean is
    begin
-      return xProtected_Info.bGet_Dropper_Right;
+      return xProtected_Read_Info.bGet_Dropper_Right;
    end bGet_Dropper_Right;
 
    -------------------
@@ -284,7 +301,7 @@ package body Simulator.Comunication is
 
    function fGet_Pressure return float is
    begin
-      return xProtected_Info.fGet_Pressure;
+      return xProtected_Read_Info.fGet_Pressure;
    end fGet_Pressure;
 
    ----------------------
@@ -293,7 +310,7 @@ package body Simulator.Comunication is
 
    function fGet_Temperature return float is
    begin
-      return xProtected_Info.fGet_Temperature;
+      return xProtected_Read_Info.fGet_Temperature;
    end fGet_Temperature;
 
    ----------------------
@@ -302,33 +319,59 @@ package body Simulator.Comunication is
 
    function xGet_Pid_Scaling( eComponent : EMotionComponent ) return TPIDComponentScalings is
    begin
-      return TPIDComponentScalings(xProtected_Info.xGet_Pid_Scaling(simulator.Comunication_Prot_Obj.EMotionComponent(eComponent)));
+      return TPIDComponentScalings(xProtected_Read_Info.xGet_Pid_Scaling(simulator.Comunication_Prot_Obj.EMotionComponent(eComponent)));
    end xGet_Pid_Scaling;
 
    function eGet_Operating_Mode return EOperatingMode is
    begin
-      return EOperatingMode(xProtected_Info.eGet_OperatingMode);
+      return EOperatingMode(xProtected_Read_Info.eGet_OperatingMode);
    end eGet_Operating_Mode;
 
-   task body TCommunicationSenderTask is
+   ----------------------------
+   -- TCommunicationSendTask --
+   ----------------------------
+
+   task body TCommunicationSendTask is
       xMessage : CAN_Defs.CAN_Message;
+      xPacket : TCPCANWrapper.CTCPCANPacket;
    begin
       accept Init  do
          null;
       end Init;
       loop
          delay(0.25);
-         xMessage.Len := 1;
-         xMessage.ID := CAN_Defs.MSG_SENSOR_FUSION_POSITION_ID;
-         xMessage.data := CAN_Convertions_Math.Create_Can_Message_From_Vector(xProtected_Info.xGet_Current_Position,500.0);
+         if xProtected_Send_Info.eGet_OperatingMode = MotionControlTestMode then
+            xMessage.Len := 1;
+
+            xMessage.ID := CAN_Defs.MSG_SENSOR_FUSION_POSITION_ID;
+            xMessage.data := CAN_Convertions_Math.Create_Can_Message_From_Vector(xProtected_Send_Info.xGet_Current_Position,500.0);
+            xPacket.set_Message_to_Send(xMessage => xMessage);
+            xConnection.Send_Packet(xPacket => xPacket);
+
+            xMessage.ID := CAN_Defs.MSG_SENSOR_FUSION_ORIENTATION_ID;
+            xMessage.data := CAN_Convertions_Math.Create_Can_Message_From_Matrix(xProtected_Send_Info.xGet_Current_Orientation);
+            xPacket.set_Message_to_Send(xMessage => xMessage);
+            xConnection.Send_Packet(xPacket => xPacket);
+
+            xMessage.ID := CAN_Defs.MSG_MISSION_CONTROL_WANTED_POSITION_ID;
+            xMessage.data := CAN_Convertions_Math.Create_Can_Message_From_Vector(xProtected_Send_Info.xGet_Wanted_Position,500.0);
+            xPacket.set_Message_to_Send(xMessage => xMessage);
+            xConnection.Send_Packet(xPacket => xPacket);
+
+            xMessage.ID := CAN_Defs.MSG_MISSION_CONTROL_WANTED_ORIENTATION_ID;
+            xMessage.data := CAN_Convertions_Math.Create_Can_Message_From_Matrix(xProtected_Send_Info.xGet_Wanted_Orientation);
+            xPacket.set_Message_to_Send(xMessage => xMessage);
+            xConnection.Send_Packet(xPacket => xPacket);
+         end if;
+
       end loop;
-   end TCommunicationSenderTask;
+   end TCommunicationSendTask;
 
-   ------------------------
-   -- TCommunicationTask --
-   ------------------------
+   ----------------------------
+   -- TCommunicationReadTask --
+   ----------------------------
 
-   task body TCommunicationTask is
+   task body TCommunicationReadTask is
       xPacket : TCPCANWrapper.CTCPCANPacket;
       bSuccess : boolean := false;
       iBytes : integer;
@@ -350,7 +393,7 @@ package body Simulator.Comunication is
          end if;
       end loop;
 
-   end TCommunicationTask;
+   end TCommunicationReadTask;
 
    ---------------------------
    -- Get_Data_From_Message --
@@ -382,15 +425,31 @@ package body Simulator.Comunication is
          null;
       end if;
 
+      -- MSG_MOTION_CONTROL_MOTOR_FORCE --
+      if xMessage.ID = MSG_MOTION_CONTROL_MOTOR_FORCE then
+         xProtected_Read_Info.Set_Motor_Power(xMotor_Power => simulator.submarine.TMotorForce(CAN_Convertions_Math.Create_Motor_Value_From_Can_Message(xData => xMessage.data)));
+      end if;
+
+      -- MSG_MISSION_CONTROL_WANTED_ORIENTATION_ID --
+      if xMessage.ID = MSG_MISSION_CONTROL_WANTED_ORIENTATION_ID then
+         xProtected_Read_Info.Set_Wanted_Orientation(CAN_Convertions_Math.Create_Matrix_From_CAN_Message(xData => xMessage.Data));
+      end if;
+
+      -- MSG_MISSION_CONTROL_WANTED_POSITION_ID --
+      if xMessage.ID = MSG_MISSION_CONTROL_WANTED_POSITION_ID then
+         xProtected_Read_Info.Set_Wanted_Position(CAN_Convertions_Math.Create_Vector_From_CAN_Message(xData     => xMessage.Data,
+                                                                                                      fMaxValue => 500.0));
+      end if;
+
       -- MSG_SENSOR_FUSION_ORIENTATION_ID --
       if xMessage.ID = MSG_SENSOR_FUSION_ORIENTATION_ID then
-            xProtected_Info.Set_Current_Orientation(CAN_Convertions_Math.Create_Matrix_From_CAN_Message(xData => xMessage.Data));
+            xProtected_Read_Info.Set_Current_Orientation(CAN_Convertions_Math.Create_Matrix_From_CAN_Message(xData => xMessage.Data));
       end if;
 
       -- MSG_SENSOR_FUSION_POSITION_ID --
       if xMessage.ID = MSG_SENSOR_FUSION_POSITION_ID then
-         xProtected_Info.Set_Current_Position(CAN_Convertions_Math.Create_Vector_From_CAN_Message(xData     => xMessage.Data,
-                                                                                                  fMaxValue => 500.0));
+         xProtected_Read_Info.Set_Current_Position(CAN_Convertions_Math.Create_Vector_From_CAN_Message(xData     => xMessage.Data,
+                                                                                                       fMaxValue => 500.0));
       end if;
 
       -- MSG_IMU_ORIENTATION_ID --

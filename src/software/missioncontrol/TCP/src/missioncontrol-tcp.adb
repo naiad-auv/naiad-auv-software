@@ -33,28 +33,5 @@ package body MissionControl.TCP is
       end loop;
    end TASK_TCP_IN;
 
-   task body TASK_TCP_OUT is
-      xCANMessageToShore : MissionControl.SharedTypes.CAN_Message;
-   begin
-      loop
-
-         if MissionControl.SharedTypes.xCANOutMessageList.iCount > 0 then
-
-            MissionControl.SharedTypes.xCANOutMessageList.Remove(xCANMessage => xCANMessageToShore);
-            TCP_Resource.Send(xCANMessage => xCANMessageToShore);
-
-         end if;
-
-
-         if MissionControl.SharedTypes.xCANInMessageList.iCount > 0 then
-
-            MissionControl.SharedTypes.xCANInMessageList.Remove(xCANMessage => xCANMessageToShore);
-            TCP_Resource.Send(xCANMessage => xCANMessageToShore);
-
-         end if;
-
-         --delay 0.5; -- for testing
-      end loop;
-   end TASK_TCP_OUT;
 
 end MissionControl.TCP;
