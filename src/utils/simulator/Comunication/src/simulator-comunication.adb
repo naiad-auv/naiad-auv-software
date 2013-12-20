@@ -432,7 +432,7 @@ package body Simulator.Comunication is
 
       -- MSG_MISSION_CONTROL_WANTED_ORIENTATION_ID --
       if xMessage.ID = MSG_MISSION_CONTROL_WANTED_ORIENTATION_ID then
-         xProtected_Read_Info.Set_Current_Orientation(CAN_Convertions_Math.Create_Matrix_From_CAN_Message(xData => xMessage.Data));
+         xProtected_Read_Info.Set_Wanted_Orientation(CAN_Convertions_Math.Create_Matrix_From_CAN_Message(xData => xMessage.Data));
       end if;
 
       -- MSG_MISSION_CONTROL_WANTED_POSITION_ID --
