@@ -1,5 +1,5 @@
 with AVR.AT90CAN128;
-with AVR.AT90CAN128.BOOTLOADER;
+with AVR.AT90CAN128.BOOT;
 
 with CAN_Defs;
 
@@ -17,6 +17,15 @@ package body AVR.AT90CAN128.CAN is
    BOOTLOADER_ID_MASK : constant CAN_Defs.CAN_ID := (16#3FF#,False);
    BOOTLOADER_MOD_ID : constant MOB_ID := 11;
 
+   MODE_ID_TAG : constant CAN_Defs.CAN_ID := CAN_Defs.MSG_MODE_ID;
+   MODE_ID_MASK : constant CAN_Defs.CAN_ID := (16#3FE#,False);
+   MODE_MOD_ID : constant MOB_ID := 10;
+
+   STATUS_ID_TAG : constant CAN_Defs.CAN_ID := CAN_Defs.MSG_STATUS_REQUEST_ID;
+   STATUS_ID_MASK : constant CAN_Defs.CAN_ID := (16#3FF#,False);
+   STATUS_MOD_ID : constant MOB_ID := 12;
+
+
    pRXWrite     : Buffer_pointer := 0;
    pRXRead	: Buffer_pointer := 0;
    RX_buffer    : Can_Buffer_Array;
@@ -25,7 +34,7 @@ package body AVR.AT90CAN128.CAN is
    pTXRead	: Buffer_pointer := 0;
    TX_buffer    : Can_Buffer_Array;
 
-   TX_MOB_ID : MOB_ID := 13;
+   TX_MOB_ID : constant MOB_ID := 13;
 
    pragma Volatile (pRXWrite);
    pragma Volatile (pRXRead);
@@ -132,12 +141,17 @@ package body AVR.AT90CAN128.CAN is
                for I in 1..Msg.Len loop
                   Msg.Data (I) := CANMSG;
                end loop;
-               if msg.ID = CAN_Defs.MSG_SIMULATION_MODE_ID then
+               if msg.ID = CAN_Defs.MSG_MODE_ID then
                   mode := Board_And_Mode_Defs.Mode_Map(Msg.Data(1));
                end if;
+
+               if msg.ID = CAN_Defs.MSG_REBOOT_ID then
+                  AVR.AT90CAN128.BOOT.reboot;
+               end if;
+
                if mode = Board_And_Mode_Defs.BOOTLOADER_MODE and Msg.ID = CAN_Defs.MSG_BOOTLOADER_START_ID then
                   if Board_and_Mode_Defs.Board_Map(Msg.Data(1)) = board then
-                     AVR.AT90CAN128.BOOTLOADER.switch_to_bootloader;
+                     AVR.AT90CAN128.BOOT.switch_to_bootloader;
                   end if;
                end if;
 
@@ -309,6 +323,14 @@ package body AVR.AT90CAN128.CAN is
       Can_Set_Mob_ID_MASK(MOB  => BOOTLOADER_MOD_ID,
                           ID   => BOOTLOADER_ID_TAG,
                           Mask => BOOTLOADER_ID_MASK);
+
+      Can_Set_Mob_ID_MASK(MOB  => MODE_MOD_ID,
+                          ID   => MODE_ID_TAG,
+                          Mask => MODE_ID_MASK);
+
+      Can_Set_Mob_ID_MASK(MOB  => STATUS_MOD_ID,
+                          ID   => STATUS_ID_TAG,
+                          Mask => STATUS_ID_MASK);
    end Can_Init;
 
    procedure Can_Set_Mob_ID_MASK (MOB : READ_MOB_ID;  ID, Mask : CAN_Defs.CAN_ID) is

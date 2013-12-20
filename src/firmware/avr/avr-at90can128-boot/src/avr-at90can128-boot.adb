@@ -1,6 +1,6 @@
 with AVR.AT90CAN128.INTERRUPT;
 
-package body AVR.AT90CAN128.BOOTLOADER is
+package body AVR.AT90CAN128.BOOT is
 
    procedure switch_to_bootloader is
    begin
@@ -20,4 +20,14 @@ package body AVR.AT90CAN128.BOOTLOADER is
       AVR.AT90CAN128.WDTCR.WDE := True;
    end switch_to_bootloader;
 
-end AVR.AT90CAN128.BOOTLOADER;
+   procedure reboot is
+   begin
+      AVR.AT90CAN128.WDTCR.WDCE := True;
+      AVR.AT90CAN128.WDTCR.WDP := 0;
+      AVR.AT90CAN128.WDTCR.WDCE := True;
+      AVR.AT90CAN128.WDTCR.WDE := True;
+   end reboot;
+
+
+
+end AVR.AT90CAN128.BOOT;
