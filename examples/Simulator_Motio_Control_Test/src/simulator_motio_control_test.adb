@@ -57,17 +57,16 @@ package body Simulator_Motio_Control_Test is
       accept Init  do
          null;
       end Init;
+      xPacket.Set_Type(eType => TCPWrapper.PACKET_CAN);
       loop
          delay(0.25);
-         if xProtected_Send_Info.eGet_OperatingMode = MotionControlTestMode then
-            xMessage.Len := 1;
 
-            xMessage.ID := CAN_Defs.MSG_MOTION_CONTROL_MOTOR_FORCE;
-            xMessage.data := CAN_Convertions_Math.Create_Can_Message_From_Motor_Value(CAN_Convertions_Math.TMotorValues(xProtected_Send_Info.xGet_Motor_Power));
-            xPacket.set_Message_to_Send(xMessage => xMessage);
-            xConnection.Send_Packet(xPacket => xPacket);
-         end if;
+         xMessage.Len := 1;
 
+         xMessage.ID := CAN_Defs.MSG_MOTION_CONTROL_MOTOR_FORCE;
+         xMessage.data := CAN_Convertions_Math.Create_Can_Message_From_Motor_Value(CAN_Convertions_Math.TMotorValues(xProtected_Send_Info.xGet_Motor_Power));
+         xPacket.set_Message_to_Send(xMessage => xMessage);
+         xConnection.Send_Packet(xPacket => xPacket);
       end loop;
    end TCommunicationSendTask;
 

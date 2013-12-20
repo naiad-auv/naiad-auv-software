@@ -11,6 +11,7 @@ package body Simulator.Model is
    begin
       pxModel := new Simulator.Model.CModel;
       pxModel.eOperationMode := MotionControlTestMode;
+      Simulator.Comunication.Set_Operating_Mode(Comunication.EOperatingMode(pxModel.eOperationMode));
       pxModel.fTimeBetweenMotorUpdates:=1.0/float(iMotorUpdateFrequency);
       pxModel.pxSubmarine := Simulator.submarine.pxCreate_Naiad;
       pxModel.pxMotionControlWrapper := Simulator.Motion_Control_Wrapper.pxCreate_Wrap_Dispatcher;

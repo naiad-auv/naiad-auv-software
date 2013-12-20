@@ -186,6 +186,7 @@ package body Simulator.Comunication is
       xMessage : CAN_Defs.CAN_Message;
       xPacket : TCPCANWrapper.CTCPCANPacket;
    begin
+      xPacket.Set_Type(eType => TCPWrapper.PACKET_CAN);
       xProtected_Send_Info.Set_Pid_Scaling(simulator.Comunication_Prot_Obj.EMotionComponent(eComponent),simulator.Comunication_Prot_Obj.TPIDComponentScalings(PidScaling));
       xMessage.ID := CAN_Defs.MSG_PID_SCALING_ID;
       Can_Float_Conversions.PID_Scalings_To_Message(u8ID          => Interfaces.Unsigned_8(EMotionComponent'pos(eComponent)),
@@ -350,6 +351,7 @@ package body Simulator.Comunication is
       accept Init  do
          null;
       end Init;
+      xPacket.Set_Type(eType => TCPWrapper.PACKET_CAN);
       loop
          delay(0.25);
          if xProtected_Send_Info.eGet_OperatingMode = MotionControlTestMode then
