@@ -26,37 +26,6 @@ package AVR.AT90CAN128 is
    end record;
    for General_Register'Size use 8;
 
-   --     EEPORM Registers
-
-   EEARH : Unsigned_8;
-   for EEARH'Address use System'To_Address (16#42#);
-
-   EEARL : Unsigned_8;
-   for EEARL'Address use System'To_Address (16#41#);
-
-   EEDR : Unsigned_8;
-   for EEDR'Address use System'To_Address (16#40#);
-
-   type EEPROM_Control_Register is record
-      EERIE : Boolean;
-      EEMWE : Boolean;
-      EEWE : Boolean;
-      EERE  : Boolean;
-   end record;
-
-   for EEPROM_Control_Register use record
-      EERE  at 0 range 0 .. 0;
-      EEWE  at 0 range 1 .. 1;
-      EEMWE at 0 range 2 .. 2;
-      EERIE  at 0 range 3 .. 3;
-   end record;
-   for EEPROM_Control_Register'Size use 8;
-
-   EECR : EEPROM_Control_Register;
-   for EECR'Address use System'To_Address (16#3F#);
-
-   --EEPROM registers end
-
    SREG : General_Register;
    for SREG'Address use System'To_Address (16#5F#);
    pragma Volatile (SREG);
@@ -219,13 +188,13 @@ package AVR.AT90CAN128 is
    for TCCRB'Size use 8;
 
    --Timer 1
-   TCCR1A : Unsigned_8;
+   TCCR1A : General_Register;
    for TCCR1A'Address use System'To_Address (16#80#);
 
-   TCCR1B : Unsigned_8;
+   TCCR1B : General_Register;
    for TCCR1B'Address use System'To_Address (16#81#);
 
-   TCCR1C : Unsigned_8;
+   TCCR1C : General_Register;
    for TCCR1C'Address use System'To_Address (16#82#);
 
    TCNT1 : Unsigned_16;
@@ -516,7 +485,7 @@ package AVR.AT90CAN128 is
    for Full_MOB_ID'size use 4;
 
    subtype MOB_ID is Full_MOB_ID range 0..14;
-   subtype READ_MOB_ID is Full_MOB_ID range 0..12;
+   subtype READ_MOB_ID is Full_MOB_ID range 0..10;
 
    type MOB_Array is array (MOB_ID) of Boolean;
    pragma Pack (MOB_Array);
@@ -759,21 +728,7 @@ package AVR.AT90CAN128 is
    for CANMSG'Address use System'To_Address (16#FA#);
 
 
-   type watchdog_prescaler is range 0..7;
-   type Watchdog_Control_Register is record
-      WDP : watchdog_prescaler;
-      WDE : Boolean;
-      WDCE  : Boolean;
-   end record;
-
-   for Watchdog_Control_Register use record
-      WDP  at 0 range 0 .. 2;
-      WDE  at 0 range 3 .. 3;
-      WDCE at 0 range 4 .. 4;
-   end record;
-   for Watchdog_Control_Register'Size use 8;
-
-   WDTCR : Watchdog_Control_Register;
+   WDTCR : General_Register;
    for WDTCR'Address use System'To_Address (16#60#);
    pragma Volatile (WDTCR);
 
