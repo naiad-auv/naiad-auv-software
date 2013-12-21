@@ -1,11 +1,12 @@
 with AVR.AT90CAN128;
-with AVR.AT90CAN128.BOOTLOADER;
+with AVR.AT90CAN128.BOOT;
 
 with CAN_Defs;
 
 package body AVR.AT90CAN128.CAN is
    pragma Suppress (All_Checks);
 
+   switch_to_boot : Boolean := False;
    Buffer_Size : constant := 16;
    type Buffer_pointer is mod 2 ** 5;
    type Can_Buffer_Array is array (Buffer_pointer range 0..15) of CAN_Defs.CAN_Message;
@@ -15,7 +16,16 @@ package body AVR.AT90CAN128.CAN is
 
    BOOTLOADER_ID_TAG : constant CAN_Defs.CAN_ID := CAN_Defs.MSG_BOOTLOADER_START_ID;
    BOOTLOADER_ID_MASK : constant CAN_Defs.CAN_ID := (16#3FF#,False);
-   BOOTLOADER_MOD_ID : constant MOB_ID := 11;
+   BOOTLOADER_MOD_ID : constant READ_MOB_ID := 11;
+
+   MODE_ID_TAG : constant CAN_Defs.CAN_ID := CAN_Defs.MSG_MODE_ID;
+   MODE_ID_MASK : constant CAN_Defs.CAN_ID := (16#3FE#,False);
+   MODE_MOD_ID : constant READ_MOB_ID := 10;
+
+   STATUS_ID_TAG : constant CAN_Defs.CAN_ID := CAN_Defs.MSG_STATUS_REQUEST_ID;
+   STATUS_ID_MASK : constant CAN_Defs.CAN_ID := (16#3FF#,False);
+   STATUS_MOD_ID : constant READ_MOB_ID := 12;
+
 
    pRXWrite     : Buffer_pointer := 0;
    pRXRead	: Buffer_pointer := 0;
@@ -25,7 +35,7 @@ package body AVR.AT90CAN128.CAN is
    pTXRead	: Buffer_pointer := 0;
    TX_buffer    : Can_Buffer_Array;
 
-   TX_MOB_ID : MOB_ID := 13;
+   TX_MOB_ID : constant MOB_ID := 13;
 
    pragma Volatile (pRXWrite);
    pragma Volatile (pRXRead);
@@ -132,16 +142,19 @@ package body AVR.AT90CAN128.CAN is
                for I in 1..Msg.Len loop
                   Msg.Data (I) := CANMSG;
                end loop;
-               if msg.ID = CAN_Defs.MSG_SIMULATION_MODE_ID then
+               if msg.ID = CAN_Defs.MSG_MODE_ID then
                   mode := Board_And_Mode_Defs.Mode_Map(Msg.Data(1));
                end if;
-               if mode = Board_And_Mode_Defs.BOOTLOADER_MODE and Msg.ID = CAN_Defs.MSG_BOOTLOADER_START_ID then
-                  if Board_and_Mode_Defs.Board_Map(Msg.Data(1)) = board then
-                     AVR.AT90CAN128.BOOTLOADER.switch_to_bootloader;
-                  end if;
+
+               if msg.ID = CAN_Defs.MSG_REBOOT_ID then
+                  AVR.AT90CAN128.BOOT.reboot;
                end if;
 
-               if mode = Board_And_Mode_Defs.NORMAL and iGetBufferSize(pRXWrite,pRXRead) < Buffer_Size then
+               if Msg.ID = CAN_Defs.MSG_BOOTLOADER_START_ID and Board_and_Mode_Defs.Board_Map(Msg.Data(1)) = board then
+                  switch_to_boot := True;
+               end if;
+
+               if mode = Board_And_Mode_Defs.NORMAL and iGetBufferSize(pRXWrite,pRXRead) < Buffer_Size and switch_to_boot = False then
                   Pos := pRXWrite;
                   RX_buffer(Pos mod Buffer_Size) := Msg;
                   Pos := Pos + 1;
@@ -217,6 +230,7 @@ package body AVR.AT90CAN128.CAN is
       timer : Time;
       curr : Time;
       inf : Boolean := False;
+      use CAN_Defs;
    begin
       if Wait < Time_Duration(0) then
          inf := True;
@@ -238,7 +252,11 @@ package body AVR.AT90CAN128.CAN is
                Pos := Pos + 1;
                pRXRead := Pos;
             end;
-            exit;
+            if switch_to_boot and Msg.ID.Identifier > CAN_Defs.MSG_MODE_ID.Identifier then
+               AVR.AT90CAN128.BOOT.switch_to_bootloader;
+            else
+               exit;
+            end if;
          end if;
          if (inf = False) and (getClockTime > timer) then
                Ret := False;
@@ -306,12 +324,20 @@ package body AVR.AT90CAN128.CAN is
       CANIE := (others => True);
       -- Interrupt Enable
       Can_Enable;
-      Can_Set_Mob_ID_MASK(MOB  => BOOTLOADER_MOD_ID,
+      Can_Set_Mob_ID_MASK_Internal(MOB  => BOOTLOADER_MOD_ID,
                           ID   => BOOTLOADER_ID_TAG,
                           Mask => BOOTLOADER_ID_MASK);
+
+      Can_Set_Mob_ID_MASK_Internal(MOB  => MODE_MOD_ID,
+                          ID   => MODE_ID_TAG,
+                          Mask => MODE_ID_MASK);
+
+      Can_Set_Mob_ID_MASK_Internal(MOB  => STATUS_MOD_ID,
+                          ID   => STATUS_ID_TAG,
+                          Mask => STATUS_ID_MASK);
    end Can_Init;
 
-   procedure Can_Set_Mob_ID_MASK (MOB : READ_MOB_ID;  ID, Mask : CAN_Defs.CAN_ID) is
+   procedure Can_Set_Mob_ID_MASK_Internal (MOB : READ_MOB_ID;  ID, Mask : CAN_Defs.CAN_ID) is
    begin
       if not CANEN (MOB) then
          CANPAGE := (MOB, True, 0);
@@ -330,11 +356,19 @@ package body AVR.AT90CAN128.CAN is
         ID_Mask_array(MOB) := Mask;
         ID_Tag_array(MOB) := ID;
       end if;
+   end Can_Set_Mob_ID_MASK_Internal;
+
+   procedure Can_Set_Mob_ID_MASK (MOB : BUFFER_ID;  ID, Mask : CAN_Defs.CAN_ID) is
+   begin
+
+      Can_Set_Mob_ID_MASK_Internal(MOB  => Full_MOB_ID(MOB),
+                                   ID   => ID,
+                                   Mask => Mask);
    end Can_Set_Mob_ID_MASK;
 
    procedure Can_Set_All_MOB_ID_MASK (ID, Mask : CAN_Defs.CAN_ID) is
    begin
-      for M in READ_MOB_ID loop
+      for M in BUFFER_ID loop
          Can_Set_Mob_ID_MASK (M ,ID ,Mask);
       end loop;
    end Can_Set_All_MOB_ID_MASK;

@@ -1,7 +1,7 @@
 with "../avr-at90can128/avr-at90can128.gpr";
 with "../avr-at90can128-interrupt/avr-at90can128-interrupt.gpr";
 
-project AVR.AT90CAN128.BOOTLOADER is
+project AVR.AT90CAN128.BOOT is
     for Source_Dirs use ("src");
     for Object_Dir use "obj";
-end AVR.AT90CAN128.BOOTLOADER;
+end AVR.AT90CAN128.BOOT;

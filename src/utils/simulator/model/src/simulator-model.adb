@@ -10,10 +10,13 @@ package body Simulator.Model is
 
    begin
       pxModel := new Simulator.Model.CModel;
-      pxModel.eOperationMode := OfflineMode;
+      pxModel.eOperationMode := MotionControlTestMode;
+      Simulator.Comunication.Set_Operating_Mode(Comunication.EOperatingMode(pxModel.eOperationMode));
       pxModel.fTimeBetweenMotorUpdates:=1.0/float(iMotorUpdateFrequency);
       pxModel.pxSubmarine := Simulator.submarine.pxCreate_Naiad;
       pxModel.pxMotionControlWrapper := Simulator.Motion_Control_Wrapper.pxCreate_Wrap_Dispatcher;
+      Simulator.Comunication.Intialize_And_Reset(sIPAdress => "127.0.0.1",
+                                                 iPort     => 1337);
 
       return pxModel;
    end pxCreate;
@@ -217,6 +220,29 @@ package body Simulator.Model is
       this.eOperationMode := eOperationMode;
    end Set_Operation_Mode;
 
+   ----------------------
+   -- Get_Motor_Values --
+   ----------------------
+
+   procedure Get_Motor_Values(this : in out CModel; fDeltaTime : float; tfMotorValuesSubmarine : out  simulator.Model.TMotorForce) is
+      fMaximumMotorForce : float := 66.776;
+      fMotorForceChangePerSecond : float := fMaximumMotorForce/0.1;
+      tfChangeInMotorValues : simulator.Model.TMotorForce;
+   begin
+      tfMotorValuesSubmarine := TMotorForce(this.pxSubmarine.xGet_Motor_Values);
+      for iMotorIndex in tfMotorValuesSubmarine'Range loop
+         tfChangeInMotorValues(iMotorIndex) := this.tWantedMotorForces(iMotorIndex)-tfMotorValuesSubmarine(iMotorIndex);
+         if tfChangeInMotorValues(iMotorIndex)>fMotorForceChangePerSecond*fDeltaTime then
+            tfChangeInMotorValues(iMotorIndex) := fMotorForceChangePerSecond*fDeltaTime;
+         end if;
+         if tfChangeInMotorValues(iMotorIndex)<-fMotorForceChangePerSecond*fDeltaTime then
+            tfChangeInMotorValues(iMotorIndex) := -fMotorForceChangePerSecond*fDeltaTime;
+         end if;
+         tfMotorValuesSubmarine(iMotorIndex) := tfMotorValuesSubmarine(iMotorIndex) + tfChangeInMotorValues(iMotorIndex);
+      end loop;
+   end Get_Motor_Values;
+
+
    -------------------------
    -- Update_Offline_Mode --
    -------------------------
@@ -225,7 +251,6 @@ package body Simulator.Model is
       fMaximumMotorForce : float := 66.776;
       fMotorForceChangePerSecond : float := fMaximumMotorForce/0.1;
       tfMotorValuesSubmarine : simulator.Model.TMotorForce;
-      tfChangeInMotorValues : simulator.Model.TMotorForce;
    begin
       if this.fTimeSinceLastMotorUpdate>this.fTimeBetweenMotorUpdates then
          this.pxMotionControlWrapper.Update_Wanted_Position(xWantedPosition    => this.pxSubmarine.xGet_Wanted_Position,
@@ -239,17 +264,9 @@ package body Simulator.Model is
       end if;
       this.fTimeSinceLastMotorUpdate := this.fTimeSinceLastMotorUpdate+fDeltaTime;
 
-      tfMotorValuesSubmarine := TMotorForce(this.pxSubmarine.xGet_Motor_Values);
-      for iMotorIndex in tfMotorValuesSubmarine'Range loop
-         tfChangeInMotorValues(iMotorIndex) := this.tWantedMotorForces(iMotorIndex)-tfMotorValuesSubmarine(iMotorIndex);
-         if tfChangeInMotorValues(iMotorIndex)>fMotorForceChangePerSecond*fDeltaTime then
-            tfChangeInMotorValues(iMotorIndex) := fMotorForceChangePerSecond*fDeltaTime;
-         end if;
-         if tfChangeInMotorValues(iMotorIndex)<-fMotorForceChangePerSecond*fDeltaTime then
-            tfChangeInMotorValues(iMotorIndex) := -fMotorForceChangePerSecond*fDeltaTime;
-         end if;
-         tfMotorValuesSubmarine(iMotorIndex) := tfMotorValuesSubmarine(iMotorIndex) + tfChangeInMotorValues(iMotorIndex);
-      end loop;
+      Get_Motor_Values(this                   => this,
+                       fDeltaTime             => fDeltaTime,
+                       tfMotorValuesSubmarine => tfMotorValuesSubmarine);
 
       this.pxSubmarine.Time_Step_Motor_Force_To_Integrate(txMotorForce => Simulator.submarine.TMotorForce(tfMotorValuesSubmarine),
                                                           fDeltaTime   => fDeltaTime);
@@ -263,21 +280,12 @@ package body Simulator.Model is
       fMaximumMotorForce : float := 66.776;
       fMotorForceChangePerSecond : float := fMaximumMotorForce/0.1;
       tfMotorValuesSubmarine : simulator.Model.TMotorForce;
-      tfChangeInMotorValues : simulator.Model.TMotorForce;
    begin
       this.tWantedMotorForces := TMotorForce(simulator.Comunication.xGet_Motor_Power);
 
-      tfMotorValuesSubmarine := TMotorForce(this.pxSubmarine.xGet_Motor_Values);
-      for iMotorIndex in tfMotorValuesSubmarine'Range loop
-         tfChangeInMotorValues(iMotorIndex) := this.tWantedMotorForces(iMotorIndex)-tfMotorValuesSubmarine(iMotorIndex);
-         if tfChangeInMotorValues(iMotorIndex)>fMotorForceChangePerSecond*fDeltaTime then
-            tfChangeInMotorValues(iMotorIndex) := fMotorForceChangePerSecond*fDeltaTime;
-         end if;
-         if tfChangeInMotorValues(iMotorIndex)<-fMotorForceChangePerSecond*fDeltaTime then
-            tfChangeInMotorValues(iMotorIndex) := -fMotorForceChangePerSecond*fDeltaTime;
-         end if;
-         tfMotorValuesSubmarine(iMotorIndex) := tfMotorValuesSubmarine(iMotorIndex) + tfChangeInMotorValues(iMotorIndex);
-      end loop;
+      Get_Motor_Values(this                   => this,
+                       fDeltaTime             => fDeltaTime,
+                       tfMotorValuesSubmarine => tfMotorValuesSubmarine);
 
       this.pxSubmarine.Time_Step_Motor_Force_To_Integrate(txMotorForce => Simulator.submarine.TMotorForce(tfMotorValuesSubmarine),
                                                           fDeltaTime   => fDeltaTime);
@@ -295,12 +303,16 @@ package body Simulator.Model is
    -------------------------
 
    procedure Update_Observe_Mode(this : in out CModel; fDeltaTime : float) is
+      xVelocityVector : math.Vectors.CVector;
    begin
+      xVelocityVector := math.Vectors."-"(simulator.Comunication.xGet_Current_Position,this.pxSubmarine.xGet_Position_Vector);
+
+      this.pxSubmarine.Set_Velocity_Vector(xVelocityVector => xVelocityVector);
       this.pxSubmarine.Set_Position_Vector(simulator.Comunication.xGet_Current_Position);
       this.pxSubmarine.Set_Orientation_Matrix(simulator.Comunication.xGet_Current_Orientation);
 
-      simulator.Comunication.Set_Wanted_Position(xWanted_Position => this.xGet_Wanted_Submarine_Positional_Vector);
-      simulator.Comunication.Set_Wanted_Orientation(xWanted_Orientation => this.xGet_Wanted_Submarine_Orientation_Matrix);
+      this.pxSubmarine.Set_Wanted_Position(xWantedPosition => simulator.Comunication.xGet_Wanted_Position);
+      this.pxSubmarine.Set_Wanted_Orientation(xWantedOrientation => simulator.Comunication.xGet_Wanted_Orientation);
 
       --Transfer_Sensor_Data_To_Submarine(this);
 
