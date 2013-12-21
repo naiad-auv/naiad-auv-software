@@ -2,15 +2,16 @@
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
     <!-- definition of simple elements -->
-    <xs:element name="sequence" type="xs:string"/>
 
     <!-- definition of attributes -->
     <xs:attribute name="name" type="xs:string"/>
     <xs:attribute name="src" type="xs:string"/>
     <xs:attribute name="value" type="xs:string"/>
+    <xs:attribute name="variable" type="xs:string"/>
     <xs:attribute name="type" type="xs:string"/>
     <xs:attribute name="primitive" type="xs:string"/>
     <xs:attribute name="label" type="xs:string"/>
+    <xs:attribute name="input" type="xs:string"/>
 
     <!-- definition of complex elements -->
     <xs:element name="program">
@@ -42,13 +43,101 @@
 
     <xs:element name="start">
         <xs:complexType>
-            <xs:sequence>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
                 <xs:element ref="program" minOccurs="1" maxOccurs="1" />
                 <xs:element ref="primitive" minOccurs="1" maxOccurs="unbounded" />
                 <xs:element ref="constant" minOccurs="0" maxOccurs="unbounded" />
                 <xs:element ref="variable" minOccurs="0" maxOccurs="unbounded" />
                 <xs:element ref="sequence" minOccurs="1" maxOccurs="1" />
-            </xs:sequence>
+            </xs:choice>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="label">
+        <xs:complexType>
+            <xs:attribute ref="name" use="required" />
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="set">
+        <xs:complexType>
+            <xs:attribute ref="variable" use="required" />
+            <xs:attribute ref="value" use="required" />
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="input">
+        <xs:complexType>
+            <xs:attribute ref="name" use="required" />
+            <xs:attribute ref="type" use="required" />
+            <xs:attribute ref="value" use="required" />
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="output">
+        <xs:complexType>
+            <xs:attribute ref="name" use="required" />
+            <xs:attribute ref="type" use="required" />
+            <xs:attribute ref="value" use="required" />
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="run">
+        <xs:complexType>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element ref="input" minOccurs="0" maxOccurs="unbounded" />
+                <xs:element ref="output" minOccurs="0" maxOccurs="unbounded" />
+            </xs:choice>
+            <xs:attribute ref="primitive" use="required" />
+            <xs:attribute ref="name" use="required" />
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="branch">
+        <xs:complexType>
+            <xs:all>
+                <xs:element ref="true" minOccurs="1" maxOccurs="1" />
+                <xs:element ref="false" minOccurs="1" maxOccurs="1" />
+            </xs:all>
+            <xs:attribute ref="input" use="required" />
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="goto">
+        <xs:complexType>
+            <xs:attribute ref="label" use="required" />
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="true">
+        <xs:complexType>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element ref="label" minOccurs="0" maxOccurs="unbounded" />
+                <xs:element ref="run" minOccurs="0" maxOccurs="unbounded" />
+                <xs:element ref="goto" minOccurs="0" maxOccurs="unbounded" />
+            </xs:choice>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="false">
+        <xs:complexType>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element ref="label" minOccurs="0" maxOccurs="unbounded" />
+                <xs:element ref="run" minOccurs="0" maxOccurs="unbounded" />
+                <xs:element ref="goto" minOccurs="0" maxOccurs="unbounded" />
+            </xs:choice>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="sequence">
+        <xs:complexType>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element ref="label" minOccurs="0" maxOccurs="unbounded" />
+                <xs:element ref="set" minOccurs="0" maxOccurs="unbounded" />
+                <xs:element ref="run" minOccurs="0" maxOccurs="unbounded" />
+                <xs:element ref="goto" minOccurs="0" maxOccurs="unbounded" />
+                <xs:element ref="branch" minOccurs="0" maxOccurs="unbounded" />
+            </xs:choice>
         </xs:complexType>
     </xs:element>
 
