@@ -1,0 +1,14 @@
+with "../../src/utils/simulator/submarine/submarine.gpr";
+with "../../src/lib/tcpCANwrapper/tcpcanwrapper.gpr";
+with "../../src/lib/math/matrices/matrices.gpr";
+with "../../src/lib/can_float_conversions/can_float_conversions.gpr";
+with "../../src/lib/can_convertions_math/can_convertions_math.gpr";
+
+project Simulator_Observe_Mode_Tester is
+
+   for Source_Dirs use ("src");
+   for Object_Dir use "obj";
+   for Main use ("main.adb");
+
+end Simulator_Observe_Mode_Tester;
+

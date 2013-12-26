@@ -132,6 +132,7 @@ void genSMCPopVars(t_symtable * table_iter);
 void genSMCCallNodeFunction(t_tree node);
 void genSMCVariable(t_tree node);
 void genSMCProgram(t_tree node);
+void genSMCPrimitive(t_tree node);
 void genSMCFunction(t_tree node);
 void genSMCFormal(t_tree node);
 void genSMCLocal(t_tree node);
@@ -677,6 +678,9 @@ void genSMCCallNodeFunction(t_tree node)
 	case kProgram:
 		genSMCProgram(node);
 		break;
+	case kPrimitive:
+		genSMCPrimitive(node);
+		break;
 	case kFunction:
 		genSMCFunction(node);
 		break;
@@ -754,7 +758,26 @@ void genSMCCallNodeFunction(t_tree node)
 
 void genSMCProgram(t_tree node)
 {
-	genSMCCallNodeFunction(node->Node.Program.Functions);
+	long int brfFileOffset;
+
+	brfFileOffset = ftell(genSMCFilePtr); // get current position in output file
+	
+	genSMCCallNodeFunction(node->Node.Program.CompUnits);
+
+	fseek(genSMCFilePtr, brfFileOffset, SEEK_SET);	
+	genSMCTabIndex = 0;
+	genSMCLineNr = 1;
+
+	genSMCCallNodeFunction(node->Node.Program.CompUnits);
+}
+
+void genSMCPrimitive(t_tree node)
+{
+	if (node == NULL)
+		return;
+
+	genSMCCallNodeFunction(node->Node.Primitive.Functions);
+	genSMCCallNodeFunction(node->Node.Primitive.Next);
 }
 
 
@@ -779,8 +802,8 @@ void genSMCLabel(t_tree node)
 	if (lbl_table != NULL)
 	{		
 		genSMCNewLine();
-
-		lbl_table->offset = genSMCLineNr;
+		if (lbl_table->offset == 0)
+			lbl_table->offset = genSMCLineNr;
 		fprintf(genSMCFilePtr,"["); fprintf(genSMCFilePtr, lbl_table->id); fprintf(genSMCFilePtr, "]");
 	}
 	else
@@ -792,6 +815,18 @@ void genSMCLabel(t_tree node)
 void genSMCGoto(t_tree node)
 {
 	t_symtable * lbl_table;
+	long int braFileOffset;
+	int brfLineNr = genSMCLineNr;
+	
+	braFileOffset = ftell(genSMCFilePtr);
+
+	genSMC_BRA(0);
+	genSMCCallNodeFunction(node->Node.Goto.Next);	
+
+	fseek(genSMCFilePtr, braFileOffset, SEEK_SET);
+	genSMCLineNr = brfLineNr;
+
+
 	lbl_table = FindId(node->Node.Goto.Id, scope);
 
 	if (lbl_table != NULL)

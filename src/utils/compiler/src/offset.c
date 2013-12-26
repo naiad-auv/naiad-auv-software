@@ -13,6 +13,7 @@ int offsetSizeOf(eType type); // returns size of type
 
 // AST functions
 void offsetProgram(t_tree node);
+void offsetPrimitive(t_tree node);
 void offsetFunction(t_tree node);
 void offsetVariable(t_tree node, int formal, int local);
 void offsetFormal(t_tree node, int * curoffset);
@@ -35,7 +36,20 @@ int offsetSizeOf(eType type)
 
 void offsetProgram(t_tree node)
 {
-	offsetFunction(node->Node.Program.Functions);
+	offsetPrimitive(node->Node.Program.CompUnits);
+}
+
+void offsetPrimitive(t_tree node)
+{
+	if (node == NULL)
+		return;
+	if (node->Kind == kFunction)
+		offsetFunction(node);
+	else
+	{
+		offsetFunction(node->Node.Primitive.Functions);
+		offsetPrimitive(node->Node.Primitive.Next);
+	}
 }
 
 void offsetFunction(t_tree node)
@@ -51,7 +65,7 @@ void offsetFunction(t_tree node)
 
 	scope = scope->parent;
 
-	offsetFunction(node->Node.Function.Next);
+	offsetPrimitive(node->Node.Function.Next);
 }
 
 void offsetVariable(t_tree node, int formal, int local)

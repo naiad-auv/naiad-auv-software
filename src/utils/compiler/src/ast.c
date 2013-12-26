@@ -34,12 +34,23 @@ static t_tree allocateNode(NODETYPE pKind, int pLineNr)
    return node;
 }
 
-t_tree mProgram(t_tree pFunctions)
+t_tree mProgram(t_tree pCompUnits)
 {
    t_tree node = allocateNode(kProgram, -1);
-   node->Node.Program.Functions = pFunctions;
+   node->Node.Program.CompUnits = pCompUnits;
    return node;
 }
+
+t_tree mPrimitive(t_tree pVariables, t_tree pFunctions, const char *pName, int pLineNr)
+{
+   t_tree node = allocateNode(kPrimitive, pLineNr);
+   node->Node.Primitive.Next = NULL;
+   node->Node.Primitive.Variables = pVariables;
+   node->Node.Primitive.Functions = pFunctions;
+   node->Node.Primitive.Name = dstrcpy(pName);
+   return node;
+}
+
 
 t_tree mFunction(t_tree pVariables, t_tree pStmnts, const char *pName, eType pType, int pLineNr)
 {
@@ -290,6 +301,24 @@ t_tree connectFunctions(t_tree pFunctions, t_tree pFunction)
       exit(0);
    }
    connectMacro(Function, pFunctions, pFunction)
+}
+
+t_tree connectPrimitives(t_tree pPrimitives, t_tree pPrimitive)
+{
+   if ((pPrimitives && pPrimitives->Kind != kPrimitive) || (pPrimitive && pPrimitive->Kind != kPrimitive)) {
+      fprintf (stderr, "Internal error: Illegal node-type in call to function \"connectPrimitives\"\nProgram exits\n");
+      exit(0);
+   }
+   connectMacro(Primitive, pPrimitives, pPrimitive)
+}
+
+t_tree connectCompUnits(t_tree pCompUnits, t_tree pCompUnit)
+{
+   if ((pCompUnits && (pCompUnits->Kind < kPrimitive || pCompUnits->Kind > kFunction)) || (pCompUnit->Kind < kPrimitive || pCompUnit->Kind > kFunction)) {
+      fprintf (stderr, "Internal error: Illegal node-type in call to function \"connectCompUnits\"\nProgram exits\n");
+      exit(0);
+   }
+   connectMacro(CompUnit, pCompUnits, pCompUnit)
 }
 
 t_tree addType(t_tree pVariables, eType pType)

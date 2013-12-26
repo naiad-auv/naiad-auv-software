@@ -1,2 +1,0 @@
-pragma Check_Policy (Precondition, Off);
-pragma Check_Policy (Postcondition, Off);

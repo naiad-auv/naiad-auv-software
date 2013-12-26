@@ -1,0 +1,10 @@
+with "../../../lib/can_defs/can_defs.gpr";
+with "../avr.gpr";
+
+project AVR.AT90CAN128 is
+
+   for Source_Dirs use ("src");
+   for Object_Dir use "build";
+
+end AVR.AT90CAN128;
+

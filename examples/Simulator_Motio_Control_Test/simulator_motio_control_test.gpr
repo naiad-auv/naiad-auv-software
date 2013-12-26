@@ -1,0 +1,12 @@
+with "../../src/lib/tcpCANwrapper/tcpcanwrapper.gpr";
+with "../../src/utils/simulator/Comunication_prot_obj/comunication_prot_obj.gpr";
+with "../../src/lib/can_convertions_math/can_convertions_math.gpr";
+
+project Simulator_Motio_Control_Test is
+
+   for Source_Dirs use ("src");
+   for Object_Dir use "obj";
+   for Main use ("main.adb");
+
+end Simulator_Motio_Control_Test;
+

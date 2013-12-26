@@ -16,8 +16,8 @@ with Ada.Text_IO;
 
 with UartWrapper;
 
-with AVR.AT90CAN128;
-with AVR.AT90CAN128.CAN;
+--  with AVR.AT90CAN128;
+--  with AVR.AT90CAN128.CAN;
 with BBB_CAN;
 with CAN_Defs;
 

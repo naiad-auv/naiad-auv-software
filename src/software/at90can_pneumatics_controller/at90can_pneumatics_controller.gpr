@@ -1,0 +1,31 @@
+with "../../lib/can_defs/can_defs.gpr";
+with "../../firmware/avr/avr-at90can128-can/avr-at90can128-can.gpr";
+with "../../firmware/avr/avr-at90can128-digital_io/avr-at90can128-digital_io.gpr";
+with "../../lib/board_and_mode_defs/board_and_mode_defs.gpr";
+
+project at90can_pneumatics_controller is
+
+   for Object_Dir use "build";
+   for Exec_Dir use "target";
+   for Source_Dirs use ("src", "../../firmware/avr/lib");
+   for Main use ("at90can_pneumatics_controller_main.adb");
+
+   package Ide is
+      for Gnat use "avr-gnat";
+      for Gnatlist use "avr-gnatls";
+      for Debugger_Command use "avr-gdb";
+      for Compiler_Command ("ada") use "C:\GNAT\2012\bin\avr-gnatmake";
+   end Ide;
+
+   package Linker is
+      for Default_Switches ("ada") use ("-nostdlib", "-Wl,-Tdata=0x800100", "-T../../../firmware/avr/lib/avr5.x", "../../firmware/avr/lib/crt1-at90can128.o.org", "-lgcc", "-mavr5");
+   end Linker;
+
+   package Compiler is
+      for Default_Switches ("ada") use ("-O3", "-gnatwa", "-mmcu=avr5", "-gnat12");
+   end Compiler;
+
+end at90can_pneumatics_controller;
+
+
+

@@ -5,7 +5,7 @@
 -- Written by Kim Nordlöf for the Naiad AUV project
 ---------------------------------------------------------------------------
 
-with CAN_Link_Utils;
+with CAN_Utils;
 with Interfaces;
 with GNAT.Sockets;
 with CAN_Defs;

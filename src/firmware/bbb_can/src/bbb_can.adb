@@ -13,10 +13,11 @@
 
 with Ada.Text_IO;
 with GNAT.Serial_Communications;
-with CAN_Link_Utils;
+with CAN_Utils;
 with Exception_Handling;
 
 with Queue;
+with Interfaces.C;
 
 package body BBB_CAN is
    pragma Suppress (All_Checks);
@@ -28,7 +29,7 @@ package body BBB_CAN is
       --initiates UART commiunication:
     --  Ada.Text_IO.Put_Line("Opening " & "/dev/" & sPort & ", baudrate: " & baud'Img);
     --  pxUart := UartWrapper.pxCreate(GNAT.Serial_Communications.Port_Name("/dev/" & sPort), baud, 0.2, 100);
-      pxUart := UartWrapper.pxCreate("/dev/" & sPort, baud, 0.2, 200, 1);
+      pxUart := UartWrapper.pxCreate("/dev/" & sPort, baud, Interfaces.C.int(0), 200, Interfaces.C.int(0));
    end Init;
 
 --     function Handshake return Boolean is
@@ -59,23 +60,23 @@ package body BBB_CAN is
 --     end Handshake;
 
    procedure Send(msg : CAN_Defs.CAN_Message) is
-      sBuffer : String(1 .. (Integer(msg.Len) + CAN_Link_Utils.HEADLEN));
+      sBuffer : String(1 .. (Integer(msg.Len) + CAN_Utils.HEADLEN));
    begin
-      CAN_Link_Utils.Message_To_Bytes(sBuffer, msg);
-      Usart_Write(sBuffer, Integer(msg.Len) + CAN_Link_Utils.HEADLEN);
+      CAN_Utils.Message_To_Bytes(sBuffer, msg);
+      Usart_Write(sBuffer, Integer(msg.Len) + CAN_Utils.HEADLEN);
    end Send;
 
    procedure Get(msg : out CAN_Defs.CAN_Message; bMsgReceived : out Boolean; bUARTChecksumOK : out Boolean) is
 
       use Interfaces;
 
-      sHeadBuf     : String(1..CAN_Link_Utils.HEADLEN);
+      sHeadBuf     : String(1..CAN_Utils.HEADLEN);
       u8ActualChecksum    : Interfaces.Unsigned_8;
       u8ReceivedChecksum  : Interfaces.Unsigned_8;
       bReadComplete : Boolean;
    begin
 
-      Usart_Read(sHeadBuf, CAN_Link_Utils.HEADLEN, bReadComplete);
+      Usart_Read(sHeadBuf, CAN_Utils.HEADLEN, bReadComplete);
 
       --Ada.Text_IO.Put_Line("Usart_Read, head buffer, bReadComplete=" & bReadComplete'Img);
 
@@ -86,7 +87,7 @@ package body BBB_CAN is
       end if;
 
       bMsgReceived := true;
-      CAN_Link_Utils.Bytes_To_Message_Header(sHeadBuf, msg, u8ReceivedChecksum);
+      CAN_Utils.Bytes_To_Message_Header(sHeadBuf, msg, u8ReceivedChecksum);
 
       --Ada.Text_IO.Put_Line("Bytes_To_Message_Header: ID: " & Integer'Image(Integer(msg.ID.Identifier)) &
        -- " length:" & Integer'Image(Integer(msg.Len)));
@@ -100,7 +101,7 @@ package body BBB_CAN is
             Usart_Read_Inf_Block(sData, Integer(msg.Len));
             --Ada.Text_IO.Put_Line("Usart_Read_Inf_Block done " & Integer'Image(Integer(msg.Len)) & " bytes read");
 
-            CAN_Link_Utils.Bytes_To_Message_Data(sData, msg, u8ActualChecksum);
+            CAN_Utils.Bytes_To_Message_Data(sData, msg, u8ActualChecksum);
          end;
          bUARTChecksumOK := (u8ActualChecksum = u8ReceivedChecksum);
       else
