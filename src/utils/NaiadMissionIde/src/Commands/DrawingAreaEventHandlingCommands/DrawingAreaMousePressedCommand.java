@@ -2,11 +2,9 @@ package Commands.DrawingAreaEventHandlingCommands;
 
 import Exceptions.ScopeModificationNotSupported;
 import Interfaces.ICommand;
-import Interfaces.IDrawable;
 import Presentation.PresentationObjective;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.util.List;

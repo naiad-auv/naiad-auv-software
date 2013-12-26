@@ -6,7 +6,7 @@ import Drawables.TransactionObjectDrawable;
 import Exceptions.NullReferenceException;
 import Exceptions.ScopeModificationNotSupported;
 import Interfaces.ICommand;
-import Interfaces.IDrawable;
+import Interfaces.IDrawConfig;
 import Interfaces.ILanguageObject;
 import Presentation.PresentationObjective;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
@@ -24,14 +24,14 @@ import java.util.List;
  */
 public class DrawingAreaMouseReleasedCommand implements ICommand {
 
-    private IDrawable predecessor;
+    private IDrawConfig predecessor;
     private PresentationObjective scope;
     private MouseEvent eventArgs;
 
     @Override
     public Object execute() throws NotImplementedException
     {
-        IDrawable objectUnderCursor = this.findObjectUnderCursor();
+        IDrawConfig objectUnderCursor = this.findObjectUnderCursor();
         if(objectUnderCursor == null && this.predecessor == null)
             return null;
 
@@ -65,7 +65,7 @@ public class DrawingAreaMouseReleasedCommand implements ICommand {
         return null;
     }
 
-    private boolean tryCreateVariableAssignment(IDrawable predecessor, IDrawable successor) {
+    private boolean tryCreateVariableAssignment(IDrawConfig predecessor, IDrawConfig successor) {
         if(!(predecessor.getClass().equals(LanguageVariableDrawable.class) &&
                 successor.getClass().equals(LanguageObjectDrawable.class)))
             return false;
@@ -75,23 +75,23 @@ public class DrawingAreaMouseReleasedCommand implements ICommand {
 
         int pos = (this.eventArgs.getX() - successor.getPosition().x - size) / size;
 
-        IDrawable assignedTo = ((ILanguageObject) successor.getScope()).getInputVariables().get(pos);
+        IDrawConfig assignedTo = ((ILanguageObject) successor.getScope()).getInputVariables().get(pos);
 
         this.scope.addVariableAssignment(predecessor, assignedTo);
 
         return true;
     }
 
-    private boolean tryCreateTransition(IDrawable predecessor, IDrawable successor) {
+    private boolean tryCreateTransition(IDrawConfig predecessor, IDrawConfig successor) {
 
         if(!(predecessor.getClass().equals(LanguageObjectDrawable.class) &&
                 successor.getClass().equals(LanguageObjectDrawable.class)))
             return false;
 
-        List<IDrawable> currentTransitions = this.scope.getTransitions();
+        List<IDrawConfig> currentTransitions = this.scope.getTransitions();
 
-        IDrawable transitionWithPredecessor = null;
-        IDrawable transitionWithSuccessor = null;
+        IDrawConfig transitionWithPredecessor = null;
+        IDrawConfig transitionWithSuccessor = null;
 
         for(int i = 0; i < currentTransitions.size(); i++)
         {
@@ -122,7 +122,7 @@ public class DrawingAreaMouseReleasedCommand implements ICommand {
         this.predecessor = null;
     }
 
-    private IDrawable findObjectUnderCursor()
+    private IDrawConfig findObjectUnderCursor()
     {
         Point mousePosition = this.eventArgs.getPoint();
 
@@ -135,7 +135,7 @@ public class DrawingAreaMouseReleasedCommand implements ICommand {
 
         if(scopeObjects.size() == 1)
         {
-            this.predecessor = (IDrawable) scopeObjects.get(0);
+            this.predecessor = (IDrawConfig) scopeObjects.get(0);
             return;
         }
 

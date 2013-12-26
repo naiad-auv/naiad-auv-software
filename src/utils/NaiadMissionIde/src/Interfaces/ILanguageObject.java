@@ -21,13 +21,13 @@ public interface ILanguageObject {
 
     public String toString();
 
-    public List<IDrawable> getInputVariables();
+    public List<IDrawConfig> getInputVariables();
 
-    public List<IDrawable> getOutputVariables();
+    public List<IDrawConfig> getOutputVariables();
 
     public ILanguageObjectType getType();
 
-    public void addVariableAssignment(IDrawable predecessor, int pos);
+    public void addVariableAssignment(IDrawConfig predecessor, int pos);
 
     public void addObserver(Observer observer);
 

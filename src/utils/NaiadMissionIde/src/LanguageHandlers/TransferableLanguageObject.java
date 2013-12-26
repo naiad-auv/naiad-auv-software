@@ -2,9 +2,8 @@ package LanguageHandlers;
 
 import Enums.ILanguageObjectType;
 import Exceptions.NullReferenceException;
-import Interfaces.IDrawable;
+import Interfaces.IDrawConfig;
 import Interfaces.ILanguageObject;
-import Interfaces.ILanguageVariable;
 
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
@@ -53,12 +52,12 @@ public class TransferableLanguageObject extends Observable implements ILanguageO
     }
 
     @Override
-    public List<IDrawable> getInputVariables() {
+    public List<IDrawConfig> getInputVariables() {
         return object.getInputVariables();
     }
 
     @Override
-    public List<IDrawable> getOutputVariables() {
+    public List<IDrawConfig> getOutputVariables() {
         return object.getOutputVariables();
     }
 
@@ -68,7 +67,7 @@ public class TransferableLanguageObject extends Observable implements ILanguageO
     }
 
     @Override
-    public void addVariableAssignment(IDrawable predecessor, int pos) {
+    public void addVariableAssignment(IDrawConfig predecessor, int pos) {
         this.object.addVariableAssignment(predecessor,pos);
     }
 

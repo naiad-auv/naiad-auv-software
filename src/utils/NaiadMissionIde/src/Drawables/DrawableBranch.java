@@ -1,11 +1,10 @@
 package Drawables;
 
-import Interfaces.IDrawable;
+import Interfaces.IDrawConfig;
 import Interfaces.ILanguageObject;
 
 import java.awt.*;
 import java.util.Observable;
-import java.util.Observer;
 
 /**
  * Created with IntelliJ IDEA.
@@ -14,7 +13,7 @@ import java.util.Observer;
  * Time: 12:33 PM
  * To change this template use File | Settings | File Templates.
  */
-public class DrawableBranch extends Observable implements IDrawable {
+public class DrawableBranch extends Observable implements IDrawConfig {
 
     private ILanguageObject baseObject;
 
@@ -25,17 +24,15 @@ public class DrawableBranch extends Observable implements IDrawable {
     private int radius = 50;
     private Color color = new Color(100,100,100);
 
-    public DrawableBranch()
-    {
-        this.position = new Point(200,200);
-    }
-
     public DrawableBranch(ILanguageObject object, Point position) {
         this.baseObject = object;
         this.position = position;
+
+        this.trueTransaction = new TransactionObjectDrawable(this);
+        this.falseTransaction = new TransactionObjectDrawable(this);
     }
 
-    @Override
+  /*  @Override
     public void Draw(Graphics g) {
 
         if(this.trueTransaction != null)
@@ -49,7 +46,7 @@ public class DrawableBranch extends Observable implements IDrawable {
         g.setColor(Color.black);
         g.drawPolygon(new int[]{this.position.x, this.position.x - radius / 2, this.position.x, this.position.x + radius / 2}, new int[]{this.position.y + radius / 2,this.position.y, this.position.y - radius / 2,  this.position.y}, 4);
 
-    }
+    } */
 
     @Override
     public void calculateDrawingSize() {
@@ -58,17 +55,17 @@ public class DrawableBranch extends Observable implements IDrawable {
 
     @Override
     public Point getPosition() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return this.position;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
     public int getWidth() {
-        return 0;  //To change body of implemented methods use File | Settings | File Templates.
+        return this.radius;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
     public int getHeight() {
-        return 0;  //To change body of implemented methods use File | Settings | File Templates.
+        return this.radius;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
@@ -84,7 +81,8 @@ public class DrawableBranch extends Observable implements IDrawable {
 
     @Override
     public boolean isPointInside(Point p) {
-        return false;  //To change body of implemented methods use File | Settings | File Templates.
+        return (p.x > this.position.x - this.getWidth() / 2 && p.x < this.position.x + this.getWidth() / 2 &&
+                p.y > this.position.y - this.getHeight() / 2 && p.y < this.position.y + this.getHeight() / 2);
     }
 
     @Override
@@ -95,5 +93,10 @@ public class DrawableBranch extends Observable implements IDrawable {
     @Override
     public void setScope(Object variable) {
         //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public Color getColor() {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 }

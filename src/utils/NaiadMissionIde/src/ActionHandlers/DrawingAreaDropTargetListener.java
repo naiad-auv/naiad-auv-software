@@ -1,9 +1,7 @@
 package ActionHandlers;
 
-import Drawables.LanguageObjectDrawable;
 import Exceptions.ScopeModificationNotSupported;
 import Interfaces.ICommand;
-import Interfaces.IDrawable;
 import Interfaces.ILanguageObject;
 import Interfaces.ILanguageVariable;
 import LanguageHandlers.TransferableLanguageObject;

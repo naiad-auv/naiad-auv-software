@@ -1,14 +1,12 @@
 package LanguageHandlers;
 
 import Drawables.DrawableVariable;
-import Drawables.LanguageVariableDrawable;
 import Enums.ILanguageObjectType;
 import Enums.VariableType;
 import Exceptions.NullReferenceException;
 import Factories.IDrawableFactory;
-import Interfaces.IDrawable;
+import Interfaces.IDrawConfig;
 import Interfaces.ILanguageObject;
-import Interfaces.ILanguageVariable;
 import Interfaces.IPrimitive;
 
 import java.awt.*;
@@ -26,8 +24,8 @@ public class Primitive extends Observable implements IPrimitive, ILanguageObject
     private UUID uid;
 
     private String primitiveName;
-    private ArrayList<IDrawable> primitiveInputs;
-    private ArrayList<IDrawable> primitiveOutputs;
+    private ArrayList<IDrawConfig> primitiveInputs;
+    private ArrayList<IDrawConfig> primitiveOutputs;
 
     private final Path filePath;
 
@@ -36,8 +34,8 @@ public class Primitive extends Observable implements IPrimitive, ILanguageObject
         this.uid = java.util.UUID.randomUUID();
         this.primitiveName = name;
         this.filePath = path;
-        this.primitiveInputs = new ArrayList<IDrawable>();
-        this.primitiveOutputs  = new ArrayList<IDrawable>();
+        this.primitiveInputs = new ArrayList<IDrawConfig>();
+        this.primitiveOutputs  = new ArrayList<IDrawConfig>();
 
         this.loadFile();
     }
@@ -47,13 +45,13 @@ public class Primitive extends Observable implements IPrimitive, ILanguageObject
         this.uid = java.util.UUID.randomUUID();
         this.primitiveName = base.primitiveName;
 
-        this.primitiveInputs = new ArrayList<IDrawable>();
+        this.primitiveInputs = new ArrayList<IDrawConfig>();
         for(int i = 0; i < base.primitiveInputs.size(); i++)
         {
             this.primitiveInputs.add(IDrawableFactory.getCopy(base.primitiveInputs.get(i)));
         }
 
-        this.primitiveOutputs = new ArrayList<IDrawable>();
+        this.primitiveOutputs = new ArrayList<IDrawConfig>();
         for(int i = 0; i < base.primitiveInputs.size(); i++)
         {
             this.primitiveOutputs.add(IDrawableFactory.getCopy(base.primitiveOutputs.get(i)));
@@ -77,12 +75,12 @@ public class Primitive extends Observable implements IPrimitive, ILanguageObject
     }
 
     @Override
-    public List<IDrawable> getInputVariables() {
+    public List<IDrawConfig> getInputVariables() {
         return this.primitiveInputs;
     }
 
     @Override
-    public List<IDrawable> getOutputVariables() {
+    public List<IDrawConfig> getOutputVariables() {
         return this.primitiveOutputs;
     }
 
@@ -156,7 +154,7 @@ public class Primitive extends Observable implements IPrimitive, ILanguageObject
     }
 
     @Override
-    public void addVariableAssignment(IDrawable predecessor, int pos) {
+    public void addVariableAssignment(IDrawConfig predecessor, int pos) {
         this.primitiveInputs.get(pos).setScope(predecessor);
     }
 

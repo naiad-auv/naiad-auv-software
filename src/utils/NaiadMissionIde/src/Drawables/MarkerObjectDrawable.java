@@ -2,7 +2,7 @@ package Drawables;
 
 import Enums.ILanguageObjectType;
 import Factories.ILanguageObjectFactory;
-import Interfaces.IDrawable;
+import Interfaces.IDrawConfig;
 import Interfaces.ILanguageObject;
 
 import java.awt.*;
@@ -15,7 +15,7 @@ import java.awt.geom.Ellipse2D;
  * Time: 9:04 AM
  * To change this template use File | Settings | File Templates.
  */
-public class MarkerObjectDrawable implements IDrawable {
+public class MarkerObjectDrawable implements IDrawConfig {
 
     private ILanguageObject markerToDraw;
 
@@ -39,7 +39,7 @@ public class MarkerObjectDrawable implements IDrawable {
         this.markerColor = other.markerColor;
     }
 
-    public void Draw(Graphics g)
+   /* public void Draw(Graphics g)
     {
         Stroke baseStroke = ((Graphics2D)g).getStroke();
 
@@ -53,7 +53,7 @@ public class MarkerObjectDrawable implements IDrawable {
         g.drawString(this.markerToDraw.getType().toString(), this.position.x + 10, this.position.y + 31);
 
         ((Graphics2D) g).setStroke(baseStroke);
-    }
+    }   */
 
     @Override
     public void calculateDrawingSize() {
@@ -95,5 +95,10 @@ public class MarkerObjectDrawable implements IDrawable {
     @Override
     public void setScope(Object variable) {
         this.markerToDraw = (ILanguageObject)variable;
+    }
+
+    @Override
+    public Color getColor() {
+        return null;
     }
 }

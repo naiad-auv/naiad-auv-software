@@ -3,9 +3,8 @@ package LanguageHandlers;
 import Enums.ILanguageObjectType;
 import Exceptions.NullReferenceException;
 import Exceptions.UnableToPreformActionException;
-import Interfaces.IDrawable;
+import Interfaces.IDrawConfig;
 import Interfaces.ILanguageObject;
-import Interfaces.ILanguageVariable;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -28,8 +27,8 @@ public class Objective extends Observable implements ILanguageObject {
     private String objectiveName;
 
     private List<ILanguageObject> executionalSteps;
-    private List<IDrawable> inputVariables;
-    private List<IDrawable> outputVariables;
+    private List<IDrawConfig> inputVariables;
+    private List<IDrawConfig> outputVariables;
 
     public Objective(String name)
     {
@@ -38,8 +37,8 @@ public class Objective extends Observable implements ILanguageObject {
         this.objectiveName = name;
 
         this.executionalSteps = new ArrayList<ILanguageObject>();
-        this.inputVariables = new ArrayList<IDrawable>();
-        this.outputVariables = new ArrayList<IDrawable>();
+        this.inputVariables = new ArrayList<IDrawConfig>();
+        this.outputVariables = new ArrayList<IDrawConfig>();
     }
 
     public Objective(Objective other) {
@@ -49,8 +48,8 @@ public class Objective extends Observable implements ILanguageObject {
         this.path = other.path;
         this.objectiveName = other.objectiveName;
         this.executionalSteps = new ArrayList<ILanguageObject>(other.executionalSteps);
-        this.inputVariables = new ArrayList<IDrawable>(other.inputVariables);
-        this.outputVariables = new ArrayList<IDrawable>(other.outputVariables);
+        this.inputVariables = new ArrayList<IDrawConfig>(other.inputVariables);
+        this.outputVariables = new ArrayList<IDrawConfig>(other.outputVariables);
     }
 
     public List<ILanguageObject> getExecutionalSteps() throws NullReferenceException {
@@ -86,12 +85,12 @@ public class Objective extends Observable implements ILanguageObject {
     }
 
     @Override
-    public List<IDrawable> getInputVariables() {
+    public List<IDrawConfig> getInputVariables() {
         return this.inputVariables;
     }
 
     @Override
-    public List<IDrawable> getOutputVariables() {
+    public List<IDrawConfig> getOutputVariables() {
         return this.outputVariables;
     }
 
@@ -101,7 +100,7 @@ public class Objective extends Observable implements ILanguageObject {
     }
 
     @Override
-    public void addVariableAssignment(IDrawable predecessor, int pos) {
+    public void addVariableAssignment(IDrawConfig predecessor, int pos) {
        // this.inputVariables.get(pos).set
     }
 

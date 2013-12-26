@@ -1,9 +1,9 @@
 package Drawables;
 
 import Exceptions.NullReferenceException;
-import Interfaces.IDrawable;
+import Interfaces.IDrawConfig;
+
 import java.awt.*;
-import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 
 /**
@@ -13,12 +13,12 @@ import java.awt.geom.Line2D;
  * Time: 9:27 AM
  * To change this template use File | Settings | File Templates.
  */
-public class TransactionObjectDrawable implements IDrawable {
+public class TransactionObjectDrawable implements IDrawConfig {
 
-    private IDrawable predecessor;
-    private IDrawable successor;
+    private IDrawConfig predecessor;
+    private IDrawConfig successor;
 
-    public TransactionObjectDrawable(IDrawable predecessor, IDrawable successor)
+    public TransactionObjectDrawable(IDrawConfig predecessor, IDrawConfig successor)
     {
         this.predecessor = predecessor;
         this.successor = successor;
@@ -29,21 +29,25 @@ public class TransactionObjectDrawable implements IDrawable {
         this.successor = other.successor;
     }
 
-    public IDrawable getSuccessor() throws NullReferenceException
+    public TransactionObjectDrawable(DrawableBranch predecessor) {
+        this.predecessor = predecessor;
+    }
+
+    public IDrawConfig getSuccessor() throws NullReferenceException
     {
         if(this.successor == null)
             throw new NullReferenceException("successor not set to an objecgt");
         return this.successor;
     }
 
-    public IDrawable getPredecessor() throws NullReferenceException
+    public IDrawConfig getPredecessor() throws NullReferenceException
     {
         if(this.predecessor == null)
             throw new NullReferenceException("predecessor not set to an object");
         return this.predecessor;
     }
 
-    @Override
+ /*   @Override
     public void Draw(Graphics g) {
 
         Stroke baseStroke = ((Graphics2D)g).getStroke();
@@ -94,11 +98,11 @@ public class TransactionObjectDrawable implements IDrawable {
         }
 
         Ellipse2D.Double predecessorIdentifier = new Ellipse2D.Double(successorIdentifierPoint.x, successorIdentifierPoint.y, 10,10);
-        ((Graphics2D) g).fill(predecessorIdentifier);                                           */
+        ((Graphics2D) g).fill(predecessorIdentifier);                                           *
 
 
         ((Graphics2D) g).setStroke(baseStroke);
-    }
+    }     */
 
     @Override
     public void calculateDrawingSize() {
@@ -141,6 +145,11 @@ public class TransactionObjectDrawable implements IDrawable {
         //To change body of implemented methods use File | Settings | File Templates.
     }
 
+    @Override
+    public Color getColor() {
+        return null;
+    }
+
     public Point getPredecessorPosition() {
 
         Point predecessorPosition = (Point) this.predecessor.getPosition().clone();
@@ -163,5 +172,15 @@ public class TransactionObjectDrawable implements IDrawable {
 
     public void setPredecessorPosition(Point predecessorPosition) {
         this.predecessor.setPosition(predecessorPosition);
+    }
+
+    public void setPredecessor(IDrawConfig predecessor)
+    {
+        this.predecessor = predecessor;
+    }
+
+    public void setSuccessor(IDrawConfig successor)
+    {
+        this.successor = successor;
     }
 }

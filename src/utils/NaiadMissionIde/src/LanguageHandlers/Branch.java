@@ -2,7 +2,7 @@ package LanguageHandlers;
 
 import Enums.ILanguageObjectType;
 import Exceptions.NullReferenceException;
-import Interfaces.IDrawable;
+import Interfaces.IDrawConfig;
 import Interfaces.ILanguageObject;
 import Interfaces.ILanguageVariable;
 
@@ -52,12 +52,12 @@ public class Branch implements  ILanguageObject
     }
 
     @Override
-    public List<IDrawable> getInputVariables() {
+    public List<IDrawConfig> getInputVariables() {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
-    public List<IDrawable> getOutputVariables() {
+    public List<IDrawConfig> getOutputVariables() {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
@@ -67,7 +67,7 @@ public class Branch implements  ILanguageObject
     }
 
     @Override
-    public void addVariableAssignment(IDrawable predecessor, int pos) {
+    public void addVariableAssignment(IDrawConfig predecessor, int pos) {
         //To change body of implemented methods use File | Settings | File Templates.
     }
 

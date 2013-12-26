@@ -1,7 +1,7 @@
 package Drawables;
 
 import Factories.ILanguageObjectFactory;
-import Interfaces.IDrawable;
+import Interfaces.IDrawConfig;
 import Interfaces.ILanguageObject;
 import Settings.CoreSettings.PenumbraCoreSettings;
 
@@ -18,7 +18,7 @@ import java.util.Observer;
  * Time: 4:06 PM
  * To change this template use File | Settings | File Templates.
  */
-public class LanguageObjectDrawable extends Observable implements IDrawable, Observer {
+public class LanguageObjectDrawable extends Observable implements IDrawConfig, Observer {
 
     private ILanguageObject objectToDraw;
 
@@ -43,7 +43,7 @@ public class LanguageObjectDrawable extends Observable implements IDrawable, Obs
         this.calculateDrawingSize();
     }
 
-    @Override
+  /*  @Override
     public void Draw(Graphics g) {
 
         Stroke baseStroke = ((Graphics2D)g).getStroke();
@@ -78,7 +78,7 @@ public class LanguageObjectDrawable extends Observable implements IDrawable, Obs
         }
 
         ((Graphics2D) g).setStroke(baseStroke);
-    }
+    }      */
 
     public void calculateDrawingSize()
     {
@@ -160,6 +160,11 @@ public class LanguageObjectDrawable extends Observable implements IDrawable, Obs
     @Override
     public void setScope(Object variable) {
         this.objectToDraw = (ILanguageObject)variable;
+    }
+
+    @Override
+    public Color getColor() {
+        return null;
     }
 
     @Override

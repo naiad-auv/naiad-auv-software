@@ -2,7 +2,7 @@ package Commands.DrawingAreaEventHandlingCommands;
 
 import Exceptions.ScopeModificationNotSupported;
 import Interfaces.ICommand;
-import Interfaces.IDrawable;
+import Interfaces.IDrawConfig;
 import Presentation.PresentationObjective;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
@@ -25,19 +25,19 @@ public class DrawingAreaClickedCommand implements ICommand {
     @Override
     public Object execute() throws NotImplementedException
     {
-        IDrawable objectUnderCursor = this.findObjetUnderCursor();
+        IDrawConfig objectUnderCursor = this.findObjetUnderCursor();
 
 
         return null;
     }
 
-    private IDrawable findObjetUnderCursor()
+    private IDrawConfig findObjetUnderCursor()
     {
         Point mousePosition = this.eventArgs.getPoint();
 
-        for(int i = 0; i < ((List<IDrawable>)(((Object[])this.scope.getScope())[1])).size(); i++)
+        for(int i = 0; i < ((List<IDrawConfig>)(((Object[])this.scope.getScope())[1])).size(); i++)
         {
-            IDrawable object = ((List<IDrawable>)(((Object[])this.scope.getScope())[1])).get(i);
+            IDrawConfig object = ((List<IDrawConfig>)(((Object[])this.scope.getScope())[1])).get(i);
 
             if(object.isPointInside(mousePosition))
             {
