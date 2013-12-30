@@ -142,19 +142,16 @@ package body AVR.AT90CAN128.CAN is
                for I in 1..Msg.Len loop
                   Msg.Data (I) := CANMSG;
                end loop;
+
                if msg.ID = CAN_Defs.MSG_MODE_ID then
                   mode := Board_And_Mode_Defs.Mode_Map(Msg.Data(1));
-               end if;
-
-               if msg.ID = CAN_Defs.MSG_REBOOT_ID then
+               elsif msg.ID = CAN_Defs.MSG_REBOOT_ID and Board_and_Mode_Defs.Board_Map(Msg.Data(1)) = board then
                   AVR.AT90CAN128.BOOT.reboot;
-               end if;
-
-               if Msg.ID = CAN_Defs.MSG_BOOTLOADER_START_ID and Board_and_Mode_Defs.Board_Map(Msg.Data(1)) = board then
+               elsif Msg.ID = CAN_Defs.MSG_BOOTLOADER_START_ID and Board_and_Mode_Defs.Board_Map(Msg.Data(1)) = board then
                   switch_to_boot := True;
                end if;
 
-               if mode = Board_And_Mode_Defs.NORMAL and iGetBufferSize(pRXWrite,pRXRead) < Buffer_Size and switch_to_boot = False then
+               if Board_And_Mode_Defs.board_mode_definitions(board)(mode).Receive and iGetBufferSize(pRXWrite,pRXRead) < Buffer_Size and switch_to_boot = False then
                   Pos := pRXWrite;
                   RX_buffer(Pos mod Buffer_Size) := Msg;
                   Pos := Pos + 1;
@@ -231,6 +228,7 @@ package body AVR.AT90CAN128.CAN is
       curr : Time;
       inf : Boolean := False;
       use CAN_Defs;
+      use Board_and_Mode_Defs;
    begin
       if Wait < Time_Duration(0) then
          inf := True;
@@ -253,11 +251,24 @@ package body AVR.AT90CAN128.CAN is
                pRXRead := Pos;
             end;
             if switch_to_boot and Msg.ID.Identifier > CAN_Defs.MSG_MODE_ID.Identifier then
-               AVR.AT90CAN128.BOOT.switch_to_bootloader;
+               if mode = Board_and_Mode_Defs.BOOTLOADER_MODE then
+                  AVR.AT90CAN128.BOOT.switch_to_bootloader;
+               else
+                  switch_to_boot := False;
+                  exit;
+               end if;
             else
                exit;
             end if;
          end if;
+         if switch_to_boot then
+            if mode = Board_and_Mode_Defs.BOOTLOADER_MODE then
+               AVR.AT90CAN128.BOOT.switch_to_bootloader;
+            else
+               switch_to_boot := False;
+            end if;
+         end if;
+
          if (inf = False) and (getClockTime > timer) then
                Ret := False;
                exit;

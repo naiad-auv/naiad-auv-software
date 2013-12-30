@@ -14,6 +14,7 @@
 with Interfaces;
 with CAN_Utils;
 with AVR.AT90CAN128.CAN;
+with Board_and_Mode_Defs;
 
 package body AT90CAN_Usart_To_Can is
    pragma Suppress (All_Checks);
@@ -154,13 +155,13 @@ package body AT90CAN_Usart_To_Can is
 
       --   Handshake_With_BBB;
 
-      AVR.AT90CAN128.CAN.Can_Init(Can_Defs.K250);
+      AVR.AT90CAN128.CAN.Can_Init(Can_Defs.K250,Board_and_Mode_Defs.BBB_CONTROLLER_1);
 
       for i in 0..3 loop
          AVR.AT90CAN128.CAN.Can_Set_MOB_ID_MASK(
-                 AVR.AT90CAN128.READ_MOB_ID(i), (0, false), (0, false));
+                 AVR.AT90CAN128.CAN.BUFFER_ID(i), (0, false), (0, false));
          AVR.AT90CAN128.CAN.Can_Set_MOB_ID_MASK(
-                 AVR.AT90CAN128.READ_MOB_ID(i+4), (0, true), (0, true));
+                 AVR.AT90CAN128.CAN.BUFFER_ID(i+4), (0, true), (0, true));
       end loop;
    end Hardware_Init;
 

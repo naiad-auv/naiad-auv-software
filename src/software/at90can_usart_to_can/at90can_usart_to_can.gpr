@@ -1,6 +1,7 @@
 with "..\..\lib\can_utils\can_utils.gpr";
 with "..\..\firmware\avr\avr-at90can128-usart\avr-at90can128-usart.gpr";
 with "..\..\firmware\avr\avr-at90can128-can\avr-at90can128-can.gpr";
+with "../../../lib/board_and_mode_defs/board_and_mode_defs.gpr";
 
 project AT90CAN_Usart_To_Can is
 
