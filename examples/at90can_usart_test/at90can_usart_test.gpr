@@ -6,7 +6,7 @@ project AT90CAN_Usart_Test is
    for Exec_Dir use "target";
    for Main use ("at90can_usart_test_main.adb");
    
-   for Source_Dirs use ("src", "../../src/firmware/avr/lib");
+   for Source_Dirs use ("src");
    package Ide is
       for Gnat use "avr-gnat";
       for Gnatlist use "avr-gnatls";
