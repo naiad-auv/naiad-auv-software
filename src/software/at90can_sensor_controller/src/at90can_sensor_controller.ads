@@ -31,7 +31,7 @@ package AT90CAN_Sensor_Controller is
                                  return CAN_Defs.Byte8;
 
    --Receives Simulate CAN message and sets the bSimulate accordingly
-   procedure Handle_Can;
+  -- procedure Handle_Can; -- OBSOLETE
 
    --Makes measurements on the sensors and sends the sensor readings as a CAN-message
    procedure Handle_Sensors;

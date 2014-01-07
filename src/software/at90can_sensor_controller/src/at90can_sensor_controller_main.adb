@@ -5,11 +5,8 @@
 --  and sent.
 
 --  Written by: Nils Brynedal Ignell for the Naiad AUV project
---  Last changed (yyyy-mm-dd): 2013-10-02
+--  Last changed (yyyy-mm-dd): 2014-01-07
 
---  TODO: Bootload functionallity
---  TODO: Receiving CAN messages for bootload functionallity. This is to be
---  done in the Sensor_Controller_pack.Handle_Can procedure
 --  TODO: Test everything...
 
 
@@ -35,7 +32,7 @@ begin
    loop
       tLastLoop := AVR.AT90CAN128.Clock.getClockTime;
 
-      AT90CAN_Sensor_Controller.Handle_Can; 	--  check CAN
+     -- AT90CAN_Sensor_Controller.Handle_Can; 	--  check CAN, this part is obsolete
       AT90CAN_Sensor_Controller.Handle_Sensors; 	--  read sensors
 
       AVR.AT90CAN128.Clock.Delay_Until(tLOOP_PERIOD + tLastLoop);
