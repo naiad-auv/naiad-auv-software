@@ -226,7 +226,7 @@ package body Simulator.Model is
 
    procedure Get_Motor_Values(this : in out CModel; fDeltaTime : float; tfMotorValuesSubmarine : out  simulator.Model.TMotorForce) is
       fMaximumMotorForce : float := 66.776;
-      fMotorForceChangePerSecond : float := fMaximumMotorForce/0.1;
+      fMotorForceChangePerSecond : float := fMaximumMotorForce/0.01;
       tfChangeInMotorValues : simulator.Model.TMotorForce;
    begin
       tfMotorValuesSubmarine := TMotorForce(this.pxSubmarine.xGet_Motor_Values);

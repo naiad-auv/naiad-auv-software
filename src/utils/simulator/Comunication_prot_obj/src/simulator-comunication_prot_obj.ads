@@ -6,7 +6,7 @@ with simulator.Motion_Control_Wrapper;
 package Simulator.Comunication_Prot_Obj is
    type EMotionComponent is new simulator.Motion_Control_Wrapper.EMotionComponent;
    type TPIDComponentScalings is new simulator.Motion_Control_Wrapper.TPIDComponentScalings;
-   type txPIDComponentScalingArray is array (EMotionComponent(PositionX)..EmotionComponent(AllPosition)) of TPIDComponentScalings;
+   type txPIDComponentScalingArray is array (EMotionComponent(PositionX)..EmotionComponent(RotationZ)) of TPIDComponentScalings;
    type EOperatingMode is (OfflineMode, MotionControlTestMode, ObserveMode);
    protected type tCom_Prot_Obj is
 

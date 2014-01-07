@@ -145,7 +145,29 @@ package body Simulator.Comunication_Prot_Obj is
 
       procedure Set_Pid_Scaling(eComponent : EMotionComponent; PidScaling : TPIDComponentScalings) is
       begin
-         tCom_Prot_Obj.txPidScalings(eComponent) := PidScaling;
+         case eComponent is
+            when AllPosition =>
+               tCom_Prot_Obj.txPidScalings(PositionX) := PidScaling;
+               tCom_Prot_Obj.txPidScalings(PositionY) := PidScaling;
+               tCom_Prot_Obj.txPidScalings(PositionZ) := PidScaling;
+
+            when AllRotation =>
+               tCom_Prot_Obj.txPidScalings(RotationX) := PidScaling;
+               tCom_Prot_Obj.txPidScalings(RotationY) := PidScaling;
+               tCom_Prot_Obj.txPidScalings(RotationZ) := PidScaling;
+
+            when AllComponents =>
+               tCom_Prot_Obj.txPidScalings(PositionX) := PidScaling;
+               tCom_Prot_Obj.txPidScalings(PositionY) := PidScaling;
+               tCom_Prot_Obj.txPidScalings(PositionZ) := PidScaling;
+               tCom_Prot_Obj.txPidScalings(RotationX) := PidScaling;
+               tCom_Prot_Obj.txPidScalings(RotationY) := PidScaling;
+               tCom_Prot_Obj.txPidScalings(RotationZ) := PidScaling;
+
+            when others =>
+               tCom_Prot_Obj.txPidScalings(eComponent) := PidScaling;
+         end case;
+
       end;
 
       -----------------------
