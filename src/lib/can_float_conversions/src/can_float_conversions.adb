@@ -7,8 +7,6 @@
 
 ---------------------------------------------------------------------------
 
---  with Ada.Text_IO;
-
 package body Can_Float_Conversions is
 
    pragma Suppress(All_Checks);
@@ -17,8 +15,6 @@ package body Can_Float_Conversions is
    procedure Orientation_To_Message(fYaw : float; fPitch : float; fRoll : float; b8Message : out Can_Defs.Byte8) is
       Data : TThree_i21s;
    begin
-      -- We are using the same conversion technique as for orientation simply
-      -- because there is no need to do differently...
       Data.i21One   := i21_Get_Integer(fMod(fYaw, fYAW_MAX),   fYAW_RESOLUTION);
       Data.i21Two   := i21_Get_Integer(fPitch, fPITCH_RESOLUTION);
       Data.i21Three := i21_Get_Integer(fMod(fRoll, fROLL_MAX),  fROLL_RESOLUTION);
