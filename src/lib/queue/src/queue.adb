@@ -2,7 +2,7 @@
 ---------------------------------------------------------------------------
 -- This code implements a simple FIFO-queue.
 -- Written by Nils Brynedal Ignell for the Naiad AUV project
--- Last changed (yyyy-mm-dd): 2013-10-31
+-- Last changed (yyyy-mm-dd): 2014-01-10
 
 -- TODO: BEFORE RUNNING THE AUNIT TESTS, CHANGE THE iSIZE CONSTANT TO 10
 ---------------------------------------------------------------------------
@@ -17,8 +17,15 @@ package body Queue is
 
    procedure Write(sData : String; iBytesToWrite : Integer; iBytesWritten : out Integer) is
       iCount : Integer := 0;
+      iLastIndex : integer;
    begin
-      for i in 1..iBytesToWrite loop
+      if iBytesToWrite + sData'First <= sData'Last then
+         iLastIndex := iBytesToWrite + sData'First;
+      else
+         iLastIndex := sData'Last;
+      end if;
+
+      for i in sData'First..iLastIndex loop
          if iDataAvailable < iSize - 1 then
             sBuffer(iLast) := sData(i);
             iLast := (iLast mod iSIZE) + 1;
@@ -29,12 +36,12 @@ package body Queue is
    end Write;
 
 
-   procedure Read(sData : out String; iBytesRead : out Integer; iBytesToRead : Integer) is
+ procedure Read(sData : out String; iBytesRead : out Integer; iBytesToRead : Integer) is
       iCount : Integer := 0;
    begin
       for i in 1..iBytesToRead loop
          if iFirst /= iLast then
-            sData(iCount+1) := sBuffer(iFirst);
+            sData(iCount + sData'First) := sBuffer(iFirst);
             iFirst := (iFirst mod iSIZE) + 1;
             iCount := iCount + 1;
          end if;

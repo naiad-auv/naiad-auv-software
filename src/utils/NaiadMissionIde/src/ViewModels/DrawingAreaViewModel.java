@@ -75,7 +75,7 @@ public class DrawingAreaViewModel extends Observable implements IViewModel, Obse
 
                 if(eventArgs.getClickCount() == 2)
                 {
-                    IDrawable clickedObject = presentationObjective.getObjectUnderCursor(eventArgs.getPoint());
+                    IDrawConfig clickedObject = presentationObjective.getObjectUnderCursor(eventArgs.getPoint());
 
                     if(clickedObject == null)
                         return;

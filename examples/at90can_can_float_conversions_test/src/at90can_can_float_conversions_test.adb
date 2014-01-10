@@ -51,11 +51,11 @@ begin
 
       ----
 
-   Can_Float_Conversions.Acceleration_To_Message(2.0, 2.0, 2.0, msg_data, 180.0);
+   Can_Float_Conversions.Vector_To_Message(2.0, 2.0, 2.0, msg_data, 180.0);
    i := AVR.AT90CAN128.USART.Write("Acceleration_To_Message ", AVR.AT90CAN128.USART.USART0, 25);
    AVR.AT90CAN128.CLOCK.Delay_ms(1000);
 
-   Can_Float_Conversions.Message_To_Acceleration(f1, f2, f3, msg_data, 180.0);
+   Can_Float_Conversions.Message_To_Vector(f1, f2, f3, msg_data, 180.0);
    i := AVR.AT90CAN128.USART.Write("Message_To_Acceleration ", AVR.AT90CAN128.USART.USART0, 25);
    AVR.AT90CAN128.CLOCK.Delay_ms(1000);
 

@@ -11,6 +11,7 @@
 
 with AVR.AT90CAN128;
 with AVR.AT90CAN128.USART;
+with Board_and_Mode_Defs;
 with CAN_Defs;
 
 package AT90CAN_Usart_To_Can is
@@ -19,7 +20,12 @@ package AT90CAN_Usart_To_Can is
 
    procedure Hardware_Init;
 
+    subtype UART_TO_CAN_BOARD is Board_and_Mode_Defs.Boards range Board_and_Mode_Defs.BBB_CONTROLLER_1.. Board_and_Mode_Defs.BBB_CONTROLLER_3;
+
+--    type UART_TO_CAN_BOARD is (Board_and_Mode_Defs.BBB_CONTROLLER_1, Board_and_Mode_Defs.BBB_CONTROLLER_2, Board_and_Mode_Defs.BBB_CONTROLLER_3);
 private
+
+
 
    -- USART1 is used for the communication between the CAN Router and BBB
    USART_PORT       : constant AVR.AT90CAN128.USART.USARTID    := AVR.AT90CAN128.USART.USART1;
@@ -32,8 +38,8 @@ private
 
    procedure Send_CanData_To_BBB(Msg : Can_Defs.CAN_Message);
 
-   procedure CANBUS_Monitoring;
+   procedure Handle_Can;
 
-   procedure Cmd_Handler;
+   procedure Handle_Uart;
 
 end AT90CAN_Usart_To_Can;

@@ -1,5 +1,5 @@
 -- Written by: Konstantinos Konstantopoulos for the Naiad AUV project
--- Last changed (yyyy-mm-dd): 2013-12-12 by Konstantinos Konstantopoulos
+-- Last changed (yyyy-mm-dd): 2013-12-20 by Konstantinos Konstantopoulos
 
 --with AVR.AT90CAN128.CAN;
 with Interfaces;
@@ -24,8 +24,8 @@ package Pneumatics is
    end record;
 
    procedure Dispatch_Actuation_Msg(canMsgIn : IN CAN_Defs.CAN_Message; response : OUT Controller_Response);
-   procedure Dispatch_Kill_Msg(canMsgIn : IN CAN_Defs.CAN_Message; response : OUT Controller_Response);
-   procedure Dispatch_Sim_Msg(canMsgIn : IN CAN_Defs.CAN_Message; response : OUT Controller_Response);
+   procedure Dispatch_Kill_Msg(canMsgIn : IN CAN_Defs.CAN_Message);
+   procedure Dispatch_Sim_Msg(canMsgIn : IN CAN_Defs.CAN_Message);
    procedure Init_Pins;
 
    bKillSwitchFlag	: Boolean := False;

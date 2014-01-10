@@ -1,7 +1,7 @@
 package Factories;
 
 import Drawables.*;
-import Interfaces.IDrawable;
+import Interfaces.IDrawConfig;
 
 /**
  * Created with IntelliJ IDEA.
@@ -22,12 +22,12 @@ enum DrawableType
 
 public class IDrawableFactory {
 
-    public static IDrawable getInstance(String type)
+    public static IDrawConfig getInstance(String type)
     {
         return null;
     }
 
-    public static IDrawable getCopy(IDrawable other) throws IllegalArgumentException
+    public static IDrawConfig getCopy(IDrawConfig other) throws IllegalArgumentException
     {
         if(other == null)
             return null;

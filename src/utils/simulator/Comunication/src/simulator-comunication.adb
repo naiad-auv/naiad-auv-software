@@ -4,6 +4,7 @@ with TCPWrapper;
 with Can_Float_Conversions;
 with simulator.Comunication_Prot_Obj;
 use Simulator.Comunication_Prot_Obj;
+with Interfaces;
 package body Simulator.Comunication is
 
    -------------------------
@@ -182,8 +183,20 @@ package body Simulator.Comunication is
    ---------------------
 
    procedure Set_Pid_Scaling(eComponent : EMotionComponent; PidScaling : TPIDComponentScalings) is
+      xMessage : CAN_Defs.CAN_Message;
+      xPacket : TCPCANWrapper.CTCPCANPacket;
    begin
+      xPacket.Set_Type(eType => TCPWrapper.PACKET_CAN);
       xProtected_Send_Info.Set_Pid_Scaling(simulator.Comunication_Prot_Obj.EMotionComponent(eComponent),simulator.Comunication_Prot_Obj.TPIDComponentScalings(PidScaling));
+      xMessage.ID := CAN_Defs.MSG_PID_SCALING_ID;
+      Can_Float_Conversions.PID_Scalings_To_Message(u8ID          => Interfaces.Unsigned_8(EMotionComponent'pos(eComponent)),
+                                                    fProportional => PidScaling.fProportionalScale,
+                                                    fIntegral     => PidScaling.fIntegralScale,
+                                                    fDerivative   => PidScaling.fDerivativeScale,
+                                                    fScaleRange   => 60.0,
+                                                    b8Message     => xMessage.data);
+      xPacket.set_Message_to_Send(xMessage => xMessage);
+      xConnection.Send_Packet(xPacket => xPacket);
    end Set_Pid_Scaling;
 
    ------------------------
@@ -338,6 +351,7 @@ package body Simulator.Comunication is
       accept Init  do
          null;
       end Init;
+      xPacket.Set_Type(eType => TCPWrapper.PACKET_CAN);
       loop
          delay(0.25);
          if xProtected_Send_Info.eGet_OperatingMode = MotionControlTestMode then
@@ -416,7 +430,7 @@ package body Simulator.Comunication is
       end if;
 
       -- MSG_SIMULATION_MODE_ID --
-      if xMessage.ID = MSG_SIMULATION_MODE_ID then
+      if xMessage.ID = MSG_MODE_ID then
          null;
       end if;
 
@@ -519,7 +533,21 @@ package body Simulator.Comunication is
 
       -- MSG_PID_SCALING_ID --
       if xMessage.ID = MSG_PID_SCALING_ID then
-         null;
+         declare
+            PidScaling : TPIDComponentScalings;
+            eComponent : EMotionComponent;
+            u8ID : Interfaces.Unsigned_8;
+         begin
+            Can_Float_Conversions.Message_To_PID_Scalings(u8ID          => u8id,
+                                                          fProportional => PidScaling.fProportionalScale,
+                                                          fIntegral     => PidScaling.fIntegralScale,
+                                                          fDerivative   => PidScaling.fDerivativeScale,
+                                                          fScaleRange   => 60.0,
+                                                          b8Message     => xMessage.data);
+            eComponent := EMotionComponent'Val(u8id);
+            xProtected_Read_Info.Set_Pid_Scaling(eComponent => Comunication_Prot_Obj.EMotionComponent(eComponent),PidScaling => Comunication_Prot_Obj.TPIDComponentScalings(PidScaling));
+         end;
+
       end if;
 
       -- MSG_STATUS_REQUEST_ID --

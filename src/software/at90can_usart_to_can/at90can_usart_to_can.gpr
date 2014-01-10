@@ -1,6 +1,8 @@
+with "..\..\lib\board_and_mode_defs\board_and_mode_defs.gpr";
 with "..\..\lib\can_utils\can_utils.gpr";
 with "..\..\firmware\avr\avr-at90can128-usart\avr-at90can128-usart.gpr";
 with "..\..\firmware\avr\avr-at90can128-can\avr-at90can128-can.gpr";
+with "../../../lib/board_and_mode_defs/board_and_mode_defs.gpr";
 
 project AT90CAN_Usart_To_Can is
 
@@ -8,6 +10,7 @@ project AT90CAN_Usart_To_Can is
    for Exec_Dir use "target";
    for Main use ("at90can_usart_to_can_main.adb");
    for Source_Dirs use ("src", "../../firmware/avr/lib");
+
    package Ide is
       for Gnat use "avr-gnat";
       for Gnatlist use "avr-gnatls";

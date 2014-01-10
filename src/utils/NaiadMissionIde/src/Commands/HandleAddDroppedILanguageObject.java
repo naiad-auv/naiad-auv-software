@@ -3,14 +3,12 @@ package Commands;
 import Exceptions.ScopeModificationNotSupported;
 import Factories.ILanguageObjectFactory;
 import Interfaces.ICommand;
-import Interfaces.IDrawable;
 import Interfaces.ILanguageObject;
 import Logging.ExceptionLogger;
 import ViewModels.DrawingAreaViewModel;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.awt.dnd.DropTargetDropEvent;
-import java.awt.event.MouseEvent;
 import java.util.List;
 
 /**

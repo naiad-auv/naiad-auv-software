@@ -3,12 +3,9 @@ package Presentation;
 import Drawables.*;
 import Exceptions.UnableToPreformActionException;
 import Factories.DrawableLanguageVariableObjectFactory;
-import Interfaces.IDrawable;
+import Interfaces.IDrawConfig;
 import Interfaces.ILanguageObject;
 import Interfaces.ILanguageVariable;
-import LanguageHandlers.Branch;
-import LanguageHandlers.EndMarker;
-import LanguageHandlers.StartMarker;
 
 import java.awt.*;
 import java.util.*;
@@ -24,45 +21,45 @@ import java.util.List;
 public class PresentationObjective extends Observable implements Observer
 {
 
-    private IDrawable startMarker;
-    private IDrawable endMarker;
-    private List<IDrawable> ILanguageObjectPresentationObjects;
-    private List<IDrawable> ILanguageObjectTransitions;
-    private List<IDrawable> ILanguageVariablePresentationObjects;
-    private List<IDrawable> IVariableAssignmentsObjects;
+    private IDrawConfig startMarker;
+    private IDrawConfig endMarker;
+    private List<IDrawConfig> ILanguageObjectPresentationObjects;
+    private List<IDrawConfig> ILanguageObjectTransitions;
+    private List<IDrawConfig> ILanguageVariablePresentationObjects;
+    private List<IDrawConfig> IVariableAssignmentsObjects;
 
     public PresentationObjective()
     {
       //  this.startMarker = new MarkerObjectDrawable(new StartMarker(), new Point(100,100), 50);
       //  this.endMarker =  new MarkerObjectDrawable(new EndMarker(), new Point(500,500), 50);
 
-        this.ILanguageObjectTransitions = new ArrayList<IDrawable>();
-        this.ILanguageObjectPresentationObjects = new ArrayList<IDrawable>();
-        this.ILanguageVariablePresentationObjects = new ArrayList<IDrawable>();
-        this.IVariableAssignmentsObjects = new ArrayList<IDrawable>();
+        this.ILanguageObjectTransitions = new ArrayList<IDrawConfig>();
+        this.ILanguageObjectPresentationObjects = new ArrayList<IDrawConfig>();
+        this.ILanguageVariablePresentationObjects = new ArrayList<IDrawConfig>();
+        this.IVariableAssignmentsObjects = new ArrayList<IDrawConfig>();
     }
 
     public Graphics Draw(Graphics g)
     {
         for(int i = 0; i < ILanguageObjectTransitions.size(); i++)
         {
-            this.ILanguageObjectTransitions.get(i).Draw(g);
+      //      this.ILanguageObjectTransitions.get(i).Draw(g);
         }
 
         for(int i = 0; i < IVariableAssignmentsObjects.size(); i++)
         {
-            this.IVariableAssignmentsObjects.get(i).Draw(g);
+    //        this.IVariableAssignmentsObjects.get(i).Draw(g);
         }
 
          for(int i = 0; i < ILanguageObjectPresentationObjects.size(); i++)
          {
-             this.ILanguageObjectPresentationObjects.get(i).Draw(g);
+    //         this.ILanguageObjectPresentationObjects.get(i).Draw(g);
          }
 
 
         for(int i = 0; i < ILanguageVariablePresentationObjects.size(); i++)
         {
-            this.ILanguageVariablePresentationObjects.get(i).Draw(g);
+    //        this.ILanguageVariablePresentationObjects.get(i).Draw(g);
         }
 
         return g;
@@ -71,7 +68,7 @@ public class PresentationObjective extends Observable implements Observer
     public void addItem(ILanguageObject object, Point position) throws UnableToPreformActionException {
 
 
-        IDrawable objectToDraw = null;
+        IDrawConfig objectToDraw = null;
 
         switch(object.getType())
         {
@@ -95,7 +92,7 @@ public class PresentationObjective extends Observable implements Observer
        this.notifyObservers();
     }
 
-    public void addTransition(IDrawable predecessor, IDrawable successor)
+    public void addTransition(IDrawConfig predecessor, IDrawConfig successor)
     {
         this.ILanguageObjectTransitions.add(new TransactionObjectDrawable(predecessor, successor));
         this.setChanged();
@@ -106,11 +103,11 @@ public class PresentationObjective extends Observable implements Observer
         return new Object[]{ this.ILanguageObjectPresentationObjects, this.ILanguageObjectTransitions};
     }
 
-    public List<IDrawable> getTransitions() {
+    public List<IDrawConfig> getTransitions() {
         return this.ILanguageObjectTransitions;
     }
 
-    public void removeTransition(IDrawable transitionToRemove) {
+    public void removeTransition(IDrawConfig transitionToRemove) {
         this.ILanguageObjectTransitions.remove(transitionToRemove);
         this.setChanged();
         this.notifyObservers();
@@ -127,14 +124,14 @@ public class PresentationObjective extends Observable implements Observer
         this.notifyObservers();
     }
 
-    public void addVariableAssignment(IDrawable variable, IDrawable assignedTo)
+    public void addVariableAssignment(IDrawConfig variable, IDrawConfig assignedTo)
     {
         assignedTo.setScope(variable);
         this.setChanged();
         this.notifyObservers();
     }
 
-    public IDrawable getObjectUnderCursor(Point point) {
+    public IDrawConfig getObjectUnderCursor(Point point) {
         for(int i = 0; i < this.ILanguageVariablePresentationObjects.size(); i++)
         {
             if(this.ILanguageVariablePresentationObjects.get(i).isPointInside(point))
@@ -164,7 +161,7 @@ public class PresentationObjective extends Observable implements Observer
 
     public void moveObjects(int deltaX, int deltaY) {
 
-        for(IDrawable drawable : this.ILanguageObjectTransitions)
+        for(IDrawConfig drawable : this.ILanguageObjectTransitions)
         {
             if(drawable != null)
             {
@@ -177,7 +174,7 @@ public class PresentationObjective extends Observable implements Observer
             }
         }
 
-        for(IDrawable drawable : this.ILanguageObjectPresentationObjects)
+        for(IDrawConfig drawable : this.ILanguageObjectPresentationObjects)
         {
             if(drawable != null)
             {
@@ -190,7 +187,7 @@ public class PresentationObjective extends Observable implements Observer
             }
         }
 
-        for(IDrawable drawable : this.ILanguageVariablePresentationObjects)
+        for(IDrawConfig drawable : this.ILanguageVariablePresentationObjects)
         {
             if(drawable != null)
             {
@@ -203,7 +200,7 @@ public class PresentationObjective extends Observable implements Observer
             }
         }
 
-        for(IDrawable drawable : this.IVariableAssignmentsObjects)
+        for(IDrawConfig drawable : this.IVariableAssignmentsObjects)
         {
             if(drawable != null)
             {

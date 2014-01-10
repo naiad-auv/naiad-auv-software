@@ -2,7 +2,7 @@ package Drawables;
 
 import Enums.VariableType;
 import Factories.IDrawableFactory;
-import Interfaces.IDrawable;
+import Interfaces.IDrawConfig;
 
 import java.awt.*;
 import java.awt.geom.Line2D;
@@ -14,11 +14,11 @@ import java.awt.geom.Line2D;
  * Time: 1:31 PM
  * To change this template use File | Settings | File Templates.
  */
-public class DrawableVariable implements IDrawable {
+public class DrawableVariable implements IDrawConfig {
 
     private VariableType typeNeeded;
 
-    private IDrawable variableAssigned;
+    private IDrawConfig variableAssigned;
     private Point position;
 
     public DrawableVariable(VariableType type, Point position)
@@ -35,7 +35,7 @@ public class DrawableVariable implements IDrawable {
         this.variableAssigned = IDrawableFactory.getCopy(other.variableAssigned);
     }
 
-    @Override
+  /*  @Override
     public void Draw(Graphics g)
     {
         Stroke baseStroke = ((Graphics2D)g).getStroke();
@@ -56,7 +56,7 @@ public class DrawableVariable implements IDrawable {
         ((Graphics2D)g).draw(new Line2D.Double(startPoint.x, startPoint.y, endPoint.x, endPoint.y));
 
         ((Graphics2D) g).setStroke(baseStroke);
-    }
+    }  */
 
     private Point getVariableCenter() {
 
@@ -110,6 +110,11 @@ public class DrawableVariable implements IDrawable {
 
     @Override
     public void setScope(Object variable) {
-        this.variableAssigned = (IDrawable)variable;
+        this.variableAssigned = (IDrawConfig)variable;
+    }
+
+    @Override
+    public Color getColor() {
+        return null;
     }
 }

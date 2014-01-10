@@ -1,8 +1,7 @@
 package Drawables;
 
-import Factories.IDrawableFactory;
 import Factories.ILanguageVariableFactory;
-import Interfaces.IDrawable;
+import Interfaces.IDrawConfig;
 import Interfaces.ILanguageVariable;
 import Settings.CoreSettings.PenumbraCoreSettings;
 
@@ -19,7 +18,7 @@ import java.util.Observer;
  * Time: 8:01 AM
  * To change this template use File | Settings | File Templates.
  */
-public class LanguageVariableDrawable extends Observable implements IDrawable, Observer {
+public class LanguageVariableDrawable extends Observable implements IDrawConfig, Observer {
 
     private ILanguageVariable variableToDraw;
     private Color drawingColor;
@@ -47,7 +46,7 @@ public class LanguageVariableDrawable extends Observable implements IDrawable, O
         this.calculateDrawingSize();
     }
 
-    @Override
+   /* @Override
     public void Draw(Graphics g)
     {
         Stroke baseStroke = ((Graphics2D)g).getStroke();
@@ -61,7 +60,7 @@ public class LanguageVariableDrawable extends Observable implements IDrawable, O
         g.drawString(variableToDraw.toString(),this.position.x  + 10, this.position.y + this.getHeight() / 2 + 6);
 
         ((Graphics2D) g).setStroke(baseStroke);
-    }
+    }  */
 
     private int calculateNameWidth()
     {
@@ -115,6 +114,11 @@ public class LanguageVariableDrawable extends Observable implements IDrawable, O
     @Override
     public void setScope(Object variable) {
         this.variableToDraw = (ILanguageVariable)variable;
+    }
+
+    @Override
+    public Color getColor() {
+        return null;
     }
 
     public void setColor(Color color)

@@ -14,6 +14,7 @@
 with Interfaces;
 with CAN_Utils;
 with AVR.AT90CAN128.CAN;
+with Board_and_Mode_Defs;
 
 package body AT90CAN_Usart_To_Can is
    pragma Suppress (All_Checks);
@@ -75,7 +76,7 @@ package body AT90CAN_Usart_To_Can is
       Usart_Write(Can_Buf, USART_PORT, Integer(Msg.Len) + CAN_Utils.HEADLEN);
    end Send_CanData_To_BBB;
 
-   procedure CANBUS_Monitoring is
+   procedure Handle_Can is
       Msg_In : Can_Defs.CAN_Message;
       Ret    : Boolean;
    begin
@@ -92,9 +93,9 @@ package body AT90CAN_Usart_To_Can is
 --
 --           AVR.AT90CAN128.CAN.Can_Get(Msg_In, Ret, 0);
 --        end loop;
-   end CANBUS_Monitoring;
+   end Handle_Can;
 
-   procedure Cmd_Handler is
+   procedure Handle_Uart is
 
       use AVR.AT90CAN128.CAN;
       use Interfaces;
@@ -135,16 +136,16 @@ package body AT90CAN_Usart_To_Can is
          end if;
          AVR.AT90CAN128.CAN.Can_Send(msg);
       end loop;
-   end Cmd_Handler;
+   end Handle_Uart;
 
    procedure Main_Loop is
    begin
 
       loop
-         -- Handle the commands from the BBB
-         Cmd_Handler;
-         -- Deal with the data from the CAN bus.
-         CANBUS_Monitoring;
+         -- Handle the messages from the BBB
+         Handle_Uart;
+         -- Deal with the messages from the CAN bus.
+         Handle_Can;
       end loop;
    end Main_Loop;
 
@@ -154,13 +155,13 @@ package body AT90CAN_Usart_To_Can is
 
       --   Handshake_With_BBB;
 
-      AVR.AT90CAN128.CAN.Can_Init(Can_Defs.K250);
+      AVR.AT90CAN128.CAN.Can_Init(Can_Defs.K250, Board_and_Mode_Defs.BBB_CONTROLLER_1 );
 
       for i in 0..3 loop
          AVR.AT90CAN128.CAN.Can_Set_MOB_ID_MASK(
-                 AVR.AT90CAN128.READ_MOB_ID(i), (0, false), (0, false));
+                 AVR.AT90CAN128.CAN.BUFFER_ID(i), (0, false), (0, false));
          AVR.AT90CAN128.CAN.Can_Set_MOB_ID_MASK(
-                 AVR.AT90CAN128.READ_MOB_ID(i+4), (0, true), (0, true));
+                 AVR.AT90CAN128.CAN.BUFFER_ID(i+4), (0, true), (0, true));
       end loop;
    end Hardware_Init;
 
