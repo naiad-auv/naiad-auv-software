@@ -14,40 +14,40 @@ package body Vision.Image_Preprocessing is
 
    procedure Show_Original_Image(iImageSource,iWaitTime : in Interfaces.C.int) is
    begin
-      CoreWrap.imshow(New_String("Why so normal?"), iImageSource);--show image for debug purposes
-      CoreWrap.waitKey(iWaitTime);
+      CoreWrap.imwrite(New_String("Why so normal.jpg"), iImageSource);--show image for debug purposes
+      --CoreWrap.waitKey(iWaitTime);
    end Show_Original_Image;
 
-   procedure Capture_Video(iImageSource, iWaitTime : in Interfaces.C.int;videoOpen : in Integer) is
-   begin
-      if (videoOpen=0) then
-         preprocessingWrap.VideoCaptureOpen;
-      end if;
+  -- procedure Capture_Video(iImageSource, iWaitTime : in Interfaces.C.int;videoOpen : in Integer) is
+   --begin
+    --  if (videoOpen=0) then
+     --    preprocessingWrap.VideoCaptureOpen;
+      --end if;
 
-      preprocessingWrap.nextFrame(iImageSource);
-      CoreWrap.imshow(New_String("why so video"), iImageSource);
-      CoreWrap.waitKey(iWaitTime);
-   end Capture_Video;
+--      preprocessingWrap.nextFrame(iImageSource);
+  --    CoreWrap.imwrite(New_String("why so video.jpg"), iImageSource);
+    --  CoreWrap.waitKey(iWaitTime);
+  -- end Capture_Video;
 
    procedure Gaussian_Sharpen_Image(iImageSource,iEnhancedImageSource,iSharpenAccuracy : in Interfaces.C.Int) is
    begin
       processingWrap.GaussianBlurSharpener(iImageSource,iEnhancedImageSource,iSharpenAccuracy);
-      CoreWrap.imshow(New_String("why so sharp?"),iEnhancedImageSource);
-      CoreWrap.waitKey(0);
+      CoreWrap.imwrite(New_String("why so sharp.jpg"),iEnhancedImageSource);
+      --CoreWrap.waitKey(0);
    end Gaussian_Sharpen_Image;
 
    procedure Fusion(iImageSource,iFusionOutLocation : in Interfaces.C.int) is
    begin
       processingWrap.fusion(iImageSource, iFusionOutLocation);
-      CoreWrap.imshow(New_String("why so fused?"), iFusionOutLocation);
-      CoreWrap.waitKey(0);
+      CoreWrap.imwrite(New_String("why so fused.jpg"), iFusionOutLocation);
+      --CoreWrap.waitKey(0);
    end Fusion;
 
    procedure Enhance_Colors(iImageSource,iImageDestination,iEnhanceChannel : in Interfaces.C.Int;iEnhanceLevel : in Interfaces.C.Double) is
    begin
       processingWrap.enhanceColors(iImageSource,iImageDestination,iEnhanceChannel,iEnhanceLevel);
-      CoreWrap.imshow(New_String("Why so enhanced?"),iImageDestination);
-      CoreWrap.waitKey(0);
+      CoreWrap.imwrite(New_String("Why so enhanced.jpg"),iImageDestination);
+      --CoreWrap.waitKey(0);
    end Enhance_Colors;
 
    procedure Load_Templates (iTemplate1,iTemplate2,iTemplate3,iTemplate4 : in Interfaces.C.int) is
@@ -75,5 +75,19 @@ package body Vision.Image_Preprocessing is
          tempIndex:=tempIndex+1;
       end loop;
    end Cleanup_Templates;
+
+   procedure Do_Contrast(src, dst, gain, bias : in Interfaces.C.int) is
+   begin
+      preprocessingWrap.contrast(src  ,
+                                 dst  ,
+                                 gain ,
+                                 bias );
+   end Do_Contrast;
+
+    procedure QNSF(iImageSource, iQNSFLocation : in Interfaces.C.int; iQNSFThresh: in Interfaces.C.Double) is
+   begin
+      preprocessingWrap.quaterNionSwitchingFilter(iImageSource, iQNSFLocation,iQNSFThresh);
+   end QNSF;
+
 
 end Vision.Image_Preprocessing;
