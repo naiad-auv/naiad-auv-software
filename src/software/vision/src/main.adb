@@ -22,13 +22,13 @@ procedure main is
    iDoCanny : Integer := 0;
    iDoThresh : Integer := 0;
    iDoHoughCircles : Integer := 0;
-   iDoContours : Integer := 1;
+   iDoContours : Integer := 0;
    iDoApproxPoly : Integer := 0;
    iDoObjectTracking : Integer := 0;
    iDoFusion : Integer := 0;
    iDoVelocityMode : Integer :=0;
    iDoInvertImage : Integer := 0; --iDoCreateNegativity
-   iDoSharpenImage : Integer := 0;
+   iDoSharpenImage : Integer := 1;
    iDoCompareHistograms : Integer := 0;
    iDoMakeMovie : Integer := 0;
    iDoMatchTemplete : Integer := 0;
@@ -174,7 +174,7 @@ begin
       if (iDoUseBuffer = 1) then -- read from buffer
          CoreWrap.img_buffer;
       elsif (iDoUseStatic =1) then --read in single image
-         CoreWrap.imstore(iImageSource,New_String("Square.jpg"));
+         CoreWrap.imstore(iImageSource,New_String("62.jpg"));
       elsif (iDoMakeMovie = 1) then --capture from video
          --Vision.Image_Preprocessing.Capture_Video(iImageSource,iWaitTime,videoOpen);
          videoOpen:=1;
