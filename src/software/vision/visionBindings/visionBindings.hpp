@@ -15,7 +15,7 @@ virtual void push_back_templeteStore(char * src);
 
 virtual void imread(char * name);
 
-virtual int imwrite(char * name, int src);
+virtual void imwrite(char * name, int src);
 
 virtual void imshow(char * name, int src);
 
@@ -120,6 +120,10 @@ virtual void VideoCaptureOpen(void);
 virtual void namedWindow(char * name, int num);
 
 virtual void nextFrame(int dst);
+
+virtual void contrast(int src, int dst, int gain, int bias);
+
+virtual void quaterNionSwitchingFilter(int src, int dst, double QNSFThresh);
 
 Preprocessing_Wrap();
 };

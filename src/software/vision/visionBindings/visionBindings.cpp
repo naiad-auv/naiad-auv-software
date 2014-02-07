@@ -132,12 +132,13 @@ void Core_Wrap::imstore(int src, char * name)
  
 ///////////////////////////////////// WRITE IMAGE TO FILE ////////////////////////////////////////////
  
-int Core_Wrap::imwrite(char * name, int src)
+void Core_Wrap::imwrite(char * name, int src)
 {
-    if (cv::imwrite(name, img.at(src)))
+	cv::imwrite(name, img.at(src));
+    /*if (cv::imwrite(name, img.at(src)))
         return 1;
     else
-        return 0;
+        return 0;*/
 }
  
  
@@ -145,7 +146,7 @@ int Core_Wrap::imwrite(char * name, int src)
  
 void Core_Wrap::imshow(char * name, int src)
 {
-    cv::imshow(name, img.at(src));
+    //cv::imshow(name, img.at(src));
 }
  
  
@@ -153,7 +154,7 @@ void Core_Wrap::imshow(char * name, int src)
  
 void Core_Wrap::waitKey(int time)
 {
-    cv::waitKey(time);
+    //cv::waitKey(time);
 }
  
  
@@ -258,7 +259,7 @@ void Processing_Wrap::LabelPoints(int src)
         }
     }
     std::cout<<"height"<<dim.height<<"width"<<dim.width;
-    cv::waitKey(0);
+    //cv::waitKey(0);
 }
  
  
@@ -288,7 +289,7 @@ void Processing_Wrap::DrawHoughLines(int cdst)
         pt2.x = cvRound(x0 + 1000*(-b));
         pt2.y = cvRound(y0 + 1000*(a));
         line( img.at(cdst), pt1, pt2, cv::Scalar(0,0,255), 10, CV_AA);
-        cv::imshow("liney", img.at(cdst));  
+        cv::imwrite("liney.jpg", img.at(cdst));  
     }
 }
 
@@ -308,6 +309,7 @@ void Processing_Wrap::showContours(int src, int contourOut, int contourId = -1, 
 {
     img.at(contourOut)=img.at(src).clone();
     cv::drawContours(img.at(contourOut), contours, contourId, cv::Scalar(0,0,255), thickness, CV_AA );
+    cv::imwrite("contoury.jpg",img.at(contourOut));
 }
 
  
@@ -329,7 +331,7 @@ void Processing_Wrap::HoughLinesP(int src)
         {
             std::cout<<"line detected\n"<<houLineStorage[i][0]<<"\t"<<houLineStorage[i][1]<<"\t"<<houLineStorage[i][2]<<"\t"<<houLineStorage[i][3];
         }
-        cv::waitKey(0);
+        //cv::waitKey(0);
     }   
 }
 
@@ -439,8 +441,8 @@ void Processing_Wrap::showBGRHistogram(int histSize)
                        cv::Point( bin_w*(i), histHeight - cvRound(redHistVals.at<float>(i)) ),
                        cv::Scalar( 0, 0, 255), 2, 8, 0  );//red
       }
-      cv::imshow("Histogram", histImage );
-    cv::waitKey(0);
+      cv::imwrite("Histogram.jpg", histImage );
+    //cv::waitKey(0);
 }
  
  
@@ -478,8 +480,8 @@ void Processing_Wrap::showHSIHistogram(int histSize[])
                         CV_FILLED );
         }
     }
-    cv::imshow( "H-S Histogram", histImg );
-    cv::waitKey();
+    cv::imwrite( "H-S Histogram.jpg", histImg );
+    //cv::waitKey();
 }
  
  
@@ -571,8 +573,8 @@ void Processing_Wrap::thresh(int src, int dst, int blueLow, int blueUp, int gree
 		
 		mask = 255-dstD; //invert mask
 		
-		cv::imshow("mask",mask);
-		cv::waitKey(0);
+		cv::imwrite("mask.jpg",mask);
+		//cv::waitKey(0);
 	}
 	else
 	{
@@ -646,7 +648,7 @@ void Processing_Wrap::objectTracking(int src)
             p.y = (int)(q.y+9*sin(angle-3.14/4));
             cv::line(img.at(src),p,q,line_color,line_thickness,CV_AA,0);
         }
-        cv::imshow("why so tracking?",img.at(src));
+        cv::imwrite("why so tracking?.jpg",img.at(src));
     }
 }
 
@@ -670,8 +672,8 @@ void Processing_Wrap::roi(int src, int dst)
     cv::Mat F = img.at(src).clone(), G;
     //img.at(dst)
     G = F(cv::Range(0,0), cv::Range(100,100));
-    cv::imshow("roi", G);
-    cv::waitKey(0);
+    cv::imwrite("roi.jpg", G);
+    //cv::waitKey(0);
 }
 
 
@@ -828,9 +830,9 @@ int Processing_Wrap::matchImage(int src)
     cv::drawContours(img.at(0), contours, -1, cv::Scalar(255,255,0), 1, CV_AA );
     
     ///show image and num of contours found for debug
-    cv::imshow("drawn contours on base image",img.at(0));
+    cv::imwrite("drawn contours on base image.jpg",img.at(0));
     std::cout<<"num of contours in base image \t"<<contours.size()<<"\n";
-    cv::waitKey(0);
+    //cv::waitKey(0);
     
 	///find biggest contour by finding contourn with biggest area 
 	int largest_area=0;
@@ -881,17 +883,17 @@ void Processing_Wrap::classifyMatch(int bestTemplateMatch)
 	if (bestTemplateMatch==22)
 	{
 		std::cout<<"Sword\n";
-		cv::waitKey(0);
+		//cv::waitKey(0);
 	}
 	if (bestTemplateMatch==23)
 	{
 		std::cout<<"Honeycomb\n";
-		cv::waitKey(0);
+		//cv::waitKey(0);
 	}
 	if (bestTemplateMatch==24)
 	{
 		std::cout<<"Circle\n";
-		cv::waitKey(0);
+		//cv::waitKey(0);
 	}
 }
 ////////////////////////////// fill in poly func //////////////////////////////////////////
@@ -994,7 +996,148 @@ void Preprocessing_Wrap::nextFrame(int dst)
 {
   cap >> img.at(dst);
 }
+
+void Preprocessing_Wrap::contrast(int src, int dst, int gain, int bias) //change gain to double ?? , gain > bias
+{
+	cv::Mat image = img.at(src).clone();
+	image.convertTo(img.at(dst), -1, gain, bias);
+	cv::imwrite("contrast.jpg", img.at(dst));
+	//cv::waitKey(0);
+	
+}
  
+///////////////////////  QUATERNION SWITCHING FILTER        /////////////////////////////////////////// 
+
+void Preprocessing_Wrap::quaterNionSwitchingFilter(int src, int dst, double QNSFThresh)
+{
+	
+	///copy temp image of input source
+	cv::Mat tempImage=img.at(src).clone();
+	int smallestDiff = 100;
+	
+	///for all pixels
+	for (int i=1; i < (tempImage.rows-1) ; i++)
+	{
+		for(int j=1; j < (tempImage.cols-1); j++)
+		{
+			smallestDiff = 100;
+			///examine pixels
+			//q1=tempImage.at<cv::Vec3b>(i-1,j-1)[channel]   //channels : 0=R,1=G,2=B
+			//q2=tempImage.at<cv::Vec3b>(i-1,j)[channel]
+			//q3=tempImage.at<cv::Vec3b>(i-1,j+1)[channel]
+			//q4=tempImage.at<cv::Vec3b>(i,j-1)[channel]
+			//q5=tempImage.at<cv::Vec3b>(i,j)[channel]
+			//q6=tempImage.at<cv::Vec3b>(i,j+1)[channel]
+			//q7=tempImage.at<cv::Vec3b>(i+1,j-1)[channel]
+			//q8=tempImage.at<cv::Vec3b>(i+1,j)[channel]
+			//q9=tempImage.at<cv::Vec3b>(i+1,j+1)[channel]
+			
+			//v1=1/2(d(q4,q5)+d(q5,q6))
+			//v2=1/2(d(q3,q5)+d(q5,q7))
+			//v3=1/2(d(q2,q5)+d(q5,q8))
+			//v4=1/2(d(q1,q5)+d(q5,q9))
+
+			//////////////////////////////////////////////////////////////////////////////////////////////////////
+			int R1=tempImage.at<cv::Vec3b>(i,j)[0];
+			int G1=tempImage.at<cv::Vec3b>(i,j)[1];
+			int B1=tempImage.at<cv::Vec3b>(i,j)[2];
+			
+			int x2=i-1;
+			int y2=j-1;
+			int x3=i+1;
+			int y3=i+1;
+			int R2,G2,B2,R3,G3,B3;
+			double M1,N1,O1,M2,N2,O2,magD1,magD2,dTotal;
+			std::vector<double> magVector;
+			
+			for (int k=0;k<4;k++)
+			{
+				R2=tempImage.at<cv::Vec3b>(x2,y2)[0];
+				G2=tempImage.at<cv::Vec3b>(x2,y2)[1];
+				B2=tempImage.at<cv::Vec3b>(x2,y2)[2];
+				y2++;
+				
+				R3=tempImage.at<cv::Vec3b>(x3,y3)[0];
+				G3=tempImage.at<cv::Vec3b>(x3,y3)[1];
+				B3=tempImage.at<cv::Vec3b>(x3,y3)[2];
+				y3--;
+			
+				if(k==3)
+				{
+					R2=tempImage.at<cv::Vec3b>(i,j-1)[0];
+					G2=tempImage.at<cv::Vec3b>(i,j-1)[1];
+					B2=tempImage.at<cv::Vec3b>(i,j-1)[2];
+				
+					R3=tempImage.at<cv::Vec3b>(i,j+1)[0];
+					G3=tempImage.at<cv::Vec3b>(i,j+1)[1];
+					B3=tempImage.at<cv::Vec3b>(i,j+1)[2];
+				}
+				//QUATERNION REPRESENTED AS L,M,N,O
+				///d1(a,b)=(((1/sqrt(3))((B-G)i+(R-B)j+(G+R)k)-(((1/sqrt(3))((B-G)i+(R-B)j+(G+R)k)))
+				//W1=0;X1=(1/sqrt(3))((B1-G1)-(B2-G2)); Y1=(1/sqrt(3))((R1-B1)-(R2-B2)); Z1=(1/sqrt(3))((G+R)-(G+R));
+				M1=((1/sqrt(3))*((B1-G1)-(B2-G2))+(1/1.732)*((B1-G1)-(B3-G3)))/2;
+				N1=((1/1.732)*((R1-B1)-(R2-B2))+(1/1.732)*((R1-B1)-(R3-B3)))/2;
+				O1=((1/1.732)*((G1+R1)-(G2+R2))+(1/1.732)*((G1+R1)-(G3+R3)))/2;
+				magD1=sqrt(0+(M1*M1)+(N1*N1)+(O1*O1));
+						
+				///d2(a,b)=((1/3)(R+G+B)(i+j+k)-(1/3)(R+G+B)(i+j+k))
+				M2=N2=O2=(((1/3)*((R1+G1+B1)-(R2+G2+B2)))+((1/3)*((R1+G1+B1)-(R3+G3+B3))))/2;
+				magD2=sqrt(0+(M2*M2)+(N2*N2)+(O2*O2));
+			
+				dTotal=magD1+magD2;
+			
+				if (dTotal<smallestDiff)
+				{
+					smallestDiff=dTotal;
+				}
+			}
+			
+			//std::cout<<"minDif is :"<<smallestDiff;
+            //cv::waitKey(0);
+            
+            ///if filtering needed
+            std::vector<int> windowSortStorage(10);
+            if (smallestDiff<QNSFThresh)
+            {
+				for(int chan=0;chan<3;chan++)
+				{
+					///Sort window
+					windowSortStorage[0]=tempImage.at<cv::Vec3b>(i-1,j-1)[chan];   //channels : 0=R,1=G,2=B
+					windowSortStorage[1]=tempImage.at<cv::Vec3b>(i-1,j)[chan];
+					windowSortStorage[2]=tempImage.at<cv::Vec3b>(i-1,j+1)[chan];
+					windowSortStorage[3]=tempImage.at<cv::Vec3b>(i,j-1)[chan];
+					windowSortStorage[4]=tempImage.at<cv::Vec3b>(i,j)[chan];
+					windowSortStorage[5]=tempImage.at<cv::Vec3b>(i,j+1)[chan];
+					windowSortStorage[6]=tempImage.at<cv::Vec3b>(i+1,j-1)[chan];
+					windowSortStorage[7]=tempImage.at<cv::Vec3b>(i+1,j)[chan];
+					windowSortStorage[8]=tempImage.at<cv::Vec3b>(i+1,j+1)[chan];
+					
+					int tempSortStorage, r , s;
+					for(r=0; r<9; r++)
+					{
+						tempSortStorage=windowSortStorage[r];
+						for(s=r-1; s>=0 && tempSortStorage<windowSortStorage[s]; s--)
+						{
+							windowSortStorage[s+1] = windowSortStorage[s];
+						}
+						windowSortStorage[s+1] = tempSortStorage;
+					}
+					
+				
+				///Find Median = 4th entry
+				///replace center with median
+				tempImage.at<cv::Vec3b>(i,j)[chan]=windowSortStorage[4];
+				}
+			}
+		}
+	}
+	///copy temp to dest
+	img.at(dst)=tempImage.clone();
+	cv::imwrite("cleaned.jpg",img.at(dst));
+}
+
+
+
 Preprocessing_Wrap::Preprocessing_Wrap(){}
  
 /*********************************************************************************************************************

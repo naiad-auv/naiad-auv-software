@@ -9,8 +9,9 @@ with Vision.Image_Preprocessing;
 procedure main is
 
    --user decisions
-   iDoUseBuffer : Integer := 1;
-   iDoUseStatic : Integer := 0;
+   iNumRuns : Integer := 1;
+   iDoUseBuffer : Integer := 0;
+   iDoUseStatic : Integer := 1;
    iDoShowOriginal : Integer := 1;
    iDoGaussian : Integer := 0;
    iDoSplit : Integer := 0;
@@ -27,12 +28,14 @@ procedure main is
    iDoFusion : Integer := 0;
    iDoVelocityMode : Integer :=0;
    iDoInvertImage : Integer := 0; --iDoCreateNegativity
-   iDoSharpenImage : Integer := 0;
+   iDoSharpenImage : Integer := 1;
    iDoCompareHistograms : Integer := 0;
    iDoMakeMovie : Integer := 0;
-   iDoMatchTemplete : Integer := 1;
+   iDoMatchTemplete : Integer := 0;
    iDoWriteImageToFile : Integer :=0;
    iDoEnhanceColors : Integer :=0;
+   iDoContrast : Integer := 0;
+   iDoQuaternionSwitchingFilter : Integer :=0;
 
 
    --image locations
@@ -51,6 +54,8 @@ procedure main is
    iGaussianBlurLocation : Interfaces.C.int:=11;
    iThreshedImageLocation : Interfaces.C.int:=12;
    iFusionOutLocation : Interfaces.C.int:=13;
+   iContrastOut : Interfaces.C.int := 14;
+   iQNSFLocation : Interfaces.C.int := 15;
 
    itemplateTempStorage : Interfaces.C.int:=20;
    iTemplate1 : Interfaces.C.int:=21;
@@ -132,6 +137,13 @@ procedure main is
    iEnhanceLevel : interfaces.c.Double:=20.0;
    iEnhanceChannel : interfaces.C.Int:=1;
 
+   --contrast
+   iGain : Interfaces.C.int := 5;
+   iBias : Interfaces.C.int := 0;
+
+   --QNSF
+   iQNSFThresh : Interfaces.C.Double := 0.5;
+
    --wait time when displaying images
    iWaitTime : interfaces.c.int := 0;
    ret : interfaces.c.int;
@@ -162,9 +174,9 @@ begin
       if (iDoUseBuffer = 1) then -- read from buffer
          CoreWrap.img_buffer;
       elsif (iDoUseStatic =1) then --read in single image
-         CoreWrap.imstore(iImageSource,New_String("circle2.jpg"));
+         CoreWrap.imstore(iImageSource,New_String("62.jpg"));
       elsif (iDoMakeMovie = 1) then --capture from video
-         Vision.Image_Preprocessing.Capture_Video(iImageSource,iWaitTime,videoOpen);
+         --Vision.Image_Preprocessing.Capture_Video(iImageSource,iWaitTime,videoOpen);
          videoOpen:=1;
       end if;
 
@@ -275,7 +287,7 @@ begin
 
       --write image to file
       if(iDoWriteImageToFile =1) then
-         ret := CoreWrap.imwrite(New_String("CannyOut.jpg"),iImageSource);
+         CoreWrap.imwrite(New_String("CannyOut.jpg"),iImageSource);
       end if;
 
       --enhance colors in image
@@ -318,11 +330,23 @@ begin
          processingWrap.gaussianBlur(iThreshedImageLocation,iThreshedImageLocation,11,0.0,0.0);
          processingWrap.GaussianBlurSharpener(iThreshedImageLocation,iThreshedImageLocation,4);
          processingWrap.cvtColor(iThreshedImageLocation,iGreyScaleLocation, iGreyFilter);
-         CoreWrap.imshow(New_String("test grey"),iGreyScaleLocation);
+         --CoreWrap.imwrite(New_String("test grey"),iGreyScaleLocation);
          processingWrap.Canny(iGreyScaleLocation,iCannyLocation, 100, 300, iCannyKernelSize);
          bestTempleteMatchFound:=processingWrap.matchImage(iCannyLocation);
          processingWrap.classifyMatch(bestTempleteMatchFound);
       end if;
+
+      if(iDoContrast = 1) then
+         Vision.Image_Preprocessing.Do_Contrast(iImageSource, iContrastOut, iGain, iBias );
+      end if;
+
+       if(iDoQuaternionSwitchingFilter =1) then
+         Vision.Image_Preprocessing.QNSF(iImageSource, iQNSFLocation, iQNSFThresh);
+         Vision.Image_Preprocessing.QNSF(iQNSFLocation, iQNSFLocation, iQNSFThresh);
+      end if;
+
+      exit Endless_Loop when iNumRuns = 1;
+
 
    end loop Endless_Loop;
 end main;
