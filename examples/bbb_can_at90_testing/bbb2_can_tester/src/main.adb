@@ -10,6 +10,7 @@ with Ada.Float_Text_IO;
 procedure Main is
    use Ada.Real_Time;
    use Interfaces;
+   use CAN_Defs;
    
    BBB1_MSG_ID : CAN_Defs.CAN_ID := CAN_Defs.MSG_GYRO_YAW_ID;
    BBB2_MSG_ID : CAN_Defs.CAN_ID := CAN_Defs.MSG_THRUSTER_ID;
@@ -31,7 +32,7 @@ procedure Main is
    fDelayTime : float := 0.0;
 
    iMessageCount : integer := 0;
-   iMessageSentCount : Interfaces.Unsigned_8 := 0;
+   iMessageSentCount : Interfaces.Unsigned_8 := 1;
 
    iLastMessageId : Interfaces.Unsigned_8 := 0;
 

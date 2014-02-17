@@ -10,6 +10,7 @@ with Ada.Float_Text_IO;
 procedure Main is
    use Ada.Real_Time;
    use Interfaces;
+   use CAN_Defs;
    
    BBB1_MSG_ID : CAN_Defs.CAN_ID := CAN_Defs.MSG_GYRO_YAW_ID;
    BBB2_MSG_ID : CAN_Defs.CAN_ID := CAN_Defs.MSG_THRUSTER_ID;
@@ -31,7 +32,7 @@ procedure Main is
    fDelayTime : float := 0.0;
 
    iMessageCount : integer := 0;
-   iMessageSentCount : Interfaces.Unsigned_8 := 0;
+   iMessageSentCount : Interfaces.Unsigned_8 := 2;
 
    iLastMessageId : Interfaces.Unsigned_8 := 0;
 
@@ -46,7 +47,7 @@ begin
 
    -- ONLY starting point does this
    if xCANSendMessage.ID.Identifier = BBB1_MSG_ID.Identifier then
-      xCANSendMessage.Data(1) := iMessageSentCount;
+      xCANSendMessage.Data(1) := 1;
       BBB_CAN.Send(msg => xCANSendMessage);
    end if;
    
@@ -92,6 +93,7 @@ begin
 
          if iLastMessageId + 1 /= xCANRecvMessage.Data(1) then
             Ada.Text_IO.Put_Line("Packet loss! Exiting...");
+            exit;
          else            
             iLastMessageId := xCANRecvMessage.Data(1);
          end if;

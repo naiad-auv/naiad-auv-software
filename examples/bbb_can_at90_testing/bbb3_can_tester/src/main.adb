@@ -10,10 +10,11 @@ with Ada.Float_Text_IO;
 procedure Main is
    use Ada.Real_Time;
    use Interfaces;
+   use CAN_Defs;
    
    BBB1_MSG_ID : CAN_Defs.CAN_ID := CAN_Defs.MSG_GYRO_YAW_ID;
    BBB2_MSG_ID : CAN_Defs.CAN_ID := CAN_Defs.MSG_THRUSTER_ID;
-   BBB2_MSG_ID : CAN_Defs.CAN_ID := CAN_Defs.MSG_THRUSTER_ID;
+   BBB3_MSG_ID : CAN_Defs.CAN_ID := CAN_Defs.MSG_PNEUMATICS_ID;
 
    fDeltaTime : float := 0.0;
    xTimeStart : Ada.Real_Time.Time := Ada.Real_Time.Clock;
@@ -32,15 +33,15 @@ procedure Main is
    fDelayTime : float := 0.0;
 
    iMessageCount : integer := 0;
-   iMessageSentCount : Interfaces.Unsigned_8 := 0;
+   iMessageSentCount : Interfaces.Unsigned_8 := 1;
 
    iLastMessageId : Interfaces.Unsigned_8 := 0;
 
    bTimeToSend : boolean := false;
 begin
 
---   xCANSendMessage.ID := BBB2_MSG_ID;
-   xCANSendMessage.ID := BBB1_MSG_ID;
+   xCANSendMessage.ID := BBB3_MSG_ID;
+--   xCANSendMessage.ID := BBB1_MSG_ID;
 --   xCANSendMessage.ID := BBB2_MSG_ID;
    BBB_CAN.Init(sPort => "ttyO4",
                 baud  => UartWrapper.B115200);
@@ -93,6 +94,7 @@ begin
 
          if iLastMessageId + 1 /= xCANRecvMessage.Data(1) then
             Ada.Text_IO.Put_Line("Packet loss! Exiting...");
+            exit;
          else            
             iLastMessageId := xCANRecvMessage.Data(1);
          end if;
