@@ -20,7 +20,7 @@ package body Queue is
       iLastIndex : integer;
    begin
       if iBytesToWrite + sData'First <= sData'Last then
-         iLastIndex := iBytesToWrite + sData'First;
+         iLastIndex := (iBytesToWrite - 1) + sData'First;
       else
          iLastIndex := sData'Last;
       end if;

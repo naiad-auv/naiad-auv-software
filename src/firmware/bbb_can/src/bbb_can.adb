@@ -131,7 +131,7 @@ package body BBB_CAN is
       iBytes : Integer;
 
    begin
-
+	bBytesRead := false;
 	pxUart.UartReadSpecificAmount(sTempBuffer, Queue.iSIZE - Queue.iDataAvailable - 1, iTempBytesRead);
       --Ada.Text_IO.Put_Line("pxUart.UartReadSpecificAmount iTempBytesRead=" & iTempBytesRead'Img);
 
@@ -145,7 +145,7 @@ package body BBB_CAN is
 
          if iBytes /= iTempBytesRead then
             Exception_Handling.Raise_Exception(E       => Exception_Handling.BufferOverflow'Identity,
-                                               Message => "BBB_CAN.Usart_Read(sBuffer : out String; iSize : Integer; iBytesRead : out Integer)");
+                                               Message => "BBB_CAN.Usart_Read(sBuffer : out String; iSize : Integer; iBytesRead : out Integer) BytesRead: " & bBytesRead'Img & " iSize: " & iSize'Img);
          end if;
       end if;
 

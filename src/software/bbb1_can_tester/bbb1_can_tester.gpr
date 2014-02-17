@@ -1,0 +1,14 @@
+with "../../firmware/bbb_can/bbb_can.gpr";
+
+project Bbb1_Can_Tester is
+
+   for Source_Dirs use ("src");
+   for Object_Dir use "obj";
+   for Main use ("main.adb");
+
+   package Make is
+      for Makefile use "makefile";
+   end Make;
+
+end Bbb1_Can_Tester;
+
