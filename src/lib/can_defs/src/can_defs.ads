@@ -84,6 +84,8 @@ package CAN_Defs is
 
    MSG_SENSOR_ID			: constant CAN_ID := (980, False);
 
+   MSG_STRING_ID			: constant CAN_ID := (1010, False);
+
    MSG_BOOTLOADER_START_ID		: constant CAN_ID := (12, False);
 
 
