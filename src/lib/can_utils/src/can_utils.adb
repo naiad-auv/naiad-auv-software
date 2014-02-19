@@ -41,10 +41,15 @@ package body CAN_Utils is
 
    procedure Bytes_To_Message_Data(sBuffer : String;
                                    msg : in out CAN_Defs.CAN_Message; u8ActualChecksum : out Interfaces.Unsigned_8) is
+	use CAN_Defs;
       -- sBuffer shall only contain the data, not the header
-   begin
+	dataIndex : CAN_Defs.DLC_Type;
+	bufferIndex : integer;
+   begin	
       for i in 1..msg.Len loop
-         msg.Data(i) := Interfaces.Unsigned_8(Character'Pos(sBuffer(Integer(i))));
+	dataIndex := (i - 1) + msg.Data'First;
+	bufferIndex := (Integer(i) - 1) + sBuffer'First;
+         msg.Data(dataIndex) := Interfaces.Unsigned_8(Character'Pos(sBuffer(bufferIndex)));
       end loop;
 
       u8ActualChecksum :=  Interfaces.Unsigned_8(0);
