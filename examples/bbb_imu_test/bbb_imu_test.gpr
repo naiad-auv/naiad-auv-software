@@ -1,3 +1,6 @@
+with "../../src/firmware/bbb_can/bbb_can.gpr";
+with "../../src/lib/can_utils/can_utils.gpr";
+with "../../src/lib/can_defs/can_defs.gpr";
 with "../../src/firmware/UartWrapper/uartwrapper.gpr";
 
 project Bbb_Imu_Test is
