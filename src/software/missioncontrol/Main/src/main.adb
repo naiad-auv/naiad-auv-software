@@ -1,5 +1,5 @@
-with MissionControl.CAN; -- must be with'ed to start tasks
-with MissionControl.TCP; -- must be with'ed to start tasks
+with MissionControl.TCP.Tasks; -- must be with'ed to start tasks
+with MissionControl.TCP.Resource;
 
 with MissionControl.SharedTypes;
 with MissionControl.Object_Handling;
@@ -18,6 +18,8 @@ with Ada.Real_Time; -- measure time
 
 procedure Main is
    use Ada.Real_Time;
+
+   bMissionUpdate : boolean := false;
 
    fDeltaTime : float := 0.0;
    xTimeStart : Ada.Real_Time.Time := Ada.Real_Time.Clock;
@@ -73,6 +75,13 @@ begin
       xTimeStart := xTimeStop;
 
 ---------Virtual Machine ends here-----------------------------------------------------------------------------------------
+
+      MissionControl.TCP.Resource.TCP_Resource.bMissionUpdateReceived(bMissionUpdate);
+      if bMissionUpdate then
+         VirtualMachine.Interpreter.Free(pxVMInterpreter);
+         pxVMInterpreter := new VirtualMachine.Interpreter.CInterpreter;
+         bMissionUpdate := false;
+      end if;
 
 
       --delay 0.5; -- for testing

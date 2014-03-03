@@ -9,7 +9,7 @@ package UartWrapper is
    type CUartHandler is tagged limited private;
    type pCUartHandler is access CUartHandler;
 
-   type BaudRates is (B9600, B115200);
+   type BaudRates is (B9600, B19200, B38400, B57600, B115200, B128000, B230400, B460800, B921600);
 
    function pxCreate (path : string; speed : BaudRates; vtime : C.int; bufferSize : C.int; vmin : C.int) return pCUartHandler;
 
