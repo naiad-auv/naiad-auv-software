@@ -10,6 +10,11 @@
 
 package body Queue is
 
+   procedure Temp is
+   begin
+      null;
+   end Temp;
+
    function iDataAvailable return Integer is
    begin
       return (iLast - iFirst) mod iSIZE;
@@ -27,25 +32,25 @@ package body Queue is
 
       for i in sData'First..iLastIndex loop
          if iDataAvailable < iSize - 1 then
-            sBuffer(iLast) := sData(i);
+--              sBuffer(iLast) := sData(i);
             iLast := (iLast mod iSIZE) + 1;
             iCount := iCount + 1;
          end if;
       end loop;
       iBytesWritten := iCount;
    end Write;
-
-
- procedure Read(sData : out String; iBytesRead : out Integer; iBytesToRead : Integer) is
-      iCount : Integer := 0;
-   begin
-      for i in 1..iBytesToRead loop
-         if iFirst /= iLast then
-            sData(iCount + sData'First) := sBuffer(iFirst);
-            iFirst := (iFirst mod iSIZE) + 1;
-            iCount := iCount + 1;
-         end if;
-      end loop;
-      iBytesRead := iCount;
-   end Read;
+--
+--
+--   procedure Read(sData : out String; iBytesRead : out Integer; iBytesToRead : Integer) is
+--        iCount : Integer := 0;
+--     begin
+--        for i in 1..iBytesToRead loop
+--           if iFirst /= iLast then
+--              sData(iCount + sData'First) := sBuffer(iFirst);
+--              iFirst := (iFirst mod iSIZE) + 1;
+--              iCount := iCount + 1;
+--           end if;
+--        end loop;
+--        iBytesRead := iCount;
+--     end Read;
 end Queue;

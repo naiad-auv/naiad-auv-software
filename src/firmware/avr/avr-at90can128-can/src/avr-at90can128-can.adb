@@ -47,7 +47,8 @@ package body AVR.AT90CAN128.CAN is
    function iGetBufferSize (write : in Buffer_pointer; read : in Buffer_pointer ) return Integer is
    	Result : Integer;
    begin
-      Result := abs(Integer(write - read));
+      --Result := abs(Integer(write - read));
+      Result := Integer(write - read);
       return Result;
    end iGetBufferSize;
 

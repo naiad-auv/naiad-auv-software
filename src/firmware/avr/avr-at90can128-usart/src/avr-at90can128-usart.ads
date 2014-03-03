@@ -29,9 +29,10 @@ package AVR.AT90CAN128.USART is
    procedure Read
      (Buffer : out String;
       Port   : USARTID := Default_USART;
-      Size   : Positive;
+      Size   : Integer;
       Num    : out Integer);
 
    procedure Flush_Receive_Buffer(Port : USARTID);
+
 
 end AVR.AT90CAN128.USART;

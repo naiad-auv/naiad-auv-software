@@ -7,23 +7,36 @@ use System.Machine_Code;
 package body AVR.AT90CAN128.USART is
    pragma Suppress (All_Checks);
 
+   bLED : boolean := false;
+   bInInterupt : boolean := false;
 
-   Uart_Buffer_Size : constant Integer := 64;
+   UART_PRIMARY_BUFFER_SIZE : constant Integer := 16;
+   UART_SECONDARY_BUFFER_SIZE : constant Integer := 256;
 
-   -- the Circular buffer for USART0 receiver
+   Uart0RX_Primary_Buffer : string (1 .. UART_PRIMARY_BUFFER_SIZE);
+   Uart0RX_Secondary_Buffer : string (1 .. UART_SECONDARY_BUFFER_SIZE);
+   Uart0RX_Secondary_Buffer_Smph_Taken : boolean := false;
+
+   Uart1RX_Primary_Buffer : string (1 .. UART_PRIMARY_BUFFER_SIZE);
+   Uart1RX_Secondary_Buffer : string (1 .. UART_SECONDARY_BUFFER_SIZE);
+   Uart1RX_Secondary_Buffer_Smph_Taken : boolean := false;
+
+   Uart0RX_Primary_Buffer_Pos : integer := Uart0RX_Primary_Buffer'First;
+   Uart0RX_Secondary_Buffer_Pos : integer := Uart0RX_Secondary_Buffer'First;
+   Uart1RX_Primary_Buffer_Pos : integer := Uart1RX_Primary_Buffer'First;
+   Uart1RX_Secondary_Buffer_Pos : integer := Uart1RX_Secondary_Buffer'First;
+
+   Uart_Buffer_Size : constant integer := 64;
+   -- the non-Circular buffer for USART0 receiver
    Uart0_Rbuffer : String (1..Uart_Buffer_Size);
    Uart0_In_R  : Integer := 1;
    Uart0_Out_R : Integer := 1;
 
-    -- the Circular buffer for USART0 transmitter
+    -- the non-Circular buffer for USART0 transmitter
    Uart0_Wbuffer : String (1..Uart_Buffer_Size);
    Uart0_In_W  : Integer := 1;
    Uart0_Out_W : Integer := 1;
 
-   pragma Volatile (Uart0_In_R);
-   pragma Volatile (Uart0_Out_R);
-   pragma Volatile (Uart0_In_W);
-   pragma Volatile (Uart0_Out_W);
 
     -- the Circular buffer for USART1 receiver
    Uart1_Rbuffer : String (1..Uart_Buffer_Size);
@@ -111,6 +124,8 @@ package body AVR.AT90CAN128.USART is
       end case;
    end Init;
 
+
+
    -----------------------------------------------------------------------------
    -----------------------   INTERRUPTS ----------------------------------------
    -----------------------------------------------------------------------------
@@ -168,14 +183,26 @@ package body AVR.AT90CAN128.USART is
    pragma Export (C, Usart0_RX, Vector_USART0_RX);
 
    procedure Usart0_RX is
-      Pos  : Integer;
-      cChar : Character;
    begin
-      cChar := Character'Val(UDR0);
-      Pos := (Uart0_In_R mod Uart_Buffer_Size) + 1;
-      if Pos /= Uart0_Out_R then
-         Uart0_Rbuffer(Uart0_In_R) := cChar;
-         Uart0_In_R := Pos;
+      Uart0RX_Primary_Buffer(Uart0RX_Primary_Buffer_Pos) := Character'Val(UDR0);
+
+      if Uart0RX_Secondary_Buffer_Smph_Taken = false then -- smph not taken, transfer data from prim buffer to sec buffer
+         for i in Uart0RX_Primary_Buffer'First .. Uart0RX_Primary_Buffer_Pos loop -- loop through all data in prim buffer
+            Uart0RX_Secondary_Buffer(Uart0RX_Secondary_Buffer_Pos) := Uart0RX_Primary_Buffer(i); -- put data in sec buffer
+            Uart0RX_Secondary_Buffer_Pos := Uart0RX_Secondary_Buffer_Pos + 1; -- increase ptr in sec buffer
+            if Uart0RX_Secondary_Buffer_Pos > Uart0RX_Secondary_Buffer'Last then
+               bLED := not bLED;
+               AVR.AT90CAN128.PORTD.Bit_7 := bLED;
+            end if;
+         end loop;
+         Uart0RX_Primary_Buffer_Pos := Uart0RX_Primary_Buffer'First; -- reset ptr in prim buffer
+      else      -- smph was taken, prepare to keep filling prim buffer
+         Uart0RX_Primary_Buffer_Pos := Uart0RX_Primary_Buffer_Pos + 1;
+         if Uart0RX_Primary_Buffer_Pos > Uart0RX_Primary_Buffer'Last then -- if prim buffer is full, flush it
+            bLED := not bLED;
+            AVR.AT90CAN128.PORTE.Bit_4 := bLED;
+            Uart0RX_Primary_Buffer_Pos := Uart0RX_Primary_Buffer'First; -- by resetting ptr to first
+         end if;
       end if;
    end Usart0_RX;
 
@@ -229,10 +256,9 @@ package body AVR.AT90CAN128.USART is
    begin
       case Port is
          when USART0 =>
-            Result := (Uart0_In_R - Uart0_Out_R) mod Uart_Buffer_Size;
-            return Result;
+            return Uart0RX_Secondary_Buffer_Pos - Uart0RX_Secondary_Buffer'First;
          when USART1 =>
-            Result := (Uart1_In_R - Uart1_Out_R) mod Uart_Buffer_Size;
+            Result := (Uart_Buffer_Size + (Uart1_In_R - Uart1_Out_R)) mod Uart_Buffer_Size;
             return Result;
       end case;
    end Data_Available;
@@ -284,29 +310,31 @@ package body AVR.AT90CAN128.USART is
    --            Port       : denote the ID of USART.(USART0 OR USART1)
    --            Size       : denote how many data should be read.
    --            Num (out)  : How many data have been actually read
-   procedure Read (Buffer : out String; Port : USARTID := Default_USART; Size : Positive; Num : out Integer)  is
-      Number : Integer;
+   procedure Read (Buffer : out String; Port : USARTID := Default_USART; Size : Integer; Num : out Integer)  is
+      Number : Integer := 0;
+      iRefillPos : Integer := Uart0RX_Secondary_Buffer'First;
    begin
       Number := 0;
       case Port is
          when USART0 =>
-            while Number < Size loop
-               if Uart0_In_R /= Uart0_Out_R then
+            Uart0RX_Secondary_Buffer_Smph_Taken := true;
+            for i in Uart0RX_Secondary_Buffer'First .. Uart0RX_Secondary_Buffer_Pos - 1 loop
+               if i < Uart0RX_Secondary_Buffer'First + Size then
+                  Buffer(Buffer'First + (i - Uart0RX_Secondary_Buffer'First)) := Uart0RX_Secondary_Buffer(i);
                   Number := Number + 1;
-                  Buffer(Number) := Uart0_Rbuffer(Uart0_Out_R);
-                  Uart0_Out_R := (Uart0_Out_R mod Uart_Buffer_Size) + 1;
                else
-                  Num := Number;
-                  return;
+                  Uart0RX_Secondary_Buffer(iRefillPos) := Uart0RX_Secondary_Buffer(i);
+                  iRefillPos := iRefillPos + 1;
                end if;
             end loop;
+            Uart0RX_Secondary_Buffer_Pos := iRefillPos;
+            Uart0RX_Secondary_Buffer_Smph_Taken := false;
             Num := Number;
-            return;
          when USART1 =>
             while Number < Size loop
                if Uart1_In_R /= Uart1_Out_R then
                   Number := Number + 1;
-                  Buffer(Number) := Uart1_Rbuffer(Uart1_Out_R);
+                  Buffer((Buffer'First - 1) + Number) := Uart1_Rbuffer(Uart1_Out_R);
                   Uart1_Out_R := Uart1_Out_R mod Uart_Buffer_Size + 1;
                else
                   Num := Number;

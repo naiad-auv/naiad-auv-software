@@ -16,9 +16,11 @@ package Queue is
 
    sBuffer : String(1..iSIZE);
 
+   procedure Temp;
+
    function iDataAvailable return Integer;
 
    procedure Write(sData : String; iBytesToWrite : Integer; iBytesWritten : out Integer);
 
-   procedure Read(sData : out String; iBytesRead : out Integer; iBytesToRead : Integer);
+--     procedure Read(sData : out String; iBytesRead : out Integer; iBytesToRead : Integer);
 end Queue;

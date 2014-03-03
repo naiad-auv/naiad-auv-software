@@ -31,6 +31,7 @@ package CAN_Utils is
    procedure Bytes_To_Message_Data  (sBuffer : String; msg : in out CAN_Defs.CAN_Message; u8ActualChecksum : out Interfaces.Unsigned_8);
 
    procedure Message_To_Bytes(sBuffer : out String; msg :CAN_Defs.CAN_Message);
+   procedure Message_To_Data_Bytes(sBuffer : out String; msg :CAN_Defs.CAN_Message);
 
 private
 
