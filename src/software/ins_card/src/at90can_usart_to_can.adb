@@ -1,18 +1,3 @@
-
-
-
----------------------------------------------------------------------------
--- This code is mainly based on the router.adb file from the Vasa project.
--- As of now it is not using any handshake at all.
--- It has been tested in hardware and it works.
-
--- Rewritten by Nils Brynedal Ignell for the Naiad AUV project
--- Last changed (yyyy-mm-dd): 2013-12-12
-
--- To do: Hardware testing.
-
----------------------------------------------------------------------------
-
 with CAN_Defs;
 with CAN_Utils;
 with AVR.AT90CAN128.CAN;
@@ -22,6 +7,7 @@ with AVR.AT90CAN128.CLOCK;
 package body AT90CAN_Usart_To_Can is
    pragma Suppress (All_Checks);
 
+   -- Returns the value (0-255) from the hexadecimal number presented in sHex (in format FF).
    function cGet_Char_From_Hex (sHex : in string; iFirst : in integer; iSecond : in integer) return character is
       iLarge : constant integer := Integer(Character'Pos(sHex(iFirst))) - 48;
       iSmall : constant integer := Integer(Character'Pos(sHex(iSecond))) - 48;
@@ -29,6 +15,7 @@ package body AT90CAN_Usart_To_Can is
       return Character'Val((16 * (iLarge - ((iLarge / 17) * 7))) + (iSmall - ((iSmall / 17) * 7)));
    end cGet_Char_From_Hex;
 
+   -- Returns the checksum for the string in a character range 0-255.
    function cGet_Checksum(sStr : in string) return character is
       use Interfaces;
       uCRC : Interfaces.Unsigned_8 := 0;
@@ -107,6 +94,11 @@ package body AT90CAN_Usart_To_Can is
 
    -- Sends faVectors over CAN, which is an array containing the X- and Y-vectors
    -- of the current orientation from the IMU.
+   -- The X- and Y-vectors' X- and Y-components are sent along with a bit each describing
+   -- if the Z-component of the vector is positive or negative (0 = negative, 1 = positive).
+   -- The X- and Y-vectors' Z-components are calculated on the other side with sqrt(1-x²-y²),
+   -- and signed by the Z-component bit sent.
+   -- The entire Z-vector is given by the X cross Y.
    procedure Send_Vectors is
       xValues : OrientationRecord;
       xData : CANDataRecord;
@@ -146,58 +138,16 @@ package body AT90CAN_Usart_To_Can is
       xCANMessage.Data(8) := xData.Eight;
 
       AVR.AT90CAN128.CAN.Can_Send(Msg => xCANMessage);
-      --Flip_Transmission_LED;
    end Send_Vectors;
 
-
-   -- Sends faPosition over CAN, which is the current position integrated twice
-   -- from the acceleration from the IMU.
-   procedure Send_Position is
-
-      iScale : integer := 0;
-      xValues : AccelerationRecord;
-      xData : CANDataRecord;
-      fValues : f_array(1 .. 3) := faPosition;
-      xCANMessage : CAN_Defs.CAN_Message;
-
+   procedure Init_Transmission_LED is
    begin
-      for i in fValues'Range loop
-         if abs(fValues(i)) > float(iScale) then
-            iScale := Integer(abs(fValues(i)) + 0.5);
-         end if;
-      end loop;
-      xValues.Scale := uint7(Integer'Max(1, iScale));
-
-      for i in fValues'Range loop
-         fValues(i) := fValues(i) / float(xValues.Scale);
-         fValues(i) := fValues(i) + 1.0;
-         fValues(i) := fValues(i) * 262_143.5;
-         fValues(i) := fValues(i) + 0.5;
-         fValues(i) := float'Min(fValues(i), 262_143.5 * 2.0);
-         fValues(i) := float'Max(0.0, fValues(i));
-      end loop;
-
-      xValues.AccX := uint19(fValues(1));
-      xValues.AccY := uint19(fValues(2));
-      xValues.AccZ := uint19(fValues(3));
-
-      xCANMessage.ID := CAN_Defs.MSG_IMU_ACCELERATION_ID;
-      xCANMessage.Len := CAN_Defs.DLC_Type(8);
-
-      xData := AccelerationRecord_To_CANDataRecord(xValues);
-
-      xCANMessage.Data(1) := xData.One;
-      xCANMessage.Data(2) := xData.Two;
-      xCANMessage.Data(3) := xData.Three;
-      xCANMessage.Data(4) := xData.Four;
-      xCANMessage.Data(5) := xData.Five;
-      xCANMessage.Data(6) := xData.Six;
-      xCANMessage.Data(7) := xData.Seven;
-      xCANMessage.Data(8) := xData.Eight;
-
-      AVR.AT90CAN128.CAN.Can_Send(Msg => xCANMessage);
-      --Flip_Transmission_LED;
-   end Send_Position;
+      AVR.AT90CAN128.DDRD.Bit_7 := true;
+   end Init_Transmission_LED;
+   procedure Init_Alive_LED is
+   begin
+      AVR.AT90CAN128.DDRE.Bit_4 := true; -- alive LED
+   end Init_Alive_LED;
 
    procedure Flip_Alive_LED is
    begin
@@ -400,89 +350,21 @@ package body AT90CAN_Usart_To_Can is
                                                                      iStartPos    => (sMessageBuffer'First - 1) + FOURTH_QUAT_INDEX,
                                                                      iEndPos      => (sMessageBuffer'First - 1) + FOURTH_QUAT_INDEX + QUAT_LENGTH);
 
---                             fmIMUOrientation := ((1.0-2.0*(faQuaternion(2)*faQuaternion(2)+faQuaternion(3)*faQuaternion(3)),
---                                                  2.0*(faQuaternion(1)*faQuaternion(2)-faQuaternion(4)*faQuaternion(3)),
---                                                  2.0*(faQuaternion(1)*faQuaternion(3)+faQuaternion(4)*faQuaternion(2))),
---
---                                                  (2.0*(faQuaternion(1)*faQuaternion(2)+faQuaternion(4)*faQuaternion(3)),
---                                                   1.0-2.0*(faQuaternion(1)*faQuaternion(1)+faQuaternion(3)*faQuaternion(3)),
---                                                   2.0*(faQuaternion(2)*faQuaternion(3)-faQuaternion(4)*faQuaternion(1))),
---
---                                                  (2.0*(faQuaternion(1)*faQuaternion(3)-faQuaternion(4)*faQuaternion(2)),
---                                                   2.0*(faQuaternion(2)*faQuaternion(3)+faQuaternion(4)*faQuaternion(1)),
---                                                   1.0-2.0*(faQuaternion(1)*faQuaternion(1)+faQuaternion(2)*faQuaternion(2))));
+                           fmNaiadOrientation := (((1.0-2.0*(faQuaternion(1)*faQuaternion(1)+faQuaternion(3)*faQuaternion(3))),
+                                                  (2.0*(faQuaternion(1)*faQuaternion(2)+faQuaternion(4)*faQuaternion(3))),
+                                                  -(2.0*(faQuaternion(2)*faQuaternion(3)-faQuaternion(4)*faQuaternion(1)))),
 
---                             faAccelBuf(1) := fGet_Value_From_String(sMessageData => sMessageBuffer,
---                                                                  iStartPos    => (sMessageBuffer'First - 1) + FIRST_ACC_INDEX,
---                                                                  iEndPos      => (sMessageBuffer'First - 1) + FIRST_ACC_INDEX + ACC_LENGTH);
---                             faAccelBuf(2) := fGet_Value_From_String(sMessageData => sMessageBuffer,
---                                                                  iStartPos    => (sMessageBuffer'First - 1) + SECOND_ACC_INDEX,
---                                                                  iEndPos      => (sMessageBuffer'First - 1) + SECOND_ACC_INDEX + ACC_LENGTH);
---                             faAccelBuf(3) := fGet_Value_From_String(sMessageData => sMessageBuffer,
---                                                                  iStartPos    => (sMessageBuffer'First - 1) + THIRD_ACC_INDEX,
---                                                                  iEndPos      => (sMessageBuffer'First - 1) + THIRD_ACC_INDEX + ACC_LENGTH);
---                             faAccelBuf := (fmIMUOrientation(2,1) * faAccelBuf(1) + fmIMUOrientation(2,2) * faAccelBuf(2) + fmIMUOrientation(2,3) * faAccelBuf(3),
---                                         fmIMUOrientation(1,1) * faAccelBuf(1) + fmIMUOrientation(1,2) * faAccelBuf(2) + fmIMUOrientation(1,3) * faAccelBuf(3),
---                                         -(fmIMUOrientation(3,1) * faAccelBuf(1) + fmIMUOrientation(3,2) * faAccelBuf(2) + fmIMUOrientation(3,3) * faAccelBuf(3)));
---
---                             faSummedAccel := (faSummedAccel(1) + faAccelBuf(1),
---                                               faSummedAccel(2) + faAccelBuf(2),
---                                               faSummedAccel(3) + faAccelBuf(3));
---                             iAccelCounter := iAccelCounter + 1;
---
---                             if iAccelCounter > 2 then
+                                                  ((2.0*(faQuaternion(1)*faQuaternion(2)-faQuaternion(4)*faQuaternion(3))),
+                                                   (1.0-2.0*(faQuaternion(2)*faQuaternion(2)+faQuaternion(3)*faQuaternion(3))),
+                                                   -(2.0*(faQuaternion(1)*faQuaternion(3)+faQuaternion(4)*faQuaternion(2)))),
 
---                                faAccel := (faAccel(1) + ((faSummedAccel(1) / 3.0) - FA_ACCEL_OFFSET(1)),
---                                            (faAccel(2) + (faSummedAccel(2) / 3.0) - FA_ACCEL_OFFSET(2)),
---                                            (faAccel(3) + (faSummedAccel(3) / 3.0) - FA_ACCEL_OFFSET(3)));
---                                faAccel := ((faSummedAccel(1) / 3.0) - FA_ACCEL_OFFSET(1),
---                                            (faSummedAccel(2) / 3.0) - FA_ACCEL_OFFSET(2),
---                                            (faSummedAccel(3) / 3.0) - FA_ACCEL_OFFSET(3));
---                                faSummedAccel := (others => 0.0);
---
---                                faPosition := (faPosition(1) + faVelocity(1) * fDeltaTimeSinceLastUpdate,
---                                               faPosition(2) + faVelocity(2) * fDeltaTimeSinceLastUpdate,
---                                               faPosition(3) + faVelocity(3) * fDeltaTimeSinceLastUpdate);
---
---                                faVelocity := (faVelocity(1) + faAccel(1) * fDeltaTimeSinceLastUpdate,
---                                               faVelocity(2) + faAccel(2) * fDeltaTimeSinceLastUpdate,
---                                               faVelocity(3) + faAccel(3) * fDeltaTimeSinceLastUpdate);
---
---  --                                iAccOffsetCount := iAccOffsetCount + 1;
---  --                                if iAccOffsetCount mod 1000 = 0 then
---  --                                   faAccel := (faAccel(1) * 0.001,
---  --                                               faAccel(2) * 0.001,
---  --                                               faAccel(3) * 0.001);
---  --                                   Send_Position;
---  --                                   faAccel := (others => 0.0);
---  --                                end if;
---
---                                Send_Position;
+                                                  (-(2.0*(faQuaternion(2)*faQuaternion(3)+faQuaternion(4)*faQuaternion(1))),
+                                                   -(2.0*(faQuaternion(1)*faQuaternion(3)-faQuaternion(4)*faQuaternion(2))),
+                                                   (1.0-2.0*(faQuaternion(1)*faQuaternion(1)+faQuaternion(2)*faQuaternion(2)))));
 
-
-
---                                fDeltaTimeSinceLastUpdate := 0.0;
---                                iAccelCounter := 0;
-
---                             elsif iAccelCounter > 1 then
-                              fmNaiadOrientation := (((1.0-2.0*(faQuaternion(1)*faQuaternion(1)+faQuaternion(3)*faQuaternion(3))),
-                                                     (2.0*(faQuaternion(1)*faQuaternion(2)+faQuaternion(4)*faQuaternion(3))),
-                                                     -(2.0*(faQuaternion(2)*faQuaternion(3)-faQuaternion(4)*faQuaternion(1)))),
-
-                                                     ((2.0*(faQuaternion(1)*faQuaternion(2)-faQuaternion(4)*faQuaternion(3))),
-                                                      (1.0-2.0*(faQuaternion(2)*faQuaternion(2)+faQuaternion(3)*faQuaternion(3))),
-                                                      -(2.0*(faQuaternion(1)*faQuaternion(3)+faQuaternion(4)*faQuaternion(2)))),
-
-                                                     (-(2.0*(faQuaternion(2)*faQuaternion(3)+faQuaternion(4)*faQuaternion(1))),
-                                                      -(2.0*(faQuaternion(1)*faQuaternion(3)-faQuaternion(4)*faQuaternion(2))),
-                                                      (1.0-2.0*(faQuaternion(1)*faQuaternion(1)+faQuaternion(2)*faQuaternion(2)))));
-Send_Vectors;
---                             end if;
-                        else
-                           Flip_Alive_LED;
+                           Send_Vectors;
                         end if;
                      end if;
-
 
                   when others =>
                      iMessageState := 0;
@@ -490,9 +372,6 @@ Send_Vectors;
                end case;
             end loop;
          end if;
-      else
-         --Flip_Alive_LED;
-         null;
       end if;
 
    end Handle_Uart;
@@ -502,7 +381,6 @@ Send_Vectors;
 
       xDelayTimeMS : constant AVR.AT90CAN128.CLOCK.Time_Duration := 500;
       xSavedDeltaTimeMS : AVR.AT90CAN128.CLOCK.Time_Duration := 0;
-      xSendDeltaTimeMS : AVR.AT90CAN128.CLOCK.Time_Duration := 0;
       xDeltaTimeMS : AVR.AT90CAN128.CLOCK.Time_Duration := 0;
       xTimeStart : AVR.AT90CAN128.CLOCK.Time := AVR.AT90CAN128.CLOCK.getClockTime;
       xTimeStop : AVR.AT90CAN128.CLOCK.Time := 0;
@@ -512,30 +390,19 @@ Send_Vectors;
       loop
          xSavedDeltaTimeMS := xSavedDeltaTimeMS + xDeltaTimeMS;
 
-         xSendDeltaTimeMS := xSendDeltaTimeMS + xDeltaTimeMS;
-
          if xSavedDeltaTimeMS > xDelayTimeMS then
             xSavedDeltaTimeMS := xSavedDeltaTimeMS - xDelayTimeMS;
-            --Flip_Alive_LED;
-
+            Flip_Alive_LED;
          end if;
 
-
-
-         if xSendDeltaTimeMS > 50 then
-            --Send_Position;
-            --Send_Vectors;
-            xSendDeltaTimeMS := xSendDeltaTimeMS - 50;
-         end if;
 
          xTimeStart := xTimeStop;
          xTimeStop := AVR.AT90CAN128.CLOCK.getClockTime;
          xDeltaTimeMS := xTimeStop - xTimeStart;
-         fDeltaTimeSinceLastUpdate := fDeltaTimeSinceLastUpdate + (float(xDeltaTimeMS) * 0.001);
-
 
          -- Handle the messages from the BBB
          Handle_Uart;
+
          -- Deal with the messages from the CAN bus.
          Handle_Can;
       end loop;
@@ -544,9 +411,8 @@ Send_Vectors;
    procedure Hardware_Init is
    begin
       -- init LEDs
-      AVR.AT90CAN128.DDRD.Bit_7 := true; -- transmission LED
-      AVR.AT90CAN128.DDRE.Bit_4 := true; -- alive LED
-      AVR.AT90CAN128.PORTE.Bit_4 := false;
+      Init_Transmission_LED;
+      Init_Alive_LED;
 
       -- init usart
       AVR.AT90CAN128.USART.Init(USART_PORT,  AVR.AT90CAN128.USART.BAUD115200);

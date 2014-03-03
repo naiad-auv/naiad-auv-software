@@ -94,8 +94,6 @@ package AT90CAN_Usart_To_Can is
 
 private
    type uint15 is mod 2 ** 15;
-   type uint19 is mod 2 ** 19;
-   type uint7 is mod 2 ** 7;
    type uint2 is mod 2;
 
    type CANDataRecord is
@@ -109,20 +107,6 @@ private
          Seven : Interfaces.Unsigned_8;
          Eight : Interfaces.Unsigned_8;
       end record;
-
-   type AccelerationRecord is
-         record
-            AccX : uint19;
-            AccY : uint19;
-            AccZ : uint19;
-            Scale : uint7;
-         end record;
-      for AccelerationRecord use record
-         AccX at 0 range 0 .. 18;
-         AccY at 0 range 19 .. 37;
-         AccZ at 0 range 38 .. 56;
-         Scale at 0 range 57 .. 63;
-   end record;
 
    type OrientationRecord is
       record
@@ -146,21 +130,11 @@ private
       DummyBitY at 0 range 63 .. 63;
    end record;
 
-   function AccelerationRecord_To_CANDataRecord is new Ada.Unchecked_Conversion(Source => AccelerationRecord,
-                                                                                Target => CANDataRecord);
    function OrientationRecord_To_CANDataRecord is new Ada.Unchecked_Conversion(Source => OrientationRecord,
                                                                                Target => CANDataRecord);
 
-
-   type i_array is array (Natural range <>) of integer;
    type f_array is array (Natural range <>) of float;
    type f_matrix is array (1 .. 3, 1 .. 3) of float;
-   type f_arraybuffer is array (Natural range <>, Natural range <>) of float;
-
-   FA_ACCEL_OFFSET : constant f_array(1 .. 3) := (0.0001500967629947228,
-                                                  0.0002308822875659625,
-                                                  9.681094525671318 + 0.0025);
-
 
    FIRST_QUAT_INDEX : constant integer := 8;
    SECOND_QUAT_INDEX : constant integer := 18;
@@ -168,27 +142,13 @@ private
    FOURTH_QUAT_INDEX : constant integer := 38;
    QUAT_LENGTH : constant integer := 8;
 
-   FIRST_ACC_INDEX : constant integer := 48;
-   SECOND_ACC_INDEX : constant integer := 56;
-   THIRD_ACC_INDEX : constant integer := 64;
-   ACC_LENGTH : constant integer := 6;
-
-   iAccelCounter : integer := 0;
-   iAccOffsetCount : integer := 0;
-
    MESSAGE_BUFFER_SIZE : constant integer := 49;
    sMessageBuffer : string(1 .. MESSAGE_BUFFER_SIZE) := (others => ' ');
    iMessageBufferPosition : integer := sMessageBuffer'First;
 
-   faPosition : f_array(1 .. 3) := (others => 0.0);
-   faVelocity : f_array(1 .. 3) := (others => 0.0);
    faQuaternion : f_array(1 .. 4) := (others => 0.0);
    fmNaiadOrientation : f_matrix := (others => (others => 0.0));
    fmIMUOrientation : f_matrix := (others => (others => 0.0));
-   faAccel : f_array(1 .. 3) := (others => 0.0);
-   faAccelBuf : f_array(1 .. 3) := (others => 0.0);
-   faSummedAccel : f_array(1 .. 3) := (others => 0.0);
-   fDeltaTimeSinceLastUpdate : float := 0.0;
 
    iMessageState : integer := 0;
 
@@ -209,11 +169,12 @@ private
    procedure Handle_Can;
    procedure Handle_Uart;
 
+   procedure Init_Transmission_LED;
+   procedure Init_Alive_LED;
    procedure Flip_Transmission_LED;
    procedure Flip_Alive_LED;
 
    procedure Send_Vectors;
-   procedure Send_Position;
    procedure Send_CAN_String_Message(sData : in string; iFirst : in integer; iLast : in integer);
    function cGet_Char_From_Hex (sHex : in string; iFirst : in integer; iSecond : in integer) return character;
    function cGet_Checksum(sStr : in string) return character;
