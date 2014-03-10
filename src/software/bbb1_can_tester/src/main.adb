@@ -4,6 +4,7 @@ with CAN_Defs;
 
 with Ada.Real_Time; -- measure time
 with Ada.Text_IO;
+with Ada.Float_Text_IO;
 
 procedure Main is
    use Ada.Real_Time;
@@ -51,19 +52,32 @@ begin
       fDeltaTime := fDeltaTime + float(iSeconds) + (float(iMilliSeconds) * 0.001) + (float(iMicroSeconds) * 0.000001) +
         (float(iNanoSeconds) * 0.000000001);
 
-      if fDeltaTime >= fDelayTime then
-         fDeltaTime := fDeltaTime - fDelayTime;
-         BBB_CAN.Get(msg             => xCANMessage,
-                     bMsgReceived    => bMessageReceived,
-                     bUARTChecksumOK => bChecksumOK);
-         if bMessageReceived = true then
-            iMessageCount := iMessageCount + 1;
-            Ada.Text_IO.Put_Line("Message " & iMessageCount'Img & " received! ID: " & xCANMessage.ID.Identifier'Img);
-            xCANMessage.ID := CAN_Defs.MSG_IMU_ORIENTATION_ID;
-            BBB_CAN.Send(msg => xCANMessage);
-            bMessageReceived := false;
-         end if;
+      BBB_CAN.Get(msg             => xCANMessage,
+                  bMsgReceived    => bMessageReceived,
+                  bUARTChecksumOK => bChecksumOK);
+
+      if bMessageReceived then
+         Ada.Text_IO.Put("[");
+         Ada.Float_Text_IO.Put(fDeltaTime, AFT=>18, EXP=>0);
+         Ada.Text_IO.Put_Line("] ID:" & xCANMessage.ID.Identifier'Img & ". Len: " & xCANMessage.Len'Img);
+         fDeltaTime := 0.0;
+         bMessageReceived := false;
       end if;
+
+
+--        if fDeltaTime >= fDelayTime then
+--           fDeltaTime := fDeltaTime - fDelayTime;
+--           BBB_CAN.Get(msg             => xCANMessage,
+--                       bMsgReceived    => bMessageReceived,
+--                       bUARTChecksumOK => bChecksumOK);
+--           if bMessageReceived = true then
+--              iMessageCount := iMessageCount + 1;
+--              Ada.Text_IO.Put_Line("Message " & iMessageCount'Img & " received! ID: " & xCANMessage.ID.Identifier'Img);
+--              xCANMessage.ID := CAN_Defs.MSG_IMU_ORIENTATION_ID;
+--              BBB_CAN.Send(msg => xCANMessage);
+--              bMessageReceived := false;
+--           end if;
+--        end if;
 
       xTimeStart := xTimeStop;
    end loop;

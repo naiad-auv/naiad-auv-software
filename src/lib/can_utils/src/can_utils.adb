@@ -70,9 +70,9 @@ package body CAN_Utils is
       iDataLength : Integer := Integer(msg.Len);
    begin
       if msg.ID.isExtended then
-         sBuffer(HEADER_INFO_POS) := Character'Val(Integer(msg.Len) + Integer(MSG_TYPE_MASK));
+         sBuffer((sBuffer'First - 1) + HEADER_INFO_POS) := Character'Val(Integer(msg.Len) + Integer(MSG_TYPE_MASK));
       else
-         sBuffer(HEADER_INFO_POS) := Character'Val(Integer(msg.Len));
+         sBuffer((sBuffer'First - 1) + HEADER_INFO_POS) := Character'Val(Integer(msg.Len));
       end if;
 
 
@@ -83,7 +83,7 @@ package body CAN_Utils is
 
       if Integer(msg.Len) > 0 then
          for I in 1..Integer(msg.Len) loop
-            sBuffer(HEADLEN + I) := Character'Val(Msg.Data ( CAN_Defs.DLC_Type(I)));
+            sBuffer((sBuffer'First - 1) + HEADLEN + I) := Character'Val(Msg.Data ( CAN_Defs.DLC_Type(I)));
          end loop;
       end if;
    end Message_To_Bytes;

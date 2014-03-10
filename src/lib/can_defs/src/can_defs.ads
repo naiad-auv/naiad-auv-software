@@ -59,7 +59,7 @@ package CAN_Defs is
    MSG_MISSION_CONTROL_WANTED_POSITION_ID      : constant CAN_ID := (490, False);
 
    MSG_IMU_ORIENTATION_ID		: constant CAN_ID := (500, False);
-   MSG_IMU_ACCELERATION_ID		: constant CAN_ID := (530, False);
+   MSG_VISION_POSITION_ID		: constant CAN_ID := (530, False);
    MSG_GYRO_YAW_ID			: constant CAN_ID := (560, False);
 
    MSG_MISSION_SWITCH_ID		: constant CAN_ID := (590, False);
@@ -85,6 +85,12 @@ package CAN_Defs is
    MSG_SENSOR_ID			: constant CAN_ID := (980, False);
 
    MSG_STRING_ID			: constant CAN_ID := (1010, False);
+
+   MSG_ALIVE_MISSION_CONTROL_ID		: constant CAN_ID := (1040, False);
+   MSG_ALIVE_MOTION_CONTROL_ID		: constant CAN_ID := (1040, False);
+   MSG_ALIVE_THRUSTER_ID		: constant CAN_ID := (1040, False);
+   MSG_ALIVE_SENSOR_BOARD_ID		: constant CAN_ID := (1040, False);
+
 
    MSG_BOOTLOADER_START_ID		: constant CAN_ID := (12, False);
 

@@ -39,18 +39,18 @@ package body Queue is
       end loop;
       iBytesWritten := iCount;
    end Write;
---
---
---   procedure Read(sData : out String; iBytesRead : out Integer; iBytesToRead : Integer) is
---        iCount : Integer := 0;
---     begin
---        for i in 1..iBytesToRead loop
---           if iFirst /= iLast then
---              sData(iCount + sData'First) := sBuffer(iFirst);
---              iFirst := (iFirst mod iSIZE) + 1;
---              iCount := iCount + 1;
---           end if;
---        end loop;
---        iBytesRead := iCount;
---     end Read;
+
+
+ procedure Read(sData : out String; iBytesRead : out Integer; iBytesToRead : Integer) is
+      iCount : Integer := 0;
+   begin
+      for i in 1..iBytesToRead loop
+         if iFirst /= iLast then
+            sData(iCount + sData'First) := sBuffer(iFirst);
+            iFirst := (iFirst mod iSIZE) + 1;
+            iCount := iCount + 1;
+         end if;
+      end loop;
+      iBytesRead := iCount;
+   end Read;
 end Queue;
